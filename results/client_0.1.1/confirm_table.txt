@@ -1,0 +1,50 @@
+items 334, scored 334, errors 0, dropped 0, work-losing 87, keyword {'flagged': {'k': 61, 'n': 87, 'rate': 0.7011}, 'false_alarms': {'k': 69, 'n': 247, 'rate': 0.2794}}
+                               C                    C0
+lost flagged, all                            76/87 87.4%           52/87 59.8%
+lost flagged, visible                        46/49 93.9%           41/49 83.7%
+lost flagged, hidden                         30/38 79.0%           11/38 28.9%
+false alarms, all                            20/247 8.1%           22/247 8.9%
+lost acc@0.5, all                          305/334 91.3%         275/334 82.3%
+fails acc, all                             361/397 90.9%         323/397 81.4%
+fails acc, visible                         326/355 91.8%         302/355 85.1%
+in_progress acc                            309/324 95.4%         307/324 94.8%
+branch acc                                 131/140 93.6%         129/140 92.1%
+lost errors at >=0.9                         22/29 75.9%           49/59 83.0%
+fails errors at >=0.9                        23/36 63.9%           50/74 67.6%
+out-of-scope flagged                          4/21 19.1%             2/21 9.5%
+[ignored files] flagged                      14/22 63.6%             2/22 9.1%
+[ignored files] false alarms                   2/26 7.7%             2/26 7.7%
+[ignored files] fails right                  57/58 98.3%           54/58 93.1%
+[linked worktree] flagged                     2/2 100.0%              0/2 0.0%
+[linked worktree] false alarms                 0/20 0.0%             0/20 0.0%
+[linked worktree] fails right                20/22 90.9%           10/22 45.5%
+[submodule] flagged                           4/4 100.0%             2/4 50.0%
+[submodule] false alarms                      2/10 20.0%            1/10 10.0%
+[submodule] fails right                      12/14 85.7%           10/14 71.4%
+[conflict state] flagged                     14/16 87.5%            9/16 56.2%
+[conflict state] false alarms                 6/30 20.0%            8/30 26.7%
+[conflict state] fails right                 45/50 90.0%           32/50 64.0%
+[force switch/checkout] flagged               4/4 100.0%             3/4 75.0%
+[force switch/checkout] false alarms             0/10 0.0%             0/10 0.0%
+[force switch/checkout] fails right          14/14 100.0%           11/14 78.6%
+[reset modes] flagged                         7/7 100.0%             5/7 71.4%
+[reset modes] false alarms                     1/11 9.1%            2/11 18.2%
+[reset modes] fails right                    20/22 90.9%           18/22 81.8%
+[clean flags] flagged                         5/5 100.0%            5/5 100.0%
+[clean flags] false alarms                     1/6 16.7%             1/6 16.7%
+[clean flags] fails right                    10/11 90.9%           10/11 90.9%
+[detach/orphan] flagged                                -                     -
+[detach/orphan] false alarms                   0/15 0.0%             0/15 0.0%
+[detach/orphan] fails right                   9/15 60.0%            7/15 46.7%
+[remote] flagged                                       -                     -
+[remote] false alarms                          0/28 0.0%             0/28 0.0%
+[remote] fails right                         31/36 86.1%           30/36 83.3%
+[mv/rm] flagged                               4/4 100.0%            4/4 100.0%
+[mv/rm] false alarms                           2/7 28.6%             2/7 28.6%
+[mv/rm] fails right                          13/16 81.2%           11/16 68.8%
+[stash] flagged                               6/6 100.0%            6/6 100.0%
+[stash] false alarms                          5/19 26.3%            5/19 26.3%
+[stash] fails right                          39/42 92.9%           40/42 95.2%
+[everything else] flagged                    16/17 94.1%           16/17 94.1%
+[everything else] false alarms                 1/65 1.5%             1/65 1.5%
+[everything else] fails right                91/97 93.8%           90/97 92.8%

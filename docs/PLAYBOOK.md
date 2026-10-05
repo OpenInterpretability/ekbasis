@@ -37,10 +37,10 @@ If it says RISKY, save the work first (`git commit`, or `git stash -u`) and chec
 ### 3. Plan by simulating
 
 When several sequences of actions could reach the goal, simulate each one step by step (`ekbasis.simulate`) and keep
-the one whose final state is what you want **and** whose *chain confidence* is high. Measured on 180 hard planning
-puzzles (8–12 actions): searching with Ekbasis alone, with no LLM, 98.9% of the plans worked when run for real, in
-about 11 s each; the same base model writing the plan while reasoning step by step reached 97.8%, and 38.3% answering
-at once.
+the one whose final state is what you want **and** whose *chain confidence* is high. Measured on 180 short planning
+puzzles (goals from random 8–12-action plans; shortest plans 1–4 actions, median 1): searching with Ekbasis alone,
+with no LLM, 98.9% of the plans worked when run for real, in about 11 s each; the same base model writing the plan
+while reasoning step by step reached 97.8%, and 38.3% answering at once.
 
 ### 4. Cheap first, expensive when unsure
 

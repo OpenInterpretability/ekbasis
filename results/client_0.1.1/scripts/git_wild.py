@@ -1,0 +1,1222 @@
+"""git_wild: the released Ekbasis git guard (ekbasis.git.check, default settings) on git commands and agent sequences
+beyond its release evaluation, with the truth from running the commands for real in a throwaway repository (SPEC.md).
+
+  python3 git_wild.py list [--only T1,T2] [--reps N]        the items
+  python3 git_wild.py dry  [--only ...] [--reps N] [--out F] setup + execution + truth, no model call
+  python3 git_wild.py run  [--reps N] [--out F]              the guard's verdict, taken before the commands run
+PYTHONPATH=<folder holding the ekbasis package> python3 git_wild.py run   (EKBASIS_URL: the server)
+Every item runs in its own box under ./boxes (deleted afterwards); nothing runs outside it."""
+from __future__ import annotations
+
+import argparse
+import collections
+import concurrent.futures as cf
+import json
+import os
+import random
+import re
+import shutil
+import subprocess
+import sys
+import time
+
+ROOT = os.path.dirname(os.path.abspath(__file__))
+HOME = os.path.join(ROOT, "home")
+BOXES = os.path.join(ROOT, "boxes")
+API = os.environ.get("EKBASIS_URL", "http://127.0.0.1:8542")
+ENV = {"HOME": HOME, "GIT_CONFIG_NOSYSTEM": "1", "GIT_TERMINAL_PROMPT": "0", "LC_ALL": "C", "LANG": "C",
+       "PATH": "/usr/local/bin:/usr/bin:/bin", "GIT_EDITOR": "true", "GIT_SEQUENCE_EDITOR": "true", "EDITOR": "true",
+       "VISUAL": "true", "GIT_MERGE_AUTOEDIT": "no"}
+GITCONFIG = """[user]
+\tname = Dev
+\temail = dev@example.invalid
+[init]
+\tdefaultBranch = main
+\ttemplateDir = {tpl}
+[commit]
+\tgpgsign = false
+[gc]
+\tauto = 0
+[protocol "file"]
+\tallow = always
+"""
+
+
+def prepare_home():
+    os.makedirs(os.path.join(HOME, "empty_template"), exist_ok=True)
+    os.makedirs(BOXES, exist_ok=True)
+    with open(os.path.join(HOME, ".gitconfig"), "w") as f:
+        f.write(GITCONFIG.format(tpl=os.path.join(HOME, "empty_template")))
+    os.environ.update(ENV)  # the client's own (read-only) git calls see the same configuration
+
+
+SETUP_T0 = 1788264000  # 2026-09-01 12:00 UTC: setup step i is dated T0 + i minutes, the commands under test run at the real time
+
+
+def sh(cmd, cwd, timeout=20, env=None):
+    """One shell command inside a box: (exit code, output, timed out)."""
+    if not os.path.realpath(cwd).startswith(os.path.realpath(BOXES) + os.sep):
+        raise RuntimeError(f"refusing to run outside the boxes: {cwd}")
+    try:
+        p = subprocess.run(["bash", "-c", cmd], cwd=cwd, env=dict(ENV, **(env or {})), stdin=subprocess.DEVNULL,
+                           stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=timeout)
+    except subprocess.TimeoutExpired:
+        return 124, "TIMEOUT", True
+    return p.returncode, p.stdout.decode(errors="replace"), False
+
+
+def git(repo, *args):
+    p = subprocess.run(["git", *args], cwd=repo, env=ENV, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
+                       stderr=subprocess.DEVNULL, timeout=60)
+    return p.returncode, p.stdout
+
+
+# ---------------------------------------------------------------------------------------------- building the items
+TRACKED = ["README.md", "config.yaml", "src/app.py", "src/utils.py", "docs/guide.md", "tests/test_app.py"]
+PY = ["src/app.py", "src/utils.py", "tests/test_app.py"]
+BRANCH_NAMES = ["feature", "fix-login", "refactor-io", "dev", "perf-cache", "api-v2"]
+BASE_FILES = {
+    "README.md": "# inventory-service\n\nSmall service that tracks stock levels.\n",
+    "config.yaml": "port: 8080\nlog_level: info\n",
+    "src/app.py": 'from utils import load\n\n\ndef main():\n    rows = load("stock.csv")\n    print(len(rows))\n',
+    "src/utils.py": "def load(path):\n    with open(path) as f:\n        return f.read().splitlines()\n",
+    "docs/guide.md": "# Guide\n\nRun the app with python src/app.py.\n",
+    "tests/test_app.py": "def test_main():\n    assert True\n",
+    ".gitignore": ".env\nbuild/\n__pycache__/\n*.log\n",
+}
+AMBIG = "a resolved and an unresolved conflicted file look the same in the state (unmerged, content as a hash)"
+
+
+class Builder:
+    """The setup of one item as shell steps run in the box's work/ directory (each must exit 0)."""
+
+    def __init__(self, picks, rng):
+        self.K, self.F, self.G, self.H = picks["files"]  # K: the file the last commit changed
+        self.br, self.py, self.py2 = picks["br"], picks["py"], picks["py2"]
+        self.rng = rng
+        self.s = []
+        self.hidden = None  # set when the state cannot show what decides the outcome
+        self._peer = False
+
+    def tok(self):
+        return "%06x" % self.rng.getrandbits(24)
+
+    def line(self, path):
+        t = self.tok()
+        if path.endswith(".py"):
+            return f'print("event {t}")'
+        if path.endswith(".md"):
+            return f"- note {t}"
+        if path.endswith(".yaml"):
+            return f"flag_{t}: true"
+        if path.endswith(".env"):
+            return f"API_URL=http://localhost:8080/{t}"
+        return f"entry {t}"
+
+    def do(self, *cmds):
+        self.s.extend(cmds)
+        return self
+
+    def app(self, path, at=""):
+        p = at + path
+        return f"mkdir -p \"$(dirname '{p}')\" && printf '%s\\n' '{self.line(path)}' >> '{p}'"
+
+    def edit(self, *paths, at=""):
+        for p in paths:
+            self.do(self.app(p, at))
+        return self
+
+    def stage(self, *paths):
+        return self.do("git add " + " ".join(f"'{p}'" for p in paths))
+
+    def new(self, path, at=""):
+        p = at + path
+        return self.do(f"mkdir -p \"$(dirname '{p}')\" && printf '%s\\n' '{self.line(path)}' > '{p}'")
+
+    def commit(self, *paths):
+        return self.do(" && ".join(self.app(p) for p in paths) + " && git add " + " ".join(f"'{p}'" for p in paths)
+                       + f" && git commit -qm 'change {self.tok()}'")
+
+    def resolve(self, path, add=False):
+        """A hand resolution of a conflicted file: our side, their added (last) line and one new line, no markers."""
+        return self.do(f"git show :2:'{path}' > '{path}' && git show :3:'{path}' | tail -n 1 >> '{path}' "
+                       f"&& printf '%s\\n' '{self.line(path)}' >> '{path}'"
+                       + (f" && git add '{path}'" if add else ""))
+
+    def base(self, remote=True):
+        files = " && ".join(f"printf '{c.replace(chr(10), chr(92) + 'n')}' > '{p}'" for p, c in BASE_FILES.items())
+        self.do("git init -q -b main", "mkdir -p src docs tests", files, "git add -A && git commit -qm init")
+        self.commit(self.K)
+        if remote:
+            self.do("git init -q --bare ../origin.git && git remote add origin ../origin.git && git push -q -u origin main")
+        return self
+
+    def branch(self, *paths, back=True, name=None):
+        self.do(f"git checkout -q -b {name or self.br}").commit(*paths)
+        return self.do("git checkout -q main") if back else self
+
+    def peer(self, *paths):
+        """A colleague's clone pushes a commit to the remote."""
+        if not self._peer:
+            self.do("git clone -q ../origin.git ../peer")
+            self._peer = True
+        return self.do("cd ../peer && " + " && ".join(self.app(p) for p in paths)
+                       + f" && git commit -qam 'remote {self.tok()}' && git push -q origin main")
+
+
+TEMPLATES = {}
+
+
+def template(name, variants, reps=2):
+    def deco(fn):
+        TEMPLATES[name] = {"variants": variants, "fn": fn, "reps": reps}
+        return fn
+    return deco
+
+
+# -- worktrees, sparse checkout, submodules
+@template("worktree_add", ["other_branch", "current_branch", "new_branch", "new_branch_name_taken"])
+def _t(b, v):
+    b.base().branch(b.F).edit(b.G)
+    return {"other_branch": [f"git worktree add ../wt {b.br}"], "current_branch": ["git worktree add ../wt main"],
+            "new_branch": ["git worktree add -b hotfix ../wt"], "new_branch_name_taken": [f"git worktree add -b {b.br} ../wt"]}[v]
+
+
+@template("worktree_remove", ["dirty", "clean", "dirty_force", "clean_force"])
+def _t(b, v):
+    b.base().branch(b.F).do(f"git worktree add -q ../wt {b.br}")
+    if v.startswith("dirty"):
+        b.edit(b.G, at="../wt/")
+    b.hidden = "the linked worktree's changes are not in the state"
+    return ["git worktree remove --force ../wt" if v.endswith("force") else "git worktree remove ../wt"]
+
+
+@template("sparse_checkout", ["set_edit_outside", "add_without_set", "set_then_add", "set_untracked_outside", "set_ignored_outside"])
+def _t(b, v):
+    b.base()
+    if v == "set_edit_outside":
+        b.edit("docs/guide.md")
+    if v == "set_untracked_outside":
+        b.new("docs/draft.md")
+    if v == "set_ignored_outside":
+        b.new("docs/debug.log")
+    if v == "add_without_set":
+        return ["git sparse-checkout add docs"]
+    if v == "set_then_add":
+        b.edit("src/app.py")
+        return ["git sparse-checkout set src", "git sparse-checkout add docs"]
+    return ["git sparse-checkout set src"]
+
+
+@template("submodule_update", ["dirty", "clean", "dirty_force", "clean_force"])
+def _t(b, v):
+    b.base().do("git init -q ../libsrc && cd ../libsrc && printf 'def helper():\\n    return 1\\n' > lib.py && git add -A && git commit -qm l1",
+                "git submodule add -q \"$(cd .. && pwd)/libsrc\" lib && git commit -qm 'add lib'",
+                "cd ../libsrc && " + b.app("lib.py") + " && git commit -qam l2",
+                "git submodule update -q --remote lib && git commit -qam 'bump lib'",
+                "cd lib && git checkout -q HEAD~1")
+    if v.startswith("dirty"):
+        b.edit("lib/lib.py")
+    return ["git submodule update --force" if v.endswith("force") else "git submodule update"]
+
+
+# -- rebase (never in training)
+def rebase_setup(b, conflict):
+    b.base().do(f"git checkout -q -b {b.br}").commit(b.G).commit(b.F).do("git checkout -q main")
+    b.commit(b.F if conflict else b.H).do(f"git checkout -q {b.br}")
+
+
+def midrebase(b):
+    rebase_setup(b, conflict=True)
+    b.do("git rebase main >/dev/null 2>&1 || true")
+
+
+@template("rebase_onto", ["conflict", "clean", "dirty"])
+def _t(b, v):
+    rebase_setup(b, v == "conflict")
+    if v == "dirty":
+        b.edit(b.K)
+    return ["git rebase --onto main HEAD~1"]
+
+
+@template("rebase_autostash", ["autostash", "plain", "autostash_conflict"])
+def _t(b, v):
+    rebase_setup(b, conflict=False)
+    b.edit(b.H if v == "autostash_conflict" else b.K)
+    return ["git rebase main" if v == "plain" else "git rebase --autostash main"]
+
+
+@template("rebase_abort", ["unresolved", "resolved", "resolved_added"])
+def _t(b, v):
+    midrebase(b)
+    if v != "unresolved":
+        b.resolve(b.F, add=(v == "resolved_added"))
+    if v != "resolved_added":
+        b.hidden = AMBIG
+    return ["git rebase --abort"]
+
+
+@template("rebase_continue", ["unresolved", "resolved", "resolved_added"])
+def _t(b, v):
+    midrebase(b)
+    if v != "unresolved":
+        b.resolve(b.F, add=(v == "resolved_added"))
+    return ["git rebase --continue"]
+
+
+@template("rebase_skip", ["unresolved", "resolved"])
+def _t(b, v):
+    midrebase(b)
+    if v == "resolved":
+        b.resolve(b.F)
+    b.hidden = AMBIG
+    return ["git rebase --skip"]
+
+
+@template("pull_rebase", ["conflict", "clean", "dirty", "dirty_autostash"])
+def _t(b, v):
+    b.base().peer(b.F)
+    if v == "conflict":
+        b.commit(b.F)
+    elif v == "clean":
+        b.commit(b.G)
+    else:
+        b.edit(b.G)
+    b.do("git fetch -q")
+    return ["git pull --rebase --autostash" if v == "dirty_autostash" else "git pull --rebase"]
+
+
+# -- pull, cherry-pick, revert, reset
+@template("pull_divergent", ["diverged_plain", "behind_plain", "diverged_no_rebase", "diverged_ff_only"])
+def _t(b, v):
+    b.base().peer(b.F)
+    if v != "behind_plain":
+        b.commit(b.G)
+    b.do("git fetch -q")
+    return {"diverged_plain": ["git pull"], "behind_plain": ["git pull"], "diverged_no_rebase": ["git pull --no-rebase --no-edit"],
+            "diverged_ff_only": ["git pull --ff-only"]}[v]
+
+
+@template("pull_dirty", ["overlap", "no_overlap"], reps=3)
+def _t(b, v):
+    b.base().peer(b.F).do("git fetch -q").edit(b.F if v == "overlap" else b.G)
+    return ["git pull --no-edit"]
+
+
+@template("cherry_pick_n", ["overlap", "no_overlap", "clean"])
+def _t(b, v):
+    b.base().branch(b.F)
+    if v == "overlap":
+        b.edit(b.F)
+    if v == "no_overlap":
+        b.edit(b.G)
+    return [f"git cherry-pick -n {b.br}"]
+
+
+@template("cherry_pick_midconflict", ["abort_unresolved", "abort_resolved", "continue_unresolved", "continue_resolved_added"])
+def _t(b, v):
+    b.base().branch(b.F).commit(b.F).do(f"git cherry-pick {b.br} >/dev/null 2>&1 || true")
+    if v == "abort_resolved":
+        b.resolve(b.F)
+    if v == "continue_resolved_added":
+        b.resolve(b.F, add=True)
+    if v.startswith("abort"):
+        b.hidden = AMBIG
+    return ["git cherry-pick --abort" if v.startswith("abort") else "git cherry-pick --continue"]
+
+
+@template("revert_older", ["conflict", "clean", "dirty_overlap", "dirty_no_overlap"])
+def _t(b, v):
+    b.base().commit(b.F).commit(b.F if v == "conflict" else b.G)
+    if v == "dirty_overlap":
+        b.edit(b.F)
+    if v == "dirty_no_overlap":
+        b.edit(b.H)
+    return ["git revert --no-edit HEAD~1"]
+
+
+@template("reset_keep", ["overlap", "no_overlap", "staged_overlap"])
+def _t(b, v):
+    b.base().edit(b.F if v == "no_overlap" else b.K)
+    if v == "staged_overlap":
+        b.stage(b.K)
+    return ["git reset --keep HEAD~1"]
+
+
+@template("reset_merge_commit", ["unstaged_overlap", "unstaged_no_overlap", "staged_overlap", "staged_no_overlap"])
+def _t(b, v):
+    f = b.F if "no_overlap" in v else b.K
+    b.base().edit(f)
+    if v.startswith("staged"):
+        b.stage(f)
+    return ["git reset --merge HEAD~1"]
+
+
+@template("reset_hard_origin", ["dirty", "clean_local_commit", "staged", "untracked_only"])
+def _t(b, v):
+    b.base()
+    if v == "dirty":
+        b.edit(b.F)
+    if v == "clean_local_commit":
+        b.commit(b.F)
+    if v == "staged":
+        b.edit(b.F).stage(b.F)
+    if v == "untracked_only":
+        b.new("notes.md")
+    return ["git reset --hard origin/main"]
+
+
+@template("reset_hard_path", ["hard_path", "hard", "mixed_path"], reps=3)
+def _t(b, v):
+    b.base().edit(b.F)
+    if v == "mixed_path":
+        b.stage(b.F)
+    return {"hard_path": [f"git reset --hard {b.F}"], "hard": ["git reset --hard"], "mixed_path": [f"git reset {b.F}"]}[v]
+
+
+@template("commit_then_reset", ["commit_reset", "commit_reset_head1", "add_reset", "stash_reset_head1"])
+def _t(b, v):
+    b.base().edit(b.F)
+    return {"commit_reset": ["git commit -qam wip", "git reset --hard"], "commit_reset_head1": ["git commit -qam wip", "git reset --hard HEAD~1"],
+            "add_reset": ["git add -A", "git reset --hard"], "stash_reset_head1": ["git stash", "git reset --hard HEAD~1"]}[v]
+
+
+@template("wip_branch", ["delete", "keep", "merge_back", "delete_safe"])
+def _t(b, v):
+    b.base().edit(b.F)
+    seq = ["git switch -c tmp", "git commit -qam wip", "git switch main"]
+    return seq + {"delete": ["git branch -D tmp"], "keep": [], "merge_back": ["git merge -q tmp"], "delete_safe": ["git branch -d tmp"]}[v]
+
+
+# -- switch / checkout
+@template("switch_discard", ["dirty", "clean", "dirty_plain", "dirty_force"])
+def _t(b, v):
+    b.base().branch(b.G)
+    if v != "clean":
+        b.edit(b.F)
+    if v == "dirty_plain":
+        return [f"git switch {b.br}"]
+    return [f"git switch -f {b.br}"] if v == "dirty_force" else [f"git switch --discard-changes {b.br}"]
+
+
+@template("checkout_force", ["dirty", "clean", "untracked_plain", "untracked_force"])
+def _t(b, v):
+    b.base()
+    if v.startswith("untracked"):
+        b.branch("notes.md").new("notes.md")
+        return [f"git checkout {b.br}" if v == "untracked_plain" else f"git checkout -f {b.br}"]
+    b.branch(b.G)
+    if v == "dirty":
+        b.edit(b.F)
+    return [f"git checkout -f {b.br}"]
+
+
+@template("checkout_branch_file", ["dirty_same", "dirty_other", "missing_path"], reps=3)
+def _t(b, v):
+    b.base().branch(b.F)
+    if v == "dirty_same":
+        b.edit(b.F)
+    if v == "dirty_other":
+        b.edit(b.G)
+    return [f"git checkout {b.br} -- {b.F}" if v != "missing_path" else f"git checkout {b.br} -- src/missing.py"]
+
+
+@template("checkout_paths", ["dot_dirty", "dot_untracked_only", "dot_staged", "dot_staged_then_edit", "glob_py_dirty", "glob_py_md_only"])
+def _t(b, v):
+    b.base()
+    if v == "dot_dirty":
+        b.edit(b.F)
+    if v == "dot_untracked_only":
+        b.new("notes.md")
+    if v == "dot_staged":
+        b.edit(b.F).stage(b.F)
+    if v == "dot_staged_then_edit":
+        b.edit(b.F).stage(b.F).edit(b.F)
+    if v == "glob_py_dirty":
+        b.edit(b.py)
+    if v == "glob_py_md_only":
+        b.edit("docs/guide.md")
+    return ["git checkout -- '*.py'"] if v.startswith("glob") else ["git checkout ."]
+
+
+@template("checkout_detach", ["overlap", "no_overlap", "switch_without_detach", "switch_detach"])
+def _t(b, v):
+    b.base()
+    if v == "overlap":
+        b.edit(b.K)
+    if v == "no_overlap":
+        b.edit(b.F)
+    return {"overlap": ["git checkout HEAD~1"], "no_overlap": ["git checkout HEAD~1"], "switch_without_detach": ["git switch HEAD~1"],
+            "switch_detach": ["git switch --detach HEAD~1"]}[v]
+
+
+@template("checkout_tag", ["overlap", "no_overlap"], reps=3)
+def _t(b, v):
+    b.base().do("git tag v1.0 HEAD~1").edit(b.K if v == "overlap" else b.F)
+    return ["git checkout v1.0"]
+
+
+@template("checkout_over_ignored", ["ignored_present", "ignored_absent"], reps=3)
+def _t(b, v):
+    b.base().do(f"git checkout -q -b {b.br}").new(".env").do("git add -f .env && git commit -qm 'track env'", "git checkout -q main")
+    if v == "ignored_present":
+        b.new(".env")
+    return [f"git checkout {b.br}"]
+
+
+@template("orphan_branch", ["switch_clean", "switch_dirty", "checkout_dirty"])
+def _t(b, v):
+    b.base()
+    if v != "switch_clean":
+        b.edit(b.F)
+    return ["git checkout --orphan newroot"] if v == "checkout_dirty" else ["git switch --orphan newroot"]
+
+
+# -- restore
+@template("restore_source_old", ["dirty_target", "clean_target", "dirty_other", "worktree_flag_dirty"])
+def _t(b, v):
+    b.base()
+    if v in ("dirty_target", "worktree_flag_dirty"):
+        b.edit(b.K)
+    if v == "dirty_other":
+        b.edit(b.F)
+    return [f"git restore --source=HEAD~1 --worktree {b.K}" if v == "worktree_flag_dirty" else f"git restore --source=HEAD~1 {b.K}"]
+
+
+@template("restore_staged_layers", ["staged_differs", "staged_same", "staged_and_worktree"], reps=3)
+def _t(b, v):
+    b.base().edit(b.F).stage(b.F)
+    if v == "staged_differs":
+        b.do(f"git show HEAD:'{b.F}' > '{b.F}'").edit(b.F)
+    return [f"git restore --staged --worktree {b.F}"] if v == "staged_and_worktree" else [f"git restore --staged {b.F}"]
+
+
+@template("restore_dot", ["unstaged", "staged_only", "staged_dot", "sw_dot"])
+def _t(b, v):
+    b.base()
+    if v == "unstaged":
+        b.edit(b.F, b.G)
+        return ["git restore ."]
+    b.edit(b.F).stage(b.F)
+    return {"staged_only": ["git restore ."], "staged_dot": ["git restore --staged ."], "sw_dot": ["git restore -SW ."]}[v]
+
+
+@template("restore_from_ref", ["stash_dirty", "stash_clean", "no_stash", "branch_dirty", "branch_clean"])
+def _t(b, v):
+    b.base()
+    if v.startswith("stash"):
+        b.edit(b.F).do("git stash -q")
+        if v == "stash_dirty":
+            b.edit(b.F)
+        return [f"git restore --source=stash@{{0}} {b.F}"]
+    if v == "no_stash":
+        b.edit(b.G)
+        return [f"git restore --source=stash@{{0}} {b.F}"]
+    b.branch(b.F)
+    if v == "branch_dirty":
+        b.edit(b.F)
+    return [f"git restore --source={b.br} {b.F}"]
+
+
+# -- branches
+@template("branch_force", ["current", "other"], reps=3)
+def _t(b, v):
+    b.base().branch(b.F)
+    return ["git branch -f main HEAD~1"] if v == "current" else [f"git branch -f {b.br} HEAD~1"]
+
+
+@template("branch_delete", ["d_unmerged", "d_merged", "D_current", "D_unmerged"])
+def _t(b, v):
+    b.base()
+    if v == "d_merged":
+        b.do(f"git branch {b.br}")
+    else:
+        b.branch(b.F, back=(v != "D_current"))
+    return [f"git branch -D {b.br}"] if v.startswith("D") else [f"git branch -d {b.br}"]
+
+
+@template("switch_force_create", ["C_existing", "c_existing", "C_dirty"])
+def _t(b, v):
+    b.base().branch(b.F)
+    if v == "C_dirty":
+        b.edit(b.G)
+    return [f"git switch -c {b.br}"] if v == "c_existing" else [f"git switch -C {b.br}"]
+
+
+@template("refs_plumbing", ["update_ref_delete", "symbolic_ref", "update_ref_bad"])
+def _t(b, v):
+    b.base().branch(b.F).edit(b.G)
+    return {"update_ref_delete": [f"git update-ref -d refs/heads/{b.br}"], "symbolic_ref": [f"git symbolic-ref HEAD refs/heads/{b.br}"],
+            "update_ref_bad": [f"git update-ref refs/heads/{b.br} 0000000000000000000000000000000000000001"]}[v]
+
+
+# -- stash
+@template("stash_pathspec", ["two_files_checkout", "one_file_checkout", "two_files_drop", "all_checkout"])
+def _t(b, v):
+    b.base().edit(b.F)
+    if v != "one_file_checkout":
+        b.edit(b.G)
+    return {"two_files_checkout": [f"git stash push {b.F}", "git checkout -- ."], "one_file_checkout": [f"git stash push {b.F}", "git checkout -- ."],
+            "two_files_drop": [f"git stash push {b.F}", "git stash drop"], "all_checkout": ["git stash push", "git checkout -- ."]}[v]
+
+
+@template("stash_staged", ["mixed", "staged_only", "mixed_plain"])
+def _t(b, v):
+    b.base().edit(b.F).stage(b.F)
+    if v != "staged_only":
+        b.edit(b.G)
+    return ["git stash push" if v == "mixed_plain" else "git stash push --staged", "git reset --hard"]
+
+
+@template("stash_keep_index_seq", ["keep_reset", "keep_drop_reset"], reps=3)
+def _t(b, v):
+    b.base().edit(b.F).stage(b.F).edit(b.G)
+    return ["git stash --keep-index", "git reset --hard"] if v == "keep_reset" else ["git stash --keep-index", "git stash drop", "git reset --hard"]
+
+
+@template("stash_clear", ["unique", "applied", "empty"])
+def _t(b, v):
+    b.base()
+    if v != "empty":
+        b.edit(b.F).do("git stash -q")
+    if v == "applied":
+        b.do("git stash apply -q")
+    return ["git stash clear"]
+
+
+@template("stash_drop_ref", ["drop_older", "drop_missing", "pop_older"])
+def _t(b, v):
+    b.base().edit(b.G).do("git stash -q").edit(b.F).do("git stash -q")
+    return {"drop_older": ["git stash drop stash@{1}"], "drop_missing": ["git stash drop stash@{2}"], "pop_older": ["git stash pop stash@{1}"]}[v]
+
+
+@template("stash_branch", ["new_branch", "existing_branch", "no_stash"])
+def _t(b, v):
+    b.base()
+    if v == "existing_branch":
+        b.branch(b.G)
+    if v != "no_stash":
+        b.edit(b.F).do("git stash -q")
+    return [f"git stash branch {b.br}" if v == "existing_branch" else "git stash branch wip-restore"]
+
+
+@template("stash_untracked_seq", ["plain_clean", "u_clean", "u_cleanx_ignored", "a_cleanx_ignored"])
+def _t(b, v):
+    b.base().edit(b.F).new("notes.md")
+    if "ignored" in v:
+        b.new(".env")
+    return {"plain_clean": ["git stash", "git clean -fd"], "u_clean": ["git stash -u", "git clean -fd"],
+            "u_cleanx_ignored": ["git stash -u", "git clean -fdx"], "a_cleanx_ignored": ["git stash -a", "git clean -fdx"]}[v]
+
+
+@template("stash_switch_pop", ["pop_conflict", "pop_clean", "pop_conflict_then_reset"])
+def _t(b, v):
+    b.base().branch(b.G if v == "pop_clean" else b.F).edit(b.F)
+    return ["git stash", f"git switch {b.br}", "git stash pop"] + (["git reset --hard"] if v == "pop_conflict_then_reset" else [])
+
+
+@template("stash_pull_pop", ["no_overlap", "overlap"], reps=3)
+def _t(b, v):
+    b.base().peer(b.F).do("git fetch -q").edit(b.G if v == "no_overlap" else b.F)
+    return ["git stash", "git pull --no-edit", "git stash pop"]
+
+
+# -- clean
+@template("clean_files_vs_dirs", ["f_untracked_dir", "f_root_file", "fd_untracked_dir"])
+def _t(b, v):
+    b.base().new("notes.md" if v == "f_root_file" else "drafts/plan.md")
+    return ["git clean -fd"] if v == "fd_untracked_dir" else ["git clean -f"]
+
+
+@template("clean_force_flag", ["no_force", "dry_run_n", "dry_run_long", "force"])
+def _t(b, v):
+    b.base().new("notes.md")
+    return {"no_force": ["git clean -d"], "dry_run_n": ["git clean -fdn"], "dry_run_long": ["git clean -d --dry-run"], "force": ["git clean -fd"]}[v]
+
+
+@template("clean_ignored_X", ["X_ignored_and_untracked", "X_untracked_only", "dX_ignored_dir"])
+def _t(b, v):
+    b.base()
+    if v == "X_ignored_and_untracked":
+        b.new(".env").new("notes.md")
+        return ["git clean -fX"]
+    if v == "X_untracked_only":
+        b.new("notes.md")
+        return ["git clean -fX"]
+    b.new("build/report.txt")
+    return ["git clean -fdX"]
+
+
+@template("clean_ignored_x", ["x_ignored_only", "x_nothing", "fd_ignored_only"])
+def _t(b, v):
+    b.base()
+    if v != "x_nothing":
+        b.new(".env")
+    return ["git clean -fd"] if v == "fd_ignored_only" else ["git clean -fdx"]
+
+
+@template("clean_exclude_or_path", ["e_only_excluded", "e_two_files", "path_inside", "path_outside"])
+def _t(b, v):
+    b.base()
+    if v == "e_only_excluded":
+        b.new("notes.md")
+    if v == "e_two_files":
+        b.new("notes.md").new("todo.txt")
+    if v == "path_inside":
+        b.new("docs/draft.md")
+    if v == "path_outside":
+        b.new("notes.md")
+    return ["git clean -fd -e notes.md"] if v.startswith("e_") else ["git clean -fd docs"]
+
+
+# -- merge
+def midmerge(b):
+    b.base().branch(b.F).commit(b.F).do(f"git merge {b.br} >/dev/null 2>&1 || true")
+
+
+@template("merge_no_commit", ["no_commit", "no_edit", "squash"])
+def _t(b, v):
+    b.base().branch(b.F)
+    return {"no_commit": [f"git merge --no-ff --no-commit {b.br}"], "no_edit": [f"git merge --no-ff --no-edit {b.br}"],
+            "squash": [f"git merge --squash {b.br}"]}[v]
+
+
+@template("merge_over_local", ["untracked_collides", "untracked_free", "dirty_overlap", "dirty_free"])
+def _t(b, v):
+    b.base()
+    if v.startswith("untracked"):
+        b.branch("notes.md").new("notes.md" if v == "untracked_collides" else "todo.txt")
+    else:
+        b.branch(b.F).edit(b.F if v == "dirty_overlap" else b.G)
+    return [f"git merge --no-edit {b.br}"]
+
+
+@template("merge_strategy", ["X_theirs", "plain", "s_ours", "X_ours"])
+def _t(b, v):
+    b.base().branch(b.F).commit(b.F)
+    return {"X_theirs": [f"git merge -X theirs --no-edit {b.br}"], "plain": [f"git merge --no-edit {b.br}"],
+            "s_ours": [f"git merge -s ours --no-edit {b.br}"], "X_ours": [f"git merge -X ours --no-edit {b.br}"]}[v]
+
+
+@template("merge_midconflict", ["abort_unresolved", "abort_resolved", "continue_unresolved", "continue_resolved_added",
+                                "commit_unresolved", "reset_hard_unresolved", "reset_hard_resolved"])
+def _t(b, v):
+    midmerge(b)
+    if v in ("abort_resolved", "reset_hard_resolved"):
+        b.resolve(b.F)
+    if v == "continue_resolved_added":
+        b.resolve(b.F, add=True)
+    if v.startswith(("abort", "reset_hard")):
+        b.hidden = AMBIG
+    return {"abort_unresolved": ["git merge --abort"], "abort_resolved": ["git merge --abort"], "continue_unresolved": ["git merge --continue"],
+            "continue_resolved_added": ["git merge --continue"], "commit_unresolved": ["git commit -qm merged"],
+            "reset_hard_unresolved": ["git reset --hard"], "reset_hard_resolved": ["git reset --hard"]}[v]
+
+
+@template("checkout_ours_theirs", ["theirs_unresolved", "theirs_resolved", "ours_resolved", "ours_finish"])
+def _t(b, v):
+    midmerge(b)
+    if v in ("theirs_resolved", "ours_resolved"):
+        b.resolve(b.F)
+    if v != "ours_finish":
+        b.hidden = AMBIG
+    return {"theirs_unresolved": [f"git checkout --theirs {b.F}"], "theirs_resolved": [f"git checkout --theirs {b.F}"],
+            "ours_resolved": [f"git checkout --ours {b.F}"], "ours_finish": [f"git checkout --ours {b.F}", f"git add {b.F}", "git commit --no-edit"]}[v]
+
+
+# -- patches
+@template("apply_patch", ["apply_clean", "apply_conflict", "check_conflict", "reverse_unapplied", "am_clean", "am_conflict", "threeway_conflict"])
+def _t(b, v):
+    b.base().do("git checkout -q -b tmp-patch", b.app(b.F) + " && git commit -qam fix", "git format-patch -1 -q -o ../patches HEAD",
+                "git diff HEAD~1 HEAD > ../fix.diff", "git checkout -q main", "git branch -q -D tmp-patch")
+    b.hidden = "the patch's content is not in the state"
+    if v in ("apply_conflict", "check_conflict"):
+        b.edit(b.F)
+    if v in ("am_conflict", "threeway_conflict"):
+        b.commit(b.F)
+    return {"apply_clean": ["git apply ../fix.diff"], "apply_conflict": ["git apply ../fix.diff"], "check_conflict": ["git apply --check ../fix.diff"],
+            "reverse_unapplied": ["git apply -R ../fix.diff"], "am_clean": ["git am ../patches/0001-fix.patch"],
+            "am_conflict": ["git am ../patches/0001-fix.patch"], "threeway_conflict": ["git apply --3way ../fix.diff"]}[v]
+
+
+# -- remote
+@template("push_force", ["force", "plain", "lease_fresh", "lease_stale", "push_to_new_ref"])
+def _t(b, v):
+    b.base().peer(b.F).commit(b.G)
+    if v == "lease_stale":
+        b.hidden = "the remote moved on after the last fetch (stale remote-tracking ref)"
+    else:
+        b.do("git fetch -q")
+    return {"force": ["git push --force origin main"], "plain": ["git push origin main"], "lease_fresh": ["git push --force-with-lease origin main"],
+            "lease_stale": ["git push --force-with-lease origin main"], "push_to_new_ref": ["git push origin HEAD:refs/heads/backup"]}[v]
+
+
+@template("push_branches", ["new_branch_u", "missing_branch", "delete_missing", "delete_existing"])
+def _t(b, v):
+    b.base().branch(b.F)
+    if v == "delete_existing":
+        b.do(f"git push -q origin {b.br}")
+    return {"new_branch_u": [f"git push -u origin {b.br}"], "missing_branch": ["git push origin release"],
+            "delete_missing": [f"git push origin --delete {b.br}"], "delete_existing": [f"git push origin --delete {b.br}"]}[v]
+
+
+@template("amend_after_push", ["amend_push", "commit_push", "amend_force", "amend_unpushed_push"])
+def _t(b, v):
+    b.base()
+    if v == "commit_push":
+        b.edit(b.F).stage(b.F)
+        return ["git commit -qm more", "git push"]
+    if v == "amend_unpushed_push":
+        b.commit(b.F)
+    return ["git commit --amend --no-edit", "git push --force" if v == "amend_force" else "git push"]
+
+
+@template("fetch_variants", ["prune", "missing_ref", "fetch_all_dirty"])
+def _t(b, v):
+    b.base()
+    if v == "prune":
+        b.do("git push -q origin main:refs/heads/old-ci", "git fetch -q", "git clone -q ../origin.git ../peer",
+             "cd ../peer && git push -q origin --delete old-ci")
+        return ["git fetch --prune"]
+    if v == "missing_ref":
+        return ["git fetch origin release"]
+    b.edit(b.F)
+    return ["git fetch --all"]
+
+
+# -- plumbing, rm, mv, shell, gc
+@template("checkout_index", ["force_unstaged", "force_staged_only", "no_force_unstaged"], reps=3)
+def _t(b, v):
+    b.base().edit(b.F)
+    if v == "force_staged_only":
+        b.stage(b.F)
+    return ["git checkout-index -a"] if v == "no_force_unstaged" else ["git checkout-index -f -a"]
+
+
+@template("read_tree_reset", ["dirty", "clean", "untracked_only", "staged"])
+def _t(b, v):
+    b.base()
+    if v == "dirty":
+        b.edit(b.F)
+    if v == "untracked_only":
+        b.new("notes.md")
+    if v == "staged":
+        b.edit(b.F).stage(b.F)
+    return ["git read-tree --reset -u HEAD"]
+
+
+@template("rm_variants", ["rm_f_dirty", "rm_dirty", "rm_cached_dirty", "rm_r_cached_readd"])
+def _t(b, v):
+    b.base().edit(b.F)
+    return {"rm_f_dirty": [f"git rm -q -f {b.F}"], "rm_dirty": [f"git rm -q {b.F}"], "rm_cached_dirty": [f"git rm -q --cached {b.F}"],
+            "rm_r_cached_readd": ["git rm -r -q --cached .", "git add -A"]}[v]
+
+
+@template("mv_variants", ["mv_onto_existing", "mv_f_dirty_dest", "mv_f_clean_dest"], reps=3)
+def _t(b, v):
+    b.base()
+    if v == "mv_f_dirty_dest":
+        b.edit(b.py2)
+    return [f"git mv {b.py} {b.py2}"] if v == "mv_onto_existing" else [f"git mv -f {b.py} {b.py2}"]
+
+
+@template("rm_dir_then_checkout", ["dirty", "clean", "untracked", "staged"])
+def _t(b, v):
+    b.base()
+    if v == "dirty":
+        b.edit("docs/guide.md")
+    if v == "untracked":
+        b.new("docs/draft.md")
+    if v == "staged":
+        b.edit("docs/guide.md").stage("docs/guide.md")
+    return ["rm -rf docs", "git checkout -- docs"]
+
+
+@template("gc_after_reset", ["clean_pushed", "dirty", "unpushed_expire"])
+def _t(b, v):
+    b.base()
+    if v == "dirty":
+        b.edit(b.F)
+    if v == "unpushed_expire":
+        b.commit(b.F)
+        return ["git reset --hard HEAD~1", "git reflog expire --expire=now --all", "git gc -q --prune=now"]
+    return ["git reset --hard HEAD~1", "git gc -q --prune=now"]
+
+
+# ---------------------------------------------------------------------------------------------- command forms
+P_ = r"(?!-)(?!\.(?:\s|$))[\w./-]+"  # a path (not an option, not '.', not a glob)
+B_ = r"(?!-)(?!\.(?:\s|$))[\w./-]+"  # a branch-like name
+M_ = r"(?:'[^']*'|\S+)"
+TRAIN_FORMS = [rf"echo \S+ >>? {P_}", rf"rm {P_}", rf"mv {P_} {P_}", rf"cp {P_} {P_}", rf"git add {P_}", r"git add -A",
+               rf"git commit -m {M_}", rf"git commit -am {M_}", rf"git checkout {B_}", rf"git switch -c {B_}", rf"git branch -D {B_}",
+               rf"git merge {B_}", r"git reset --hard", r"git reset --soft HEAD~1", rf"git restore --staged {P_}", rf"git restore {P_}",
+               r"git stash", r"git stash pop", rf"git rm --cached {P_}", rf"git rm {P_}", rf"git push origin {B_}", r"git pull origin main",
+               r"git revert --no-edit HEAD", r"git clean -fd", r"git stash drop", r"git reset --hard HEAD~1", r"git checkout -- \.",
+               r"git stash -u", rf"git checkout -- {P_}", rf"git reset HEAD {P_}", r"git commit --amend --no-edit", rf"git switch {B_}",
+               r"git merge --abort", rf"git cherry-pick {B_}", rf"git checkout -b {B_}", rf"git branch {B_}", r"git stash apply",
+               r"git stash --keep-index", r"git reset HEAD~1", rf"git push -f origin {B_}", r"git fetch origin", rf"git merge --ff-only {B_}",
+               rf"git merge --squash {B_}", r"git revert --no-commit HEAD", r"git clean -n", rf"git commit --allow-empty -m {M_}",
+               rf"git restore --staged --worktree {P_}", rf"git checkout HEAD -- {P_}", r"git reset --merge"]
+HELD_FORMS = [rf"git rebase {B_}", rf"git restore --source=HEAD~1 {P_}"]
+
+
+def form(cmd):
+    """'seen' (a command form of the training grammar), 'held' (held out of training) or 'novel'."""
+    c = re.sub(r"\s+", " ", cmd.strip())
+    c = re.sub(r" -q(?= |$)", "", c).replace(" -qam ", " -am ").replace(" -qm ", " -m ")
+    if any(re.fullmatch(p, c) for p in HELD_FORMS):
+        return "held"
+    return "seen" if any(re.fullmatch(p, c) for p in TRAIN_FORMS) else "novel"
+
+
+def make_items(reps=None, only=None):
+    items = []
+    for name, t in TEMPLATES.items():
+        if only and name not in only:
+            continue
+        for rep in range(reps or t["reps"]):
+            prng = random.Random(f"git_wild:{name}:{rep}")
+            files = prng.sample(TRACKED, 4)
+            py = list(PY)
+            prng.shuffle(py)
+            picks = {"files": files, "br": prng.choice(BRANCH_NAMES), "py": py[0], "py2": py[1]}
+            for v in t["variants"]:
+                b = Builder(picks, random.Random(f"git_wild:{name}:{rep}:{v}"))
+                cmds = t["fn"](b, v)
+                forms = [form(c) for c in cmds]
+                items.append({"id": f"{name}.{v}.r{rep}", "type": name, "variant": v, "rep": rep, "setup": b.s, "commands": cmds,
+                              "hidden": b.hidden, "forms": forms, "seen": all(f == "seen" for f in forms)})
+    return items
+
+
+# ---------------------------------------------------------------------------------------------- truth
+FLAGS = ["MERGE_HEAD", "rebase-merge", "rebase-apply", "rebase-apply/applying", "CHERRY_PICK_HEAD", "REVERT_HEAD", "sequencer"]
+
+
+def is_conflict_text(c):
+    return bool(re.search(rb"^<<<<<<< ", c, re.M) and re.search(rb"^>>>>>>> ", c, re.M))
+
+
+def ls_tree(repo, rev):
+    rc, out = git(repo, "ls-tree", "-r", "-z", rev)
+    res = {}
+    if rc != 0:
+        return res
+    for ent in out.split(b"\0"):
+        if ent:
+            meta, path = ent.split(b"\t", 1)
+            _, typ, sha = meta.split()
+            if typ == b"blob":
+                res[path.decode(errors="replace")] = sha.decode()
+    return res
+
+
+def ls_index(repo):
+    rc, out = git(repo, "ls-files", "-s", "-z")
+    res = {}
+    for ent in out.split(b"\0"):
+        if ent:
+            meta, path = ent.split(b"\t", 1)
+            mode, sha, stage = meta.split()
+            if mode != b"160000":
+                res[(path.decode(errors="replace"), int(stage))] = sha.decode()
+    return res
+
+
+def blobs(repo, shas):
+    shas = sorted(set(shas))
+    if not shas:
+        return {}
+    p = subprocess.run(["git", "cat-file", "--batch"], cwd=repo, env=ENV, input=("\n".join(shas) + "\n").encode(),
+                       stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, timeout=60)
+    out, res, i = p.stdout, {}, 0
+    for sha in shas:
+        nl = out.index(b"\n", i)
+        head = out[i:nl].split()
+        if len(head) < 3 or head[1] == b"missing":
+            i = nl + 1
+            continue
+        size = int(head[2])
+        res[sha] = out[nl + 1:nl + 1 + size]
+        i = nl + 1 + size + 1
+    return res
+
+
+def walk(root):
+    files, nested = {}, []
+    for dp, dns, fns in os.walk(root):
+        if dp != root and (".git" in dns or ".git" in fns):
+            nested.append(dp)
+            dns[:] = []
+            continue
+        if ".git" in dns:
+            dns.remove(".git")
+        for fn in fns:
+            p = os.path.join(dp, fn)
+            if dp == root and fn == ".git":
+                continue
+            if os.path.isfile(p) and not os.path.islink(p):
+                with open(p, "rb") as f:
+                    files[os.path.relpath(p, root)] = f.read()
+    return files, nested
+
+
+def history(r, *revs):
+    """path -> blob shas over every commit reachable from the given refs (git rev-list arguments)."""
+    reach = git(r, "rev-list", *revs)[1].decode().split()
+    hist = collections.defaultdict(set)
+    for h in reach:
+        for p, sha in ls_tree(r, h).items():
+            hist[p].add(sha)
+    return reach, hist
+
+
+def added_lines(r, h):
+    """path -> the non-empty lines commit h adds (against its first parent; every line for a root commit)."""
+    out = git(r, "show", "--format=", "-p", "--no-color", "--no-renames", "--diff-merges=first-parent", h)[1]
+    res, path = collections.defaultdict(list), None
+    for l in out.split(b"\n"):
+        if l.startswith(b"+++ "):
+            path = l[6:].decode(errors="replace") if l.startswith(b"+++ b/") else None
+        elif l.startswith(b"+") and path and l[1:].strip():
+            res[path].append(l[1:])
+    return dict(res)
+
+
+def commits_lost(adds, gone, versions_after):
+    """The commits no longer reachable whose added lines do not all survive in some version of the same file."""
+    lost = []
+    for h in sorted(gone):
+        if any(not any(l in d.split(b"\n") for d in versions_after.get(p, ())) for p, ls in adds.get(h, {}).items() for l in ls):
+            lost.append(h[:8])
+    return lost
+
+
+def repo_snap(r, with_adds=False):
+    heads = [l[len("refs/heads/"):] for l in git(r, "for-each-ref", "--format=%(refname)", "refs/heads")[1].decode().split()]
+    reach, hist = history(r, "--branches", "--remotes", "--tags")
+    stash = []
+    for h in git(r, "stash", "list", "--format=%H")[1].decode().split():
+        part = {"w": ls_tree(r, h), "i": ls_tree(r, h + "^2"), "base": ls_tree(r, h + "^1"), "u": {}}
+        if git(r, "rev-parse", "--verify", "--quiet", h + "^3")[0] == 0:
+            part["u"] = ls_tree(r, h + "^3")
+        stash.append(part)
+    return {"dir": r, "heads": heads, "hist": hist, "stash": stash, "reach": reach,
+            "adds": {h: added_lines(r, h) for h in reach} if with_adds else {}}
+
+
+def snapshot(box, with_adds=False):
+    work = os.path.join(box, "work")
+    roots = [l[9:] for l in git(work, "worktree", "list", "--porcelain")[1].decode(errors="replace").splitlines()
+             if l.startswith("worktree ") and os.path.isdir(l[9:])] or [work]
+    snap, queue, done = {"roots": {}, "repos": {}}, list(roots), set()
+    while queue:
+        r = queue.pop(0)
+        if r in done:
+            continue
+        done.add(r)
+        files, nested = walk(r)
+        queue += nested
+        gd = git(r, "rev-parse", "--absolute-git-dir")[1].decode().strip()
+        cd = os.path.realpath(os.path.join(r, git(r, "rev-parse", "--git-common-dir")[1].decode().strip()))
+        rk = os.path.relpath(cd, box)
+        idx = ls_index(r)
+        rc, br = git(r, "rev-parse", "--abbrev-ref", "HEAD")
+        snap["roots"][os.path.relpath(r, box)] = {
+            "repo": rk, "files": files, "index": idx, "head": ls_tree(r, "HEAD"), "branch": br.decode().strip() if rc == 0 else "(none)",
+            "flags": {f: os.path.exists(os.path.join(gd, f)) for f in FLAGS}, "unmerged": any(s > 0 for (_, s) in idx)}
+        if rk not in snap["repos"]:
+            snap["repos"][rk] = repo_snap(r, with_adds)
+    for rk, rep in snap["repos"].items():
+        shas = set()
+        for t in rep["hist"].values():
+            shas |= t
+        for s in rep["stash"]:
+            for part in s.values():
+                shas |= set(part.values())
+        for root in snap["roots"].values():
+            if root["repo"] == rk:
+                shas |= set(root["index"].values()) | set(root["head"].values())
+        rep["blob"] = blobs(rep["dir"], shas)
+    return snap
+
+
+def remote_snapshot(box, with_adds=False):
+    """The remote: its reachable commits, path -> contents over its whole history, (with_adds) each commit's added lines."""
+    o = os.path.join(box, "origin.git")
+    if not os.path.isdir(o):
+        return {"reach": [], "versions": {}, "adds": {}}
+    reach, hist = history(o, "--all")
+    bl = blobs(o, {s for v in hist.values() for s in v})
+    return {"reach": reach, "versions": {p: {bl.get(s, b"") for s in v} for p, v in hist.items()},
+            "adds": {h: added_lines(o, h) for h in reach} if with_adds else {}}
+
+
+def all_versions(snap):
+    """repo -> path -> every content present: working trees, indexes (any stage), commits reachable from a branch,
+    remote-tracking ref or tag, stash parts."""
+    v = collections.defaultdict(lambda: collections.defaultdict(set))
+    for root in snap["roots"].values():
+        rk, blob = root["repo"], snap["repos"][root["repo"]]["blob"]
+        for p, c in root["files"].items():
+            v[rk][p].add(c)
+        for (p, _), sha in root["index"].items():
+            if sha in blob:
+                v[rk][p].add(blob[sha])
+    for rk, rep in snap["repos"].items():
+        for p, shas in rep["hist"].items():
+            for sha in shas:
+                v[rk][p].add(rep["blob"].get(sha, b""))
+        for s in rep["stash"]:
+            for part in ("w", "i", "u"):
+                for p, sha in s[part].items():
+                    v[rk][p].add(rep["blob"].get(sha, b""))
+    return v
+
+
+def uncommitted(snap):
+    """The uncommitted versions: a file in a working tree or the index that differs from that tree's HEAD, or a file in a
+    stash entry that differs from the stash's base. Git's conflict output and empty files are not work."""
+    out = []
+    for rname, root in snap["roots"].items():
+        rk, blob = root["repo"], snap["repos"][root["repo"]]["blob"]
+        headc = {p: blob.get(sha) for p, sha in root["head"].items()}
+        for p, c in root["files"].items():
+            if c != headc.get(p):
+                out.append((rk, p, c, f"worktree:{rname}", headc.get(p)))
+        for (p, s), sha in root["index"].items():
+            if s == 0 and blob.get(sha) != headc.get(p):
+                out.append((rk, p, blob.get(sha), f"index:{rname}", headc.get(p)))
+    for rk, rep in snap["repos"].items():
+        for k, s in enumerate(rep["stash"]):
+            basec = {p: rep["blob"].get(sha) for p, sha in s["base"].items()}
+            for part in ("w", "i", "u"):
+                for p, sha in s[part].items():
+                    c = rep["blob"].get(sha)
+                    if c != basec.get(p):
+                        out.append((rk, p, c, f"stash{k}:{part}", basec.get(p)))
+    res, seen = [], set()
+    for rk, p, c, where, base in out:
+        if c is None or not c.strip() or is_conflict_text(c) or (rk, p, c) in seen:
+            continue
+        seen.add((rk, p, c))
+        res.append({"repo": rk, "path": p, "content": c, "where": where, "base": base})
+    return res
+
+
+def truth(before, after, rb, ra, codes, box):
+    av = all_versions(after)
+    lost = []
+    for c in uncommitted(before):
+        same = av.get(c["repo"], {}).get(c["path"], set())
+        if any(c["content"] in d for d in same):
+            continue
+        moved = any(c["content"] in d for p2, ds in av.get(c["repo"], {}).items() if p2 != c["path"] for d in ds)
+        base_lines = set((c["base"] or b"").split(b"\n"))
+        added = [l for l in c["content"].split(b"\n") if l.strip() and l not in base_lines]
+        survive = bool(added) and all(any(l in d.split(b"\n") for d in same) for l in added)
+        lost.append({"path": c["path"], "where": c["where"], "repo": c["repo"], "moved": moved, "lines_survive": survive})
+    clean_loss = [x for x in lost if not (x["moved"] or x["lines_survive"])]
+    main = after["roots"].get("work", {})
+    f = main.get("flags", {})
+    merge, rebase = f.get("MERGE_HEAD"), f.get("rebase-merge") or (f.get("rebase-apply") and not f.get("rebase-apply/applying"))
+    other = any(f.get(k) for k in ("CHERRY_PICK_HEAD", "REVERT_HEAD", "sequencer", "rebase-apply/applying")) or main.get("unmerged")
+    # out of scope: commits no longer reachable from a branch, remote-tracking ref or tag whose added lines survive nowhere
+    # (locally: working trees, index, stash, reachable commits; on the remote: its history), and commits pruned
+    rk_main = before["roots"]["work"]["repo"]
+    committed_lost = []
+    for rk, rep in before["repos"].items():
+        gone_rk = set(rep["reach"]) - set(after["repos"].get(rk, {}).get("reach", []))
+        committed_lost += commits_lost(rep["adds"], gone_rk, av.get(rk, {}))
+    remote_lost = commits_lost(rb["adds"], set(rb["reach"]) - set(ra["reach"]), ra["versions"])
+    gone = set(before["repos"][rk_main]["reach"]) - set(after["repos"].get(rk_main, {}).get("reach", []))
+    pruned = [h for h in gone if git(os.path.join(box, "work"), "cat-file", "-e", h)[0] != 0]
+    return {"lost": bool(lost), "lost_disputed": bool(lost) and not clean_loss, "lost_versions": lost,
+            "n_uncommitted_before": len(uncommitted(before)), "fails": [rc != 0 for rc in codes], "exit_codes": codes,
+            "in_progress": bool(merge or rebase), "in_progress_disputed": bool(not (merge or rebase) and other),
+            "branch": main.get("branch"), "branches_before": sorted(before["repos"][rk_main]["heads"]),
+            "oos_commits_lost": committed_lost, "oos_remote_commits_lost": remote_lost,
+            "oos_commits_unreachable": len(gone), "oos_commits_pruned": len(pruned)}
+
+
+# ---------------------------------------------------------------------------------------------- running
+def run_item(item, client=None):
+    rec = {k: item[k] for k in ("id", "type", "variant", "rep", "commands", "hidden", "forms", "seen")}
+    if shutil.disk_usage(ROOT).free < 300e6:
+        rec["error"] = "disk almost full: not run"
+        return rec
+    box = os.path.join(BOXES, item["id"])
+    shutil.rmtree(box, ignore_errors=True)
+    work = os.path.join(box, "work")
+    os.makedirs(work)
+    try:
+        for i, s in enumerate(item["setup"]):
+            when = f"{SETUP_T0 + 60 * i} +0000"
+            rc, out, to = sh(s, work, env={"GIT_AUTHOR_DATE": when, "GIT_COMMITTER_DATE": when})
+            if rc != 0 or to:
+                rec["error"] = f"setup failed: {s} -> {out[-300:]}".replace(box, "<box>")
+                return rec
+        if client is not None:
+            from ekbasis import git as G
+            t0 = time.time()
+            v = G.check(item["commands"], repo=work, client=client)  # exactly as `ekbasis git-check` does, defaults
+            rec["model"] = {"p_lost": v.p_lost, "p_fail": v.p_fail, "p_in_progress": v.p_in_progress, "branch": v.branch,
+                            "risky": v.risky, "reasons": v.reasons, "seconds": round(time.time() - t0, 2)}
+            rec["state"] = v.state
+        before, rb = snapshot(box, with_adds=True), remote_snapshot(box, with_adds=True)
+        codes, outs, timed_out = [], [], False
+        for c in item["commands"]:
+            rc, out, to = sh(c, work)
+            codes.append(rc)
+            outs.append(out[-300:].replace(box, "<box>"))
+            timed_out |= to
+        after, ra = snapshot(box), remote_snapshot(box)
+        rec["truth"] = truth(before, after, rb, ra, codes, box)
+        rec["outputs"] = outs
+        if timed_out:
+            rec["error"] = "a command timed out"
+    except Exception as e:  # noqa: BLE001 - recorded, the item is dropped
+        rec["error"] = f"{type(e).__name__}: {e}".replace(box, "<box>")
+    finally:
+        shutil.rmtree(box, ignore_errors=True)
+    return rec
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("mode", choices=["list", "dry", "run"])
+    ap.add_argument("--only", default=None)
+    ap.add_argument("--reps", type=int, default=None)
+    ap.add_argument("--out", default=None)
+    ap.add_argument("--workers", type=int, default=24)
+    a = ap.parse_args()
+    items = make_items(a.reps, set(a.only.split(",")) if a.only else None)
+    if a.mode == "list":
+        for it in items:
+            print(f"{it['id']:55s} {','.join(it['forms']):20s} {' ; '.join(it['commands'])}")
+        print(f"{len(items)} items, {len({i['type'] for i in items})} command types", file=sys.stderr)
+        return
+    prepare_home()
+    client = None
+    if a.mode == "run":
+        from ekbasis.client import Ekbasis
+        client = Ekbasis(url=API, timeout=300)
+        print("server:", client.health(), flush=True)
+    out = os.path.join(ROOT, a.out or ("results.jsonl" if a.mode == "run" else "dry.jsonl"))
+    with open(os.path.join(ROOT, "items.jsonl" if a.mode == "run" else "items_dry.jsonl"), "w") as f:
+        for it in items:
+            f.write(json.dumps(it) + "\n")
+    t0, n, errs = time.time(), 0, 0
+    with open(out, "w") as f, cf.ThreadPoolExecutor(a.workers) as ex:
+        for fut in cf.as_completed([ex.submit(run_item, it, client) for it in items]):
+            rec = fut.result()
+            f.write(json.dumps(rec) + "\n")
+            f.flush()
+            n += 1
+            errs += "error" in rec
+            if n % 25 == 0 or n == len(items):
+                print(f"{n}/{len(items)} done, {errs} errors, {time.time() - t0:.0f}s", flush=True)
+
+
+if __name__ == "__main__":
+    main()

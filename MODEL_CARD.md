@@ -201,8 +201,9 @@ at 200 actions), looking about 19–26 times per 100 actions; where errors fade 
 ![The cost of looking and the errors caught, per confidence threshold](https://huggingface.co/caiovicentino1/Ekbasis-27B/resolve/main/assets/chart_look_tradeoff.png)
 
 **Planning with no LLM** (beam search over actions, every next state predicted by Ekbasis; the plan then run for
-real): 98.9% of 180 hard puzzles (8–12 actions) solved, against 97.8% for the same base model reasoning step by step
-and 38.3% answering at once; 100.0% of 180 easier ones.
+real): 98.9% of 180 short puzzles solved (goals taken from random 8–12-action plans; their shortest plans are 1 to 4
+actions, median 1), against 97.8% for the same base model reasoning step by step and 38.3% answering at once; 100.0% of
+180 from 3–5-action plans (shortest 1 to 3). Long plans with detours were not part of the release evaluation.
 
 ![Seconds per forecast and forecasts per minute against a reasoning model](https://huggingface.co/caiovicentino1/Ekbasis-27B/resolve/main/assets/chart_speed.png)
 
@@ -333,12 +334,17 @@ environment before relying on it.)
   calibrated confidence.
 - A safety net, not a security boundary: command obfuscation is out of scope. See SECURITY.md in the repository.
 - Known weak spot: dropping a stash right after applying it is flagged as losing work (a false alarm).
-- Three more git cases it gets wrong, found after the release evaluation
-  ([results](https://github.com/OpenInterpretability/ekbasis/blob/main/results/release_eval/git_limits.json)): a
-  commit followed by a destructive command in one check is flagged although the commit saved the work (96%; check the
-  commands after the commit has run); `git rm` on a changed file gets 98% "fails" and also 95% "loses work" (read
-  "loses work" as "if it succeeded"); `git clean -fdx` deleting an ignored `.env` got 0.2%, because the client's state
-  comes from `git status`, which does not list ignored files (run `git clean -n` with the same flags first).
+- Git cases it still gets wrong with client 0.1.1 (334 fresh sandbox scenarios, the truth from running git;
+  [results](https://github.com/OpenInterpretability/ekbasis/blob/main/results/client_0.1.1/RESULTS.md)): an ignored
+  file overwritten by a checkout, merge or `reset --hard <ref>` whose target tracks the same path (6 of 6 missed,
+  although the state names it); `git sparse-checkout set` deleting ignored files and `git rebase --abort` after the
+  resolution was staged (2 of 2 each); `git stash -a` then `git clean -fdx` flagged although nothing is lost; a commit
+  followed by a destructive command in one check is flagged although the commit saved the work (98%; check the
+  commands after the commit has run); `git rm` on a changed file gets "fails" and also 96% "loses work" (read "loses
+  work" as "if it succeeded"). Client 0.1.0 also missed ignored files deleted by `git clean -x` (0.2%): 0.1.1 shows
+  ignored files when a command could touch them.
+- The guard checks uncommitted work only: commands that drop commits (`git branch -D`, `git push --force`,
+  `git reset --hard origin/main` over local commits) are outside its question.
 - Between 70% and 99% confidence it is overconfident (on short checks: 96.9% said, 91.4% right in the 90–99% band):
   treat that band as "check".
 

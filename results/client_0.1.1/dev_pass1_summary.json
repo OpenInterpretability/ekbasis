@@ -1,0 +1,7678 @@
+{
+ "n_items": 507,
+ "n_scored": 507,
+ "errors": [],
+ "unstable_or_unreferenced_dropped": [],
+ "lost_disputed_dropped": 0,
+ "work_losing_items": 128,
+ "keyword_guard": {
+  "flagged": {
+   "k": 100,
+   "n": 128,
+   "rate": 0.7812
+  },
+  "false_alarms": {
+   "k": 112,
+   "n": 379,
+   "rate": 0.2955
+  }
+ },
+ "configs": {
+  "C0": {
+   "lost": {
+    "all": {
+     "n": 507,
+     "work_losing_flagged_at_0.2": {
+      "k": 93,
+      "n": 128,
+      "rate": 0.7266
+     },
+     "false_alarms_at_0.2": {
+      "k": 37,
+      "n": 379,
+      "rate": 0.0976
+     },
+     "accuracy_at_0.5": {
+      "k": 433,
+      "n": 507,
+      "rate": 0.854
+     },
+     "auroc": 0.8903
+    },
+    "visible": {
+     "n": 442,
+     "work_losing_flagged_at_0.2": {
+      "k": 85,
+      "n": 97,
+      "rate": 0.8763
+     },
+     "false_alarms_at_0.2": {
+      "k": 31,
+      "n": 345,
+      "rate": 0.0899
+     },
+     "accuracy_at_0.5": {
+      "k": 397,
+      "n": 442,
+      "rate": 0.8982
+     },
+     "auroc": 0.9647
+    },
+    "hidden": {
+     "n": 65,
+     "work_losing_flagged_at_0.2": {
+      "k": 8,
+      "n": 31,
+      "rate": 0.2581
+     },
+     "false_alarms_at_0.2": {
+      "k": 6,
+      "n": 34,
+      "rate": 0.1765
+     },
+     "accuracy_at_0.5": {
+      "k": 36,
+      "n": 65,
+      "rate": 0.5538
+     },
+     "auroc": 0.6082
+    }
+   },
+   "fails": {
+    "all": {
+     "n": 626,
+     "accuracy_at_0.5": {
+      "k": 529,
+      "n": 626,
+      "rate": 0.845
+     },
+     "recall_at_0.5": {
+      "k": 95,
+      "n": 132,
+      "rate": 0.7197
+     },
+     "false_alarms_at_0.5": {
+      "k": 60,
+      "n": 494,
+      "rate": 0.1215
+     }
+    },
+    "visible": {
+     "n": 576,
+     "accuracy_at_0.5": {
+      "k": 503,
+      "n": 576,
+      "rate": 0.8733
+     },
+     "recall_at_0.5": {
+      "k": 87,
+      "n": 118,
+      "rate": 0.7373
+     },
+     "false_alarms_at_0.5": {
+      "k": 42,
+      "n": 458,
+      "rate": 0.0917
+     }
+    },
+    "hidden": {
+     "n": 50,
+     "accuracy_at_0.5": {
+      "k": 26,
+      "n": 50,
+      "rate": 0.52
+     },
+     "recall_at_0.5": {
+      "k": 8,
+      "n": 14,
+      "rate": 0.5714
+     },
+     "false_alarms_at_0.5": {
+      "k": 18,
+      "n": 36,
+      "rate": 0.5
+     }
+    }
+   },
+   "in_progress": {
+    "n": 492,
+    "accuracy_at_0.5": {
+     "k": 473,
+     "n": 492,
+     "rate": 0.9614
+    },
+    "recall_at_0.5": {
+     "k": 19,
+     "n": 22,
+     "rate": 0.8636
+    },
+    "false_alarms_at_0.5": {
+     "k": 16,
+     "n": 470,
+     "rate": 0.034
+    }
+   },
+   "branch": {
+    "k": 166,
+    "n": 173,
+    "rate": 0.9595
+   },
+   "calibration": {
+    "lost": {
+     "errors": 74,
+     "errors_at_conf_0.9_or_more": {
+      "k": 58,
+      "n": 74,
+      "rate": 0.7838
+     }
+    },
+    "fails": {
+     "errors": 97,
+     "errors_at_conf_0.9_or_more": {
+      "k": 67,
+      "n": 97,
+      "rate": 0.6907
+     }
+    },
+    "in_progress": {
+     "errors": 19,
+     "errors_at_conf_0.9_or_more": {
+      "k": 13,
+      "n": 19,
+      "rate": 0.6842
+     }
+    }
+   },
+   "out_of_scope_flagged": {
+    "k": 2,
+    "n": 27,
+    "rate": 0.0741
+   },
+   "families": {
+    "ignored files": {
+     "lost_right": {
+      "k": 21,
+      "n": 36,
+      "rate": 0.5833
+     },
+     "work_losing_flagged": {
+      "k": 2,
+      "n": 15,
+      "rate": 0.1333
+     },
+     "false_alarms": {
+      "k": 2,
+      "n": 21,
+      "rate": 0.0952
+     },
+     "fails_right": {
+      "k": 42,
+      "n": 46,
+      "rate": 0.913
+     }
+    },
+    "linked worktree": {
+     "lost_right": {
+      "k": 14,
+      "n": 16,
+      "rate": 0.875
+     },
+     "work_losing_flagged": {
+      "k": 0,
+      "n": 2,
+      "rate": 0.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 14,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 9,
+      "n": 16,
+      "rate": 0.5625
+     }
+    },
+    "submodule": {
+     "lost_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     },
+     "work_losing_flagged": {
+      "k": 0,
+      "n": 2,
+      "rate": 0.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     }
+    },
+    "conflict state": {
+     "lost_right": {
+      "k": 30,
+      "n": 46,
+      "rate": 0.6522
+     },
+     "work_losing_flagged": {
+      "k": 8,
+      "n": 16,
+      "rate": 0.5
+     },
+     "false_alarms": {
+      "k": 8,
+      "n": 30,
+      "rate": 0.2667
+     },
+     "fails_right": {
+      "k": 32,
+      "n": 50,
+      "rate": 0.64
+     }
+    },
+    "force switch/checkout": {
+     "lost_right": {
+      "k": 12,
+      "n": 16,
+      "rate": 0.75
+     },
+     "work_losing_flagged": {
+      "k": 5,
+      "n": 8,
+      "rate": 0.625
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 8,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 11,
+      "n": 16,
+      "rate": 0.6875
+     }
+    },
+    "reset modes": {
+     "lost_right": {
+      "k": 30,
+      "n": 39,
+      "rate": 0.7692
+     },
+     "work_losing_flagged": {
+      "k": 11,
+      "n": 15,
+      "rate": 0.7333
+     },
+     "false_alarms": {
+      "k": 5,
+      "n": 24,
+      "rate": 0.2083
+     },
+     "fails_right": {
+      "k": 39,
+      "n": 47,
+      "rate": 0.8298
+     }
+    },
+    "clean flags": {
+     "lost_right": {
+      "k": 20,
+      "n": 22,
+      "rate": 0.9091
+     },
+     "work_losing_flagged": {
+      "k": 10,
+      "n": 10,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 2,
+      "n": 12,
+      "rate": 0.1667
+     },
+     "fails_right": {
+      "k": 20,
+      "n": 22,
+      "rate": 0.9091
+     }
+    },
+    "detach/orphan": {
+     "lost_right": {
+      "k": 20,
+      "n": 20,
+      "rate": 1.0
+     },
+     "work_losing_flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 20,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 11,
+      "n": 20,
+      "rate": 0.55
+     }
+    },
+    "remote": {
+     "lost_right": {
+      "k": 60,
+      "n": 60,
+      "rate": 1.0
+     },
+     "work_losing_flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 60,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 68,
+      "n": 80,
+      "rate": 0.85
+     }
+    },
+    "mv/rm": {
+     "lost_right": {
+      "k": 19,
+      "n": 25,
+      "rate": 0.76
+     },
+     "work_losing_flagged": {
+      "k": 7,
+      "n": 9,
+      "rate": 0.7778
+     },
+     "false_alarms": {
+      "k": 4,
+      "n": 16,
+      "rate": 0.25
+     },
+     "fails_right": {
+      "k": 23,
+      "n": 35,
+      "rate": 0.6571
+     }
+    },
+    "stash": {
+     "lost_right": {
+      "k": 34,
+      "n": 44,
+      "rate": 0.7727
+     },
+     "work_losing_flagged": {
+      "k": 13,
+      "n": 13,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 11,
+      "n": 31,
+      "rate": 0.3548
+     },
+     "fails_right": {
+      "k": 79,
+      "n": 81,
+      "rate": 0.9753
+     }
+    },
+    "everything else": {
+     "lost_right": {
+      "k": 167,
+      "n": 175,
+      "rate": 0.9543
+     },
+     "work_losing_flagged": {
+      "k": 37,
+      "n": 38,
+      "rate": 0.9737
+     },
+     "false_alarms": {
+      "k": 5,
+      "n": 137,
+      "rate": 0.0365
+     },
+     "fails_right": {
+      "k": 189,
+      "n": 205,
+      "rate": 0.922
+     }
+    }
+   },
+   "by_type": {
+    "amend_after_push": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 8,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 14,
+      "n": 16,
+      "rate": 0.875
+     }
+    },
+    "apply_patch": {
+     "lost_right": {
+      "k": 14,
+      "n": 14,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 14,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 9,
+      "n": 14,
+      "rate": 0.6429
+     }
+    },
+    "branch_delete": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 8,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 7,
+      "n": 8,
+      "rate": 0.875
+     }
+    },
+    "branch_force": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 5,
+      "n": 6,
+      "rate": 0.8333
+     }
+    },
+    "checkout_branch_file": {
+     "lost_right": {
+      "k": 9,
+      "n": 9,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 3,
+      "n": 3,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 9,
+      "n": 9,
+      "rate": 1.0
+     }
+    },
+    "checkout_detach": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 8,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 4,
+      "n": 8,
+      "rate": 0.5
+     }
+    },
+    "checkout_force": {
+     "lost_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     },
+     "flagged": {
+      "k": 2,
+      "n": 4,
+      "rate": 0.5
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 5,
+      "n": 8,
+      "rate": 0.625
+     }
+    },
+    "checkout_index": {
+     "lost_right": {
+      "k": 6,
+      "n": 9,
+      "rate": 0.6667
+     },
+     "flagged": {
+      "k": 3,
+      "n": 3,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 3,
+      "n": 6,
+      "rate": 0.5
+     },
+     "fails_right": {
+      "k": 9,
+      "n": 9,
+      "rate": 1.0
+     }
+    },
+    "checkout_ours_theirs": {
+     "lost_right": {
+      "k": 4,
+      "n": 8,
+      "rate": 0.5
+     },
+     "flagged": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "fails_right": {
+      "k": 12,
+      "n": 12,
+      "rate": 1.0
+     }
+    },
+    "checkout_over_ignored": {
+     "lost_right": {
+      "k": 3,
+      "n": 6,
+      "rate": 0.5
+     },
+     "flagged": {
+      "k": 0,
+      "n": 3,
+      "rate": 0.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 3,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "checkout_paths": {
+     "lost_right": {
+      "k": 12,
+      "n": 12,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 12,
+      "n": 12,
+      "rate": 1.0
+     }
+    },
+    "checkout_tag": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 3,
+      "n": 6,
+      "rate": 0.5
+     }
+    },
+    "cherry_pick_midconflict": {
+     "lost_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     },
+     "flagged": {
+      "k": 0,
+      "n": 2,
+      "rate": 0.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 2,
+      "n": 8,
+      "rate": 0.25
+     }
+    },
+    "cherry_pick_n": {
+     "lost_right": {
+      "k": 5,
+      "n": 6,
+      "rate": 0.8333
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 2,
+      "n": 6,
+      "rate": 0.3333
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "clean_exclude_or_path": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     }
+    },
+    "clean_files_vs_dirs": {
+     "lost_right": {
+      "k": 4,
+      "n": 6,
+      "rate": 0.6667
+     },
+     "flagged": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 2,
+      "n": 2,
+      "rate": 1.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "clean_force_flag": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 2,
+      "n": 2,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     }
+    },
+    "clean_ignored_X": {
+     "lost_right": {
+      "k": 2,
+      "n": 6,
+      "rate": 0.3333
+     },
+     "flagged": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 2,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "clean_ignored_x": {
+     "lost_right": {
+      "k": 4,
+      "n": 6,
+      "rate": 0.6667
+     },
+     "flagged": {
+      "k": 0,
+      "n": 2,
+      "rate": 0.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "commit_then_reset": {
+     "lost_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     },
+     "flagged": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 2,
+      "n": 4,
+      "rate": 0.5
+     },
+     "fails_right": {
+      "k": 16,
+      "n": 16,
+      "rate": 1.0
+     }
+    },
+    "fetch_variants": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "gc_after_reset": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 2,
+      "n": 2,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 14,
+      "n": 14,
+      "rate": 1.0
+     }
+    },
+    "merge_midconflict": {
+     "lost_right": {
+      "k": 10,
+      "n": 14,
+      "rate": 0.7143
+     },
+     "flagged": {
+      "k": 3,
+      "n": 4,
+      "rate": 0.75
+     },
+     "false_alarms": {
+      "k": 3,
+      "n": 10,
+      "rate": 0.3
+     },
+     "fails_right": {
+      "k": 8,
+      "n": 14,
+      "rate": 0.5714
+     }
+    },
+    "merge_no_commit": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "merge_over_local": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 8,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     }
+    },
+    "merge_strategy": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 8,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     }
+    },
+    "mv_variants": {
+     "lost_right": {
+      "k": 7,
+      "n": 9,
+      "rate": 0.7778
+     },
+     "flagged": {
+      "k": 1,
+      "n": 3,
+      "rate": 0.3333
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 3,
+      "n": 9,
+      "rate": 0.3333
+     }
+    },
+    "orphan_branch": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 4,
+      "n": 6,
+      "rate": 0.6667
+     }
+    },
+    "pull_dirty": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "pull_divergent": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 8,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 4,
+      "n": 8,
+      "rate": 0.5
+     }
+    },
+    "pull_rebase": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 8,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 7,
+      "n": 8,
+      "rate": 0.875
+     }
+    },
+    "push_branches": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 8,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     }
+    },
+    "push_force": {
+     "lost_right": {
+      "k": 10,
+      "n": 10,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 10,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 7,
+      "n": 10,
+      "rate": 0.7
+     }
+    },
+    "read_tree_reset": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     }
+    },
+    "rebase_abort": {
+     "lost_right": {
+      "k": 2,
+      "n": 6,
+      "rate": 0.3333
+     },
+     "flagged": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 2,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "rebase_autostash": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 4,
+      "n": 6,
+      "rate": 0.6667
+     }
+    },
+    "rebase_continue": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 4,
+      "n": 6,
+      "rate": 0.6667
+     }
+    },
+    "rebase_onto": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 5,
+      "n": 6,
+      "rate": 0.8333
+     }
+    },
+    "rebase_skip": {
+     "lost_right": {
+      "k": 2,
+      "n": 4,
+      "rate": 0.5
+     },
+     "flagged": {
+      "k": 1,
+      "n": 2,
+      "rate": 0.5
+     },
+     "false_alarms": {
+      "k": 1,
+      "n": 2,
+      "rate": 0.5
+     },
+     "fails_right": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     }
+    },
+    "refs_plumbing": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "reset_hard_origin": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     }
+    },
+    "reset_hard_path": {
+     "lost_right": {
+      "k": 6,
+      "n": 9,
+      "rate": 0.6667
+     },
+     "flagged": {
+      "k": 3,
+      "n": 3,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 3,
+      "n": 6,
+      "rate": 0.5
+     },
+     "fails_right": {
+      "k": 7,
+      "n": 9,
+      "rate": 0.7778
+     }
+    },
+    "reset_keep": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 2,
+      "n": 6,
+      "rate": 0.3333
+     }
+    },
+    "reset_merge_commit": {
+     "lost_right": {
+      "k": 4,
+      "n": 8,
+      "rate": 0.5
+     },
+     "flagged": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     }
+    },
+    "restore_dot": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     }
+    },
+    "restore_from_ref": {
+     "lost_right": {
+      "k": 10,
+      "n": 10,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 10,
+      "n": 10,
+      "rate": 1.0
+     }
+    },
+    "restore_source_old": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     }
+    },
+    "restore_staged_layers": {
+     "lost_right": {
+      "k": 7,
+      "n": 9,
+      "rate": 0.7778
+     },
+     "flagged": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 3,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 9,
+      "n": 9,
+      "rate": 1.0
+     }
+    },
+    "revert_older": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 8,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 4,
+      "n": 8,
+      "rate": 0.5
+     }
+    },
+    "rm_dir_then_checkout": {
+     "lost_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     },
+     "flagged": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 2,
+      "n": 4,
+      "rate": 0.5
+     },
+     "fails_right": {
+      "k": 10,
+      "n": 16,
+      "rate": 0.625
+     }
+    },
+    "rm_variants": {
+     "lost_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     },
+     "flagged": {
+      "k": 2,
+      "n": 2,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 2,
+      "n": 6,
+      "rate": 0.3333
+     },
+     "fails_right": {
+      "k": 10,
+      "n": 10,
+      "rate": 1.0
+     }
+    },
+    "sparse_checkout": {
+     "lost_right": {
+      "k": 8,
+      "n": 10,
+      "rate": 0.8
+     },
+     "flagged": {
+      "k": 0,
+      "n": 2,
+      "rate": 0.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 8,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 8,
+      "n": 12,
+      "rate": 0.6667
+     }
+    },
+    "stash_branch": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 5,
+      "n": 6,
+      "rate": 0.8333
+     }
+    },
+    "stash_clear": {
+     "lost_right": {
+      "k": 4,
+      "n": 6,
+      "rate": 0.6667
+     },
+     "flagged": {
+      "k": 2,
+      "n": 2,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 2,
+      "n": 4,
+      "rate": 0.5
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "stash_drop_ref": {
+     "lost_right": {
+      "k": 2,
+      "n": 6,
+      "rate": 0.3333
+     },
+     "flagged": {
+      "k": 2,
+      "n": 2,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "stash_keep_index_seq": {
+     "lost_right": {
+      "k": 4,
+      "n": 6,
+      "rate": 0.6667
+     },
+     "flagged": {
+      "k": 3,
+      "n": 3,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 3,
+      "n": 3,
+      "rate": 1.0
+     },
+     "fails_right": {
+      "k": 15,
+      "n": 15,
+      "rate": 1.0
+     }
+    },
+    "stash_pathspec": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 16,
+      "n": 16,
+      "rate": 1.0
+     }
+    },
+    "stash_pull_pop": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 18,
+      "n": 18,
+      "rate": 1.0
+     }
+    },
+    "stash_staged": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 2,
+      "n": 2,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 12,
+      "n": 12,
+      "rate": 1.0
+     }
+    },
+    "stash_switch_pop": {
+     "lost_right": {
+      "k": 4,
+      "n": 6,
+      "rate": 0.6667
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 2,
+      "n": 6,
+      "rate": 0.3333
+     },
+     "fails_right": {
+      "k": 19,
+      "n": 20,
+      "rate": 0.95
+     }
+    },
+    "stash_untracked_seq": {
+     "lost_right": {
+      "k": 4,
+      "n": 8,
+      "rate": 0.5
+     },
+     "flagged": {
+      "k": 2,
+      "n": 4,
+      "rate": 0.5
+     },
+     "false_alarms": {
+      "k": 2,
+      "n": 4,
+      "rate": 0.5
+     },
+     "fails_right": {
+      "k": 16,
+      "n": 16,
+      "rate": 1.0
+     }
+    },
+    "submodule_update": {
+     "lost_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     },
+     "flagged": {
+      "k": 0,
+      "n": 2,
+      "rate": 0.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     }
+    },
+    "switch_discard": {
+     "lost_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     },
+     "flagged": {
+      "k": 3,
+      "n": 4,
+      "rate": 0.75
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     }
+    },
+    "switch_force_create": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "wip_branch": {
+     "lost_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     },
+     "flagged": {
+      "k": 1,
+      "n": 2,
+      "rate": 0.5
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 30,
+      "n": 30,
+      "rate": 1.0
+     }
+    },
+    "worktree_add": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 8,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 7,
+      "n": 8,
+      "rate": 0.875
+     }
+    },
+    "worktree_remove": {
+     "lost_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     },
+     "flagged": {
+      "k": 0,
+      "n": 2,
+      "rate": 0.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 2,
+      "n": 8,
+      "rate": 0.25
+     }
+    }
+   },
+   "seconds_per_check_median": 2.63
+  },
+  "C1": {
+   "lost": {
+    "all": {
+     "n": 507,
+     "work_losing_flagged_at_0.2": {
+      "k": 106,
+      "n": 128,
+      "rate": 0.8281
+     },
+     "false_alarms_at_0.2": {
+      "k": 46,
+      "n": 379,
+      "rate": 0.1214
+     },
+     "accuracy_at_0.5": {
+      "k": 437,
+      "n": 507,
+      "rate": 0.8619
+     },
+     "auroc": 0.923
+    },
+    "visible": {
+     "n": 442,
+     "work_losing_flagged_at_0.2": {
+      "k": 86,
+      "n": 97,
+      "rate": 0.8866
+     },
+     "false_alarms_at_0.2": {
+      "k": 35,
+      "n": 345,
+      "rate": 0.1014
+     },
+     "accuracy_at_0.5": {
+      "k": 392,
+      "n": 442,
+      "rate": 0.8869
+     },
+     "auroc": 0.9678
+    },
+    "hidden": {
+     "n": 65,
+     "work_losing_flagged_at_0.2": {
+      "k": 20,
+      "n": 31,
+      "rate": 0.6452
+     },
+     "false_alarms_at_0.2": {
+      "k": 11,
+      "n": 34,
+      "rate": 0.3235
+     },
+     "accuracy_at_0.5": {
+      "k": 45,
+      "n": 65,
+      "rate": 0.6923
+     },
+     "auroc": 0.7562
+    }
+   },
+   "fails": {
+    "all": {
+     "n": 626,
+     "accuracy_at_0.5": {
+      "k": 545,
+      "n": 626,
+      "rate": 0.8706
+     },
+     "recall_at_0.5": {
+      "k": 101,
+      "n": 132,
+      "rate": 0.7652
+     },
+     "false_alarms_at_0.5": {
+      "k": 50,
+      "n": 494,
+      "rate": 0.1012
+     }
+    },
+    "visible": {
+     "n": 576,
+     "accuracy_at_0.5": {
+      "k": 510,
+      "n": 576,
+      "rate": 0.8854
+     },
+     "recall_at_0.5": {
+      "k": 94,
+      "n": 118,
+      "rate": 0.7966
+     },
+     "false_alarms_at_0.5": {
+      "k": 42,
+      "n": 458,
+      "rate": 0.0917
+     }
+    },
+    "hidden": {
+     "n": 50,
+     "accuracy_at_0.5": {
+      "k": 35,
+      "n": 50,
+      "rate": 0.7
+     },
+     "recall_at_0.5": {
+      "k": 7,
+      "n": 14,
+      "rate": 0.5
+     },
+     "false_alarms_at_0.5": {
+      "k": 8,
+      "n": 36,
+      "rate": 0.2222
+     }
+    }
+   },
+   "in_progress": {
+    "n": 492,
+    "accuracy_at_0.5": {
+     "k": 473,
+     "n": 492,
+     "rate": 0.9614
+    },
+    "recall_at_0.5": {
+     "k": 19,
+     "n": 22,
+     "rate": 0.8636
+    },
+    "false_alarms_at_0.5": {
+     "k": 16,
+     "n": 470,
+     "rate": 0.034
+    }
+   },
+   "branch": {
+    "k": 167,
+    "n": 173,
+    "rate": 0.9653
+   },
+   "calibration": {
+    "lost": {
+     "errors": 70,
+     "errors_at_conf_0.9_or_more": {
+      "k": 50,
+      "n": 70,
+      "rate": 0.7143
+     }
+    },
+    "fails": {
+     "errors": 81,
+     "errors_at_conf_0.9_or_more": {
+      "k": 53,
+      "n": 81,
+      "rate": 0.6543
+     }
+    },
+    "in_progress": {
+     "errors": 19,
+     "errors_at_conf_0.9_or_more": {
+      "k": 11,
+      "n": 19,
+      "rate": 0.5789
+     }
+    }
+   },
+   "out_of_scope_flagged": {
+    "k": 3,
+    "n": 27,
+    "rate": 0.1111
+   },
+   "families": {
+    "ignored files": {
+     "lost_right": {
+      "k": 23,
+      "n": 36,
+      "rate": 0.6389
+     },
+     "work_losing_flagged": {
+      "k": 4,
+      "n": 15,
+      "rate": 0.2667
+     },
+     "false_alarms": {
+      "k": 2,
+      "n": 21,
+      "rate": 0.0952
+     },
+     "fails_right": {
+      "k": 42,
+      "n": 46,
+      "rate": 0.913
+     }
+    },
+    "linked worktree": {
+     "lost_right": {
+      "k": 14,
+      "n": 16,
+      "rate": 0.875
+     },
+     "work_losing_flagged": {
+      "k": 2,
+      "n": 2,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 2,
+      "n": 14,
+      "rate": 0.1429
+     },
+     "fails_right": {
+      "k": 16,
+      "n": 16,
+      "rate": 1.0
+     }
+    },
+    "submodule": {
+     "lost_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     },
+     "work_losing_flagged": {
+      "k": 2,
+      "n": 2,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 2,
+      "n": 6,
+      "rate": 0.3333
+     },
+     "fails_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     }
+    },
+    "conflict state": {
+     "lost_right": {
+      "k": 35,
+      "n": 46,
+      "rate": 0.7609
+     },
+     "work_losing_flagged": {
+      "k": 14,
+      "n": 16,
+      "rate": 0.875
+     },
+     "false_alarms": {
+      "k": 11,
+      "n": 30,
+      "rate": 0.3667
+     },
+     "fails_right": {
+      "k": 36,
+      "n": 50,
+      "rate": 0.72
+     }
+    },
+    "force switch/checkout": {
+     "lost_right": {
+      "k": 12,
+      "n": 16,
+      "rate": 0.75
+     },
+     "work_losing_flagged": {
+      "k": 5,
+      "n": 8,
+      "rate": 0.625
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 8,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 11,
+      "n": 16,
+      "rate": 0.6875
+     }
+    },
+    "reset modes": {
+     "lost_right": {
+      "k": 30,
+      "n": 39,
+      "rate": 0.7692
+     },
+     "work_losing_flagged": {
+      "k": 11,
+      "n": 15,
+      "rate": 0.7333
+     },
+     "false_alarms": {
+      "k": 5,
+      "n": 24,
+      "rate": 0.2083
+     },
+     "fails_right": {
+      "k": 40,
+      "n": 47,
+      "rate": 0.8511
+     }
+    },
+    "clean flags": {
+     "lost_right": {
+      "k": 20,
+      "n": 22,
+      "rate": 0.9091
+     },
+     "work_losing_flagged": {
+      "k": 10,
+      "n": 10,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 2,
+      "n": 12,
+      "rate": 0.1667
+     },
+     "fails_right": {
+      "k": 20,
+      "n": 22,
+      "rate": 0.9091
+     }
+    },
+    "detach/orphan": {
+     "lost_right": {
+      "k": 20,
+      "n": 20,
+      "rate": 1.0
+     },
+     "work_losing_flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 20,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 11,
+      "n": 20,
+      "rate": 0.55
+     }
+    },
+    "remote": {
+     "lost_right": {
+      "k": 60,
+      "n": 60,
+      "rate": 1.0
+     },
+     "work_losing_flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 60,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 69,
+      "n": 80,
+      "rate": 0.8625
+     }
+    },
+    "mv/rm": {
+     "lost_right": {
+      "k": 19,
+      "n": 25,
+      "rate": 0.76
+     },
+     "work_losing_flagged": {
+      "k": 7,
+      "n": 9,
+      "rate": 0.7778
+     },
+     "false_alarms": {
+      "k": 4,
+      "n": 16,
+      "rate": 0.25
+     },
+     "fails_right": {
+      "k": 23,
+      "n": 35,
+      "rate": 0.6571
+     }
+    },
+    "stash": {
+     "lost_right": {
+      "k": 33,
+      "n": 44,
+      "rate": 0.75
+     },
+     "work_losing_flagged": {
+      "k": 13,
+      "n": 13,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 11,
+      "n": 31,
+      "rate": 0.3548
+     },
+     "fails_right": {
+      "k": 79,
+      "n": 81,
+      "rate": 0.9753
+     }
+    },
+    "everything else": {
+     "lost_right": {
+      "k": 165,
+      "n": 175,
+      "rate": 0.9429
+     },
+     "work_losing_flagged": {
+      "k": 38,
+      "n": 38,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 7,
+      "n": 137,
+      "rate": 0.0511
+     },
+     "fails_right": {
+      "k": 190,
+      "n": 205,
+      "rate": 0.9268
+     }
+    }
+   },
+   "by_type": {
+    "amend_after_push": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 8,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 15,
+      "n": 16,
+      "rate": 0.9375
+     }
+    },
+    "apply_patch": {
+     "lost_right": {
+      "k": 14,
+      "n": 14,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 14,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 9,
+      "n": 14,
+      "rate": 0.6429
+     }
+    },
+    "branch_delete": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 8,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 7,
+      "n": 8,
+      "rate": 0.875
+     }
+    },
+    "branch_force": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 5,
+      "n": 6,
+      "rate": 0.8333
+     }
+    },
+    "checkout_branch_file": {
+     "lost_right": {
+      "k": 9,
+      "n": 9,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 3,
+      "n": 3,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 9,
+      "n": 9,
+      "rate": 1.0
+     }
+    },
+    "checkout_detach": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 8,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 4,
+      "n": 8,
+      "rate": 0.5
+     }
+    },
+    "checkout_force": {
+     "lost_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     },
+     "flagged": {
+      "k": 2,
+      "n": 4,
+      "rate": 0.5
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 5,
+      "n": 8,
+      "rate": 0.625
+     }
+    },
+    "checkout_index": {
+     "lost_right": {
+      "k": 6,
+      "n": 9,
+      "rate": 0.6667
+     },
+     "flagged": {
+      "k": 3,
+      "n": 3,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 3,
+      "n": 6,
+      "rate": 0.5
+     },
+     "fails_right": {
+      "k": 9,
+      "n": 9,
+      "rate": 1.0
+     }
+    },
+    "checkout_ours_theirs": {
+     "lost_right": {
+      "k": 4,
+      "n": 8,
+      "rate": 0.5
+     },
+     "flagged": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "fails_right": {
+      "k": 12,
+      "n": 12,
+      "rate": 1.0
+     }
+    },
+    "checkout_over_ignored": {
+     "lost_right": {
+      "k": 3,
+      "n": 6,
+      "rate": 0.5
+     },
+     "flagged": {
+      "k": 0,
+      "n": 3,
+      "rate": 0.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 3,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "checkout_paths": {
+     "lost_right": {
+      "k": 12,
+      "n": 12,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 12,
+      "n": 12,
+      "rate": 1.0
+     }
+    },
+    "checkout_tag": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 3,
+      "n": 6,
+      "rate": 0.5
+     }
+    },
+    "cherry_pick_midconflict": {
+     "lost_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     },
+     "flagged": {
+      "k": 2,
+      "n": 2,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 2,
+      "n": 6,
+      "rate": 0.3333
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     }
+    },
+    "cherry_pick_n": {
+     "lost_right": {
+      "k": 5,
+      "n": 6,
+      "rate": 0.8333
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 2,
+      "n": 6,
+      "rate": 0.3333
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "clean_exclude_or_path": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     }
+    },
+    "clean_files_vs_dirs": {
+     "lost_right": {
+      "k": 4,
+      "n": 6,
+      "rate": 0.6667
+     },
+     "flagged": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 2,
+      "n": 2,
+      "rate": 1.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "clean_force_flag": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 2,
+      "n": 2,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     }
+    },
+    "clean_ignored_X": {
+     "lost_right": {
+      "k": 2,
+      "n": 6,
+      "rate": 0.3333
+     },
+     "flagged": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 2,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "clean_ignored_x": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 2,
+      "n": 2,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "commit_then_reset": {
+     "lost_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     },
+     "flagged": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 2,
+      "n": 4,
+      "rate": 0.5
+     },
+     "fails_right": {
+      "k": 16,
+      "n": 16,
+      "rate": 1.0
+     }
+    },
+    "fetch_variants": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "gc_after_reset": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 2,
+      "n": 2,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 14,
+      "n": 14,
+      "rate": 1.0
+     }
+    },
+    "merge_midconflict": {
+     "lost_right": {
+      "k": 12,
+      "n": 14,
+      "rate": 0.8571
+     },
+     "flagged": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 4,
+      "n": 10,
+      "rate": 0.4
+     },
+     "fails_right": {
+      "k": 8,
+      "n": 14,
+      "rate": 0.5714
+     }
+    },
+    "merge_no_commit": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "merge_over_local": {
+     "lost_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 2,
+      "n": 8,
+      "rate": 0.25
+     },
+     "fails_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     }
+    },
+    "merge_strategy": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 8,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     }
+    },
+    "mv_variants": {
+     "lost_right": {
+      "k": 7,
+      "n": 9,
+      "rate": 0.7778
+     },
+     "flagged": {
+      "k": 1,
+      "n": 3,
+      "rate": 0.3333
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 3,
+      "n": 9,
+      "rate": 0.3333
+     }
+    },
+    "orphan_branch": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 4,
+      "n": 6,
+      "rate": 0.6667
+     }
+    },
+    "pull_dirty": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "pull_divergent": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 8,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     }
+    },
+    "pull_rebase": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 8,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 4,
+      "n": 8,
+      "rate": 0.5
+     }
+    },
+    "push_branches": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 8,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     }
+    },
+    "push_force": {
+     "lost_right": {
+      "k": 10,
+      "n": 10,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 10,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 10,
+      "rate": 0.6
+     }
+    },
+    "read_tree_reset": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     }
+    },
+    "rebase_abort": {
+     "lost_right": {
+      "k": 4,
+      "n": 6,
+      "rate": 0.6667
+     },
+     "flagged": {
+      "k": 2,
+      "n": 4,
+      "rate": 0.5
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 2,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "rebase_autostash": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 3,
+      "n": 6,
+      "rate": 0.5
+     }
+    },
+    "rebase_continue": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 4,
+      "n": 6,
+      "rate": 0.6667
+     }
+    },
+    "rebase_onto": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 5,
+      "n": 6,
+      "rate": 0.8333
+     }
+    },
+    "rebase_skip": {
+     "lost_right": {
+      "k": 3,
+      "n": 4,
+      "rate": 0.75
+     },
+     "flagged": {
+      "k": 2,
+      "n": 2,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 1,
+      "n": 2,
+      "rate": 0.5
+     },
+     "fails_right": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     }
+    },
+    "refs_plumbing": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "reset_hard_origin": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     }
+    },
+    "reset_hard_path": {
+     "lost_right": {
+      "k": 6,
+      "n": 9,
+      "rate": 0.6667
+     },
+     "flagged": {
+      "k": 3,
+      "n": 3,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 3,
+      "n": 6,
+      "rate": 0.5
+     },
+     "fails_right": {
+      "k": 7,
+      "n": 9,
+      "rate": 0.7778
+     }
+    },
+    "reset_keep": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 2,
+      "n": 6,
+      "rate": 0.3333
+     }
+    },
+    "reset_merge_commit": {
+     "lost_right": {
+      "k": 4,
+      "n": 8,
+      "rate": 0.5
+     },
+     "flagged": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 7,
+      "n": 8,
+      "rate": 0.875
+     }
+    },
+    "restore_dot": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     }
+    },
+    "restore_from_ref": {
+     "lost_right": {
+      "k": 10,
+      "n": 10,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 10,
+      "n": 10,
+      "rate": 1.0
+     }
+    },
+    "restore_source_old": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     }
+    },
+    "restore_staged_layers": {
+     "lost_right": {
+      "k": 7,
+      "n": 9,
+      "rate": 0.7778
+     },
+     "flagged": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 3,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 9,
+      "n": 9,
+      "rate": 1.0
+     }
+    },
+    "revert_older": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 8,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 4,
+      "n": 8,
+      "rate": 0.5
+     }
+    },
+    "rm_dir_then_checkout": {
+     "lost_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     },
+     "flagged": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 2,
+      "n": 4,
+      "rate": 0.5
+     },
+     "fails_right": {
+      "k": 10,
+      "n": 16,
+      "rate": 0.625
+     }
+    },
+    "rm_variants": {
+     "lost_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     },
+     "flagged": {
+      "k": 2,
+      "n": 2,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 2,
+      "n": 6,
+      "rate": 0.3333
+     },
+     "fails_right": {
+      "k": 10,
+      "n": 10,
+      "rate": 1.0
+     }
+    },
+    "sparse_checkout": {
+     "lost_right": {
+      "k": 8,
+      "n": 10,
+      "rate": 0.8
+     },
+     "flagged": {
+      "k": 0,
+      "n": 2,
+      "rate": 0.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 8,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 8,
+      "n": 12,
+      "rate": 0.6667
+     }
+    },
+    "stash_branch": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 5,
+      "n": 6,
+      "rate": 0.8333
+     }
+    },
+    "stash_clear": {
+     "lost_right": {
+      "k": 4,
+      "n": 6,
+      "rate": 0.6667
+     },
+     "flagged": {
+      "k": 2,
+      "n": 2,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 2,
+      "n": 4,
+      "rate": 0.5
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "stash_drop_ref": {
+     "lost_right": {
+      "k": 2,
+      "n": 6,
+      "rate": 0.3333
+     },
+     "flagged": {
+      "k": 2,
+      "n": 2,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "stash_keep_index_seq": {
+     "lost_right": {
+      "k": 3,
+      "n": 6,
+      "rate": 0.5
+     },
+     "flagged": {
+      "k": 3,
+      "n": 3,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 3,
+      "n": 3,
+      "rate": 1.0
+     },
+     "fails_right": {
+      "k": 15,
+      "n": 15,
+      "rate": 1.0
+     }
+    },
+    "stash_pathspec": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 16,
+      "n": 16,
+      "rate": 1.0
+     }
+    },
+    "stash_pull_pop": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 18,
+      "n": 18,
+      "rate": 1.0
+     }
+    },
+    "stash_staged": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 2,
+      "n": 2,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 12,
+      "n": 12,
+      "rate": 1.0
+     }
+    },
+    "stash_switch_pop": {
+     "lost_right": {
+      "k": 4,
+      "n": 6,
+      "rate": 0.6667
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 2,
+      "n": 6,
+      "rate": 0.3333
+     },
+     "fails_right": {
+      "k": 19,
+      "n": 20,
+      "rate": 0.95
+     }
+    },
+    "stash_untracked_seq": {
+     "lost_right": {
+      "k": 4,
+      "n": 8,
+      "rate": 0.5
+     },
+     "flagged": {
+      "k": 2,
+      "n": 4,
+      "rate": 0.5
+     },
+     "false_alarms": {
+      "k": 2,
+      "n": 4,
+      "rate": 0.5
+     },
+     "fails_right": {
+      "k": 16,
+      "n": 16,
+      "rate": 1.0
+     }
+    },
+    "submodule_update": {
+     "lost_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     },
+     "flagged": {
+      "k": 2,
+      "n": 2,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 2,
+      "n": 6,
+      "rate": 0.3333
+     },
+     "fails_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     }
+    },
+    "switch_discard": {
+     "lost_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     },
+     "flagged": {
+      "k": 3,
+      "n": 4,
+      "rate": 0.75
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     }
+    },
+    "switch_force_create": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "wip_branch": {
+     "lost_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     },
+     "flagged": {
+      "k": 2,
+      "n": 2,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 30,
+      "n": 30,
+      "rate": 1.0
+     }
+    },
+    "worktree_add": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 8,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     }
+    },
+    "worktree_remove": {
+     "lost_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     },
+     "flagged": {
+      "k": 2,
+      "n": 2,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 2,
+      "n": 6,
+      "rate": 0.3333
+     },
+     "fails_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     }
+    }
+   },
+   "seconds_per_check_median": 2.78
+  },
+  "C2": {
+   "lost": {
+    "all": {
+     "n": 507,
+     "work_losing_flagged_at_0.2": {
+      "k": 116,
+      "n": 128,
+      "rate": 0.9062
+     },
+     "false_alarms_at_0.2": {
+      "k": 37,
+      "n": 379,
+      "rate": 0.0976
+     },
+     "accuracy_at_0.5": {
+      "k": 460,
+      "n": 507,
+      "rate": 0.9073
+     },
+     "auroc": 0.9624
+    },
+    "visible": {
+     "n": 442,
+     "work_losing_flagged_at_0.2": {
+      "k": 92,
+      "n": 97,
+      "rate": 0.9485
+     },
+     "false_alarms_at_0.2": {
+      "k": 27,
+      "n": 345,
+      "rate": 0.0783
+     },
+     "accuracy_at_0.5": {
+      "k": 410,
+      "n": 442,
+      "rate": 0.9276
+     },
+     "auroc": 0.9869
+    },
+    "hidden": {
+     "n": 65,
+     "work_losing_flagged_at_0.2": {
+      "k": 24,
+      "n": 31,
+      "rate": 0.7742
+     },
+     "false_alarms_at_0.2": {
+      "k": 10,
+      "n": 34,
+      "rate": 0.2941
+     },
+     "accuracy_at_0.5": {
+      "k": 50,
+      "n": 65,
+      "rate": 0.7692
+     },
+     "auroc": 0.8904
+    }
+   },
+   "fails": {
+    "all": {
+     "n": 626,
+     "accuracy_at_0.5": {
+      "k": 582,
+      "n": 626,
+      "rate": 0.9297
+     },
+     "recall_at_0.5": {
+      "k": 110,
+      "n": 132,
+      "rate": 0.8333
+     },
+     "false_alarms_at_0.5": {
+      "k": 22,
+      "n": 494,
+      "rate": 0.0445
+     }
+    },
+    "visible": {
+     "n": 576,
+     "accuracy_at_0.5": {
+      "k": 543,
+      "n": 576,
+      "rate": 0.9427
+     },
+     "recall_at_0.5": {
+      "k": 103,
+      "n": 118,
+      "rate": 0.8729
+     },
+     "false_alarms_at_0.5": {
+      "k": 18,
+      "n": 458,
+      "rate": 0.0393
+     }
+    },
+    "hidden": {
+     "n": 50,
+     "accuracy_at_0.5": {
+      "k": 39,
+      "n": 50,
+      "rate": 0.78
+     },
+     "recall_at_0.5": {
+      "k": 7,
+      "n": 14,
+      "rate": 0.5
+     },
+     "false_alarms_at_0.5": {
+      "k": 4,
+      "n": 36,
+      "rate": 0.1111
+     }
+    }
+   },
+   "in_progress": {
+    "n": 492,
+    "accuracy_at_0.5": {
+     "k": 475,
+     "n": 492,
+     "rate": 0.9654
+    },
+    "recall_at_0.5": {
+     "k": 19,
+     "n": 22,
+     "rate": 0.8636
+    },
+    "false_alarms_at_0.5": {
+     "k": 14,
+     "n": 470,
+     "rate": 0.0298
+    }
+   },
+   "branch": {
+    "k": 166,
+    "n": 173,
+    "rate": 0.9595
+   },
+   "calibration": {
+    "lost": {
+     "errors": 47,
+     "errors_at_conf_0.9_or_more": {
+      "k": 32,
+      "n": 47,
+      "rate": 0.6809
+     }
+    },
+    "fails": {
+     "errors": 44,
+     "errors_at_conf_0.9_or_more": {
+      "k": 27,
+      "n": 44,
+      "rate": 0.6136
+     }
+    },
+    "in_progress": {
+     "errors": 17,
+     "errors_at_conf_0.9_or_more": {
+      "k": 12,
+      "n": 17,
+      "rate": 0.7059
+     }
+    }
+   },
+   "out_of_scope_flagged": {
+    "k": 4,
+    "n": 27,
+    "rate": 0.1481
+   },
+   "families": {
+    "ignored files": {
+     "lost_right": {
+      "k": 29,
+      "n": 36,
+      "rate": 0.8056
+     },
+     "work_losing_flagged": {
+      "k": 8,
+      "n": 15,
+      "rate": 0.5333
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 21,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 46,
+      "n": 46,
+      "rate": 1.0
+     }
+    },
+    "linked worktree": {
+     "lost_right": {
+      "k": 16,
+      "n": 16,
+      "rate": 1.0
+     },
+     "work_losing_flagged": {
+      "k": 2,
+      "n": 2,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 14,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 15,
+      "n": 16,
+      "rate": 0.9375
+     }
+    },
+    "submodule": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "work_losing_flagged": {
+      "k": 2,
+      "n": 2,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     }
+    },
+    "conflict state": {
+     "lost_right": {
+      "k": 35,
+      "n": 46,
+      "rate": 0.7609
+     },
+     "work_losing_flagged": {
+      "k": 14,
+      "n": 16,
+      "rate": 0.875
+     },
+     "false_alarms": {
+      "k": 12,
+      "n": 30,
+      "rate": 0.4
+     },
+     "fails_right": {
+      "k": 44,
+      "n": 50,
+      "rate": 0.88
+     }
+    },
+    "force switch/checkout": {
+     "lost_right": {
+      "k": 14,
+      "n": 16,
+      "rate": 0.875
+     },
+     "work_losing_flagged": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 8,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 16,
+      "n": 16,
+      "rate": 1.0
+     }
+    },
+    "reset modes": {
+     "lost_right": {
+      "k": 37,
+      "n": 39,
+      "rate": 0.9487
+     },
+     "work_losing_flagged": {
+      "k": 15,
+      "n": 15,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 2,
+      "n": 24,
+      "rate": 0.0833
+     },
+     "fails_right": {
+      "k": 45,
+      "n": 47,
+      "rate": 0.9574
+     }
+    },
+    "clean flags": {
+     "lost_right": {
+      "k": 22,
+      "n": 22,
+      "rate": 1.0
+     },
+     "work_losing_flagged": {
+      "k": 10,
+      "n": 10,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 1,
+      "n": 12,
+      "rate": 0.0833
+     },
+     "fails_right": {
+      "k": 22,
+      "n": 22,
+      "rate": 1.0
+     }
+    },
+    "detach/orphan": {
+     "lost_right": {
+      "k": 20,
+      "n": 20,
+      "rate": 1.0
+     },
+     "work_losing_flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 20,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 15,
+      "n": 20,
+      "rate": 0.75
+     }
+    },
+    "remote": {
+     "lost_right": {
+      "k": 60,
+      "n": 60,
+      "rate": 1.0
+     },
+     "work_losing_flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 60,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 71,
+      "n": 80,
+      "rate": 0.8875
+     }
+    },
+    "mv/rm": {
+     "lost_right": {
+      "k": 21,
+      "n": 25,
+      "rate": 0.84
+     },
+     "work_losing_flagged": {
+      "k": 9,
+      "n": 9,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 4,
+      "n": 16,
+      "rate": 0.25
+     },
+     "fails_right": {
+      "k": 29,
+      "n": 35,
+      "rate": 0.8286
+     }
+    },
+    "stash": {
+     "lost_right": {
+      "k": 33,
+      "n": 44,
+      "rate": 0.75
+     },
+     "work_losing_flagged": {
+      "k": 13,
+      "n": 13,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 11,
+      "n": 31,
+      "rate": 0.3548
+     },
+     "fails_right": {
+      "k": 79,
+      "n": 81,
+      "rate": 0.9753
+     }
+    },
+    "everything else": {
+     "lost_right": {
+      "k": 165,
+      "n": 175,
+      "rate": 0.9429
+     },
+     "work_losing_flagged": {
+      "k": 37,
+      "n": 38,
+      "rate": 0.9737
+     },
+     "false_alarms": {
+      "k": 7,
+      "n": 137,
+      "rate": 0.0511
+     },
+     "fails_right": {
+      "k": 192,
+      "n": 205,
+      "rate": 0.9366
+     }
+    }
+   },
+   "by_type": {
+    "amend_after_push": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 8,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 15,
+      "n": 16,
+      "rate": 0.9375
+     }
+    },
+    "apply_patch": {
+     "lost_right": {
+      "k": 14,
+      "n": 14,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 14,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 9,
+      "n": 14,
+      "rate": 0.6429
+     }
+    },
+    "branch_delete": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 8,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 7,
+      "n": 8,
+      "rate": 0.875
+     }
+    },
+    "branch_force": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "checkout_branch_file": {
+     "lost_right": {
+      "k": 9,
+      "n": 9,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 3,
+      "n": 3,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 9,
+      "n": 9,
+      "rate": 1.0
+     }
+    },
+    "checkout_detach": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 8,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     }
+    },
+    "checkout_force": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     }
+    },
+    "checkout_index": {
+     "lost_right": {
+      "k": 6,
+      "n": 9,
+      "rate": 0.6667
+     },
+     "flagged": {
+      "k": 3,
+      "n": 3,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 3,
+      "n": 6,
+      "rate": 0.5
+     },
+     "fails_right": {
+      "k": 9,
+      "n": 9,
+      "rate": 1.0
+     }
+    },
+    "checkout_ours_theirs": {
+     "lost_right": {
+      "k": 7,
+      "n": 8,
+      "rate": 0.875
+     },
+     "flagged": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 2,
+      "n": 4,
+      "rate": 0.5
+     },
+     "fails_right": {
+      "k": 12,
+      "n": 12,
+      "rate": 1.0
+     }
+    },
+    "checkout_over_ignored": {
+     "lost_right": {
+      "k": 3,
+      "n": 6,
+      "rate": 0.5
+     },
+     "flagged": {
+      "k": 0,
+      "n": 3,
+      "rate": 0.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 3,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "checkout_paths": {
+     "lost_right": {
+      "k": 12,
+      "n": 12,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 12,
+      "n": 12,
+      "rate": 1.0
+     }
+    },
+    "checkout_tag": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 3,
+      "n": 6,
+      "rate": 0.5
+     }
+    },
+    "cherry_pick_midconflict": {
+     "lost_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     },
+     "flagged": {
+      "k": 2,
+      "n": 2,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 2,
+      "n": 6,
+      "rate": 0.3333
+     },
+     "fails_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     }
+    },
+    "cherry_pick_n": {
+     "lost_right": {
+      "k": 5,
+      "n": 6,
+      "rate": 0.8333
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 2,
+      "n": 6,
+      "rate": 0.3333
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "clean_exclude_or_path": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     }
+    },
+    "clean_files_vs_dirs": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 1,
+      "n": 2,
+      "rate": 0.5
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "clean_force_flag": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 2,
+      "n": 2,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     }
+    },
+    "clean_ignored_X": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 2,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "clean_ignored_x": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 2,
+      "n": 2,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "commit_then_reset": {
+     "lost_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     },
+     "flagged": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 2,
+      "n": 4,
+      "rate": 0.5
+     },
+     "fails_right": {
+      "k": 16,
+      "n": 16,
+      "rate": 1.0
+     }
+    },
+    "fetch_variants": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "gc_after_reset": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 2,
+      "n": 2,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 14,
+      "n": 14,
+      "rate": 1.0
+     }
+    },
+    "merge_midconflict": {
+     "lost_right": {
+      "k": 12,
+      "n": 14,
+      "rate": 0.8571
+     },
+     "flagged": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 4,
+      "n": 10,
+      "rate": 0.4
+     },
+     "fails_right": {
+      "k": 8,
+      "n": 14,
+      "rate": 0.5714
+     }
+    },
+    "merge_no_commit": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "merge_over_local": {
+     "lost_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 2,
+      "n": 8,
+      "rate": 0.25
+     },
+     "fails_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     }
+    },
+    "merge_strategy": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 8,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     }
+    },
+    "mv_variants": {
+     "lost_right": {
+      "k": 9,
+      "n": 9,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 3,
+      "n": 3,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 9,
+      "n": 9,
+      "rate": 1.0
+     }
+    },
+    "orphan_branch": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "pull_dirty": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "pull_divergent": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 8,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     }
+    },
+    "pull_rebase": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 8,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     }
+    },
+    "push_branches": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 8,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     }
+    },
+    "push_force": {
+     "lost_right": {
+      "k": 10,
+      "n": 10,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 10,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 10,
+      "rate": 0.6
+     }
+    },
+    "read_tree_reset": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     }
+    },
+    "rebase_abort": {
+     "lost_right": {
+      "k": 2,
+      "n": 6,
+      "rate": 0.3333
+     },
+     "flagged": {
+      "k": 2,
+      "n": 4,
+      "rate": 0.5
+     },
+     "false_alarms": {
+      "k": 2,
+      "n": 2,
+      "rate": 1.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "rebase_autostash": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 4,
+      "n": 6,
+      "rate": 0.6667
+     }
+    },
+    "rebase_continue": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "rebase_onto": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 5,
+      "n": 6,
+      "rate": 0.8333
+     }
+    },
+    "rebase_skip": {
+     "lost_right": {
+      "k": 2,
+      "n": 4,
+      "rate": 0.5
+     },
+     "flagged": {
+      "k": 2,
+      "n": 2,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 2,
+      "n": 2,
+      "rate": 1.0
+     },
+     "fails_right": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     }
+    },
+    "refs_plumbing": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "reset_hard_origin": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     }
+    },
+    "reset_hard_path": {
+     "lost_right": {
+      "k": 9,
+      "n": 9,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 3,
+      "n": 3,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 9,
+      "n": 9,
+      "rate": 1.0
+     }
+    },
+    "reset_keep": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 5,
+      "n": 6,
+      "rate": 0.8333
+     }
+    },
+    "reset_merge_commit": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 7,
+      "n": 8,
+      "rate": 0.875
+     }
+    },
+    "restore_dot": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     }
+    },
+    "restore_from_ref": {
+     "lost_right": {
+      "k": 10,
+      "n": 10,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 10,
+      "n": 10,
+      "rate": 1.0
+     }
+    },
+    "restore_source_old": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     }
+    },
+    "restore_staged_layers": {
+     "lost_right": {
+      "k": 7,
+      "n": 9,
+      "rate": 0.7778
+     },
+     "flagged": {
+      "k": 5,
+      "n": 6,
+      "rate": 0.8333
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 3,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 9,
+      "n": 9,
+      "rate": 1.0
+     }
+    },
+    "revert_older": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 8,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 4,
+      "n": 8,
+      "rate": 0.5
+     }
+    },
+    "rm_dir_then_checkout": {
+     "lost_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     },
+     "flagged": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 2,
+      "n": 4,
+      "rate": 0.5
+     },
+     "fails_right": {
+      "k": 10,
+      "n": 16,
+      "rate": 0.625
+     }
+    },
+    "rm_variants": {
+     "lost_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     },
+     "flagged": {
+      "k": 2,
+      "n": 2,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 2,
+      "n": 6,
+      "rate": 0.3333
+     },
+     "fails_right": {
+      "k": 10,
+      "n": 10,
+      "rate": 1.0
+     }
+    },
+    "sparse_checkout": {
+     "lost_right": {
+      "k": 8,
+      "n": 10,
+      "rate": 0.8
+     },
+     "flagged": {
+      "k": 0,
+      "n": 2,
+      "rate": 0.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 8,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 12,
+      "n": 12,
+      "rate": 1.0
+     }
+    },
+    "stash_branch": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 5,
+      "n": 6,
+      "rate": 0.8333
+     }
+    },
+    "stash_clear": {
+     "lost_right": {
+      "k": 4,
+      "n": 6,
+      "rate": 0.6667
+     },
+     "flagged": {
+      "k": 2,
+      "n": 2,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 2,
+      "n": 4,
+      "rate": 0.5
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "stash_drop_ref": {
+     "lost_right": {
+      "k": 2,
+      "n": 6,
+      "rate": 0.3333
+     },
+     "flagged": {
+      "k": 2,
+      "n": 2,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "stash_keep_index_seq": {
+     "lost_right": {
+      "k": 3,
+      "n": 6,
+      "rate": 0.5
+     },
+     "flagged": {
+      "k": 3,
+      "n": 3,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 3,
+      "n": 3,
+      "rate": 1.0
+     },
+     "fails_right": {
+      "k": 15,
+      "n": 15,
+      "rate": 1.0
+     }
+    },
+    "stash_pathspec": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 16,
+      "n": 16,
+      "rate": 1.0
+     }
+    },
+    "stash_pull_pop": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 18,
+      "n": 18,
+      "rate": 1.0
+     }
+    },
+    "stash_staged": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 2,
+      "n": 2,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 12,
+      "n": 12,
+      "rate": 1.0
+     }
+    },
+    "stash_switch_pop": {
+     "lost_right": {
+      "k": 4,
+      "n": 6,
+      "rate": 0.6667
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 2,
+      "n": 6,
+      "rate": 0.3333
+     },
+     "fails_right": {
+      "k": 19,
+      "n": 20,
+      "rate": 0.95
+     }
+    },
+    "stash_untracked_seq": {
+     "lost_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     },
+     "flagged": {
+      "k": 2,
+      "n": 4,
+      "rate": 0.5
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 16,
+      "n": 16,
+      "rate": 1.0
+     }
+    },
+    "submodule_update": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 2,
+      "n": 2,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     }
+    },
+    "switch_discard": {
+     "lost_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     },
+     "flagged": {
+      "k": 2,
+      "n": 4,
+      "rate": 0.5
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     }
+    },
+    "switch_force_create": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "wip_branch": {
+     "lost_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     },
+     "flagged": {
+      "k": 2,
+      "n": 2,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 30,
+      "n": 30,
+      "rate": 1.0
+     }
+    },
+    "worktree_add": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 8,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 7,
+      "n": 8,
+      "rate": 0.875
+     }
+    },
+    "worktree_remove": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 2,
+      "n": 2,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     }
+    }
+   },
+   "seconds_per_check_median": 2.79
+  },
+  "C3": {
+   "lost": {
+    "all": {
+     "n": 507,
+     "work_losing_flagged_at_0.2": {
+      "k": 107,
+      "n": 128,
+      "rate": 0.8359
+     },
+     "false_alarms_at_0.2": {
+      "k": 38,
+      "n": 379,
+      "rate": 0.1003
+     },
+     "accuracy_at_0.5": {
+      "k": 444,
+      "n": 507,
+      "rate": 0.8757
+     },
+     "auroc": 0.9142
+    },
+    "visible": {
+     "n": 442,
+     "work_losing_flagged_at_0.2": {
+      "k": 93,
+      "n": 97,
+      "rate": 0.9588
+     },
+     "false_alarms_at_0.2": {
+      "k": 27,
+      "n": 345,
+      "rate": 0.0783
+     },
+     "accuracy_at_0.5": {
+      "k": 409,
+      "n": 442,
+      "rate": 0.9253
+     },
+     "auroc": 0.9865
+    },
+    "hidden": {
+     "n": 65,
+     "work_losing_flagged_at_0.2": {
+      "k": 14,
+      "n": 31,
+      "rate": 0.4516
+     },
+     "false_alarms_at_0.2": {
+      "k": 11,
+      "n": 34,
+      "rate": 0.3235
+     },
+     "accuracy_at_0.5": {
+      "k": 35,
+      "n": 65,
+      "rate": 0.5385
+     },
+     "auroc": 0.5897
+    }
+   },
+   "fails": {
+    "all": {
+     "n": 626,
+     "accuracy_at_0.5": {
+      "k": 561,
+      "n": 626,
+      "rate": 0.8962
+     },
+     "recall_at_0.5": {
+      "k": 106,
+      "n": 132,
+      "rate": 0.803
+     },
+     "false_alarms_at_0.5": {
+      "k": 39,
+      "n": 494,
+      "rate": 0.0789
+     }
+    },
+    "visible": {
+     "n": 576,
+     "accuracy_at_0.5": {
+      "k": 531,
+      "n": 576,
+      "rate": 0.9219
+     },
+     "recall_at_0.5": {
+      "k": 98,
+      "n": 118,
+      "rate": 0.8305
+     },
+     "false_alarms_at_0.5": {
+      "k": 25,
+      "n": 458,
+      "rate": 0.0546
+     }
+    },
+    "hidden": {
+     "n": 50,
+     "accuracy_at_0.5": {
+      "k": 30,
+      "n": 50,
+      "rate": 0.6
+     },
+     "recall_at_0.5": {
+      "k": 8,
+      "n": 14,
+      "rate": 0.5714
+     },
+     "false_alarms_at_0.5": {
+      "k": 14,
+      "n": 36,
+      "rate": 0.3889
+     }
+    }
+   },
+   "in_progress": {
+    "n": 492,
+    "accuracy_at_0.5": {
+     "k": 477,
+     "n": 492,
+     "rate": 0.9695
+    },
+    "recall_at_0.5": {
+     "k": 19,
+     "n": 22,
+     "rate": 0.8636
+    },
+    "false_alarms_at_0.5": {
+     "k": 12,
+     "n": 470,
+     "rate": 0.0255
+    }
+   },
+   "branch": {
+    "k": 166,
+    "n": 173,
+    "rate": 0.9595
+   },
+   "calibration": {
+    "lost": {
+     "errors": 63,
+     "errors_at_conf_0.9_or_more": {
+      "k": 41,
+      "n": 63,
+      "rate": 0.6508
+     }
+    },
+    "fails": {
+     "errors": 65,
+     "errors_at_conf_0.9_or_more": {
+      "k": 38,
+      "n": 65,
+      "rate": 0.5846
+     }
+    },
+    "in_progress": {
+     "errors": 15,
+     "errors_at_conf_0.9_or_more": {
+      "k": 10,
+      "n": 15,
+      "rate": 0.6667
+     }
+    }
+   },
+   "out_of_scope_flagged": {
+    "k": 4,
+    "n": 27,
+    "rate": 0.1481
+   },
+   "families": {
+    "ignored files": {
+     "lost_right": {
+      "k": 23,
+      "n": 36,
+      "rate": 0.6389
+     },
+     "work_losing_flagged": {
+      "k": 2,
+      "n": 15,
+      "rate": 0.1333
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 21,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 46,
+      "n": 46,
+      "rate": 1.0
+     }
+    },
+    "linked worktree": {
+     "lost_right": {
+      "k": 14,
+      "n": 16,
+      "rate": 0.875
+     },
+     "work_losing_flagged": {
+      "k": 0,
+      "n": 2,
+      "rate": 0.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 14,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 9,
+      "n": 16,
+      "rate": 0.5625
+     }
+    },
+    "submodule": {
+     "lost_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     },
+     "work_losing_flagged": {
+      "k": 2,
+      "n": 2,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 2,
+      "n": 6,
+      "rate": 0.3333
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     }
+    },
+    "conflict state": {
+     "lost_right": {
+      "k": 27,
+      "n": 46,
+      "rate": 0.587
+     },
+     "work_losing_flagged": {
+      "k": 12,
+      "n": 16,
+      "rate": 0.75
+     },
+     "false_alarms": {
+      "k": 13,
+      "n": 30,
+      "rate": 0.4333
+     },
+     "fails_right": {
+      "k": 38,
+      "n": 50,
+      "rate": 0.76
+     }
+    },
+    "force switch/checkout": {
+     "lost_right": {
+      "k": 14,
+      "n": 16,
+      "rate": 0.875
+     },
+     "work_losing_flagged": {
+      "k": 7,
+      "n": 8,
+      "rate": 0.875
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 8,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 14,
+      "n": 16,
+      "rate": 0.875
+     }
+    },
+    "reset modes": {
+     "lost_right": {
+      "k": 37,
+      "n": 39,
+      "rate": 0.9487
+     },
+     "work_losing_flagged": {
+      "k": 15,
+      "n": 15,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 2,
+      "n": 24,
+      "rate": 0.0833
+     },
+     "fails_right": {
+      "k": 45,
+      "n": 47,
+      "rate": 0.9574
+     }
+    },
+    "clean flags": {
+     "lost_right": {
+      "k": 22,
+      "n": 22,
+      "rate": 1.0
+     },
+     "work_losing_flagged": {
+      "k": 10,
+      "n": 10,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 1,
+      "n": 12,
+      "rate": 0.0833
+     },
+     "fails_right": {
+      "k": 22,
+      "n": 22,
+      "rate": 1.0
+     }
+    },
+    "detach/orphan": {
+     "lost_right": {
+      "k": 20,
+      "n": 20,
+      "rate": 1.0
+     },
+     "work_losing_flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 20,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 15,
+      "n": 20,
+      "rate": 0.75
+     }
+    },
+    "remote": {
+     "lost_right": {
+      "k": 60,
+      "n": 60,
+      "rate": 1.0
+     },
+     "work_losing_flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 60,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 69,
+      "n": 80,
+      "rate": 0.8625
+     }
+    },
+    "mv/rm": {
+     "lost_right": {
+      "k": 21,
+      "n": 25,
+      "rate": 0.84
+     },
+     "work_losing_flagged": {
+      "k": 9,
+      "n": 9,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 4,
+      "n": 16,
+      "rate": 0.25
+     },
+     "fails_right": {
+      "k": 29,
+      "n": 35,
+      "rate": 0.8286
+     }
+    },
+    "stash": {
+     "lost_right": {
+      "k": 33,
+      "n": 44,
+      "rate": 0.75
+     },
+     "work_losing_flagged": {
+      "k": 13,
+      "n": 13,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 11,
+      "n": 31,
+      "rate": 0.3548
+     },
+     "fails_right": {
+      "k": 79,
+      "n": 81,
+      "rate": 0.9753
+     }
+    },
+    "everything else": {
+     "lost_right": {
+      "k": 167,
+      "n": 175,
+      "rate": 0.9543
+     },
+     "work_losing_flagged": {
+      "k": 37,
+      "n": 38,
+      "rate": 0.9737
+     },
+     "false_alarms": {
+      "k": 5,
+      "n": 137,
+      "rate": 0.0365
+     },
+     "fails_right": {
+      "k": 189,
+      "n": 205,
+      "rate": 0.922
+     }
+    }
+   },
+   "by_type": {
+    "amend_after_push": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 8,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 14,
+      "n": 16,
+      "rate": 0.875
+     }
+    },
+    "apply_patch": {
+     "lost_right": {
+      "k": 14,
+      "n": 14,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 14,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 9,
+      "n": 14,
+      "rate": 0.6429
+     }
+    },
+    "branch_delete": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 8,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 7,
+      "n": 8,
+      "rate": 0.875
+     }
+    },
+    "branch_force": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "checkout_branch_file": {
+     "lost_right": {
+      "k": 9,
+      "n": 9,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 3,
+      "n": 3,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 9,
+      "n": 9,
+      "rate": 1.0
+     }
+    },
+    "checkout_detach": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 8,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     }
+    },
+    "checkout_force": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     }
+    },
+    "checkout_index": {
+     "lost_right": {
+      "k": 6,
+      "n": 9,
+      "rate": 0.6667
+     },
+     "flagged": {
+      "k": 3,
+      "n": 3,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 3,
+      "n": 6,
+      "rate": 0.5
+     },
+     "fails_right": {
+      "k": 9,
+      "n": 9,
+      "rate": 1.0
+     }
+    },
+    "checkout_ours_theirs": {
+     "lost_right": {
+      "k": 1,
+      "n": 8,
+      "rate": 0.125
+     },
+     "flagged": {
+      "k": 3,
+      "n": 4,
+      "rate": 0.75
+     },
+     "false_alarms": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "fails_right": {
+      "k": 12,
+      "n": 12,
+      "rate": 1.0
+     }
+    },
+    "checkout_over_ignored": {
+     "lost_right": {
+      "k": 3,
+      "n": 6,
+      "rate": 0.5
+     },
+     "flagged": {
+      "k": 0,
+      "n": 3,
+      "rate": 0.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 3,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "checkout_paths": {
+     "lost_right": {
+      "k": 12,
+      "n": 12,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 12,
+      "n": 12,
+      "rate": 1.0
+     }
+    },
+    "checkout_tag": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 3,
+      "n": 6,
+      "rate": 0.5
+     }
+    },
+    "cherry_pick_midconflict": {
+     "lost_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     },
+     "flagged": {
+      "k": 2,
+      "n": 2,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 2,
+      "n": 6,
+      "rate": 0.3333
+     },
+     "fails_right": {
+      "k": 2,
+      "n": 8,
+      "rate": 0.25
+     }
+    },
+    "cherry_pick_n": {
+     "lost_right": {
+      "k": 5,
+      "n": 6,
+      "rate": 0.8333
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 2,
+      "n": 6,
+      "rate": 0.3333
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "clean_exclude_or_path": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     }
+    },
+    "clean_files_vs_dirs": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 1,
+      "n": 2,
+      "rate": 0.5
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "clean_force_flag": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 2,
+      "n": 2,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     }
+    },
+    "clean_ignored_X": {
+     "lost_right": {
+      "k": 2,
+      "n": 6,
+      "rate": 0.3333
+     },
+     "flagged": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 2,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "clean_ignored_x": {
+     "lost_right": {
+      "k": 4,
+      "n": 6,
+      "rate": 0.6667
+     },
+     "flagged": {
+      "k": 0,
+      "n": 2,
+      "rate": 0.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "commit_then_reset": {
+     "lost_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     },
+     "flagged": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 2,
+      "n": 4,
+      "rate": 0.5
+     },
+     "fails_right": {
+      "k": 16,
+      "n": 16,
+      "rate": 1.0
+     }
+    },
+    "fetch_variants": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "gc_after_reset": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 2,
+      "n": 2,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 14,
+      "n": 14,
+      "rate": 1.0
+     }
+    },
+    "merge_midconflict": {
+     "lost_right": {
+      "k": 10,
+      "n": 14,
+      "rate": 0.7143
+     },
+     "flagged": {
+      "k": 3,
+      "n": 4,
+      "rate": 0.75
+     },
+     "false_alarms": {
+      "k": 3,
+      "n": 10,
+      "rate": 0.3
+     },
+     "fails_right": {
+      "k": 8,
+      "n": 14,
+      "rate": 0.5714
+     }
+    },
+    "merge_no_commit": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "merge_over_local": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 8,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     }
+    },
+    "merge_strategy": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 8,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     }
+    },
+    "mv_variants": {
+     "lost_right": {
+      "k": 9,
+      "n": 9,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 3,
+      "n": 3,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 9,
+      "n": 9,
+      "rate": 1.0
+     }
+    },
+    "orphan_branch": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "pull_dirty": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "pull_divergent": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 8,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     }
+    },
+    "pull_rebase": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 8,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     }
+    },
+    "push_branches": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 8,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     }
+    },
+    "push_force": {
+     "lost_right": {
+      "k": 10,
+      "n": 10,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 10,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 7,
+      "n": 10,
+      "rate": 0.7
+     }
+    },
+    "read_tree_reset": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     }
+    },
+    "rebase_abort": {
+     "lost_right": {
+      "k": 2,
+      "n": 6,
+      "rate": 0.3333
+     },
+     "flagged": {
+      "k": 2,
+      "n": 4,
+      "rate": 0.5
+     },
+     "false_alarms": {
+      "k": 2,
+      "n": 2,
+      "rate": 1.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "rebase_autostash": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 3,
+      "n": 6,
+      "rate": 0.5
+     }
+    },
+    "rebase_continue": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "rebase_onto": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 5,
+      "n": 6,
+      "rate": 0.8333
+     }
+    },
+    "rebase_skip": {
+     "lost_right": {
+      "k": 2,
+      "n": 4,
+      "rate": 0.5
+     },
+     "flagged": {
+      "k": 2,
+      "n": 2,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 2,
+      "n": 2,
+      "rate": 1.0
+     },
+     "fails_right": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     }
+    },
+    "refs_plumbing": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "reset_hard_origin": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     }
+    },
+    "reset_hard_path": {
+     "lost_right": {
+      "k": 9,
+      "n": 9,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 3,
+      "n": 3,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 9,
+      "n": 9,
+      "rate": 1.0
+     }
+    },
+    "reset_keep": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 5,
+      "n": 6,
+      "rate": 0.8333
+     }
+    },
+    "reset_merge_commit": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 7,
+      "n": 8,
+      "rate": 0.875
+     }
+    },
+    "restore_dot": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     }
+    },
+    "restore_from_ref": {
+     "lost_right": {
+      "k": 10,
+      "n": 10,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 10,
+      "n": 10,
+      "rate": 1.0
+     }
+    },
+    "restore_source_old": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     }
+    },
+    "restore_staged_layers": {
+     "lost_right": {
+      "k": 7,
+      "n": 9,
+      "rate": 0.7778
+     },
+     "flagged": {
+      "k": 5,
+      "n": 6,
+      "rate": 0.8333
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 3,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 9,
+      "n": 9,
+      "rate": 1.0
+     }
+    },
+    "revert_older": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 8,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 4,
+      "n": 8,
+      "rate": 0.5
+     }
+    },
+    "rm_dir_then_checkout": {
+     "lost_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     },
+     "flagged": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 2,
+      "n": 4,
+      "rate": 0.5
+     },
+     "fails_right": {
+      "k": 10,
+      "n": 16,
+      "rate": 0.625
+     }
+    },
+    "rm_variants": {
+     "lost_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     },
+     "flagged": {
+      "k": 2,
+      "n": 2,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 2,
+      "n": 6,
+      "rate": 0.3333
+     },
+     "fails_right": {
+      "k": 10,
+      "n": 10,
+      "rate": 1.0
+     }
+    },
+    "sparse_checkout": {
+     "lost_right": {
+      "k": 8,
+      "n": 10,
+      "rate": 0.8
+     },
+     "flagged": {
+      "k": 0,
+      "n": 2,
+      "rate": 0.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 8,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 12,
+      "n": 12,
+      "rate": 1.0
+     }
+    },
+    "stash_branch": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 5,
+      "n": 6,
+      "rate": 0.8333
+     }
+    },
+    "stash_clear": {
+     "lost_right": {
+      "k": 4,
+      "n": 6,
+      "rate": 0.6667
+     },
+     "flagged": {
+      "k": 2,
+      "n": 2,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 2,
+      "n": 4,
+      "rate": 0.5
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "stash_drop_ref": {
+     "lost_right": {
+      "k": 2,
+      "n": 6,
+      "rate": 0.3333
+     },
+     "flagged": {
+      "k": 2,
+      "n": 2,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "stash_keep_index_seq": {
+     "lost_right": {
+      "k": 3,
+      "n": 6,
+      "rate": 0.5
+     },
+     "flagged": {
+      "k": 3,
+      "n": 3,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 3,
+      "n": 3,
+      "rate": 1.0
+     },
+     "fails_right": {
+      "k": 15,
+      "n": 15,
+      "rate": 1.0
+     }
+    },
+    "stash_pathspec": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 4,
+      "n": 4,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 16,
+      "n": 16,
+      "rate": 1.0
+     }
+    },
+    "stash_pull_pop": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 18,
+      "n": 18,
+      "rate": 1.0
+     }
+    },
+    "stash_staged": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 2,
+      "n": 2,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 12,
+      "n": 12,
+      "rate": 1.0
+     }
+    },
+    "stash_switch_pop": {
+     "lost_right": {
+      "k": 4,
+      "n": 6,
+      "rate": 0.6667
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 2,
+      "n": 6,
+      "rate": 0.3333
+     },
+     "fails_right": {
+      "k": 19,
+      "n": 20,
+      "rate": 0.95
+     }
+    },
+    "stash_untracked_seq": {
+     "lost_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     },
+     "flagged": {
+      "k": 2,
+      "n": 4,
+      "rate": 0.5
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 16,
+      "n": 16,
+      "rate": 1.0
+     }
+    },
+    "submodule_update": {
+     "lost_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     },
+     "flagged": {
+      "k": 2,
+      "n": 2,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 2,
+      "n": 6,
+      "rate": 0.3333
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     }
+    },
+    "switch_discard": {
+     "lost_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     },
+     "flagged": {
+      "k": 3,
+      "n": 4,
+      "rate": 0.75
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 4,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     }
+    },
+    "switch_force_create": {
+     "lost_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 6,
+      "n": 6,
+      "rate": 1.0
+     }
+    },
+    "wip_branch": {
+     "lost_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     },
+     "flagged": {
+      "k": 2,
+      "n": 2,
+      "rate": 1.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 30,
+      "n": 30,
+      "rate": 1.0
+     }
+    },
+    "worktree_add": {
+     "lost_right": {
+      "k": 8,
+      "n": 8,
+      "rate": 1.0
+     },
+     "flagged": {
+      "k": 0,
+      "n": 0,
+      "rate": null
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 8,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 7,
+      "n": 8,
+      "rate": 0.875
+     }
+    },
+    "worktree_remove": {
+     "lost_right": {
+      "k": 6,
+      "n": 8,
+      "rate": 0.75
+     },
+     "flagged": {
+      "k": 0,
+      "n": 2,
+      "rate": 0.0
+     },
+     "false_alarms": {
+      "k": 0,
+      "n": 6,
+      "rate": 0.0
+     },
+     "fails_right": {
+      "k": 2,
+      "n": 8,
+      "rate": 0.25
+     }
+    }
+   },
+   "seconds_per_check_median": 2.79
+  }
+ }
+}

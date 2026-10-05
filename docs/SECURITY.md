@@ -56,9 +56,15 @@ numbers as evidence, not a guarantee.
 - **Fail-open**: if the server is unreachable or anything fails, the hook stays silent and the command goes through the
   normal permission flow; this is right for catching accidents, not for hostile settings.
 - **File and branch names** are still shown to the model (measured above; adversarial training is on the roadmap).
-- **Ignored files**: the state comes from `git status`, which does not list ignored files, so `git clean -x`/`-X`
-  deleting them is not seen (an ignored `.env` deleted by `git clean -fdx` got 0.2% "loses work"). Run `git clean -n`
-  with the same flags first, or treat `-x`/`-X` as risky when ignored files exist.
+- **Ignored files**: since client 0.1.1 the state lists ignored files when a command could delete or overwrite them
+  (`git clean -x`/`-X`, `git stash -a`, `git sparse-checkout`, or a target that tracks the same path), and an ignored
+  `.env` deleted by `git clean -fdx` is flagged (0.1.0 gave it 0.2%). Still missed: an ignored file overwritten by a
+  checkout, merge or `reset --hard <ref>` whose target tracks that path (6 of 6), and ignored files deleted by
+  `git sparse-checkout set` (2 of 2). Run `git status --ignored` before switching to such a branch, and
+  `git clean -n` with the same flags before a clean.
+- **Committed work**: the guard checks uncommitted work only; commands that drop commits (`git branch -D` of unmerged
+  work, `git push --force`, `git reset --hard origin/main` over local commits) are outside its question (4 of 21 such
+  scenarios flagged with 0.1.1).
 
 ## Recommended stack
 

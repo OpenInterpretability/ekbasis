@@ -267,24 +267,35 @@ the answers the actions change (never-trained worlds: 710 instead of 1,442 promp
 
 - **It knows what it was trained on**: rule-based worlds you describe in the prompt, and git. On command types it never
   saw, accuracy drops (85.8% against 95.8% on the 240-question git comparison). Other domains need their own data.
-- **The state must contain what decides the outcome.** The git guard adds it for you; in your own uses, include it.
+- **The state must contain what decides the outcome.** The git guard adds it for you (since client 0.1.1 also ignored
+  files, linked worktrees, submodules, conflicts resolved by hand and ahead/behind, when a command could touch them);
+  in your own uses, include it.
 - **Errors that never fade compound** in long chains (orderings), and in the worlds it knows its rare errors come with
   confidence: give `simulate()` a way to read the real state (`observe=`) and it looks when it is not sure, with a
   check now and then. Card orderings, 200 actions: 8 of 8 chains exact with about 33 looks per 100 actions, against 2
   of 8 never looking. See [Look when unsure](#look-when-unsure-predict-observe-correct).
 - **With written rules and time to think, large reasoning models are more accurate** (100% against 96.7% on short
   checks); Ekbasis wins on cost, latency and calibrated confidence there.
-- **Three git cases it gets wrong**, found after the release evaluation in fresh sandbox repositories
-  ([results/release_eval/git_limits.json](results/release_eval/git_limits.json)):
+- **Git cases it still gets wrong** with client 0.1.1 (334 fresh sandbox scenarios over 75 command types, the truth
+  from running git; [results/client_0.1.1](results/client_0.1.1/RESULTS.md)):
+  - **An ignored file that a checkout, merge or `reset --hard <ref>` overwrites** because the target has a file at the
+    same path: 6 of 6 missed, although the state names the file. Run `git status --ignored` before switching to a
+    branch that tracks a path you ignore (an `.env`, for example).
+  - `git sparse-checkout set` deleting ignored files outside the kept directories (2 of 2 missed), and
+    `git rebase --abort` after the resolution was staged with `git add` (2 of 2 missed).
+  - `git stash -a` then `git clean -fdx` is flagged although `-a` saved the ignored files.
   - A commit followed by a destructive command in one check is flagged although the commit saved the work
-    (`git commit -am wip` then `git reset --hard`: 96% "loses work"; nothing was lost). Check the commands after the
+    (`git commit -am wip` then `git reset --hard`: 98% "loses work"; nothing was lost). Check the commands after the
     commit has run: the guard reads the repository as it is.
-  - `git rm` on a file with uncommitted changes: 98% "fails" (right: git refuses) and also 95% "loses work" (nothing
-    is lost, since it fails). When "fails" is high, read "loses work" as "if it succeeded".
-  - `git clean -fdx` deleted an ignored `.env` and the guard gave 0.2%: the client builds the state from `git status`,
-    which does not list ignored files, so the model never sees them (`git clean -fd` on the same repository, which
-    keeps ignored files, was right). Run `git clean -n` with the same flags first, or treat `-x`/`-X` as risky when
-    ignored files exist.
+  - `git rm` on a file with uncommitted changes: "fails" (right: git refuses) and also 96% "loses work" (nothing is
+    lost, since it fails). When "fails" is high, read "loses work" as "if it succeeded".
+  - Some failures are still read from the command instead of the state: `git switch -` and `git checkout <tag>` are
+    predicted to fail when they work; `git worktree add` of a branch checked out elsewhere, `git stash pop` onto a
+    re-created untracked file, `git reset --keep`/`--merge <commit>` stopped by a local change, and a `git pull`
+    stopped by local changes are predicted to work.
+- **Committed work is out of scope.** The guard asks whether uncommitted work is lost. Commands that drop commits
+  (`git branch -D` of unmerged work, `git push --force`, `git reset --hard origin/main` over local commits) are not
+  what it checks: 2 of 27 such scenarios were flagged with client 0.1.0, 4 of 21 with 0.1.1.
 - **It is a safety net, not a security boundary.** See [docs/SECURITY.md](docs/SECURITY.md) for the threat model, the
   measured injection results and the recommended defense-in-depth stack.
 

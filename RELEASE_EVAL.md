@@ -225,10 +225,10 @@ per run).
 
 | Puzzles (180 each; containers, lamps, machines) | Plans that work | Questions per puzzle | Seconds per puzzle |
 |---|---|---|---|
-| 3–5 actions | 100.0% | 101 | 7.6 |
-| 8–12 actions | 98.9% (containers 96.7% / 96.7%; lamps and machines 100%) | 144 | 11.4 |
+| goals from random 3–5-action plans (shortest plans 1–3, median 1) | 100.0% | 101 | 7.6 |
+| goals from random 8–12-action plans (shortest plans 1–4, median 1) | 98.9% (containers 96.7% / 96.7%; lamps and machines 100%) | 144 | 11.4 |
 
-On the same hard puzzles: Qwen3.8-27B writing the plan while reasoning 97.8% (about 720 generated tokens per puzzle),
+On the same puzzles: Qwen3.8-27B writing the plan while reasoning 97.8% (about 720 generated tokens per puzzle),
 answering at once 38.3%; Eikos-27B without consequence training, searching the same way, 93.3% (all measured before
 V42's release evaluation).
 

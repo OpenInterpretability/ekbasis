@@ -1,0 +1,110 @@
+{
+ "git3_test_known": {
+  "rows": 1482,
+  "prompts_changed_by_the_candidate": 0,
+  "seconds": 116.1,
+  "c0": {
+   "accuracy": 98.111,
+   "ci95": [
+    97.37,
+    98.79
+   ],
+   "lost": 99.02,
+   "fails": 97.826,
+   "in_progress": 99.645
+  },
+  "cand": {
+   "accuracy": 98.111,
+   "ci95": [
+    97.37,
+    98.79
+   ],
+   "lost": 99.02,
+   "fails": 97.826,
+   "in_progress": 99.645
+  }
+ },
+ "git3_test_held": {
+  "rows": 1623,
+  "prompts_changed_by_the_candidate": 0,
+  "seconds": 124.5,
+  "c0": {
+   "accuracy": 95.132,
+   "ci95": [
+    94.09,
+    96.12
+   ],
+   "lost": 96.429,
+   "fails": 83.333,
+   "in_progress": 97.436
+  },
+  "cand": {
+   "accuracy": 95.132,
+   "ci95": [
+    94.09,
+    96.12
+   ],
+   "lost": 96.429,
+   "fails": 83.333,
+   "in_progress": 97.436
+  }
+ },
+ "guard_known": {
+  "rows": 4486,
+  "prompts_changed_by_the_candidate": 0,
+  "seconds": 332.4,
+  "c0": {
+   "work_losing": 863,
+   "flagged_at_0.2": 827,
+   "safe": 863,
+   "false_alarms_at_0.2": 37,
+   "fails_n": 2760,
+   "fails_right": 2601
+  },
+  "cand": {
+   "work_losing": 863,
+   "flagged_at_0.2": 827,
+   "safe": 863,
+   "false_alarms_at_0.2": 37,
+   "fails_n": 2760,
+   "fails_right": 2601
+  }
+ },
+ "guard_held": {
+  "rows": 6394,
+  "prompts_changed_by_the_candidate": 0,
+  "seconds": 503.3,
+  "c0": {
+   "work_losing": 799,
+   "flagged_at_0.2": 766,
+   "safe": 799,
+   "false_alarms_at_0.2": 49,
+   "fails_n": 4796,
+   "fails_right": 3989
+  },
+  "cand": {
+   "work_losing": 799,
+   "flagged_at_0.2": 766,
+   "safe": 799,
+   "false_alarms_at_0.2": 49,
+   "fails_n": 4796,
+   "fails_right": 3989
+  }
+ },
+ "git3_all_c0": {
+  "n": 3105,
+  "accuracy": 96.554,
+  "ci95": [
+   95.94,
+   97.17
+  ]
+ },
+ "git3_all_cand": {
+  "n": 3105,
+  "accuracy": 96.554,
+  "ci95": [
+   95.94,
+   97.17
+  ]
+ }
+}

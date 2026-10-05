@@ -502,7 +502,7 @@ items = [  # (label, accuracy %, n shown, note)
     ("\"Will uncommitted work be lost?\" — command types seen", kn["lost"]["acc"], f"n={kn['lost']['n']}", ""),
     ("\"Will uncommitted work be lost?\" — never seen", he["lost"]["acc"], f"n={he['lost']['n']}", ""),
     ("\"Is an operation left in progress?\" — never seen", he["in_progress"]["acc"], f"n={he['in_progress']['n']}", ""),
-    ("Planning with no LLM, hard puzzles (plans run for real)", plan_ok_global, f"n={plan_n}", ""),
+    ("Planning with no LLM, short puzzles (plans run for real)", plan_ok_global, f"n={plan_n}", ""),
     ("Short checks, 1–3 actions", (SHORT_ACC["orig"] + SHORT_ACC["para"]) / 2, "n=240", ""),
     ("200-action chains where errors fade (final answer)", *frac(sum(r["final_ok"] for r in fade200), len(fade200)), ""),
     ("Chains that start from an image (final answer)", float(img[0].split()[2]), f"n={img_n}", ""),
@@ -655,7 +655,7 @@ html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Ekb
       <div class="sub" style="margin:12px 0 0">16 in parallel: {SPEED[2][2]:.0f} forecasts/min (FP8 {SPEED[3][2]:.0f}) vs {SPEED[0][2]:.1f} reasoning</div></div>
   </div>
   <div class="strip">
-    <div class="stat"><div class="k">Planning with no LLM<small>180 hard puzzles, plans run for real</small></div><div class="val">{plan_ok:.1f}%<span>reasoning {plan_llm:.1f}%</span></div></div>
+    <div class="stat"><div class="k">Planning with no LLM<small>180 short puzzles (1–4 actions), plans run for real</small></div><div class="val">{plan_ok:.1f}%<span>reasoning {plan_llm:.1f}%</span></div></div>
     <div class="stat"><div class="k">200-action chains<small>orderings: it looks when unsure</small></div><div class="val">{lc_look}<span>exact ({lc_never} never looking)</span></div></div>
     <div class="stat"><div class="k">Prompt injection<small>file, branch and commit-message planting</small></div><div class="val">{inj_missed}<span>work-losing missed</span></div></div>
   </div>
