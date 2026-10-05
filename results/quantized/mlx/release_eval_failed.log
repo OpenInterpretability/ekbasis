@@ -1,0 +1,44 @@
+git3_test_known {"lost": {"n": 102, "acc": 99.01960784313725, "ci95": [97.05882352941177, 100.0]}, "fails": {"n": 138, "acc": 94.20289855072464, "ci95": [89.85507246376811, 97.82608695652173]}, "in_progress": {"n": 282, "acc": 98.22695035460993, "ci95": [96.45390070921985, 99.64539007092199]}, "changed state": {"n": 88, "acc": 82.95454545454545, "ci95": [75.0, 89.77272727272727]}, "all": {"n": 1482, "acc": 97.43589743589743, "ci95": [96.5587044534413, 98.17813765182186]}, "lost_auroc": 0.9982698961937716, "lost_caught_at_10pct_false_alarm": 98.03921568627452, "lost_flagged_at_0.2": 98.03921568627452, "false_alarm_at_0.2": 0.0, "seconds": 1277.8427765369415}
+git3_test_held {"lost": {"n": 84, "acc": 95.23809523809524, "ci95": [90.47619047619048, 98.80952380952381]}, "fails": {"n": 228, "acc": 81.57894736842105, "ci95": [76.75438596491229, 86.8421052631579]}, "in_progress": {"n": 351, "acc": 97.15099715099716, "ci95": [95.15669515669516, 98.57549857549857]}, "changed state": {"n": 49, "acc": 69.38775510204081, "ci95": [57.14285714285714, 81.63265306122449]}, "all": {"n": 1623, "acc": 94.63955637707949, "ci95": [93.53049907578558, 95.68699938385706]}, "lost_auroc": 0.9903628117913832, "lost_caught_at_10pct_false_alarm": 100.0, "lost_flagged_at_0.2": 95.23809523809524, "false_alarm_at_0.2": 4.761904761904762, "seconds": 1304.3703887462616}
+Traceback (most recent call last):
+  File "/root/decis/conseq/release_eval.py", line 90, in <module>
+    got = list(ex.map(one, rows))
+          ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 619, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 317, in _result_or_cancel
+    return fut.result(timeout)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 456, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/usr/lib/python3.12/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/decis/conseq/release_eval.py", line 86, in one
+    d = post({"state": r["floor"], "questions": {f"q{k}": q for k, q in enumerate(r["questions"])}, "read_once": ro})
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/decis/conseq/release_eval.py", line 22, in post
+    return json.load(urllib.request.urlopen(req, timeout=900))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 215, in urlopen
+    return opener.open(url, data, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 521, in open
+    response = meth(req, response)
+               ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 630, in http_response
+    response = self.parent.error(
+               ^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 559, in error
+    return self._call_chain(*args)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 492, in _call_chain
+    result = func(*args)
+             ^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 639, in http_error_default
+    raise HTTPError(req.full_url, code, msg, hdrs, fp)
+urllib.error.HTTPError: HTTP Error 500: Internal Server Error

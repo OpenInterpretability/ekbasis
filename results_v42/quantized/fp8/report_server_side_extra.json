@@ -1,0 +1,43 @@
+{
+ "ftest_family (all answers)": {
+  "n": 1080,
+  "acc": 83.14814814814815,
+  "ci95": [
+   80.83333333333333,
+   85.37037037037038
+  ],
+  "per_world": {
+   "cards": "255/360",
+   "machines": "297/360",
+   "timers": "346/360"
+  },
+  "seconds": 28.918322801589966
+ },
+ "ftest_family (answers the actions change)": {
+  "n_known": 1080,
+  "n_changed": 629,
+  "acc_changed": 81.24006359300476,
+  "ci95_changed": [
+   78.37837837837837,
+   84.26073131955485
+  ],
+  "acc_unchanged": 85.80931263858093,
+  "per_world_changed": {
+   "cards": "149/220",
+   "machines": "164/203",
+   "timers": "198/206"
+  }
+ },
+ "git2_test_known (the 240-question comparison)": {
+  "lost": "39/40",
+  "fails": "38/40",
+  "state (changed)": "39/40",
+  "all": "116/120"
+ },
+ "git2_test_held (the 240-question comparison)": {
+  "lost": "38/40",
+  "fails": "33/40",
+  "state (changed)": "32/40",
+  "all": "103/120"
+ }
+}

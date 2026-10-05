@@ -1,0 +1,111 @@
+{
+ "build": "w4a5",
+ "t3c": {
+  "flagged": 3,
+  "false_alarms": 1,
+  "fails_right": 16
+ },
+ "checks": [
+  {
+   "criterion": "git3 known+held, all questions (%)",
+   "build": 96.61835748792271,
+   "bf16": 96.39291465378422,
+   "pass": true
+  },
+  {
+   "criterion": "multi_test_testfam changed, one prompt per question (%)",
+   "build": 81.15770821027762,
+   "bf16": 81.15770821027762,
+   "pass": true
+  },
+  {
+   "criterion": "multi_test_testfam changed, read-once (%)",
+   "build": 78.02717070289427,
+   "bf16": 78.20437093916125,
+   "pass": true
+  },
+  {
+   "criterion": "ftest_family changed (%)",
+   "build": 81.87599364069952,
+   "bf16": 81.71701112877584,
+   "pass": true
+  },
+  {
+   "criterion": "T3c work-losing flagged (of 3)",
+   "build": 3,
+   "bf16": 3,
+   "pass": true
+  },
+  {
+   "criterion": "git3_test_known: work-losing flagged at 0.2 (%)",
+   "build": 98.03921568627452,
+   "bf16": 98.03921568627452,
+   "pass": true
+  },
+  {
+   "criterion": "git3_test_known: false alarms at 0.2 (%)",
+   "build": 0.0,
+   "bf16": 0.0,
+   "pass": true
+  },
+  {
+   "criterion": "git3_test_held: work-losing flagged at 0.2 (%)",
+   "build": 95.23809523809524,
+   "bf16": 97.61904761904762,
+   "pass": false
+  },
+  {
+   "criterion": "git3_test_held: false alarms at 0.2 (%)",
+   "build": 2.380952380952381,
+   "bf16": 2.380952380952381,
+   "pass": true
+  },
+  {
+   "criterion": "ECE, git3 pooled (10 bins)",
+   "build": 0.024135897758502365,
+   "bf16": 0.027327523580879712,
+   "pass": true
+  },
+  {
+   "criterion": "agreement with bf16, 7615 answers (%)",
+   "build": 97.715036112935,
+   "bf16": 100.0,
+   "pass": true
+  },
+  {
+   "criterion": "agreement on bf16-confident answers, 3900 (%)",
+   "build": 99.74358974358974,
+   "bf16": 100.0,
+   "pass": true
+  }
+ ],
+ "pass": false,
+ "extra": {
+  "git3 known / held (%)": [
+   98.110661268556,
+   95.25569932224276
+  ],
+  "lost AUROC known / held": [
+   0.998077662437524,
+   0.9889455782312925
+  ],
+  "multi_test_trainfam changed, one prompt / read-once (%)": [
+   92.35033259423503,
+   91.46341463414635
+  ],
+  "240-question comparison": {
+   "git2_test_known (the 240-question comparison)": {
+    "lost": "39/40",
+    "fails": "37/40",
+    "state (changed)": "39/40",
+    "all": "115/120"
+   },
+   "git2_test_held (the 240-question comparison)": {
+    "lost": "38/40",
+    "fails": "32/40",
+    "state (changed)": "33/40",
+    "all": "103/120"
+   }
+  }
+ }
+}

@@ -1,0 +1,105 @@
+{
+ "build": "mlx",
+ "t3c": {
+  "flagged": 3,
+  "false_alarms": 1,
+  "fails_right": 16
+ },
+ "checks": [
+  {
+   "criterion": "git3 known+held, all questions (%)",
+   "build": 95.97423510466989,
+   "bf16": 96.61835748792271,
+   "pass": true
+  },
+  {
+   "criterion": "multi_test_testfam changed, one prompt per question (%)",
+   "build": 80.74424099232132,
+   "bf16": 81.15770821027762,
+   "pass": true
+  },
+  {
+   "criterion": "ftest_family changed (%)",
+   "build": 79.96820349761526,
+   "bf16": 81.87599364069952,
+   "pass": false
+  },
+  {
+   "criterion": "T3c work-losing flagged (of 3)",
+   "build": 3,
+   "bf16": 3,
+   "pass": true
+  },
+  {
+   "criterion": "git3_test_known: work-losing flagged at 0.2 (%)",
+   "build": 98.03921568627452,
+   "bf16": 98.03921568627452,
+   "pass": true
+  },
+  {
+   "criterion": "git3_test_known: false alarms at 0.2 (%)",
+   "build": 0.0,
+   "bf16": 0.0,
+   "pass": true
+  },
+  {
+   "criterion": "git3_test_held: work-losing flagged at 0.2 (%)",
+   "build": 95.23809523809524,
+   "bf16": 95.23809523809524,
+   "pass": true
+  },
+  {
+   "criterion": "git3_test_held: false alarms at 0.2 (%)",
+   "build": 4.761904761904762,
+   "bf16": 2.380952380952381,
+   "pass": false
+  },
+  {
+   "criterion": "ECE, git3 pooled (10 bins)",
+   "build": 0.026601017951581398,
+   "bf16": 0.024135897758502365,
+   "pass": true
+  },
+  {
+   "criterion": "agreement with bf16, 7615 answers (%)",
+   "build": 95.25935653315824,
+   "bf16": 100.0,
+   "pass": false
+  },
+  {
+   "criterion": "agreement on bf16-confident answers, 3864 (%)",
+   "build": 99.14596273291926,
+   "bf16": 100.0,
+   "pass": true
+  }
+ ],
+ "pass": false,
+ "extra": {
+  "git3 known / held (%)": [
+   97.43589743589743,
+   94.63955637707949
+  ],
+  "lost AUROC known / held": [
+   0.9982698961937716,
+   0.9903628117913832
+  ],
+  "multi_test_trainfam changed, one prompt / read-once (%)": [
+   92.01773835920177,
+   null
+  ],
+  "240-question comparison": {
+   "git2_test_known (the 240-question comparison)": {
+    "lost": "39/40",
+    "fails": "38/40",
+    "state (changed)": "37/40",
+    "all": "114/120"
+   },
+   "git2_test_held (the 240-question comparison)": {
+    "lost": "38/40",
+    "fails": "32/40",
+    "state (changed)": "33/40",
+    "all": "103/120"
+   }
+  }
+ }
+}

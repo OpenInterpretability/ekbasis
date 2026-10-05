@@ -1,0 +1,17 @@
+180 items; example (pt):
+Mundo: dispositivos M1, M4, M5. Cada um está em um estado do ciclo esfriando -> aquecendo -> rodando -> ocioso -> esfriando. 'avançar' move todos os dispositivos um passo no ciclo; 'avançar D' move só D; 'zerar D' devolve D para esfriando.
+
+Estado atual:
+Dispositivos: M1 esfriando, M4 ocioso, M5 aquecendo
+
+Ações, em ordem:
+1. zerar M4
+
+As perguntas são sobre o estado depois de todas essas ações.
+Q: Em qual estado está M4? -> esfriando
+
+world      n chg | English  Portuguese   (questions the actions change)
+machines     30 |    76.7        73.3
+toggles      30 |    80.0        76.7
+jugs         30 |   100.0       100.0
+all          90 |    85.6        83.3

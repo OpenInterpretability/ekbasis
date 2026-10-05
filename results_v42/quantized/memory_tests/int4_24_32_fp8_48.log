@@ -1,0 +1,18 @@
+== int4_24GB fraction 0.21 max_num_seqs 8: vLLM up=0
+Model loading took 17.68 GiB memory and 5.099583 seconds
+    raise ValueError(
+ValueError: No available memory for the cache blocks. Try increasing `gpu_memory_utilization` when initializing the engine (this flag also controls CPU memory reservation on the CPU backend, despite its name). See https://docs.vllm.ai/en/latest/configuration/conserving_memory/ for more details.
+(EngineCore pid=641478)     raise ValueError(
+(EngineCore pid=641478) ValueError: No available memory for the cache blocks. Try increasing `gpu_memory_utilization` when initializing the engine (this flag also controls CPU memory reservation on the CPU backend, despite its name). See https://docs.vllm.ai/en/latest/configuration/conserving_memory/ for more details.
+mem_ceiling_test.sh: line 31: /proc/640843/cmdline: No such file or directory
+== int4_32GB fraction 0.28 max_num_seqs 16: vLLM up=1
+Model loading took 17.68 GiB memory and 5.209711 seconds
+GPU KV cache size: 79,492 tokens, Maximum concurrency for 16,384 tokens per request: 4.85x
+   60 held-out git questions: 60/60 same answer as at full memory
+== fp8_48GB fraction 0.42 max_num_seqs 64: vLLM up=1
+Model loading took 28.5 GiB memory and 9.349393 seconds
+GPU KV cache size: 108,619 tokens, Maximum concurrency for 16,384 tokens per request: 6.63x
+   60 held-out git questions: 60/60 same answer as at full memory
+2, 111 MiB
+
+[exited with code 0]

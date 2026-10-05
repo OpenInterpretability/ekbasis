@@ -1,0 +1,18 @@
+96 chains in 84.4 min (Ekbasis V41, one question per prompt, 6 items per world and length)
+world      len       mode | final ans whole state  exact until (median step)  ans depends on start  s/item
+jugs       100       text |      100%        100%                    all 100                    0%    1709
+jugs       100      image |      100%        100%                    all 100                    0%    1810
+jugs       100  image_obs |      100%        100%                         50                    0%    1871
+toggles    100       text |      100%         83%                    all 100                   50%    1805
+toggles    100      image |       83%         67%                    all 100                   50%    1784
+toggles    100  image_obs |      100%         83%                    all 100                   50%    1879
+machines   100       text |      100%        100%                    all 100                    0%    1764
+cards      100       text |       50%          0%                         44                   67%    1847
+jugs       200       text |      100%        100%                    all 200                    0%    3107
+jugs       200      image |      100%        100%                    all 200                    0%    3159
+jugs       200  image_obs |      100%        100%                    all 200                    0%    3201
+toggles    200       text |      100%        100%                    all 200                   17%    3134
+toggles    200      image |      100%        100%                    all 200                   17%    3137
+toggles    200  image_obs |      100%        100%                    all 200                   17%    3209
+machines   200       text |      100%        100%                    all 200                    0%    3082
+cards      200       text |       33%         17%                         18                  100%    3101

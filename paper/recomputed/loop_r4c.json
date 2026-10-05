@@ -1,0 +1,153 @@
+{
+ "pairs": 160,
+ "pooled": {
+  "check0.9": {
+   "v42": {
+    "chains": 80,
+    "exact": 80,
+    "wrong_per_100": 0.45,
+    "looks_per_100": 16.375
+   },
+   "r4c": {
+    "chains": 80,
+    "exact": 80,
+    "wrong_per_100": 0.13333333333333333,
+    "looks_per_100": 12.9
+   }
+  },
+  "conf0.5": {
+   "v42": {
+    "chains": 80,
+    "exact": 80,
+    "wrong_per_100": 1.275,
+    "looks_per_100": 7.241666666666666
+   },
+   "r4c": {
+    "chains": 80,
+    "exact": 79,
+    "wrong_per_100": 0.16666666666666666,
+    "looks_per_100": 7.183333333333334
+   }
+  }
+ },
+ "per_world": {
+  "jugs/check0.9": {
+   "v42": {
+    "chains": 16,
+    "exact": 16,
+    "wrong_per_100": 2.25,
+    "looks_per_100": 4.458333333333333
+   },
+   "r4c": {
+    "chains": 16,
+    "exact": 16,
+    "wrong_per_100": 0.6666666666666666,
+    "looks_per_100": 2.7083333333333335
+   }
+  },
+  "jugs/conf0.5": {
+   "v42": {
+    "chains": 16,
+    "exact": 16,
+    "wrong_per_100": 6.083333333333333,
+    "looks_per_100": 0.5
+   },
+   "r4c": {
+    "chains": 16,
+    "exact": 16,
+    "wrong_per_100": 0.75,
+    "looks_per_100": 0.0
+   }
+  },
+  "toggles/check0.9": {
+   "v42": {
+    "chains": 16,
+    "exact": 16,
+    "wrong_per_100": 0.0,
+    "looks_per_100": 4.125
+   },
+   "r4c": {
+    "chains": 16,
+    "exact": 16,
+    "wrong_per_100": 0.0,
+    "looks_per_100": 2.6666666666666665
+   }
+  },
+  "toggles/conf0.5": {
+   "v42": {
+    "chains": 16,
+    "exact": 16,
+    "wrong_per_100": 0.0,
+    "looks_per_100": 0.20833333333333334
+   },
+   "r4c": {
+    "chains": 16,
+    "exact": 16,
+    "wrong_per_100": 0.0,
+    "looks_per_100": 0.0
+   }
+  },
+  "machines/check0.9": {
+   "v42": {
+    "chains": 16,
+    "exact": 16,
+    "wrong_per_100": 0.0,
+    "looks_per_100": 10.291666666666666
+   },
+   "r4c": {
+    "chains": 16,
+    "exact": 16,
+    "wrong_per_100": 0.0,
+    "looks_per_100": 2.8333333333333335
+   }
+  },
+  "machines/conf0.5": {
+   "v42": {
+    "chains": 16,
+    "exact": 16,
+    "wrong_per_100": 0.0,
+    "looks_per_100": 1.375
+   },
+   "r4c": {
+    "chains": 16,
+    "exact": 16,
+    "wrong_per_100": 0.0,
+    "looks_per_100": 0.041666666666666664
+   }
+  },
+  "cards/check0.9": {
+   "v42": {
+    "chains": 32,
+    "exact": 32,
+    "wrong_per_100": 0.0,
+    "looks_per_100": 31.5
+   },
+   "r4c": {
+    "chains": 32,
+    "exact": 32,
+    "wrong_per_100": 0.0,
+    "looks_per_100": 28.145833333333332
+   }
+  },
+  "cards/conf0.5": {
+   "v42": {
+    "chains": 32,
+    "exact": 32,
+    "wrong_per_100": 0.14583333333333334,
+    "looks_per_100": 17.0625
+   },
+   "r4c": {
+    "chains": 32,
+    "exact": 31,
+    "wrong_per_100": 0.041666666666666664,
+    "looks_per_100": 17.9375
+   }
+  }
+ },
+ "criteria": {
+  "fewer_wrong": true,
+  "looks_within_10pct": true,
+  "exact_not_fewer": true,
+  "confirmed": true
+ }
+}

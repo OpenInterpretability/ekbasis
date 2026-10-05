@@ -1,0 +1,152 @@
+{
+ "part0.9": {
+  "mode": {
+   "chains": 24,
+   "exact": 24,
+   "wrong_per_100": 1.1666666666666667,
+   "looks_per_100": 9.25,
+   "seen_per_100": 27.72222222222222,
+   "whole_looks_per_100": 3.1944444444444446
+  },
+  "default_same_chains": {
+   "chains": 24,
+   "exact": 24,
+   "wrong_per_100": 0.6666666666666666,
+   "looks_per_100": 6.833333333333333,
+   "seen_per_100": 31.833333333333332,
+   "whole_looks_per_100": 6.833333333333333
+  },
+  "passes": false,
+  "per_world": {
+   "jugs": {
+    "mode": {
+     "chains": 8,
+     "exact": 8,
+     "wrong_per_100": 2.8333333333333335,
+     "looks_per_100": 4.416666666666667,
+     "seen_per_100": 11.416666666666666,
+     "whole_looks_per_100": 3.4166666666666665
+    },
+    "default": {
+     "chains": 8,
+     "exact": 8,
+     "wrong_per_100": 1.1666666666666667,
+     "looks_per_100": 3.8333333333333335,
+     "seen_per_100": 11.5,
+     "whole_looks_per_100": 3.8333333333333335
+    }
+   },
+   "toggles": {
+    "mode": {
+     "chains": 8,
+     "exact": 8,
+     "wrong_per_100": 0.6666666666666666,
+     "looks_per_100": 5.666666666666667,
+     "seen_per_100": 22.583333333333332,
+     "whole_looks_per_100": 2.8333333333333335
+    },
+    "default": {
+     "chains": 8,
+     "exact": 8,
+     "wrong_per_100": 0.8333333333333334,
+     "looks_per_100": 4.416666666666667,
+     "seen_per_100": 26.166666666666668,
+     "whole_looks_per_100": 4.416666666666667
+    }
+   },
+   "machines": {
+    "mode": {
+     "chains": 8,
+     "exact": 8,
+     "wrong_per_100": 0.0,
+     "looks_per_100": 17.666666666666668,
+     "seen_per_100": 49.166666666666664,
+     "whole_looks_per_100": 3.3333333333333335
+    },
+    "default": {
+     "chains": 8,
+     "exact": 8,
+     "wrong_per_100": 0.0,
+     "looks_per_100": 12.25,
+     "seen_per_100": 57.833333333333336,
+     "whole_looks_per_100": 12.25
+    }
+   }
+  }
+ },
+ "parta0.9": {
+  "mode": {
+   "chains": 24,
+   "exact": 24,
+   "wrong_per_100": 0.6944444444444444,
+   "looks_per_100": 8.5,
+   "seen_per_100": 31.36111111111111,
+   "whole_looks_per_100": 3.1666666666666665
+  },
+  "default_same_chains": {
+   "chains": 24,
+   "exact": 24,
+   "wrong_per_100": 0.6666666666666666,
+   "looks_per_100": 6.833333333333333,
+   "seen_per_100": 31.833333333333332,
+   "whole_looks_per_100": 6.833333333333333
+  },
+  "passes": false,
+  "per_world": {
+   "jugs": {
+    "mode": {
+     "chains": 8,
+     "exact": 8,
+     "wrong_per_100": 1.1666666666666667,
+     "looks_per_100": 4.416666666666667,
+     "seen_per_100": 12.166666666666666,
+     "whole_looks_per_100": 3.25
+    },
+    "default": {
+     "chains": 8,
+     "exact": 8,
+     "wrong_per_100": 1.1666666666666667,
+     "looks_per_100": 3.8333333333333335,
+     "seen_per_100": 11.5,
+     "whole_looks_per_100": 3.8333333333333335
+    }
+   },
+   "toggles": {
+    "mode": {
+     "chains": 8,
+     "exact": 8,
+     "wrong_per_100": 0.8333333333333334,
+     "looks_per_100": 5.583333333333333,
+     "seen_per_100": 25.0,
+     "whole_looks_per_100": 2.9166666666666665
+    },
+    "default": {
+     "chains": 8,
+     "exact": 8,
+     "wrong_per_100": 0.8333333333333334,
+     "looks_per_100": 4.416666666666667,
+     "seen_per_100": 26.166666666666668,
+     "whole_looks_per_100": 4.416666666666667
+    }
+   },
+   "machines": {
+    "mode": {
+     "chains": 8,
+     "exact": 8,
+     "wrong_per_100": 0.08333333333333333,
+     "looks_per_100": 15.5,
+     "seen_per_100": 56.916666666666664,
+     "whole_looks_per_100": 3.3333333333333335
+    },
+    "default": {
+     "chains": 8,
+     "exact": 8,
+     "wrong_per_100": 0.0,
+     "looks_per_100": 12.25,
+     "seen_per_100": 57.833333333333336,
+     "whole_looks_per_100": 12.25
+    }
+   }
+  }
+ }
+}

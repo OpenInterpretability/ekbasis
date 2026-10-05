@@ -1,0 +1,21 @@
+== agent: 180 puzzles; the model alone searches (beam 6); success = the plan works in the true simulator
+family     H   n |      Ekbasis (release) | questions/puzzle (Ekbasis (release))
+jugs       3  30 |                 100.0% |       40
+jugs       5  30 |                 100.0% |       40
+toggles    3  30 |                 100.0% |       47
+toggles    5  30 |                 100.0% |       50
+machines   3  30 |                 100.0% |      180
+machines   5  30 |                 100.0% |      250
+all          180 |                 100.0% |      101
+seconds: {'Ekbasis (release)': 1373}
+
+== agent_hard: 180 puzzles; the model alone searches (beam 6); success = the plan works in the true simulator
+family     H   n |      Ekbasis (release) | questions/puzzle (Ekbasis (release))
+jugs       8  30 |                  96.7% |       93
+jugs      12  30 |                  96.7% |      156
+toggles    8  30 |                 100.0% |       50
+toggles   12  30 |                 100.0% |       65
+machines   8  30 |                 100.0% |      259
+machines  12  30 |                 100.0% |      239
+all          180 |                  98.9% |      144
+seconds: {'Ekbasis (release)': 2049}

@@ -1,0 +1,4 @@
+ftest_family {"n": 1080, "acc": 81.57407407407408, "ci95": [79.25925925925927, 83.7037037037037], "per_world": {"cards": "247/360", "machines": "292/360", "timers": "342/360"}, "seconds": 1495.732140302658}
+ftest_family changed {"n_known": 1080, "n_changed": 629, "acc_changed": 79.96820349761526, "ci95_changed": [76.94753577106518, 83.14785373608903], "acc_unchanged": 83.81374722838137, "per_world_changed": {"cards": "143/220", "machines": "164/203", "timers": "196/206"}}
+git2_test_known 240-question comparison: {"lost": "39/40", "fails": "38/40", "state (changed)": "37/40", "all": "114/120"}
+git2_test_held 240-question comparison: {"lost": "38/40", "fails": "32/40", "state (changed)": "33/40", "all": "103/120"}

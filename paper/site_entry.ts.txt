@@ -1,0 +1,23 @@
+  // In openinterp_web/lib/papers-content.ts (papers[]); the page body is site_summary.md, copied to
+  // content/papers/look-when-unsure.md, and the PDF is public/papers/look-when-unsure.pdf. DOI reserved on Zenodo.
+  {
+    slug: "look-when-unsure",
+    title: "Look When Unsure, Check When Sure",
+    subtitle:
+      "Consequence training makes a world model's remaining errors confident, most of all where it knows the world best",
+    authors: "Caio Vicentino",
+    orcid: CAIO_ORCID,
+    venue: "Zenodo · CC-BY-4.0 · DOI 10.5281/zenodo.23146971",
+    status: "published",
+    date: "2026-10-04",
+    abstract:
+      "An agent that predicts the consequences of its actions can chain those predictions and plan without acting, but errors compound and checking the real state costs time. With V42, the first release candidate of the open one-pass consequence model Ekbasis-27B, a rule that looks at the real state when the chain's confidence falls below 0.9, plus Trickle-style scheduled checks, keeps 197 of 200 fresh long chains exact at 17.9 looks per 100 actions. The checks are needed because of a pre-registered finding: 58.1% of the model's errors in the families it was trained on carry confidence of at least 0.9, against 27.8% in families it never saw, and the same questions answered by the model before consequence training show almost none (1.9% and 0.5%). Recalibration and smoother losses do not fix it. Training on errors mined inside the model's own chains does, cutting silent wrong steps by 71–97%, but every such fine-tune failed a release criterion, most of them by forgetting rare work-losing git commands; an exact weight interpolation halfway back to V42 keeps the gain without the cost and is the released Ekbasis-27B. Every analysis is pre-registered and re-run from the saved outputs.",
+    artifacts: [
+      { label: "Paper PDF + permanent DOI (Zenodo, CC-BY-4.0)", href: "https://doi.org/10.5281/zenodo.23146971" },
+      { label: "Code, analysis scripts and reproduce.py (GitHub)", href: "https://github.com/OpenInterpretability/ekbasis/tree/main/paper" },
+      { label: "Model: Ekbasis-27B (HF)", href: "https://huggingface.co/caiovicentino1/Ekbasis-27B" },
+      { label: "Data (HF dataset)", href: "https://huggingface.co/datasets/caiovicentino1/ekbasis-data" },
+      { label: "Ekbasis on OpenInterp", href: "/ekbasis" },
+    ],
+    tags: ["world models", "agents", "calibration", "active observation", "confident errors", "DAgger", "pre-registration", "Ekbasis-27B"],
+  },

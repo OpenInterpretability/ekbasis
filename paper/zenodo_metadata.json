@@ -1,0 +1,46 @@
+{
+ "metadata": {
+  "title": "Look When Unsure, Check When Sure: Consequence Training Makes a World Model's Remaining Errors Confident, Most of All Where It Knows the World Best",
+  "upload_type": "publication",
+  "publication_type": "workingpaper",
+  "description": "<p>An agent that predicts the consequences of its actions can chain those predictions and plan without acting, but errors compound and checking the real state costs time. With V42, the first release candidate of the open one-pass consequence model Ekbasis-27B, a simple rule (look when the chain's confidence falls below 0.9, plus Trickle-style scheduled checks) keeps 197 of 200 fresh long chains exact at 17.9 looks per 100 actions. The checks are needed because of a pre-registered finding: 58.1% of the model's errors in trained families carry confidence of at least 0.9, against 27.8% in unseen families, and the same questions answered by the model before consequence training show almost none. Recalibration and smoother losses do not fix it; training on errors mined inside the model's own chains does, at the cost of rare git knowledge; an exact weight interpolation halfway back to V42 keeps the gain without the cost, passes the release evaluation and is the released Ekbasis-27B. Every analysis is pre-registered and re-run from the saved outputs.</p>",
+  "creators": [
+   {
+    "name": "Vicentino, Caio",
+    "affiliation": "OpenInterpretability",
+    "orcid": "0009-0003-4331-6259"
+   }
+  ],
+  "keywords": [
+   "world models",
+   "agents",
+   "calibration",
+   "confidence",
+   "active observation",
+   "event-triggered estimation",
+   "DAgger",
+   "pre-registration",
+   "consequence model",
+   "Ekbasis"
+  ],
+  "license": "cc-by-4.0",
+  "access_right": "open",
+  "related_identifiers": [
+   {
+    "identifier": "https://github.com/OpenInterpretability/ekbasis",
+    "relation": "isSupplementedBy",
+    "resource_type": "software"
+   },
+   {
+    "identifier": "https://huggingface.co/caiovicentino1/Ekbasis-27B",
+    "relation": "isSupplementedBy",
+    "resource_type": "other"
+   },
+   {
+    "identifier": "https://huggingface.co/datasets/caiovicentino1/ekbasis-data",
+    "relation": "isSupplementedBy",
+    "resource_type": "dataset"
+   }
+  ]
+ }
+}

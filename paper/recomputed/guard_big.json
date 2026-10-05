@@ -1,0 +1,321 @@
+{
+ "v42": {
+  "guard_known": {
+   "work_losing": 863,
+   "flagged": 829,
+   "flagged_pct": 96.06025492468135,
+   "safe": 863,
+   "false_alarms": 50,
+   "false_alarm_pct": 5.793742757821553,
+   "fails_n": 2760,
+   "fails_acc": 93.6231884057971
+  },
+  "guard_held": {
+   "work_losing": 799,
+   "flagged": 771,
+   "flagged_pct": 96.49561952440551,
+   "safe": 799,
+   "false_alarms": 53,
+   "false_alarm_pct": 6.633291614518147,
+   "fails_n": 4796,
+   "fails_acc": 82.75646371976647
+  }
+ },
+ "r4a": {
+  "guard_known": {
+   "work_losing": 863,
+   "flagged": 812,
+   "flagged_pct": 94.09038238702202,
+   "safe": 863,
+   "false_alarms": 44,
+   "false_alarm_pct": 5.098493626882966,
+   "fails_n": 2760,
+   "fails_acc": 94.27536231884058,
+   "v42_flags_run_misses": 21,
+   "run_flags_v42_misses": 4
+  },
+  "guard_held": {
+   "work_losing": 799,
+   "flagged": 763,
+   "flagged_pct": 95.49436795994994,
+   "safe": 799,
+   "false_alarms": 49,
+   "false_alarm_pct": 6.132665832290363,
+   "fails_n": 4796,
+   "fails_acc": 83.40283569641367,
+   "v42_flags_run_misses": 14,
+   "run_flags_v42_misses": 6
+  },
+  "gate": {
+   "guard_known: flagged within 1 point": false,
+   "guard_known: false alarms within 1 point": true,
+   "guard_held: flagged within 1 point": false,
+   "guard_held: false alarms within 1 point": true
+  },
+  "passes": false
+ },
+ "r4b": {
+  "guard_known": {
+   "work_losing": 863,
+   "flagged": 776,
+   "flagged_pct": 89.9188876013905,
+   "safe": 863,
+   "false_alarms": 27,
+   "false_alarm_pct": 3.1286210892236386,
+   "fails_n": 2760,
+   "fails_acc": 94.02173913043478,
+   "v42_flags_run_misses": 59,
+   "run_flags_v42_misses": 6
+  },
+  "guard_held": {
+   "work_losing": 799,
+   "flagged": 732,
+   "flagged_pct": 91.6145181476846,
+   "safe": 799,
+   "false_alarms": 35,
+   "false_alarm_pct": 4.380475594493117,
+   "fails_n": 4796,
+   "fails_acc": 83.73644703919933,
+   "v42_flags_run_misses": 43,
+   "run_flags_v42_misses": 4
+  },
+  "gate": {
+   "guard_known: flagged within 1 point": false,
+   "guard_known: false alarms within 1 point": true,
+   "guard_held: flagged within 1 point": false,
+   "guard_held: false alarms within 1 point": true
+  },
+  "passes": false
+ },
+ "r4c": {
+  "guard_known": {
+   "work_losing": 863,
+   "flagged": 832,
+   "flagged_pct": 96.40787949015063,
+   "safe": 863,
+   "false_alarms": 59,
+   "false_alarm_pct": 6.836616454229432,
+   "fails_n": 2760,
+   "fails_acc": 94.60144927536231,
+   "v42_flags_run_misses": 6,
+   "run_flags_v42_misses": 9
+  },
+  "guard_held": {
+   "work_losing": 799,
+   "flagged": 776,
+   "flagged_pct": 97.12140175219024,
+   "safe": 799,
+   "false_alarms": 66,
+   "false_alarm_pct": 8.260325406758447,
+   "fails_n": 4796,
+   "fails_acc": 83.13177648040033,
+   "v42_flags_run_misses": 4,
+   "run_flags_v42_misses": 9
+  },
+  "gate": {
+   "guard_known: flagged within 1 point": true,
+   "guard_known: false alarms within 1 point": false,
+   "guard_held: flagged within 1 point": true,
+   "guard_held: false alarms within 1 point": false
+  },
+  "passes": false
+ },
+ "r5a": {
+  "guard_known": {
+   "work_losing": 863,
+   "flagged": 825,
+   "flagged_pct": 95.59675550405562,
+   "safe": 863,
+   "false_alarms": 45,
+   "false_alarm_pct": 5.214368482039397,
+   "fails_n": 2760,
+   "fails_acc": 94.56521739130434,
+   "v42_flags_run_misses": 6,
+   "run_flags_v42_misses": 2
+  },
+  "guard_held": {
+   "work_losing": 799,
+   "flagged": 758,
+   "flagged_pct": 94.8685857321652,
+   "safe": 799,
+   "false_alarms": 45,
+   "false_alarm_pct": 5.632040050062578,
+   "fails_n": 4796,
+   "fails_acc": 82.44370308590491,
+   "v42_flags_run_misses": 16,
+   "run_flags_v42_misses": 3
+  },
+  "gate": {
+   "guard_known: flagged within 1 point": true,
+   "guard_known: false alarms within 1 point": true,
+   "guard_held: flagged within 1 point": false,
+   "guard_held: false alarms within 1 point": true
+  },
+  "passes": false
+ },
+ "r5b": {
+  "guard_known": {
+   "work_losing": 863,
+   "flagged": 821,
+   "flagged_pct": 95.1332560834299,
+   "safe": 863,
+   "false_alarms": 33,
+   "false_alarm_pct": 3.8238702201622248,
+   "fails_n": 2760,
+   "fails_acc": 94.02173913043478,
+   "v42_flags_run_misses": 13,
+   "run_flags_v42_misses": 5
+  },
+  "guard_held": {
+   "work_losing": 799,
+   "flagged": 764,
+   "flagged_pct": 95.61952440550688,
+   "safe": 799,
+   "false_alarms": 44,
+   "false_alarm_pct": 5.506883604505632,
+   "fails_n": 4796,
+   "fails_acc": 81.83903252710593,
+   "v42_flags_run_misses": 9,
+   "run_flags_v42_misses": 2
+  },
+  "gate": {
+   "guard_known: flagged within 1 point": true,
+   "guard_known: false alarms within 1 point": true,
+   "guard_held: flagged within 1 point": true,
+   "guard_held: false alarms within 1 point": true
+  },
+  "passes": true
+ },
+ "r5c": {
+  "guard_known": {
+   "work_losing": 863,
+   "flagged": 820,
+   "flagged_pct": 95.01738122827346,
+   "safe": 863,
+   "false_alarms": 37,
+   "false_alarm_pct": 4.287369640787949,
+   "fails_n": 2760,
+   "fails_acc": 94.67391304347827,
+   "v42_flags_run_misses": 19,
+   "run_flags_v42_misses": 10
+  },
+  "guard_held": {
+   "work_losing": 799,
+   "flagged": 759,
+   "flagged_pct": 94.99374217772215,
+   "safe": 799,
+   "false_alarms": 30,
+   "false_alarm_pct": 3.7546933667083855,
+   "fails_n": 4796,
+   "fails_acc": 83.21517931609675,
+   "v42_flags_run_misses": 18,
+   "run_flags_v42_misses": 6
+  },
+  "gate": {
+   "guard_known: flagged within 1 point": false,
+   "guard_known: false alarms within 1 point": true,
+   "guard_held: flagged within 1 point": false,
+   "guard_held: false alarms within 1 point": true
+  },
+  "passes": false
+ },
+ "w4a5": {
+  "guard_known": {
+   "work_losing": 863,
+   "flagged": 826,
+   "flagged_pct": 95.71263035921206,
+   "safe": 863,
+   "false_alarms": 40,
+   "false_alarm_pct": 4.634994206257242,
+   "fails_n": 2760,
+   "fails_acc": 94.23913043478261,
+   "v42_flags_run_misses": 7,
+   "run_flags_v42_misses": 4
+  },
+  "guard_held": {
+   "work_losing": 799,
+   "flagged": 768,
+   "flagged_pct": 96.12015018773467,
+   "safe": 799,
+   "false_alarms": 49,
+   "false_alarm_pct": 6.132665832290363,
+   "fails_n": 4796,
+   "fails_acc": 83.19432860717265,
+   "v42_flags_run_misses": 6,
+   "run_flags_v42_misses": 3
+  },
+  "gate": {
+   "guard_known: flagged within 1 point": true,
+   "guard_known: false alarms within 1 point": true,
+   "guard_held: flagged within 1 point": true,
+   "guard_held: false alarms within 1 point": true
+  },
+  "passes": true
+ },
+ "w4a7": {
+  "guard_known": {
+   "work_losing": 863,
+   "flagged": 819,
+   "flagged_pct": 94.90150637311703,
+   "safe": 863,
+   "false_alarms": 38,
+   "false_alarm_pct": 4.40324449594438,
+   "fails_n": 2760,
+   "fails_acc": 94.27536231884058,
+   "v42_flags_run_misses": 14,
+   "run_flags_v42_misses": 4
+  },
+  "guard_held": {
+   "work_losing": 799,
+   "flagged": 769,
+   "flagged_pct": 96.24530663329162,
+   "safe": 799,
+   "false_alarms": 47,
+   "false_alarm_pct": 5.882352941176471,
+   "fails_n": 4796,
+   "fails_acc": 83.31943286071727,
+   "v42_flags_run_misses": 8,
+   "run_flags_v42_misses": 6
+  },
+  "gate": {
+   "guard_known: flagged within 1 point": false,
+   "guard_known: false alarms within 1 point": true,
+   "guard_held: flagged within 1 point": true,
+   "guard_held: false alarms within 1 point": true
+  },
+  "passes": false
+ },
+ "w4b5": {
+  "guard_known": {
+   "work_losing": 863,
+   "flagged": 819,
+   "flagged_pct": 94.90150637311703,
+   "safe": 863,
+   "false_alarms": 36,
+   "false_alarm_pct": 4.171494785631518,
+   "fails_n": 2760,
+   "fails_acc": 94.34782608695652,
+   "v42_flags_run_misses": 13,
+   "run_flags_v42_misses": 3
+  },
+  "guard_held": {
+   "work_losing": 799,
+   "flagged": 766,
+   "flagged_pct": 95.86983729662077,
+   "safe": 799,
+   "false_alarms": 45,
+   "false_alarm_pct": 5.632040050062578,
+   "fails_n": 4796,
+   "fails_acc": 83.36113427856547,
+   "v42_flags_run_misses": 8,
+   "run_flags_v42_misses": 3
+  },
+  "gate": {
+   "guard_known: flagged within 1 point": false,
+   "guard_known: false alarms within 1 point": true,
+   "guard_held: flagged within 1 point": true,
+   "guard_held: false alarms within 1 point": true
+  },
+  "passes": false
+ }
+}

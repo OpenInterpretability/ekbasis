@@ -1,0 +1,50 @@
+[
+ {
+  "test": "bf16_80GB fraction 0.695 max_num_seqs 64",
+  "settings": "bf16_80GB fraction 0.695 max_num_seqs 64",
+  "up": true,
+  "kv_cache_tokens": 151703,
+  "same_answers": [
+   60,
+   60
+  ],
+  "seconds_per_question": null,
+  "error": null
+ },
+ {
+  "test": "fp8_48GB fraction 0.42 max_num_seqs 64",
+  "settings": "fp8_48GB fraction 0.42 max_num_seqs 64",
+  "up": true,
+  "kv_cache_tokens": 108619,
+  "same_answers": [
+   60,
+   60
+  ],
+  "seconds_per_question": null,
+  "error": null
+ },
+ {
+  "test": "int4_32GB fraction 0.28 max_num_seqs 16",
+  "settings": "int4_32GB fraction 0.28 max_num_seqs 16",
+  "up": true,
+  "kv_cache_tokens": 79492,
+  "same_answers": [
+   60,
+   60
+  ],
+  "seconds_per_question": null,
+  "error": null
+ },
+ {
+  "test": "int4, 24 GB card at 0.95, text only, eager, 4k context, 4 sequences",
+  "settings": "int4, 24 GB card at 0.95, text only, eager, 4k context, 4 sequences",
+  "up": true,
+  "kv_cache_tokens": 33450,
+  "same_answers": [
+   60,
+   60
+  ],
+  "seconds_per_question": 0.1,
+  "error": null
+ }
+]

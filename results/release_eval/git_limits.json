@@ -1,0 +1,107 @@
+{
+ "what": "Three git cases the guard gets wrong, found after the release evaluation (2026-10-04), with a control.",
+ "setup": "Each case runs in a fresh sandbox repository: two commits on main (app.py, utils.py, README.md), then the change named below; `ekbasis git-check --json` (client 0.1.0, release weights bf16, one replica) predicts, then the same commands run for real on a copy and the truth is read from the result (uncommitted work lost: a version of a file no longer in the working tree, the index, a stash or a commit; ignored files count too).",
+ "cases": [
+  {
+   "case": "commit_then_reset_q",
+   "change_before": "app.py edited, not committed",
+   "commands": [
+    "git commit -qam wip",
+    "git reset --hard"
+   ],
+   "p_lost": 0.9579,
+   "p_fail": [
+    0.0004,
+    0.0005
+   ],
+   "risky": true,
+   "truth": {
+    "lost": false,
+    "fails": [
+     false,
+     false
+    ]
+   },
+   "verdict": "false alarm"
+  },
+  {
+   "case": "commit_then_reset",
+   "change_before": "app.py edited, not committed",
+   "commands": [
+    "git commit -am wip",
+    "git reset --hard"
+   ],
+   "p_lost": 0.9627,
+   "p_fail": [
+    0.0009,
+    0.0006
+   ],
+   "risky": true,
+   "truth": {
+    "lost": false,
+    "fails": [
+     false,
+     false
+    ]
+   },
+   "verdict": "false alarm"
+  },
+  {
+   "case": "clean_fd_ignored_env_control",
+   "change_before": ".gitignore lists .env (committed); .env exists, ignored",
+   "commands": [
+    "git clean -fd"
+   ],
+   "p_lost": 0.0016,
+   "p_fail": [
+    0.0008
+   ],
+   "risky": false,
+   "truth": {
+    "lost": false,
+    "fails": [
+     false
+    ]
+   },
+   "verdict": "right (control)"
+  },
+  {
+   "case": "clean_x_ignored_env",
+   "change_before": ".gitignore lists .env (committed); .env exists, ignored",
+   "commands": [
+    "git clean -fdx"
+   ],
+   "p_lost": 0.0017,
+   "p_fail": [
+    0.0008
+   ],
+   "risky": false,
+   "truth": {
+    "lost": true,
+    "fails": [
+     false
+    ]
+   },
+   "verdict": "miss"
+  },
+  {
+   "case": "rm_changed_file",
+   "change_before": "app.py edited, not committed",
+   "commands": [
+    "git rm app.py"
+   ],
+   "p_lost": 0.9526,
+   "p_fail": [
+    0.982
+   ],
+   "risky": true,
+   "truth": {
+    "lost": false,
+    "fails": [
+     true
+    ]
+   },
+   "verdict": "inconsistent: fails and loses work"
+  }
+ ]
+}

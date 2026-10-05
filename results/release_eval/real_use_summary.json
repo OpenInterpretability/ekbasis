@@ -1,0 +1,13 @@
+{
+ "scenarios": 72,
+ "repos": 2,
+ "work_losing": 28,
+ "caught": 28,
+ "safe": 44,
+ "false_alarms": 0,
+ "scenarios_with_a_failing_command": 9,
+ "commands_that_fail": 9,
+ "fails_questions": 96,
+ "fails_right": 92,
+ "median_seconds": 0.89
+}

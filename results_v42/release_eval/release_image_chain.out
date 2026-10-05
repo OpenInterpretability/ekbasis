@@ -1,0 +1,6 @@
+60 items (10-20 actions each), Ekbasis V41 merged; accuracy of the final answer
+world       text start  image start  image+1st action  start read whole  vars read
+jugs             100.0        100.0             100.0              70.0       87.8
+toggles          100.0        100.0             100.0              93.3       98.9
+all              100.0        100.0             100.0              81.7       93.3
+mean seconds per item: text 10.9, image 11.7

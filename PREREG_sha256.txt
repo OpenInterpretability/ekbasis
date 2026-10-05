@@ -1,0 +1,28 @@
+70ad16fa6bd36b9a713af5fbecd3fad4efe8857e5e525309c27943f00045beb2  ekbasis/PREREG_release_eval.md
+0bdc6a3368297b9477355440b2b1b27d5cc49de729f5d7819753a9e887d806a2  ../../conseq/git_battery3.py
+2026-10-03 13:29:13 -03
+a8772b195b889e901af70e188936c599a0228c9df79e83a7b4d40359dbb36022  ekbasis/PREREG_quantized.md
+2026-10-03 15:08:26 -0300  PREREG_quantized.md written
+9644dbbeb1712f39cf5c5221dd597cd21ee1ea621b0b7c4940c89dda86753fb0  PREREG_confident_errors.md  (written 2026-10-03 18:30 BRT, before generating or answering any item)
+f5d00582871ded130e5dcafaec4eb42b756e601446273140b62aed1bb58dd7d8  PREREG_confident_errors_eikos.md  (written 2026-10-03 18:48 BRT, before Eikos-27B answered any item)
+0dede30910870ed5aff293fe1b94ed6e98a2e07fd91c4be600b12fa7de71390a  PREREG_recalibration.md  (written 2026-10-03 19:11 BRT, before any run)
+9fee0b87cbb2f8350fd20442e2bc52ab2c15547388eb8f0adcb9646f2abd9871  PLAN_v43_calibration.md  (written 2026-10-03 19:11 BRT, before any run)
+de7b86d0e1b35fa12f7e035dbe4c95eeb8230336a492fbf4da5f1dc9e377f1fe  PLAN_v43_round2.md  (written 2026-10-03 19:57 BRT, before any round-2 item was answered)
+9d69d44955adb4157d5bfe4338a7c9067098c2154f2416ebae83b5eb0101fb17  PLAN_v43_loop_test.md  (written 2026-10-03 21:39 BRT, before any chain of the test ran)
+9b1e422ecbac63b6db6328044db06be3cb1db46ef3c96787b5767f0b34200de3  PLAN_v43_round3.md  (written 2026-10-03 22:48 BRT, before any round-3 run started)
+f7fe9dcd4fc2621a4e50a0fa7e06b64f2cdb0bf94dadebc9d331db09964e990d  PLAN_loop_ideas.md  (written 2026-10-04 00:55 BRT, before any run)
+f5a438130f1c63c451f20abde8d633d6e3295137addfcfeb02494fdf89862af2  PLAN_v43_round4.md  (written 2026-10-04 00:55 BRT, before any run)
+b2bd117834826677e06ec06eaf293fe6a1f6f21d577435a31101e3aa878a9f15  PLAN_loop_ideas2.md  (written 2026-10-04 01:53 BRT, before any run)
+95069db2b65618536072f1bcf2a3d99ddefa5eb7b24e3524f6ebb620a01698a3  PLAN_v43_round4_loop_explore.md  (written 2026-10-04 03:04 BRT, before any chain of the test ran)
+107e027dc80082836a2b5d2d520d305c339a5fb79eca3d91b8e4088478362e7c  PLAN_loop_ideas3.md  (written 2026-10-04 03:08 BRT, before any run)
+8f43b37f865ae7a36b5ef306d0a9c442fcb44802f6114844b33eb9a1118ea3af  PLAN_loop_ideas4.md  (written 2026-10-04 03:14 BRT, before any run)
+2a3b6ead375cbcb9766ddc795a24817db70238f3a68d7d5e0b55298129ce7803  PLAN_loop_ideas_confirm.md  (written 2026-10-04 03:17 BRT, before the results of tests 2-4)
+1988728f68862fdd965ba2e589c55c9dafbcba85776c0e1de90b0bf57f5fa0c4  PLAN_v43_round4_confirm.md  (written 2026-10-04 04:36 BRT, before any chain of the test ran)
+5089819e0b79a22cb09ebc272dec78c8a7ecdb64b60876b7d8a179f2eea203a6  PLAN_v43_round4_confirm_r4a.md  (written 2026-10-04 04:38 BRT, before any chain of the confirmation ran)
+6f98d66ab8cd1a77c546e1a777863dabfdf1aad2c0581b9424dad2d67613e6f2  PLAN_v43_release_eval.md  (written 2026-10-04 04:41 BRT, before the confirmation's results and before any of this evaluation ran)
+a865a3fe82fdc0cc13c54d31d9deec2fa9946ba2c9cfd4556d45548d09b5dff5  PLAN_v43_round5.md  (written 2026-10-04 07:51 BRT, before any round-5 run started)
+1f7d180977a0681feb93f364b6c39291aec2fbe3915c2ecb3ea5b2be0f2257b7  PLAN_v43_r4c_loop.md  (written 2026-10-04 08:55 BRT, before any chain of the test ran)
+1f82e2a0ae786625fd1940ba5391c28f9593181ceea9bf2d569319945b0fbeec  PLAN_v43_wise.md  (written 2026-10-04 08:57 BRT, before any interpolation was evaluated)
+88c71c83610c083d66bf5d7e5854093e6bdd14718fa7f340144846f5a03a24dd  PLAN_guard_set.md  (written 2026-10-04 09:42 BRT, before the set was generated and before any model was evaluated on it)
+8666e4d0702f31ff256874d841d1209e14009c9b462f47cc3dc94b1c54e02155  PLAN_v43_wise_addendum.md  (written 2026-10-04 09:44 BRT, before any interpolation or larger-set evaluation)
+0b4ba20791c8db51346a177a29a9eb2e294894a2629f7343f3728fe4fc36aeb2  PLAN_paper_base_loop.md  (written 2026-10-04 13:02 BRT, before any chain of the experiment ran)

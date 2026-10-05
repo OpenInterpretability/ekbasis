@@ -1,0 +1,200 @@
+{
+ "pairs": 240,
+ "pooled": {
+  "text": {
+   "v42": {
+    "chains": 80,
+    "exact": 49,
+    "missed_at_most_last_action": 0,
+    "wrong_per_100": 33.141666666666666,
+    "looks_per_100": 0.0
+   },
+   "r4b": {
+    "chains": 80,
+    "exact": 47,
+    "missed_at_most_last_action": 0,
+    "wrong_per_100": 35.49166666666667,
+    "looks_per_100": 0.0
+   }
+  },
+  "conf0.5": {
+   "v42": {
+    "chains": 80,
+    "exact": 79,
+    "missed_at_most_last_action": 0,
+    "wrong_per_100": 2.0083333333333333,
+    "looks_per_100": 9.15
+   },
+   "r4b": {
+    "chains": 80,
+    "exact": 78,
+    "missed_at_most_last_action": 0,
+    "wrong_per_100": 1.125,
+    "looks_per_100": 8.425
+   }
+  },
+  "check0.9": {
+   "v42": {
+    "chains": 80,
+    "exact": 80,
+    "missed_at_most_last_action": 0,
+    "wrong_per_100": 0.425,
+    "looks_per_100": 18.908333333333335
+   },
+   "r4b": {
+    "chains": 80,
+    "exact": 80,
+    "missed_at_most_last_action": 0,
+    "wrong_per_100": 0.13333333333333333,
+    "looks_per_100": 15.125
+   }
+  }
+ },
+ "per_world": {
+  "jugs/conf0.5": {
+   "v42": {
+    "chains": 16,
+    "exact": 16,
+    "missed_at_most_last_action": 0,
+    "wrong_per_100": 3.1666666666666665,
+    "looks_per_100": 0.2916666666666667
+   },
+   "r4b": {
+    "chains": 16,
+    "exact": 16,
+    "missed_at_most_last_action": 0,
+    "wrong_per_100": 0.75,
+    "looks_per_100": 0.0
+   }
+  },
+  "jugs/check0.9": {
+   "v42": {
+    "chains": 16,
+    "exact": 16,
+    "missed_at_most_last_action": 0,
+    "wrong_per_100": 1.0416666666666667,
+    "looks_per_100": 3.6666666666666665
+   },
+   "r4b": {
+    "chains": 16,
+    "exact": 16,
+    "missed_at_most_last_action": 0,
+    "wrong_per_100": 0.4166666666666667,
+    "looks_per_100": 2.7916666666666665
+   }
+  },
+  "toggles/conf0.5": {
+   "v42": {
+    "chains": 16,
+    "exact": 15,
+    "missed_at_most_last_action": 0,
+    "wrong_per_100": 5.583333333333333,
+    "looks_per_100": 0.25
+   },
+   "r4b": {
+    "chains": 16,
+    "exact": 15,
+    "missed_at_most_last_action": 0,
+    "wrong_per_100": 1.9166666666666667,
+    "looks_per_100": 0.041666666666666664
+   }
+  },
+  "toggles/check0.9": {
+   "v42": {
+    "chains": 16,
+    "exact": 16,
+    "missed_at_most_last_action": 0,
+    "wrong_per_100": 1.0833333333333333,
+    "looks_per_100": 4.666666666666667
+   },
+   "r4b": {
+    "chains": 16,
+    "exact": 16,
+    "missed_at_most_last_action": 0,
+    "wrong_per_100": 0.25,
+    "looks_per_100": 2.8333333333333335
+   }
+  },
+  "machines/conf0.5": {
+   "v42": {
+    "chains": 16,
+    "exact": 16,
+    "missed_at_most_last_action": 0,
+    "wrong_per_100": 1.25,
+    "looks_per_100": 1.8333333333333333
+   },
+   "r4b": {
+    "chains": 16,
+    "exact": 16,
+    "missed_at_most_last_action": 0,
+    "wrong_per_100": 2.5833333333333335,
+    "looks_per_100": 0.5833333333333334
+   }
+  },
+  "machines/check0.9": {
+   "v42": {
+    "chains": 16,
+    "exact": 16,
+    "missed_at_most_last_action": 0,
+    "wrong_per_100": 0.0,
+    "looks_per_100": 11.875
+   },
+   "r4b": {
+    "chains": 16,
+    "exact": 16,
+    "missed_at_most_last_action": 0,
+    "wrong_per_100": 0.0,
+    "looks_per_100": 5.083333333333333
+   }
+  },
+  "cards/conf0.5": {
+   "v42": {
+    "chains": 32,
+    "exact": 32,
+    "missed_at_most_last_action": 0,
+    "wrong_per_100": 0.020833333333333332,
+    "looks_per_100": 21.6875
+   },
+   "r4b": {
+    "chains": 32,
+    "exact": 31,
+    "missed_at_most_last_action": 0,
+    "wrong_per_100": 0.1875,
+    "looks_per_100": 20.75
+   }
+  },
+  "cards/check0.9": {
+   "v42": {
+    "chains": 32,
+    "exact": 32,
+    "missed_at_most_last_action": 0,
+    "wrong_per_100": 0.0,
+    "looks_per_100": 37.166666666666664
+   },
+   "r4b": {
+    "chains": 32,
+    "exact": 32,
+    "missed_at_most_last_action": 0,
+    "wrong_per_100": 0.0,
+    "looks_per_100": 32.458333333333336
+   }
+  }
+ },
+ "trained_traces": {
+  "v42": {
+   "steps": 2400,
+   "wrong": 13,
+   "wrong_at_0.9": 11
+  },
+  "r4b": {
+   "steps": 4800,
+   "wrong": 6,
+   "wrong_at_0.9": 4
+  }
+ },
+ "criteria": {
+  "default_not_worse": true,
+  "matched_cost_better": true,
+  "loop_better": true
+ }
+}

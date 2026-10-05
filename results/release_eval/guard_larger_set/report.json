@@ -1,0 +1,28 @@
+{
+ "guard_known": {
+  "work_losing": 863,
+  "flagged_at_0.2": 828,
+  "safe": 863,
+  "false_alarms_at_0.2": 37,
+  "fails_n": 2760,
+  "fails_right": 2602,
+  "readout_flagged_at_0.2": 826,
+  "readout_false_alarms_at_0.2": 40,
+  "same_flag_decision": 1719,
+  "lost_items": 1726,
+  "seconds": 71.87645363807678
+ },
+ "guard_held": {
+  "work_losing": 799,
+  "flagged_at_0.2": 767,
+  "safe": 799,
+  "false_alarms_at_0.2": 49,
+  "fails_n": 4796,
+  "fails_right": 3989,
+  "readout_flagged_at_0.2": 768,
+  "readout_false_alarms_at_0.2": 49,
+  "same_flag_decision": 1597,
+  "lost_items": 1598,
+  "seconds": 97.0686342716217
+ }
+}

@@ -1,0 +1,90 @@
+{
+ "Claude Fable 5.1": {
+  "git_known": [
+   116,
+   120,
+   120
+  ],
+  "git_held": [
+   110,
+   120,
+   120
+  ]
+ },
+ "Claude Haiku 4.5": {
+  "git_known": [
+   93,
+   120,
+   120
+  ],
+  "git_held": [
+   73,
+   120,
+   111
+  ]
+ },
+ "Claude Opus 5.5": {
+  "git_known": [
+   117,
+   120,
+   120
+  ],
+  "git_held": [
+   107,
+   120,
+   120
+  ]
+ },
+ "Claude Sonnet 5.5": {
+  "git_known": [
+   115,
+   120,
+   120
+  ],
+  "git_held": [
+   113,
+   120,
+   120
+  ]
+ },
+ "Qwen3.8-27B reasoning": {
+  "git_known": [
+   104,
+   120
+  ],
+  "git_held": [
+   72,
+   120
+  ]
+ },
+ "Qwen3.8-27B answering at once": {
+  "git_known": [
+   86,
+   120
+  ],
+  "git_held": [
+   79,
+   120
+  ]
+ },
+ "Eikos-27B (no consequence training)": {
+  "git_known": [
+   96,
+   120
+  ],
+  "git_held": [
+   88,
+   120
+  ]
+ },
+ "Ekbasis-27B": {
+  "git_known": [
+   115,
+   120
+  ],
+  "git_held": [
+   103,
+   120
+  ]
+ }
+}

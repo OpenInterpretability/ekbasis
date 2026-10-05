@@ -1,0 +1,8 @@
+{"i": 0, "kind": "jugs", "n_act": 22, "ok": true, "pred": "0", "chain_conf": 0.9862937835961385, "min_step": 0.994105693081136, "seconds": 2.707008123397827, "requests": 22, "input_tokens": 20862}
+{"i": 1, "kind": "machines", "n_act": 16, "ok": true, "pred": "mid", "chain_conf": 0.905838982942693, "min_step": 0.9831632390584012, "seconds": 2.2854576110839844, "requests": 16, "input_tokens": 17950}
+{"i": 2, "kind": "toggles", "n_act": 27, "ok": true, "pred": "bright", "chain_conf": 0.9095647229902222, "min_step": 0.9937743157337594, "seconds": 5.4060378074646, "requests": 27, "input_tokens": 45198}
+{"i": 3, "kind": "cards", "n_act": 27, "ok": true, "pred": "2", "chain_conf": 0.009211566843706965, "min_step": 0.4971669399355709, "seconds": 5.376964092254639, "requests": 27, "input_tokens": 42438}
+{"i": 4, "kind": "jugs", "n_act": 14, "ok": true, "pred": "0", "chain_conf": 0.9907729732006288, "min_step": 0.9959534938820198, "seconds": 1.764376163482666, "requests": 14, "input_tokens": 12390}
+{"i": 5, "kind": "machines", "n_act": 29, "ok": true, "pred": "running", "chain_conf": 0.8175690107798149, "min_step": 0.9744078010138149, "seconds": 3.962001085281372, "requests": 29, "input_tokens": 27312}
+{"i": 6, "kind": "toggles", "n_act": 15, "ok": true, "pred": "bright", "chain_conf": 0.9484413718864174, "min_step": 0.9932680624032546, "seconds": 2.9958853721618652, "requests": 15, "input_tokens": 24750}
+{"i": 7, "kind": "cards", "n_act": 17, "ok": true, "pred": "5", "chain_conf": 0.16195320192012985, "min_step": 0.4486470218268653, "seconds": 3.308088541030884, "requests": 17, "input_tokens": 26682}

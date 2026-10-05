@@ -1,0 +1,493 @@
+{
+ "traces": {
+  "trained": {
+   "eikos": {
+    "steps": 2400,
+    "wrong": 281,
+    "wrong_at_0.9": 0,
+    "share_wrong_at_0.9": 0.0,
+    "share_right_at_0.9": 0.0,
+    "auroc": 0.9610665408211421
+   },
+   "ekbasis": {
+    "steps": 2400,
+    "wrong": 9,
+    "wrong_at_0.9": 9,
+    "share_wrong_at_0.9": 1.0,
+    "share_right_at_0.9": 0.9953994144709327,
+    "auroc": 0.9458850318323342
+   }
+  },
+  "unseen": {
+   "eikos": {
+    "steps": 3600,
+    "wrong": 711,
+    "wrong_at_0.9": 0,
+    "share_wrong_at_0.9": 0.0,
+    "share_right_at_0.9": 0.0,
+    "auroc": 0.9136961139274585
+   },
+   "ekbasis": {
+    "steps": 3600,
+    "wrong": 85,
+    "wrong_at_0.9": 1,
+    "share_wrong_at_0.9": 0.011764705882352941,
+    "share_right_at_0.9": 0.8241820768136557,
+    "auroc": 0.9713781273533596
+   }
+  },
+  "jugs": {
+   "eikos": {
+    "steps": 1200,
+    "wrong": 232,
+    "wrong_at_0.9": 0,
+    "share_wrong_at_0.9": 0.0,
+    "share_right_at_0.9": 0.0,
+    "auroc": 0.9627542569108007
+   },
+   "ekbasis": {
+    "steps": 1200,
+    "wrong": 5,
+    "wrong_at_0.9": 5,
+    "share_wrong_at_0.9": 1.0,
+    "share_right_at_0.9": 0.9907949790794979,
+    "auroc": 0.9798326359832636
+   }
+  },
+  "toggles": {
+   "eikos": {
+    "steps": 1200,
+    "wrong": 49,
+    "wrong_at_0.9": 0,
+    "share_wrong_at_0.9": 0.0,
+    "share_right_at_0.9": 0.0,
+    "auroc": 0.9513821167041969
+   },
+   "ekbasis": {
+    "steps": 1200,
+    "wrong": 4,
+    "wrong_at_0.9": 4,
+    "share_wrong_at_0.9": 1.0,
+    "share_right_at_0.9": 1.0,
+    "auroc": 0.853992474916388
+   }
+  },
+  "machines": {
+   "eikos": {
+    "steps": 1200,
+    "wrong": 129,
+    "wrong_at_0.9": 0,
+    "share_wrong_at_0.9": 0.0,
+    "share_right_at_0.9": 0.0,
+    "auroc": 0.9779276051505874
+   },
+   "ekbasis": {
+    "steps": 1200,
+    "wrong": 3,
+    "wrong_at_0.9": 1,
+    "share_wrong_at_0.9": 0.3333333333333333,
+    "share_right_at_0.9": 0.9849624060150376,
+    "auroc": 0.985797827903091
+   }
+  },
+  "cards": {
+   "eikos": {
+    "steps": 2400,
+    "wrong": 582,
+    "wrong_at_0.9": 0,
+    "share_wrong_at_0.9": 0.0,
+    "share_right_at_0.9": 0.0,
+    "auroc": 0.9288860157493413
+   },
+   "ekbasis": {
+    "steps": 2400,
+    "wrong": 82,
+    "wrong_at_0.9": 0,
+    "share_wrong_at_0.9": 0.0,
+    "share_right_at_0.9": 0.7411561691113029,
+    "auroc": 0.9646167848650014
+   }
+  }
+ },
+ "loop": {
+  "text": {
+   "eikos": {
+    "chains": 40,
+    "exact": 17,
+    "silent_wrong_per_100": 58.983333333333334,
+    "looks_per_100": 0.0
+   },
+   "ekbasis": {
+    "chains": 40,
+    "exact": 24,
+    "silent_wrong_per_100": 32.45,
+    "looks_per_100": 0.0
+   },
+   "per_world": {
+    "jugs": {
+     "eikos": {
+      "chains": 8,
+      "exact": 3,
+      "silent_wrong_per_100": 59.166666666666664,
+      "looks_per_100": 0.0
+     },
+     "ekbasis": {
+      "chains": 8,
+      "exact": 8,
+      "silent_wrong_per_100": 4.333333333333333,
+      "looks_per_100": 0.0
+     }
+    },
+    "toggles": {
+     "eikos": {
+      "chains": 8,
+      "exact": 7,
+      "silent_wrong_per_100": 10.583333333333334,
+      "looks_per_100": 0.0
+     },
+     "ekbasis": {
+      "chains": 8,
+      "exact": 7,
+      "silent_wrong_per_100": 7.0,
+      "looks_per_100": 0.0
+     }
+    },
+    "machines": {
+     "eikos": {
+      "chains": 8,
+      "exact": 7,
+      "silent_wrong_per_100": 29.0,
+      "looks_per_100": 0.0
+     },
+     "ekbasis": {
+      "chains": 8,
+      "exact": 7,
+      "silent_wrong_per_100": 8.916666666666666,
+      "looks_per_100": 0.0
+     }
+    },
+    "cards": {
+     "eikos": {
+      "chains": 16,
+      "exact": 0,
+      "silent_wrong_per_100": 98.08333333333333,
+      "looks_per_100": 0.0
+     },
+     "ekbasis": {
+      "chains": 16,
+      "exact": 2,
+      "silent_wrong_per_100": 71.0,
+      "looks_per_100": 0.0
+     }
+    }
+   }
+  },
+  "conf0.5": {
+   "eikos": {
+    "chains": 40,
+    "exact": 35,
+    "silent_wrong_per_100": 1.8333333333333333,
+    "looks_per_100": 51.483333333333334
+   },
+   "ekbasis": {
+    "chains": 40,
+    "exact": 39,
+    "silent_wrong_per_100": 2.816666666666667,
+    "looks_per_100": 8.716666666666667
+   },
+   "per_world": {
+    "jugs": {
+     "eikos": {
+      "chains": 8,
+      "exact": 6,
+      "silent_wrong_per_100": 5.5,
+      "looks_per_100": 36.166666666666664
+     },
+     "ekbasis": {
+      "chains": 8,
+      "exact": 8,
+      "silent_wrong_per_100": 5.083333333333333,
+      "looks_per_100": 0.25
+     }
+    },
+    "toggles": {
+     "eikos": {
+      "chains": 8,
+      "exact": 8,
+      "silent_wrong_per_100": 1.0833333333333333,
+      "looks_per_100": 34.333333333333336
+     },
+     "ekbasis": {
+      "chains": 8,
+      "exact": 7,
+      "silent_wrong_per_100": 7.0,
+      "looks_per_100": 0.25
+     }
+    },
+    "machines": {
+     "eikos": {
+      "chains": 8,
+      "exact": 8,
+      "silent_wrong_per_100": 2.3333333333333335,
+      "looks_per_100": 39.916666666666664
+     },
+     "ekbasis": {
+      "chains": 8,
+      "exact": 8,
+      "silent_wrong_per_100": 1.9166666666666667,
+      "looks_per_100": 2.0833333333333335
+     }
+    },
+    "cards": {
+     "eikos": {
+      "chains": 16,
+      "exact": 13,
+      "silent_wrong_per_100": 0.125,
+      "looks_per_100": 73.5
+     },
+     "ekbasis": {
+      "chains": 16,
+      "exact": 16,
+      "silent_wrong_per_100": 0.041666666666666664,
+      "looks_per_100": 20.5
+     }
+    }
+   }
+  },
+  "conf0.9": {
+   "eikos": {
+    "chains": 40,
+    "exact": 36,
+    "silent_wrong_per_100": 0.06666666666666667,
+    "looks_per_100": 99.33333333333333
+   },
+   "ekbasis": {
+    "chains": 40,
+    "exact": 40,
+    "silent_wrong_per_100": 0.7333333333333333,
+    "looks_per_100": 16.716666666666665
+   },
+   "per_world": {
+    "jugs": {
+     "eikos": {
+      "chains": 8,
+      "exact": 6,
+      "silent_wrong_per_100": 0.16666666666666666,
+      "looks_per_100": 99.33333333333333
+     },
+     "ekbasis": {
+      "chains": 8,
+      "exact": 8,
+      "silent_wrong_per_100": 2.5833333333333335,
+      "looks_per_100": 1.5833333333333333
+     }
+    },
+    "toggles": {
+     "eikos": {
+      "chains": 8,
+      "exact": 8,
+      "silent_wrong_per_100": 0.0,
+      "looks_per_100": 99.33333333333333
+     },
+     "ekbasis": {
+      "chains": 8,
+      "exact": 8,
+      "silent_wrong_per_100": 1.0833333333333333,
+      "looks_per_100": 3.3333333333333335
+     }
+    },
+    "machines": {
+     "eikos": {
+      "chains": 8,
+      "exact": 8,
+      "silent_wrong_per_100": 0.0,
+      "looks_per_100": 99.33333333333333
+     },
+     "ekbasis": {
+      "chains": 8,
+      "exact": 8,
+      "silent_wrong_per_100": 0.0,
+      "looks_per_100": 11.833333333333334
+     }
+    },
+    "cards": {
+     "eikos": {
+      "chains": 16,
+      "exact": 14,
+      "silent_wrong_per_100": 0.08333333333333333,
+      "looks_per_100": 99.33333333333333
+     },
+     "ekbasis": {
+      "chains": 16,
+      "exact": 16,
+      "silent_wrong_per_100": 0.0,
+      "looks_per_100": 33.416666666666664
+     }
+    }
+   }
+  },
+  "check0.5": {
+   "eikos": {
+    "chains": 40,
+    "exact": 36,
+    "silent_wrong_per_100": 1.4666666666666666,
+    "looks_per_100": 57.18333333333333
+   },
+   "ekbasis": {
+    "chains": 40,
+    "exact": 40,
+    "silent_wrong_per_100": 1.3,
+    "looks_per_100": 11.1
+   },
+   "per_world": {
+    "jugs": {
+     "eikos": {
+      "chains": 8,
+      "exact": 6,
+      "silent_wrong_per_100": 4.583333333333333,
+      "looks_per_100": 49.25
+     },
+     "ekbasis": {
+      "chains": 8,
+      "exact": 8,
+      "silent_wrong_per_100": 3.5,
+      "looks_per_100": 3.25
+     }
+    },
+    "toggles": {
+     "eikos": {
+      "chains": 8,
+      "exact": 8,
+      "silent_wrong_per_100": 1.1666666666666667,
+      "looks_per_100": 35.5
+     },
+     "ekbasis": {
+      "chains": 8,
+      "exact": 8,
+      "silent_wrong_per_100": 0.8333333333333334,
+      "looks_per_100": 2.9166666666666665
+     }
+    },
+    "machines": {
+     "eikos": {
+      "chains": 8,
+      "exact": 8,
+      "silent_wrong_per_100": 1.4166666666666667,
+      "looks_per_100": 45.166666666666664
+     },
+     "ekbasis": {
+      "chains": 8,
+      "exact": 8,
+      "silent_wrong_per_100": 2.0833333333333335,
+      "looks_per_100": 3.6666666666666665
+     }
+    },
+    "cards": {
+     "eikos": {
+      "chains": 16,
+      "exact": 14,
+      "silent_wrong_per_100": 0.08333333333333333,
+      "looks_per_100": 78.0
+     },
+     "ekbasis": {
+      "chains": 16,
+      "exact": 16,
+      "silent_wrong_per_100": 0.041666666666666664,
+      "looks_per_100": 22.833333333333332
+     }
+    }
+   }
+  },
+  "check0.9": {
+   "eikos": {
+    "chains": 40,
+    "exact": 35,
+    "silent_wrong_per_100": 0.08333333333333333,
+    "looks_per_100": 99.33333333333333
+   },
+   "ekbasis": {
+    "chains": 40,
+    "exact": 40,
+    "silent_wrong_per_100": 0.4,
+    "looks_per_100": 18.133333333333333
+   },
+   "per_world": {
+    "jugs": {
+     "eikos": {
+      "chains": 8,
+      "exact": 6,
+      "silent_wrong_per_100": 0.16666666666666666,
+      "looks_per_100": 99.33333333333333
+     },
+     "ekbasis": {
+      "chains": 8,
+      "exact": 8,
+      "silent_wrong_per_100": 1.1666666666666667,
+      "looks_per_100": 3.8333333333333335
+     }
+    },
+    "toggles": {
+     "eikos": {
+      "chains": 8,
+      "exact": 8,
+      "silent_wrong_per_100": 0.0,
+      "looks_per_100": 99.33333333333333
+     },
+     "ekbasis": {
+      "chains": 8,
+      "exact": 8,
+      "silent_wrong_per_100": 0.8333333333333334,
+      "looks_per_100": 4.416666666666667
+     }
+    },
+    "machines": {
+     "eikos": {
+      "chains": 8,
+      "exact": 8,
+      "silent_wrong_per_100": 0.0,
+      "looks_per_100": 99.33333333333333
+     },
+     "ekbasis": {
+      "chains": 8,
+      "exact": 8,
+      "silent_wrong_per_100": 0.0,
+      "looks_per_100": 12.25
+     }
+    },
+    "cards": {
+     "eikos": {
+      "chains": 16,
+      "exact": 13,
+      "silent_wrong_per_100": 0.125,
+      "looks_per_100": 99.33333333333333
+     },
+     "ekbasis": {
+      "chains": 16,
+      "exact": 16,
+      "silent_wrong_per_100": 0.0,
+      "looks_per_100": 35.083333333333336
+     }
+    }
+   }
+  }
+ },
+ "P1": {
+  "table_eikos_then_ekbasis": [
+   [
+    0,
+    281
+   ],
+   [
+    9,
+    0
+   ]
+  ],
+  "p_one_sided": 2.835489417051119e-17,
+  "inconclusive": false,
+  "confirmed": true
+ },
+ "checks_gain": {
+  "eikos": -0.016666666666666663,
+  "ekbasis": 0.33333333333333326
+ }
+}

@@ -1,0 +1,600 @@
+{"preds": ["yes", "yes", "no", "jack", "jack", "4"], "golds": ["yes", "yes", "no", "ace", "jack", "4"], "tokens": 1476}
+{"preds": ["no", "no", "no", "yes", "no", "1"], "golds": ["no", "no", "no", "yes", "no", "1"], "tokens": 1278}
+{"preds": ["yes", "no", "eight", "7", "yes", "eight"], "golds": ["yes", "no", "eight", "7", "yes", "king"], "tokens": 1524}
+{"preds": ["0", "3", "no", "4", "6", "no"], "golds": ["0", "3", "no", "4", "6", "no"], "tokens": 1854}
+{"preds": ["2", "0", "8", "yes", "yes", "0"], "golds": ["2", "0", "8", "yes", "yes", "0"], "tokens": 1794}
+{"preds": ["no", "1", "green", "1", "1", "red"], "golds": ["no", "1", "green", "1", "2", "red"], "tokens": 1464}
+{"preds": ["1", "yes", "1", "yes", "2", "yes"], "golds": ["1", "no", "1", "no", "2", "no"], "tokens": 1692}
+{"preds": ["0", "yes", "1", "5", "no"], "golds": ["0", "yes", "1", "5", "no"], "tokens": 1375}
+{"preds": ["1", "3", "2", "yes", "4", "S"], "golds": ["1", "3", "2", "yes", "4", "S"], "tokens": 1374}
+{"preds": ["2", "1", "no", "red", "red", "no"], "golds": ["2", "1", "no", "red", "red", "no"], "tokens": 1350}
+{"preds": ["no", "2", "P", "3", "yes", "V"], "golds": ["no", "2", "R", "3", "yes", "V"], "tokens": 1656}
+{"preds": ["0", "no", "2", "1"], "golds": ["0", "no", "2", "1"], "tokens": 1152}
+{"preds": ["open", "yes", "no", "closing", "yes", "open"], "golds": ["open", "yes", "no", "closing", "yes", "open"], "tokens": 1290}
+{"preds": ["2", "no", "mid", "yes", "high", "no"], "golds": ["2", "no", "mid", "yes", "high", "no"], "tokens": 1434}
+{"preds": ["no", "no", "3", "3"], "golds": ["no", "no", "3", "3"], "tokens": 1096}
+{"preds": ["2", "1", "0", "no", "yes"], "golds": ["2", "1", "0", "no", "yes"], "tokens": 1350}
+{"preds": ["6", "5", "king", "5", "2", "no"], "golds": ["6", "4", "king", "5", "1", "no"], "tokens": 1662}
+{"preds": ["0", "no", "no", "no", "6", "4"], "golds": ["0", "no", "no", "no", "6", "4"], "tokens": 1650}
+{"preds": ["0", "no", "no", "8", "no"], "golds": ["0", "no", "no", "8", "no"], "tokens": 1235}
+{"preds": ["2", "yes", "0", "0", "yes"], "golds": ["2", "yes", "0", "0", "yes"], "tokens": 1325}
+{"preds": ["7", "4", "no", "nine", "king", "4"], "golds": ["7", "4", "no", "jack", "king", "5"], "tokens": 1686}
+{"preds": ["yes", "2", "yes", "0", "0", "no"], "golds": ["yes", "2", "yes", "0", "0", "no"], "tokens": 1662}
+{"preds": ["0", "no", "3", "yellow", "1", "green"], "golds": ["0", "no", "2", "yellow", "1", "green"], "tokens": 1326}
+{"preds": ["closing", "0", "1", "1", "yes", "opening"], "golds": ["closing", "0", "1", "1", "no", "opening"], "tokens": 1332}
+{"preds": ["0", "yes", "2", "no", "yes", "2"], "golds": ["0", "no", "2", "no", "yes", "2"], "tokens": 1692}
+{"preds": ["no", "yes", "green", "green", "green", "no"], "golds": ["no", "yes", "green", "green", "green", "no"], "tokens": 1314}
+{"preds": ["yes", "no", "yes", "1", "3", "mid"], "golds": ["yes", "no", "no", "1", "2", "mid"], "tokens": 1362}
+{"preds": ["2", "1", "yellow", "green", "no", "no"], "golds": ["2", "1", "yellow", "green", "no", "no"], "tokens": 1458}
+{"preds": ["no", "0", "no", "6", "7"], "golds": ["no", "0", "no", "6", "7"], "tokens": 1325}
+{"preds": ["0", "yes", "mid", "0", "mid", "mid"], "golds": ["0", "yes", "mid", "0", "mid", "mid"], "tokens": 1398}
+{"preds": ["0", "warming", "no", "1", "yes", "idle"], "golds": ["0", "warming", "no", "1", "no", "idle"], "tokens": 1308}
+{"preds": ["no", "no", "0", "3", "4"], "golds": ["no", "no", "0", "3", "4"], "tokens": 1350}
+{"preds": ["nine", "no", "eight", "yes", "no", "eight"], "golds": ["jack", "no", "eight", "yes", "no", "queen"], "tokens": 1536}
+{"preds": ["yes", "3", "yes", "0", "0", "0"], "golds": ["yes", "4", "yes", "0", "0", "0"], "tokens": 1866}
+{"preds": ["0", "no", "3", "no", "no", "4"], "golds": ["0", "no", "3", "no", "no", "4"], "tokens": 1584}
+{"preds": ["no", "no", "red", "1", "no", "no"], "golds": ["no", "no", "green", "2", "no", "no"], "tokens": 1344}
+{"preds": ["no", "ace", "yes", "6", "yes", "2"], "golds": ["no", "ace", "yes", "6", "yes", "2"], "tokens": 1488}
+{"preds": ["2", "2", "no", "yes", "no", "mid"], "golds": ["1", "2", "no", "no", "no", "mid"], "tokens": 1458}
+{"preds": ["4", "0", "1", "yes", "6", "no"], "golds": ["4", "0", "1", "yes", "6", "no"], "tokens": 1758}
+{"preds": ["no", "S", "3", "no", "2", "3"], "golds": ["yes", "S", "1", "no", "2", "3"], "tokens": 1416}
+{"preds": ["0", "idle", "idle", "yes", "idle", "3"], "golds": ["0", "idle", "idle", "yes", "idle", "3"], "tokens": 1422}
+{"preds": ["yes", "3", "no", "red", "yes", "no"], "golds": ["yes", "2", "no", "red", "no", "no"], "tokens": 1416}
+{"preds": ["yes", "0", "yes", "3", "no", "0"], "golds": ["yes", "0", "yes", "3", "no", "0"], "tokens": 1692}
+{"preds": ["0", "no", "5", "no", "2"], "golds": ["0", "no", "5", "no", "2"], "tokens": 1350}
+{"preds": ["4", "no", "jack", "1", "yes", "yes"], "golds": ["4", "no", "jack", "1", "yes", "yes"], "tokens": 1380}
+{"preds": ["yes", "2", "0", "yes", "5", "no"], "golds": ["yes", "2", "0", "yes", "5", "no"], "tokens": 1620}
+{"preds": ["no", "3", "yes", "no", "no", "1"], "golds": ["no", "3", "no", "no", "no", "1"], "tokens": 1674}
+{"preds": ["3", "king", "king", "ten", "no", "5"], "golds": ["2", "nine", "queen", "jack", "yes", "3"], "tokens": 1614}
+{"preds": ["no", "yes", "yes", "1", "yes", "5"], "golds": ["no", "no", "no", "0", "no", "5"], "tokens": 1584}
+{"preds": ["yes", "no", "3", "4", "yes", "ace"], "golds": ["yes", "no", "3", "4", "yes", "ace"], "tokens": 1332}
+{"preds": ["2", "king", "1", "jack", "ace", "3"], "golds": ["2", "king", "1", "jack", "ace", "3"], "tokens": 1584}
+{"preds": ["ten", "2", "no", "yes", "king", "no"], "golds": ["king", "4", "no", "no", "jack", "yes"], "tokens": 1476}
+{"preds": ["0", "yes", "3", "yes", "yes", "yes"], "golds": ["0", "yes", "3", "yes", "yes", "no"], "tokens": 1584}
+{"preds": ["king", "no", "2", "no", "yes", "5"], "golds": ["king", "no", "2", "no", "yes", "5"], "tokens": 1362}
+{"preds": ["yes", "yes", "1", "yes", "0", "3"], "golds": ["yes", "yes", "0", "yes", "0", "3"], "tokens": 1320}
+{"preds": ["no", "yes", "1", "yes", "no", "1"], "golds": ["no", "yes", "2", "yes", "no", "0"], "tokens": 1296}
+{"preds": ["0", "yes", "0", "no", "running", "running"], "golds": ["1", "no", "0", "no", "running", "cooling"], "tokens": 1380}
+{"preds": ["U", "no", "S", "2", "no", "5"], "golds": ["T", "no", "S", "1", "no", "2"], "tokens": 1584}
+{"preds": ["4", "2", "0", "no", "yes"], "golds": ["4", "2", "0", "no", "no"], "tokens": 1355}
+{"preds": ["0", "2", "yes", "6", "no", "0"], "golds": ["0", "2", "yes", "6", "no", "0"], "tokens": 1860}
+{"preds": ["no", "0", "no", "3", "1"], "golds": ["no", "0", "no", "3", "1"], "tokens": 1325}
+{"preds": ["yes", "1", "yellow", "no", "red", "1"], "golds": ["yes", "0", "yellow", "yes", "red", "1"], "tokens": 1482}
+{"preds": ["0", "4", "low", "2", "no", "low"], "golds": ["0", "3", "low", "2", "no", "low"], "tokens": 1512}
+{"preds": ["6", "jack", "king", "yes", "no", "no"], "golds": ["5", "king", "nine", "no", "yes", "yes"], "tokens": 1476}
+{"preds": ["1", "0", "yes", "no", "yes", "8"], "golds": ["2", "0", "yes", "no", "yes", "8"], "tokens": 1656}
+{"preds": ["1", "U", "yes", "R", "6", "4"], "golds": ["1", "U", "no", "P", "2", "3"], "tokens": 1734}
+{"preds": ["3", "3", "2", "S", "4", "T"], "golds": ["2", "3", "1", "S", "4", "T"], "tokens": 1524}
+{"preds": ["3", "no", "6", "no", "4", "0"], "golds": ["3", "no", "6", "no", "4", "0"], "tokens": 1848}
+{"preds": ["no", "yes", "closing", "no", "1", "closed"], "golds": ["no", "yes", "closing", "no", "1", "closed"], "tokens": 1440}
+{"preds": ["king", "2", "7", "1", "no", "nine"], "golds": ["king", "2", "7", "1", "no", "nine"], "tokens": 1638}
+{"preds": ["no", "king", "no", "queen", "1", "3"], "golds": ["no", "king", "no", "queen", "1", "3"], "tokens": 1410}
+{"preds": ["yes", "queen", "4", "ace", "king", "no"], "golds": ["no", "queen", "4", "ace", "king", "no"], "tokens": 1350}
+{"preds": ["queen", "jack", "ace", "3", "no", "3"], "golds": ["queen", "jack", "ace", "3", "no", "2"], "tokens": 1464}
+{"preds": ["4", "0", "no", "no", "2"], "golds": ["4", "0", "no", "no", "2"], "tokens": 1380}
+{"preds": ["0", "no", "1", "6"], "golds": ["0", "no", "1", "6"], "tokens": 1156}
+{"preds": ["6", "yes", "eight", "no", "yes", "yes"], "golds": ["6", "yes", "eight", "no", "yes", "yes"], "tokens": 1410}
+{"preds": ["opening", "yes", "closed", "3", "yes", "no"], "golds": ["opening", "yes", "closed", "2", "no", "yes"], "tokens": 1464}
+{"preds": ["S", "no", "R", "5", "yes", "4"], "golds": ["S", "yes", "P", "3", "no", "5"], "tokens": 1476}
+{"preds": ["no", "1", "1", "1", "no", "low"], "golds": ["no", "1", "1", "1", "no", "low"], "tokens": 1284}
+{"preds": ["1", "0", "2", "0", "no", "yes"], "golds": ["1", "0", "2", "0", "no", "yes"], "tokens": 1794}
+{"preds": ["4", "yes", "P", "no", "T", "5"], "golds": ["1", "no", "P", "no", "U", "2"], "tokens": 1590}
+{"preds": ["1", "0", "3", "yes"], "golds": ["1", "0", "3", "yes"], "tokens": 1136}
+{"preds": ["1", "1", "2", "0", "no", "yes"], "golds": ["1", "1", "2", "0", "no", "yes"], "tokens": 1794}
+{"preds": ["no", "2", "0", "yes", "green", "yellow"], "golds": ["no", "2", "0", "yes", "green", "yellow"], "tokens": 1350}
+{"preds": ["3", "0", "no", "2", "yes", "yes"], "golds": ["2", "0", "no", "2", "yes", "yes"], "tokens": 1656}
+{"preds": ["yes", "0", "2", "closing", "2", "0"], "golds": ["no", "0", "2", "closing", "2", "0"], "tokens": 1524}
+{"preds": ["1", "1", "yes", "mid", "yes", "no"], "golds": ["2", "1", "no", "mid", "no", "no"], "tokens": 1362}
+{"preds": ["no", "no", "0", "8", "1"], "golds": ["no", "no", "0", "8", "1"], "tokens": 1400}
+{"preds": ["no", "2", "1", "no", "running", "0"], "golds": ["no", "2", "1", "no", "running", "0"], "tokens": 1410}
+{"preds": ["1", "no", "no", "2", "no", "5"], "golds": ["1", "no", "no", "2", "no", "5"], "tokens": 1686}
+{"preds": ["no", "1", "0", "1"], "golds": ["no", "1", "0", "1"], "tokens": 1136}
+{"preds": ["2", "4", "no", "ace", "yes", "yes"], "golds": ["3", "4", "yes", "king", "no", "yes"], "tokens": 1404}
+{"preds": ["mid", "1", "no", "high", "1", "high"], "golds": ["mid", "2", "yes", "high", "2", "high"], "tokens": 1494}
+{"preds": ["0", "2", "5", "6", "no", "no"], "golds": ["0", "2", "5", "6", "no", "no"], "tokens": 1824}
+{"preds": ["yes", "jack", "jack", "yes", "yes", "yes"], "golds": ["yes", "jack", "ace", "yes", "no", "yes"], "tokens": 1386}
+{"preds": ["0", "no", "5", "no", "1", "9"], "golds": ["0", "no", "5", "no", "1", "9"], "tokens": 1848}
+{"preds": ["2", "yellow", "1", "0", "no", "no"], "golds": ["2", "yellow", "1", "0", "no", "no"], "tokens": 1296}
+{"preds": ["3", "yes", "4", "yes", "yes", "1"], "golds": ["1", "yes", "4", "yes", "no", "2"], "tokens": 1368}
+{"preds": ["1", "yes", "no", "0", "4", "6"], "golds": ["1", "yes", "no", "0", "4", "6"], "tokens": 1794}
+{"preds": ["yes", "no", "9", "6", "1", "no"], "golds": ["yes", "no", "9", "6", "1", "no"], "tokens": 1590}
+{"preds": ["yes", "7", "yes", "no", "nine", "jack"], "golds": ["yes", "7", "yes", "no", "nine", "queen"], "tokens": 1500}
+{"preds": ["2", "0", "0", "no", "2", "yes"], "golds": ["2", "0", "0", "no", "2", "yes"], "tokens": 1824}
+{"preds": ["3", "S", "yes", "no", "U", "yes"], "golds": ["3", "S", "yes", "no", "U", "yes"], "tokens": 1404}
+{"preds": ["closed", "1", "yes", "3", "0", "yes"], "golds": ["closed", "2", "no", "3", "0", "no"], "tokens": 1554}
+{"preds": ["yes", "6", "1", "ace", "no", "no"], "golds": ["yes", "6", "1", "ace", "no", "no"], "tokens": 1464}
+{"preds": ["closing", "1", "no", "0", "closed", "closing"], "golds": ["closing", "1", "no", "0", "closed", "closing"], "tokens": 1380}
+{"preds": ["1", "closing", "opening", "closing", "3", "yes"], "golds": ["1", "closing", "opening", "closing", "3", "yes"], "tokens": 1452}
+{"preds": ["0", "no", "no", "2", "no"], "golds": ["0", "no", "no", "2", "no"], "tokens": 1295}
+{"preds": ["1", "yes", "1", "no", "1", "closed"], "golds": ["1", "no", "1", "no", "1", "closed"], "tokens": 1530}
+{"preds": ["mid", "no", "1", "mid", "yes", "mid"], "golds": ["mid", "no", "1", "mid", "yes", "mid"], "tokens": 1344}
+{"preds": ["yes", "yes", "yes", "mid", "2", "no"], "golds": ["no", "yes", "yes", "mid", "2", "no"], "tokens": 1230}
+{"preds": ["closing", "0", "2", "no", "1", "1"], "golds": ["closing", "0", "1", "no", "2", "2"], "tokens": 1626}
+{"preds": ["1", "4", "5", "P", "no", "2"], "golds": ["1", "4", "5", "P", "no", "2"], "tokens": 1698}
+{"preds": ["5", "1", "U", "no", "no", "yes"], "golds": ["6", "1", "T", "no", "yes", "yes"], "tokens": 1512}
+{"preds": ["2", "0", "no", "red", "1", "yes"], "golds": ["2", "0", "no", "red", "1", "yes"], "tokens": 1332}
+{"preds": ["1", "5", "3", "no", "no"], "golds": ["0", "5", "3", "no", "no"], "tokens": 1410}
+{"preds": ["5", "4", "no", "ten", "no", "no"], "golds": ["5", "4", "yes", "ten", "no", "yes"], "tokens": 1536}
+{"preds": ["1", "low", "mid", "no", "high", "no"], "golds": ["1", "low", "mid", "no", "high", "no"], "tokens": 1260}
+{"preds": ["R", "Q", "no", "3", "no", "yes"], "golds": ["R", "Q", "no", "3", "yes", "yes"], "tokens": 1422}
+{"preds": ["2", "no", "green", "green", "no", "green"], "golds": ["2", "no", "green", "green", "no", "green"], "tokens": 1410}
+{"preds": ["0", "no", "5", "6", "no", "no"], "golds": ["0", "no", "5", "6", "no", "no"], "tokens": 1584}
+{"preds": ["5", "1", "T", "Q", "2", "S"], "golds": ["5", "1", "T", "Q", "2", "S"], "tokens": 1560}
+{"preds": ["5", "no", "1", "yes", "no", "7"], "golds": ["5", "no", "1", "yes", "no", "7"], "tokens": 1716}
+{"preds": ["yes", "2", "0", "0", "yes"], "golds": ["yes", "2", "0", "0", "yes"], "tokens": 1355}
+{"preds": ["4", "S", "1", "yes", "4", "P"], "golds": ["3", "S", "1", "yes", "4", "P"], "tokens": 1440}
+{"preds": ["1", "no", "yes", "red", "yes", "no"], "golds": ["2", "no", "no", "red", "no", "no"], "tokens": 1320}
+{"preds": ["no", "nine", "eight", "2", "ten", "4"], "golds": ["yes", "nine", "eight", "4", "ace", "1"], "tokens": 1674}
+{"preds": ["4", "R", "2", "6", "Q", "U"], "golds": ["4", "R", "2", "6", "Q", "U"], "tokens": 1608}
+{"preds": ["no", "8", "0", "no", "2", "no"], "golds": ["no", "8", "0", "no", "2", "no"], "tokens": 1584}
+{"preds": ["3", "0", "yes", "0", "0"], "golds": ["3", "0", "yes", "0", "0"], "tokens": 1545}
+{"preds": ["no", "0", "6", "8", "3", "6"], "golds": ["no", "0", "6", "8", "3", "6"], "tokens": 1962}
+{"preds": ["warming", "warming", "cooling", "0", "3", "cooling"], "golds": ["warming", "warming", "cooling", "0", "3", "cooling"], "tokens": 1518}
+{"preds": ["jack", "7", "jack", "no", "no", "king"], "golds": ["nine", "7", "jack", "yes", "no", "king"], "tokens": 1638}
+{"preds": ["yes", "2", "0", "red", "no", "green"], "golds": ["yes", "2", "0", "red", "no", "green"], "tokens": 1350}
+{"preds": ["7", "0", "no", "3", "no", "no"], "golds": ["7", "0", "no", "3", "no", "no"], "tokens": 1644}
+{"preds": ["6", "1", "no", "yes"], "golds": ["6", "1", "no", "yes"], "tokens": 1000}
+{"preds": ["no", "0", "2", "7", "no"], "golds": ["no", "0", "2", "7", "no"], "tokens": 1350}
+{"preds": ["1", "no", "warming", "warming", "no", "2"], "golds": ["1", "no", "warming", "warming", "no", "2"], "tokens": 1320}
+{"preds": ["2", "yes", "red", "1", "0", "yes"], "golds": ["2", "yes", "red", "1", "0", "no"], "tokens": 1284}
+{"preds": ["high", "1", "1", "no", "yes", "no"], "golds": ["high", "1", "1", "no", "no", "no"], "tokens": 1302}
+{"preds": ["1", "opening", "1", "closing", "no"], "golds": ["1", "opening", "1", "closing", "no"], "tokens": 1115}
+{"preds": ["6", "5", "1", "no", "2", "yes"], "golds": ["3", "5", "1", "no", "7", "no"], "tokens": 1584}
+{"preds": ["no", "low", "1", "low", "1", "high"], "golds": ["no", "low", "2", "low", "1", "high"], "tokens": 1386}
+{"preds": ["ten", "4", "queen", "yes", "yes", "3"], "golds": ["ten", "3", "queen", "no", "yes", "2"], "tokens": 1476}
+{"preds": ["6", "S", "yes", "R", "2", "T"], "golds": ["6", "S", "yes", "R", "2", "T"], "tokens": 1518}
+{"preds": ["1", "high", "2", "no", "yes", "no"], "golds": ["1", "high", "2", "no", "no", "no"], "tokens": 1398}
+{"preds": ["no", "no", "0", "1", "5", "3"], "golds": ["no", "no", "0", "1", "5", "3"], "tokens": 1788}
+{"preds": ["0", "no", "no", "7", "8", "6"], "golds": ["0", "no", "no", "7", "8", "6"], "tokens": 1788}
+{"preds": ["no", "6", "U", "P", "no", "no"], "golds": ["no", "4", "U", "P", "yes", "no"], "tokens": 1476}
+{"preds": ["yes", "5", "yes", "T", "4", "no"], "golds": ["no", "5", "yes", "T", "4", "no"], "tokens": 1440}
+{"preds": ["yes", "yes", "open", "no", "yes", "2"], "golds": ["yes", "yes", "open", "no", "yes", "2"], "tokens": 1380}
+{"preds": ["no", "no", "2", "0", "yes", "idle"], "golds": ["no", "no", "2", "0", "yes", "idle"], "tokens": 1368}
+{"preds": ["yes", "2", "0", "yes", "0"], "golds": ["yes", "2", "0", "yes", "0"], "tokens": 1325}
+{"preds": ["jack", "4", "3", "king", "no", "jack"], "golds": ["ace", "4", "3", "king", "no", "jack"], "tokens": 1542}
+{"preds": ["no", "1", "2", "4", "1", "no"], "golds": ["no", "1", "0", "4", "1", "no"], "tokens": 1794}
+{"preds": ["S", "4", "no", "R", "V", "no"], "golds": ["S", "4", "no", "R", "V", "no"], "tokens": 1590}
+{"preds": ["1", "0", "closing", "no", "no", "0"], "golds": ["1", "1", "closing", "no", "no", "0"], "tokens": 1368}
+{"preds": ["mid", "no", "no", "low", "mid", "2"], "golds": ["mid", "no", "no", "low", "mid", "2"], "tokens": 1410}
+{"preds": ["0", "4", "0", "6", "yes", "2"], "golds": ["0", "4", "0", "6", "yes", "2"], "tokens": 1986}
+{"preds": ["0", "5", "2", "no"], "golds": ["0", "5", "2", "no"], "tokens": 1112}
+{"preds": ["2", "4", "yes", "1"], "golds": ["2", "4", "no", "0"], "tokens": 1140}
+{"preds": ["no", "0", "no", "no", "no", "3"], "golds": ["no", "0", "no", "no", "no", "3"], "tokens": 1512}
+{"preds": ["green", "0", "yellow", "2", "no", "no"], "golds": ["green", "0", "yellow", "2", "no", "no"], "tokens": 1350}
+{"preds": ["no", "S", "2", "4", "no", "yes"], "golds": ["no", "P", "2", "4", "no", "yes"], "tokens": 1488}
+{"preds": ["no", "0", "no", "no", "1", "1"], "golds": ["no", "0", "no", "no", "1", "1"], "tokens": 1296}
+{"preds": ["no", "1", "yes", "0"], "golds": ["no", "1", "yes", "0"], "tokens": 1000}
+{"preds": ["3", "P", "2", "P", "U", "yes"], "golds": ["3", "Q", "6", "S", "U", "yes"], "tokens": 1638}
+{"preds": ["1", "yellow", "yes", "1", "no", "2"], "golds": ["1", "yellow", "no", "0", "no", "2"], "tokens": 1320}
+{"preds": ["green", "4", "red", "no", "green", "no"], "golds": ["green", "3", "red", "no", "green", "no"], "tokens": 1374}
+{"preds": ["0", "1", "no", "no", "9"], "golds": ["0", "1", "no", "no", "9"], "tokens": 1320}
+{"preds": ["0", "2", "1", "0", "running", "no"], "golds": ["0", "2", "1", "0", "running", "no"], "tokens": 1386}
+{"preds": ["open", "no", "no", "closing", "closing", "no"], "golds": ["open", "no", "no", "closing", "closing", "no"], "tokens": 1332}
+{"preds": ["1", "3", "9", "no", "0"], "golds": ["1", "3", "9", "no", "0"], "tokens": 1625}
+{"preds": ["4", "Q", "P", "yes", "yes", "no"], "golds": ["4", "Q", "P", "yes", "no", "no"], "tokens": 1302}
+{"preds": ["1", "low", "yes", "mid", "mid", "yes"], "golds": ["2", "low", "no", "mid", "mid", "yes"], "tokens": 1284}
+{"preds": ["yes", "1", "cooling", "no", "yes", "1"], "golds": ["no", "1", "cooling", "no", "no", "1"], "tokens": 1344}
+{"preds": ["no", "6", "no", "no", "3", "6"], "golds": ["no", "6", "no", "no", "3", "6"], "tokens": 1776}
+{"preds": ["0", "3", "4", "no", "9"], "golds": ["0", "3", "4", "no", "9"], "tokens": 1515}
+{"preds": ["1", "jack", "queen", "yes", "no", "no"], "golds": ["3", "jack", "queen", "no", "no", "no"], "tokens": 1374}
+{"preds": ["no", "yes", "open", "opening", "1", "no"], "golds": ["no", "no", "open", "opening", "2", "no"], "tokens": 1350}
+{"preds": ["0", "yes", "0", "low", "low", "low"], "golds": ["0", "yes", "0", "low", "low", "low"], "tokens": 1362}
+{"preds": ["7", "yes", "no", "1"], "golds": ["7", "yes", "no", "1"], "tokens": 1024}
+{"preds": ["no", "no", "running", "0", "0", "running"], "golds": ["yes", "no", "running", "0", "2", "warming"], "tokens": 1368}
+{"preds": ["no", "cooling", "no", "no", "no", "cooling"], "golds": ["no", "cooling", "no", "no", "no", "running"], "tokens": 1290}
+{"preds": ["cooling", "yes", "no", "3", "1", "0"], "golds": ["cooling", "yes", "no", "3", "1", "0"], "tokens": 1398}
+{"preds": ["1", "no", "yes", "3", "0", "low"], "golds": ["1", "no", "no", "2", "1", "low"], "tokens": 1440}
+{"preds": ["yes", "yes", "no", "2"], "golds": ["yes", "yes", "no", "2"], "tokens": 892}
+{"preds": ["6", "4", "jack", "5", "1", "ace"], "golds": ["6", "4", "jack", "5", "1", "ace"], "tokens": 1620}
+{"preds": ["yes", "yes", "high", "high", "high", "high"], "golds": ["yes", "yes", "high", "high", "high", "high"], "tokens": 1284}
+{"preds": ["jack", "2", "5", "yes", "nine", "no"], "golds": ["king", "3", "2", "yes", "queen", "no"], "tokens": 1608}
+{"preds": ["closed", "closed", "yes", "1", "no", "opening"], "golds": ["closed", "closed", "yes", "0", "no", "opening"], "tokens": 1464}
+{"preds": ["no", "yes", "1", "no", "1", "green"], "golds": ["no", "yes", "3", "yes", "2", "green"], "tokens": 1434}
+{"preds": ["yes", "0", "yes", "2", "7", "no"], "golds": ["yes", "0", "yes", "2", "7", "no"], "tokens": 1656}
+{"preds": ["7", "yes", "3", "yes", "P", "3"], "golds": ["7", "yes", "3", "yes", "P", "2"], "tokens": 1572}
+{"preds": ["yes", "eight", "7", "eight", "yes", "no"], "golds": ["no", "jack", "6", "eight", "yes", "no"], "tokens": 1476}
+{"preds": ["no", "no", "red", "red", "no", "1"], "golds": ["yes", "no", "red", "green", "yes", "2"], "tokens": 1296}
+{"preds": ["U", "Q", "3", "5", "no", "T"], "golds": ["U", "Q", "2", "5", "no", "R"], "tokens": 1638}
+{"preds": ["1", "no", "1", "no", "no", "no"], "golds": ["1", "no", "1", "no", "no", "no"], "tokens": 1332}
+{"preds": ["4", "3", "2", "no", "7", "jack"], "golds": ["5", "3", "2", "no", "7", "ten"], "tokens": 1674}
+{"preds": ["0", "3", "no", "2", "no"], "golds": ["0", "3", "no", "2", "no"], "tokens": 1320}
+{"preds": ["4", "no", "2", "no", "0"], "golds": ["4", "no", "2", "no", "0"], "tokens": 1375}
+{"preds": ["9", "no", "no", "0", "5"], "golds": ["9", "no", "no", "0", "5"], "tokens": 1435}
+{"preds": ["no", "1", "no", "opening", "closing", "closed"], "golds": ["no", "2", "no", "closing", "closed", "closed"], "tokens": 1362}
+{"preds": ["0", "1", "no", "no", "no", "3"], "golds": ["0", "1", "no", "no", "no", "3"], "tokens": 1650}
+{"preds": ["yes", "R", "R", "Q", "4", "no"], "golds": ["no", "S", "R", "Q", "2", "no"], "tokens": 1446}
+{"preds": ["8", "0", "7", "6", "no"], "golds": ["8", "0", "7", "6", "no"], "tokens": 1540}
+{"preds": ["7", "no", "0", "8", "no", "6"], "golds": ["7", "no", "0", "8", "no", "6"], "tokens": 1752}
+{"preds": ["no", "0", "no", "3", "1", "no"], "golds": ["no", "0", "no", "3", "1", "no"], "tokens": 1590}
+{"preds": ["0", "no", "6", "5", "no"], "golds": ["0", "no", "6", "5", "no"], "tokens": 1320}
+{"preds": ["mid", "no", "1", "no", "1", "mid"], "golds": ["low", "no", "2", "no", "1", "high"], "tokens": 1326}
+{"preds": ["4", "1", "0", "no", "no", "no"], "golds": ["4", "1", "0", "no", "no", "no"], "tokens": 1680}
+{"preds": ["2", "4", "0", "9", "no", "no"], "golds": ["2", "4", "0", "9", "no", "no"], "tokens": 1788}
+{"preds": ["no", "S", "U", "yes", "2", "V"], "golds": ["no", "S", "R", "yes", "2", "V"], "tokens": 1542}
+{"preds": ["low", "low", "yes", "0", "yes", "yes"], "golds": ["low", "low", "yes", "0", "yes", "yes"], "tokens": 1284}
+{"preds": ["2", "no", "2", "yes", "yes", "no"], "golds": ["2", "no", "2", "yes", "no", "no"], "tokens": 1392}
+{"preds": ["no", "1", "red", "yes", "red", "0"], "golds": ["yes", "0", "red", "yes", "red", "0"], "tokens": 1410}
+{"preds": ["no", "no", "0", "2", "7", "9"], "golds": ["no", "no", "0", "2", "7", "9"], "tokens": 1722}
+{"preds": ["no", "9", "no", "no", "0", "5"], "golds": ["no", "9", "no", "no", "0", "5"], "tokens": 1584}
+{"preds": ["3", "no", "no", "6", "R", "S"], "golds": ["3", "no", "no", "6", "R", "S"], "tokens": 1542}
+{"preds": ["3", "yes", "4", "no", "4", "yes"], "golds": ["2", "yes", "5", "yes", "6", "yes"], "tokens": 1554}
+{"preds": ["3", "ace", "king", "2", "jack", "no"], "golds": ["3", "ace", "king", "2", "jack", "no"], "tokens": 1386}
+{"preds": ["6", "1", "no", "1", "no", "8"], "golds": ["6", "0", "no", "1", "no", "8"], "tokens": 1794}
+{"preds": ["no", "0", "3", "no", "idle", "idle"], "golds": ["no", "0", "1", "yes", "idle", "idle"], "tokens": 1380}
+{"preds": ["1", "yes", "5", "P", "2", "3"], "golds": ["1", "yes", "5", "P", "6", "3"], "tokens": 1614}
+{"preds": ["yes", "no", "no", "1", "2", "4"], "golds": ["yes", "no", "no", "1", "2", "4"], "tokens": 1686}
+{"preds": ["1", "no", "0", "running", "no", "no"], "golds": ["1", "no", "1", "warming", "no", "no"], "tokens": 1344}
+{"preds": ["0", "0", "3", "0", "yes", "yes"], "golds": ["0", "0", "3", "0", "yes", "yes"], "tokens": 1794}
+{"preds": ["yes", "1", "no", "0"], "golds": ["yes", "1", "no", "0"], "tokens": 1120}
+{"preds": ["no", "9", "0", "no"], "golds": ["no", "9", "0", "no"], "tokens": 1020}
+{"preds": ["yes", "0", "2", "0"], "golds": ["yes", "0", "2", "0"], "tokens": 1116}
+{"preds": ["no", "4", "4", "ten", "4", "no"], "golds": ["no", "5", "1", "king", "3", "no"], "tokens": 1530}
+{"preds": ["P", "no", "1", "4", "3", "no"], "golds": ["P", "yes", "1", "4", "3", "no"], "tokens": 1368}
+{"preds": ["yes", "yes", "0", "no", "2", "no"], "golds": ["no", "no", "1", "no", "2", "no"], "tokens": 1428}
+{"preds": ["queen", "5", "no", "1", "4", "yes"], "golds": ["queen", "5", "no", "1", "4", "yes"], "tokens": 1500}
+{"preds": ["7", "3", "0", "no", "no", "no"], "golds": ["7", "3", "0", "no", "no", "no"], "tokens": 1584}
+{"preds": ["2", "4", "yes", "S", "1", "no"], "golds": ["2", "4", "yes", "S", "1", "no"], "tokens": 1344}
+{"preds": ["no", "1", "yes", "1", "3", "no"], "golds": ["no", "0", "no", "1", "3", "no"], "tokens": 1650}
+{"preds": ["yes", "high", "0", "3", "yes", "high"], "golds": ["yes", "high", "0", "3", "yes", "high"], "tokens": 1350}
+{"preds": ["7", "0", "no", "1", "no"], "golds": ["7", "0", "no", "1", "no"], "tokens": 1380}
+{"preds": ["yes", "yes", "opening", "2", "1", "yes"], "golds": ["no", "no", "opening", "2", "1", "no"], "tokens": 1428}
+{"preds": ["low", "1", "1", "mid", "no", "no"], "golds": ["low", "1", "1", "mid", "no", "no"], "tokens": 1362}
+{"preds": ["2", "0", "2", "no"], "golds": ["2", "0", "2", "no"], "tokens": 1112}
+{"preds": ["0", "idle", "idle", "no", "3", "0"], "golds": ["0", "warming", "idle", "no", "2", "0"], "tokens": 1536}
+{"preds": ["queen", "no", "1", "4", "3", "no"], "golds": ["queen", "no", "1", "4", "3", "no"], "tokens": 1368}
+{"preds": ["T", "5", "S", "no", "U", "R"], "golds": ["T", "5", "S", "yes", "U", "R"], "tokens": 1536}
+{"preds": ["no", "1", "no", "0", "5", "no"], "golds": ["no", "1", "no", "0", "5", "no"], "tokens": 1716}
+{"preds": ["R", "5", "5", "no", "no", "yes"], "golds": ["R", "5", "1", "no", "no", "yes"], "tokens": 1482}
+{"preds": ["0", "5", "4", "no", "no", "no"], "golds": ["0", "5", "4", "no", "no", "no"], "tokens": 1650}
+{"preds": ["yes", "no", "S", "R", "no", "yes"], "golds": ["yes", "yes", "Q", "R", "no", "no"], "tokens": 1368}
+{"preds": ["5", "1", "no", "1", "no"], "golds": ["5", "0", "no", "1", "no"], "tokens": 1375}
+{"preds": ["nine", "3", "no", "nine", "6", "queen"], "golds": ["ten", "4", "no", "king", "6", "queen"], "tokens": 1674}
+{"preds": ["1", "cooling", "no", "idle", "1", "yes"], "golds": ["1", "cooling", "no", "idle", "2", "no"], "tokens": 1476}
+{"preds": ["1", "1", "0", "warming", "2", "warming"], "golds": ["1", "0", "1", "running", "2", "warming"], "tokens": 1536}
+{"preds": ["red", "0", "red", "no", "1", "green"], "golds": ["red", "0", "red", "no", "1", "green"], "tokens": 1290}
+{"preds": ["7", "yes", "2", "0", "0"], "golds": ["7", "yes", "3", "0", "0"], "tokens": 1625}
+{"preds": ["1", "yes", "idle", "warming", "no", "0"], "golds": ["1", "no", "idle", "warming", "no", "0"], "tokens": 1344}
+{"preds": ["no", "2", "2", "no", "no", "no"], "golds": ["no", "0", "2", "no", "no", "no"], "tokens": 1548}
+{"preds": ["2", "closed", "yes", "yes", "open", "no"], "golds": ["1", "closing", "no", "no", "open", "no"], "tokens": 1428}
+{"preds": ["5", "king", "no", "6", "no", "4"], "golds": ["6", "king", "yes", "1", "yes", "4"], "tokens": 1572}
+{"preds": ["warming", "yes", "3", "warming", "no", "no"], "golds": ["warming", "yes", "3", "warming", "no", "no"], "tokens": 1482}
+{"preds": ["6", "yes", "2", "yes", "R", "no"], "golds": ["6", "yes", "4", "no", "R", "yes"], "tokens": 1464}
+{"preds": ["2", "yes", "ace", "1", "king", "no"], "golds": ["2", "yes", "ace", "1", "king", "no"], "tokens": 1410}
+{"preds": ["0", "no", "no", "no", "4"], "golds": ["0", "no", "no", "no", "4"], "tokens": 1290}
+{"preds": ["3", "green", "0", "yes", "yellow", "green"], "golds": ["3", "green", "0", "yes", "yellow", "green"], "tokens": 1398}
+{"preds": ["yes", "0", "yes", "yes", "yes", "mid"], "golds": ["yes", "0", "yes", "yes", "yes", "mid"], "tokens": 1368}
+{"preds": ["no", "yes", "ace", "yes", "no", "queen"], "golds": ["no", "yes", "ace", "yes", "no", "queen"], "tokens": 1404}
+{"preds": ["high", "high", "0", "yes", "yes", "high"], "golds": ["high", "high", "0", "yes", "yes", "high"], "tokens": 1296}
+{"preds": ["2", "no", "no", "1", "yes", "0"], "golds": ["2", "no", "no", "1", "yes", "0"], "tokens": 1716}
+{"preds": ["warming", "idle", "0", "running", "0", "no"], "golds": ["warming", "warming", "1", "running", "2", "no"], "tokens": 1470}
+{"preds": ["jack", "ace", "yes", "jack", "yes", "king"], "golds": ["jack", "queen", "no", "king", "yes", "ace"], "tokens": 1440}
+{"preds": ["1", "no", "ace", "yes", "2", "no"], "golds": ["1", "no", "ace", "no", "2", "no"], "tokens": 1464}
+{"preds": ["3", "no", "red", "0", "yes", "no"], "golds": ["2", "yes", "red", "0", "yes", "no"], "tokens": 1434}
+{"preds": ["no", "7", "7", "0", "no"], "golds": ["no", "7", "7", "0", "no"], "tokens": 1325}
+{"preds": ["1", "warming", "running", "running", "yes"], "golds": ["2", "warming", "warming", "running", "yes"], "tokens": 1270}
+{"preds": ["7", "0", "8", "no"], "golds": ["7", "0", "8", "no"], "tokens": 1112}
+{"preds": ["1", "yes", "1", "no", "0"], "golds": ["1", "yes", "1", "no", "0"], "tokens": 1350}
+{"preds": ["1", "no", "low", "no", "no", "1"], "golds": ["0", "no", "low", "yes", "yes", "2"], "tokens": 1290}
+{"preds": ["no", "0", "8", "9", "no"], "golds": ["no", "0", "8", "9", "no"], "tokens": 1350}
+{"preds": ["1", "0", "no", "6", "no"], "golds": ["1", "0", "no", "6", "no"], "tokens": 1325}
+{"preds": ["idle", "cooling", "2", "yes", "warming", "yes"], "golds": ["idle", "cooling", "2", "no", "warming", "no"], "tokens": 1422}
+{"preds": ["yes", "yes", "yes", "ace", "yes", "1"], "golds": ["no", "yes", "no", "ace", "yes", "1"], "tokens": 1410}
+{"preds": ["no", "1", "4", "1", "no", "0"], "golds": ["no", "1", "4", "1", "no", "0"], "tokens": 1788}
+{"preds": ["high", "no", "no", "low", "high", "yes"], "golds": ["high", "no", "yes", "low", "high", "yes"], "tokens": 1338}
+{"preds": ["no", "1", "1", "yes", "no", "1"], "golds": ["no", "1", "1", "yes", "no", "1"], "tokens": 1686}
+{"preds": ["3", "no", "1", "0", "no"], "golds": ["3", "no", "1", "0", "no"], "tokens": 1320}
+{"preds": ["1", "green", "red", "1", "2", "no"], "golds": ["0", "green", "red", "1", "2", "yes"], "tokens": 1326}
+{"preds": ["yes", "1", "0", "3", "no"], "golds": ["yes", "1", "0", "3", "no"], "tokens": 1380}
+{"preds": ["0", "0", "2", "yes", "2", "yes"], "golds": ["0", "0", "2", "yes", "2", "yes"], "tokens": 1860}
+{"preds": ["no", "no", "yes", "ace", "6", "king"], "golds": ["no", "no", "yes", "ace", "6", "king"], "tokens": 1428}
+{"preds": ["3", "no", "no", "1", "no", "R"], "golds": ["3", "no", "yes", "1", "no", "R"], "tokens": 1380}
+{"preds": ["2", "no", "1", "no", "yes"], "golds": ["2", "no", "1", "no", "yes"], "tokens": 1290}
+{"preds": ["3", "P", "P", "yes", "S", "no"], "golds": ["3", "Q", "P", "yes", "S", "no"], "tokens": 1398}
+{"preds": ["no", "no", "no", "2", "5", "no"], "golds": ["no", "no", "yes", "3", "1", "no"], "tokens": 1398}
+{"preds": ["no", "4", "0", "no"], "golds": ["no", "4", "0", "no"], "tokens": 980}
+{"preds": ["open", "no", "closed", "no", "closing", "1"], "golds": ["open", "no", "closed", "no", "closing", "1"], "tokens": 1410}
+{"preds": ["4", "ace", "jack", "king", "1", "no"], "golds": ["4", "ace", "jack", "king", "1", "no"], "tokens": 1512}
+{"preds": ["0", "3", "6", "yes", "no", "yes"], "golds": ["0", "3", "6", "yes", "no", "yes"], "tokens": 1656}
+{"preds": ["4", "S", "yes", "2", "P", "Q"], "golds": ["4", "S", "yes", "2", "P", "Q"], "tokens": 1464}
+{"preds": ["no", "yes", "green", "green", "2", "0"], "golds": ["no", "no", "green", "green", "2", "0"], "tokens": 1266}
+{"preds": ["1", "3", "yes", "0"], "golds": ["1", "3", "yes", "0"], "tokens": 1160}
+{"preds": ["no", "2", "0", "3", "no"], "golds": ["no", "2", "0", "3", "no"], "tokens": 1350}
+{"preds": ["no", "yes", "no", "7", "5", "7"], "golds": ["no", "yes", "no", "7", "5", "6"], "tokens": 1506}
+{"preds": ["no", "yes", "4", "ace", "yes", "3"], "golds": ["yes", "yes", "4", "ace", "yes", "3"], "tokens": 1356}
+{"preds": ["no", "low", "1", "no", "mid", "low"], "golds": ["no", "low", "1", "no", "mid", "low"], "tokens": 1284}
+{"preds": ["no", "closed", "open", "no", "yes", "closed"], "golds": ["no", "closed", "open", "no", "yes", "closed"], "tokens": 1332}
+{"preds": ["1", "no", "mid", "no", "1", "high"], "golds": ["1", "no", "mid", "no", "1", "high"], "tokens": 1338}
+{"preds": ["0", "no", "1", "6", "no", "6"], "golds": ["0", "no", "1", "6", "no", "6"], "tokens": 1794}
+{"preds": ["1", "green", "no", "yes", "yellow", "no"], "golds": ["1", "green", "no", "yes", "yellow", "no"], "tokens": 1398}
+{"preds": ["1", "0", "no", "green", "no", "green"], "golds": ["1", "0", "no", "green", "no", "green"], "tokens": 1350}
+{"preds": ["high", "high", "5", "yes", "high", "yes"], "golds": ["high", "high", "5", "yes", "high", "yes"], "tokens": 1374}
+{"preds": ["no", "no", "Q", "5", "Q", "S"], "golds": ["no", "no", "P", "5", "Q", "S"], "tokens": 1416}
+{"preds": ["closed", "1", "yes", "1", "open", "no"], "golds": ["closed", "1", "no", "1", "open", "no"], "tokens": 1536}
+{"preds": ["no", "4", "2", "jack", "2", "no"], "golds": ["no", "4", "1", "queen", "2", "yes"], "tokens": 1416}
+{"preds": ["mid", "mid", "yes", "0", "mid", "3"], "golds": ["mid", "mid", "yes", "0", "mid", "3"], "tokens": 1314}
+{"preds": ["no", "no", "no", "low", "2", "low"], "golds": ["no", "no", "no", "low", "2", "low"], "tokens": 1284}
+{"preds": ["yes", "yes", "yes", "T", "1", "no"], "golds": ["yes", "yes", "yes", "T", "1", "no"], "tokens": 1458}
+{"preds": ["no", "no", "yes", "yellow", "no", "1"], "golds": ["no", "yes", "no", "yellow", "no", "2"], "tokens": 1380}
+{"preds": ["2", "no", "4", "no", "king", "yes"], "golds": ["1", "yes", "4", "no", "queen", "yes"], "tokens": 1428}
+{"preds": ["0", "no", "no", "no", "7", "7"], "golds": ["0", "no", "no", "no", "7", "7"], "tokens": 1590}
+{"preds": ["yes", "no", "queen", "6", "nine", "nine"], "golds": ["no", "no", "queen", "6", "nine", "jack"], "tokens": 1554}
+{"preds": ["1", "0", "1", "no", "yes"], "golds": ["1", "0", "1", "no", "yes"], "tokens": 1380}
+{"preds": ["4", "2", "yes", "yes", "ten", "ace"], "golds": ["4", "1", "no", "yes", "ten", "ace"], "tokens": 1404}
+{"preds": ["0", "2", "no", "0", "no", "yes"], "golds": ["0", "2", "no", "0", "no", "yes"], "tokens": 1686}
+{"preds": ["no", "0", "8", "1", "no"], "golds": ["no", "0", "8", "1", "no"], "tokens": 1370}
+{"preds": ["V", "1", "U", "S", "4", "T"], "golds": ["V", "1", "U", "S", "4", "T"], "tokens": 1692}
+{"preds": ["0", "8", "no", "no", "no", "1"], "golds": ["0", "8", "no", "no", "no", "1"], "tokens": 1650}
+{"preds": ["yes", "3", "yes", "0", "0"], "golds": ["yes", "3", "yes", "0", "0"], "tokens": 1410}
+{"preds": ["7", "no", "U", "6", "no", "V"], "golds": ["7", "yes", "U", "6", "no", "R"], "tokens": 1656}
+{"preds": ["2", "0", "no", "0"], "golds": ["2", "0", "no", "0"], "tokens": 1164}
+{"preds": ["red", "no", "1", "no", "no", "1"], "golds": ["red", "no", "1", "no", "no", "1"], "tokens": 1266}
+{"preds": ["no", "S", "3", "7", "yes", "P"], "golds": ["no", "S", "2", "7", "yes", "P"], "tokens": 1608}
+{"preds": ["0", "no", "2", "yes", "4"], "golds": ["0", "no", "2", "no", "4"], "tokens": 1435}
+{"preds": ["0", "1", "1", "no"], "golds": ["0", "1", "1", "no"], "tokens": 1116}
+{"preds": ["2", "king", "yes", "ten", "no", "jack"], "golds": ["2", "ace", "no", "ten", "yes", "jack"], "tokens": 1440}
+{"preds": ["3", "no", "green", "yellow", "1", "no"], "golds": ["2", "no", "green", "yellow", "2", "no"], "tokens": 1482}
+{"preds": ["queen", "5", "yes", "1", "jack", "6"], "golds": ["queen", "5", "yes", "1", "jack", "6"], "tokens": 1638}
+{"preds": ["ace", "3", "yes", "jack", "no", "yes"], "golds": ["ace", "3", "yes", "jack", "no", "yes"], "tokens": 1326}
+{"preds": ["no", "0", "7", "8", "6", "no"], "golds": ["no", "0", "7", "8", "6", "no"], "tokens": 1752}
+{"preds": ["nine", "3", "no", "jack", "yes", "4"], "golds": ["nine", "3", "no", "jack", "yes", "4"], "tokens": 1494}
+{"preds": ["6", "R", "P", "V", "no", "T"], "golds": ["6", "R", "P", "V", "no", "T"], "tokens": 1614}
+{"preds": ["6", "9", "0", "no", "no"], "golds": ["6", "9", "0", "no", "no"], "tokens": 1320}
+{"preds": ["ten", "ace", "no", "6", "no", "no"], "golds": ["ten", "ace", "yes", "6", "no", "no"], "tokens": 1428}
+{"preds": ["1", "opening", "yes", "yes", "1", "closing"], "golds": ["1", "opening", "no", "no", "2", "closing"], "tokens": 1488}
+{"preds": ["no", "3", "no", "1"], "golds": ["no", "3", "no", "0"], "tokens": 1096}
+{"preds": ["warming", "no", "no", "cooling", "1", "no"], "golds": ["warming", "no", "no", "cooling", "1", "no"], "tokens": 1332}
+{"preds": ["nine", "5", "yes", "2", "4", "6"], "golds": ["nine", "5", "yes", "2", "4", "6"], "tokens": 1566}
+{"preds": ["S", "Q", "T", "R", "no", "yes"], "golds": ["S", "Q", "T", "R", "no", "yes"], "tokens": 1410}
+{"preds": ["no", "no", "1", "1", "7", "6"], "golds": ["no", "no", "0", "1", "7", "6"], "tokens": 1758}
+{"preds": ["1", "yes", "4", "0"], "golds": ["1", "yes", "4", "0"], "tokens": 1156}
+{"preds": ["yes", "0", "yes", "warming", "yes", "yes"], "golds": ["yes", "0", "yes", "warming", "yes", "yes"], "tokens": 1302}
+{"preds": ["queen", "no", "king", "yes", "no", "3"], "golds": ["queen", "no", "king", "yes", "no", "3"], "tokens": 1422}
+{"preds": ["0", "7", "4", "6", "no", "no"], "golds": ["0", "7", "4", "6", "no", "no"], "tokens": 1788}
+{"preds": ["2", "no", "no", "no", "no", "no"], "golds": ["2", "no", "no", "no", "yes", "no"], "tokens": 1404}
+{"preds": ["nine", "yes", "2", "yes", "3", "yes"], "golds": ["nine", "yes", "2", "yes", "3", "no"], "tokens": 1464}
+{"preds": ["yes", "mid", "yes", "0", "mid", "0"], "golds": ["yes", "mid", "yes", "0", "mid", "0"], "tokens": 1266}
+{"preds": ["yes", "king", "ace", "3", "no", "yes"], "golds": ["no", "ace", "king", "1", "yes", "yes"], "tokens": 1422}
+{"preds": ["P", "S", "3", "Q", "5", "no"], "golds": ["Q", "S", "2", "R", "5", "no"], "tokens": 1512}
+{"preds": ["4", "yes", "2", "P", "1", "1"], "golds": ["4", "yes", "2", "P", "3", "1"], "tokens": 1446}
+{"preds": ["yes", "green", "red", "yes", "yes", "green"], "golds": ["no", "green", "green", "no", "yes", "green"], "tokens": 1344}
+{"preds": ["yes", "jack", "2", "no", "4", "2"], "golds": ["yes", "jack", "1", "yes", "4", "2"], "tokens": 1416}
+{"preds": ["no", "green", "2", "2", "no", "green"], "golds": ["no", "green", "2", "2", "no", "green"], "tokens": 1458}
+{"preds": ["1", "0", "yes", "no", "7"], "golds": ["1", "0", "yes", "no", "7"], "tokens": 1380}
+{"preds": ["no", "4", "no", "1", "7", "no"], "golds": ["no", "4", "no", "1", "7", "no"], "tokens": 1686}
+{"preds": ["6", "3", "no", "3", "6", "nine"], "golds": ["3", "4", "yes", "1", "6", "nine"], "tokens": 1662}
+{"preds": ["1", "0", "no", "no", "3"], "golds": ["1", "0", "no", "no", "3"], "tokens": 1375}
+{"preds": ["low", "high", "mid", "no", "2", "1"], "golds": ["low", "high", "mid", "no", "2", "1"], "tokens": 1422}
+{"preds": ["yes", "T", "P", "1", "P", "Q"], "golds": ["yes", "T", "P", "1", "R", "Q"], "tokens": 1506}
+{"preds": ["5", "king", "queen", "no", "yes", "yes"], "golds": ["5", "king", "queen", "no", "yes", "yes"], "tokens": 1380}
+{"preds": ["red", "red", "yes", "1", "no", "red"], "golds": ["red", "green", "no", "1", "no", "red"], "tokens": 1398}
+{"preds": ["yes", "2", "0", "0", "yes"], "golds": ["yes", "2", "0", "0", "yes"], "tokens": 1355}
+{"preds": ["no", "2", "no", "no", "0", "3"], "golds": ["no", "2", "no", "no", "0", "3"], "tokens": 1656}
+{"preds": ["1", "2", "yes", "0", "yes"], "golds": ["1", "2", "yes", "0", "yes"], "tokens": 1435}
+{"preds": ["5", "5", "0", "no"], "golds": ["5", "5", "0", "no"], "tokens": 1112}
+{"preds": ["2", "2", "no", "no", "no", "high"], "golds": ["2", "2", "no", "no", "no", "high"], "tokens": 1482}
+{"preds": ["3", "no", "0", "3"], "golds": ["3", "no", "0", "3"], "tokens": 1132}
+{"preds": ["no", "0", "no", "9", "8"], "golds": ["no", "0", "no", "9", "8"], "tokens": 1495}
+{"preds": ["1", "2", "high", "yes", "no", "high"], "golds": ["1", "2", "high", "yes", "no", "mid"], "tokens": 1314}
+{"preds": ["king", "ten", "3", "eight", "king", "yes"], "golds": ["king", "nine", "1", "eight", "ace", "yes"], "tokens": 1614}
+{"preds": ["no", "1", "high", "no", "no", "no"], "golds": ["no", "1", "high", "no", "no", "no"], "tokens": 1242}
+{"preds": ["3", "no", "2", "no", "yes", "yes"], "golds": ["1", "no", "2", "no", "yes", "no"], "tokens": 1284}
+{"preds": ["yes", "0", "yes", "0", "4", "yes"], "golds": ["yes", "0", "yes", "0", "4", "yes"], "tokens": 1728}
+{"preds": ["yes", "2", "ace", "yes", "4", "6"], "golds": ["no", "2", "ace", "no", "4", "6"], "tokens": 1620}
+{"preds": ["5", "P", "4", "T", "3", "no"], "golds": ["5", "P", "4", "T", "3", "no"], "tokens": 1476}
+{"preds": ["cooling", "no", "1", "0", "no", "idle"], "golds": ["cooling", "no", "2", "0", "no", "idle"], "tokens": 1440}
+{"preds": ["5", "yes", "no", "R", "Q", "T"], "golds": ["2", "no", "no", "R", "T", "Q"], "tokens": 1512}
+{"preds": ["6", "0", "no", "7"], "golds": ["6", "0", "no", "7"], "tokens": 1136}
+{"preds": ["jack", "1", "yes", "3", "yes", "queen"], "golds": ["jack", "1", "no", "3", "yes", "queen"], "tokens": 1338}
+{"preds": ["closing", "1", "closed", "no", "yes", "yes"], "golds": ["closing", "1", "closed", "no", "no", "no"], "tokens": 1464}
+{"preds": ["cooling", "1", "yes", "idle", "no", "yes"], "golds": ["cooling", "1", "yes", "idle", "no", "no"], "tokens": 1386}
+{"preds": ["3", "king", "yes", "6", "nine"], "golds": ["1", "ten", "yes", "5", "nine"], "tokens": 1320}
+{"preds": ["low", "1", "yes", "yes", "1", "no"], "golds": ["low", "2", "yes", "yes", "1", "no"], "tokens": 1290}
+{"preds": ["2", "0", "green", "green", "yes", "yes"], "golds": ["3", "0", "green", "green", "no", "no"], "tokens": 1482}
+{"preds": ["no", "3", "P", "5", "yes", "no"], "golds": ["no", "3", "Q", "4", "yes", "yes"], "tokens": 1440}
+{"preds": ["ten", "3", "5", "jack", "yes", "jack"], "golds": ["queen", "4", "1", "ace", "yes", "jack"], "tokens": 1536}
+{"preds": ["yellow", "red", "1", "no", "1", "no"], "golds": ["yellow", "red", "1", "no", "1", "no"], "tokens": 1290}
+{"preds": ["no", "1", "no", "yes", "0"], "golds": ["no", "1", "no", "yes", "0"], "tokens": 1295}
+{"preds": ["1", "no", "no", "yellow", "1", "yellow"], "golds": ["1", "no", "no", "yellow", "0", "yellow"], "tokens": 1410}
+{"preds": ["3", "no", "0", "9", "7"], "golds": ["3", "no", "0", "9", "7"], "tokens": 1600}
+{"preds": ["no", "5", "no", "P", "3", "yes"], "golds": ["yes", "4", "no", "P", "3", "no"], "tokens": 1458}
+{"preds": ["no", "9", "7", "0", "no"], "golds": ["no", "9", "7", "0", "no"], "tokens": 1370}
+{"preds": ["no", "no", "1", "yes", "R", "no"], "golds": ["no", "no", "1", "yes", "R", "no"], "tokens": 1458}
+{"preds": ["3", "no", "king", "ten", "no", "nine"], "golds": ["3", "no", "king", "ten", "no", "nine"], "tokens": 1482}
+{"preds": ["no", "4", "0", "no", "1", "no"], "golds": ["no", "4", "0", "no", "1", "no"], "tokens": 1650}
+{"preds": ["1", "no", "0", "no", "no"], "golds": ["1", "no", "0", "no", "no"], "tokens": 1290}
+{"preds": ["no", "2", "no", "2", "mid", "no"], "golds": ["no", "2", "no", "2", "mid", "no"], "tokens": 1338}
+{"preds": ["no", "1", "no", "closing", "no", "closing"], "golds": ["no", "2", "no", "open", "no", "closing"], "tokens": 1452}
+{"preds": ["no", "no", "2", "king", "queen", "queen"], "golds": ["no", "yes", "3", "ace", "jack", "king"], "tokens": 1422}
+{"preds": ["no", "4", "no", "U", "U", "4"], "golds": ["yes", "1", "yes", "Q", "R", "5"], "tokens": 1590}
+{"preds": ["1", "no", "3", "green", "yes", "green"], "golds": ["1", "no", "3", "green", "yes", "green"], "tokens": 1410}
+{"preds": ["4", "1", "king", "no", "3", "ace"], "golds": ["4", "1", "king", "no", "3", "ace"], "tokens": 1488}
+{"preds": ["0", "no", "1", "no", "yes", "2"], "golds": ["0", "no", "1", "no", "yes", "2"], "tokens": 1296}
+{"preds": ["0", "no", "9", "2"], "golds": ["0", "no", "9", "2"], "tokens": 1132}
+{"preds": ["T", "yes", "yes", "P", "2", "3"], "golds": ["T", "yes", "yes", "P", "2", "3"], "tokens": 1476}
+{"preds": ["no", "king", "no", "no", "2", "jack"], "golds": ["no", "king", "no", "no", "2", "jack"], "tokens": 1326}
+{"preds": ["4", "jack", "yes", "no", "yes", "2"], "golds": ["4", "king", "yes", "no", "yes", "2"], "tokens": 1458}
+{"preds": ["0", "1", "0", "open", "yes", "open"], "golds": ["0", "1", "3", "open", "yes", "open"], "tokens": 1542}
+{"preds": ["3", "R", "yes", "5", "no", "yes"], "golds": ["3", "R", "yes", "5", "no", "yes"], "tokens": 1386}
+{"preds": ["1", "no", "no", "no", "4", "0"], "golds": ["1", "no", "no", "no", "4", "0"], "tokens": 1692}
+{"preds": ["no", "3", "no", "Q", "P", "1"], "golds": ["no", "3", "no", "Q", "P", "1"], "tokens": 1362}
+{"preds": ["3", "5", "ace", "no", "no", "no"], "golds": ["3", "5", "ace", "yes", "no", "yes"], "tokens": 1584}
+{"preds": ["4", "1", "no", "0", "yes"], "golds": ["4", "1", "no", "0", "yes"], "tokens": 1325}
+{"preds": ["3", "no", "0", "no", "no"], "golds": ["3", "no", "0", "no", "no"], "tokens": 1265}
+{"preds": ["4", "4", "T", "U", "no", "no"], "golds": ["6", "5", "P", "U", "no", "yes"], "tokens": 1656}
+{"preds": ["0", "8", "no", "no", "5"], "golds": ["0", "8", "no", "no", "5"], "tokens": 1370}
+{"preds": ["1", "no", "0", "yes", "4"], "golds": ["1", "no", "0", "yes", "4"], "tokens": 1430}
+{"preds": ["0", "yes", "0", "yes", "2"], "golds": ["0", "yes", "0", "yes", "2"], "tokens": 1350}
+{"preds": ["queen", "jack", "no", "2", "6", "5"], "golds": ["queen", "jack", "no", "2", "6", "5"], "tokens": 1530}
+{"preds": ["S", "no", "4", "no", "2", "no"], "golds": ["S", "yes", "1", "yes", "5", "no"], "tokens": 1458}
+{"preds": ["ten", "ten", "ten", "no", "2", "no"], "golds": ["ten", "ace", "king", "no", "2", "no"], "tokens": 1464}
+{"preds": ["yes", "ace", "queen", "1", "no", "no"], "golds": ["yes", "ace", "queen", "1", "no", "no"], "tokens": 1374}
+{"preds": ["no", "1", "idle", "no", "1", "no"], "golds": ["no", "1", "idle", "no", "1", "no"], "tokens": 1476}
+{"preds": ["yes", "ace", "4", "king", "no", "jack"], "golds": ["yes", "ace", "4", "king", "no", "jack"], "tokens": 1350}
+{"preds": ["1", "low", "low", "3", "1", "no"], "golds": ["0", "low", "low", "3", "2", "yes"], "tokens": 1536}
+{"preds": ["no", "1", "mid", "no", "no", "no"], "golds": ["no", "2", "low", "yes", "no", "no"], "tokens": 1404}
+{"preds": ["no", "1", "jack", "ten", "4", "yes"], "golds": ["no", "2", "ace", "ten", "5", "yes"], "tokens": 1476}
+{"preds": ["yes", "yes", "3", "yes", "high", "yes"], "golds": ["yes", "yes", "3", "yes", "high", "yes"], "tokens": 1242}
+{"preds": ["1", "low", "no", "high", "3", "mid"], "golds": ["1", "low", "no", "high", "3", "mid"], "tokens": 1434}
+{"preds": ["1", "no", "no", "1", "no", "no"], "golds": ["1", "no", "no", "1", "no", "no"], "tokens": 1308}
+{"preds": ["no", "no", "Q", "no", "3", "U"], "golds": ["no", "no", "Q", "yes", "3", "U"], "tokens": 1476}
+{"preds": ["yes", "yes", "yes", "4", "4", "no"], "golds": ["yes", "yes", "yes", "3", "2", "no"], "tokens": 1398}
+{"preds": ["3", "5", "yes", "3", "eight", "yes"], "golds": ["1", "6", "yes", "3", "king", "yes"], "tokens": 1644}
+{"preds": ["no", "no", "1", "cooling", "0", "yes"], "golds": ["no", "no", "1", "running", "1", "yes"], "tokens": 1416}
+{"preds": ["no", "2", "no", "open", "1", "1"], "golds": ["no", "2", "no", "open", "1", "1"], "tokens": 1530}
+{"preds": ["no", "low", "high", "1", "no", "1"], "golds": ["no", "low", "high", "1", "no", "1"], "tokens": 1338}
+{"preds": ["2", "yes", "yes", "0", "0"], "golds": ["2", "yes", "yes", "0", "0"], "tokens": 1435}
+{"preds": ["0", "8", "no", "no", "no"], "golds": ["0", "8", "no", "no", "no"], "tokens": 1235}
+{"preds": ["king", "yes", "no", "no", "yes", "5"], "golds": ["king", "yes", "no", "no", "yes", "5"], "tokens": 1362}
+{"preds": ["yes", "S", "4", "V", "U", "yes"], "golds": ["yes", "S", "4", "V", "U", "no"], "tokens": 1614}
+{"preds": ["5", "yes", "4", "yes", "V", "2"], "golds": ["5", "yes", "3", "yes", "V", "2"], "tokens": 1596}
+{"preds": ["no", "1", "closed", "yes", "no", "2"], "golds": ["no", "1", "closed", "yes", "no", "1"], "tokens": 1392}
+{"preds": ["yes", "3", "0", "yes", "yes", "0"], "golds": ["yes", "3", "0", "yes", "yes", "0"], "tokens": 1656}
+{"preds": ["no", "5", "no", "1", "R", "S"], "golds": ["no", "5", "no", "1", "R", "S"], "tokens": 1476}
+{"preds": ["no", "no", "1", "1", "0"], "golds": ["no", "no", "1", "1", "0"], "tokens": 1350}
+{"preds": ["4", "1", "ace", "jack", "2", "3"], "golds": ["4", "1", "ace", "jack", "2", "3"], "tokens": 1398}
+{"preds": ["yes", "yes", "high", "low", "1", "yes"], "golds": ["yes", "yes", "high", "low", "0", "no"], "tokens": 1296}
+{"preds": ["2", "T", "no", "yes", "6", "4"], "golds": ["2", "T", "no", "yes", "6", "4"], "tokens": 1500}
+{"preds": ["yes", "S", "no", "1", "no", "yes"], "golds": ["yes", "S", "no", "1", "no", "yes"], "tokens": 1374}
+{"preds": ["7", "no", "9", "no", "0"], "golds": ["7", "no", "9", "no", "0"], "tokens": 1350}
+{"preds": ["no", "no", "3", "no", "7", "nine"], "golds": ["no", "yes", "3", "yes", "7", "ace"], "tokens": 1536}
+{"preds": ["eight", "2", "no", "yes", "king", "yes"], "golds": ["nine", "1", "no", "no", "king", "yes"], "tokens": 1524}
+{"preds": ["2", "0", "2", "no", "no"], "golds": ["2", "0", "2", "no", "no"], "tokens": 1375}
+{"preds": ["nine", "yes", "6", "7", "no", "ten"], "golds": ["nine", "no", "1", "7", "yes", "ten"], "tokens": 1584}
+{"preds": ["3", "5", "6", "ace", "no", "2"], "golds": ["3", "5", "6", "ace", "no", "2"], "tokens": 1566}
+{"preds": ["low", "0", "0", "low", "yes", "yes"], "golds": ["low", "0", "0", "low", "yes", "yes"], "tokens": 1314}
+{"preds": ["2", "4", "no", "4", "queen", "4"], "golds": ["2", "1", "no", "3", "ace", "4"], "tokens": 1506}
+{"preds": ["1", "1", "yes", "2"], "golds": ["0", "1", "no", "2"], "tokens": 1160}
+{"preds": ["1", "warming", "no", "cooling", "0", "cooling"], "golds": ["1", "warming", "no", "cooling", "0", "cooling"], "tokens": 1422}
+{"preds": ["yes", "yes", "0", "0", "2"], "golds": ["yes", "yes", "0", "0", "2"], "tokens": 1325}
+{"preds": ["1", "cooling", "running", "0", "1", "yes"], "golds": ["1", "cooling", "running", "0", "2", "yes"], "tokens": 1458}
+{"preds": ["no", "green", "no", "2", "yellow", "green"], "golds": ["no", "green", "no", "2", "yellow", "green"], "tokens": 1320}
+{"preds": ["Q", "yes", "5", "no", "P", "S"], "golds": ["Q", "yes", "5", "yes", "P", "S"], "tokens": 1482}
+{"preds": ["2", "yes", "yes", "0", "0"], "golds": ["2", "yes", "yes", "0", "0"], "tokens": 1355}
+{"preds": ["0", "no", "no", "no"], "golds": ["0", "no", "no", "no"], "tokens": 940}
+{"preds": ["red", "1", "no", "no", "green", "green"], "golds": ["yellow", "2", "yes", "no", "green", "green"], "tokens": 1308}
+{"preds": ["0", "2", "no", "no"], "golds": ["0", "2", "no", "no"], "tokens": 1000}
+{"preds": ["4", "queen", "ten", "1", "yes", "ace"], "golds": ["4", "queen", "ten", "1", "yes", "ace"], "tokens": 1512}
+{"preds": ["0", "1", "yes", "1", "closing", "no"], "golds": ["0", "1", "yes", "1", "closing", "no"], "tokens": 1494}
+{"preds": ["yes", "idle", "3", "0", "warming", "running"], "golds": ["yes", "idle", "2", "0", "warming", "running"], "tokens": 1518}
+{"preds": ["green", "yes", "0", "yes", "1", "green"], "golds": ["green", "yes", "0", "yes", "1", "green"], "tokens": 1350}
+{"preds": ["0", "idle", "yes", "running", "yes", "no"], "golds": ["0", "idle", "yes", "running", "yes", "no"], "tokens": 1296}
+{"preds": ["running", "warming", "1", "no", "no", "1"], "golds": ["running", "warming", "1", "no", "no", "1"], "tokens": 1464}
+{"preds": ["5", "no", "yes", "4", "yes", "R"], "golds": ["5", "no", "yes", "4", "yes", "R"], "tokens": 1362}
+{"preds": ["0", "2", "4"], "golds": ["0", "2", "4"], "tokens": 939}
+{"preds": ["yes", "yes", "R", "2", "Q", "3"], "golds": ["no", "yes", "R", "1", "Q", "3"], "tokens": 1386}
+{"preds": ["no", "2", "1", "no", "1"], "golds": ["no", "2", "0", "no", "1"], "tokens": 1325}
+{"preds": ["low", "yes", "3", "high", "no", "2"], "golds": ["low", "yes", "3", "high", "no", "2"], "tokens": 1410}
+{"preds": ["5", "4", "R", "7", "7", "no"], "golds": ["5", "4", "R", "2", "6", "yes"], "tokens": 1722}
+{"preds": ["5", "queen", "king", "4", "ace", "no"], "golds": ["5", "queen", "king", "3", "ace", "no"], "tokens": 1464}
+{"preds": ["2", "yes", "no", "yes"], "golds": ["2", "yes", "no", "yes"], "tokens": 940}
+{"preds": ["red", "3", "no", "yes", "yes", "no"], "golds": ["red", "2", "no", "yes", "yes", "no"], "tokens": 1368}
+{"preds": ["3", "yes", "no", "no", "2", "yes"], "golds": ["2", "no", "no", "yes", "1", "yes"], "tokens": 1356}
+{"preds": ["no", "no", "opening", "0", "0", "0"], "golds": ["no", "no", "open", "1", "1", "2"], "tokens": 1458}
+{"preds": ["2", "yes", "2", "no", "6", "king"], "golds": ["3", "yes", "4", "yes", "1", "queen"], "tokens": 1572}
+{"preds": ["5", "2", "no", "1", "0"], "golds": ["5", "2", "no", "1", "0"], "tokens": 1620}
+{"preds": ["1", "5", "no", "0", "no"], "golds": ["1", "5", "no", "0", "no"], "tokens": 1350}
+{"preds": ["yes", "jack", "yes", "3", "nine", "yes"], "golds": ["no", "king", "no", "4", "ten", "no"], "tokens": 1476}
+{"preds": ["no", "8", "no", "4", "0"], "golds": ["no", "8", "no", "4", "0"], "tokens": 1425}
+{"preds": ["1", "no", "idle", "no", "1", "0"], "golds": ["1", "no", "idle", "no", "1", "0"], "tokens": 1392}
+{"preds": ["no", "4", "yes", "cooling", "cooling", "yes"], "golds": ["no", "4", "yes", "cooling", "cooling", "yes"], "tokens": 1446}
+{"preds": ["0", "1", "6", "8"], "golds": ["0", "1", "6", "8"], "tokens": 1300}
+{"preds": ["2", "no", "1", "no", "yes"], "golds": ["2", "no", "1", "no", "yes"], "tokens": 1265}
+{"preds": ["green", "yellow", "yes", "yes", "1", "yes"], "golds": ["green", "yellow", "no", "no", "1", "no"], "tokens": 1236}
+{"preds": ["1", "0", "no", "yes", "5"], "golds": ["1", "0", "no", "yes", "5"], "tokens": 1375}
+{"preds": ["1", "0", "yes", "no", "2"], "golds": ["1", "0", "yes", "no", "2"], "tokens": 1350}
+{"preds": ["0", "no", "2", "3", "no"], "golds": ["0", "no", "2", "3", "no"], "tokens": 1435}
+{"preds": ["0", "yes", "4", "0"], "golds": ["1", "yes", "4", "0"], "tokens": 1160}
+{"preds": ["1", "mid", "1", "no", "no", "no"], "golds": ["1", "mid", "1", "no", "no", "no"], "tokens": 1266}
+{"preds": ["T", "V", "yes", "yes", "P", "no"], "golds": ["T", "S", "yes", "yes", "P", "no"], "tokens": 1560}
+{"preds": ["2", "green", "yellow", "yes", "yes", "0"], "golds": ["2", "green", "yellow", "no", "yes", "0"], "tokens": 1266}
+{"preds": ["yes", "2", "no", "0", "1", "yellow"], "golds": ["yes", "2", "no", "0", "1", "yellow"], "tokens": 1356}
+{"preds": ["yes", "king", "no", "no", "yes", "jack"], "golds": ["yes", "nine", "no", "no", "yes", "jack"], "tokens": 1446}
+{"preds": ["1", "no", "3", "green", "1", "no"], "golds": ["1", "no", "3", "green", "1", "no"], "tokens": 1506}
+{"preds": ["queen", "4", "king", "4", "no", "queen"], "golds": ["jack", "1", "king", "4", "no", "queen"], "tokens": 1482}
+{"preds": ["5", "1", "0", "no", "no", "no"], "golds": ["5", "1", "0", "no", "no", "no"], "tokens": 1656}
+{"preds": ["no", "6", "yes", "1", "1", "7"], "golds": ["no", "6", "no", "1", "1", "7"], "tokens": 1860}
+{"preds": ["0", "no", "no", "3"], "golds": ["0", "no", "no", "3"], "tokens": 1024}
+{"preds": ["yes", "6", "P", "5", "yes", "R"], "golds": ["yes", "6", "P", "2", "yes", "R"], "tokens": 1608}
+{"preds": ["1", "0", "no", "1", "yes", "yes"], "golds": ["1", "0", "no", "2", "yes", "yes"], "tokens": 1656}
+{"preds": ["yes", "1", "6", "0", "no"], "golds": ["yes", "1", "6", "0", "no"], "tokens": 1325}
+{"preds": ["1", "yes", "2", "open", "no", "closing"], "golds": ["1", "yes", "2", "open", "no", "closing"], "tokens": 1464}
+{"preds": ["1", "yes", "1", "yellow", "yes"], "golds": ["1", "no", "1", "yellow", "no"], "tokens": 1120}
+{"preds": ["opening", "no", "no", "0", "yes", "closed"], "golds": ["opening", "no", "no", "0", "yes", "closed"], "tokens": 1428}
+{"preds": ["1", "yes", "0", "no", "6"], "golds": ["1", "yes", "0", "no", "6"], "tokens": 1385}
+{"preds": ["no", "1", "yes", "yellow", "1", "green"], "golds": ["no", "1", "no", "yellow", "1", "green"], "tokens": 1422}
+{"preds": ["1", "1", "yes", "yellow", "yellow", "no"], "golds": ["1", "1", "yes", "yellow", "yellow", "no"], "tokens": 1350}
+{"preds": ["6", "9", "no", "0"], "golds": ["6", "9", "no", "0"], "tokens": 1160}
+{"preds": ["warming", "no", "no", "0", "yes", "no"], "golds": ["warming", "no", "no", "1", "yes", "no"], "tokens": 1428}
+{"preds": ["no", "yes", "V", "R", "yes", "yes"], "golds": ["no", "yes", "V", "R", "yes", "yes"], "tokens": 1374}
+{"preds": ["eight", "jack", "yes", "4", "no", "queen"], "golds": ["eight", "jack", "yes", "4", "no", "queen"], "tokens": 1518}
+{"preds": ["5", "4", "2", "yes", "yes", "no"], "golds": ["5", "4", "2", "yes", "no", "no"], "tokens": 1476}
+{"preds": ["no", "yes", "0", "warming", "yes", "yes"], "golds": ["yes", "yes", "0", "warming", "yes", "yes"], "tokens": 1404}
+{"preds": ["2", "5", "0", "no", "no"], "golds": ["2", "5", "0", "no", "no"], "tokens": 1380}
+{"preds": ["1", "no", "yes"], "golds": ["1", "no", "yes"], "tokens": 669}
+{"preds": ["0", "no", "no", "3"], "golds": ["0", "no", "no", "3"], "tokens": 1072}
+{"preds": ["S", "yes", "2", "yes", "S", "R"], "golds": ["S", "yes", "3", "no", "R", "U"], "tokens": 1554}
+{"preds": ["no", "no", "0", "9"], "golds": ["no", "no", "0", "9"], "tokens": 976}
+{"preds": ["no", "7", "no", "0", "no"], "golds": ["no", "7", "no", "0", "no"], "tokens": 1320}
+{"preds": ["no", "no", "1", "no", "red", "red"], "golds": ["no", "no", "0", "no", "red", "red"], "tokens": 1398}
+{"preds": ["U", "R", "no", "yes", "3", "1"], "golds": ["U", "R", "no", "yes", "4", "1"], "tokens": 1590}
+{"preds": ["2", "0", "no", "no", "yes", "1"], "golds": ["2", "0", "no", "no", "yes", "1"], "tokens": 1284}
+{"preds": ["4", "ten", "nine", "ten", "5", "ten"], "golds": ["4", "jack", "queen", "ace", "3", "ten"], "tokens": 1668}
+{"preds": ["opening", "no", "yes", "opening", "closing", "1"], "golds": ["opening", "no", "no", "opening", "closing", "1"], "tokens": 1362}
+{"preds": ["green", "yes", "1", "green", "no", "2"], "golds": ["green", "yes", "1", "green", "no", "2"], "tokens": 1266}
+{"preds": ["opening", "2", "open", "1", "yes", "no"], "golds": ["opening", "2", "open", "1", "no", "no"], "tokens": 1488}
+{"preds": ["0", "3", "yes", "yes", "0", "yes"], "golds": ["0", "3", "yes", "yes", "0", "yes"], "tokens": 1626}
+{"preds": ["warming", "running", "no", "no", "1", "1"], "golds": ["warming", "running", "no", "no", "1", "1"], "tokens": 1500}
+{"preds": ["S", "Q", "no", "yes", "no", "4"], "golds": ["S", "Q", "no", "yes", "no", "4"], "tokens": 1380}
+{"preds": ["0", "4", "no", "yes", "1"], "golds": ["0", "4", "no", "yes", "1"], "tokens": 1385}
+{"preds": ["no", "high", "mid", "low", "1", "yes"], "golds": ["no", "high", "mid", "low", "1", "yes"], "tokens": 1380}
+{"preds": ["7", "no", "ten", "yes", "5", "4"], "golds": ["7", "yes", "ten", "yes", "5", "4"], "tokens": 1620}
+{"preds": ["0", "no", "7", "no", "1"], "golds": ["0", "no", "7", "no", "1"], "tokens": 1320}
+{"preds": ["no", "yes", "2", "ten", "7", "4"], "golds": ["no", "yes", "2", "ten", "7", "4"], "tokens": 1572}
+{"preds": ["3", "yes", "no", "nine", "eight", "2"], "golds": ["3", "yes", "no", "nine", "eight", "2"], "tokens": 1560}
+{"preds": ["no", "1", "0", "no", "no", "7"], "golds": ["no", "1", "0", "no", "no", "7"], "tokens": 1680}
+{"preds": ["9", "no", "6", "0", "no"], "golds": ["9", "no", "6", "0", "no"], "tokens": 1400}
+{"preds": ["nine", "eight", "7", "2", "yes", "no"], "golds": ["eight", "ten", "5", "3", "no", "no"], "tokens": 1608}
+{"preds": ["5", "no", "king", "3", "queen", "no"], "golds": ["5", "no", "king", "4", "ten", "no"], "tokens": 1584}
+{"preds": ["jack", "2", "no", "no", "no", "queen"], "golds": ["jack", "2", "no", "no", "no", "queen"], "tokens": 1326}
+{"preds": ["queen", "5", "yes", "queen", "king", "yes"], "golds": ["jack", "4", "no", "ace", "king", "yes"], "tokens": 1464}
+{"preds": ["ten", "jack", "5", "yes", "ace", "queen"], "golds": ["ten", "jack", "5", "yes", "ace", "queen"], "tokens": 1584}
+{"preds": ["5", "7", "nine", "2", "king", "yes"], "golds": ["5", "7", "nine", "2", "king", "yes"], "tokens": 1638}
+{"preds": ["1", "yes", "yes", "yes", "eight", "yes"], "golds": ["1", "yes", "yes", "yes", "eight", "yes"], "tokens": 1458}
+{"preds": ["yes", "yellow", "red", "1", "2", "yes"], "golds": ["no", "yellow", "red", "1", "2", "yes"], "tokens": 1266}
+{"preds": ["yes", "1", "no", "no", "8", "2"], "golds": ["yes", "1", "no", "no", "8", "2"], "tokens": 1686}
+{"preds": ["no", "P", "no", "U", "yes", "yes"], "golds": ["no", "P", "no", "Q", "yes", "yes"], "tokens": 1410}
+{"preds": ["no", "4", "no", "yes", "3", "yes"], "golds": ["yes", "4", "yes", "yes", "3", "no"], "tokens": 1470}
+{"preds": ["no", "0", "4", "no"], "golds": ["no", "0", "4", "no"], "tokens": 1052}
+{"preds": ["S", "3", "yes", "no", "yes", "5"], "golds": ["S", "3", "no", "no", "yes", "5"], "tokens": 1458}
+{"preds": ["no", "low", "high", "no", "1", "no"], "golds": ["no", "low", "high", "no", "1", "no"], "tokens": 1320}
+{"preds": ["ten", "queen", "no", "yes", "yes", "1"], "golds": ["ten", "queen", "no", "yes", "yes", "1"], "tokens": 1380}
+{"preds": ["0", "1", "9", "5", "no", "no"], "golds": ["0", "1", "9", "5", "no", "no"], "tokens": 1722}
+{"preds": ["3", "1", "no", "no", "1", "high"], "golds": ["3", "1", "no", "no", "1", "high"], "tokens": 1470}
+{"preds": ["yes", "no", "no", "no", "1", "red"], "golds": ["yes", "no", "no", "yes", "3", "green"], "tokens": 1344}
+{"preds": ["Q", "2", "1", "no", "yes", "R"], "golds": ["Q", "2", "1", "yes", "yes", "R"], "tokens": 1362}
+{"preds": ["ten", "ten", "yes", "yes", "6", "2"], "golds": ["ace", "jack", "yes", "yes", "6", "1"], "tokens": 1632}
+{"preds": ["yes", "V", "3", "P", "5", "6"], "golds": ["yes", "V", "3", "S", "4", "6"], "tokens": 1686}
+{"preds": ["queen", "no", "jack", "yes", "yes", "1"], "golds": ["queen", "no", "jack", "yes", "no", "1"], "tokens": 1326}
+{"preds": ["yes", "green", "4", "no", "yellow", "yes"], "golds": ["yes", "green", "4", "no", "yellow", "yes"], "tokens": 1362}
+{"preds": ["3", "3", "2", "0", "no", "no"], "golds": ["3", "3", "2", "0", "no", "no"], "tokens": 1794}
+{"preds": ["no", "3", "no", "0", "8", "no"], "golds": ["no", "3", "no", "0", "8", "no"], "tokens": 1656}
+{"preds": ["yes", "0", "1", "2", "9", "no"], "golds": ["yes", "0", "1", "2", "9", "no"], "tokens": 1764}
+{"preds": ["5", "no", "1", "ace", "jack", "eight"], "golds": ["5", "yes", "3", "queen", "jack", "ace"], "tokens": 1674}
+{"preds": ["yes", "no", "1", "1", "yes"], "golds": ["yes", "no", "2", "0", "yes"], "tokens": 1295}
+{"preds": ["2", "yes", "0", "9", "0", "no"], "golds": ["2", "yes", "0", "9", "0", "no"], "tokens": 1860}
+{"preds": ["0", "idle", "no", "no", "yes", "running"], "golds": ["0", "cooling", "no", "no", "yes", "running"], "tokens": 1398}
+{"preds": ["yes", "0", "1", "0", "no", "closed"], "golds": ["no", "0", "2", "0", "no", "closed"], "tokens": 1380}
+{"preds": ["R", "2", "yes", "5", "Q", "S"], "golds": ["R", "2", "yes", "5", "Q", "S"], "tokens": 1464}
+{"preds": ["green", "1", "red", "yes", "yes", "yes"], "golds": ["green", "1", "red", "no", "yes", "no"], "tokens": 1386}
+{"preds": ["0", "no", "1", "no", "1"], "golds": ["0", "no", "1", "no", "1"], "tokens": 1465}
+{"preds": ["1", "no", "0", "cooling", "yes", "running"], "golds": ["2", "no", "1", "cooling", "yes", "running"], "tokens": 1512}
+{"preds": ["Q", "yes", "Q", "yes", "3", "Q"], "golds": ["P", "yes", "R", "yes", "3", "Q"], "tokens": 1446}
+{"preds": ["no", "0", "no"], "golds": ["no", "0", "no"], "tokens": 678}
+{"preds": ["cooling", "running", "no", "1", "no", "2"], "golds": ["cooling", "running", "no", "1", "no", "2"], "tokens": 1392}
+{"preds": ["1", "yes", "5", "no", "0"], "golds": ["1", "yes", "5", "no", "0"], "tokens": 1325}
+{"preds": ["0", "3", "2", "no", "yes"], "golds": ["0", "3", "2", "no", "yes"], "tokens": 1440}
+{"preds": ["2", "king", "king", "no", "yes", "7"], "golds": ["1", "ace", "jack", "no", "yes", "7"], "tokens": 1632}
+{"preds": ["no", "no", "1", "1", "1", "closing"], "golds": ["no", "no", "2", "0", "1", "open"], "tokens": 1446}
+{"preds": ["yes", "no", "ace", "jack", "4", "2"], "golds": ["no", "yes", "ace", "queen", "4", "2"], "tokens": 1500}
+{"preds": ["4", "king", "3", "no", "5", "no"], "golds": ["4", "king", "3", "no", "5", "no"], "tokens": 1434}
+{"preds": ["no", "7", "8", "0", "no"], "golds": ["no", "7", "8", "0", "no"], "tokens": 1370}

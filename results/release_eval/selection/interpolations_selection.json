@@ -1,0 +1,46 @@
+{
+ "runs": {
+  "sw_w4a7": {
+   "qualifies": false,
+   "criteria": {
+    "guard_known: flagged within 1 point": false,
+    "guard_known: false alarms within 1 point": true,
+    "guard_held: flagged within 1 point": true,
+    "guard_held: false alarms within 1 point": true,
+    "git3 pooled within 0.5": true,
+    "multi changed within 0.5": true,
+    "ftest within 1": true,
+    "confident errors T not higher": true
+   }
+  },
+  "sw_w4a5": {
+   "qualifies": true,
+   "criteria": {
+    "guard_known: flagged within 1 point": true,
+    "guard_known: false alarms within 1 point": true,
+    "guard_held: flagged within 1 point": true,
+    "guard_held: false alarms within 1 point": true,
+    "git3 pooled within 0.5": true,
+    "multi changed within 0.5": true,
+    "ftest within 1": true,
+    "confident errors T not higher": true
+   }
+  },
+  "sw_w4b5": {
+   "qualifies": false,
+   "criteria": {
+    "guard_known: flagged within 1 point": false,
+    "guard_known: false alarms within 1 point": true,
+    "guard_held: flagged within 1 point": true,
+    "guard_held: false alarms within 1 point": true,
+    "git3 pooled within 0.5": true,
+    "multi changed within 0.5": true,
+    "ftest within 1": true,
+    "confident errors T not higher": true
+   }
+  }
+ },
+ "loop_order": [
+  "sw_w4a5"
+ ]
+}

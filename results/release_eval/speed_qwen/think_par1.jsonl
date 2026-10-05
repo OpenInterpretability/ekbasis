@@ -1,0 +1,8 @@
+{"i": 0, "kind": "jugs", "n_act": 22, "ok": true, "pred": "0", "tokens": 972, "input_tokens": 364, "seconds": 36.62273550033569}
+{"i": 1, "kind": "machines", "n_act": 16, "ok": true, "pred": "mid", "tokens": 927, "input_tokens": 278, "seconds": 34.89895153045654}
+{"i": 2, "kind": "toggles", "n_act": 27, "ok": true, "pred": "bright", "tokens": 638, "input_tokens": 419, "seconds": 24.062941074371338}
+{"i": 3, "kind": "cards", "n_act": 27, "ok": true, "pred": "2", "tokens": 1814, "input_tokens": 396, "seconds": 68.2920241355896}
+{"i": 4, "kind": "jugs", "n_act": 14, "ok": true, "pred": "0", "tokens": 501, "input_tokens": 303, "seconds": 18.895604133605957}
+{"i": 5, "kind": "machines", "n_act": 29, "ok": true, "pred": "running", "tokens": 1047, "input_tokens": 360, "seconds": 39.42971754074097}
+{"i": 6, "kind": "toggles", "n_act": 15, "ok": true, "pred": "bright", "tokens": 377, "input_tokens": 331, "seconds": 14.228665351867676}
+{"i": 7, "kind": "cards", "n_act": 17, "ok": true, "pred": "5", "tokens": 1085, "input_tokens": 310, "seconds": 40.85135340690613}

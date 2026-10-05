@@ -1,0 +1,17 @@
+Ekbasis
+Copyright 2026 OpenInterpretability (Caio Vicentino)
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+The Ekbasis model weights are a fine-tune of Eikos-27B (MIT License, Copyright 2026 Caio Vicentino,
+https://github.com/caiovicentino/eikos), itself a fine-tune of Qwen3.8-27B (Apache License 2.0, Copyright the Qwen
+Team, Alibaba Cloud, https://huggingface.co/Qwen/Qwen3.8-27B): the exact interpolation halfway between two LoRA
+adapters trained on Eikos-27B (V42 and r4a), merged.
+
+Training used 12,342 replay items from the Eikos training data. 4,919 of them are rows of eikos-decisions, its
+published part (CC BY 4.0, with the upstream license of each row: https://huggingface.co/datasets/caiovicentino1/eikos-decisions);
+6,980 were left out of that release by its per-source quotas; 443 were excluded by it: 151 judging items built on
+FinQA (Chen et al., 2021, MIT), a dataset Eikos keeps for evaluation, and 292 trade items. None of Ekbasis' evaluations
+uses FinQA. Upstream sources: FinEntity (ODC-BY 1.0), TAT-QA (CC BY 4.0), GSM8K train (MIT), FinQA (MIT).
+
+Full credits: docs/REFERENCES.md.

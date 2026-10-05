@@ -1,0 +1,97 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Ekbasis</title><style>
+  :root { --bg: #0a0c10; --line: #232834; --fg: #eef1f6; --muted: #8a93a3; --dim: #6d7482; --v: #8b5cf6; --v2: #c4b5fd; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1600px; height: 900px; background: var(--bg); overflow: hidden; }
+  body { font-family: -apple-system, "SF Pro Display", "Helvetica Neue", Arial, sans-serif; color: var(--fg); position: relative;
+         -webkit-font-smoothing: antialiased; }
+  .glow { position: absolute; left: -220px; top: -300px; width: 1000px; height: 760px;
+          background: radial-gradient(closest-side, rgba(139,92,246,.24), rgba(139,92,246,0)); }
+  .glow2 { position: absolute; right: -260px; bottom: -380px; width: 900px; height: 700px;
+           background: radial-gradient(closest-side, rgba(236,72,153,.10), rgba(236,72,153,0)); }
+  .grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,.028) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255,255,255,.028) 1px, transparent 1px); background-size: 40px 40px;
+          -webkit-mask-image: radial-gradient(ellipse at 25% 15%, black 15%, transparent 70%); }
+  .wrap { position: relative; padding: 46px 72px 0 72px; }
+  .pills { display: flex; gap: 10px; margin-bottom: 16px; }
+  .pill { font-size: 14px; letter-spacing: .09em; text-transform: uppercase; font-weight: 600; padding: 7px 14px; border-radius: 999px;
+          color: var(--v2); border: 1px solid rgba(139,92,246,.4); background: rgba(139,92,246,.10); }
+  .pill.gray { color: var(--muted); border-color: var(--line); background: rgba(255,255,255,.03); }
+  .title { display: flex; align-items: baseline; gap: 24px; }
+  .name { font-size: 100px; font-weight: 800; letter-spacing: -0.035em; line-height: 1;
+          background: linear-gradient(135deg, #c4b5fd 0%, #8b5cf6 45%, #ec4899 100%); -webkit-background-clip: text;
+          background-clip: text; color: transparent; }
+  .greek { font-size: 38px; color: var(--muted); font-weight: 300; }
+  .greek em { font-style: italic; color: #b9c0cc; }
+  .tag { margin-top: 10px; font-size: 27px; font-weight: 600; letter-spacing: -0.01em; }
+  .tag span { color: var(--muted); font-weight: 400; }
+  .cards { display: grid; grid-template-columns: 1.15fr 1fr 1fr; gap: 22px; margin-top: 30px; }
+  .card { border: 1px solid var(--line); border-radius: 22px; padding: 22px 24px 18px;
+          background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.012)); }
+  .card.hero { border-color: rgba(139,92,246,.35); background: linear-gradient(180deg, rgba(139,92,246,.09), rgba(255,255,255,.012)); }
+  .label { font-size: 14.5px; font-weight: 700; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; }
+  .big { font-size: 66px; font-weight: 800; letter-spacing: -0.035em; color: var(--v2); line-height: 1.05; margin-top: 6px; }
+  .big small { font-size: 21px; font-weight: 600; color: var(--muted); letter-spacing: 0; margin-left: 10px; }
+  .sub { font-size: 15.5px; color: var(--muted); margin: 4px 0 10px; }
+  .row { display: grid; grid-template-columns: 236px 1fr 46px 46px; align-items: center; gap: 10px; margin: 9px 0; font-size: 16.5px; }
+  .row.two { grid-template-columns: 210px 1fr 74px; }
+  .n { white-space: nowrap; } .n small { font-size: 12.5px; color: var(--dim); margin-left: 5px; }
+  .hdr { display: grid; grid-template-columns: 236px 1fr 46px 46px; gap: 10px; font-size: 12px; color: var(--dim);
+         text-transform: uppercase; letter-spacing: .06em; margin-bottom: -4px; }
+  .hdr div { text-align: right; }
+  .n { color: var(--fg); font-weight: 500; } .n.dim { color: var(--muted); }
+  .bar { height: 12px; border-radius: 999px; background: rgba(255,255,255,.055); position: relative; overflow: hidden; }
+  .bar i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 999px; min-width: 6px; }
+  .v { text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; } .v.dim { color: var(--muted); font-weight: 600; }
+  .ek i { background: linear-gradient(90deg, #8b5cf6, #c4b5fd); } .cl i { background: #6b7383; } .qw i { background: #4a5263; }
+  .ei i { background: linear-gradient(90deg, #f0a92c, #ffd98a); }
+  .strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 20px; }
+  .stat { border: 1px solid var(--line); border-radius: 16px; padding: 13px 20px; background: rgba(255,255,255,.025);
+          display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+  .stat .k { font-size: 16.5px; font-weight: 500; } .stat .k small { display: block; font-size: 13px; color: var(--muted); font-weight: 400; margin-top: 3px; }
+  .stat .val { font-size: 29px; font-weight: 800; color: var(--v2); letter-spacing: -0.02em; white-space: nowrap; }
+  .stat .val span { font-size: 15px; color: var(--muted); font-weight: 600; margin-left: 6px; }
+  .links { display: flex; gap: 34px; margin-top: 18px; font-size: 17px; align-items: baseline; }
+  .links span { color: var(--muted); font-size: 13.5px; letter-spacing: .08em; text-transform: uppercase; font-weight: 600; margin-right: 10px; }
+  .links b { font-weight: 600; }
+  .foot { position: absolute; left: 72px; right: 72px; bottom: 20px; font-size: 12px; color: var(--dim); line-height: 1.5; }
+  .brand { position: absolute; top: 44px; right: 72px; display: flex; align-items: center; gap: 12px; }
+  .brand .word { font-size: 24px; font-weight: 700; letter-spacing: -0.01em; }
+  .brand .word b { background: linear-gradient(135deg, #818cf8 0%, #6366f1 40%, #06b6d4 100%); -webkit-background-clip: text;
+                   background-clip: text; color: transparent; }
+  .brand .site { font-size: 15px; color: var(--muted); text-align: right; margin-top: 2px; }
+</style></head><body>
+<div class="glow"></div><div class="glow2"></div><div class="grid"></div>
+<div class="brand"><svg width="40" height="40" viewBox="0 0 24 24" fill="none"><circle cx="8" cy="12" r="5" stroke="#4f46e5" stroke-width="1.5"/>
+<circle cx="16" cy="12" r="5" stroke="#06b6d4" stroke-width="1.5"/><circle cx="12" cy="12" r="1.5" fill="#4f46e5"/></svg>
+<div><div class="word">Open<b>Interpretability</b></div><div class="site">openinterp.org</div></div></div>
+<div class="wrap">
+  <div class="pills"><div class="pill">Open model · Apache‑2.0</div><div class="pill gray">27B · FP8 · INT4 · MLX</div></div>
+  <div class="title"><div class="name">Ekbasis</div><div class="greek">ἔκβασις · <em>“how an action turns out”</em></div></div>
+  <div class="tag">An open world model for agents. <span>Not a model that thinks, nor one that judges: a model that foresees.</span></div>
+  <div class="cards">
+    <div class="card hero"><div class="label">Git · 240 questions, same for all</div>
+      <div class="big">95.8%<small>one pass, no text</small></div>
+      <div class="sub">Will it lose work? fail? what will the state be? — the truth from running the commands</div>
+      <div class="hdr"><div></div><div></div><div>seen</div><div>new</div></div><div class="row cl"><div class="n dim">Claude Sonnet 5.5<small>reasoning</small></div><div class="bar"><i style="width:95.8%"></i></div><div class="v dim">95.8</div><div class="v dim">94.2</div></div><div class="row ek"><div class="n">Ekbasis<small>one pass</small></div><div class="bar"><i style="width:95.8%"></i></div><div class="v">95.8</div><div class="v dim">85.8</div></div><div class="row qw"><div class="n dim">Qwen3.8‑27B<small>reasoning</small></div><div class="bar"><i style="width:86.7%"></i></div><div class="v dim">86.7</div><div class="v dim">60.0</div></div><div class="row ei"><div class="n dim">Eikos‑27B<small>one pass</small></div><div class="bar"><i style="width:80.0%"></i></div><div class="v dim">80.0</div><div class="v dim">73.3</div></div></div>
+    <div class="card"><div class="label">The git guard · fresh real repos</div>
+      <div class="big">3/3<small>work-losing flagged</small></div>
+      <div class="sub">16 scenarios written before the evaluation · 1 false alarm in 13</div>
+      <div class="row two ek"><div class="n">AUROC, never-seen types</div><div class="bar"><i style="width:98.9%"></i></div><div class="v">0.989</div></div>
+      <div class="row two ek"><div class="n">Caught at 0.2, never-seen</div><div class="bar"><i style="width:95.2%"></i></div><div class="v">95%</div></div>
+      <div class="row two cl"><div class="n dim">False alarms at 0.2</div><div class="bar"><i style="width:2.4%"></i></div><div class="v dim">2.4%</div></div></div>
+    <div class="card"><div class="label">Speed · one GPU</div>
+      <div class="big">0.09<small>seconds per check</small></div>
+      <div class="sub">Forecast of 10–30 actions, one at a time (median)</div><div class="row two qw"><div class="n dim">Qwen3.8‑27B<small>reasoning</small></div><div class="bar"><i style="width:100.0%"></i></div><div class="v dim">36.6 s</div></div><div class="row two ek"><div class="n">Ekbasis<small>per question</small></div><div class="bar"><i style="width:13.7%"></i></div><div class="v">5.0 s</div></div><div class="row two ek"><div class="n">Ekbasis<small>read once</small></div><div class="bar"><i style="width:11.1%"></i></div><div class="v">4.1 s</div></div><div class="row two ek"><div class="n">Ekbasis‑FP8<small>read once</small></div><div class="bar"><i style="width:8.5%"></i></div><div class="v">3.1 s</div></div>
+      <div class="sub" style="margin:12px 0 0">16 in parallel: 28 forecasts/min (FP8 41) vs 21.5 reasoning</div></div>
+  </div>
+  <div class="strip">
+    <div class="stat"><div class="k">Planning with no LLM<small>180 hard puzzles, plans run for real</small></div><div class="val">98.9%<span>reasoning 97.8%</span></div></div>
+    <div class="stat"><div class="k">200-action chains<small>orderings: it looks when unsure</small></div><div class="val">8/8<span>exact (2/8 never looking)</span></div></div>
+    <div class="stat"><div class="k">Prompt injection<small>file, branch and commit-message planting</small></div><div class="val">0<span>work-losing missed</span></div></div>
+  </div>
+  <div class="links"><div><span>Site</span><b>openinterp.org/ekbasis</b></div><div><span>Weights &amp; data</span><b>huggingface.co/caiovicentino1</b></div><div><span>Code</span><b>github.com/OpenInterpretability/ekbasis</b></div></div>
+</div>
+<div class="foot">Measured by us, Oct 2026, on the release weights (pre-registered). Git: the same 240 questions for every system (120 command types seen in training, 120 never seen);
+Claude models answered as batched hand-offs with shuffled order, evaluation only. Guard: 16 real-repository scenarios on a clone of pallets/itsdangerous, written before the evaluation.
+Speed: one RTX PRO 6000, vLLM 0.30. Planning: beam search with Ekbasis alone, the plan run in the true simulator; Qwen3.8‑27B writing the plan while reasoning: 97.8%. Chains: one action per step; a look reads the real state when the chain confidence falls below 0.9, plus a check now and then. Full results and predictions: RELEASE_EVAL.md.</div>
+</body></html>

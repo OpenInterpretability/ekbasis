@@ -1,0 +1,188 @@
+{
+ "fuse0.5E": {
+  "mode": {
+   "chains": 40,
+   "exact": 40,
+   "wrong_per_100": 6.05,
+   "looks_per_100": 10.383333333333333,
+   "final_looks": 3,
+   "incons_steps": 0
+  },
+  "default_same_chains": {
+   "chains": 40,
+   "exact": 40,
+   "wrong_per_100": 0.4,
+   "looks_per_100": 18.133333333333333,
+   "final_looks": 0,
+   "incons_steps": 0
+  },
+  "improves_loop": false,
+  "per_world": {
+   "jugs": {
+    "mode": {
+     "chains": 8,
+     "exact": 8,
+     "wrong_per_100": 5.083333333333333,
+     "looks_per_100": 3.25,
+     "final_looks": 0,
+     "incons_steps": 0
+    },
+    "default": {
+     "chains": 8,
+     "exact": 8,
+     "wrong_per_100": 1.1666666666666667,
+     "looks_per_100": 3.8333333333333335,
+     "final_looks": 0,
+     "incons_steps": 0
+    }
+   },
+   "toggles": {
+    "mode": {
+     "chains": 8,
+     "exact": 8,
+     "wrong_per_100": 4.75,
+     "looks_per_100": 5.166666666666667,
+     "final_looks": 0,
+     "incons_steps": 0
+    },
+    "default": {
+     "chains": 8,
+     "exact": 8,
+     "wrong_per_100": 0.8333333333333334,
+     "looks_per_100": 4.416666666666667,
+     "final_looks": 0,
+     "incons_steps": 0
+    }
+   },
+   "machines": {
+    "mode": {
+     "chains": 8,
+     "exact": 8,
+     "wrong_per_100": 19.5,
+     "looks_per_100": 12.666666666666666,
+     "final_looks": 1,
+     "incons_steps": 0
+    },
+    "default": {
+     "chains": 8,
+     "exact": 8,
+     "wrong_per_100": 0.0,
+     "looks_per_100": 12.25,
+     "final_looks": 0,
+     "incons_steps": 0
+    }
+   },
+   "cards": {
+    "mode": {
+     "chains": 16,
+     "exact": 16,
+     "wrong_per_100": 0.4583333333333333,
+     "looks_per_100": 15.416666666666666,
+     "final_looks": 2,
+     "incons_steps": 0
+    },
+    "default": {
+     "chains": 16,
+     "exact": 16,
+     "wrong_per_100": 0.0,
+     "looks_per_100": 35.083333333333336,
+     "final_looks": 0,
+     "incons_steps": 0
+    }
+   }
+  }
+ },
+ "fuse0.9E": {
+  "mode": {
+   "chains": 40,
+   "exact": 40,
+   "wrong_per_100": 0.8166666666666667,
+   "looks_per_100": 16.383333333333333,
+   "final_looks": 7,
+   "incons_steps": 0
+  },
+  "default_same_chains": {
+   "chains": 40,
+   "exact": 40,
+   "wrong_per_100": 0.4,
+   "looks_per_100": 18.133333333333333,
+   "final_looks": 0,
+   "incons_steps": 0
+  },
+  "improves_loop": false,
+  "per_world": {
+   "jugs": {
+    "mode": {
+     "chains": 8,
+     "exact": 8,
+     "wrong_per_100": 3.3333333333333335,
+     "looks_per_100": 3.9166666666666665,
+     "final_looks": 2,
+     "incons_steps": 0
+    },
+    "default": {
+     "chains": 8,
+     "exact": 8,
+     "wrong_per_100": 1.1666666666666667,
+     "looks_per_100": 3.8333333333333335,
+     "final_looks": 0,
+     "incons_steps": 0
+    }
+   },
+   "toggles": {
+    "mode": {
+     "chains": 8,
+     "exact": 8,
+     "wrong_per_100": 0.25,
+     "looks_per_100": 9.25,
+     "final_looks": 0,
+     "incons_steps": 0
+    },
+    "default": {
+     "chains": 8,
+     "exact": 8,
+     "wrong_per_100": 0.8333333333333334,
+     "looks_per_100": 4.416666666666667,
+     "final_looks": 0,
+     "incons_steps": 0
+    }
+   },
+   "machines": {
+    "mode": {
+     "chains": 8,
+     "exact": 8,
+     "wrong_per_100": 0.5,
+     "looks_per_100": 29.5,
+     "final_looks": 2,
+     "incons_steps": 0
+    },
+    "default": {
+     "chains": 8,
+     "exact": 8,
+     "wrong_per_100": 0.0,
+     "looks_per_100": 12.25,
+     "final_looks": 0,
+     "incons_steps": 0
+    }
+   },
+   "cards": {
+    "mode": {
+     "chains": 16,
+     "exact": 16,
+     "wrong_per_100": 0.0,
+     "looks_per_100": 19.625,
+     "final_looks": 3,
+     "incons_steps": 0
+    },
+    "default": {
+     "chains": 16,
+     "exact": 16,
+     "wrong_per_100": 0.0,
+     "looks_per_100": 35.083333333333336,
+     "final_looks": 0,
+     "incons_steps": 0
+    }
+   }
+  }
+ }
+}

@@ -1,0 +1,70 @@
+{
+ "items": 240,
+ "accuracy": {
+  "Ekbasis (release)": {
+   "orig": 95.0,
+   "para": 97.5
+  },
+  "Qwen3.8-27B at once": {
+   "orig": 80.83333333333333,
+   "para": 80.83333333333333
+  },
+  "Qwen3.8-27B thinking": {
+   "orig": 100.0,
+   "para": 100.0
+  }
+ },
+ "qwen_thinking_tokens_per_item": 197.30416666666667,
+ "routing": [
+  {
+   "confidence_cut": 0.5,
+   "to_llm_pct": 0.4166666666666667,
+   "accuracy": 96.25
+  },
+  {
+   "confidence_cut": 0.9,
+   "to_llm_pct": 7.083333333333333,
+   "accuracy": 98.75
+  },
+  {
+   "confidence_cut": 0.95,
+   "to_llm_pct": 8.75,
+   "accuracy": 99.16666666666667
+  },
+  {
+   "confidence_cut": 0.99,
+   "to_llm_pct": 23.333333333333332,
+   "accuracy": 100.0
+  }
+ ],
+ "calibration": [
+  {
+   "conf": "[0.5, 0.9)",
+   "n": 16,
+   "mean_conf": 69.39085572957993,
+   "acc": 62.5
+  },
+  {
+   "conf": "[0.9, 0.99)",
+   "n": 39,
+   "mean_conf": 97.3460961610843,
+   "acc": 92.3076923076923
+  },
+  {
+   "conf": "[0.99, 1.01)",
+   "n": 184,
+   "mean_conf": 99.68983100160308,
+   "acc": 100.0
+  }
+ ],
+ "timing_par1": {
+  "p50_s": 0.08804941177368164,
+  "p90_s": 0.0940401554107666,
+  "checks_per_s": 11.377335922509882
+ },
+ "timing_par16": {
+  "p50_s": 0.6833837032318115,
+  "p90_s": 0.7995080947875977,
+  "checks_per_s": 22.988840044087983
+ }
+}

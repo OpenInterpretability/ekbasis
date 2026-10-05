@@ -1,0 +1,50 @@
+{
+ "ekbasis": {
+  "relative": {
+   "as confident as the top 90% of its right answers (conf >= 0.943)": {
+    "T": 47.96511627906977,
+    "H": 29.940119760479043,
+    "U": 19.674185463659146
+   },
+   "as confident as the top 75% of its right answers (conf >= 0.990)": {
+    "T": 13.662790697674419,
+    "H": 5.389221556886228,
+    "U": 2.6315789473684212
+   },
+   "as confident as the top 50% of its right answers (conf >= 0.998)": {
+    "T": 2.3255813953488373,
+    "H": 0.8982035928143712,
+    "U": 0.37593984962406013
+   }
+  },
+  "median_conf_wrong": {
+   "T": 0.9362850189208984,
+   "H": 0.7927740812301636,
+   "U": 0.7480254769325256
+  }
+ },
+ "eikos27b": {
+  "relative": {
+   "as confident as the top 90% of its right answers (conf >= 0.608)": {
+    "T": 42.41545893719807,
+    "H": 23.24510932105869,
+    "U": 33.56704645048203
+   },
+   "as confident as the top 75% of its right answers (conf >= 0.798)": {
+    "T": 12.173913043478262,
+    "H": 5.408515535097814,
+    "U": 5.784399649430324
+   },
+   "as confident as the top 50% of its right answers (conf >= 0.910)": {
+    "T": 1.5458937198067633,
+    "H": 0.46029919447640966,
+    "U": 0.26292725679228746
+   }
+  },
+  "median_conf_wrong": {
+   "T": 0.5679311156272888,
+   "H": 0.4668963551521301,
+   "U": 0.538832426071167
+  }
+ }
+}

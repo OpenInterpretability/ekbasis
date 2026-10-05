@@ -1,0 +1,368 @@
+{"fam": "cards", "len": 100, "i": 2, "mode": "obs50", "final_ok": true, "state_ok": false, "looks": 1, "wrong_steps": 11, "seconds": 759.6028900146484}
+{"fam": "cards", "len": 100, "i": 2, "mode": "conf0.9", "final_ok": true, "state_ok": true, "looks": 36, "wrong_steps": 0, "seconds": 760.6977982521057}
+{"fam": "cards", "len": 100, "i": 2, "mode": "conf0.5", "final_ok": true, "state_ok": true, "looks": 22, "wrong_steps": 0, "seconds": 762.9862906932831}
+{"fam": "cards", "len": 100, "i": 2, "mode": "step0.9", "final_ok": true, "state_ok": true, "looks": 32, "wrong_steps": 0, "seconds": 765.2962625026703}
+{"fam": "cards", "len": 100, "i": 1, "mode": "conf0.5", "final_ok": true, "state_ok": true, "looks": 36, "wrong_steps": 0, "seconds": 768.7825133800507}
+{"fam": "cards", "len": 100, "i": 0, "mode": "conf0.5", "final_ok": true, "state_ok": true, "looks": 18, "wrong_steps": 0, "seconds": 775.689290523529}
+{"fam": "cards", "len": 100, "i": 0, "mode": "conf0.9", "final_ok": true, "state_ok": true, "looks": 29, "wrong_steps": 0, "seconds": 780.2636981010437}
+{"fam": "cards", "len": 100, "i": 1, "mode": "obs50", "final_ok": false, "state_ok": false, "looks": 1, "wrong_steps": 89, "seconds": 782.5570797920227}
+{"fam": "cards", "len": 100, "i": 2, "mode": "text", "final_ok": true, "state_ok": false, "looks": 0, "wrong_steps": 11, "seconds": 783.6836822032928}
+{"fam": "cards", "len": 100, "i": 1, "mode": "conf0.9", "final_ok": true, "state_ok": true, "looks": 53, "wrong_steps": 0, "seconds": 783.7008585929871}
+{"fam": "cards", "len": 100, "i": 1, "mode": "step0.9", "final_ok": true, "state_ok": true, "looks": 51, "wrong_steps": 0, "seconds": 783.705394744873}
+{"fam": "cards", "len": 100, "i": 0, "mode": "obs50", "final_ok": true, "state_ok": false, "looks": 1, "wrong_steps": 28, "seconds": 784.8772387504578}
+{"fam": "cards", "len": 100, "i": 0, "mode": "text", "final_ok": true, "state_ok": false, "looks": 0, "wrong_steps": 57, "seconds": 786.004326581955}
+{"fam": "cards", "len": 100, "i": 3, "mode": "conf0.5", "final_ok": true, "state_ok": true, "looks": 34, "wrong_steps": 0, "seconds": 788.2149705886841}
+{"fam": "cards", "len": 100, "i": 3, "mode": "obs50", "final_ok": false, "state_ok": false, "looks": 1, "wrong_steps": 78, "seconds": 789.369232416153}
+{"fam": "cards", "len": 100, "i": 0, "mode": "step0.9", "final_ok": true, "state_ok": true, "looks": 23, "wrong_steps": 0, "seconds": 789.4475901126862}
+{"fam": "cards", "len": 100, "i": 1, "mode": "text", "final_ok": false, "state_ok": false, "looks": 0, "wrong_steps": 97, "seconds": 794.0389938354492}
+{"fam": "cards", "len": 100, "i": 3, "mode": "text", "final_ok": false, "state_ok": false, "looks": 0, "wrong_steps": 89, "seconds": 795.086697101593}
+{"fam": "cards", "len": 100, "i": 1, "mode": "dual_conf0.9", "final_ok": true, "state_ok": true, "looks": 32, "wrong_steps": 0, "seconds": 798.5668039321899}
+{"fam": "cards", "len": 100, "i": 0, "mode": "dual_conf0.9", "final_ok": true, "state_ok": true, "looks": 19, "wrong_steps": 0, "seconds": 800.9196119308472}
+{"fam": "cards", "len": 100, "i": 2, "mode": "dual_conf0.9", "final_ok": true, "state_ok": true, "looks": 15, "wrong_steps": 0, "seconds": 803.175418138504}
+{"fam": "cards", "len": 100, "i": 1, "mode": "dual", "final_ok": true, "state_ok": false, "looks": 0, "wrong_steps": 97, "seconds": 805.4809784889221}
+{"fam": "cards", "len": 100, "i": 0, "mode": "dual", "final_ok": true, "state_ok": false, "looks": 0, "wrong_steps": 61, "seconds": 805.5053992271423}
+{"fam": "cards", "len": 100, "i": 2, "mode": "dual", "final_ok": true, "state_ok": false, "looks": 0, "wrong_steps": 37, "seconds": 808.888884305954}
+{"fam": "cards", "len": 100, "i": 3, "mode": "conf0.9", "final_ok": true, "state_ok": true, "looks": 50, "wrong_steps": 0, "seconds": 695.8532440662384}
+{"fam": "cards", "len": 100, "i": 3, "mode": "step0.9", "final_ok": true, "state_ok": true, "looks": 49, "wrong_steps": 0, "seconds": 699.3378958702087}
+{"fam": "cards", "len": 100, "i": 4, "mode": "text", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "seconds": 692.439840555191}
+{"fam": "cards", "len": 100, "i": 3, "mode": "dual", "final_ok": true, "state_ok": false, "looks": 0, "wrong_steps": 89, "seconds": 701.6476953029633}
+{"fam": "cards", "len": 100, "i": 4, "mode": "obs50", "final_ok": true, "state_ok": true, "looks": 1, "wrong_steps": 0, "seconds": 691.3042860031128}
+{"fam": "cards", "len": 100, "i": 3, "mode": "dual_conf0.9", "final_ok": true, "state_ok": true, "looks": 28, "wrong_steps": 0, "seconds": 703.87793135643}
+{"fam": "cards", "len": 100, "i": 4, "mode": "conf0.5", "final_ok": true, "state_ok": true, "looks": 26, "wrong_steps": 0, "seconds": 691.2968430519104}
+{"fam": "cards", "len": 100, "i": 4, "mode": "step0.9", "final_ok": true, "state_ok": true, "looks": 34, "wrong_steps": 0, "seconds": 687.8461983203888}
+{"fam": "cards", "len": 100, "i": 4, "mode": "conf0.9", "final_ok": true, "state_ok": true, "looks": 41, "wrong_steps": 0, "seconds": 691.2898619174957}
+{"fam": "cards", "len": 100, "i": 5, "mode": "text", "final_ok": false, "state_ok": false, "looks": 0, "wrong_steps": 98, "seconds": 690.1342792510986}
+{"fam": "cards", "len": 100, "i": 4, "mode": "dual", "final_ok": false, "state_ok": false, "looks": 0, "wrong_steps": 44, "seconds": 692.4598152637482}
+{"fam": "cards", "len": 100, "i": 5, "mode": "obs50", "final_ok": true, "state_ok": false, "looks": 1, "wrong_steps": 91, "seconds": 691.3493928909302}
+{"fam": "cards", "len": 100, "i": 5, "mode": "conf0.9", "final_ok": true, "state_ok": true, "looks": 44, "wrong_steps": 0, "seconds": 690.1327316761017}
+{"fam": "cards", "len": 100, "i": 5, "mode": "step0.9", "final_ok": true, "state_ok": true, "looks": 42, "wrong_steps": 0, "seconds": 690.1325726509094}
+{"fam": "cards", "len": 100, "i": 4, "mode": "dual_conf0.9", "final_ok": true, "state_ok": true, "looks": 17, "wrong_steps": 0, "seconds": 695.8695619106293}
+{"fam": "cards", "len": 100, "i": 5, "mode": "conf0.5", "final_ok": true, "state_ok": true, "looks": 27, "wrong_steps": 0, "seconds": 694.7271068096161}
+{"fam": "cards", "len": 100, "i": 5, "mode": "dual", "final_ok": false, "state_ok": false, "looks": 0, "wrong_steps": 92, "seconds": 694.7427241802216}
+{"fam": "cards", "len": 100, "i": 6, "mode": "text", "final_ok": false, "state_ok": false, "looks": 0, "wrong_steps": 34, "seconds": 692.4660284519196}
+{"fam": "cards", "len": 100, "i": 6, "mode": "conf0.9", "final_ok": true, "state_ok": true, "looks": 25, "wrong_steps": 0, "seconds": 685.5578422546387}
+{"fam": "cards", "len": 100, "i": 6, "mode": "obs50", "final_ok": false, "state_ok": false, "looks": 1, "wrong_steps": 34, "seconds": 692.4138743877411}
+{"fam": "cards", "len": 100, "i": 5, "mode": "dual_conf0.9", "final_ok": true, "state_ok": true, "looks": 23, "wrong_steps": 0, "seconds": 698.1829967498779}
+{"fam": "cards", "len": 100, "i": 6, "mode": "step0.9", "final_ok": true, "state_ok": true, "looks": 23, "wrong_steps": 0, "seconds": 691.2606036663055}
+{"fam": "cards", "len": 100, "i": 6, "mode": "conf0.5", "final_ok": true, "state_ok": true, "looks": 18, "wrong_steps": 0, "seconds": 693.5269060134888}
+{"fam": "cards", "len": 100, "i": 6, "mode": "dual", "final_ok": false, "state_ok": false, "looks": 0, "wrong_steps": 26, "seconds": 696.9965782165527}
+{"fam": "cards", "len": 100, "i": 7, "mode": "obs50", "final_ok": false, "state_ok": false, "looks": 1, "wrong_steps": 73, "seconds": 745.2000913619995}
+{"fam": "cards", "len": 100, "i": 7, "mode": "step0.9", "final_ok": true, "state_ok": true, "looks": 30, "wrong_steps": 0, "seconds": 741.7667076587677}
+{"fam": "cards", "len": 100, "i": 7, "mode": "text", "final_ok": true, "state_ok": false, "looks": 0, "wrong_steps": 86, "seconds": 752.0760157108307}
+{"fam": "cards", "len": 100, "i": 7, "mode": "conf0.5", "final_ok": true, "state_ok": true, "looks": 23, "wrong_steps": 0, "seconds": 752.0410690307617}
+{"fam": "cards", "len": 100, "i": 7, "mode": "conf0.9", "final_ok": true, "state_ok": true, "looks": 36, "wrong_steps": 0, "seconds": 752.0489888191223}
+{"fam": "cards", "len": 100, "i": 6, "mode": "dual_conf0.9", "final_ok": true, "state_ok": true, "looks": 16, "wrong_steps": 0, "seconds": 785.3928551673889}
+{"fam": "cards", "len": 100, "i": 7, "mode": "dual_conf0.9", "final_ok": true, "state_ok": true, "looks": 18, "wrong_steps": 0, "seconds": 795.6566205024719}
+{"fam": "cards", "len": 100, "i": 7, "mode": "dual", "final_ok": true, "state_ok": false, "looks": 0, "wrong_steps": 86, "seconds": 795.6639511585236}
+{"fam": "cards", "len": 200, "i": 1, "mode": "obs50", "final_ok": true, "state_ok": true, "looks": 3, "wrong_steps": 12, "seconds": 1430.0728545188904}
+{"fam": "cards", "len": 200, "i": 1, "mode": "conf0.5", "final_ok": true, "state_ok": true, "looks": 26, "wrong_steps": 0, "seconds": 1430.090012550354}
+{"fam": "cards", "len": 200, "i": 1, "mode": "text", "final_ok": false, "state_ok": false, "looks": 0, "wrong_steps": 163, "seconds": 1440.4567382335663}
+{"fam": "cards", "len": 200, "i": 1, "mode": "conf0.9", "final_ok": true, "state_ok": true, "looks": 54, "wrong_steps": 0, "seconds": 1435.8674366474152}
+{"fam": "cards", "len": 200, "i": 0, "mode": "conf0.5", "final_ok": true, "state_ok": true, "looks": 31, "wrong_steps": 0, "seconds": 1463.3652830123901}
+{"fam": "cards", "len": 200, "i": 1, "mode": "step0.9", "final_ok": true, "state_ok": true, "looks": 41, "wrong_steps": 0, "seconds": 1446.2108533382416}
+{"fam": "cards", "len": 200, "i": 0, "mode": "obs50", "final_ok": false, "state_ok": false, "looks": 3, "wrong_steps": 86, "seconds": 1466.8096282482147}
+{"fam": "cards", "len": 200, "i": 0, "mode": "step0.9", "final_ok": true, "state_ok": true, "looks": 40, "wrong_steps": 0, "seconds": 1464.537969827652}
+{"fam": "cards", "len": 200, "i": 0, "mode": "text", "final_ok": false, "state_ok": false, "looks": 0, "wrong_steps": 183, "seconds": 1471.402182340622}
+{"fam": "cards", "len": 200, "i": 0, "mode": "conf0.9", "final_ok": true, "state_ok": true, "looks": 50, "wrong_steps": 0, "seconds": 1469.074982881546}
+{"fam": "cards", "len": 200, "i": 2, "mode": "text", "final_ok": false, "state_ok": false, "looks": 0, "wrong_steps": 200, "seconds": 1470.260411977768}
+{"fam": "cards", "len": 200, "i": 2, "mode": "obs50", "final_ok": false, "state_ok": false, "looks": 3, "wrong_steps": 173, "seconds": 1481.7206535339355}
+{"fam": "cards", "len": 200, "i": 1, "mode": "dual", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 15, "seconds": 1527.5821237564087}
+{"fam": "cards", "len": 200, "i": 1, "mode": "dual_conf0.9", "final_ok": true, "state_ok": true, "looks": 22, "wrong_steps": 0, "seconds": 1533.3687064647675}
+{"fam": "cards", "len": 200, "i": 0, "mode": "dual_conf0.9", "final_ok": true, "state_ok": true, "looks": 29, "wrong_steps": 0, "seconds": 1576.9544463157654}
+{"fam": "cards", "len": 200, "i": 0, "mode": "dual", "final_ok": false, "state_ok": false, "looks": 0, "wrong_steps": 190, "seconds": 1578.0778663158417}
+{"fam": "cards", "len": 200, "i": 2, "mode": "conf0.5", "final_ok": true, "state_ok": true, "looks": 64, "wrong_steps": 0, "seconds": 1465.714943408966}
+{"fam": "cards", "len": 200, "i": 2, "mode": "conf0.9", "final_ok": true, "state_ok": true, "looks": 93, "wrong_steps": 0, "seconds": 1468.0255935192108}
+{"fam": "cards", "len": 200, "i": 2, "mode": "step0.9", "final_ok": true, "state_ok": true, "looks": 87, "wrong_steps": 0, "seconds": 1472.6131768226624}
+{"fam": "cards", "len": 200, "i": 3, "mode": "text", "final_ok": false, "state_ok": false, "looks": 0, "wrong_steps": 197, "seconds": 1458.753473997116}
+{"fam": "cards", "len": 200, "i": 3, "mode": "obs50", "final_ok": false, "state_ok": false, "looks": 3, "wrong_steps": 109, "seconds": 1445.040694475174}
+{"fam": "cards", "len": 200, "i": 3, "mode": "conf0.5", "final_ok": true, "state_ok": true, "looks": 25, "wrong_steps": 1, "seconds": 1453.0726339817047}
+{"fam": "cards", "len": 200, "i": 2, "mode": "dual", "final_ok": false, "state_ok": false, "looks": 0, "wrong_steps": 200, "seconds": 1546.0671045780182}
+{"fam": "cards", "len": 200, "i": 2, "mode": "dual_conf0.9", "final_ok": true, "state_ok": true, "looks": 51, "wrong_steps": 0, "seconds": 1546.0868933200836}
+{"fam": "cards", "len": 200, "i": 3, "mode": "conf0.9", "final_ok": true, "state_ok": true, "looks": 48, "wrong_steps": 0, "seconds": 1413.4786310195923}
+{"fam": "cards", "len": 200, "i": 3, "mode": "step0.9", "final_ok": true, "state_ok": true, "looks": 34, "wrong_steps": 0, "seconds": 1420.417159318924}
+{"fam": "cards", "len": 200, "i": 4, "mode": "text", "final_ok": false, "state_ok": false, "looks": 0, "wrong_steps": 198, "seconds": 1419.2228419780731}
+{"fam": "cards", "len": 200, "i": 4, "mode": "conf0.9", "final_ok": true, "state_ok": true, "looks": 89, "wrong_steps": 0, "seconds": 1431.810349225998}
+{"fam": "cards", "len": 200, "i": 4, "mode": "conf0.5", "final_ok": true, "state_ok": true, "looks": 61, "wrong_steps": 0, "seconds": 1436.3826546669006}
+{"fam": "cards", "len": 200, "i": 4, "mode": "obs50", "final_ok": false, "state_ok": false, "looks": 3, "wrong_steps": 165, "seconds": 1438.6553041934967}
+{"fam": "cards", "len": 200, "i": 4, "mode": "step0.9", "final_ok": true, "state_ok": true, "looks": 82, "wrong_steps": 0, "seconds": 1447.9124069213867}
+{"fam": "cards", "len": 200, "i": 5, "mode": "text", "final_ok": false, "state_ok": false, "looks": 0, "wrong_steps": 184, "seconds": 1411.2243852615356}
+{"fam": "cards", "len": 200, "i": 3, "mode": "dual_conf0.9", "final_ok": true, "state_ok": true, "looks": 21, "wrong_steps": 0, "seconds": 1499.3863456249237}
+{"fam": "cards", "len": 200, "i": 3, "mode": "dual", "final_ok": true, "state_ok": false, "looks": 0, "wrong_steps": 115, "seconds": 1506.258240222931}
+{"fam": "cards", "len": 200, "i": 5, "mode": "obs50", "final_ok": true, "state_ok": true, "looks": 3, "wrong_steps": 70, "seconds": 1411.1173312664032}
+{"fam": "cards", "len": 200, "i": 5, "mode": "conf0.5", "final_ok": true, "state_ok": true, "looks": 18, "wrong_steps": 0, "seconds": 1404.1841678619385}
+{"fam": "cards", "len": 200, "i": 5, "mode": "step0.9", "final_ok": true, "state_ok": true, "looks": 33, "wrong_steps": 0, "seconds": 1390.406251192093}
+{"fam": "cards", "len": 200, "i": 5, "mode": "conf0.9", "final_ok": true, "state_ok": true, "looks": 46, "wrong_steps": 0, "seconds": 1405.2651720046997}
+{"fam": "cards", "len": 200, "i": 4, "mode": "dual", "final_ok": false, "state_ok": false, "looks": 0, "wrong_steps": 183, "seconds": 1532.4898676872253}
+{"fam": "cards", "len": 200, "i": 4, "mode": "dual_conf0.9", "final_ok": true, "state_ok": true, "looks": 44, "wrong_steps": 0, "seconds": 1530.1292026042938}
+{"fam": "cards", "len": 200, "i": 6, "mode": "text", "final_ok": false, "state_ok": false, "looks": 0, "wrong_steps": 107, "seconds": 1377.3022556304932}
+{"fam": "cards", "len": 200, "i": 6, "mode": "obs50", "final_ok": false, "state_ok": false, "looks": 3, "wrong_steps": 98, "seconds": 1371.5837759971619}
+{"fam": "cards", "len": 200, "i": 6, "mode": "conf0.5", "final_ok": true, "state_ok": true, "looks": 32, "wrong_steps": 0, "seconds": 1367.0174379348755}
+{"fam": "cards", "len": 200, "i": 5, "mode": "dual", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "seconds": 1420.9664964675903}
+{"fam": "cards", "len": 200, "i": 6, "mode": "conf0.9", "final_ok": true, "state_ok": true, "looks": 53, "wrong_steps": 0, "seconds": 1379.7442715168}
+{"fam": "cards", "len": 200, "i": 5, "mode": "dual_conf0.9", "final_ok": true, "state_ok": true, "looks": 15, "wrong_steps": 0, "seconds": 1422.1339242458344}
+{"fam": "cards", "len": 200, "i": 6, "mode": "step0.9", "final_ok": true, "state_ok": true, "looks": 44, "wrong_steps": 0, "seconds": 1356.7941632270813}
+{"fam": "cards", "len": 200, "i": 6, "mode": "dual", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "seconds": 1420.9643568992615}
+{"fam": "cards", "len": 200, "i": 7, "mode": "text", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "seconds": 1353.395815372467}
+{"fam": "cards", "len": 200, "i": 7, "mode": "obs50", "final_ok": true, "state_ok": true, "looks": 3, "wrong_steps": 0, "seconds": 1348.8245303630829}
+{"fam": "cards", "len": 200, "i": 6, "mode": "dual_conf0.9", "final_ok": true, "state_ok": true, "looks": 31, "wrong_steps": 0, "seconds": 1386.6623485088348}
+{"fam": "cards", "len": 200, "i": 7, "mode": "conf0.5", "final_ok": true, "state_ok": true, "looks": 31, "wrong_steps": 0, "seconds": 1348.8730697631836}
+{"fam": "cards", "len": 200, "i": 7, "mode": "conf0.9", "final_ok": true, "state_ok": true, "looks": 55, "wrong_steps": 0, "seconds": 1348.903165102005}
+{"fam": "cards", "len": 200, "i": 7, "mode": "step0.9", "final_ok": true, "state_ok": true, "looks": 45, "wrong_steps": 0, "seconds": 1353.4989361763}
+{"fam": "cards", "len": 200, "i": 7, "mode": "dual", "final_ok": false, "state_ok": false, "looks": 0, "wrong_steps": 182, "seconds": 1379.831945180893}
+{"fam": "cards", "len": 200, "i": 7, "mode": "dual_conf0.9", "final_ok": true, "state_ok": true, "looks": 27, "wrong_steps": 0, "seconds": 1376.4428849220276}
+{"fam": "toggles", "len": 100, "i": 3, "mode": "text", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "seconds": 170.87351369857788}
+{"fam": "toggles", "len": 100, "i": 0, "mode": "conf0.9", "final_ok": true, "state_ok": true, "looks": 2, "wrong_steps": 0, "seconds": 172.00755715370178}
+{"fam": "toggles", "len": 100, "i": 1, "mode": "step0.9", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "seconds": 173.03661251068115}
+{"fam": "toggles", "len": 100, "i": 0, "mode": "step0.9", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "seconds": 173.45967555046082}
+{"fam": "toggles", "len": 100, "i": 0, "mode": "text", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "seconds": 173.6235682964325}
+{"fam": "toggles", "len": 100, "i": 1, "mode": "conf0.9", "final_ok": true, "state_ok": true, "looks": 3, "wrong_steps": 0, "seconds": 173.62001872062683}
+{"fam": "toggles", "len": 100, "i": 3, "mode": "conf0.9", "final_ok": true, "state_ok": true, "looks": 2, "wrong_steps": 0, "seconds": 173.6117386817932}
+{"fam": "toggles", "len": 100, "i": 2, "mode": "conf0.9", "final_ok": true, "state_ok": true, "looks": 1, "wrong_steps": 0, "seconds": 173.96402382850647}
+{"fam": "toggles", "len": 100, "i": 1, "mode": "text", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "seconds": 173.97673439979553}
+{"fam": "toggles", "len": 100, "i": 3, "mode": "step0.9", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "seconds": 174.22558641433716}
+{"fam": "toggles", "len": 100, "i": 2, "mode": "step0.9", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "seconds": 175.8281328678131}
+{"fam": "toggles", "len": 100, "i": 2, "mode": "text", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "seconds": 176.2400403022766}
+{"fam": "machines", "len": 100, "i": 0, "mode": "conf0.9", "final_ok": true, "state_ok": true, "looks": 9, "wrong_steps": 0, "seconds": 143.7883698940277}
+{"fam": "machines", "len": 100, "i": 1, "mode": "text", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "seconds": 143.83691906929016}
+{"fam": "machines", "len": 100, "i": 1, "mode": "step0.9", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "seconds": 143.67620706558228}
+{"fam": "machines", "len": 100, "i": 2, "mode": "text", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "seconds": 146.96173572540283}
+{"fam": "machines", "len": 100, "i": 0, "mode": "step0.9", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "seconds": 148.3783037662506}
+{"fam": "machines", "len": 100, "i": 3, "mode": "conf0.9", "final_ok": true, "state_ok": true, "looks": 9, "wrong_steps": 0, "seconds": 145.8085629940033}
+{"fam": "machines", "len": 100, "i": 0, "mode": "text", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "seconds": 155.2053189277649}
+{"fam": "toggles", "len": 200, "i": 0, "mode": "step0.9", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "seconds": 326.0555775165558}
+{"fam": "machines", "len": 100, "i": 3, "mode": "text", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "seconds": 151.8804726600647}
+{"fam": "toggles", "len": 200, "i": 1, "mode": "text", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "seconds": 326.0748767852783}
+{"fam": "machines", "len": 100, "i": 2, "mode": "step0.9", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "seconds": 154.01097774505615}
+{"fam": "toggles", "len": 200, "i": 2, "mode": "conf0.9", "final_ok": true, "state_ok": true, "looks": 15, "wrong_steps": 13, "seconds": 329.7647352218628}
+{"fam": "machines", "len": 100, "i": 1, "mode": "conf0.9", "final_ok": true, "state_ok": true, "looks": 10, "wrong_steps": 0, "seconds": 157.1434187889099}
+{"fam": "machines", "len": 100, "i": 3, "mode": "step0.9", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "seconds": 154.59049463272095}
+{"fam": "machines", "len": 100, "i": 2, "mode": "conf0.9", "final_ok": true, "state_ok": true, "looks": 10, "wrong_steps": 0, "seconds": 158.23482966423035}
+{"fam": "toggles", "len": 200, "i": 0, "mode": "conf0.9", "final_ok": true, "state_ok": true, "looks": 4, "wrong_steps": 0, "seconds": 332.36395025253296}
+{"fam": "toggles", "len": 200, "i": 3, "mode": "step0.9", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "seconds": 332.91276121139526}
+{"fam": "toggles", "len": 200, "i": 1, "mode": "conf0.9", "final_ok": true, "state_ok": true, "looks": 7, "wrong_steps": 0, "seconds": 334.26849842071533}
+{"fam": "toggles", "len": 200, "i": 1, "mode": "step0.9", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "seconds": 334.30237889289856}
+{"fam": "toggles", "len": 200, "i": 2, "mode": "text", "final_ok": true, "state_ok": false, "looks": 0, "wrong_steps": 84, "seconds": 336.50051736831665}
+{"fam": "toggles", "len": 200, "i": 3, "mode": "conf0.9", "final_ok": true, "state_ok": true, "looks": 6, "wrong_steps": 0, "seconds": 336.7954089641571}
+{"fam": "toggles", "len": 200, "i": 2, "mode": "step0.9", "final_ok": true, "state_ok": false, "looks": 0, "wrong_steps": 84, "seconds": 338.09446954727173}
+{"fam": "toggles", "len": 200, "i": 3, "mode": "text", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "seconds": 338.7001860141754}
+{"fam": "toggles", "len": 200, "i": 0, "mode": "text", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "seconds": 340.8474564552307}
+{"fam": "jugs", "len": 100, "i": 0, "mode": "step0.9", "final_ok": true, "state_ok": true, "looks": 1, "wrong_steps": 0, "seconds": 115.66373538970947}
+{"fam": "jugs", "len": 100, "i": 1, "mode": "conf0.9", "final_ok": true, "state_ok": true, "looks": 1, "wrong_steps": 0, "seconds": 115.67634224891663}
+{"fam": "jugs", "len": 100, "i": 1, "mode": "text", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "seconds": 116.25626993179321}
+{"fam": "jugs", "len": 100, "i": 0, "mode": "text", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "seconds": 118.32001328468323}
+{"fam": "jugs", "len": 100, "i": 0, "mode": "conf0.9", "final_ok": true, "state_ok": true, "looks": 2, "wrong_steps": 0, "seconds": 119.01823091506958}
+{"fam": "jugs", "len": 100, "i": 1, "mode": "step0.9", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "seconds": 115.54858708381653}
+{"fam": "jugs", "len": 100, "i": 2, "mode": "text", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 33, "seconds": 117.9006736278534}
+{"fam": "jugs", "len": 100, "i": 3, "mode": "text", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "seconds": 117.3883056640625}
+{"fam": "jugs", "len": 100, "i": 2, "mode": "step0.9", "final_ok": true, "state_ok": true, "looks": 2, "wrong_steps": 11, "seconds": 118.78466057777405}
+{"fam": "jugs", "len": 100, "i": 2, "mode": "conf0.9", "final_ok": true, "state_ok": true, "looks": 2, "wrong_steps": 11, "seconds": 119.81948804855347}
+{"fam": "jugs", "len": 100, "i": 3, "mode": "conf0.9", "final_ok": true, "state_ok": true, "looks": 1, "wrong_steps": 0, "seconds": 119.6143901348114}
+{"fam": "jugs", "len": 100, "i": 3, "mode": "step0.9", "final_ok": true, "state_ok": true, "looks": 1, "wrong_steps": 0, "seconds": 119.49943590164185}
+{"fam": "machines", "len": 200, "i": 1, "mode": "text", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "seconds": 238.07023811340332}
+{"fam": "machines", "len": 200, "i": 1, "mode": "step0.9", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "seconds": 237.47198867797852}
+{"fam": "machines", "len": 200, "i": 0, "mode": "conf0.9", "final_ok": true, "state_ok": true, "looks": 16, "wrong_steps": 0, "seconds": 242.85028910636902}
+{"fam": "machines", "len": 200, "i": 0, "mode": "step0.9", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "seconds": 243.13103818893433}
+{"fam": "machines", "len": 200, "i": 0, "mode": "text", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "seconds": 244.80481696128845}
+{"fam": "machines", "len": 200, "i": 1, "mode": "conf0.9", "final_ok": true, "state_ok": true, "looks": 23, "wrong_steps": 0, "seconds": 240.3059606552124}
+{"fam": "machines", "len": 200, "i": 3, "mode": "text", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "seconds": 237.39366340637207}
+{"fam": "machines", "len": 200, "i": 3, "mode": "conf0.9", "final_ok": true, "state_ok": true, "looks": 21, "wrong_steps": 0, "seconds": 237.16420984268188}
+{"fam": "machines", "len": 200, "i": 2, "mode": "step0.9", "final_ok": true, "state_ok": true, "looks": 20, "wrong_steps": 15, "seconds": 239.30418705940247}
+{"fam": "machines", "len": 200, "i": 2, "mode": "text", "final_ok": true, "state_ok": false, "looks": 0, "wrong_steps": 107, "seconds": 239.35345768928528}
+{"fam": "machines", "len": 200, "i": 3, "mode": "step0.9", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "seconds": 236.78272104263306}
+{"fam": "machines", "len": 200, "i": 2, "mode": "conf0.9", "final_ok": true, "state_ok": true, "looks": 44, "wrong_steps": 0, "seconds": 242.0428614616394}
+{"fam": "jugs", "len": 200, "i": 0, "mode": "text", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 3, "seconds": 174.6615138053894}
+{"fam": "jugs", "len": 200, "i": 0, "mode": "conf0.9", "final_ok": true, "state_ok": true, "looks": 3, "wrong_steps": 3, "seconds": 174.1296365261078}
+{"fam": "jugs", "len": 200, "i": 2, "mode": "text", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 16, "seconds": 170.88770747184753}
+{"fam": "jugs", "len": 200, "i": 1, "mode": "step0.9", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "seconds": 173.91938948631287}
+{"fam": "jugs", "len": 200, "i": 0, "mode": "step0.9", "final_ok": true, "state_ok": true, "looks": 2, "wrong_steps": 3, "seconds": 175.8422703742981}
+{"fam": "jugs", "len": 200, "i": 1, "mode": "conf0.9", "final_ok": true, "state_ok": true, "looks": 2, "wrong_steps": 0, "seconds": 174.66872143745422}
+{"fam": "jugs", "len": 200, "i": 2, "mode": "step0.9", "final_ok": true, "state_ok": true, "looks": 1, "wrong_steps": 16, "seconds": 169.1142315864563}
+{"fam": "jugs", "len": 200, "i": 2, "mode": "conf0.9", "final_ok": true, "state_ok": true, "looks": 4, "wrong_steps": 16, "seconds": 169.2170238494873}
+{"fam": "jugs", "len": 200, "i": 1, "mode": "text", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "seconds": 176.17659616470337}
+{"fam": "jugs", "len": 200, "i": 3, "mode": "text", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "seconds": 169.84729933738708}
+{"fam": "jugs", "len": 200, "i": 3, "mode": "conf0.9", "final_ok": true, "state_ok": true, "looks": 4, "wrong_steps": 1, "seconds": 168.04596996307373}
+{"fam": "jugs", "len": 200, "i": 3, "mode": "step0.9", "final_ok": true, "state_ok": true, "looks": 5, "wrong_steps": 0, "seconds": 167.07866883277893}
+{"fam": "jugs", "len": 100, "i": 2, "mode": "conf0.5", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 33, "seconds": 376.0154495239258}
+{"fam": "jugs", "len": 100, "i": 1, "mode": "conf0.5", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "seconds": 378.3596179485321}
+{"fam": "jugs", "len": 100, "i": 3, "mode": "conf0.5", "final_ok": true, "state_ok": true, "looks": 1, "wrong_steps": 0, "seconds": 379.48450994491577}
+{"fam": "jugs", "len": 100, "i": 0, "mode": "conf0.5", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "seconds": 380.65750217437744}
+{"fam": "machines", "len": 100, "i": 0, "mode": "conf0.5", "final_ok": true, "state_ok": true, "looks": 1, "wrong_steps": 0, "seconds": 394.32143545150757}
+{"fam": "machines", "len": 100, "i": 1, "mode": "conf0.5", "final_ok": true, "state_ok": true, "looks": 1, "wrong_steps": 0, "seconds": 395.4241201877594}
+{"fam": "toggles", "len": 100, "i": 0, "mode": "conf0.5", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "seconds": 396.59029507637024}
+{"fam": "toggles", "len": 100, "i": 3, "mode": "conf0.5", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "seconds": 398.5411059856415}
+{"fam": "machines", "len": 100, "i": 2, "mode": "conf0.5", "final_ok": true, "state_ok": true, "looks": 1, "wrong_steps": 0, "seconds": 399.4316849708557}
+{"fam": "machines", "len": 100, "i": 3, "mode": "conf0.5", "final_ok": true, "state_ok": true, "looks": 1, "wrong_steps": 0, "seconds": 399.43960070610046}
+{"fam": "toggles", "len": 100, "i": 1, "mode": "conf0.5", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "seconds": 401.3283107280731}
+{"fam": "toggles", "len": 100, "i": 2, "mode": "conf0.5", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "seconds": 410.08345580101013}
+{"fam": "jugs", "len": 200, "i": 0, "mode": "conf0.5", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 12, "seconds": 828.0192909240723}
+{"fam": "jugs", "len": 200, "i": 1, "mode": "conf0.5", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "seconds": 829.174097776413}
+{"fam": "jugs", "len": 200, "i": 2, "mode": "conf0.5", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 16, "seconds": 834.9057450294495}
+{"fam": "jugs", "len": 200, "i": 3, "mode": "conf0.5", "final_ok": true, "state_ok": true, "looks": 2, "wrong_steps": 0, "seconds": 838.3385412693024}
+{"fam": "machines", "len": 200, "i": 1, "mode": "conf0.5", "final_ok": true, "state_ok": true, "looks": 3, "wrong_steps": 0, "seconds": 865.9788177013397}
+{"fam": "machines", "len": 200, "i": 2, "mode": "conf0.5", "final_ok": true, "state_ok": true, "looks": 13, "wrong_steps": 23, "seconds": 875.1087889671326}
+{"fam": "machines", "len": 200, "i": 3, "mode": "conf0.5", "final_ok": true, "state_ok": true, "looks": 3, "wrong_steps": 0, "seconds": 881.9674639701843}
+{"fam": "toggles", "len": 200, "i": 1, "mode": "conf0.5", "final_ok": true, "state_ok": true, "looks": 1, "wrong_steps": 0, "seconds": 896.8985028266907}
+{"fam": "machines", "len": 200, "i": 0, "mode": "conf0.5", "final_ok": true, "state_ok": true, "looks": 2, "wrong_steps": 0, "seconds": 899.1452848911285}
+{"fam": "toggles", "len": 200, "i": 2, "mode": "conf0.5", "final_ok": true, "state_ok": false, "looks": 2, "wrong_steps": 84, "seconds": 902.6416268348694}
+{"fam": "toggles", "len": 200, "i": 0, "mode": "conf0.5", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "seconds": 904.9484114646912}
+{"fam": "toggles", "len": 200, "i": 3, "mode": "conf0.5", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "seconds": 920.9662673473358}
+{"fam": "cards", "len": 100, "i": 4, "mode": "until0.9", "final_ok": true, "state_ok": true, "looks": 42, "wrong_steps": 0, "surprises": 0, "seconds": 363.75028347969055}
+{"fam": "cards", "len": 100, "i": 5, "mode": "until0.9", "final_ok": true, "state_ok": true, "looks": 47, "wrong_steps": 0, "surprises": 8, "seconds": 371.73245429992676}
+{"fam": "cards", "len": 100, "i": 4, "mode": "until0.5", "final_ok": true, "state_ok": true, "looks": 25, "wrong_steps": 0, "surprises": 0, "seconds": 371.83047747612}
+{"fam": "cards", "len": 100, "i": 2, "mode": "until0.5", "final_ok": true, "state_ok": true, "looks": 22, "wrong_steps": 0, "surprises": 2, "seconds": 371.88238644599915}
+{"fam": "cards", "len": 100, "i": 4, "mode": "check0.5", "final_ok": true, "state_ok": true, "looks": 26, "wrong_steps": 0, "surprises": 0, "seconds": 372.98667645454407}
+{"fam": "cards", "len": 100, "i": 5, "mode": "check0.5", "final_ok": true, "state_ok": true, "looks": 31, "wrong_steps": 0, "surprises": 8, "seconds": 373.20988416671753}
+{"fam": "cards", "len": 100, "i": 6, "mode": "check0.9", "final_ok": true, "state_ok": true, "looks": 28, "wrong_steps": 0, "surprises": 3, "seconds": 379.76276206970215}
+{"fam": "cards", "len": 100, "i": 6, "mode": "until0.5", "final_ok": true, "state_ok": true, "looks": 21, "wrong_steps": 0, "surprises": 3, "seconds": 383.2326021194458}
+{"fam": "cards", "len": 100, "i": 1, "mode": "until0.5", "final_ok": true, "state_ok": true, "looks": 41, "wrong_steps": 0, "surprises": 16, "seconds": 383.32558274269104}
+{"fam": "cards", "len": 100, "i": 7, "mode": "check0.5", "final_ok": true, "state_ok": true, "looks": 30, "wrong_steps": 0, "surprises": 6, "seconds": 384.3856508731842}
+{"fam": "cards", "len": 100, "i": 6, "mode": "until0.9", "final_ok": true, "state_ok": true, "looks": 28, "wrong_steps": 0, "surprises": 3, "seconds": 384.58932638168335}
+{"fam": "cards", "len": 100, "i": 5, "mode": "check0.9", "final_ok": true, "state_ok": true, "looks": 47, "wrong_steps": 0, "surprises": 8, "seconds": 384.61240124702454}
+{"fam": "cards", "len": 100, "i": 2, "mode": "until0.9", "final_ok": true, "state_ok": true, "looks": 37, "wrong_steps": 0, "surprises": 1, "seconds": 385.0231041908264}
+{"fam": "cards", "len": 100, "i": 4, "mode": "check0.9", "final_ok": true, "state_ok": true, "looks": 41, "wrong_steps": 0, "surprises": 0, "seconds": 385.5337212085724}
+{"fam": "cards", "len": 100, "i": 7, "mode": "check0.9", "final_ok": true, "state_ok": true, "looks": 40, "wrong_steps": 0, "surprises": 6, "seconds": 386.59678745269775}
+{"fam": "cards", "len": 100, "i": 5, "mode": "until0.5", "final_ok": true, "state_ok": true, "looks": 31, "wrong_steps": 0, "surprises": 8, "seconds": 386.88087010383606}
+{"fam": "cards", "len": 100, "i": 0, "mode": "check0.9", "final_ok": true, "state_ok": true, "looks": 33, "wrong_steps": 0, "surprises": 4, "seconds": 389.0209023952484}
+{"fam": "cards", "len": 100, "i": 0, "mode": "check0.5", "final_ok": true, "state_ok": true, "looks": 23, "wrong_steps": 0, "surprises": 4, "seconds": 389.6361722946167}
+{"fam": "cards", "len": 100, "i": 6, "mode": "check0.5", "final_ok": true, "state_ok": true, "looks": 21, "wrong_steps": 0, "surprises": 3, "seconds": 389.5580382347107}
+{"fam": "cards", "len": 100, "i": 2, "mode": "check0.9", "final_ok": true, "state_ok": true, "looks": 37, "wrong_steps": 0, "surprises": 1, "seconds": 391.5242962837219}
+{"fam": "cards", "len": 100, "i": 2, "mode": "check0.5", "final_ok": true, "state_ok": true, "looks": 21, "wrong_steps": 0, "surprises": 1, "seconds": 391.9081058502197}
+{"fam": "cards", "len": 100, "i": 0, "mode": "until0.5", "final_ok": true, "state_ok": true, "looks": 22, "wrong_steps": 0, "surprises": 4, "seconds": 393.8333501815796}
+{"fam": "cards", "len": 100, "i": 1, "mode": "check0.5", "final_ok": true, "state_ok": true, "looks": 41, "wrong_steps": 0, "surprises": 15, "seconds": 395.35634446144104}
+{"fam": "cards", "len": 100, "i": 3, "mode": "until0.9", "final_ok": true, "state_ok": true, "looks": 49, "wrong_steps": 0, "surprises": 6, "seconds": 396.07650327682495}
+{"fam": "cards", "len": 100, "i": 3, "mode": "until0.5", "final_ok": true, "state_ok": true, "looks": 37, "wrong_steps": 0, "surprises": 6, "seconds": 397.62796902656555}
+{"fam": "cards", "len": 100, "i": 7, "mode": "until0.5", "final_ok": true, "state_ok": true, "looks": 29, "wrong_steps": 0, "surprises": 6, "seconds": 398.07052850723267}
+{"fam": "cards", "len": 100, "i": 1, "mode": "check0.9", "final_ok": true, "state_ok": true, "looks": 56, "wrong_steps": 0, "surprises": 15, "seconds": 398.412184715271}
+{"fam": "cards", "len": 100, "i": 0, "mode": "until0.9", "final_ok": true, "state_ok": true, "looks": 33, "wrong_steps": 0, "surprises": 4, "seconds": 400.5491316318512}
+{"fam": "cards", "len": 100, "i": 3, "mode": "check0.9", "final_ok": true, "state_ok": true, "looks": 51, "wrong_steps": 0, "surprises": 6, "seconds": 401.06979727745056}
+{"fam": "cards", "len": 100, "i": 3, "mode": "check0.5", "final_ok": true, "state_ok": true, "looks": 37, "wrong_steps": 0, "surprises": 6, "seconds": 401.5445246696472}
+{"fam": "cards", "len": 100, "i": 1, "mode": "until0.9", "final_ok": true, "state_ok": true, "looks": 56, "wrong_steps": 0, "surprises": 15, "seconds": 410.26454734802246}
+{"fam": "cards", "len": 100, "i": 7, "mode": "until0.9", "final_ok": true, "state_ok": true, "looks": 40, "wrong_steps": 0, "surprises": 6, "seconds": 412.4826753139496}
+{"fam": "toggles", "len": 100, "i": 0, "mode": "until0.5", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "surprises": 0, "seconds": 348.2346842288971}
+{"fam": "toggles", "len": 100, "i": 0, "mode": "until0.9", "final_ok": true, "state_ok": true, "looks": 2, "wrong_steps": 0, "surprises": 0, "seconds": 348.0694980621338}
+{"fam": "toggles", "len": 100, "i": 0, "mode": "check0.5", "final_ok": true, "state_ok": true, "looks": 3, "wrong_steps": 0, "surprises": 0, "seconds": 350.40923261642456}
+{"fam": "toggles", "len": 100, "i": 1, "mode": "until0.5", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "surprises": 0, "seconds": 351.4395372867584}
+{"fam": "cards", "len": 200, "i": 5, "mode": "until0.9", "final_ok": true, "state_ok": true, "looks": 47, "wrong_steps": 0, "surprises": 2, "seconds": 726.0374596118927}
+{"fam": "cards", "len": 200, "i": 5, "mode": "until0.5", "final_ok": true, "state_ok": true, "looks": 19, "wrong_steps": 0, "surprises": 2, "seconds": 727.2714574337006}
+{"fam": "cards", "len": 200, "i": 1, "mode": "check0.9", "final_ok": true, "state_ok": true, "looks": 55, "wrong_steps": 0, "surprises": 2, "seconds": 727.3495943546295}
+{"fam": "cards", "len": 200, "i": 5, "mode": "check0.5", "final_ok": true, "state_ok": true, "looks": 21, "wrong_steps": 0, "surprises": 2, "seconds": 727.5758800506592}
+{"fam": "toggles", "len": 100, "i": 1, "mode": "check0.5", "final_ok": true, "state_ok": true, "looks": 3, "wrong_steps": 0, "surprises": 0, "seconds": 355.30209374427795}
+{"fam": "cards", "len": 200, "i": 1, "mode": "until0.5", "final_ok": true, "state_ok": true, "looks": 27, "wrong_steps": 0, "surprises": 1, "seconds": 729.5239391326904}
+{"fam": "toggles", "len": 100, "i": 1, "mode": "check0.9", "final_ok": true, "state_ok": true, "looks": 4, "wrong_steps": 0, "surprises": 0, "seconds": 348.74410939216614}
+{"fam": "toggles", "len": 100, "i": 0, "mode": "check0.9", "final_ok": true, "state_ok": true, "looks": 4, "wrong_steps": 0, "surprises": 0, "seconds": 360.18118119239807}
+{"fam": "cards", "len": 200, "i": 1, "mode": "check0.5", "final_ok": true, "state_ok": true, "looks": 28, "wrong_steps": 0, "surprises": 1, "seconds": 733.000431060791}
+{"fam": "cards", "len": 200, "i": 5, "mode": "check0.9", "final_ok": true, "state_ok": true, "looks": 46, "wrong_steps": 0, "surprises": 2, "seconds": 733.0232589244843}
+{"fam": "toggles", "len": 100, "i": 1, "mode": "until0.9", "final_ok": true, "state_ok": true, "looks": 3, "wrong_steps": 0, "surprises": 0, "seconds": 354.49508452415466}
+{"fam": "toggles", "len": 100, "i": 2, "mode": "until0.5", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "surprises": 0, "seconds": 352.1426315307617}
+{"fam": "cards", "len": 200, "i": 3, "mode": "until0.9", "final_ok": true, "state_ok": true, "looks": 50, "wrong_steps": 0, "surprises": 4, "seconds": 736.3312969207764}
+{"fam": "toggles", "len": 100, "i": 3, "mode": "until0.5", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "surprises": 0, "seconds": 353.78160786628723}
+{"fam": "toggles", "len": 100, "i": 2, "mode": "check0.9", "final_ok": true, "state_ok": true, "looks": 3, "wrong_steps": 0, "surprises": 0, "seconds": 355.1606161594391}
+{"fam": "toggles", "len": 100, "i": 3, "mode": "check0.9", "final_ok": true, "state_ok": true, "looks": 3, "wrong_steps": 0, "surprises": 0, "seconds": 352.9113838672638}
+{"fam": "toggles", "len": 100, "i": 3, "mode": "until0.9", "final_ok": true, "state_ok": true, "looks": 2, "wrong_steps": 0, "surprises": 0, "seconds": 354.1528174877167}
+{"fam": "cards", "len": 200, "i": 3, "mode": "check0.5", "final_ok": true, "state_ok": true, "looks": 29, "wrong_steps": 1, "surprises": 4, "seconds": 744.1840100288391}
+{"fam": "toggles", "len": 100, "i": 3, "mode": "check0.5", "final_ok": true, "state_ok": true, "looks": 3, "wrong_steps": 0, "surprises": 0, "seconds": 358.7549433708191}
+{"fam": "cards", "len": 200, "i": 1, "mode": "until0.9", "final_ok": true, "state_ok": true, "looks": 56, "wrong_steps": 0, "surprises": 1, "seconds": 745.2862038612366}
+{"fam": "cards", "len": 200, "i": 6, "mode": "until0.9", "final_ok": true, "state_ok": true, "looks": 57, "wrong_steps": 0, "surprises": 5, "seconds": 749.0449628829956}
+{"fam": "cards", "len": 200, "i": 3, "mode": "until0.5", "final_ok": true, "state_ok": true, "looks": 29, "wrong_steps": 1, "surprises": 4, "seconds": 749.103999376297}
+{"fam": "cards", "len": 200, "i": 3, "mode": "check0.9", "final_ok": true, "state_ok": true, "looks": 50, "wrong_steps": 0, "surprises": 4, "seconds": 749.7762026786804}
+{"fam": "cards", "len": 200, "i": 6, "mode": "check0.5", "final_ok": true, "state_ok": true, "looks": 38, "wrong_steps": 0, "surprises": 5, "seconds": 750.2272679805756}
+{"fam": "cards", "len": 200, "i": 6, "mode": "check0.9", "final_ok": true, "state_ok": true, "looks": 56, "wrong_steps": 0, "surprises": 5, "seconds": 752.2573199272156}
+{"fam": "toggles", "len": 100, "i": 2, "mode": "check0.5", "final_ok": true, "state_ok": true, "looks": 3, "wrong_steps": 0, "surprises": 0, "seconds": 369.15779972076416}
+{"fam": "toggles", "len": 100, "i": 2, "mode": "until0.9", "final_ok": true, "state_ok": true, "looks": 1, "wrong_steps": 0, "surprises": 0, "seconds": 369.0603950023651}
+{"fam": "cards", "len": 200, "i": 2, "mode": "check0.9", "final_ok": true, "state_ok": true, "looks": 98, "wrong_steps": 0, "surprises": 16, "seconds": 756.525633096695}
+{"fam": "cards", "len": 200, "i": 0, "mode": "until0.9", "final_ok": true, "state_ok": true, "looks": 56, "wrong_steps": 0, "surprises": 7, "seconds": 758.8472623825073}
+{"fam": "cards", "len": 200, "i": 7, "mode": "until0.9", "final_ok": true, "state_ok": true, "looks": 55, "wrong_steps": 0, "surprises": 0, "seconds": 759.0254263877869}
+{"fam": "cards", "len": 200, "i": 6, "mode": "until0.5", "final_ok": true, "state_ok": true, "looks": 37, "wrong_steps": 0, "surprises": 5, "seconds": 764.285835981369}
+{"fam": "cards", "len": 200, "i": 0, "mode": "until0.5", "final_ok": true, "state_ok": true, "looks": 39, "wrong_steps": 0, "surprises": 7, "seconds": 764.3852231502533}
+{"fam": "cards", "len": 200, "i": 0, "mode": "check0.5", "final_ok": true, "state_ok": true, "looks": 36, "wrong_steps": 0, "surprises": 6, "seconds": 765.3347678184509}
+{"fam": "cards", "len": 200, "i": 2, "mode": "until0.5", "final_ok": true, "state_ok": true, "looks": 72, "wrong_steps": 0, "surprises": 14, "seconds": 766.3064606189728}
+{"fam": "cards", "len": 200, "i": 2, "mode": "until0.9", "final_ok": true, "state_ok": true, "looks": 97, "wrong_steps": 0, "surprises": 14, "seconds": 767.264092206955}
+{"fam": "cards", "len": 200, "i": 7, "mode": "until0.5", "final_ok": true, "state_ok": true, "looks": 30, "wrong_steps": 0, "surprises": 0, "seconds": 769.2624936103821}
+{"fam": "cards", "len": 200, "i": 4, "mode": "check0.5", "final_ok": true, "state_ok": true, "looks": 63, "wrong_steps": 0, "surprises": 13, "seconds": 771.938618183136}
+{"fam": "cards", "len": 200, "i": 4, "mode": "until0.5", "final_ok": true, "state_ok": true, "looks": 64, "wrong_steps": 0, "surprises": 12, "seconds": 771.9528360366821}
+{"fam": "cards", "len": 200, "i": 4, "mode": "check0.9", "final_ok": true, "state_ok": true, "looks": 93, "wrong_steps": 0, "surprises": 12, "seconds": 773.7553005218506}
+{"fam": "cards", "len": 200, "i": 0, "mode": "check0.9", "final_ok": true, "state_ok": true, "looks": 56, "wrong_steps": 0, "surprises": 6, "seconds": 773.8398802280426}
+{"fam": "cards", "len": 200, "i": 2, "mode": "check0.5", "final_ok": true, "state_ok": true, "looks": 73, "wrong_steps": 0, "surprises": 14, "seconds": 773.8601925373077}
+{"fam": "cards", "len": 200, "i": 7, "mode": "check0.5", "final_ok": true, "state_ok": true, "looks": 30, "wrong_steps": 0, "surprises": 0, "seconds": 776.2710561752319}
+{"fam": "cards", "len": 200, "i": 7, "mode": "check0.9", "final_ok": true, "state_ok": true, "looks": 55, "wrong_steps": 0, "surprises": 0, "seconds": 779.066755771637}
+{"fam": "cards", "len": 200, "i": 4, "mode": "until0.9", "final_ok": true, "state_ok": true, "looks": 92, "wrong_steps": 0, "surprises": 13, "seconds": 782.837000131607}
+{"fam": "machines", "len": 100, "i": 0, "mode": "until0.5", "final_ok": true, "state_ok": true, "looks": 1, "wrong_steps": 0, "surprises": 0, "seconds": 277.44474482536316}
+{"fam": "machines", "len": 100, "i": 0, "mode": "check0.9", "final_ok": true, "state_ok": true, "looks": 9, "wrong_steps": 0, "surprises": 0, "seconds": 271.023610830307}
+{"fam": "machines", "len": 100, "i": 0, "mode": "until0.9", "final_ok": true, "state_ok": true, "looks": 9, "wrong_steps": 0, "surprises": 0, "seconds": 274.9273989200592}
+{"fam": "machines", "len": 100, "i": 1, "mode": "check0.5", "final_ok": true, "state_ok": true, "looks": 3, "wrong_steps": 0, "surprises": 0, "seconds": 273.2721667289734}
+{"fam": "machines", "len": 100, "i": 1, "mode": "until0.5", "final_ok": true, "state_ok": true, "looks": 1, "wrong_steps": 0, "surprises": 0, "seconds": 274.6619222164154}
+{"fam": "machines", "len": 100, "i": 0, "mode": "check0.5", "final_ok": true, "state_ok": true, "looks": 3, "wrong_steps": 0, "surprises": 0, "seconds": 281.40298295021057}
+{"fam": "machines", "len": 100, "i": 2, "mode": "check0.9", "final_ok": true, "state_ok": true, "looks": 10, "wrong_steps": 0, "surprises": 0, "seconds": 269.6992824077606}
+{"fam": "machines", "len": 100, "i": 2, "mode": "check0.5", "final_ok": true, "state_ok": true, "looks": 3, "wrong_steps": 0, "surprises": 0, "seconds": 272.58292984962463}
+{"fam": "machines", "len": 100, "i": 1, "mode": "until0.9", "final_ok": true, "state_ok": true, "looks": 11, "wrong_steps": 0, "surprises": 0, "seconds": 274.99813294410706}
+{"fam": "machines", "len": 100, "i": 2, "mode": "until0.5", "final_ok": true, "state_ok": true, "looks": 1, "wrong_steps": 0, "surprises": 0, "seconds": 280.1804208755493}
+{"fam": "machines", "len": 100, "i": 3, "mode": "check0.5", "final_ok": true, "state_ok": true, "looks": 3, "wrong_steps": 0, "surprises": 0, "seconds": 276.44643449783325}
+{"fam": "machines", "len": 100, "i": 2, "mode": "until0.9", "final_ok": true, "state_ok": true, "looks": 10, "wrong_steps": 0, "surprises": 0, "seconds": 278.3030016422272}
+{"fam": "machines", "len": 100, "i": 1, "mode": "check0.9", "final_ok": true, "state_ok": true, "looks": 11, "wrong_steps": 0, "surprises": 0, "seconds": 282.7161114215851}
+{"fam": "machines", "len": 100, "i": 3, "mode": "until0.9", "final_ok": true, "state_ok": true, "looks": 9, "wrong_steps": 0, "surprises": 0, "seconds": 277.497252702713}
+{"fam": "machines", "len": 100, "i": 3, "mode": "check0.9", "final_ok": true, "state_ok": true, "looks": 9, "wrong_steps": 0, "surprises": 0, "seconds": 279.52945947647095}
+{"fam": "machines", "len": 100, "i": 3, "mode": "until0.5", "final_ok": true, "state_ok": true, "looks": 1, "wrong_steps": 0, "surprises": 0, "seconds": 282.49208760261536}
+{"fam": "toggles", "len": 200, "i": 0, "mode": "until0.5", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "surprises": 0, "seconds": 633.5443992614746}
+{"fam": "toggles", "len": 200, "i": 0, "mode": "until0.9", "final_ok": true, "state_ok": true, "looks": 4, "wrong_steps": 0, "surprises": 0, "seconds": 634.1222846508026}
+{"fam": "toggles", "len": 200, "i": 1, "mode": "check0.9", "final_ok": true, "state_ok": true, "looks": 8, "wrong_steps": 0, "surprises": 0, "seconds": 628.1914467811584}
+{"fam": "toggles", "len": 200, "i": 1, "mode": "check0.5", "final_ok": true, "state_ok": true, "looks": 5, "wrong_steps": 0, "surprises": 0, "seconds": 632.5621995925903}
+{"fam": "jugs", "len": 100, "i": 0, "mode": "until0.5", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "surprises": 0, "seconds": 268.62086963653564}
+{"fam": "toggles", "len": 200, "i": 0, "mode": "check0.9", "final_ok": true, "state_ok": true, "looks": 6, "wrong_steps": 0, "surprises": 0, "seconds": 636.1596555709839}
+{"fam": "toggles", "len": 200, "i": 2, "mode": "check0.5", "final_ok": true, "state_ok": true, "looks": 8, "wrong_steps": 10, "surprises": 3, "seconds": 630.2276289463043}
+{"fam": "toggles", "len": 200, "i": 0, "mode": "check0.5", "final_ok": true, "state_ok": true, "looks": 5, "wrong_steps": 0, "surprises": 0, "seconds": 639.5326242446899}
+{"fam": "jugs", "len": 100, "i": 0, "mode": "check0.5", "final_ok": true, "state_ok": true, "looks": 3, "wrong_steps": 0, "surprises": 0, "seconds": 270.848680973053}
+{"fam": "jugs", "len": 100, "i": 0, "mode": "check0.9", "final_ok": true, "state_ok": true, "looks": 3, "wrong_steps": 0, "surprises": 0, "seconds": 266.0522871017456}
+{"fam": "toggles", "len": 200, "i": 1, "mode": "until0.9", "final_ok": true, "state_ok": true, "looks": 6, "wrong_steps": 0, "surprises": 0, "seconds": 637.0915427207947}
+{"fam": "toggles", "len": 200, "i": 1, "mode": "until0.5", "final_ok": true, "state_ok": true, "looks": 1, "wrong_steps": 0, "surprises": 0, "seconds": 640.5366685390472}
+{"fam": "jugs", "len": 100, "i": 1, "mode": "check0.5", "final_ok": true, "state_ok": true, "looks": 3, "wrong_steps": 0, "surprises": 0, "seconds": 266.6181185245514}
+{"fam": "jugs", "len": 100, "i": 0, "mode": "until0.9", "final_ok": true, "state_ok": true, "looks": 2, "wrong_steps": 0, "surprises": 0, "seconds": 268.94668769836426}
+{"fam": "jugs", "len": 100, "i": 1, "mode": "until0.9", "final_ok": true, "state_ok": true, "looks": 1, "wrong_steps": 0, "surprises": 0, "seconds": 267.05191707611084}
+{"fam": "jugs", "len": 100, "i": 1, "mode": "check0.9", "final_ok": true, "state_ok": true, "looks": 3, "wrong_steps": 0, "surprises": 0, "seconds": 266.2551965713501}
+{"fam": "toggles", "len": 200, "i": 2, "mode": "check0.9", "final_ok": true, "state_ok": true, "looks": 18, "wrong_steps": 10, "surprises": 3, "seconds": 635.3608260154724}
+{"fam": "jugs", "len": 100, "i": 2, "mode": "check0.9", "final_ok": true, "state_ok": true, "looks": 7, "wrong_steps": 11, "surprises": 2, "seconds": 262.11405992507935}
+{"fam": "jugs", "len": 100, "i": 2, "mode": "check0.5", "final_ok": true, "state_ok": true, "looks": 8, "wrong_steps": 22, "surprises": 3, "seconds": 264.4018280506134}
+{"fam": "jugs", "len": 100, "i": 1, "mode": "until0.5", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "surprises": 0, "seconds": 272.0091190338135}
+{"fam": "toggles", "len": 200, "i": 2, "mode": "until0.5", "final_ok": true, "state_ok": false, "looks": 2, "wrong_steps": 84, "surprises": 0, "seconds": 639.9739842414856}
+{"fam": "toggles", "len": 200, "i": 3, "mode": "check0.5", "final_ok": true, "state_ok": true, "looks": 5, "wrong_steps": 0, "surprises": 0, "seconds": 636.1151032447815}
+{"fam": "jugs", "len": 100, "i": 3, "mode": "until0.5", "final_ok": true, "state_ok": true, "looks": 1, "wrong_steps": 0, "surprises": 0, "seconds": 265.0824546813965}
+{"fam": "toggles", "len": 200, "i": 2, "mode": "until0.9", "final_ok": true, "state_ok": true, "looks": 16, "wrong_steps": 18, "surprises": 2, "seconds": 640.8800675868988}
+{"fam": "jugs", "len": 100, "i": 3, "mode": "check0.5", "final_ok": true, "state_ok": true, "looks": 3, "wrong_steps": 0, "surprises": 0, "seconds": 263.93466329574585}
+{"fam": "jugs", "len": 100, "i": 2, "mode": "until0.9", "final_ok": true, "state_ok": true, "looks": 4, "wrong_steps": 11, "surprises": 2, "seconds": 266.90877294540405}
+{"fam": "jugs", "len": 100, "i": 3, "mode": "until0.9", "final_ok": true, "state_ok": true, "looks": 1, "wrong_steps": 0, "surprises": 0, "seconds": 261.55802845954895}
+{"fam": "jugs", "len": 100, "i": 3, "mode": "check0.9", "final_ok": true, "state_ok": true, "looks": 3, "wrong_steps": 0, "surprises": 0, "seconds": 259.3248682022095}
+{"fam": "jugs", "len": 100, "i": 2, "mode": "until0.5", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 33, "surprises": 0, "seconds": 270.57915592193604}
+{"fam": "toggles", "len": 200, "i": 3, "mode": "until0.9", "final_ok": true, "state_ok": true, "looks": 6, "wrong_steps": 0, "surprises": 0, "seconds": 633.2919948101044}
+{"fam": "toggles", "len": 200, "i": 3, "mode": "check0.9", "final_ok": true, "state_ok": true, "looks": 7, "wrong_steps": 0, "surprises": 0, "seconds": 631.3905813694}
+{"fam": "toggles", "len": 200, "i": 3, "mode": "until0.5", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "surprises": 0, "seconds": 645.2553708553314}
+{"fam": "machines", "len": 200, "i": 1, "mode": "until0.9", "final_ok": true, "state_ok": true, "looks": 23, "wrong_steps": 0, "surprises": 0, "seconds": 400.56337237358093}
+{"fam": "machines", "len": 200, "i": 1, "mode": "until0.5", "final_ok": true, "state_ok": true, "looks": 3, "wrong_steps": 0, "surprises": 0, "seconds": 404.54828357696533}
+{"fam": "machines", "len": 200, "i": 1, "mode": "check0.9", "final_ok": true, "state_ok": true, "looks": 22, "wrong_steps": 0, "surprises": 0, "seconds": 400.5100767612457}
+{"fam": "machines", "len": 200, "i": 3, "mode": "until0.5", "final_ok": true, "state_ok": true, "looks": 3, "wrong_steps": 0, "surprises": 0, "seconds": 393.467187166214}
+{"fam": "machines", "len": 200, "i": 1, "mode": "check0.5", "final_ok": true, "state_ok": true, "looks": 5, "wrong_steps": 0, "surprises": 0, "seconds": 402.5947697162628}
+{"fam": "machines", "len": 200, "i": 0, "mode": "until0.5", "final_ok": true, "state_ok": true, "looks": 2, "wrong_steps": 0, "surprises": 0, "seconds": 410.5094265937805}
+{"fam": "machines", "len": 200, "i": 0, "mode": "until0.9", "final_ok": true, "state_ok": true, "looks": 16, "wrong_steps": 0, "surprises": 0, "seconds": 407.26677894592285}
+{"fam": "machines", "len": 200, "i": 0, "mode": "check0.5", "final_ok": true, "state_ok": true, "looks": 5, "wrong_steps": 0, "surprises": 0, "seconds": 409.09867811203003}
+{"fam": "machines", "len": 200, "i": 0, "mode": "check0.9", "final_ok": true, "state_ok": true, "looks": 17, "wrong_steps": 0, "surprises": 0, "seconds": 408.1651360988617}
+{"fam": "machines", "len": 200, "i": 2, "mode": "until0.5", "final_ok": true, "state_ok": true, "looks": 13, "wrong_steps": 14, "surprises": 2, "seconds": 400.05630135536194}
+{"fam": "machines", "len": 200, "i": 3, "mode": "check0.5", "final_ok": true, "state_ok": true, "looks": 5, "wrong_steps": 0, "surprises": 0, "seconds": 396.10888671875}
+{"fam": "machines", "len": 200, "i": 2, "mode": "check0.9", "final_ok": true, "state_ok": true, "looks": 48, "wrong_steps": 0, "surprises": 6, "seconds": 399.3561763763428}
+{"fam": "machines", "len": 200, "i": 2, "mode": "check0.5", "final_ok": true, "state_ok": true, "looks": 17, "wrong_steps": 25, "surprises": 3, "seconds": 401.2912530899048}
+{"fam": "machines", "len": 200, "i": 3, "mode": "check0.9", "final_ok": true, "state_ok": true, "looks": 21, "wrong_steps": 0, "surprises": 0, "seconds": 393.9643819332123}
+{"fam": "machines", "len": 200, "i": 3, "mode": "until0.9", "final_ok": true, "state_ok": true, "looks": 21, "wrong_steps": 0, "surprises": 0, "seconds": 397.134418964386}
+{"fam": "machines", "len": 200, "i": 2, "mode": "until0.9", "final_ok": true, "state_ok": true, "looks": 47, "wrong_steps": 0, "surprises": 4, "seconds": 401.208242893219}
+{"fam": "jugs", "len": 200, "i": 2, "mode": "until0.5", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 16, "surprises": 0, "seconds": 197.9047577381134}
+{"fam": "jugs", "len": 200, "i": 1, "mode": "until0.5", "final_ok": true, "state_ok": true, "looks": 0, "wrong_steps": 0, "surprises": 0, "seconds": 200.40697145462036}
+{"fam": "jugs", "len": 200, "i": 2, "mode": "check0.9", "final_ok": true, "state_ok": true, "looks": 9, "wrong_steps": 0, "surprises": 1, "seconds": 191.1196689605713}
+{"fam": "jugs", "len": 200, "i": 0, "mode": "until0.5", "final_ok": true, "state_ok": true, "looks": 1, "wrong_steps": 3, "surprises": 0, "seconds": 212.17746353149414}
+{"fam": "jugs", "len": 200, "i": 1, "mode": "until0.9", "final_ok": true, "state_ok": true, "looks": 2, "wrong_steps": 0, "surprises": 0, "seconds": 200.12918829917908}
+{"fam": "jugs", "len": 200, "i": 2, "mode": "until0.9", "final_ok": true, "state_ok": true, "looks": 4, "wrong_steps": 16, "surprises": 0, "seconds": 192.32318711280823}
+{"fam": "jugs", "len": 200, "i": 0, "mode": "check0.5", "final_ok": true, "state_ok": true, "looks": 5, "wrong_steps": 12, "surprises": 0, "seconds": 206.68458366394043}
+{"fam": "jugs", "len": 200, "i": 0, "mode": "until0.9", "final_ok": true, "state_ok": true, "looks": 4, "wrong_steps": 3, "surprises": 1, "seconds": 205.33489108085632}
+{"fam": "jugs", "len": 200, "i": 1, "mode": "check0.5", "final_ok": true, "state_ok": true, "looks": 5, "wrong_steps": 0, "surprises": 0, "seconds": 201.46425461769104}
+{"fam": "jugs", "len": 200, "i": 2, "mode": "check0.5", "final_ok": true, "state_ok": true, "looks": 7, "wrong_steps": 8, "surprises": 1, "seconds": 194.14365983009338}
+{"fam": "jugs", "len": 200, "i": 0, "mode": "check0.9", "final_ok": true, "state_ok": true, "looks": 8, "wrong_steps": 3, "surprises": 1, "seconds": 202.38047170639038}
+{"fam": "jugs", "len": 200, "i": 1, "mode": "check0.9", "final_ok": true, "state_ok": true, "looks": 5, "wrong_steps": 0, "surprises": 0, "seconds": 200.97491693496704}
+{"fam": "jugs", "len": 200, "i": 3, "mode": "until0.5", "final_ok": true, "state_ok": true, "looks": 2, "wrong_steps": 2, "surprises": 0, "seconds": 193.7362310886383}
+{"fam": "jugs", "len": 200, "i": 3, "mode": "check0.9", "final_ok": true, "state_ok": true, "looks": 8, "wrong_steps": 0, "surprises": 1, "seconds": 188.65282344818115}
+{"fam": "jugs", "len": 200, "i": 3, "mode": "check0.5", "final_ok": true, "state_ok": true, "looks": 5, "wrong_steps": 0, "surprises": 0, "seconds": 192.67382907867432}
+{"fam": "jugs", "len": 200, "i": 3, "mode": "until0.9", "final_ok": true, "state_ok": true, "looks": 7, "wrong_steps": 0, "surprises": 2, "seconds": 189.66818523406982}

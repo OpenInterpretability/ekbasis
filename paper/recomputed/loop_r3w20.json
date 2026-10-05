@@ -1,0 +1,200 @@
+{
+ "pairs": 240,
+ "pooled": {
+  "text": {
+   "v42": {
+    "chains": 80,
+    "exact": 49,
+    "missed_at_most_last_action": 0,
+    "wrong_per_100": 33.141666666666666,
+    "looks_per_100": 0.0
+   },
+   "r3w20": {
+    "chains": 80,
+    "exact": 48,
+    "missed_at_most_last_action": 0,
+    "wrong_per_100": 33.06666666666667,
+    "looks_per_100": 0.0
+   }
+  },
+  "conf0.5": {
+   "v42": {
+    "chains": 80,
+    "exact": 79,
+    "missed_at_most_last_action": 0,
+    "wrong_per_100": 2.0083333333333333,
+    "looks_per_100": 9.15
+   },
+   "r3w20": {
+    "chains": 80,
+    "exact": 79,
+    "missed_at_most_last_action": 0,
+    "wrong_per_100": 2.125,
+    "looks_per_100": 11.233333333333333
+   }
+  },
+  "check0.9": {
+   "v42": {
+    "chains": 80,
+    "exact": 80,
+    "missed_at_most_last_action": 0,
+    "wrong_per_100": 0.425,
+    "looks_per_100": 18.908333333333335
+   },
+   "r3w20": {
+    "chains": 80,
+    "exact": 80,
+    "missed_at_most_last_action": 0,
+    "wrong_per_100": 0.5,
+    "looks_per_100": 23.133333333333333
+   }
+  }
+ },
+ "per_world": {
+  "jugs/conf0.5": {
+   "v42": {
+    "chains": 16,
+    "exact": 16,
+    "missed_at_most_last_action": 0,
+    "wrong_per_100": 3.1666666666666665,
+    "looks_per_100": 0.2916666666666667
+   },
+   "r3w20": {
+    "chains": 16,
+    "exact": 16,
+    "missed_at_most_last_action": 0,
+    "wrong_per_100": 1.3333333333333333,
+    "looks_per_100": 0.375
+   }
+  },
+  "jugs/check0.9": {
+   "v42": {
+    "chains": 16,
+    "exact": 16,
+    "missed_at_most_last_action": 0,
+    "wrong_per_100": 1.0416666666666667,
+    "looks_per_100": 3.6666666666666665
+   },
+   "r3w20": {
+    "chains": 16,
+    "exact": 16,
+    "missed_at_most_last_action": 0,
+    "wrong_per_100": 0.5,
+    "looks_per_100": 3.625
+   }
+  },
+  "toggles/conf0.5": {
+   "v42": {
+    "chains": 16,
+    "exact": 15,
+    "missed_at_most_last_action": 0,
+    "wrong_per_100": 5.583333333333333,
+    "looks_per_100": 0.25
+   },
+   "r3w20": {
+    "chains": 16,
+    "exact": 15,
+    "missed_at_most_last_action": 0,
+    "wrong_per_100": 8.416666666666666,
+    "looks_per_100": 0.7916666666666666
+   }
+  },
+  "toggles/check0.9": {
+   "v42": {
+    "chains": 16,
+    "exact": 16,
+    "missed_at_most_last_action": 0,
+    "wrong_per_100": 1.0833333333333333,
+    "looks_per_100": 4.666666666666667
+   },
+   "r3w20": {
+    "chains": 16,
+    "exact": 16,
+    "missed_at_most_last_action": 0,
+    "wrong_per_100": 2.0,
+    "looks_per_100": 6.875
+   }
+  },
+  "machines/conf0.5": {
+   "v42": {
+    "chains": 16,
+    "exact": 16,
+    "missed_at_most_last_action": 0,
+    "wrong_per_100": 1.25,
+    "looks_per_100": 1.8333333333333333
+   },
+   "r3w20": {
+    "chains": 16,
+    "exact": 16,
+    "missed_at_most_last_action": 0,
+    "wrong_per_100": 0.8333333333333334,
+    "looks_per_100": 2.8333333333333335
+   }
+  },
+  "machines/check0.9": {
+   "v42": {
+    "chains": 16,
+    "exact": 16,
+    "missed_at_most_last_action": 0,
+    "wrong_per_100": 0.0,
+    "looks_per_100": 11.875
+   },
+   "r3w20": {
+    "chains": 16,
+    "exact": 16,
+    "missed_at_most_last_action": 0,
+    "wrong_per_100": 0.0,
+    "looks_per_100": 17.416666666666668
+   }
+  },
+  "cards/conf0.5": {
+   "v42": {
+    "chains": 32,
+    "exact": 32,
+    "missed_at_most_last_action": 0,
+    "wrong_per_100": 0.020833333333333332,
+    "looks_per_100": 21.6875
+   },
+   "r3w20": {
+    "chains": 32,
+    "exact": 32,
+    "missed_at_most_last_action": 0,
+    "wrong_per_100": 0.020833333333333332,
+    "looks_per_100": 26.083333333333332
+   }
+  },
+  "cards/check0.9": {
+   "v42": {
+    "chains": 32,
+    "exact": 32,
+    "missed_at_most_last_action": 0,
+    "wrong_per_100": 0.0,
+    "looks_per_100": 37.166666666666664
+   },
+   "r3w20": {
+    "chains": 32,
+    "exact": 32,
+    "missed_at_most_last_action": 0,
+    "wrong_per_100": 0.0,
+    "looks_per_100": 43.875
+   }
+  }
+ },
+ "trained_traces": {
+  "v42": {
+   "steps": 2400,
+   "wrong": 13,
+   "wrong_at_0.9": 11
+  },
+  "r3w20": {
+   "steps": 4800,
+   "wrong": 23,
+   "wrong_at_0.9": 16
+  }
+ },
+ "criteria": {
+  "default_not_worse": false,
+  "matched_cost_better": false,
+  "loop_better": false
+ }
+}

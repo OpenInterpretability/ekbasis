@@ -1,0 +1,600 @@
+{"preds": ["yes", "2", "5", "1", "7", "no"], "golds": ["yes", "2", "5", "1", "7", "no"], "tokens": 2322}
+{"preds": ["yes", "no", "no", "yes", "5"], "golds": ["no", "no", "no", "yes", "5"], "tokens": 1185}
+{"preds": ["2", "1", "no", "1", "0"], "golds": ["5", "1", "no", "1", "0"], "tokens": 2085}
+{"preds": ["7", "no", "yes", "no", "no", "2"], "golds": ["7", "no", "no", "no", "no", "2"], "tokens": 1680}
+{"preds": ["4", "no", "E3", "no", "yes", "yes"], "golds": ["4", "no", "E3", "no", "yes", "yes"], "tokens": 2358}
+{"preds": ["3", "yes", "no", "no", "B6", "yes"], "golds": ["4", "yes", "no", "no", "B6", "yes"], "tokens": 2364}
+{"preds": ["4", "no", "(3,4)", "no", "yes"], "golds": ["4", "no", "(3,4)", "no", "yes"], "tokens": 1825}
+{"preds": ["no", "yes", "3", "no", "0", "no"], "golds": ["no", "yes", "3", "no", "0", "no"], "tokens": 1482}
+{"preds": ["off", "no", "off", "no", "on", "on"], "golds": ["off", "no", "off", "no", "on", "on"], "tokens": 1584}
+{"preds": ["no", "2", "1", "2", "yes", "3"], "golds": ["no", "2", "1", "2", "yes", "3"], "tokens": 2310}
+{"preds": ["no", "9", "no", "14", "no"], "golds": ["no", "9", "no", "14", "no"], "tokens": 1445}
+{"preds": ["3", "0", "3", "3", "no", "no"], "golds": ["3", "0", "3", "3", "no", "no"], "tokens": 1860}
+{"preds": ["no", "(2,1)", "yes", "no", "3"], "golds": ["no", "(2,1)", "yes", "yes", "3"], "tokens": 2530}
+{"preds": ["none", "1", "1", "5", "yes", "5"], "golds": ["none", "1", "1", "5", "yes", "5"], "tokens": 1896}
+{"preds": ["no", "5", "5", "no", "no"], "golds": ["no", "5", "5", "no", "no"], "tokens": 1245}
+{"preds": ["no", "no", "19", "no", "7", "no"], "golds": ["no", "no", "19", "no", "7", "no"], "tokens": 1668}
+{"preds": ["4", "yes", "yes", "yes", "(1,1)"], "golds": ["4", "yes", "yes", "yes", "(1,1)"], "tokens": 2135}
+{"preds": ["no", "no", "yes", "3", "1", "no"], "golds": ["no", "no", "yes", "3", "1", "no"], "tokens": 1590}
+{"preds": ["none", "no", "yes", "5"], "golds": ["none", "no", "yes", "5"], "tokens": 1216}
+{"preds": ["yes", "0", "empty"], "golds": ["yes", "0", "empty"], "tokens": 891}
+{"preds": ["no", "no", "no", "no", "bright", "no"], "golds": ["yes", "yes", "yes", "no", "bright", "no"], "tokens": 1782}
+{"preds": ["on", "no", "no", "on", "on", "no"], "golds": ["on", "no", "yes", "on", "off", "no"], "tokens": 1626}
+{"preds": ["no", "yes", "on", "no", "on", "off"], "golds": ["no", "yes", "on", "yes", "on", "off"], "tokens": 1770}
+{"preds": ["10", "no", "no", "yes", "4"], "golds": ["10", "no", "no", "yes", "4"], "tokens": 1365}
+{"preds": ["no", "no", "2", "no", "C4"], "golds": ["no", "yes", "2", "no", "D3"], "tokens": 1705}
+{"preds": ["yes", "4", "2", "0"], "golds": ["yes", "4", "2", "0"], "tokens": 1568}
+{"preds": ["4", "no", "(3,2)", "no", "no"], "golds": ["4", "no", "(3,3)", "no", "no"], "tokens": 2040}
+{"preds": ["5", "no", "yes", "yes", "6", "no"], "golds": ["5", "no", "yes", "no", "6", "no"], "tokens": 1854}
+{"preds": ["yes", "5", "no", "1", "no", "5"], "golds": ["yes", "5", "no", "1", "no", "5"], "tokens": 1740}
+{"preds": ["no", "4", "blue"], "golds": ["no", "4", "blue"], "tokens": 804}
+{"preds": ["0", "yes", "no", "0"], "golds": ["0", "yes", "no", "0"], "tokens": 980}
+{"preds": ["6", "no", "yes"], "golds": ["6", "no", "yes"], "tokens": 714}
+{"preds": ["yes", "no", "yes", "yes", "3", "10"], "golds": ["no", "no", "yes", "no", "3", "10"], "tokens": 1488}
+{"preds": ["no", "off", "on", "on", "yes", "yes"], "golds": ["no", "off", "on", "on", "yes", "yes"], "tokens": 1542}
+{"preds": ["6", "1", "no", "1", "no"], "golds": ["6", "1", "no", "2", "no"], "tokens": 1850}
+{"preds": ["no", "on", "on", "no", "on", "yes"], "golds": ["no", "on", "on", "no", "on", "yes"], "tokens": 1470}
+{"preds": ["yes", "6", "yes", "no", "no", "7"], "golds": ["yes", "6", "yes", "no", "no", "7"], "tokens": 1440}
+{"preds": ["no", "2", "none", "no", "no", "6"], "golds": ["no", "2", "none", "no", "no", "6"], "tokens": 1830}
+{"preds": ["no", "off", "on", "on", "no", "on"], "golds": ["no", "off", "on", "on", "no", "on"], "tokens": 1824}
+{"preds": ["yes", "on", "on", "no", "no", "off"], "golds": ["yes", "on", "on", "no", "no", "off"], "tokens": 1884}
+{"preds": ["C3", "yes", "3", "no", "no", "no"], "golds": ["C4", "yes", "2", "no", "no", "no"], "tokens": 2178}
+{"preds": ["3", "(5,7)", "yes", "no", "no"], "golds": ["3", "(5,7)", "no", "no", "no"], "tokens": 2885}
+{"preds": ["5", "no", "0", "yes", "no", "no"], "golds": ["5", "no", "0", "yes", "no", "no"], "tokens": 1458}
+{"preds": ["1", "4", "5", "6", "no", "no"], "golds": ["1", "4", "5", "6", "no", "no"], "tokens": 1902}
+{"preds": ["3", "0", "no", "no", "3", "5"], "golds": ["3", "0", "no", "no", "3", "5"], "tokens": 2280}
+{"preds": ["dim", "off", "no", "yes", "off", "yes"], "golds": ["dim", "off", "no", "yes", "off", "yes"], "tokens": 1608}
+{"preds": ["no", "no", "no", "no", "14", "no"], "golds": ["no", "no", "no", "no", "14", "no"], "tokens": 1626}
+{"preds": ["no", "2", "V"], "golds": ["no", "2", "V"], "tokens": 873}
+{"preds": ["13", "no", "no", "no"], "golds": ["13", "no", "no", "no"], "tokens": 948}
+{"preds": ["7", "yes", "yes", "no", "6", "no"], "golds": ["7", "yes", "yes", "no", "6", "no"], "tokens": 1506}
+{"preds": ["-7", "no", "no", "yes", "no", "14"], "golds": ["-6", "no", "no", "yes", "no", "14"], "tokens": 1626}
+{"preds": ["no", "no", "no", "5", "yes"], "golds": ["no", "no", "no", "9", "yes"], "tokens": 1365}
+{"preds": ["no", "yes", "on", "no", "no", "on"], "golds": ["yes", "yes", "on", "no", "yes", "on"], "tokens": 1608}
+{"preds": ["4", "no", "7"], "golds": ["4", "no", "7"], "tokens": 912}
+{"preds": ["yes", "yes", "2", "no"], "golds": ["yes", "yes", "2", "no"], "tokens": 1220}
+{"preds": ["3", "0", "5", "no", "1"], "golds": ["3", "0", "5", "no", "1"], "tokens": 2085}
+{"preds": ["none", "yes", "3", "3", "no", "no"], "golds": ["none", "yes", "3", "3", "no", "no"], "tokens": 1710}
+{"preds": ["4", "yes", "yes", "0", "no", "0"], "golds": ["4", "yes", "yes", "0", "no", "0"], "tokens": 1572}
+{"preds": ["no", "yes", "yes", "0", "7", "no"], "golds": ["no", "yes", "yes", "0", "7", "no"], "tokens": 1470}
+{"preds": ["yes", "no", "no", "no", "no", "6"], "golds": ["yes", "no", "no", "no", "no", "6"], "tokens": 1458}
+{"preds": ["U", "no", "6"], "golds": ["U", "no", "6"], "tokens": 822}
+{"preds": ["yes", "0", "empty"], "golds": ["yes", "0", "empty"], "tokens": 912}
+{"preds": ["no", "4", "no", "6", "4", "0"], "golds": ["no", "4", "no", "6", "4", "0"], "tokens": 2292}
+{"preds": ["5", "none", "5", "4"], "golds": ["5", "none", "5", "4"], "tokens": 1276}
+{"preds": ["yes", "1", "1"], "golds": ["yes", "1", "1"], "tokens": 1119}
+{"preds": ["3", "yes", "7", "no", "no"], "golds": ["3", "yes", "7", "no", "no"], "tokens": 1210}
+{"preds": ["0", "yes", "no", "8", "yes", "yes"], "golds": ["0", "yes", "no", "8", "no", "yes"], "tokens": 1584}
+{"preds": ["no", "3", "7"], "golds": ["no", "3", "7"], "tokens": 906}
+{"preds": ["3", "no", "8"], "golds": ["3", "no", "8"], "tokens": 912}
+{"preds": ["8", "yes", "1", "1", "no", "no"], "golds": ["8", "yes", "0", "1", "no", "no"], "tokens": 1668}
+{"preds": ["yes", "yes", "1", "6", "no", "no"], "golds": ["yes", "yes", "1", "6", "no", "no"], "tokens": 1530}
+{"preds": ["3", "1", "no", "no", "1"], "golds": ["3", "1", "no", "no", "1"], "tokens": 1850}
+{"preds": ["1", "none", "2", "2", "yes", "no"], "golds": ["1", "none", "2", "2", "yes", "no"], "tokens": 2058}
+{"preds": ["no", "off", "yes", "yes", "no", "no"], "golds": ["no", "off", "yes", "yes", "no", "no"], "tokens": 1602}
+{"preds": ["off", "no", "off", "no", "on", "off"], "golds": ["off", "no", "off", "no", "on", "off"], "tokens": 1848}
+{"preds": ["red", "3", "no"], "golds": ["red", "3", "no"], "tokens": 801}
+{"preds": ["13", "no", "-3", "yes", "no"], "golds": ["13", "no", "-3", "yes", "no"], "tokens": 1420}
+{"preds": ["0", "no", "none", "1", "no", "yes"], "golds": ["0", "no", "none", "1", "no", "yes"], "tokens": 1572}
+{"preds": ["yes", "no", "2", "4", "2", "yes"], "golds": ["yes", "no", "2", "4", "2", "yes"], "tokens": 1698}
+{"preds": ["no", "yes", "no", "4", "E3", "no"], "golds": ["no", "yes", "no", "4", "E3", "no"], "tokens": 2472}
+{"preds": ["4", "3", "no", "yes", "1", "no"], "golds": ["4", "3", "no", "yes", "1", "no"], "tokens": 1674}
+{"preds": ["no", "no", "no", "3", "yes", "yes"], "golds": ["no", "no", "no", "3", "yes", "yes"], "tokens": 1374}
+{"preds": ["no", "D3", "3", "yes", "yes", "yes"], "golds": ["no", "D3", "3", "yes", "yes", "yes"], "tokens": 1962}
+{"preds": ["7", "P", "no"], "golds": ["7", "P", "no"], "tokens": 831}
+{"preds": ["0", "yes", "empty"], "golds": ["0", "yes", "empty"], "tokens": 870}
+{"preds": ["no", "2", "E2", "yes", "yes"], "golds": ["no", "2", "E2", "yes", "yes"], "tokens": 2250}
+{"preds": ["yes", "no", "2", "no", "no", "E7"], "golds": ["yes", "no", "2", "no", "no", "E7"], "tokens": 2628}
+{"preds": ["no", "5", "2", "0"], "golds": ["no", "5", "2", "0"], "tokens": 1576}
+{"preds": ["0", "yes", "no", "no", "3", "no"], "golds": ["0", "yes", "no", "no", "3", "no"], "tokens": 1350}
+{"preds": ["2", "no", "9"], "golds": ["2", "no", "9"], "tokens": 906}
+{"preds": ["T", "3", "no"], "golds": ["T", "3", "no"], "tokens": 852}
+{"preds": ["no", "no", "no", "10", "5"], "golds": ["no", "no", "no", "10", "5"], "tokens": 1355}
+{"preds": ["no", "6", "6", "4", "no", "yes"], "golds": ["no", "6", "6", "4", "no", "yes"], "tokens": 1986}
+{"preds": ["no", "off", "on", "off", "yes", "yes"], "golds": ["no", "off", "on", "off", "yes", "yes"], "tokens": 1710}
+{"preds": ["yes", "yes", "0", "4", "3"], "golds": ["yes", "yes", "0", "4", "3"], "tokens": 1815}
+{"preds": ["off", "off", "yes", "no", "off", "yes"], "golds": ["off", "off", "yes", "no", "off", "yes"], "tokens": 1632}
+{"preds": ["yes", "no", "2", "no", "no"], "golds": ["yes", "no", "2", "no", "no"], "tokens": 1135}
+{"preds": ["empty", "no", "0"], "golds": ["empty", "no", "0"], "tokens": 846}
+{"preds": ["on", "off", "no", "no", "on", "yes"], "golds": ["on", "off", "no", "no", "on", "yes"], "tokens": 1710}
+{"preds": ["off", "on", "no", "on", "yes", "yes"], "golds": ["off", "on", "yes", "on", "yes", "yes"], "tokens": 1722}
+{"preds": ["dim", "bright", "bright", "no", "no", "off"], "golds": ["dim", "bright", "bright", "no", "no", "off"], "tokens": 1740}
+{"preds": ["2", "no", "no", "no", "no", "6"], "golds": ["2", "no", "no", "no", "no", "6"], "tokens": 1884}
+{"preds": ["1", "T", "no"], "golds": ["1", "T", "no"], "tokens": 867}
+{"preds": ["green", "no", "3"], "golds": ["green", "no", "3"], "tokens": 816}
+{"preds": ["0", "10", "yes", "no", "no", "no"], "golds": ["0", "10", "yes", "no", "no", "no"], "tokens": 1602}
+{"preds": ["no", "no", "no", "yes", "no", "8"], "golds": ["no", "no", "no", "yes", "no", "8"], "tokens": 1446}
+{"preds": ["empty", "yes", "0"], "golds": ["empty", "yes", "0"], "tokens": 747}
+{"preds": ["(3,2)", "yes", "yes", "2", "no", "no"], "golds": ["(2,3)", "yes", "yes", "3", "no", "no"], "tokens": 2778}
+{"preds": ["on", "yes", "yes", "off", "no", "off"], "golds": ["on", "yes", "yes", "off", "no", "off"], "tokens": 1632}
+{"preds": ["on", "off", "no", "no", "yes", "no"], "golds": ["on", "off", "no", "no", "yes", "yes"], "tokens": 1716}
+{"preds": ["0", "2", "6", "no", "no", "0"], "golds": ["0", "2", "6", "no", "no", "0"], "tokens": 2136}
+{"preds": ["no", "no", "13", "no", "no"], "golds": ["no", "no", "13", "no", "no"], "tokens": 1455}
+{"preds": ["3", "none", "yes", "yes", "6", "no"], "golds": ["3", "none", "yes", "yes", "6", "no"], "tokens": 1968}
+{"preds": ["1", "no", "yes", "3", "4", "0"], "golds": ["1", "no", "yes", "3", "4", "0"], "tokens": 2280}
+{"preds": ["2", "(7,5)", "yes", "yes", "no"], "golds": ["2", "(7,5)", "yes", "yes", "no"], "tokens": 2520}
+{"preds": ["no", "1", "9", "10"], "golds": ["no", "1", "9", "10"], "tokens": 1216}
+{"preds": ["5", "4", "no", "yes", "7", "4"], "golds": ["5", "4", "no", "yes", "7", "4"], "tokens": 2112}
+{"preds": ["3", "no", "yes", "no"], "golds": ["3", "no", "yes", "no"], "tokens": 1216}
+{"preds": ["no", "no", "no", "8", "2", "no"], "golds": ["no", "no", "no", "8", "2", "no"], "tokens": 1674}
+{"preds": ["off", "off", "on", "off", "no", "yes"], "golds": ["off", "off", "on", "off", "no", "yes"], "tokens": 1548}
+{"preds": ["yes", "off", "yes", "yes", "off", "off"], "golds": ["yes", "off", "yes", "yes", "off", "off"], "tokens": 1458}
+{"preds": ["3", "no", "yes", "(4,3)", "no"], "golds": ["3", "no", "yes", "(4,3)", "no"], "tokens": 2305}
+{"preds": ["no", "yes", "0", "0", "yes"], "golds": ["no", "yes", "0", "0", "yes"], "tokens": 1240}
+{"preds": ["no", "yes", "no", "yes", "yes", "3"], "golds": ["no", "yes", "no", "yes", "yes", "3"], "tokens": 1386}
+{"preds": ["3", "20", "no"], "golds": ["3", "20", "no"], "tokens": 930}
+{"preds": ["3", "none", "yes", "5", "5", "no"], "golds": ["3", "none", "yes", "5", "5", "no"], "tokens": 1794}
+{"preds": ["4", "no", "no", "yes", "C5"], "golds": ["4", "no", "no", "yes", "C5"], "tokens": 1990}
+{"preds": ["5", "no", "9", "no", "no"], "golds": ["5", "no", "9", "no", "no"], "tokens": 1345}
+{"preds": ["0", "yes", "no", "yes", "no", "no"], "golds": ["0", "yes", "no", "yes", "no", "no"], "tokens": 1416}
+{"preds": ["1", "4", "no", "no", "1", "yes"], "golds": ["1", "4", "no", "no", "1", "yes"], "tokens": 1848}
+{"preds": ["no", "4", "5"], "golds": ["no", "4", "5"], "tokens": 912}
+{"preds": ["no", "7", "4", "1"], "golds": ["no", "8", "4", "1"], "tokens": 1596}
+{"preds": ["-5", "-5", "yes", "yes", "no", "yes"], "golds": ["-2", "-2", "yes", "yes", "no", "yes"], "tokens": 1638}
+{"preds": ["no", "11", "3", "no", "no", "no"], "golds": ["no", "11", "3", "no", "no", "no"], "tokens": 1554}
+{"preds": ["off", "yes", "off", "yes", "off", "no"], "golds": ["off", "yes", "off", "yes", "off", "no"], "tokens": 1578}
+{"preds": ["on", "on", "no", "on", "on", "no"], "golds": ["on", "on", "yes", "on", "on", "yes"], "tokens": 1728}
+{"preds": ["0", "2", "no", "no", "no", "6"], "golds": ["0", "2", "no", "no", "no", "6"], "tokens": 1836}
+{"preds": ["no", "0", "1", "yes", "no", "no"], "golds": ["no", "0", "1", "yes", "no", "no"], "tokens": 1458}
+{"preds": ["no", "4", "no", "7", "no", "2"], "golds": ["no", "4", "no", "7", "no", "2"], "tokens": 2100}
+{"preds": ["no", "no", "2", "no", "no", "8"], "golds": ["no", "no", "2", "no", "no", "8"], "tokens": 1542}
+{"preds": ["on", "no", "yes", "on", "yes", "no"], "golds": ["on", "no", "yes", "on", "no", "no"], "tokens": 1572}
+{"preds": ["off", "on", "yes", "yes", "off", "on"], "golds": ["off", "on", "yes", "no", "off", "on"], "tokens": 1632}
+{"preds": ["1", "7", "1", "1", "no", "7"], "golds": ["1", "7", "1", "1", "no", "7"], "tokens": 2130}
+{"preds": ["0", "empty", "yes"], "golds": ["0", "empty", "yes"], "tokens": 915}
+{"preds": ["no", "3", "5", "2", "no", "5"], "golds": ["no", "3", "5", "2", "no", "5"], "tokens": 2280}
+{"preds": ["0", "0", "yes", "no", "3"], "golds": ["0", "1", "yes", "no", "3"], "tokens": 1430}
+{"preds": ["no", "2", "1", "3", "1"], "golds": ["no", "2", "1", "3", "1"], "tokens": 2015}
+{"preds": ["5", "yes", "S"], "golds": ["5", "yes", "S"], "tokens": 879}
+{"preds": ["on", "on", "yes", "off", "no", "no"], "golds": ["on", "on", "yes", "off", "no", "no"], "tokens": 1626}
+{"preds": ["0", "no", "0", "yes", "5"], "golds": ["0", "no", "0", "yes", "5"], "tokens": 1825}
+{"preds": ["no", "no", "2", "2", "5"], "golds": ["no", "no", "2", "2", "5"], "tokens": 1825}
+{"preds": ["6", "no", "yes", "yes", "0", "no"], "golds": ["6", "no", "yes", "yes", "0", "no"], "tokens": 1506}
+{"preds": ["0", "2", "3", "yes", "no", "2"], "golds": ["0", "2", "3", "yes", "no", "2"], "tokens": 2280}
+{"preds": ["yes", "dim", "yes", "yes", "no", "no"], "golds": ["yes", "dim", "no", "no", "no", "no"], "tokens": 1662}
+{"preds": ["C1", "yes", "no", "yes"], "golds": ["C1", "yes", "no", "yes"], "tokens": 1864}
+{"preds": ["blue", "4", "no"], "golds": ["blue", "4", "no"], "tokens": 765}
+{"preds": ["0", "no", "no", "3", "no"], "golds": ["0", "no", "no", "3", "no"], "tokens": 1590}
+{"preds": ["no", "C6", "yes", "3", "yes"], "golds": ["no", "C6", "yes", "3", "yes"], "tokens": 2150}
+{"preds": ["yes", "on", "on", "yes", "on", "no"], "golds": ["yes", "on", "on", "yes", "on", "no"], "tokens": 1674}
+{"preds": ["4", "no", "1", "yes", "no", "no"], "golds": ["4", "no", "1", "yes", "no", "no"], "tokens": 1302}
+{"preds": ["yes", "no", "off", "no", "yes", "no"], "golds": ["yes", "no", "off", "no", "yes", "no"], "tokens": 1530}
+{"preds": ["3", "no", "no", "C2", "no", "no"], "golds": ["3", "no", "no", "C2", "no", "no"], "tokens": 2274}
+{"preds": ["no", "yes", "3", "A3", "no", "no"], "golds": ["no", "yes", "3", "A3", "no", "no"], "tokens": 2442}
+{"preds": ["3", "0", "no", "no", "no", "6"], "golds": ["3", "0", "no", "no", "no", "6"], "tokens": 1500}
+{"preds": ["2", "3", "6", "2", "no", "yes"], "golds": ["2", "3", "6", "2", "no", "yes"], "tokens": 1926}
+{"preds": ["no", "gold", "3"], "golds": ["no", "green", "3"], "tokens": 819}
+{"preds": ["3", "no", "4", "no", "3", "no"], "golds": ["3", "no", "4", "no", "3", "no"], "tokens": 1968}
+{"preds": ["yes", "yes", "yes", "yes", "off", "off"], "golds": ["yes", "yes", "yes", "yes", "off", "off"], "tokens": 1632}
+{"preds": ["1", "yes", "3", "0", "1"], "golds": ["1", "yes", "3", "0", "1"], "tokens": 2040}
+{"preds": ["5", "no", "no", "3", "1"], "golds": ["5", "no", "no", "3", "1"], "tokens": 1835}
+{"preds": ["no", "Q", "4"], "golds": ["no", "Q", "4"], "tokens": 825}
+{"preds": ["no", "2", "yes", "no", "yes"], "golds": ["no", "2", "yes", "no", "yes"], "tokens": 1520}
+{"preds": ["4", "no", "no", "0", "no", "yes"], "golds": ["4", "no", "no", "0", "no", "yes"], "tokens": 1416}
+{"preds": ["yes", "yes", "2", "(2,1)"], "golds": ["yes", "yes", "2", "(2,1)"], "tokens": 1944}
+{"preds": ["on", "yes", "no", "no", "off", "yes"], "golds": ["on", "yes", "no", "no", "off", "yes"], "tokens": 1716}
+{"preds": ["no", "off", "no", "off", "off", "no"], "golds": ["yes", "off", "yes", "off", "off", "no"], "tokens": 1626}
+{"preds": ["3", "no", "W"], "golds": ["3", "no", "W"], "tokens": 885}
+{"preds": ["4", "no", "2", "yes", "yes", "4"], "golds": ["4", "no", "2", "yes", "yes", "4"], "tokens": 1578}
+{"preds": ["4", "1", "no", "1", "0", "none"], "golds": ["4", "1", "no", "1", "0", "none"], "tokens": 1854}
+{"preds": ["no", "0", "no", "6", "no", "yes"], "golds": ["no", "0", "no", "6", "no", "yes"], "tokens": 1530}
+{"preds": ["0", "no", "4", "no", "no", "yes"], "golds": ["0", "no", "4", "no", "no", "yes"], "tokens": 1608}
+{"preds": ["7", "0", "7", "7", "yes", "7"], "golds": ["7", "0", "7", "7", "yes", "7"], "tokens": 2130}
+{"preds": ["no", "2", "5"], "golds": ["no", "2", "5"], "tokens": 942}
+{"preds": ["3", "no", "1", "no", "0", "no"], "golds": ["3", "no", "1", "no", "0", "no"], "tokens": 1752}
+{"preds": ["1", "1", "no"], "golds": ["1", "3", "no"], "tokens": 918}
+{"preds": ["no", "9", "no", "yes", "yes", "yes"], "golds": ["no", "9", "no", "yes", "yes", "yes"], "tokens": 1440}
+{"preds": ["no", "off", "no", "no", "off"], "golds": ["no", "off", "no", "no", "off"], "tokens": 1210}
+{"preds": ["yes", "3", "0", "1"], "golds": ["yes", "3", "0", "1"], "tokens": 1568}
+{"preds": ["no", "no", "0", "yes", "no", "8"], "golds": ["no", "no", "0", "yes", "no", "8"], "tokens": 1602}
+{"preds": ["no", "no", "0", "9", "yes"], "golds": ["no", "no", "4", "9", "yes"], "tokens": 1385}
+{"preds": ["no", "2", "3", "4", "1", "no"], "golds": ["no", "2", "3", "4", "1", "no"], "tokens": 1824}
+{"preds": ["no", "no", "2", "2", "1", "no"], "golds": ["no", "no", "2", "2", "1", "no"], "tokens": 1752}
+{"preds": ["1", "4", "no", "4", "no", "2"], "golds": ["1", "4", "no", "4", "no", "2"], "tokens": 1650}
+{"preds": ["yes", "0", "no", "no", "2", "0"], "golds": ["yes", "0", "no", "no", "2", "0"], "tokens": 2088}
+{"preds": ["no", "10", "1", "no", "no", "no"], "golds": ["no", "10", "1", "no", "no", "no"], "tokens": 1542}
+{"preds": ["6", "no", "no", "0", "yes", "no"], "golds": ["6", "no", "no", "0", "yes", "no"], "tokens": 1464}
+{"preds": ["4", "yes", "yes", "no"], "golds": ["4", "yes", "yes", "no"], "tokens": 868}
+{"preds": ["no", "6", "no", "no", "3", "none"], "golds": ["no", "6", "no", "no", "3", "none"], "tokens": 1776}
+{"preds": ["no", "0", "1"], "golds": ["no", "0", "1"], "tokens": 1119}
+{"preds": ["no", "3", "3", "1", "3", "0"], "golds": ["no", "3", "3", "1", "3", "0"], "tokens": 2466}
+{"preds": ["no", "yes", "B1", "yes", "2"], "golds": ["yes", "yes", "D2", "yes", "3"], "tokens": 1705}
+{"preds": ["no", "none", "0", "4", "no"], "golds": ["no", "none", "0", "4", "no"], "tokens": 1475}
+{"preds": ["yes", "1", "no", "(1,1)", "no", "no"], "golds": ["yes", "1", "no", "(1,1)", "no", "no"], "tokens": 2418}
+{"preds": ["no", "4", "P"], "golds": ["no", "4", "P"], "tokens": 885}
+{"preds": ["1", "no", "no", "3", "5"], "golds": ["1", "no", "no", "3", "5"], "tokens": 1420}
+{"preds": ["off", "yes", "on", "yes", "no", "no"], "golds": ["off", "yes", "on", "yes", "no", "no"], "tokens": 1500}
+{"preds": ["no", "on", "on", "no", "no", "yes"], "golds": ["no", "on", "on", "no", "no", "yes"], "tokens": 1728}
+{"preds": ["(6,5)", "no", "yes", "no", "3", "yes"], "golds": ["(6,5)", "no", "yes", "no", "3", "yes"], "tokens": 2658}
+{"preds": ["3", "2", "no", "no", "3"], "golds": ["3", "2", "no", "no", "3"], "tokens": 1310}
+{"preds": ["3", "no", "1", "4", "2"], "golds": ["3", "no", "1", "4", "2"], "tokens": 2015}
+{"preds": ["yes", "no", "no", "1", "10", "yes"], "golds": ["yes", "no", "no", "1", "10", "no"], "tokens": 1548}
+{"preds": ["3", "no", "gold"], "golds": ["3", "no", "gold"], "tokens": 795}
+{"preds": ["1", "no", "no", "2", "0", "no"], "golds": ["1", "no", "no", "2", "0", "no"], "tokens": 1650}
+{"preds": ["no", "6", "no", "no", "14", "no"], "golds": ["no", "6", "no", "no", "14", "no"], "tokens": 1692}
+{"preds": ["no", "no", "no", "off", "no", "no"], "golds": ["no", "no", "no", "off", "no", "no"], "tokens": 1506}
+{"preds": ["1", "0", "yes", "2", "5", "3"], "golds": ["1", "0", "yes", "2", "5", "3"], "tokens": 2466}
+{"preds": ["no", "yes", "10", "-5", "13", "no"], "golds": ["no", "yes", "10", "-2", "13", "no"], "tokens": 1692}
+{"preds": ["off", "yes", "no", "yes", "on", "off"], "golds": ["off", "yes", "no", "yes", "on", "off"], "tokens": 1722}
+{"preds": ["(4,5)", "4", "yes", "no", "no", "no"], "golds": ["(3,5)", "4", "yes", "no", "no", "no"], "tokens": 3054}
+{"preds": ["B7", "2", "no", "yes", "yes", "no"], "golds": ["B7", "2", "no", "yes", "yes", "no"], "tokens": 2496}
+{"preds": ["off", "yes", "off", "no", "no", "on"], "golds": ["off", "yes", "off", "yes", "no", "on"], "tokens": 1662}
+{"preds": ["2", "3", "2", "no", "2", "no"], "golds": ["2", "3", "2", "no", "2", "no"], "tokens": 1788}
+{"preds": ["no", "1", "1"], "golds": ["no", "1", "1"], "tokens": 894}
+{"preds": ["2", "no", "1", "5"], "golds": ["2", "no", "1", "5"], "tokens": 1576}
+{"preds": ["no", "1", "0", "no", "no", "0"], "golds": ["no", "1", "0", "no", "no", "0"], "tokens": 1584}
+{"preds": ["yes", "no", "4", "4", "no", "1"], "golds": ["yes", "no", "4", "4", "no", "1"], "tokens": 1884}
+{"preds": ["off", "yes", "off", "yes", "off", "off"], "golds": ["off", "yes", "off", "yes", "off", "off"], "tokens": 1596}
+{"preds": ["no", "4", "Q"], "golds": ["no", "4", "Q"], "tokens": 888}
+{"preds": ["5", "green", "no"], "golds": ["5", "green", "no"], "tokens": 768}
+{"preds": ["yes", "3", "1"], "golds": ["yes", "3", "1"], "tokens": 942}
+{"preds": ["yes", "4", "V"], "golds": ["yes", "4", "V"], "tokens": 873}
+{"preds": ["3", "no", "D3", "no", "yes", "yes"], "golds": ["3", "no", "D3", "no", "yes", "yes"], "tokens": 2100}
+{"preds": ["no", "0", "yes", "no", "yes"], "golds": ["no", "0", "yes", "no", "yes"], "tokens": 1090}
+{"preds": ["bright", "no", "yes", "no", "bright", "no"], "golds": ["bright", "yes", "no", "no", "bright", "no"], "tokens": 1866}
+{"preds": ["no", "none", "no", "yes", "yes", "1"], "golds": ["no", "none", "no", "yes", "yes", "1"], "tokens": 1722}
+{"preds": ["no", "0", "yes", "4", "no"], "golds": ["no", "0", "yes", "4", "no"], "tokens": 1210}
+{"preds": ["0", "no", "no", "5", "no"], "golds": ["0", "no", "no", "5", "no"], "tokens": 1365}
+{"preds": ["2", "no", "red"], "golds": ["2", "no", "red"], "tokens": 744}
+{"preds": ["3", "0", "3", "3", "no", "no"], "golds": ["3", "0", "3", "3", "no", "no"], "tokens": 1668}
+{"preds": ["no", "3", "yes", "no", "no", "1"], "golds": ["no", "3", "yes", "no", "no", "1"], "tokens": 1344}
+{"preds": ["no", "no", "2", "(2,2)"], "golds": ["no", "no", "2", "(2,2)"], "tokens": 1792}
+{"preds": ["18", "8", "no", "no", "no", "no"], "golds": ["18", "8", "no", "no", "no", "no"], "tokens": 1632}
+{"preds": ["3", "S", "no"], "golds": ["3", "S", "no"], "tokens": 834}
+{"preds": ["3", "no", "6", "4", "no", "0"], "golds": ["3", "no", "6", "4", "no", "0"], "tokens": 1770}
+{"preds": ["off", "on", "yes", "on", "off", "yes"], "golds": ["off", "on", "no", "on", "off", "yes"], "tokens": 1620}
+{"preds": ["-6", "2", "yes", "4", "no", "no"], "golds": ["-6", "2", "yes", "4", "no", "no"], "tokens": 1716}
+{"preds": ["no", "no", "no", "no", "10", "5"], "golds": ["no", "no", "no", "no", "10", "5"], "tokens": 1830}
+{"preds": ["no", "3", "gold"], "golds": ["no", "3", "gold"], "tokens": 819}
+{"preds": ["no", "4", "2"], "golds": ["no", "4", "2"], "tokens": 912}
+{"preds": ["2", "T", "no"], "golds": ["2", "T", "no"], "tokens": 819}
+{"preds": ["yes", "5", "yes", "no", "-10", "no"], "golds": ["yes", "5", "yes", "no", "-5", "no"], "tokens": 1824}
+{"preds": ["no", "4", "2", "2"], "golds": ["no", "4", "2", "2"], "tokens": 1568}
+{"preds": ["off", "bright", "no", "bright", "dim", "no"], "golds": ["off", "bright", "no", "bright", "dim", "no"], "tokens": 1584}
+{"preds": ["yes", "9", "3", "no", "yes", "no"], "golds": ["yes", "9", "3", "no", "yes", "no"], "tokens": 1494}
+{"preds": ["no", "W", "4"], "golds": ["no", "W", "4"], "tokens": 873}
+{"preds": ["no", "none", "yes", "4", "yes", "2"], "golds": ["no", "none", "yes", "4", "yes", "2"], "tokens": 1890}
+{"preds": ["yes", "2", "(5,5)", "no"], "golds": ["yes", "2", "(5,5)", "no"], "tokens": 1716}
+{"preds": ["5", "no", "6"], "golds": ["5", "no", "6"], "tokens": 906}
+{"preds": ["yes", "no", "3", "yes", "yes", "no"], "golds": ["yes", "no", "3", "yes", "yes", "no"], "tokens": 1644}
+{"preds": ["3", "1", "1", "no", "no"], "golds": ["3", "1", "1", "no", "no"], "tokens": 1380}
+{"preds": ["yes", "yes", "no", "3"], "golds": ["yes", "yes", "no", "3"], "tokens": 992}
+{"preds": ["0", "no", "1", "1", "no", "no"], "golds": ["0", "no", "1", "1", "no", "no"], "tokens": 1620}
+{"preds": ["no", "green", "2"], "golds": ["no", "green", "2"], "tokens": 816}
+{"preds": ["yes", "W", "4"], "golds": ["yes", "W", "4"], "tokens": 885}
+{"preds": ["no", "(5,5)", "yes", "2", "yes"], "golds": ["no", "(5,5)", "yes", "2", "yes"], "tokens": 2060}
+{"preds": ["no", "on", "on", "yes", "no", "off"], "golds": ["yes", "on", "on", "no", "yes", "off"], "tokens": 1626}
+{"preds": ["no", "no", "no", "2", "5"], "golds": ["no", "no", "no", "2", "5"], "tokens": 1155}
+{"preds": ["3", "yes", "A5", "no", "no", "no"], "golds": ["3", "yes", "A5", "no", "no", "no"], "tokens": 2202}
+{"preds": ["no", "12", "no", "2", "no"], "golds": ["no", "12", "no", "2", "no"], "tokens": 1360}
+{"preds": ["no", "14", "no", "5", "no", "no"], "golds": ["no", "14", "no", "5", "no", "no"], "tokens": 1620}
+{"preds": ["bright", "bright", "no", "no", "off", "no"], "golds": ["bright", "bright", "no", "no", "off", "no"], "tokens": 1812}
+{"preds": ["3", "3", "4", "2", "no", "1"], "golds": ["3", "3", "4", "2", "no", "1"], "tokens": 1956}
+{"preds": ["no", "off", "yes", "no", "on", "off"], "golds": ["yes", "off", "no", "no", "on", "off"], "tokens": 1710}
+{"preds": ["no", "5", "no", "0", "no", "2"], "golds": ["no", "5", "no", "0", "no", "2"], "tokens": 2112}
+{"preds": ["no", "no", "yes", "0", "2"], "golds": ["no", "no", "yes", "0", "2"], "tokens": 1195}
+{"preds": ["no", "(3,3)", "yes", "no", "yes"], "golds": ["no", "(3,3)", "yes", "no", "yes"], "tokens": 2020}
+{"preds": ["yes", "yes", "5", "3", "no", "none"], "golds": ["yes", "yes", "5", "3", "no", "none"], "tokens": 1794}
+{"preds": ["no", "yes", "yes", "5", "no", "0"], "golds": ["no", "yes", "yes", "5", "no", "0"], "tokens": 1416}
+{"preds": ["yes", "no", "yes", "7", "no", "yes"], "golds": ["yes", "no", "yes", "7", "no", "yes"], "tokens": 1410}
+{"preds": ["T", "no", "1"], "golds": ["S", "no", "2"], "tokens": 882}
+{"preds": ["no", "bright", "no", "bright", "yes", "no"], "golds": ["yes", "bright", "no", "bright", "no", "no"], "tokens": 1662}
+{"preds": ["no", "2", "3", "1"], "golds": ["no", "2", "3", "1"], "tokens": 1576}
+{"preds": ["no", "2", "1", "5", "yes", "2"], "golds": ["yes", "1", "5", "5", "yes", "2"], "tokens": 2298}
+{"preds": ["no", "8", "no", "0", "0"], "golds": ["no", "8", "no", "0", "0"], "tokens": 1835}
+{"preds": ["yes", "no", "D2", "4", "no", "no"], "golds": ["yes", "no", "D2", "4", "no", "no"], "tokens": 2538}
+{"preds": ["6", "2", "no"], "golds": ["6", "2", "no"], "tokens": 942}
+{"preds": ["no", "3", "no", "9", "no", "no"], "golds": ["no", "3", "no", "9", "no", "no"], "tokens": 1686}
+{"preds": ["4", "gold", "no"], "golds": ["4", "gold", "no"], "tokens": 807}
+{"preds": ["no", "yes", "off", "yes", "off", "off"], "golds": ["yes", "yes", "off", "yes", "off", "off"], "tokens": 1692}
+{"preds": ["1", "1", "no", "no", "no", "2"], "golds": ["1", "1", "no", "no", "no", "2"], "tokens": 1644}
+{"preds": ["off", "yes", "no", "no", "no", "off"], "golds": ["off", "yes", "no", "no", "no", "off"], "tokens": 1536}
+{"preds": ["dim", "no", "dim", "dim", "no", "no"], "golds": ["dim", "no", "dim", "dim", "no", "no"], "tokens": 1572}
+{"preds": ["2", "yes", "1", "no", "no", "no"], "golds": ["2", "no", "1", "no", "no", "no"], "tokens": 1758}
+{"preds": ["no", "yes", "yes", "2", "yes", "(5,7)"], "golds": ["no", "yes", "yes", "2", "yes", "(5,7)"], "tokens": 2934}
+{"preds": ["no", "2", "2", "no"], "golds": ["no", "2", "2", "no"], "tokens": 1372}
+{"preds": ["yes", "yes", "3", "no", "no", "yes"], "golds": ["yes", "yes", "3", "no", "no", "yes"], "tokens": 1872}
+{"preds": ["0", "yes", "empty"], "golds": ["0", "yes", "empty"], "tokens": 906}
+{"preds": ["dim", "bright", "bright", "no", "no", "no"], "golds": ["bright", "bright", "dim", "no", "no", "no"], "tokens": 2004}
+{"preds": ["yes", "0", "yes", "no", "0", "no"], "golds": ["yes", "0", "yes", "no", "0", "no"], "tokens": 1560}
+{"preds": ["yes", "A3", "yes", "yes", "2"], "golds": ["yes", "A3", "yes", "yes", "2"], "tokens": 1670}
+{"preds": ["4", "yes", "(1,2)", "no"], "golds": ["4", "yes", "(2,2)", "no"], "tokens": 1964}
+{"preds": ["1", "no", "5"], "golds": ["1", "no", "5"], "tokens": 852}
+{"preds": ["yes", "3", "4", "5", "5", "no"], "golds": ["yes", "3", "4", "5", "5", "no"], "tokens": 1932}
+{"preds": ["yes", "1", "0", "2", "1"], "golds": ["yes", "1", "0", "2", "1"], "tokens": 2015}
+{"preds": ["2", "no", "yes", "1", "4", "yes"], "golds": ["2", "no", "yes", "1", "4", "yes"], "tokens": 1650}
+{"preds": ["no", "no", "0", "3", "no", "5"], "golds": ["no", "no", "0", "3", "no", "5"], "tokens": 2100}
+{"preds": ["off", "yes", "yes", "yes", "off", "yes"], "golds": ["off", "yes", "yes", "yes", "off", "yes"], "tokens": 1566}
+{"preds": ["off", "yes", "off", "off", "off", "off"], "golds": ["off", "yes", "off", "off", "off", "off"], "tokens": 1602}
+{"preds": ["2", "4", "4", "0", "no", "1"], "golds": ["2", "4", "4", "0", "no", "1"], "tokens": 1962}
+{"preds": ["no", "no", "6", "no", "8", "no"], "golds": ["no", "no", "6", "no", "8", "no"], "tokens": 1626}
+{"preds": ["2", "no", "6", "yes", "4", "no"], "golds": ["2", "no", "6", "yes", "4", "no"], "tokens": 1548}
+{"preds": ["yes", "yes", "0", "2", "yes"], "golds": ["yes", "yes", "0", "2", "yes"], "tokens": 1615}
+{"preds": ["6", "2", "2", "3", "no"], "golds": ["6", "2", "2", "3", "no"], "tokens": 1710}
+{"preds": ["yes", "no", "off", "no", "no", "off"], "golds": ["yes", "no", "off", "no", "no", "off"], "tokens": 1650}
+{"preds": ["no", "no", "no", "2", "no", "2"], "golds": ["no", "no", "no", "2", "no", "2"], "tokens": 1698}
+{"preds": ["3", "4", "no", "no", "3", "no"], "golds": ["3", "4", "no", "no", "3", "no"], "tokens": 1782}
+{"preds": ["4", "yes", "no", "no", "0", "no"], "golds": ["4", "yes", "no", "no", "0", "no"], "tokens": 1578}
+{"preds": ["7", "no", "no"], "golds": ["7", "no", "no"], "tokens": 819}
+{"preds": ["no", "11", "no", "no", "0", "no"], "golds": ["no", "11", "no", "no", "0", "no"], "tokens": 1602}
+{"preds": ["yes", "empty", "0"], "golds": ["yes", "empty", "0"], "tokens": 795}
+{"preds": ["yes", "1", "2", "4", "0"], "golds": ["yes", "1", "2", "4", "0"], "tokens": 2015}
+{"preds": ["4", "no", "yes", "no", "4", "no"], "golds": ["4", "no", "yes", "no", "4", "no"], "tokens": 1482}
+{"preds": ["2", "no", "1", "3", "0", "yes"], "golds": ["2", "no", "1", "3", "0", "yes"], "tokens": 2298}
+{"preds": ["no", "no", "yes", "no", "no", "1"], "golds": ["no", "no", "yes", "no", "no", "1"], "tokens": 1404}
+{"preds": ["dim", "no", "no", "dim", "off", "no"], "golds": ["dim", "no", "no", "dim", "off", "no"], "tokens": 1956}
+{"preds": ["yes", "2", "no", "0", "no"], "golds": ["yes", "2", "no", "0", "no"], "tokens": 1260}
+{"preds": ["4", "0", "3", "no", "5", "no"], "golds": ["4", "0", "3", "no", "5", "no"], "tokens": 1824}
+{"preds": ["no", "17", "no", "5", "no", "no"], "golds": ["no", "17", "no", "5", "no", "no"], "tokens": 1506}
+{"preds": ["no", "13", "3", "no", "no"], "golds": ["no", "13", "3", "no", "no"], "tokens": 1325}
+{"preds": ["no", "-5", "no", "yes", "8", "yes"], "golds": ["no", "-1", "no", "yes", "8", "yes"], "tokens": 1650}
+{"preds": ["0", "4", "no", "2", "3", "3"], "golds": ["0", "4", "no", "2", "3", "3"], "tokens": 2466}
+{"preds": ["yes", "no", "no", "no", "no", "5"], "golds": ["yes", "no", "no", "no", "no", "5"], "tokens": 1638}
+{"preds": ["0", "4", "no", "4", "4", "0"], "golds": ["0", "4", "no", "4", "4", "0"], "tokens": 2478}
+{"preds": ["yes", "7", "no", "0", "no", "yes"], "golds": ["yes", "7", "no", "0", "no", "yes"], "tokens": 1470}
+{"preds": ["no", "3", "red"], "golds": ["no", "3", "blue"], "tokens": 819}
+{"preds": ["6", "no", "none", "6"], "golds": ["6", "no", "none", "6"], "tokens": 1316}
+{"preds": ["no", "(2,7)", "no", "no", "yes"], "golds": ["yes", "(2,7)", "no", "no", "yes"], "tokens": 2740}
+{"preds": ["yes", "0", "4", "no", "no", "3"], "golds": ["yes", "0", "4", "no", "no", "3"], "tokens": 2088}
+{"preds": ["no", "2", "no", "no", "7", "no"], "golds": ["no", "2", "no", "no", "7", "no"], "tokens": 1590}
+{"preds": ["off", "no", "no", "yes", "off", "bright"], "golds": ["off", "no", "no", "no", "off", "bright"], "tokens": 1872}
+{"preds": ["2", "1", "0", "yes", "4", "1"], "golds": ["2", "1", "0", "yes", "4", "1"], "tokens": 2526}
+{"preds": ["3", "no", "5", "no", "no"], "golds": ["3", "no", "5", "no", "no"], "tokens": 1485}
+{"preds": ["1", "no", "1", "no", "yes", "2"], "golds": ["1", "no", "1", "no", "yes", "2"], "tokens": 2088}
+{"preds": ["no", "no", "bright", "no", "no", "off"], "golds": ["no", "no", "bright", "no", "no", "off"], "tokens": 1716}
+{"preds": ["6", "2", "no"], "golds": ["6", "2", "no"], "tokens": 948}
+{"preds": ["no", "yes", "A6", "yes", "4", "no"], "golds": ["no", "yes", "A6", "yes", "4", "no"], "tokens": 2730}
+{"preds": ["0", "2", "no", "no", "yes", "no"], "golds": ["0", "2", "no", "no", "yes", "no"], "tokens": 1398}
+{"preds": ["1", "gold", "no"], "golds": ["1", "gold", "no"], "tokens": 750}
+{"preds": ["5", "no", "4", "0", "no", "5"], "golds": ["5", "no", "4", "0", "no", "5"], "tokens": 1902}
+{"preds": ["3", "no", "no", "4"], "golds": ["3", "no", "no", "4"], "tokens": 1384}
+{"preds": ["no", "no", "C3", "no", "2"], "golds": ["no", "yes", "C3", "no", "2"], "tokens": 1675}
+{"preds": ["no", "no", "no", "no", "no", "3"], "golds": ["no", "no", "no", "no", "no", "3"], "tokens": 1356}
+{"preds": ["no", "yes", "5", "no", "4", "none"], "golds": ["no", "yes", "5", "no", "4", "none"], "tokens": 1878}
+{"preds": ["2", "yes", "no", "1", "no", "0"], "golds": ["2", "yes", "no", "1", "no", "0"], "tokens": 1560}
+{"preds": ["yes", "(4,4)", "no", "no", "no", "2"], "golds": ["yes", "(4,4)", "no", "no", "no", "2"], "tokens": 2280}
+{"preds": ["(2,2)", "1", "no", "no"], "golds": ["(2,1)", "1", "yes", "no"], "tokens": 1608}
+{"preds": ["red", "yes", "2"], "golds": ["red", "yes", "2"], "tokens": 822}
+{"preds": ["no", "off", "no", "no", "yes", "no"], "golds": ["no", "off", "no", "no", "yes", "no"], "tokens": 1686}
+{"preds": ["2", "0", "yes", "1", "2"], "golds": ["2", "0", "yes", "1", "2"], "tokens": 2015}
+{"preds": ["yes", "no", "no", "7", "1"], "golds": ["yes", "no", "no", "7", "0"], "tokens": 1220}
+{"preds": ["8", "no", "no", "no", "32", "no"], "golds": ["8", "no", "no", "no", "32", "no"], "tokens": 1662}
+{"preds": ["off", "yes", "off", "on", "off", "yes"], "golds": ["off", "yes", "off", "on", "off", "yes"], "tokens": 1536}
+{"preds": ["3", "yes", "(1,1)", "no"], "golds": ["2", "yes", "(1,4)", "yes"], "tokens": 1568}
+{"preds": ["no", "6", "no", "6", "5"], "golds": ["no", "6", "no", "6", "5"], "tokens": 1570}
+{"preds": ["3", "4", "no", "no", "yes", "no"], "golds": ["3", "4", "no", "no", "yes", "no"], "tokens": 1854}
+{"preds": ["no", "no", "7", "15", "no", "no"], "golds": ["no", "no", "7", "15", "no", "no"], "tokens": 1728}
+{"preds": ["1", "0", "yes", "no", "yes", "1"], "golds": ["1", "0", "yes", "no", "yes", "1"], "tokens": 2088}
+{"preds": ["6", "6", "no", "no", "no", "0"], "golds": ["6", "6", "no", "no", "no", "0"], "tokens": 1902}
+{"preds": ["yes", "no", "yes", "no", "3", "no"], "golds": ["yes", "no", "yes", "no", "3", "no"], "tokens": 1488}
+{"preds": ["gold", "no", "3"], "golds": ["gold", "no", "3"], "tokens": 792}
+{"preds": ["no", "yes", "15", "no", "no", "3"], "golds": ["no", "no", "15", "no", "no", "3"], "tokens": 1746}
+{"preds": ["yes", "yes", "bright", "yes", "bright", "off"], "golds": ["no", "no", "bright", "no", "bright", "off"], "tokens": 1740}
+{"preds": ["yes", "4", "1"], "golds": ["yes", "4", "1"], "tokens": 873}
+{"preds": ["3", "1", "1", "2", "yes", "1"], "golds": ["3", "1", "1", "2", "yes", "1"], "tokens": 2466}
+{"preds": ["on", "off", "yes", "yes", "yes", "yes"], "golds": ["on", "off", "yes", "yes", "yes", "yes"], "tokens": 1596}
+{"preds": ["yes", "no", "1", "5", "0", "3"], "golds": ["yes", "no", "1", "5", "0", "3"], "tokens": 2280}
+{"preds": ["3", "A2", "yes", "yes", "no", "yes"], "golds": ["3", "A2", "yes", "yes", "no", "yes"], "tokens": 1872}
+{"preds": ["yes", "no", "10", "no"], "golds": ["yes", "no", "10", "no"], "tokens": 1024}
+{"preds": ["no", "A3", "no", "2", "no", "no"], "golds": ["no", "B4", "yes", "2", "no", "no"], "tokens": 2040}
+{"preds": ["off", "yes", "on", "yes", "no", "yes"], "golds": ["off", "no", "on", "yes", "yes", "yes"], "tokens": 1548}
+{"preds": ["no", "yes", "9", "-8", "no"], "golds": ["no", "yes", "9", "-8", "no"], "tokens": 1320}
+{"preds": ["1", "yes", "yes", "no", "0"], "golds": ["1", "yes", "yes", "no", "0"], "tokens": 1355}
+{"preds": ["no", "no", "no", "12", "2", "no"], "golds": ["no", "no", "no", "12", "2", "no"], "tokens": 1644}
+{"preds": ["no", "yes", "yes", "yes", "yes", "on"], "golds": ["no", "yes", "yes", "yes", "yes", "on"], "tokens": 1530}
+{"preds": ["5", "yes", "7", "0", "no", "no"], "golds": ["5", "yes", "7", "0", "no", "no"], "tokens": 1746}
+{"preds": ["4", "1", "no", "1", "no", "3"], "golds": ["4", "1", "no", "1", "no", "3"], "tokens": 1752}
+{"preds": ["0", "1", "1", "no", "0", "2"], "golds": ["0", "1", "1", "no", "0", "2"], "tokens": 2466}
+{"preds": ["yes", "no", "yes", "0", "no", "no"], "golds": ["yes", "no", "yes", "0", "no", "no"], "tokens": 1428}
+{"preds": ["2", "none", "2", "no", "7", "0"], "golds": ["2", "none", "2", "no", "7", "0"], "tokens": 2052}
+{"preds": ["no", "5", "3", "no", "2", "5"], "golds": ["no", "5", "3", "no", "2", "5"], "tokens": 2010}
+{"preds": ["yes", "5", "3", "no", "no", "no"], "golds": ["yes", "5", "3", "no", "no", "no"], "tokens": 1452}
+{"preds": ["off", "no", "no", "off", "on", "no"], "golds": ["off", "no", "yes", "off", "on", "yes"], "tokens": 1590}
+{"preds": ["4", "yes", "no", "no", "yes", "4"], "golds": ["4", "no", "no", "no", "yes", "4"], "tokens": 1704}
+{"preds": ["12", "no", "no", "13", "9", "no"], "golds": ["12", "no", "no", "13", "9", "no"], "tokens": 1650}
+{"preds": ["no", "3", "(6,6)", "yes", "no"], "golds": ["no", "3", "(6,6)", "yes", "no"], "tokens": 2465}
+{"preds": ["yes", "D5", "no", "yes", "no"], "golds": ["yes", "C5", "no", "yes", "no"], "tokens": 1965}
+{"preds": ["4", "5", "4", "3", "no", "4"], "golds": ["4", "5", "4", "3", "no", "4"], "tokens": 1890}
+{"preds": ["2", "2", "no", "3", "no", "0"], "golds": ["2", "3", "no", "3", "no", "0"], "tokens": 2322}
+{"preds": ["yes", "no", "0", "0", "no", "0"], "golds": ["yes", "no", "0", "0", "no", "0"], "tokens": 2088}
+{"preds": ["0", "0", "no", "4", "yes"], "golds": ["0", "0", "no", "4", "yes"], "tokens": 1825}
+{"preds": ["4", "no", "yes", "0", "4", "3"], "golds": ["4", "no", "yes", "0", "4", "3"], "tokens": 1632}
+{"preds": ["2", "yes", "1", "1", "1"], "golds": ["2", "yes", "1", "1", "1"], "tokens": 2015}
+{"preds": ["no", "2", "no", "7", "4"], "golds": ["no", "2", "no", "7", "4"], "tokens": 1870}
+{"preds": ["no", "no", "7", "2", "0"], "golds": ["no", "no", "7", "2", "0"], "tokens": 1835}
+{"preds": ["no", "0", "5", "1"], "golds": ["no", "0", "5", "1"], "tokens": 1576}
+{"preds": ["no", "4", "(2,4)", "yes", "yes"], "golds": ["no", "4", "(2,4)", "yes", "yes"], "tokens": 2490}
+{"preds": ["yes", "no", "4", "-2", "no"], "golds": ["yes", "no", "4", "-2", "no"], "tokens": 1305}
+{"preds": ["3", "no", "yes", "G2", "yes", "yes"], "golds": ["3", "no", "yes", "G2", "yes", "yes"], "tokens": 2550}
+{"preds": ["no", "no", "4", "1", "6", "yes"], "golds": ["no", "no", "4", "1", "6", "yes"], "tokens": 2004}
+{"preds": ["16", "no", "no", "5", "no"], "golds": ["16", "no", "no", "5", "no"], "tokens": 1395}
+{"preds": ["no", "yes", "0", "5", "yes", "5"], "golds": ["no", "yes", "0", "5", "yes", "5"], "tokens": 1602}
+{"preds": ["D1", "2", "yes", "no", "no", "yes"], "golds": ["D1", "2", "yes", "no", "no", "yes"], "tokens": 2478}
+{"preds": ["no", "A2", "yes", "yes", "4", "no"], "golds": ["no", "A1", "yes", "yes", "4", "no"], "tokens": 2820}
+{"preds": ["0", "1", "5", "2", "no", "3"], "golds": ["0", "1", "5", "2", "no", "3"], "tokens": 2466}
+{"preds": ["no", "4", "W"], "golds": ["no", "4", "W"], "tokens": 876}
+{"preds": ["yes", "no", "no", "yes", "0", "yes"], "golds": ["yes", "no", "no", "yes", "0", "yes"], "tokens": 1470}
+{"preds": ["no", "6", "no", "no", "no", "16"], "golds": ["no", "6", "no", "no", "no", "16"], "tokens": 1710}
+{"preds": ["no", "1", "T"], "golds": ["no", "1", "T"], "tokens": 804}
+{"preds": ["3", "yes", "yes", "yes", "no", "(3,6)"], "golds": ["3", "yes", "yes", "yes", "no", "(3,6)"], "tokens": 2628}
+{"preds": ["no", "3", "(2,1)", "yes", "no"], "golds": ["no", "3", "(2,1)", "yes", "no"], "tokens": 2400}
+{"preds": ["1", "green", "yes"], "golds": ["1", "green", "yes"], "tokens": 810}
+{"preds": ["no", "2", "yes", "yes", "no", "yes"], "golds": ["no", "2", "yes", "yes", "no", "yes"], "tokens": 1782}
+{"preds": ["4", "1", "9", "no", "no", "no"], "golds": ["4", "1", "9", "no", "no", "no"], "tokens": 1602}
+{"preds": ["no", "(4,5)", "yes", "2", "no", "yes"], "golds": ["yes", "(5,5)", "yes", "2", "no", "yes"], "tokens": 2424}
+{"preds": ["1", "no", "0", "yes", "4", "2"], "golds": ["1", "no", "0", "yes", "4", "2"], "tokens": 1758}
+{"preds": ["yes", "6", "no", "0", "yes", "no"], "golds": ["yes", "6", "no", "0", "yes", "no"], "tokens": 1566}
+{"preds": ["T", "4", "yes"], "golds": ["T", "4", "yes"], "tokens": 888}
+{"preds": ["E7", "no", "no", "4", "no", "yes"], "golds": ["E7", "no", "no", "4", "no", "yes"], "tokens": 2550}
+{"preds": ["3", "4", "no", "1", "0"], "golds": ["3", "4", "no", "1", "0"], "tokens": 2015}
+{"preds": ["no", "yes", "yes", "no", "6", "0"], "golds": ["no", "yes", "yes", "no", "6", "0"], "tokens": 1494}
+{"preds": ["1", "2", "no"], "golds": ["1", "2", "no"], "tokens": 870}
+{"preds": ["yes", "no", "yes", "dim", "bright", "off"], "golds": ["no", "yes", "no", "dim", "off", "off"], "tokens": 1692}
+{"preds": ["4", "yes", "no", "no", "(1,1)"], "golds": ["4", "yes", "no", "no", "(1,1)"], "tokens": 2165}
+{"preds": ["bright", "dim", "no", "yes", "off", "no"], "golds": ["bright", "dim", "no", "yes", "off", "no"], "tokens": 1740}
+{"preds": ["no", "yes", "2", "(7,6)"], "golds": ["no", "yes", "2", "(7,6)"], "tokens": 2472}
+{"preds": ["3", "no", "no", "5", "4"], "golds": ["3", "no", "no", "5", "4"], "tokens": 1465}
+{"preds": ["4", "no", "no", "yes", "no", "no"], "golds": ["4", "no", "no", "yes", "no", "no"], "tokens": 1938}
+{"preds": ["yes", "0", "4", "yes", "1", "2"], "golds": ["yes", "0", "4", "yes", "1", "2"], "tokens": 2268}
+{"preds": ["no", "no", "yes", "yes", "no", "no"], "golds": ["yes", "no", "no", "yes", "yes", "yes"], "tokens": 1716}
+{"preds": ["no", "yes", "yes", "no", "0"], "golds": ["no", "yes", "yes", "no", "0"], "tokens": 1140}
+{"preds": ["C2", "no", "4", "no"], "golds": ["C1", "no", "4", "no"], "tokens": 1540}
+{"preds": ["3", "yes", "yes", "yes", "yes", "no"], "golds": ["3", "yes", "yes", "yes", "yes", "no"], "tokens": 1842}
+{"preds": ["0", "yes", "4", "no", "no", "no"], "golds": ["1", "yes", "4", "no", "no", "no"], "tokens": 1524}
+{"preds": ["no", "1", "0", "0", "5", "3"], "golds": ["no", "1", "0", "0", "5", "3"], "tokens": 2478}
+{"preds": ["Q", "no", "2"], "golds": ["Q", "no", "2"], "tokens": 825}
+{"preds": ["10", "13", "no", "no", "no"], "golds": ["10", "13", "no", "no", "no"], "tokens": 1505}
+{"preds": ["2", "2", "no", "2", "no", "2"], "golds": ["2", "2", "no", "2", "no", "2"], "tokens": 1794}
+{"preds": ["D3", "4", "no", "no", "yes", "no"], "golds": ["D3", "4", "no", "no", "yes", "no"], "tokens": 2298}
+{"preds": ["no", "1", "3", "yes", "no", "2"], "golds": ["no", "1", "4", "yes", "no", "2"], "tokens": 2100}
+{"preds": ["no", "2", "no", "F2", "no", "yes"], "golds": ["no", "2", "no", "F2", "no", "yes"], "tokens": 2280}
+{"preds": ["no", "2", "gold"], "golds": ["no", "2", "gold"], "tokens": 798}
+{"preds": ["no", "no", "no", "12", "7", "9"], "golds": ["no", "no", "no", "12", "7", "13"], "tokens": 1884}
+{"preds": ["4", "yes", "6"], "golds": ["4", "yes", "6"], "tokens": 912}
+{"preds": ["4", "2", "yes"], "golds": ["4", "2", "yes"], "tokens": 942}
+{"preds": ["no", "5", "3", "2", "4"], "golds": ["no", "5", "3", "2", "4"], "tokens": 2025}
+{"preds": ["2", "5", "no", "no", "no", "0"], "golds": ["2", "5", "no", "no", "no", "0"], "tokens": 1890}
+{"preds": ["no", "3", "no", "no", "8"], "golds": ["no", "3", "no", "no", "8"], "tokens": 1190}
+{"preds": ["yes", "yes", "0", "no", "no", "10"], "golds": ["yes", "yes", "0", "no", "no", "10"], "tokens": 1488}
+{"preds": ["3", "no", "gold"], "golds": ["3", "no", "gold"], "tokens": 795}
+{"preds": ["no", "4", "0", "yes", "no", "no"], "golds": ["no", "4", "0", "yes", "no", "no"], "tokens": 1512}
+{"preds": ["1", "no", "4", "2"], "golds": ["1", "no", "4", "2"], "tokens": 1576}
+{"preds": ["yes", "no", "no", "yes", "no", "on"], "golds": ["yes", "no", "no", "yes", "no", "on"], "tokens": 1704}
+{"preds": ["yes", "0", "2", "1", "1", "1"], "golds": ["yes", "0", "2", "1", "1", "1"], "tokens": 2466}
+{"preds": ["off", "no", "off", "no", "off", "on"], "golds": ["off", "no", "off", "yes", "off", "on"], "tokens": 1728}
+{"preds": ["D6", "yes", "no", "yes", "3"], "golds": ["D6", "yes", "no", "yes", "3"], "tokens": 2000}
+{"preds": ["no", "dim", "no", "no", "off", "no"], "golds": ["no", "bright", "yes", "yes", "off", "no"], "tokens": 1698}
+{"preds": ["yes", "0", "no", "no"], "golds": ["yes", "0", "no", "no"], "tokens": 1000}
+{"preds": ["yes", "no", "4", "no", "14", "no"], "golds": ["yes", "no", "4", "no", "14", "no"], "tokens": 1782}
+{"preds": ["yes", "red", "2"], "golds": ["yes", "red", "2"], "tokens": 831}
+{"preds": ["no", "4", "6", "no", "yes", "no"], "golds": ["no", "4", "6", "no", "yes", "no"], "tokens": 1542}
+{"preds": ["B1", "yes", "yes", "3", "yes"], "golds": ["B1", "yes", "yes", "3", "yes"], "tokens": 1750}
+{"preds": ["4", "yes", "no", "no", "1"], "golds": ["4", "yes", "no", "no", "1"], "tokens": 1100}
+{"preds": ["dim", "off", "bright", "off", "yes", "no"], "golds": ["dim", "off", "bright", "off", "yes", "no"], "tokens": 1848}
+{"preds": ["3", "yes", "0", "1", "no"], "golds": ["3", "yes", "0", "1", "no"], "tokens": 1815}
+{"preds": ["4", "8", "no", "5", "0", "no"], "golds": ["4", "8", "no", "5", "0", "no"], "tokens": 2334}
+{"preds": ["0", "empty", "no"], "golds": ["0", "empty", "no"], "tokens": 795}
+{"preds": ["3", "S", "no"], "golds": ["3", "S", "no"], "tokens": 804}
+{"preds": ["(6,1)", "2", "yes", "no", "no", "no"], "golds": ["(6,1)", "2", "yes", "no", "no", "no"], "tokens": 2808}
+{"preds": ["3", "4", "no", "4", "4", "3"], "golds": ["3", "4", "no", "4", "4", "3"], "tokens": 2094}
+{"preds": ["no", "11", "no", "no", "no"], "golds": ["no", "11", "no", "no", "no"], "tokens": 1175}
+{"preds": ["off", "off", "yes", "no", "off", "on"], "golds": ["off", "off", "yes", "no", "off", "on"], "tokens": 1710}
+{"preds": ["0", "no", "no", "no", "3", "yes"], "golds": ["0", "no", "no", "no", "3", "yes"], "tokens": 1410}
+{"preds": ["yes", "2", "no", "yes", "8", "no"], "golds": ["yes", "2", "no", "yes", "8", "no"], "tokens": 1614}
+{"preds": ["no", "no", "dim", "dim", "yes", "bright"], "golds": ["no", "yes", "dim", "dim", "yes", "bright"], "tokens": 1680}
+{"preds": ["4", "yes", "C4", "no", "no"], "golds": ["4", "yes", "C4", "no", "no"], "tokens": 1805}
+{"preds": ["(4,1)", "yes", "2", "yes", "no"], "golds": ["(4,1)", "yes", "2", "yes", "no"], "tokens": 1825}
+{"preds": ["yes", "dim", "no", "no", "yes", "no"], "golds": ["no", "dim", "no", "no", "no", "no"], "tokens": 1854}
+{"preds": ["no", "4", "no"], "golds": ["no", "4", "no"], "tokens": 690}
+{"preds": ["yes", "on", "yes", "on", "on", "yes"], "golds": ["yes", "on", "yes", "on", "on", "yes"], "tokens": 1614}
+{"preds": ["4", "no", "4", "no", "1", "yes"], "golds": ["4", "no", "4", "no", "1", "yes"], "tokens": 1848}
+{"preds": ["dim", "yes", "off", "no", "bright", "no"], "golds": ["dim", "yes", "off", "no", "bright", "no"], "tokens": 1752}
+{"preds": ["no", "7", "2"], "golds": ["no", "7", "3"], "tokens": 930}
+{"preds": ["4", "0", "no", "1", "1", "2"], "golds": ["4", "0", "no", "1", "1", "2"], "tokens": 2064}
+{"preds": ["yes", "1", "0", "0", "4", "no"], "golds": ["yes", "1", "0", "0", "4", "no"], "tokens": 2280}
+{"preds": ["no", "no", "no", "on", "yes", "yes"], "golds": ["no", "no", "no", "on", "yes", "yes"], "tokens": 1674}
+{"preds": ["(5,1)", "2", "yes", "yes"], "golds": ["(5,1)", "2", "yes", "yes"], "tokens": 1656}
+{"preds": ["0", "empty", "yes"], "golds": ["0", "empty", "yes"], "tokens": 852}
+{"preds": ["yes", "bright", "no", "bright", "yes", "yes"], "golds": ["yes", "bright", "yes", "bright", "yes", "yes"], "tokens": 1746}
+{"preds": ["no", "0", "2", "2", "3", "0"], "golds": ["no", "0", "2", "2", "3", "0"], "tokens": 2478}
+{"preds": ["bright", "yes", "yes", "no", "no", "off"], "golds": ["bright", "yes", "yes", "no", "no", "off"], "tokens": 1722}
+{"preds": ["2", "no", "no", "0", "no"], "golds": ["2", "no", "no", "0", "no"], "tokens": 1290}
+{"preds": ["no", "0", "1", "4", "2", "3"], "golds": ["no", "0", "1", "4", "2", "3"], "tokens": 1842}
+{"preds": ["no", "1", "no", "no"], "golds": ["no", "1", "no", "no"], "tokens": 1060}
+{"preds": ["0", "yes", "6", "no", "no", "no"], "golds": ["0", "yes", "6", "no", "no", "no"], "tokens": 1494}
+{"preds": ["yes", "yes", "no", "on", "yes", "no"], "golds": ["yes", "yes", "no", "on", "yes", "yes"], "tokens": 1410}
+{"preds": ["6", "0", "no", "yes", "yes", "no"], "golds": ["6", "0", "no", "yes", "yes", "no"], "tokens": 1434}
+{"preds": ["1", "3", "no", "2", "yes", "yes"], "golds": ["1", "2", "no", "2", "yes", "yes"], "tokens": 2088}
+{"preds": ["no", "2", "E6", "yes"], "golds": ["no", "2", "E6", "yes"], "tokens": 1936}
+{"preds": ["4", "no", "gold"], "golds": ["4", "no", "gold"], "tokens": 765}
+{"preds": ["no", "no", "no", "6", "no"], "golds": ["no", "no", "no", "6", "no"], "tokens": 1320}
+{"preds": ["yes", "no", "1", "0", "yes", "1"], "golds": ["yes", "no", "1", "0", "yes", "1"], "tokens": 2088}
+{"preds": ["no", "2", "0", "no"], "golds": ["no", "2", "0", "no"], "tokens": 1136}
+{"preds": ["no", "1", "1", "1"], "golds": ["no", "1", "1", "1"], "tokens": 1576}
+{"preds": ["no", "yes", "2", "5", "1"], "golds": ["no", "yes", "2", "5", "1"], "tokens": 1460}
+{"preds": ["yes", "1", "5", "no", "yes"], "golds": ["yes", "1", "5", "no", "yes"], "tokens": 1625}
+{"preds": ["7", "no", "1", "0", "0"], "golds": ["7", "no", "1", "0", "0"], "tokens": 2025}
+{"preds": ["yes", "V", "5"], "golds": ["yes", "S", "5"], "tokens": 870}
+{"preds": ["4", "no", "no", "(1,4)", "yes"], "golds": ["4", "no", "no", "(1,4)", "yes"], "tokens": 2040}
+{"preds": ["4", "yes", "no", "yes", "(7,2)", "no"], "golds": ["4", "yes", "no", "yes", "(7,2)", "no"], "tokens": 2850}
+{"preds": ["2", "no", "yes", "yes", "2", "2"], "golds": ["2", "no", "yes", "yes", "2", "2"], "tokens": 2088}
+{"preds": ["no", "2", "3", "3", "no", "2"], "golds": ["no", "2", "3", "3", "no", "2"], "tokens": 1704}
+{"preds": ["no", "7", "0", "no", "no"], "golds": ["no", "7", "0", "no", "no"], "tokens": 1340}
+{"preds": ["7", "9", "yes", "no", "0", "no"], "golds": ["7", "9", "yes", "no", "0", "no"], "tokens": 1662}
+{"preds": ["yes", "2", "no", "no", "no", "no"], "golds": ["yes", "2", "no", "no", "no", "no"], "tokens": 1608}
+{"preds": ["yes", "yes", "B4", "no", "4"], "golds": ["yes", "yes", "B4", "no", "4"], "tokens": 1635}
+{"preds": ["no", "0", "no", "1", "yes", "no"], "golds": ["no", "0", "no", "1", "yes", "no"], "tokens": 1572}
+{"preds": ["4", "no", "yes", "no", "4", "6"], "golds": ["4", "no", "yes", "no", "4", "6"], "tokens": 1944}
+{"preds": ["0", "empty", "no"], "golds": ["0", "empty", "no"], "tokens": 795}
+{"preds": ["no", "4", "5", "no", "5", "4"], "golds": ["no", "4", "5", "no", "5", "4"], "tokens": 1998}
+{"preds": ["yes", "bright", "bright", "no", "bright", "no"], "golds": ["yes", "bright", "bright", "no", "bright", "no"], "tokens": 1620}
+{"preds": ["no", "(3,5)", "no", "3"], "golds": ["no", "(3,5)", "no", "3"], "tokens": 2060}
+{"preds": ["V", "no", "4"], "golds": ["V", "no", "4"], "tokens": 828}
+{"preds": ["no", "2", "no", "no", "6"], "golds": ["no", "2", "no", "no", "6"], "tokens": 1565}
+{"preds": ["off", "on", "yes", "on", "on", "on"], "golds": ["off", "on", "yes", "on", "on", "on"], "tokens": 1542}
+{"preds": ["no", "3", "P"], "golds": ["no", "3", "S"], "tokens": 840}
+{"preds": ["no", "no", "6", "0", "no"], "golds": ["no", "no", "6", "0", "no"], "tokens": 1170}
+{"preds": ["yes", "yes", "no", "no", "2", "no"], "golds": ["yes", "no", "no", "no", "2", "no"], "tokens": 1506}
+{"preds": ["no", "no", "(1,4)", "yes", "3"], "golds": ["no", "no", "(1,4)", "yes", "2"], "tokens": 2190}
+{"preds": ["no", "blue", "4"], "golds": ["no", "blue", "4"], "tokens": 765}
+{"preds": ["no", "no", "yes", "7", "yes", "0"], "golds": ["no", "no", "yes", "7", "yes", "0"], "tokens": 1410}
+{"preds": ["on", "off", "no", "on", "no", "yes"], "golds": ["on", "off", "yes", "on", "no", "yes"], "tokens": 1650}
+{"preds": ["no", "no", "no", "no", "2", "8"], "golds": ["no", "no", "no", "no", "2", "8"], "tokens": 1638}
+{"preds": ["yes", "no", "6", "yes"], "golds": ["yes", "no", "6", "yes"], "tokens": 948}
+{"preds": ["3", "no", "no", "no", "no", "25"], "golds": ["3", "no", "no", "no", "no", "25"], "tokens": 1668}
+{"preds": ["2", "no", "no", "9", "yes"], "golds": ["2", "no", "no", "9", "yes"], "tokens": 1180}
+{"preds": ["no", "6", "0", "no"], "golds": ["no", "6", "0", "no"], "tokens": 1380}
+{"preds": ["2", "13", "yes", "no", "no"], "golds": ["2", "13", "yes", "no", "no"], "tokens": 1565}
+{"preds": ["no", "no", "no", "3", "1", "5"], "golds": ["no", "no", "no", "3", "1", "5"], "tokens": 2100}
+{"preds": ["no", "yes", "no", "no", "off", "no"], "golds": ["yes", "yes", "no", "no", "off", "no"], "tokens": 1698}
+{"preds": ["3", "1", "no", "no"], "golds": ["3", "1", "no", "no"], "tokens": 1392}
+{"preds": ["yes", "C1", "yes", "no", "4", "no"], "golds": ["yes", "C1", "yes", "no", "3", "no"], "tokens": 2292}
+{"preds": ["4", "E5", "no", "no", "no", "yes"], "golds": ["3", "E2", "no", "no", "no", "yes"], "tokens": 2412}
+{"preds": ["D4", "no", "yes"], "golds": ["D3", "no", "yes"], "tokens": 1542}
+{"preds": ["yes", "4", "yes", "(6,5)", "no", "yes"], "golds": ["yes", "4", "yes", "(6,5)", "no", "yes"], "tokens": 2568}
+{"preds": ["no", "no", "9", "no", "no", "no"], "golds": ["no", "no", "9", "no", "no", "no"], "tokens": 1410}
+{"preds": ["yes", "4", "no", "1", "yes", "no"], "golds": ["yes", "4", "no", "1", "no", "no"], "tokens": 1422}
+{"preds": ["no", "5", "5", "2", "0", "0"], "golds": ["no", "5", "5", "2", "0", "0"], "tokens": 2478}
+{"preds": ["2", "no", "yes", "no", "0", "no"], "golds": ["2", "no", "yes", "no", "2", "no"], "tokens": 1506}
+{"preds": ["yes", "0", "yes", "no", "no", "1"], "golds": ["yes", "0", "yes", "no", "no", "1"], "tokens": 1458}
+{"preds": ["5", "U", "no"], "golds": ["5", "U", "no"], "tokens": 864}
+{"preds": ["no", "no", "no", "2", "1", "6"], "golds": ["no", "no", "no", "2", "1", "6"], "tokens": 2100}
+{"preds": ["no", "yes", "no", "6", "-1", "no"], "golds": ["no", "yes", "no", "6", "-1", "no"], "tokens": 1602}
+{"preds": ["no", "yes", "no", "no"], "golds": ["no", "yes", "no", "no"], "tokens": 920}
+{"preds": ["14", "9", "no", "no", "no"], "golds": ["14", "9", "no", "no", "no"], "tokens": 1460}
+{"preds": ["no", "no", "6", "no", "10"], "golds": ["no", "no", "6", "no", "10"], "tokens": 1350}
+{"preds": ["no", "0", "no", "yes", "yes"], "golds": ["no", "0", "no", "yes", "yes"], "tokens": 1160}
+{"preds": ["no", "0", "no", "3", "4", "no"], "golds": ["no", "0", "no", "3", "4", "no"], "tokens": 1596}
+{"preds": ["0", "no", "3", "2"], "golds": ["0", "no", "3", "2"], "tokens": 1576}
+{"preds": ["no", "yes", "yes", "2", "(7,3)", "yes"], "golds": ["no", "yes", "yes", "2", "(6,3)", "yes"], "tokens": 2874}
+{"preds": ["no", "yes", "yes", "off", "bright", "dim"], "golds": ["no", "yes", "no", "off", "bright", "dim"], "tokens": 1752}
+{"preds": ["yes", "1", "3", "5", "1", "1"], "golds": ["yes", "1", "3", "5", "1", "1"], "tokens": 2466}
+{"preds": ["yes", "no", "2", "2"], "golds": ["yes", "no", "2", "2"], "tokens": 1364}
+{"preds": ["4", "S", "no"], "golds": ["4", "S", "no"], "tokens": 879}
+{"preds": ["4", "no", "5"], "golds": ["4", "no", "5"], "tokens": 918}
+{"preds": ["(4,4)", "no", "3", "no", "no", "yes"], "golds": ["(4,4)", "no", "3", "no", "no", "yes"], "tokens": 2370}
+{"preds": ["4", "1", "no"], "golds": ["4", "1", "no"], "tokens": 918}
+{"preds": ["2", "yes", "A2", "no", "no"], "golds": ["2", "yes", "A2", "no", "no"], "tokens": 1760}
+{"preds": ["no", "3", "(3,2)", "no", "yes"], "golds": ["no", "3", "(3,2)", "no", "yes"], "tokens": 2340}
+{"preds": ["1", "6", "no"], "golds": ["1", "6", "no"], "tokens": 876}
+{"preds": ["2", "no", "6", "0"], "golds": ["2", "no", "6", "0"], "tokens": 1576}
+{"preds": ["A5", "no", "2", "yes", "yes", "yes"], "golds": ["A5", "no", "2", "yes", "yes", "yes"], "tokens": 2052}
+{"preds": ["yes", "(4,1)", "no", "no", "yes", "2"], "golds": ["yes", "(4,1)", "no", "no", "yes", "2"], "tokens": 2244}
+{"preds": ["yes", "no", "no", "no", "no", "no"], "golds": ["yes", "no", "no", "no", "no", "no"], "tokens": 1704}
+{"preds": ["6", "no", "6", "yes"], "golds": ["6", "no", "6", "yes"], "tokens": 1336}
+{"preds": ["yes", "on", "off", "off", "off", "no"], "golds": ["yes", "on", "off", "off", "off", "no"], "tokens": 1512}
+{"preds": ["yes", "5", "5", "1", "5", "1"], "golds": ["yes", "5", "5", "1", "5", "1"], "tokens": 1746}
+{"preds": ["1", "no", "0", "no", "1", "0"], "golds": ["1", "no", "0", "no", "1", "0"], "tokens": 2280}
+{"preds": ["1", "(1,5)", "no", "yes", "yes"], "golds": ["2", "(1,5)", "no", "yes", "yes"], "tokens": 2035}
+{"preds": ["1", "4", "no", "4", "0", "1"], "golds": ["1", "4", "no", "4", "0", "1"], "tokens": 1884}
+{"preds": ["4", "no", "yes", "yes", "E5", "no"], "golds": ["4", "no", "yes", "yes", "E5", "no"], "tokens": 2754}
+{"preds": ["(2,1)", "4", "yes", "yes"], "golds": ["(1,1)", "4", "yes", "yes"], "tokens": 2528}
+{"preds": ["no", "yes", "no", "yes", "on", "off"], "golds": ["no", "no", "no", "yes", "on", "off"], "tokens": 1800}
+{"preds": ["on", "off", "yes", "no", "yes"], "golds": ["on", "off", "yes", "no", "yes"], "tokens": 1460}
+{"preds": ["2", "no", "0", "2", "yes"], "golds": ["2", "no", "0", "2", "yes"], "tokens": 1815}
+{"preds": ["no", "4", "no", "no", "6", "3"], "golds": ["no", "4", "no", "no", "6", "3"], "tokens": 1800}
+{"preds": ["yes", "5", "1"], "golds": ["yes", "5", "1"], "tokens": 1119}
+{"preds": ["yes", "yes", "yes", "4", "8"], "golds": ["yes", "no", "yes", "4", "8"], "tokens": 1285}
+{"preds": ["(3,2)", "yes", "3"], "golds": ["(3,3)", "yes", "4"], "tokens": 1275}
+{"preds": ["3", "no", "yes", "C3", "yes", "no"], "golds": ["3", "no", "yes", "C3", "yes", "no"], "tokens": 2520}
+{"preds": ["no", "no", "yes", "6"], "golds": ["no", "no", "yes", "6"], "tokens": 900}

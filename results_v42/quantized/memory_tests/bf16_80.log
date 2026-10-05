@@ -1,0 +1,6 @@
+== bf16_80GB fraction 0.695 max_num_seqs 64: vLLM up=1
+Model loading took 51.1 GiB memory and 10.587023 seconds
+GPU KV cache size: 151,703 tokens, Maximum concurrency for 16,384 tokens per request: 9.26x
+   60 held-out git questions: 60/60 same answer as at full memory
+
+[exited with code 0]

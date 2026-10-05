@@ -1,0 +1,6 @@
+== int4, 24 GB card at 0.95, text only, eager, 4k context, 4 sequences: vLLM up=1
+GPU KV cache size: 33,450 tokens, Maximum concurrency for 4,096 tokens per request: 8.17x
+   60 held-out git questions: 60/60 same answer as at full memory; 0.10 s per question, one at a time
+2, 111 MiB
+
+[exited with code 0]

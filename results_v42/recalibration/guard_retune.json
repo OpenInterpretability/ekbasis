@@ -1,0 +1,31 @@
+{
+ "val_lost_items": 48,
+ "val_work_losing": 24,
+ "retuned": {
+  "M1": {
+   "threshold": 0.1361,
+   "test_flagged": 100.0,
+   "test_false_alarms": 4.761904761904762
+  },
+  "M2": {
+   "threshold": 0.1588,
+   "test_flagged": 100.0,
+   "test_false_alarms": 7.142857142857143
+  },
+  "M3": {
+   "threshold": 0.1966,
+   "test_flagged": 100.0,
+   "test_false_alarms": 4.761904761904762
+  },
+  "M4": {
+   "threshold": 0.2609,
+   "test_flagged": 100.0,
+   "test_false_alarms": 4.761904761904762
+  }
+ },
+ "m1_temperature": 1.4877561898122058,
+ "m3_platt": [
+  0.7568419086607026,
+  -0.6733493224873118
+ ]
+}
