@@ -71,6 +71,8 @@ model-index:
 
 ![Ekbasis overview: git consequences against Claude and Qwen, the git guard on fresh real repositories, and speed against a reasoning model](https://huggingface.co/caiovicentino1/Ekbasis-27B/resolve/main/assets/ekbasis_launch.png)
 
+**Paper:** [Look When Unsure, Check When Sure](https://doi.org/10.5281/zenodo.23146971) · DOI [10.5281/zenodo.23146971](https://doi.org/10.5281/zenodo.23146971) · **Code:** [github.com/OpenInterpretability/ekbasis](https://github.com/OpenInterpretability/ekbasis) · **Site:** [openinterp.org/ekbasis](https://openinterp.org/ekbasis)
+
 **What happens if I run this?** Given the current state and an action, Ekbasis-27B predicts what the action will do —
 *will this lose work? will it fail? what will X be afterwards?* — as **calibrated, typed answers**, in **one forward
 pass** (~0.1 s), without generating text. It was trained on **what actions actually did** (simulated worlds and real

@@ -2,6 +2,8 @@
 
 ![Ekbasis overview: git consequences against Claude and Qwen, the git guard on fresh real repositories, and speed against a reasoning model](assets/ekbasis_launch.png)
 
+**Paper:** [Look When Unsure, Check When Sure](https://doi.org/10.5281/zenodo.23146971) · DOI [10.5281/zenodo.23146971](https://doi.org/10.5281/zenodo.23146971) · **Code:** [github.com/OpenInterpretability/ekbasis](https://github.com/OpenInterpretability/ekbasis) · **Site:** [openinterp.org/ekbasis](https://openinterp.org/ekbasis)
+
 **Ekbasis** (ἔκβασις, *"how an action turns out"*) is an open **consequence model** for agents: given the current
 state and an action, it answers typed questions about what will happen — *will this command lose work? will it fail?
 what will X be afterwards?* — with a **calibrated probability**, in **one forward pass** (no generated text).
