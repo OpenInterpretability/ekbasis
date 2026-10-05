@@ -85,7 +85,11 @@ readout make it answer with probabilities, not text.
    #   - may permanently lose uncommitted work (99%)
    ```
 
-   Exit code 0 when no risk is found, 2 when the commands may lose uncommitted work, 1 on errors.
+   Exit code 0 when no risk is found, 2 when the commands may lose uncommitted work, 3 when the guard cannot judge
+   (the server cannot be reached or does not answer in time, the repository cannot be read, or a command points git at
+   another repository or uses an alias): treat 3 as risky. 1 is a usage error. The guard fails closed; `--fail-open`
+   turns "cannot judge" into 0 with a warning. It is a warning layer that can be wrong, not a security boundary: keep
+   confirmations, backups and least privilege ([docs/SECURITY.md](docs/SECURITY.md)).
 
 ## Builds
 
@@ -128,7 +132,31 @@ qs = {"a": choice("How many liters are in A?", [str(k) for k in range(6)]),
       "b": choice("How many liters are in B?", [str(k) for k in range(4)])}
 sim = simulate(client, rules, {"a": "5", "b": "0"}, ["pour A into B", "empty B", "pour A into B"], qs, render)
 print(sim.final, sim.confidence)   # use the chain confidence, not the last step's
+
+# (0.1.2) the rule that decides the answer, repeated right before the question
+from ekbasis import recap
+q = recap(yes_no("Is the small disk still on peg A?"), "A disk can never be placed on a smaller disk.")
+
+# (0.1.2) a running total: the model tracks the number, the code compares it with the limit
+from ekbasis import number, threshold
+t = threshold(client, "Each purchase adds its price to the month's spending.", {"spent": "0"},
+              ["buy a 30-dollar plan", "buy a 45-dollar add-on", "buy a 25-dollar seat"],
+              {"spent": number("How much has been spent this month, in dollars?", range(0, 205, 5))},
+              lambda s: f"Spent this month: {s['spent']} dollars.", quantity="spent", op=">=", limit=100, when="ever")
+print(t.value, t.holds, t.confidence)
 ```
+
+- **Recap** (`recap`, `simulate(..., recap=True)`, `ekbasis predict --recap`): repeating the rule that decides the
+  answer right before the question fixed the case where Ekbasis ignored a written prohibition that compares two values
+  (Tower of Hanoi's size rule: 0 of 8 right, 8 of 8 with the recap; capability map, `habit_vs_rule`). On fresh items it
+  helps on balance but not everywhere: 97.4% → 98.6% on familiar and invented single-rule worlds (12 answers fixed,
+  none broken), 86.7% → 88.9% on invented worlds with chains of rules and captures along a line (51 fixed, but 26 of
+  1,120 right answers turned wrong). Use it for the rule you know decides the answer; it stays opt-in, and without it
+  every prompt is the same as in 0.1.1.
+- **Compare in code** (`threshold`): Ekbasis carries running totals well (98–100% exact step by step) but judges "is
+  the limit reached?" poorly when the total is within a unit or two of it; asking it for the number and comparing in
+  code gave 99.0% on budgets, timers, quotas, rate limits and lockouts (capability map, `accumulation`). Use it whenever
+  an effect depends on a sum crossing a limit.
 
 ## Look when unsure (predict, observe, correct)
 
@@ -227,8 +255,14 @@ environment before relying on it.)
 ## Claude Code and MCP
 
 - **Claude Code hook** — Claude Code asks you to confirm (or blocks) git commands that may lose uncommitted work, with
-  the reason; it stays silent otherwise and never blocks when the server is unreachable. In `.claude/settings.json`
-  (one project) or `~/.claude/settings.json` (all):
+  the reason; it stays silent otherwise. Since 0.1.2 it **fails closed**: when it cannot judge a line (the server
+  cannot be reached or does not answer within `EKBASIS_HOOK_DEADLINE`, the repository cannot be read, git is pointed at
+  another repository, the line changes folder in a way the hook does not follow, or it has parts the hook cannot
+  evaluate: subshells, variables in a git command, nested shells, aliases), Claude Code asks you to confirm and says
+  why. `EKBASIS_FAIL_OPEN=1` restores 0.1.1's silence. The hook answers in JSON and exits 0, since in Claude Code an
+  exit code other than 2 does not block. The hook is a warning layer that can be wrong, not a security boundary: keep
+  Claude Code's own confirmations, backups and least privilege. In `.claude/settings.json` (one project) or
+  `~/.claude/settings.json` (all):
 
   ```json
   {"hooks": {"PreToolUse": [{"matcher": "Bash",
@@ -236,7 +270,25 @@ environment before relying on it.)
   ```
 
   Environment: `EKBASIS_URL`, `EKBASIS_LOST_THRESHOLD` (0.2), `EKBASIS_GUARD_MODE` (`ask` or `deny`),
-  `EKBASIS_FETCH=1` (fetch first so the state shows the real remote).
+  `EKBASIS_FETCH=1` (fetch first so the state shows the real remote), `EKBASIS_FAIL_OPEN=1` (stay silent when it cannot
+  judge), `EKBASIS_HOOK_DEADLINE` (seconds, default 25; keep it below the hook's `timeout`, or Claude Code stops the
+  hook first and the command goes through unchecked), `EKBASIS_SHELL_GUARD=1` (below).
+
+- **Shell guard (prototype, 0.1.2)** — `ekbasis shell-check -- "rm -r build/"` (or `ekbasis.shell.check`) asks
+  whether shell command lines lose file content or fail, from a listing of the paths they could touch: names, types,
+  sizes, ages, links and where they point, hidden names, and **never file contents** (each file appears as a short
+  fingerprint keyed anew for each check, so equal contents can be compared without copying a secret into the prompt).
+  It writes out what the shell decides before running (how unquoted patterns expand here, how unquoted spaces split
+  names, other files with the same content) and how the arguments apply here (where rsync copies, how many lines a sed
+  or grep pattern matches, what `find … | xargs` passes), and adds short shell rules only for the forms that need them
+  (`>` emptying a file it also reads, `;` after a failed `cd`, rsync's trailing slash, `cp -r SRC/.`, a link with a
+  trailing slash, xargs and spaces, `tar -x`, commands that refuse and change nothing, `rm -f`, `cp -u`). Same exit
+  codes and the same fail-closed rule as `git-check`; a line with variables in its paths, subshells or nested shells is
+  "cannot judge". In the Claude Code hook it is opt-in (`EKBASIS_SHELL_GUARD=1`) for lines with no git command that can
+  change files. Measured on 292 fresh scenarios of 46 command forms it was not designed on (bash on Linux, the truth
+  from running them): content lost right 91.4%, 93.2% of the losses flagged with 11.9% false alarms, failures right
+  96.2%, against 54.8% for a list of destructive commands (82.0% flagged, 67.9% false alarms). What it misses: see
+  Limits.
 
 - **MCP server** (`pip install "ekbasis[mcp] @ git+https://github.com/OpenInterpretability/ekbasis"`, Python ≥ 3.10):
   the command `ekbasis-mcp` exposes `check_git_commands` and `predict_consequences` to any MCP client. In Claude Code:
@@ -296,8 +348,17 @@ the answers the actions change (never-trained worlds: 710 instead of 1,442 promp
 - **Committed work is out of scope.** The guard asks whether uncommitted work is lost. Commands that drop commits
   (`git branch -D` of unmerged work, `git push --force`, `git reset --hard origin/main` over local commits) are not
   what it checks: 2 of 27 such scenarios were flagged with client 0.1.0, 4 of 21 with 0.1.1.
-- **It is a safety net, not a security boundary.** See [docs/SECURITY.md](docs/SECURITY.md) for the threat model, the
-  measured injection results and the recommended defense-in-depth stack.
+- **The shell guard is a prototype** ([results/client_0.1.2](results/client_0.1.2/RESULTS.md)). On 292 fresh scenarios (46 command forms it was not designed on) it missed 9 of
+  133 content losses, all copies or moves into a folder that replace a same-named file there (`cp -a SRC DEST` when
+  DEST/SRC holds one, `cp -t DIR f`, `mv -t DIR a b`), and raised 19 false alarms in 159 safe cases, mostly where the
+  outcome depends on content it does not show (`head -n 9 f > f.tmp && mv f.tmp f` on a short file, `perl -pi` with no
+  match) or on a backup taken first; 26 of its 36 errors came with confidence of 0.9 or more. It reads bash on Linux;
+  macOS's BSD tools and zsh differ in places, and it does not know what programs and scripts do to files
+  (`python x.py`, `make`), file permissions or who owns a file.
+- **It is a warning layer that can be wrong, not a security boundary.** It can miss a destructive command and it can
+  flag a safe one; text in a repository or a folder can try to steer it; an adversary can hide a command from it. Use it
+  with Claude Code's confirmations, backups and least privilege. See [docs/SECURITY.md](docs/SECURITY.md) for the
+  threat model, the measured injection results and the recommended defense-in-depth stack.
 
 More: [docs/PLAYBOOK.md](docs/PLAYBOOK.md) (how to use it day to day) · [docs/REFERENCES.md](docs/REFERENCES.md)
 (credits) · [PREREG_release_eval.md](PREREG_release_eval.md).

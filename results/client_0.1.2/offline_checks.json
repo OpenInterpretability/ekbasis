@@ -1,0 +1,62 @@
+{
+ "shell": {
+  "scenarios": 408,
+  "exceptions": [],
+  "leaks": 0,
+  "notes": {
+   "no_clobber_flag": 12,
+   "cp_merge": 6,
+   "tar_x": 12,
+   "truncate": 9,
+   "xargs": 12,
+   "glob_find": 6,
+   "noclobber": 6,
+   "split": 4,
+   "rsync": 24,
+   "link_slash": 2,
+   "cd_seq": 2,
+   "refuse": 9
+  },
+  "cannot_judge": {},
+  "notes_per_scenario": {
+   "0": 304,
+   "1": 104
+  },
+  "prompt_chars_median_max": [
+   955,
+   1626
+  ]
+ },
+ "threshold_items": {
+  "built": 1356,
+  "fresh": 1299
+ },
+ "recap_items": {
+  "habit": 988,
+  "rules_stress": 1120,
+  "habit_by_kind": {
+   "direct": 160,
+   "side": 176,
+   "cond": 208,
+   "prohibit": 136,
+   "irrev": 144,
+   "delay": 164
+  },
+  "rules_by_level": {
+   "direct": 80,
+   "side": 80,
+   "delay": 80,
+   "cond": 80,
+   "prohibit": 80,
+   "irrev": 80,
+   "chain1": 80,
+   "chain2": 80,
+   "chain3": 80,
+   "chain4": 80,
+   "line1": 80,
+   "line2": 80,
+   "line3": 80,
+   "line4": 80
+  }
+ }
+}

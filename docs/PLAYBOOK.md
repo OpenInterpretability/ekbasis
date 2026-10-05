@@ -121,6 +121,17 @@ A frontier model does not know your systems. Ekbasis learns them from executions
 Your team's incidents are the best seeds: each "never do X when Y" becomes situations where the model learns the
 consequence.
 
+### 7. Two habits that fix measured weak spots (client 0.1.2)
+
+- **Repeat the rule that decides the answer right before the question** (`recap`, `simulate(..., recap=True)`). On a
+  written prohibition that compares two values (a bigger disk never on a smaller one) Ekbasis went from 0 of 8 to 8 of
+  8 with the recap. On fresh items it fixed more answers than it broke (single-rule worlds: 12 fixed, none broken;
+  chains of rules and captures along a line: 51 fixed, 26 of 1,120 broken), so recap the rule you know decides the
+  answer rather than everything.
+- **Let it track numbers and let your code compare them** (`threshold`). For budgets, timers, quotas, rate limits and
+  lockouts, ask for the running total at each step and decide "is the limit reached?" in code: 99.0% instead of 84.3%
+  asking the question directly, and the errors near the limit (one or two units short) disappear.
+
 ## Reading the numbers
 
 - **Probabilities are calibrated** on the domains it was trained on: when it says 99% it is right about 99% of the
@@ -136,4 +147,6 @@ consequence.
   write in the prompt).
 - Leave out of the state what decides the outcome.
 - Chain orderings or permutations for long without looking at the real state again.
-- Use it as a security boundary: see [SECURITY.md](SECURITY.md).
+- Use it as a security boundary: it is a warning layer that can be wrong. Keep confirmations, backups and least
+  privilege, and treat "cannot judge" (exit code 3, or the hook's confirmation request) as risky: see
+  [SECURITY.md](SECURITY.md).

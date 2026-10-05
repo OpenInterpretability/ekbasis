@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import json
 import os
+import socket
 import urllib.error
 import urllib.request
 from dataclasses import dataclass, field
@@ -14,6 +15,11 @@ from dataclasses import dataclass, field
 
 class EkbasisError(RuntimeError):
     pass
+
+
+class CannotJudge(EkbasisError):
+    """The guard could not check: the server cannot be reached or did not answer in time, the folder or repository
+    cannot be read, or the command line has parts it cannot evaluate. Treat it as risky (fail closed)."""
 
 
 @dataclass
@@ -52,10 +58,16 @@ class Ekbasis:
             with urllib.request.urlopen(req, timeout=self.timeout) as r:
                 return json.loads(r.read())
         except urllib.error.HTTPError as e:
-            raise EkbasisError(f"HTTP {e.code} from {self.url}{path}: {e.read().decode(errors='replace')[:400]}") from None
+            raise CannotJudge(f"HTTP {e.code} from {self.url}{path}: {e.read().decode(errors='replace')[:400]}") from None
         except urllib.error.URLError as e:
-            raise EkbasisError(f"cannot reach the Ekbasis server at {self.url} ({e.reason}); start it with serve.py, "
-                               f"or set EKBASIS_URL") from None
+            if isinstance(e.reason, (socket.timeout, TimeoutError)):
+                raise CannotJudge(f"the Ekbasis server at {self.url} did not answer within {self.timeout:g} s") from None
+            raise CannotJudge(f"cannot reach the Ekbasis server at {self.url} ({e.reason}); start it with serve.py, "
+                              f"or set EKBASIS_URL") from None
+        except (socket.timeout, TimeoutError):
+            raise CannotJudge(f"the Ekbasis server at {self.url} did not answer within {self.timeout:g} s") from None
+        except (OSError, ValueError) as e:  # a dropped connection, or an answer that is not JSON
+            raise CannotJudge(f"no usable answer from the Ekbasis server at {self.url} ({e})") from None
 
     def health(self) -> dict:
         return self._call("/health")

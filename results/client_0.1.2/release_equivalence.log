@@ -1,0 +1,1 @@
+{"identical": {"check_requests": 250, "descriptions_facts_off": 250, "descriptions_messages": 10, "world_prompts": 500, "simulate_requests": 3}, "versions": ["0.1.1", "0.1.2"]}

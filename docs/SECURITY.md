@@ -3,7 +3,9 @@
 ## What it is
 
 A **consequence check on actions**: before an agent runs a command, Ekbasis estimates what the command will do in the
-current state (lose uncommitted work, fail, leave a merge unfinished, …). It is one layer of a defense in depth, and the
+current state (lose uncommitted work, fail, leave a merge unfinished, …). **It is a warning layer that can be wrong, not
+a security boundary**: it can miss a destructive command and flag a safe one, and someone who wants to get past it can.
+Use it together with confirmations, backups and least privilege (below). It is one layer of a defense in depth, and the
 right one for a specific job: it looks at **what the action does**, not at why the agent wants it, so it works the same
 whether the action comes from a mistake, from over-eagerness, or from instructions injected into the agent's context.
 
@@ -21,7 +23,7 @@ Two properties make it suited to sit next to an agent:
 | Agent mistakes and over-eager destructive actions (the most common harm in practice) | **Yes**, in the domains it was trained on (git today) |
 | Prompt injection that leads the agent to run an ordinary-looking destructive command | **Yes**: the command is judged by its consequence, wherever the idea came from |
 | Injected text inside the state the guard reads (commit messages, file or branch names) | **Partly**; measured below, with a default mitigation |
-| An adversary who obfuscates commands (`bash -c`, aliases, variables, scripts) or optimizes against the guard | **No.** Not a security boundary |
+| An adversary who obfuscates commands (`bash -c`, aliases, variables, scripts) or optimizes against the guard | **No.** Not a security boundary. Since 0.1.2 the obvious forms (`bash -c`, `eval`, aliases, variables in a git command, subshells, `git -C`) are reported as "cannot judge" and need a confirmation, but a script or program that does the damage itself is not seen at all |
 | Data exfiltration, persistence, credential access | **Not yet** (git only); see the roadmap |
 
 ## Measured: can text in the repository steer the guard?
@@ -48,13 +50,43 @@ shown, because they decide outcomes; planting instructions there missed no work-
 pushed one borderline "will it fail?" answer, 44%, over 0.5). Sixteen scenarios are a small sample: treat these
 numbers as evidence, not a guarantee.
 
+## Fail closed (since 0.1.2)
+
+When the guard cannot judge, it no longer answers "ok". `ekbasis git-check` and `ekbasis shell-check` exit with **3,
+"cannot judge"**, which callers must treat as risky, when the server cannot be reached or does not answer in time
+(`--timeout`), when the repository or folder cannot be read, when a git command points git at another repository
+(`-C`, `--git-dir`, `--work-tree`) or uses an alias, and, for the shell guard, when a line has parts it cannot evaluate
+(paths from variables or command substitution, subshells, nested shells such as `bash -c` or `eval`, an unclosed
+quote). The Python API raises `ekbasis.client.CannotJudge` in the same cases, or returns a verdict with
+`cannot_judge=True` (risky) for a shell line it could only partly read.
+
+The Claude Code hook then asks for confirmation, with the reason, instead of letting the command through; it does the
+same when it cannot follow the line (a `cd` that is not the line's first command, `pushd`/`popd`, `GIT_DIR=...`, git
+run through `xargs`) and when the check does not finish within `EKBASIS_HOOK_DEADLINE` seconds (default 25; keep it
+below the hook's `timeout` in the settings, or Claude Code stops the hook first and the command goes through
+unchecked). In Claude Code a hook's exit code other than 2 does not block; the hook therefore always answers in JSON
+(`permissionDecision: ask`, or `deny` with `EKBASIS_GUARD_MODE=deny`) and exits 0.
+
+Opting out is explicit: `--fail-open` on the command line, `fail_closed=False` in Python, `EKBASIS_FAIL_OPEN=1` for the
+hook. Outside a git repository the git hook stays silent (git commands there fail or create a repository).
+
+## The shell guard prototype and privacy
+
+The shell guard (0.1.2, a prototype, `EKBASIS_SHELL_GUARD=1` in the hook) never puts file contents in the prompt: each
+file appears with a short fingerprint of its content, an HMAC keyed with a random key for each check, so the model can
+compare contents without any secret being copied out, and fingerprints cannot be matched across checks. It reads
+contents to compute those fingerprints (up to 16 MB per file and 256 MB per check) and, for sed and grep, to count how
+many lines a pattern written in the command matches in the files it names (the count, never the lines). It names
+files, folders and archive members, which can themselves be sensitive: run the server where you would run the agent.
+Measured on 292 fresh scenarios: no line of any file's content reached a prompt.
+
 ## Known gaps
 
-- **Command parsing**: the Claude Code hook checks commands that start with `git` (split on `&&`, `||`, `;`, `|`). A
-  command wrapped in `bash -c`, an alias or a variable is not checked.
-- **Domain**: git only. Other commands get no opinion, which is not approval.
-- **Fail-open**: if the server is unreachable or anything fails, the hook stays silent and the command goes through the
-  normal permission flow; this is right for catching accidents, not for hostile settings.
+- **Command parsing**: the hook reads `&&`, `||`, `;`, `|`, quotes, here-documents and a leading `cd`. Since 0.1.2,
+  `bash -c`, `eval`, aliases, subshells, variables in a git command and lines it cannot follow are "cannot judge" (a
+  confirmation) instead of passing unchecked; a script or program that does the damage itself (`python x.py`,
+  `make clean`, an npm script) is not seen.
+- **Domain**: git, and shell file commands as a prototype. Other commands get no opinion, which is not approval.
 - **File and branch names** are still shown to the model (measured above; adversarial training is on the roadmap).
 - **Ignored files**: since client 0.1.1 the state lists ignored files when a command could delete or overwrite them
   (`git clean -x`/`-X`, `git stash -a`, `git sparse-checkout`, or a target that tracks the same path), and an ignored
@@ -77,8 +109,7 @@ numbers as evidence, not a guarantee.
 
 ## Roadmap
 
-- Hook hardening: parse `bash -c` / `sh -c` / `env` / `sudo` / `xargs`; a strict mode where commands it cannot parse
-  are sent to the user; fail-closed as an option.
+- Hook hardening: read what `bash -c` / `sh -c` / `xargs` strings run instead of only asking about them (0.1.2 asks).
 - Adversarial training data: states with planted instructions and the correct labels.
 - **Ekbasis-Shell**: the same method on an instrumented sandbox, with security outcomes as questions (reads
   credentials? sends data over the network? deletes outside the project? creates persistence? installs packages?).

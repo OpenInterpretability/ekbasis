@@ -1,0 +1,510 @@
+{
+ "set": "confirm",
+ "conditions": {
+  "notes": {
+   "metrics": {
+    "scenarios": 292,
+    "errors": 0,
+    "cannot_judge": 0,
+    "content_leaks": 0,
+    "lost_accuracy_at_0.5": {
+     "k": 267,
+     "n": 292,
+     "pct": 91.4,
+     "ci95": [
+      87.7,
+      94.1
+     ]
+    },
+    "lost_recall_at_0.2": {
+     "k": 124,
+     "n": 133,
+     "pct": 93.2,
+     "ci95": [
+      87.6,
+      96.4
+     ]
+    },
+    "lost_false_alarms_at_0.2": {
+     "k": 19,
+     "n": 159,
+     "pct": 11.9,
+     "ci95": [
+      7.8,
+      17.9
+     ]
+    },
+    "lost_recall_at_0.5": {
+     "k": 123,
+     "n": 133,
+     "pct": 92.5,
+     "ci95": [
+      86.7,
+      95.9
+     ]
+    },
+    "lost_false_alarms_at_0.5": {
+     "k": 15,
+     "n": 159,
+     "pct": 9.4,
+     "ci95": [
+      5.8,
+      15.0
+     ]
+    },
+    "lost_recall_at_0.2_judged_only": {
+     "k": 124,
+     "n": 133,
+     "pct": 93.2,
+     "ci95": [
+      87.6,
+      96.4
+     ]
+    },
+    "verdict_risky_on_losses": {
+     "k": 124,
+     "n": 133,
+     "pct": 93.2,
+     "ci95": [
+      87.6,
+      96.4
+     ]
+    },
+    "verdict_risky_on_safe": {
+     "k": 19,
+     "n": 159,
+     "pct": 11.9,
+     "ci95": [
+      7.8,
+      17.9
+     ]
+    },
+    "fails_accuracy_at_0.5": {
+     "k": 281,
+     "n": 292,
+     "pct": 96.2,
+     "ci95": [
+      93.4,
+      97.9
+     ]
+    },
+    "errors_at_confidence_0.9": {
+     "k": 26,
+     "n": 36,
+     "pct": 72.2,
+     "ci95": [
+      56.0,
+      84.2
+     ]
+    }
+   },
+   "by_family": {
+    "awk_self": {
+     "lost_right": 10,
+     "n": 10
+    },
+    "cat_two": {
+     "lost_right": 10,
+     "n": 10
+    },
+    "colon": {
+     "lost_right": 10,
+     "n": 10
+    },
+    "cp_a": {
+     "lost_right": 5,
+     "n": 10
+    },
+    "cp_glob_merge": {
+     "lost_right": 10,
+     "n": 10
+    },
+    "cp_t": {
+     "lost_right": 7,
+     "n": 10
+    },
+    "dd": {
+     "lost_right": 10,
+     "n": 10
+    },
+    "find_mindepth": {
+     "lost_right": 10,
+     "n": 10
+    },
+    "find_mv_collide": {
+     "lost_right": 10,
+     "n": 10
+    },
+    "head_tmp": {
+     "lost_right": 4,
+     "n": 12
+    },
+    "heredoc": {
+     "lost_right": 12,
+     "n": 12
+    },
+    "install": {
+     "lost_right": 9,
+     "n": 10
+    },
+    "ln_hard": {
+     "lost_right": 12,
+     "n": 12
+    },
+    "mv_t": {
+     "lost_right": 11,
+     "n": 12
+    },
+    "mv_then_rm": {
+     "lost_right": 10,
+     "n": 10
+    },
+    "perl_pi": {
+     "lost_right": 8,
+     "n": 12
+    },
+    "printf": {
+     "lost_right": 10,
+     "n": 10
+    },
+    "rm_dash": {
+     "lost_right": 10,
+     "n": 10
+    },
+    "rsync_backup": {
+     "lost_right": 10,
+     "n": 10
+    },
+    "rsync_exclude": {
+     "lost_right": 10,
+     "n": 10
+    },
+    "rsync_remove": {
+     "lost_right": 9,
+     "n": 10
+    },
+    "shred_keep": {
+     "lost_right": 10,
+     "n": 10
+    },
+    "tar_overwrite": {
+     "lost_right": 10,
+     "n": 10
+    },
+    "tar_skip": {
+     "lost_right": 10,
+     "n": 10
+    },
+    "tr_self": {
+     "lost_right": 12,
+     "n": 12
+    },
+    "truncate_size": {
+     "lost_right": 8,
+     "n": 10
+    },
+    "uniq_self": {
+     "lost_right": 10,
+     "n": 10
+    },
+    "xargs_I": {
+     "lost_right": 10,
+     "n": 10
+    }
+   },
+   "notes_used": {
+    "cp_merge": 10,
+    "xargs": 10,
+    "rsync": 30,
+    "truncate": 19,
+    "tar_x": 10,
+    "refuse": 4,
+    "rm_f": 10
+   },
+   "unread": {}
+  },
+  "no_notes": {
+   "metrics": {
+    "scenarios": 292,
+    "errors": 0,
+    "cannot_judge": 0,
+    "content_leaks": 0,
+    "lost_accuracy_at_0.5": {
+     "k": 256,
+     "n": 292,
+     "pct": 87.7,
+     "ci95": [
+      83.4,
+      91.0
+     ]
+    },
+    "lost_recall_at_0.2": {
+     "k": 115,
+     "n": 133,
+     "pct": 86.5,
+     "ci95": [
+      79.6,
+      91.3
+     ]
+    },
+    "lost_false_alarms_at_0.2": {
+     "k": 18,
+     "n": 159,
+     "pct": 11.3,
+     "ci95": [
+      7.3,
+      17.2
+     ]
+    },
+    "lost_recall_at_0.5": {
+     "k": 113,
+     "n": 133,
+     "pct": 85.0,
+     "ci95": [
+      77.9,
+      90.0
+     ]
+    },
+    "lost_false_alarms_at_0.5": {
+     "k": 16,
+     "n": 159,
+     "pct": 10.1,
+     "ci95": [
+      6.3,
+      15.7
+     ]
+    },
+    "lost_recall_at_0.2_judged_only": {
+     "k": 115,
+     "n": 133,
+     "pct": 86.5,
+     "ci95": [
+      79.6,
+      91.3
+     ]
+    },
+    "verdict_risky_on_losses": {
+     "k": 115,
+     "n": 133,
+     "pct": 86.5,
+     "ci95": [
+      79.6,
+      91.3
+     ]
+    },
+    "verdict_risky_on_safe": {
+     "k": 18,
+     "n": 159,
+     "pct": 11.3,
+     "ci95": [
+      7.3,
+      17.2
+     ]
+    },
+    "fails_accuracy_at_0.5": {
+     "k": 277,
+     "n": 292,
+     "pct": 94.9,
+     "ci95": [
+      91.7,
+      96.9
+     ]
+    },
+    "errors_at_confidence_0.9": {
+     "k": 37,
+     "n": 51,
+     "pct": 72.5,
+     "ci95": [
+      59.1,
+      82.9
+     ]
+    }
+   },
+   "by_family": {
+    "awk_self": {
+     "lost_right": 10,
+     "n": 10
+    },
+    "cat_two": {
+     "lost_right": 8,
+     "n": 10
+    },
+    "colon": {
+     "lost_right": 10,
+     "n": 10
+    },
+    "cp_a": {
+     "lost_right": 5,
+     "n": 10
+    },
+    "cp_glob_merge": {
+     "lost_right": 6,
+     "n": 10
+    },
+    "cp_t": {
+     "lost_right": 7,
+     "n": 10
+    },
+    "dd": {
+     "lost_right": 10,
+     "n": 10
+    },
+    "find_mindepth": {
+     "lost_right": 10,
+     "n": 10
+    },
+    "find_mv_collide": {
+     "lost_right": 10,
+     "n": 10
+    },
+    "head_tmp": {
+     "lost_right": 4,
+     "n": 12
+    },
+    "heredoc": {
+     "lost_right": 12,
+     "n": 12
+    },
+    "install": {
+     "lost_right": 9,
+     "n": 10
+    },
+    "ln_hard": {
+     "lost_right": 11,
+     "n": 12
+    },
+    "mv_t": {
+     "lost_right": 11,
+     "n": 12
+    },
+    "mv_then_rm": {
+     "lost_right": 10,
+     "n": 10
+    },
+    "perl_pi": {
+     "lost_right": 8,
+     "n": 12
+    },
+    "printf": {
+     "lost_right": 10,
+     "n": 10
+    },
+    "rm_dash": {
+     "lost_right": 10,
+     "n": 10
+    },
+    "rsync_backup": {
+     "lost_right": 10,
+     "n": 10
+    },
+    "rsync_exclude": {
+     "lost_right": 10,
+     "n": 10
+    },
+    "rsync_remove": {
+     "lost_right": 10,
+     "n": 10
+    },
+    "shred_keep": {
+     "lost_right": 10,
+     "n": 10
+    },
+    "tar_overwrite": {
+     "lost_right": 10,
+     "n": 10
+    },
+    "tar_skip": {
+     "lost_right": 6,
+     "n": 10
+    },
+    "tr_self": {
+     "lost_right": 12,
+     "n": 12
+    },
+    "truncate_size": {
+     "lost_right": 7,
+     "n": 10
+    },
+    "uniq_self": {
+     "lost_right": 10,
+     "n": 10
+    },
+    "xargs_I": {
+     "lost_right": 10,
+     "n": 10
+    }
+   },
+   "notes_used": {},
+   "unread": {}
+  }
+ },
+ "baselines": {
+  "always_no": {
+   "k": 159,
+   "n": 292,
+   "pct": 54.5,
+   "ci95": [
+    48.7,
+    60.1
+   ]
+  },
+  "keyword_cautious": {
+   "accuracy": {
+    "k": 160,
+    "n": 292,
+    "pct": 54.8,
+    "ci95": [
+     49.1,
+     60.4
+    ]
+   },
+   "recall": {
+    "k": 109,
+    "n": 133,
+    "pct": 82.0,
+    "ci95": [
+     74.6,
+     87.6
+    ]
+   },
+   "false_alarms": {
+    "k": 108,
+    "n": 159,
+    "pct": 67.9,
+    "ci95": [
+     60.3,
+     74.7
+    ]
+   }
+  },
+  "keyword_narrow": {
+   "accuracy": {
+    "k": 159,
+    "n": 292,
+    "pct": 54.5,
+    "ci95": [
+     48.7,
+     60.1
+    ]
+   },
+   "recall": {
+    "k": 30,
+    "n": 133,
+    "pct": 22.6,
+    "ci95": [
+     16.3,
+     30.4
+    ]
+   },
+   "false_alarms": {
+    "k": 30,
+    "n": 159,
+    "pct": 18.9,
+    "ci95": [
+     13.5,
+     25.7
+    ]
+   }
+  }
+ }
+}

@@ -23,9 +23,12 @@ def numbered(lines) -> str:
     return "\n".join(f"{i + 1}. {x}" for i, x in enumerate(lines))
 
 
-def world_state(rules: str, state: str, actions) -> str:
-    """A situation in the world layout: what the rules are, how things stand, what will be done."""
-    return f"{rules}\n\nCurrent state:\n{state}\n\nActions, in order:\n{numbered(actions)}\n\n{WORLD_NOTE}"
+def world_state(rules: str, state: str, actions, notes=None, notes_label: str = "Rules for these actions") -> str:
+    """A situation in the world layout: what the rules are, how things stand, what will be done. notes: plain-text rules
+    placed after the action list, the way git_state places its notes (the shell guard's bash notes); none gives the
+    training layout exactly."""
+    acts = numbered(actions) + (f"\n\n{notes_label}: {' '.join(notes)}" if notes else "")
+    return f"{rules}\n\nCurrent state:\n{state}\n\nActions, in order:\n{acts}\n\n{WORLD_NOTE}"
 
 
 NOTES_AT = "commands"  # where the notes go: "commands" (after the command list), "state" (a last state line), "rules"
@@ -221,6 +224,47 @@ def choice(instructions: str, options) -> dict:
     """A question with a fixed set of answers: a list of labels, or a dict label -> short description."""
     crit = dict(options) if isinstance(options, dict) else {str(o): str(o) for o in options}
     return {"type": "choice", "instructions": instructions, "criteria": crit}
+
+
+def number_label(v) -> str:
+    """A number as an answer label: 3 and 3.0 both read "3"; other floats keep their digits."""
+    f = float(v)
+    return str(int(f)) if f.is_integer() else repr(f)
+
+
+def number(instructions: str, values) -> dict:
+    """A question whose answers are numbers (choice over their labels), for quantities a caller compares in code
+    (see simulate.threshold)."""
+    return choice(instructions, [number_label(v) for v in values])
+
+
+# ---- rule recap: repeat the rule that decides the answer right before the question. Measured in the capability map
+# (habit_vs_rule, mitigation M2: "Remember this rule: <rule>" before the question): Hanoi's size rule went from 0/8 to
+# 8/8 and no item that was right before went wrong. Opt-in: without it every prompt is byte-identical to 0.1.1.
+RECAP_ONE = "Remember this rule: "
+RECAP_MANY = "Remember these rules: "
+
+
+def rule_lines(rules: str) -> list:
+    """The rules one per line ("- " bullets and blank lines dropped); a one-line text is one rule."""
+    out = [l.strip()[2:].strip() if l.strip().startswith("- ") else l.strip() for l in rules.splitlines()]
+    return [l for l in out if l]
+
+
+def recap(question: dict, rules) -> dict:
+    """The question with rules repeated right before it, in the measured wording. rules: one rule (a string), several
+    (a list of strings; pass the ones that decide the answer when you know them), or a whole rules text whose lines
+    are each a rule (rule_lines). Returns a new question; the one passed in is not changed."""
+    lines = rule_lines(rules) if isinstance(rules, str) else [str(r).strip() for r in rules if str(r).strip()]
+    if not lines:
+        return dict(question)
+    head = (RECAP_ONE + lines[0]) if len(lines) == 1 else (RECAP_MANY + " ".join(lines))
+    return {**question, "instructions": f"{head}\n{question['instructions']}"}
+
+
+def recap_all(questions: dict, rules) -> dict:
+    """recap() for every question of a request."""
+    return {k: recap(q, rules) for k, q in questions.items()}
 
 
 # The git questions, worded exactly as in training.

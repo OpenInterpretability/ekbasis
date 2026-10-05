@@ -120,8 +120,8 @@ pip install "git+https://github.com/OpenInterpretability/ekbasis"               
 EKBASIS_URL=http://127.0.0.1:8000 ekbasis git-check -- "git reset --hard"
 ```
 
-The client also ships a Claude Code hook (`ekbasis-claude-hook`: asks before git commands that may lose work) and an
-MCP server (`ekbasis-mcp`). Code, docs and the playbook: https://github.com/OpenInterpretability/ekbasis
+The client also ships a Claude Code hook (`ekbasis-claude-hook`: asks before git commands that may lose work, and when
+it cannot judge them) and an MCP server (`ekbasis-mcp`). Code, docs and the playbook: https://github.com/OpenInterpretability/ekbasis
 
 ## Builds
 
@@ -332,7 +332,9 @@ environment before relying on it.)
   (`simulate(observe=...)`; see Look when unsure above).
 - With written rules and time to think, a large reasoning model is more accurate; Ekbasis wins on cost, latency and
   calibrated confidence.
-- A safety net, not a security boundary: command obfuscation is out of scope. See SECURITY.md in the repository.
+- A warning layer that can be wrong, not a security boundary: use it with confirmations, backups and least privilege.
+  Command obfuscation is out of scope; since client 0.1.2 the guards fail closed ("cannot judge" is treated as risky).
+  See SECURITY.md in the repository.
 - Known weak spot: dropping a stash right after applying it is flagged as losing work (a false alarm).
 - Git cases it still gets wrong with client 0.1.1 (334 fresh sandbox scenarios, the truth from running git;
   [results](https://github.com/OpenInterpretability/ekbasis/blob/main/results/client_0.1.1/RESULTS.md)): an ignored

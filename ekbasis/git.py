@@ -24,7 +24,7 @@ import subprocess
 from dataclasses import dataclass, field
 
 from . import prompts as P
-from .client import Ekbasis
+from .client import CannotJudge, Ekbasis
 
 ENV = {"LC_ALL": "C", "GIT_TERMINAL_PROMPT": "0", "GIT_OPTIONAL_LOCKS": "0"}
 ST = {"M": "modified", "A": "added", "D": "deleted", "R": "renamed", "C": "copied", "T": "type changed",
@@ -390,14 +390,64 @@ class Verdict:
         return "\n".join(out)
 
 
+OTHER_REPO = {"-C", "--git-dir", "--work-tree"}
+
+
+def readable(repo: str) -> str | None:
+    """None if git can read a work tree at `repo`; else why not."""
+    if not os.path.isdir(repo):
+        return "the folder does not exist"
+    try:
+        p = subprocess.run(["git", "rev-parse", "--is-inside-work-tree"], cwd=repo, env=dict(os.environ, **ENV),
+                           capture_output=True, text=True, errors="replace", timeout=30)
+    except FileNotFoundError:
+        return "git is not installed"
+    except (subprocess.TimeoutExpired, OSError) as e:
+        return f"git did not answer ({e})"
+    if p.returncode != 0 or p.stdout.strip() != "true":
+        return (p.stderr.strip().splitlines() or ["not inside a git work tree"])[-1]
+    return None
+
+
+def other_repo(command: str) -> bool:
+    """Whether a git command points git at another repository (-C, --git-dir, --work-tree before the subcommand)."""
+    t = P.tokens(command)
+    if not t or os.path.basename(t[0]) != "git":
+        return False
+    for a in t[1:]:
+        if not a.startswith("-"):
+            return False
+        if a.split("=", 1)[0] in OTHER_REPO:
+            return True
+    return False
+
+
 def check(commands, repo: str = ".", client: Ekbasis | None = None, fetch: bool = False, lost_threshold: float = 0.2,
           fail_threshold: float = 0.5, commit_text: str = "hash", facts: bool = True, notes: bool = True,
-          notes_at: str | None = None) -> Verdict:
+          notes_at: str | None = None, fail_closed: bool = True) -> Verdict:
     """What these git commands will do, before they run: lost work, failures, unfinished merge/rebase, final branch.
-    facts / notes: see the module docstring (facts=False, notes=False reproduce client 0.1.0)."""
+    facts / notes: see the module docstring (facts=False, notes=False reproduce client 0.1.0).
+
+    Fails closed: if git cannot read a work tree at `repo`, if a command points git at another repository (-C,
+    --git-dir, --work-tree) or uses a git alias, or if the server cannot be reached or does not answer in time, it
+    raises CannotJudge,
+    which callers treat as risky. fail_closed=False checks such commands against `repo` as 0.1.1 did (server errors
+    still raise)."""
     commands = [c.strip() for c in commands]
     if not commands or any(not c for c in commands):
         raise ValueError("empty command: pass each command as one non-empty string")
+    if fail_closed:
+        why = readable(repo)
+        if why:
+            raise CannotJudge(f"cannot read a git repository at {repo!r}: {why}")
+        elsewhere = [c for c in commands if other_repo(c)]
+        if elsewhere:
+            raise CannotJudge("a command points git at another repository (-C, --git-dir or --work-tree): "
+                              + " ; ".join(elsewhere))
+        aliases = sorted({sub for sub, _ in map(P.parse_git, commands)
+                          if sub and _git(repo, "config", "--get", f"alias.{sub}")[0] == 0})
+        if aliases:
+            raise CannotJudge("a command uses a git alias the guard does not expand: " + ", ".join(aliases))
     client = client or Ekbasis()
     view = inspect(repo, commands, fetch=fetch, commit_text=commit_text, facts=facts)
     qs = {"lost": P.GIT_LOST, "in_progress": P.GIT_IN_PROGRESS}

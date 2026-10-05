@@ -21,7 +21,7 @@ import math
 from dataclasses import dataclass, field
 
 from .client import Ekbasis
-from .prompts import world_state
+from .prompts import recap_all, world_state
 
 # The defaults with `observe` (RELEASE_EVAL.md, "Predict, observe, correct"): every measured chain ended exact, with the
 # fewest steps wrong along the way.
@@ -107,7 +107,7 @@ def read_ordering(ans: dict, keys: list, where: dict | None = None) -> tuple[dic
 def simulate(client: Ekbasis, rules: str, state: dict, actions, questions: dict, render, read_once: bool = False,
              observe=None, look_below: float | None = None, look_step_below: float | None = None,
              look_every: int | None = None, checks: bool | None = None, ordering: list | None = None,
-             where: dict | None = None) -> Simulation:
+             where: dict | None = None, recap=None) -> Simulation:
     """state: {variable: value}. questions: {variable: typed question whose option labels are the variable's possible
     values} (ekbasis.prompts.choice / yes_no). render(state) -> the state as text, written the same way at every step.
     read_once=True reads each step's state once for all the questions (about half the tokens; on the models trained for
@@ -120,7 +120,8 @@ def simulate(client: Ekbasis, rules: str, state: dict, actions, questions: dict,
     from the real state. ordering: the variables that hold an ordering (each a different value of the same set), read
     jointly. where: for an ordering, {value: question} asking where each value is (the options: the ordering's
     variables), asked in the same request and read together with the direct answers; on card orderings this halved the
-    looks (RELEASE_EVAL.md, "Two views")."""
+    looks (RELEASE_EVAL.md, "Two views"). recap: repeat rules right before every question (prompts.recap): True for
+    all of `rules`, or the rule lines that decide the answers; None (the default) leaves the prompts as in 0.1.1."""
     if observe is not None and look_below is None and look_step_below is None and not look_every:
         look_below = LOOK_BELOW
     if checks is None:
@@ -132,6 +133,8 @@ def simulate(client: Ekbasis, rules: str, state: dict, actions, questions: dict,
     if where and (not ordering or set(wkeys.values()) & set(questions)):
         raise ValueError("where needs an ordering, and no variable named 'where <n>'")
     asked = {**questions, **{wkeys[x]: q for x, q in where.items()}} if where else questions
+    if recap is not None and recap is not False:
+        asked = recap_all(asked, rules if recap is True else recap)
     for t, a in enumerate(actions, 1):
         ans = client.ask(world_state(rules, render(cur), [a]), asked, read_once=read_once)
         nxt, step = {k: ans[k].value for k in keys}, math.prod(ans[k].confidence for k in keys)
@@ -160,3 +163,63 @@ def simulate(client: Ekbasis, rules: str, state: dict, actions, questions: dict,
         sim.steps.append({"action": a, "state": dict(cur), "confidence": step, "chain": chain, "looked": looked})
     sim.final = cur
     return sim
+
+
+# ---- compare in code: the model tracks a number, the client decides the comparison. Measured in the capability map
+# (accumulation): the running totals the model carried step by step were 98-100% right, while its own threshold
+# judgments near the limit failed (46% within 5% of the limit); comparing the carried total with the limit in code gave
+# 99.0% (pairs on both sides of the limit: 98.6%).
+COMPARE = {">=": lambda a, b: a >= b, ">": lambda a, b: a > b, "<=": lambda a, b: a <= b, "<": lambda a, b: a < b,
+           "==": lambda a, b: a == b, "!=": lambda a, b: a != b}
+
+
+def as_number(v) -> float:
+    """A number from an answer label ("12", "12.5", "1,200"); ValueError otherwise."""
+    try:
+        return float(str(v).replace(",", "").strip())
+    except ValueError:
+        raise ValueError(f"not a number: {v!r} (the quantity's question must have numeric options: prompts.number)") from None
+
+
+@dataclass
+class Threshold:
+    value: float                     # the quantity after the last action, as the model carried it
+    holds: bool                      # the comparison, decided in code (see `when`)
+    confidence: float                # the chain confidence since the last look (Simulation.confidence)
+    trace: list = field(default_factory=list)  # the quantity before the first action, then after each action
+    first: int | None = None         # the first point where the comparison held (0: before any action); None: never
+    simulation: Simulation | None = None
+
+
+def threshold(client: Ekbasis, rules: str, state: dict, actions, questions: dict, render, quantity: str, op: str,
+              limit: float, when: str = "end", **kw) -> Threshold:
+    """Follow a quantity step by step with `simulate` and decide `quantity <op> limit` in code, not in the model.
+
+    Use it when an effect depends on a running total crossing a limit: budgets and spending caps, timers and waits that
+    add up, quotas and rate limits, attempts before a lockout, points before a reward. Ask the model for the number
+    (questions[quantity], numeric options: prompts.number) and let this decide; asking the model "is the limit reached?"
+    is where it fails, most of all one or two units short of the limit.
+
+    state[quantity] is the value before the first action. when: "end" compares the value after the last action; "ever"
+    is true if the comparison held at any point (effects that trigger once and stay: a lockout, an alarm, a cap that
+    stops a service); "before_last" compares the value just before the last action (a rate limit deciding whether the
+    last request is accepted). Other keyword arguments go to `simulate` (observe, look_below, read_once, recap, ...)."""
+    if op not in COMPARE:
+        raise ValueError(f"op must be one of {', '.join(COMPARE)}")
+    if when not in ("end", "ever", "before_last"):
+        raise ValueError('when must be "end", "ever" or "before_last"')
+    if quantity not in questions or quantity not in state:
+        raise ValueError(f"{quantity!r} must be a variable of the state and have a question")
+    actions = list(actions)
+    sim = simulate(client, rules, state, actions, questions, render, **kw)
+    trace = [as_number(state[quantity])] + [as_number(s["state"][quantity]) for s in sim.steps]
+    cmp = COMPARE[op]
+    hits = [i for i, v in enumerate(trace) if cmp(v, float(limit))]
+    if when == "end":
+        holds = cmp(trace[-1], float(limit))
+    elif when == "ever":
+        holds = bool(hits)
+    else:
+        holds = cmp(trace[-2] if len(trace) > 1 else trace[-1], float(limit))
+    return Threshold(value=trace[-1], holds=holds, confidence=sim.confidence, trace=trace,
+                     first=hits[0] if hits else None, simulation=sim)

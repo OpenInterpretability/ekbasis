@@ -1,0 +1,336 @@
+{
+ "items": 2108,
+ "errors": 0,
+ "by_source": {
+  "habit": {
+   "none": {
+    "k": 962,
+    "n": 988,
+    "pct": 97.4,
+    "ci95": [
+     96.2,
+     98.2
+    ]
+   },
+   "relevant": {
+    "k": 974,
+    "n": 988,
+    "pct": 98.6,
+    "ci95": [
+     97.6,
+     99.2
+    ]
+   },
+   "all": {
+    "k": 975,
+    "n": 988,
+    "pct": 98.7,
+    "ci95": [
+     97.8,
+     99.2
+    ]
+   },
+   "relevant_fixed": 12,
+   "relevant_broke": 0,
+   "all_fixed": 13,
+   "all_broke": 0,
+   "by_cell": {
+    "cond | familiar | agrees": {
+     "none": "44/44",
+     "relevant": "44/44",
+     "all": "44/44"
+    },
+    "cond | familiar | contradicts": {
+     "none": "44/44",
+     "relevant": "44/44",
+     "all": "44/44"
+    },
+    "cond | invented | agrees": {
+     "none": "60/60",
+     "relevant": "60/60",
+     "all": "60/60"
+    },
+    "cond | invented | contradicts": {
+     "none": "59/60",
+     "relevant": "60/60",
+     "all": "60/60"
+    },
+    "delay | familiar | agrees": {
+     "none": "22/22",
+     "relevant": "22/22",
+     "all": "22/22"
+    },
+    "delay | familiar | contradicts": {
+     "none": "22/22",
+     "relevant": "22/22",
+     "all": "22/22"
+    },
+    "delay | invented | agrees": {
+     "none": "60/60",
+     "relevant": "60/60",
+     "all": "60/60"
+    },
+    "delay | invented | contradicts": {
+     "none": "56/60",
+     "relevant": "58/60",
+     "all": "59/60"
+    },
+    "direct | familiar | agrees": {
+     "none": "20/20",
+     "relevant": "20/20",
+     "all": "20/20"
+    },
+    "direct | familiar | contradicts": {
+     "none": "20/20",
+     "relevant": "20/20",
+     "all": "20/20"
+    },
+    "direct | invented | agrees": {
+     "none": "60/60",
+     "relevant": "60/60",
+     "all": "60/60"
+    },
+    "direct | invented | contradicts": {
+     "none": "60/60",
+     "relevant": "60/60",
+     "all": "60/60"
+    },
+    "irrev | familiar | agrees": {
+     "none": "12/12",
+     "relevant": "12/12",
+     "all": "12/12"
+    },
+    "irrev | familiar | contradicts": {
+     "none": "12/12",
+     "relevant": "12/12",
+     "all": "12/12"
+    },
+    "irrev | invented | agrees": {
+     "none": "60/60",
+     "relevant": "60/60",
+     "all": "60/60"
+    },
+    "irrev | invented | contradicts": {
+     "none": "48/60",
+     "relevant": "52/60",
+     "all": "52/60"
+    },
+    "prohibit | familiar | agrees": {
+     "none": "16/16",
+     "relevant": "16/16",
+     "all": "16/16"
+    },
+    "prohibit | familiar | contradicts": {
+     "none": "16/16",
+     "relevant": "16/16",
+     "all": "16/16"
+    },
+    "prohibit | invented | agrees": {
+     "none": "48/52",
+     "relevant": "48/52",
+     "all": "48/52"
+    },
+    "prohibit | invented | contradicts": {
+     "none": "49/52",
+     "relevant": "52/52",
+     "all": "52/52"
+    },
+    "side | familiar | agrees": {
+     "none": "28/28",
+     "relevant": "28/28",
+     "all": "28/28"
+    },
+    "side | familiar | contradicts": {
+     "none": "28/28",
+     "relevant": "28/28",
+     "all": "28/28"
+    },
+    "side | invented | agrees": {
+     "none": "60/60",
+     "relevant": "60/60",
+     "all": "60/60"
+    },
+    "side | invented | contradicts": {
+     "none": "58/60",
+     "relevant": "60/60",
+     "all": "60/60"
+    }
+   }
+  },
+  "rules": {
+   "none": {
+    "k": 971,
+    "n": 1120,
+    "pct": 86.7,
+    "ci95": [
+     84.6,
+     88.6
+    ]
+   },
+   "relevant": {
+    "k": 996,
+    "n": 1120,
+    "pct": 88.9,
+    "ci95": [
+     87.0,
+     90.6
+    ]
+   },
+   "all": {
+    "k": 991,
+    "n": 1120,
+    "pct": 88.5,
+    "ci95": [
+     86.5,
+     90.2
+    ]
+   },
+   "relevant_fixed": 51,
+   "relevant_broke": 26,
+   "all_fixed": 47,
+   "all_broke": 27,
+   "by_cell": {
+    "chain1 | invented | base": {
+     "none": "40/40",
+     "relevant": "40/40",
+     "all": "40/40"
+    },
+    "chain1 | invented | flip": {
+     "none": "40/40",
+     "relevant": "40/40",
+     "all": "40/40"
+    },
+    "chain2 | invented | base": {
+     "none": "39/40",
+     "relevant": "37/40",
+     "all": "39/40"
+    },
+    "chain2 | invented | flip": {
+     "none": "37/40",
+     "relevant": "37/40",
+     "all": "37/40"
+    },
+    "chain3 | invented | base": {
+     "none": "38/40",
+     "relevant": "38/40",
+     "all": "36/40"
+    },
+    "chain3 | invented | flip": {
+     "none": "38/40",
+     "relevant": "39/40",
+     "all": "39/40"
+    },
+    "chain4 | invented | base": {
+     "none": "34/40",
+     "relevant": "38/40",
+     "all": "35/40"
+    },
+    "chain4 | invented | flip": {
+     "none": "39/40",
+     "relevant": "39/40",
+     "all": "39/40"
+    },
+    "cond | invented | base": {
+     "none": "40/40",
+     "relevant": "40/40",
+     "all": "40/40"
+    },
+    "cond | invented | flip": {
+     "none": "40/40",
+     "relevant": "40/40",
+     "all": "40/40"
+    },
+    "delay | invented | base": {
+     "none": "26/40",
+     "relevant": "30/40",
+     "all": "28/40"
+    },
+    "delay | invented | flip": {
+     "none": "31/40",
+     "relevant": "34/40",
+     "all": "32/40"
+    },
+    "direct | invented | base": {
+     "none": "40/40",
+     "relevant": "40/40",
+     "all": "40/40"
+    },
+    "direct | invented | flip": {
+     "none": "40/40",
+     "relevant": "40/40",
+     "all": "40/40"
+    },
+    "irrev | invented | base": {
+     "none": "40/40",
+     "relevant": "40/40",
+     "all": "40/40"
+    },
+    "irrev | invented | flip": {
+     "none": "40/40",
+     "relevant": "40/40",
+     "all": "40/40"
+    },
+    "line1 | invented | base": {
+     "none": "28/40",
+     "relevant": "31/40",
+     "all": "31/40"
+    },
+    "line1 | invented | flip": {
+     "none": "35/40",
+     "relevant": "33/40",
+     "all": "34/40"
+    },
+    "line2 | invented | base": {
+     "none": "24/40",
+     "relevant": "30/40",
+     "all": "30/40"
+    },
+    "line2 | invented | flip": {
+     "none": "30/40",
+     "relevant": "32/40",
+     "all": "32/40"
+    },
+    "line3 | invented | base": {
+     "none": "19/40",
+     "relevant": "16/40",
+     "all": "17/40"
+    },
+    "line3 | invented | flip": {
+     "none": "28/40",
+     "relevant": "33/40",
+     "all": "33/40"
+    },
+    "line4 | invented | base": {
+     "none": "24/40",
+     "relevant": "25/40",
+     "all": "25/40"
+    },
+    "line4 | invented | flip": {
+     "none": "24/40",
+     "relevant": "24/40",
+     "all": "24/40"
+    },
+    "prohibit | invented | base": {
+     "none": "39/40",
+     "relevant": "40/40",
+     "all": "40/40"
+    },
+    "prohibit | invented | flip": {
+     "none": "38/40",
+     "relevant": "40/40",
+     "all": "40/40"
+    },
+    "side | invented | base": {
+     "none": "40/40",
+     "relevant": "40/40",
+     "all": "40/40"
+    },
+    "side | invented | flip": {
+     "none": "40/40",
+     "relevant": "40/40",
+     "all": "40/40"
+    }
+   }
+  }
+ }
+}
