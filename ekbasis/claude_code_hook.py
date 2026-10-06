@@ -13,15 +13,29 @@ answer; an exit code other than 2 does not block, so this hook always answers in
 
 Opt-in (a prototype): with EKBASIS_SHELL_GUARD=1, a Bash line that has no git command but can change files (rm, mv,
 cp, rsync, find, sed -i, tar, a `>` redirection, ...) goes to the shell guard (ekbasis.shell), with the same threshold,
-mode and fail-closed rule. Git lines are checked as before.
+mode and fail-closed rule.
+
+0.1.3 (from the real-terminal study, capability/real_terminal): less friction, same prompts where nothing changed.
+- Read-only git (status, log, diff, show, branch/tag/stash/worktree listings, ...) does not ask the model.
+- `cd DIR` anywhere in the line, `pushd`/`popd`, subshells `( ... )` and `git -C DIR` are followed instead of "cannot
+  judge"; a folder that an earlier `git worktree add` (or `git clone`, `mkdir`) of the same line creates is known to
+  hold no uncommitted work, so the worktree route (`git worktree add ../wt b && cd ../wt && git cherry-pick X`) passes.
+- With EKBASIS_SHELL_GUARD=1, the shell part of a line that also runs git (its other commands, and redirections of the
+  git commands) goes to the shell guard too.
+- No model call (and no ask) when nothing could be lost for good: a repository with no uncommitted work, or, for the
+  shell guard, when every path the line could change is committed in git or ignored and rebuildable (ekbasis.recover).
+  EKBASIS_SHORTCUTS=0 turns these code checks off (0.1.2's behaviour: the model is asked).
+- Lost committed work, a separate check done by code: branch deletion (-D), forced branch moves, `reset <commit>`,
+  tag deletion and the like that leave commits no branch, tag, remote-tracking branch or stash holds (git.committed_loss).
 
 Install (after `pip install ./ekbasis`), in .claude/settings.json (one project) or ~/.claude/settings.json (all):
   {"hooks": {"PreToolUse": [{"matcher": "Bash",
                              "hooks": [{"type": "command", "command": "ekbasis-claude-hook", "timeout": 30}]}]}}
 env: EKBASIS_URL (server), EKBASIS_LOST_THRESHOLD (0.2), EKBASIS_GUARD_MODE (ask | deny), EKBASIS_FETCH (1: git fetch
 first so the state shows the real remote; slower), EKBASIS_SHELL_GUARD (1: also check other lines that change files),
-EKBASIS_FAIL_OPEN (1: stay silent when it cannot judge), EKBASIS_HOOK_DEADLINE (seconds, default 25: keep it below the
-hook's "timeout", or Claude Code stops the hook first and the command goes through unchecked).
+EKBASIS_FAIL_OPEN (1: stay silent when it cannot judge), EKBASIS_HOOK_DEADLINE (seconds, default 25, for the whole
+line: keep it below the hook's "timeout", or Claude Code stops the hook first and the command goes through unchecked),
+EKBASIS_SHORTCUTS (0: always ask the model, as 0.1.2 did).
 """
 from __future__ import annotations
 
@@ -31,8 +45,12 @@ import re
 import shlex
 import sys
 import threading
+import time
+from dataclasses import dataclass, field
 
 from . import git as G
+from . import prompts as P
+from . import recover as R
 from . import shell as S
 from .client import CannotJudge, Ekbasis
 
@@ -42,6 +60,9 @@ CHANGES_FILES = re.compile(r"(^|[\s;&|(])(rm|rmdir|unlink|mv|cp|rsync|shred|trun
 GIT_WORD = re.compile(r"(^|[\s;&|(`'\"/])git(\s|$)")
 GIT_ENV = re.compile(r"^GIT_(DIR|WORK_TREE|INDEX_FILE|OBJECT_DIRECTORY|COMMON_DIR|NAMESPACE)=")
 STRUCTURE = {S.P_SUBSHELL, S.P_GROUP, S.P_PROCSUB, S.P_QUOTE, S.P_HEREDOC_OPEN}
+STRUCTURE_013 = STRUCTURE - {S.P_SUBSHELL}   # 0.1.3 follows subshells
+CLONE_VALUE = ("-b", "--branch", "-o", "--origin", "--depth", "--reference", "-c", "--config", "-u", "--upload-pack",
+               "--separate-git-dir", "--template", "-j", "--jobs", "--filter", "--shallow-since", "--shallow-exclude")
 
 
 def git_commands(command: str) -> tuple[str | None, list[str]]:
@@ -85,6 +106,200 @@ def read_line(command: str) -> tuple[str | None, list[str], list[str]]:
 def changes_files(command: str) -> bool:
     """Whether a line has a command that can change files (redirections to /dev/null do not count)."""
     return bool(CHANGES_FILES.search(QUIET_REDIRECT.sub(" ", command)))
+
+
+@dataclass
+class Plan:
+    steps: list = field(default_factory=list)   # git commands: {"repo", "cmd" (without -C), "fresh"}
+    shell_line: str = ""                        # the line for the shell guard: git commands replaced by `true`
+    why: list = field(default_factory=list)     # why the line cannot be judged
+
+
+def _safe_branch_delete(command: str) -> bool:
+    """git branch -d (without -D or force): git itself refuses to delete a branch that is not merged."""
+    sub, args = P.parse_git(command)
+    sf = P.short_flags(args)
+    return sub == "branch" and ("d" in sf or "--delete" in args) and not (sf & {"D", "f"} or "--force" in args)
+
+
+def _scoped(toks):
+    """Simple commands and subshell marks from S.lex(line, parens=True): [("cmd", Simple) | ("(",) | (")",)]."""
+    items, words, redirs, joined = [], [], [], ""
+    i = 0
+    while i < len(toks):
+        t = toks[i]
+        if isinstance(t, tuple):
+            _, op, fd = t
+            if op in ("(", ")") or op in S.CONTROL:
+                if words or redirs:
+                    items.append(("cmd", S.Simple(words, redirs, joined)))
+                    words, redirs = [], []
+                if op in ("(", ")"):
+                    items.append((op,))
+                    joined = ""
+                else:
+                    joined = op
+            else:
+                target = toks[i + 1] if i + 1 < len(toks) and isinstance(toks[i + 1], S.Word) else None
+                redirs.append(S.Redirect(op, fd, target))
+                if target is not None:
+                    i += 1
+        else:
+            words.append(t)
+        i += 1
+    if words or redirs:
+        items.append(("cmd", S.Simple(words, redirs, joined)))
+    return items
+
+
+def _without(line: str, simples) -> str:
+    """The line with each of these simple commands' words replaced by `true` (their redirections stay)."""
+    edits = []
+    for sc in simples:
+        ws = [w for w in sc.words if w.start >= 0]
+        if not ws:
+            continue
+        edits.append((ws[0].start, ws[0].end, "true"))
+        edits += [(w.start, w.end, "") for w in ws[1:]]
+    for a, b, rep in sorted(edits, reverse=True):
+        line = line[:a] + rep + line[b:]
+    return line
+
+
+def plan_line(command: str, cwd: str) -> Plan:
+    """0.1.3: the git commands of a line with the folder each runs in (following cd, pushd/popd, subshells and git -C),
+    the folders the line itself creates (git worktree add, git clone, mkdir), the line for the shell guard, and why
+    the line cannot be judged (structure the hook does not follow, variables in git commands, git in a nested shell,
+    git through xargs unless it only lists or safely deletes, a folder it cannot tell)."""
+    toks, problems = S.lex(command, parens=True)
+    items = _scoped(toks)
+    gitlike = bool(GIT_WORD.search(command))
+    plan = Plan()
+    depth, balanced = 0, True
+    for it in items:
+        depth += {"(": 1, ")": -1}.get(it[0], 0)
+        balanced = balanced and depth >= 0
+    balanced = balanced and depth == 0
+    cur, scopes, dirstack, fresh, replaced = os.path.normpath(cwd), [], [], {}, []
+
+    def at(base, target):
+        return os.path.normpath(os.path.join(base, os.path.expanduser(target)))
+
+    def fresh_of(path):
+        p = path
+        while True:
+            if p in fresh:
+                return fresh[p]
+            parent = os.path.dirname(p)
+            if parent == p:
+                return None
+            p = parent
+
+    for it in items:
+        if it[0] == "(":
+            scopes.append((cur, list(dirstack)))
+            continue
+        if it[0] == ")":
+            if scopes:
+                cur, dirstack = scopes.pop()
+            continue
+        sc = it[1]
+        name, k0, _ = S.command_name(list(sc.words))
+        args = sc.words[k0 + 1:]
+        if name in ("cd", "pushd"):
+            targets = [w for w in args if not (w.text.startswith("-") and w.text != "-")]
+            if any(w.dynamic for w in args) or len(targets) > 1 or (targets and targets[0].text == "-"):
+                if gitlike:
+                    plan.why.append("the line changes folder in a way the hook does not follow")
+                cur = None
+            elif cur is not None:
+                new = at(cur, targets[0].text if targets else "~")
+                if name == "pushd":
+                    dirstack.append(cur)
+                cur = new if (os.path.isdir(new) or fresh_of(new)) else None
+            continue
+        if name == "popd":
+            cur = dirstack.pop() if dirstack else None
+            continue
+        if name in S.NESTED and gitlike and (name in ("eval", "source", ".") or any(w.text == "-c" for w in args)):
+            plan.why.append("git may run inside a nested shell or eval")
+        if name == "mkdir" and cur is not None:
+            for w in args:
+                if not w.text.startswith("-") and not w.dynamic:
+                    fresh.setdefault(at(cur, w.text), {"kind": "dir"})
+        if name == "xargs" and any(w.text == "git" for w in args):
+            j = next(i for i, w in enumerate(args) if w.text == "git")
+            inner = shlex.join([w.text for w in args[j:]])
+            if any(w.dynamic for w in args[j:]) or not (G.read_only(inner) or _safe_branch_delete(inner)):
+                plan.why.append("git runs through xargs")
+            else:
+                replaced.append(sc)  # it only lists or safely deletes branches: nothing for the shell guard
+            continue
+        if name != "git":
+            continue
+        replaced.append(sc)
+        if any(GIT_ENV.match(w.text) for w in sc.words[:k0]):
+            plan.why.append("a GIT_DIR-like variable points git elsewhere")
+        if any(w.dynamic and not (i > 0 and args[i - 1].text in S.MESSAGE_OPTS) for i, w in enumerate(args)):
+            plan.why.append("a git command has a variable or substitution the hook does not evaluate")
+        texts = [w.text for w in args]
+        repo, i, keep = cur, 0, []
+        while i < len(texts) and texts[i].startswith("-"):
+            o = texts[i]
+            if o == "-C" and i + 1 < len(texts):
+                repo = at(repo, texts[i + 1]) if repo is not None else None
+                i += 2
+            elif o.split("=", 1)[0] in ("--git-dir", "--work-tree"):
+                plan.why.append("git is pointed at another repository with --git-dir or --work-tree")
+                i += 1 if "=" in o else 2
+            elif o in ("-c", "--namespace") and i + 1 < len(texts):
+                keep += texts[i:i + 2]
+                i += 2
+            else:
+                keep.append(o)
+                i += 1
+        cmd = shlex.join(["git"] + keep + texts[i:])
+        if repo is None:
+            plan.why.append("git runs in a folder the hook cannot tell (after a cd it could not follow)")
+            continue
+        fr = fresh_of(repo)
+        if not os.path.isdir(repo) and not fr:
+            plan.why.append(f"git runs in a folder that does not exist: {repo}")
+            continue
+        plan.steps.append({"repo": repo, "cmd": cmd, "fresh": fr})
+        sub, sargs = P.parse_git(cmd)
+        if sub == "worktree" and sargs[:1] == ["add"]:
+            rest = sargs[1:]
+            pos = P._positional(rest, ("-b", "-B", "--reason"))
+            if pos:
+                path = at(repo, pos[0])
+                b = G._value(rest, "-B") or G._value(rest, "-b")
+                base = fr["base"] if fr and fr.get("kind") == "worktree" else repo
+                detach = "--detach" in rest or "-d" in rest
+                if b:
+                    head = ("branch", "refs/heads/" + b)
+                elif len(pos) > 1 and not detach and os.path.isdir(base) and \
+                        G._git(base, "rev-parse", "--verify", "--quiet", "refs/heads/" + pos[1])[0] == 0:
+                    head = ("branch", "refs/heads/" + pos[1])
+                elif len(pos) > 1:
+                    head = ("rev", pos[1])
+                elif detach:
+                    head = ("rev", "HEAD")
+                else:
+                    head = ("branch", "refs/heads/" + os.path.basename(path))
+                fresh[path] = {"kind": "worktree", "base": base, "head": head}
+        elif sub == "clone":
+            pos = P._positional(sargs, CLONE_VALUE)
+            if pos:
+                dest = pos[1] if len(pos) > 1 else re.sub(r"\.git$", "", os.path.basename(pos[0].rstrip("/")))
+                fresh[at(repo, dest)] = {"kind": "clone"}
+    if plan.steps or gitlike:
+        plan.why += [p for p in problems if p in STRUCTURE_013]
+        if not balanced:
+            plan.why.append("unbalanced parentheses")
+    plan.shell_line = _without(command, replaced) if replaced else command
+    plan.why = list(dict.fromkeys(plan.why))
+    return plan
 
 
 def _decide(reason: str) -> None:
@@ -133,33 +348,57 @@ def main() -> int:
         cwd = data.get("cwd") or os.getcwd()
         threshold = float(os.environ.get("EKBASIS_LOST_THRESHOLD", "0.2"))
         deadline = float(os.environ.get("EKBASIS_HOOK_DEADLINE", "25"))
+        shortcuts = os.environ.get("EKBASIS_SHORTCUTS", "1") != "0"
+        t0 = time.monotonic()
+
+        def left() -> float:
+            r = deadline - (time.monotonic() - t0)
+            if r <= 0:
+                raise CannotJudge(f"the check did not finish within {deadline:g} s")
+            return r
+
         client = Ekbasis(timeout=deadline)
-        where, cmds, why = read_line(line)
-        if why:
-            return _cannot_judge("; ".join(why))
-        if not cmds:
-            if os.environ.get("EKBASIS_SHELL_GUARD") != "1" or not changes_files(line):
-                return 0
-            v = _with_deadline(lambda: S.check([line], cwd=cwd, client=client, lost_threshold=threshold), deadline)
+        plan = plan_line(line, cwd)
+        if plan.why:
+            return _cannot_judge("; ".join(plan.why))
+        found = []
+        for loss in G.committed_loss(plan.steps) if plan.steps else []:
+            found.append(f"Ekbasis (committed work, checked by code): this line {G.describe_loss(loss)}. Keep a branch "
+                         "or tag on those commits first if you need them.")
+        groups: dict = {}
+        for st in plan.steps:
+            groups.setdefault((st["repo"], st["fresh"] is not None), []).append(st["cmd"])
+        for (repo, is_fresh), cmds in groups.items():
+            if is_fresh:
+                continue  # created earlier in this line: nothing uncommitted there yet
+            if shortcuts and all(G.read_only(c) or R.clean_recoverable(repo, c) for c in cmds):
+                continue  # only reads, or a git clean that removes only rebuildable ignored files
+            problem = G.readable(repo)
+            if problem:
+                if "not a git repository" in problem.lower():
+                    continue  # outside a repository the git commands fail or create one: nothing uncommitted to lose
+                return _cannot_judge(f"cannot read a git repository at {repo}: {problem}")
+            if shortcuts and R.no_uncommitted_work(repo):
+                continue
+            v = _with_deadline(lambda: G.check(cmds, repo=repo, client=client,
+                                               fetch=os.environ.get("EKBASIS_FETCH") == "1",
+                                               lost_threshold=threshold), left())
+            if v.risky:
+                found.append(f"Ekbasis: {'; '.join(v.reasons)}. Commands: {' ; '.join(cmds)}. "
+                             "Consider saving the work first (commit, or git stash -u).")
+        if os.environ.get("EKBASIS_SHELL_GUARD") == "1" and plan.shell_line.strip() and changes_files(plan.shell_line):
+            skip = (lambda view: R.touched_recoverable(view, cwd)) if shortcuts else None
+            v = _with_deadline(lambda: S.check([plan.shell_line], cwd=cwd, client=client, lost_threshold=threshold,
+                                               skip=skip), left())
             if v.risky:
                 what = "could not judge every part of the line" if not v.lost_risky else "; ".join(v.reasons)
-                _decide(f"Ekbasis (shell guard): {what}. Line: {line}. Consider keeping a copy of the files first.")
-            return 0
-        repo = os.path.normpath(os.path.join(cwd, os.path.expanduser(where))) if where else cwd
-        problem = G.readable(repo)
-        if problem:
-            if "not a git repository" in problem.lower() and not any(G.other_repo(c) for c in cmds):
-                return 0  # outside a repository the git commands fail or create one: nothing uncommitted to lose
-            return _cannot_judge(f"cannot read a git repository at {repo}: {problem}")
-        v = _with_deadline(lambda: G.check(cmds, repo=repo, client=client, fetch=os.environ.get("EKBASIS_FETCH") == "1",
-                                           lost_threshold=threshold), deadline)
+                found.append(f"Ekbasis (shell guard): {what}. Line: {line}. Consider keeping a copy of the files first.")
     except CannotJudge as e:
         return _cannot_judge(str(e))
     except Exception as e:  # noqa: BLE001  (anything else: cannot judge)
         return _cannot_judge(f"{type(e).__name__}: {e}")
-    if v.risky:
-        _decide(f"Ekbasis: {'; '.join(v.reasons)}. Commands: {' ; '.join(cmds)}. "
-                "Consider saving the work first (commit, or git stash -u).")
+    if found:
+        _decide(" Also: ".join(found))
     return 0
 
 

@@ -271,8 +271,41 @@ environment before relying on it.)
 
   Environment: `EKBASIS_URL`, `EKBASIS_LOST_THRESHOLD` (0.2), `EKBASIS_GUARD_MODE` (`ask` or `deny`),
   `EKBASIS_FETCH=1` (fetch first so the state shows the real remote), `EKBASIS_FAIL_OPEN=1` (stay silent when it cannot
-  judge), `EKBASIS_HOOK_DEADLINE` (seconds, default 25; keep it below the hook's `timeout`, or Claude Code stops the
-  hook first and the command goes through unchecked), `EKBASIS_SHELL_GUARD=1` (below).
+  judge), `EKBASIS_HOOK_DEADLINE` (seconds, default 25, for the whole line; keep it below the hook's `timeout`, or
+  Claude Code stops the hook first and the command goes through unchecked), `EKBASIS_SHELL_GUARD=1` (below),
+  `EKBASIS_SHORTCUTS=0` (always ask the model, as 0.1.2 did).
+
+  **Less friction (0.1.3, from a study of a Claude Code agent on real repositories).**
+  - Read-only git (`status`, `log`, `diff`, `show`, listings of branches, tags, stashes and worktrees, `clean -n`)
+    does not ask the model.
+  - `cd DIR` anywhere in the line, `pushd`/`popd`, subshells and `git -C DIR` are followed instead of "cannot judge".
+    A folder that an earlier `git worktree add` (or `git clone`, `mkdir`) in the same line creates holds no
+    uncommitted work. So the safe route for a backport (`git worktree add ../wt release && cd ../wt && git cherry-pick
+    X`) passes, while the main repository's `git worktree add` is still judged.
+  - With `EKBASIS_SHELL_GUARD=1`, the shell part of a line that also runs git goes to the shell guard too. Each git
+    command is replaced by `true`, and its redirections are kept.
+  - **No model call and no ask when nothing could be lost for good**, checked by code
+    (`ekbasis.recover`):
+    - a repository with no uncommitted work: every work tree holds only clean tracked files and ignored, rebuildable
+      ones, the stash is empty, and nothing is under way;
+    - a `git clean -X` whose dry run removes only rebuildable paths;
+    - a shell line where every path it could change is committed in git, or is ignored and rebuildable by name (build
+      outputs, caches, `node_modules`, `__pycache__`; not `.env`, virtual environments or editor settings). Test,
+      build and lint runners (`go test`, `python -m pytest`, `npm test`, `gofmt -l`) count as reads there. A line
+      that runs `xargs` never skips.
+  - **Lost committed work, checked by code and reported apart** from the model's question about uncommitted work:
+    `git branch -D` (or `-d -f`, `-r -D`), forced branch moves and renames (`branch -f`, `-M`, `-C`, `checkout -B`,
+    `switch -C`, `worktree add -B`), `git reset --hard/--keep/--merge <commit>` on the checked-out branch, and tag
+    deletion or moves. The hook asks when they would leave commits that no branch, tag, remote-tracking branch or stash
+    entry holds.
+
+  **Measured on fresh Claude Code sessions** on real repositories
+  ([results/client_0.1.3](results/client_0.1.3/RESULTS.md)):
+  - With Sonnet 5.5: 2.9 asks per 100 commands, against 10.7 for 0.1.2 on the same commands. The median added per
+    command was 0.08 s.
+  - With Haiku 4.5, on tasks with a tempting destructive shortcut: 7 of 7 real losses caught, as with 0.1.2.
+
+  The fixes were designed on an earlier study's calls; these sessions are new.
 
 - **Shell guard (prototype, 0.1.2)** — `ekbasis shell-check -- "rm -r build/"` (or `ekbasis.shell.check`) asks
   whether shell command lines lose file content or fail, from a listing of the paths they could touch: names, types,
@@ -284,8 +317,8 @@ environment before relying on it.)
   (`>` emptying a file it also reads, `;` after a failed `cd`, rsync's trailing slash, `cp -r SRC/.`, a link with a
   trailing slash, xargs and spaces, `tar -x`, commands that refuse and change nothing, `rm -f`, `cp -u`). Same exit
   codes and the same fail-closed rule as `git-check`; a line with variables in its paths, subshells or nested shells is
-  "cannot judge". In the Claude Code hook it is opt-in (`EKBASIS_SHELL_GUARD=1`) for lines with no git command that can
-  change files. Measured on 292 fresh scenarios of 46 command forms it was not designed on (bash on Linux, the truth
+  "cannot judge". In the Claude Code hook it is opt-in (`EKBASIS_SHELL_GUARD=1`) for lines that can change files
+  (since 0.1.3 also the shell part of lines with git). Measured on 292 fresh scenarios of 46 command forms it was not designed on (bash on Linux, the truth
   from running them): content lost right 91.4%, 93.2% of the losses flagged with 11.9% false alarms, failures right
   96.2%, against 54.8% for a list of destructive commands (82.0% flagged, 67.9% false alarms). What it misses: see
   Limits.
@@ -345,9 +378,17 @@ the answers the actions change (never-trained worlds: 710 instead of 1,442 promp
     predicted to fail when they work; `git worktree add` of a branch checked out elsewhere, `git stash pop` onto a
     re-created untracked file, `git reset --keep`/`--merge <commit>` stopped by a local change, and a `git pull`
     stopped by local changes are predicted to work.
-- **Committed work is out of scope.** The guard asks whether uncommitted work is lost. Commands that drop commits
-  (`git branch -D` of unmerged work, `git push --force`, `git reset --hard origin/main` over local commits) are not
-  what it checks: 2 of 27 such scenarios were flagged with client 0.1.0, 4 of 21 with 0.1.1.
+- **Committed work: checked by code since 0.1.3, partly.** The model asks whether uncommitted work is lost (with
+  0.1.0 and 0.1.1 it flagged 2 of 27 and 4 of 21 scenarios that drop commits). Since 0.1.3 the hook simulates the refs
+  for branch and tag deletion, forced branch moves and `git reset --hard <commit>`.
+  - Not covered: `git push --force` (the remote's state is not read) and a `rebase` that drops commits.
+  - Branch names passed through `xargs` are "cannot judge".
+- **The 0.1.3 shortcuts trust folder names and git.**
+  - "Rebuildable" is decided by folder name, so irreplaceable data inside an ignored `build/`, `dist/`,
+    `node_modules/` or cache folder is not protected.
+  - Content counts as recoverable when git holds it in the last commit.
+  - A command that could also touch `.git` never skips.
+  - `EKBASIS_SHORTCUTS=0` turns the shortcuts off.
 - **The shell guard is a prototype** ([results/client_0.1.2](results/client_0.1.2/RESULTS.md)). On 292 fresh scenarios (46 command forms it was not designed on) it missed 9 of
   133 content losses, all copies or moves into a folder that replace a same-named file there (`cp -a SRC DEST` when
   DEST/SRC holds one, `cp -t DIR f`, `mv -t DIR a b`), and raised 19 false alarms in 159 safe cases, mostly where the

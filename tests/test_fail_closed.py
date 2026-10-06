@@ -190,6 +190,11 @@ class TestHook(unittest.TestCase):
         os.makedirs(box)
         self.assertIsNone(self.run_hook('rm -rf "$DIR"/*', cwd=box))  # not opted in
         self.assertEqual(self.run_hook('rm -rf "$DIR"/*', cwd=box, env={"EKBASIS_SHELL_GUARD": "1"}), "ask")
+        # 0.1.3: nothing there to lose, so no model call and no ask
+        self.assertIsNone(self.run_hook("rm -rf build", cwd=box, env={"EKBASIS_SHELL_GUARD": "1"}))
+        os.makedirs(os.path.join(box, "build"))
+        with open(os.path.join(box, "build", "out.txt"), "w") as f:
+            f.write("x\n")
         self.assertEqual(self.run_hook("rm -rf build", cwd=box, env={"EKBASIS_SHELL_GUARD": "1"}), "ask")  # server down
 
 

@@ -70,6 +70,31 @@ unchecked). In Claude Code a hook's exit code other than 2 does not block; the h
 Opting out is explicit: `--fail-open` on the command line, `fail_closed=False` in Python, `EKBASIS_FAIL_OPEN=1` for the
 hook. Outside a git repository the git hook stays silent (git commands there fail or create a repository).
 
+## Fewer asks (0.1.3): what the hook now decides by code
+
+To cut the friction found in a study of a Claude Code agent on real repositories, the 0.1.3 hook no longer asks the
+model, or you, in cases where code can show that nothing could be lost for good:
+
+- **Read-only git commands.**
+- **Commands in a folder created earlier in the same line** (`git worktree add`, `git clone`, `mkdir`).
+- **A repository with no uncommitted work:** only clean tracked files and ignored files with rebuildable names, an
+  empty stash, and nothing under way.
+- **A `git clean -X` whose dry run removes only rebuildable paths.**
+- **A shell line whose changes all land on committed or rebuildable files.**
+
+Two trust assumptions follow:
+
+- **Folder names.** "Rebuildable" is decided by folder name (`build/`, `dist/`, `node_modules/`, `__pycache__/`,
+  caches, ...): irreplaceable data inside an ignored folder with such a name is not protected.
+- **Git history.** Committed content counts as recoverable. A line that could touch `.git` or a whole work tree
+  never skips.
+
+`EKBASIS_SHORTCUTS=0` restores 0.1.2's behaviour, where the model is asked.
+
+The hook now follows `cd` anywhere in a line, `pushd`/`popd`, subshells and `git -C`, so those are no longer "cannot
+judge". `GIT_DIR=`, `--git-dir`/`--work-tree`, a `cd` to a folder the hook cannot tell, nested shells and git through
+`xargs` still are; the exception is `xargs git branch -d` or a read-only git command, whose effect cannot lose work.
+
 ## The shell guard prototype and privacy
 
 The shell guard (0.1.2, a prototype, `EKBASIS_SHELL_GUARD=1` in the hook) never puts file contents in the prompt: each
@@ -82,7 +107,8 @@ Measured on 292 fresh scenarios: no line of any file's content reached a prompt.
 
 ## Known gaps
 
-- **Command parsing**: the hook reads `&&`, `||`, `;`, `|`, quotes, here-documents and a leading `cd`. Since 0.1.2,
+- **Command parsing**: the hook reads `&&`, `||`, `;`, `|`, quotes, here-documents, `cd` (anywhere since 0.1.3),
+  `pushd`/`popd`, subshells and `git -C`. Since 0.1.2,
   `bash -c`, `eval`, aliases, subshells, variables in a git command and lines it cannot follow are "cannot judge" (a
   confirmation) instead of passing unchecked; a script or program that does the damage itself (`python x.py`,
   `make clean`, an npm script) is not seen.
@@ -94,9 +120,15 @@ Measured on 292 fresh scenarios: no line of any file's content reached a prompt.
   checkout, merge or `reset --hard <ref>` whose target tracks that path (6 of 6), and ignored files deleted by
   `git sparse-checkout set` (2 of 2). Run `git status --ignored` before switching to such a branch, and
   `git clean -n` with the same flags before a clean.
-- **Committed work**: the guard checks uncommitted work only; commands that drop commits (`git branch -D` of unmerged
-  work, `git push --force`, `git reset --hard origin/main` over local commits) are outside its question (4 of 21 such
-  scenarios flagged with 0.1.1).
+- **Committed work**: the model checks uncommitted work only (4 of 21 commit-dropping scenarios flagged with 0.1.1).
+  Since 0.1.3 the hook checks, by code:
+  - branch and tag deletion;
+  - forced branch moves;
+  - `git reset --hard/--keep/--merge <commit>` on the checked-out branch.
+
+  It asks when commits would be left with no branch, tag, remote-tracking branch or stash entry holding them. Still
+  outside: `git push --force` (the remote is not read), a `rebase` that drops commits, and branch names that reach git
+  through `xargs`, which are "cannot judge".
 
 ## Recommended stack
 

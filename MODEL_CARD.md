@@ -121,7 +121,11 @@ EKBASIS_URL=http://127.0.0.1:8000 ekbasis git-check -- "git reset --hard"
 ```
 
 The client also ships a Claude Code hook (`ekbasis-claude-hook`: asks before git commands that may lose work, and when
-it cannot judge them) and an MCP server (`ekbasis-mcp`). Code, docs and the playbook: https://github.com/OpenInterpretability/ekbasis
+it cannot judge them) and an MCP server (`ekbasis-mcp`). Since client 0.1.3 the hook asks only when something could
+be lost for good. In fresh Claude Code sessions on real repositories that meant 2.9 asks per 100 commands, against
+10.7 for 0.1.2 on the same commands, with every real loss still caught
+([results](https://github.com/OpenInterpretability/ekbasis/blob/main/results/client_0.1.3/RESULTS.md)).
+Code, docs and the playbook: https://github.com/OpenInterpretability/ekbasis
 
 ## Builds
 
@@ -334,6 +338,9 @@ environment before relying on it.)
   calibrated confidence.
 - A warning layer that can be wrong, not a security boundary: use it with confirmations, backups and least privilege.
   Command obfuscation is out of scope; since client 0.1.2 the guards fail closed ("cannot judge" is treated as risky).
+  Since 0.1.3 the hook skips the model when code shows nothing could be lost for good. "Rebuildable" is decided by
+  folder name, so irreplaceable data inside an ignored `build/`, `dist/`, `node_modules/` or cache folder is not
+  protected.
   See SECURITY.md in the repository.
 - Known weak spot: dropping a stash right after applying it is flagged as losing work (a false alarm).
 - Git cases it still gets wrong with client 0.1.1 (334 fresh sandbox scenarios, the truth from running git;
@@ -345,8 +352,10 @@ environment before relying on it.)
   commands after the commit has run); `git rm` on a changed file gets "fails" and also 96% "loses work" (read "loses
   work" as "if it succeeded"). Client 0.1.0 also missed ignored files deleted by `git clean -x` (0.2%): 0.1.1 shows
   ignored files when a command could touch them.
-- The guard checks uncommitted work only: commands that drop commits (`git branch -D`, `git push --force`,
-  `git reset --hard origin/main` over local commits) are outside its question.
+- The model's question is uncommitted work. Since client 0.1.3 the hook also checks, by code and apart from the model,
+  commands that would leave commits no branch, tag or remote holds: branch and tag deletion (`git branch -D`), forced
+  branch moves, and `git reset --hard <commit>`. `git push --force`, a rebase that drops commits and branch names passed
+  through `xargs` are still not covered.
 - Between 70% and 99% confidence it is overconfident (on short checks: 96.9% said, 91.4% right in the 90–99% band):
   treat that band as "check".
 

@@ -1,5 +1,59 @@
 # Changelog
 
+## 0.1.3 (2026-10-06)
+
+Less friction in the Claude Code hook, from a study of Claude Code agents on real repositories
+([results/client_0.1.3](results/client_0.1.3/RESULTS.md)). Same model, server, questions and thresholds. Where the
+same guard is asked about the same commands, the request is byte-identical to 0.1.2's, on macOS and on Linux. The one
+exception is Linux, where the shell rules now say "GNU coreutils 9.4" where 0.1.2 printed "9.4".
+
+- **Read-only git does not ask the model**: `status`, `log`, `diff`, `show`, listings of branches, tags, stashes and
+  worktrees, `config --get`, `clean -n`, and more (`git.read_only`).
+- **Lines are followed instead of "cannot judge"**: `cd DIR` anywhere in the line, `pushd`/`popd`, subshells and
+  `git -C DIR`. A folder that an earlier `git worktree add`, `git clone` or `mkdir` in the same line creates holds no
+  uncommitted work, so the safe worktree route passes. `xargs git branch -d` and read-only git through xargs are
+  allowed.
+- **The shell part of git lines** goes to the shell guard (with `EKBASIS_SHELL_GUARD=1`). Each git command is replaced
+  by `true`, and its redirections are kept.
+- **No model call when nothing could be lost for good** (`ekbasis.recover`), checked by code:
+  - a repository with no uncommitted work;
+  - a `git clean -X` whose dry run removes only rebuildable paths;
+  - a shell line that changes only committed files, or ignored files with rebuildable names. Test and build runners
+    count as reads.
+
+  "Rebuildable" is decided by folder name, so irreplaceable data inside an ignored `build/`, `dist/`,
+  `node_modules/` or cache folder is not protected. `EKBASIS_SHORTCUTS=0` turns these checks off.
+- **Lost committed work, checked by code and reported apart** (`git.committed_loss`): branch and tag deletion, forced
+  branch moves, and `git reset --hard/--keep/--merge <commit>`, when commits would be left with no branch, tag,
+  remote-tracking branch or stash entry. Not covered: `git push --force`, a rebase that drops commits, branch names
+  passed through `xargs`.
+- **Fix**: on Linux the shell rules said "9.4" instead of "GNU coreutils 9.4". The version cache now keeps the raw
+  output.
+- **API**:
+  - `shell.lex(line, parens=False)`;
+  - `shell.Word.start`/`end`;
+  - `shell.check(..., skip=None)`;
+  - `claude_code_hook.plan_line`.
+
+  `read_line` is kept as it was.
+- **Measured on fresh agent sessions** (pre-registered).
+  - Claude Code agents did 12 tasks on clones of more-itertools, spf13/pflag and chalk, with the hook (H) and without
+    it (C).
+  - The published 0.1.2 hook was run offline on the same calls.
+
+  | | 0.1.2 | 0.1.3 |
+  |---|---|---|
+  | Sonnet 5.5: asks per 100 Bash calls with the hook | 10.7 (11/103 on the same calls; 10.6 in the first study) | **2.9** (3/103) |
+  | asks on calls that lose nothing, per 100 calls (H and C) | 4.4 (9/204) | **1.0** (2/204) |
+  | asks where git or a rebuild gives it back, per 100 calls | 6.9 (14/204) | **1.5** (3/204) |
+  | median time the hook adds per call (idle server) | 0.74 s | **0.08 s** |
+  | tasks done, with the hook / without | 34/36 / 35/36 (first study) | 35/36 / 36/36 |
+  | Haiku 4.5, 4 tasks with a tempting destructive shortcut: real losses caught | 7/7 | **7/7** |
+  | user's planted work kept, with the hook / without | 9/9 / 5/9 (first study) | 9/9 / 7/9 |
+
+  The fixes were designed on the first study's calls, so an offline replay of those calls is in-sample: asks went from
+  13.2 to 5.3 per 100. The sessions above are new.
+
 ## 0.1.2 (2026-10-05)
 
 Three additions measured in the capability map, a shell guard prototype, and guards that fail closed. Same model and

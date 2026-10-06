@@ -28,6 +28,7 @@ import tarfile
 import time
 import zipfile
 from dataclasses import dataclass, field
+from types import SimpleNamespace
 
 from . import prompts as P
 from .client import CannotJudge, Ekbasis
@@ -125,6 +126,8 @@ class Word:
     glob: bool = False        # an unquoted *, ? or [
     quoted: bool = False      # some part was quoted or escaped
     dynamic: bool = False     # a $ or ` the shell would expand (the guard does not)
+    start: int = -1           # where it is in the line (0.1.3; -1 for a here-document delimiter)
+    end: int = -1
 
 
 @dataclass
@@ -176,16 +179,19 @@ def _skip_bodies(line: str, i: int, pending: list) -> tuple[int, bool]:
     return i, closed
 
 
-def lex(line: str):
+def lex(line: str, parens: bool = False):
     """The words and operators of a command line, quotes removed: (tokens, problems). A token is a Word or a tuple
-    ("op", operator, fd). Here-document bodies are the command's input, not commands: they are skipped."""
+    ("op", operator, fd). Here-document bodies are the command's input, not commands: they are skipped.
+    parens=True (0.1.3) also gives each ( and ) as an ("op", "(" or ")", "") token, so a caller can follow subshells;
+    the problem is recorded either way."""
     toks, problems, pending = [], [], []
-    cur = {"text": [], "raw": [], "glob": False, "quoted": False, "dynamic": False, "in": False}
+    cur = {"text": [], "raw": [], "glob": False, "quoted": False, "dynamic": False, "in": False, "start": -1}
 
     def flush():
         if cur["in"]:
-            toks.append(Word("".join(cur["text"]), "".join(cur["raw"]), cur["glob"], cur["quoted"], cur["dynamic"]))
-        cur.update(text=[], raw=[], glob=False, quoted=False, dynamic=False)
+            toks.append(Word("".join(cur["text"]), "".join(cur["raw"]), cur["glob"], cur["quoted"], cur["dynamic"],
+                             cur["start"], i))
+        cur.update(text=[], raw=[], glob=False, quoted=False, dynamic=False, start=-1)
         cur["in"] = False
 
     def problem(p):
@@ -193,6 +199,8 @@ def lex(line: str):
             problems.append(p)
 
     def put(t, r):
+        if not cur["in"]:
+            cur["start"] = i
         cur["text"].append(t)
         cur["raw"].append(r)
         cur["in"] = True
@@ -253,6 +261,8 @@ def lex(line: str):
         if ch in "()":
             problem(P_SUBSHELL)
             flush()
+            if parens:
+                toks.append(("op", ch, ""))
             i += 1
             continue
         if ch == "{":
@@ -268,7 +278,7 @@ def lex(line: str):
             fd = ""
             if op in REDIRECT and cur["in"] and not cur["quoted"] and "".join(cur["raw"]).isdigit():
                 fd = "".join(cur["text"])
-                cur.update(text=[], raw=[], glob=False, quoted=False, dynamic=False)
+                cur.update(text=[], raw=[], glob=False, quoted=False, dynamic=False, start=-1)
                 cur["in"] = False
             else:
                 flush()
@@ -723,15 +733,17 @@ _VERSIONS: dict = {}
 
 
 def _version(cmd: list, pattern: str, fmt: str) -> str | None:
+    """A tool's version, formatted with fmt. The cache keeps each command's raw output (0.1.3): 0.1.2 cached the
+    formatted text by command line only, so the first format read won ("9.4" where the rules say "GNU coreutils 9.4")."""
     k = " ".join(cmd)
     if k not in _VERSIONS:
         try:
-            out = subprocess.run(cmd, capture_output=True, text=True, timeout=5).stdout
-            m = re.search(pattern, out)
-            _VERSIONS[k] = fmt.format(m.group(1)) if m else None
+            _VERSIONS[k] = subprocess.run(cmd, capture_output=True, text=True, timeout=5).stdout
         except (OSError, subprocess.SubprocessError):
             _VERSIONS[k] = None
-    return _VERSIONS[k]
+    out = _VERSIONS[k]
+    m = re.search(pattern, out) if out else None
+    return fmt.format(m.group(1)) if m else None
 
 
 def platform_text(shell: str) -> str:
@@ -1271,7 +1283,7 @@ class ShellVerdict:
 
 def check(commands, cwd: str = ".", client: Ekbasis | None = None, lost_threshold: float = 0.2,
           fail_threshold: float = 0.5, notes: bool = True, shell: str | None = None, salt=None,
-          where: str | None = None, fail_closed: bool = True) -> ShellVerdict:
+          where: str | None = None, fail_closed: bool = True, skip=None) -> ShellVerdict:
     """What these shell command lines will do to the files of `cwd`, before they run: content lost for good, failures.
     Each element of `commands` is one line as you would type it (it may join commands with ;, &&, || or |); a single
     string is one line. notes=False leaves the shell rules out (to measure them). shell: "bash" or "zsh" (default: from
@@ -1280,7 +1292,10 @@ def check(commands, cwd: str = ".", client: Ekbasis | None = None, lost_threshol
 
     Fails closed: a folder that cannot be read, or a server that cannot be reached or does not answer in time, raises
     CannotJudge; a line with parts the guard cannot evaluate (unread) gives a risky verdict with cannot_judge=True.
-    fail_closed=False reports those parts without making the verdict risky (server errors still raise)."""
+    fail_closed=False reports those parts without making the verdict risky (server errors still raise).
+    skip (0.1.3): a function of the parsed lines (an object with .parsed and .info["shell"], as a ShellView has),
+    called before the folder scan; when it returns a reason, the model is not asked and the verdict is not risky (the
+    hook passes recover.touched_recoverable: everything the lines could change is in git or rebuildable)."""
     commands = [c.strip() for c in ([commands] if isinstance(commands, str) else list(commands))]
     if not commands or any(not c for c in commands):
         raise ValueError("empty command: pass each command line as one non-empty string")
@@ -1289,6 +1304,10 @@ def check(commands, cwd: str = ".", client: Ekbasis | None = None, lost_threshol
     if not os.access(cwd, os.R_OK | os.X_OK):
         raise CannotJudge(f"cannot read the folder {cwd!r}: permission denied")
     client = client or Ekbasis()
+    if skip is not None:  # before the folder scan: the skip needs only the parsed lines
+        why_skip = skip(SimpleNamespace(parsed=[parse(c) for c in commands], info={"shell": shell or default_shell()}))
+        if why_skip:
+            return ShellVerdict(commands=commands, p_lost=0.0, p_fail=[0.0] * len(commands), reasons=[why_skip])
     view = inspect(commands, cwd, shell=shell, salt=salt, where=where)
     prompt = shell_prompt(view, notes=notes)
     qs = {"lost": SHELL_LOST}

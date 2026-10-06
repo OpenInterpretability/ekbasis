@@ -464,3 +464,342 @@ def check(commands, repo: str = ".", client: Ekbasis | None = None, fetch: bool 
         v.reasons.append(f"may permanently lose uncommitted work ({100 * v.p_lost:.0f}%)")
     v.reasons += [f"command {k} likely fails: {c}" for k, (c, p) in enumerate(zip(commands, v.p_fail), 1) if p >= fail_threshold]
     return v
+
+
+# ---------------------------------------------------------------- 0.1.3: read-only commands, lost committed work
+
+READ_ONLY_SUBS = {"status", "blame", "annotate", "ls-files", "ls-tree", "ls-remote", "cat-file", "rev-parse",
+                  "rev-list", "describe", "name-rev", "merge-base", "for-each-ref", "show-ref", "show-branch",
+                  "count-objects", "check-ignore", "check-attr", "check-ref-format", "check-mailmap", "var", "version",
+                  "help", "cherry", "verify-commit", "verify-tag", "fsck", "get-tar-commit-id"}
+OUTPUT_SUBS = {"log", "show", "diff", "diff-tree", "diff-index", "diff-files", "range-diff", "whatchanged", "shortlog"}
+BRANCH_LIST = {"--list", "--all", "--remotes", "--verbose", "--merged", "--no-merged", "--contains", "--no-contains",
+               "--points-at", "--show-current", "--format", "--sort", "--column", "--no-column", "--color",
+               "--no-color", "--abbrev", "--no-abbrev", "--ignore-case", "--omit-empty"}
+BRANCH_CHANGE = {"--delete", "--move", "--copy", "--force", "--set-upstream-to", "--unset-upstream", "--edit-description",
+                 "--track", "--no-track", "--create-reflog", "--recurse-submodules"}
+TAG_LIST = {"--list", "--contains", "--no-contains", "--points-at", "--merged", "--no-merged", "--sort", "--format",
+            "--column", "--no-column", "--color", "--ignore-case", "--omit-empty"}
+TAG_CHANGE = {"--delete", "--force", "--annotate", "--sign", "--local-user", "--message", "--file", "--edit",
+              "--create-reflog", "--cleanup", "--trailer"}
+
+
+def _long(args) -> set:
+    return {a.split("=", 1)[0] for a in args if a.startswith("--")}
+
+
+def read_only(command: str) -> bool:
+    """Whether a git command only reads (0.1.3: the hook does not ask the model about these). Listing forms of branch,
+    tag, stash, worktree, remote, config and reflog count; anything that writes a file (`--output`) or a ref does not."""
+    sub, args = P.parse_git(command)
+    if sub is None:
+        return P.tokens(command)[:1] == ["git"] or os.path.basename((P.tokens(command) or [""])[0]) == "git"
+    longs, shorts = _long(args), P.short_flags(args)
+    first = next((a for a in args if not a.startswith("-")), None)
+    if sub in READ_ONLY_SUBS:
+        return True
+    if sub in OUTPUT_SUBS:
+        return "--output" not in longs
+    if sub == "grep":
+        return "O" not in shorts and "--open-files-in-pager" not in longs
+    if sub == "reflog":
+        return first in (None, "show", "exists")
+    if sub == "config":
+        return bool(longs & {"--get", "--get-all", "--get-regexp", "--get-urlmatch", "--list", "--get-color",
+                             "--get-colorbool"}) or "l" in shorts or first in ("get", "list")
+    if sub == "branch":
+        if shorts & set("dDmMcCfu") or longs & BRANCH_CHANGE:
+            return False
+        listing = bool(shorts & set("larv") or longs & BRANCH_LIST)
+        return listing or not P._positional(args)
+    if sub == "tag":
+        if shorts & set("dfasumFe") or longs & TAG_CHANGE:
+            return False
+        listing = bool("l" in shorts or "n" in shorts or longs & TAG_LIST)
+        return listing or not P._positional(args)
+    if sub in ("stash", "notes"):
+        return first in ("list", "show")
+    if sub == "worktree":
+        return first == "list"
+    if sub == "remote":
+        return first in (None, "show", "get-url")
+    if sub == "submodule":
+        return first in ("status", "summary")
+    if sub == "bisect":
+        return first in ("log", "visualize", "view")
+    if sub == "clean":
+        return "n" in shorts or "--dry-run" in longs
+    return False
+
+
+REF_SUBS = {"branch", "checkout", "switch", "reset", "tag", "update-ref", "worktree"}
+
+
+def _value(args, *names):
+    """The value of the first of these options (`-b x`, `-bx`, `--orphan=x`, `--orphan x`), or None."""
+    for i, a in enumerate(args):
+        for n in names:
+            if a == n:
+                return args[i + 1] if i + 1 < len(args) else None
+            if n.startswith("--") and a.startswith(n + "="):
+                return a.split("=", 1)[1]
+            if not n.startswith("--") and a.startswith(n) and len(a) > len(n) and not a.startswith("--"):
+                return a[len(n):]
+    return None
+
+
+def _after(args, value, skip=()):
+    """Positional arguments after the option value `value` (and not the values of the options in `skip`)."""
+    out, seen, nxt = [], value is None, False
+    for a in args:
+        if nxt:
+            nxt = False
+            continue
+        if a == "--":
+            break
+        if a in skip:
+            nxt = True
+            continue
+        if not seen:
+            if a == value or a.endswith(value or "\0"):
+                seen = True
+            continue
+        if not a.startswith("-"):
+            out.append(a)
+    return out
+
+
+def committed_loss(steps) -> list:
+    """Commits that a line's git commands would make unreachable from every branch, tag, remote-tracking branch and
+    stash entry: lost committed work (0.1.3), kept apart from the model's question about uncommitted work. Computed by
+    simulating the refs: branch deletion (-D, -d -f, -r), forced branch moves and renames (-f, -M, -C, checkout -B,
+    switch -C, worktree add -B), `git reset --hard/--keep/--merge <commit>` on the checked-out branch (--soft and
+    --mixed keep the changes in the work tree), tag deletion and moves, update-ref.
+    Rewrites that keep the changes (rebase, commit --amend, cherry-pick), stash commands (the model's question) and
+    remote updates (push) are not counted.
+
+    steps: [{"repo": folder the command runs in, "cmd": the git command without -C, "fresh": None or
+    {"kind": "worktree", "base": repo that created it, "head": ("branch", ref) | ("rev", rev)} for a worktree an
+    earlier command of the same line creates}]. Returns [{"repo", "commits", "refs": [{"ref", "commits", "deleted"}]}]."""
+    groups: dict = {}
+    for st in steps:
+        fr = st.get("fresh")
+        if fr and fr.get("kind") != "worktree":
+            continue
+        base = fr["base"] if fr else st["repo"]
+        if not os.path.isdir(base):
+            continue
+        rc, common = _git(base, "rev-parse", "--path-format=absolute", "--git-common-dir")
+        if rc != 0 or not common.strip():
+            continue
+        groups.setdefault(common.strip(), {"base": base, "steps": []})["steps"].append(st)
+    out = []
+    for g in groups.values():
+        if any(P.parse_git(st["cmd"])[0] in REF_SUBS for st in g["steps"]):
+            out += _simulate_refs(g["base"], g["steps"])
+    return out
+
+
+def _simulate_refs(base: str, steps) -> list:
+    rc, txt = _git(base, "for-each-ref", "--format=%(refname) %(objecttype) %(objectname) %(*objectname)")
+    refs = {}
+    for line in txt.splitlines():
+        parts = line.split()
+        if len(parts) >= 3 and parts[0] != "refs/stash":
+            if parts[1] == "commit":
+                refs[parts[0]] = parts[2]
+            elif parts[1] == "tag" and len(parts) == 4:
+                refs[parts[0]] = parts[3]
+    stash = _git(base, "log", "-g", "--format=%H", "refs/stash")[1].split()
+    orig = dict(refs)
+    heads: dict = {}   # work tree -> ("branch", ref) | ("detached", commit), as the line changes them
+    rc, wl = _git(base, "worktree", "list", "--porcelain")
+    for block in wl.split("\n\n"):
+        kv = dict(l.split(" ", 1) for l in block.splitlines() if " " in l)
+        if "worktree" in kv and "bare" not in block.split():
+            heads[os.path.realpath(kv["worktree"])] = (("branch", kv["branch"]) if "branch" in kv
+                                                       else ("detached", kv.get("HEAD", "")))
+    tops: dict = {}
+
+    def key(st):
+        if st.get("fresh"):
+            return ("fresh", os.path.normpath(st["repo"]))
+        if st["repo"] not in tops:
+            rc2, top = _git(st["repo"], "rev-parse", "--show-toplevel")
+            tops[st["repo"]] = os.path.realpath(top.strip() if rc2 == 0 and top.strip() else st["repo"])
+        return tops[st["repo"]]
+
+    def checked_out(other_than=None):
+        return {h[1] for kk, h in heads.items() if h[0] == "branch" and kk != other_than}
+
+    def head_of(st):
+        k = key(st)
+        if k not in heads:
+            fr = st.get("fresh")
+            if fr:
+                h = fr.get("head") or ("rev", "HEAD")
+                heads[k] = ("branch", h[1]) if h[0] == "branch" else ("detached", resolve(h[1], None))
+            else:
+                rc2, sym = _git(st["repo"], "symbolic-ref", "-q", "HEAD")
+                heads[k] = (("branch", sym.strip()) if rc2 == 0 and sym.strip()
+                            else ("detached", _git(st["repo"], "rev-parse", "HEAD")[1].strip()))
+        return heads[k]
+
+    def resolve(rev, st):
+        if not rev:
+            return None
+        m = re.match(r"^(HEAD|@)(?![A-Za-z0-9_/{-])(.*)$", rev)
+        if m and st is not None:
+            h = head_of(st)
+            cur = refs.get(h[1]) if h[0] == "branch" else h[1]
+            if not cur:
+                return None
+            rev = cur + m.group(2)
+        where = st["repo"] if st is not None and not st.get("fresh") and os.path.isdir(st["repo"]) else base
+        rc2, sha = _git(where, "rev-parse", "--verify", "--quiet", rev + "^{commit}")
+        return sha.strip() if rc2 == 0 and sha.strip() else None
+
+    for st in steps:
+        sub, args = P.parse_git(st["cmd"])
+        if sub not in REF_SUBS:
+            continue
+        sf, longs = P.short_flags(args), _long(args)
+        k = key(st)
+        if sub == "branch":
+            pos = P._positional(args, ("-u", "--set-upstream-to", "--contains", "--no-contains", "--points-at",
+                                       "--format", "--sort"))
+            force = "f" in sf or "--force" in longs
+            space = "refs/remotes/" if ("r" in sf or "--remotes" in longs) else "refs/heads/"
+            if "D" in sf or (("d" in sf or "--delete" in longs) and force):
+                for n in pos:
+                    refs.pop(space + n, None)
+            elif sf & {"M", "C"} or ((sf & {"m", "c"} or longs & {"--move", "--copy"}) and force):
+                h = head_of(st)
+                cur = h[1][len("refs/heads/"):] if h[0] == "branch" else None
+                old, new = (cur, pos[0]) if len(pos) == 1 else ((pos[0], pos[1]) if len(pos) >= 2 else (None, None))
+                if old and new and "refs/heads/" + old in refs:
+                    refs["refs/heads/" + new] = refs["refs/heads/" + old]
+                    if sf & {"M", "m"} or "--move" in longs:
+                        refs.pop("refs/heads/" + old)
+                        for kk, hv in list(heads.items()):
+                            if hv == ("branch", "refs/heads/" + old):
+                                heads[kk] = ("branch", "refs/heads/" + new)
+            elif force and pos and not sf & set("dDmMcC"):
+                ref = "refs/heads/" + pos[0]
+                head_of(st)
+                if ref not in checked_out():
+                    sha = resolve(pos[1] if len(pos) > 1 else "HEAD", st)
+                    if sha:
+                        refs[ref] = sha
+        elif sub in ("checkout", "switch"):
+            if sub == "checkout":
+                fname, cname = _value(args, "-B"), _value(args, "-b")
+            else:
+                fname, cname = _value(args, "-C", "--force-create"), _value(args, "-c", "--create")
+            orphan = _value(args, "--orphan")
+            name = fname or cname
+            if name:
+                rest = _after(args, name, skip=("--conflict",))
+                ref = "refs/heads/" + name
+                if fname or ref not in refs:
+                    sha = resolve(rest[0] if rest else "HEAD", st)
+                    if sha and not (fname and ref in checked_out(other_than=k)):
+                        refs[ref] = sha
+                heads[k] = ("branch", ref)
+            elif orphan:
+                heads[k] = ("branch", "refs/heads/" + orphan)
+            else:
+                pos = P._positional(args, ("--conflict", "--pathspec-from-file"))
+                if len(pos) == 1 and "--" not in args:
+                    if "refs/heads/" + pos[0] in refs and "--detach" not in longs:
+                        heads[k] = ("branch", "refs/heads/" + pos[0])
+                    else:
+                        sha = resolve(pos[0], st)
+                        if sha:
+                            heads[k] = ("detached", sha)
+                elif not pos and "--detach" in longs:
+                    heads[k] = ("detached", resolve("HEAD", st))
+        elif sub == "reset":
+            if not longs & {"--hard", "--keep", "--merge"}:
+                continue  # --soft and --mixed (the default) keep the dropped commits' changes in the work tree
+            if "--" in args:
+                i = args.index("--")
+                before, paths = P._positional(args[:i], ("--pathspec-from-file",)), list(args[i + 1:])
+            else:
+                before, paths = P._positional(args, ("--pathspec-from-file",)), []
+            commit = None
+            if before:
+                commit = resolve(before[0], st)
+                paths += before[1:] if commit else before
+            if paths or "--pathspec-from-file" in longs or not commit:
+                continue
+            h = head_of(st)
+            if h[0] == "branch":
+                refs[h[1]] = commit
+            else:
+                heads[k] = ("detached", commit)
+        elif sub == "tag":
+            pos = P._positional(args, ("-m", "-F", "-u", "--message", "--file", "--local-user", "--contains",
+                                       "--points-at", "--sort", "--format", "--cleanup"))
+            if "d" in sf or "--delete" in longs:
+                for n in pos:
+                    refs.pop("refs/tags/" + n, None)
+            elif ("f" in sf or "--force" in longs) and pos:
+                sha = resolve(pos[1] if len(pos) > 1 else "HEAD", st)
+                if sha:
+                    refs["refs/tags/" + pos[0]] = sha
+        elif sub == "update-ref":
+            pos = P._positional(args, ("-m",))
+            full = lambda r: r if r.startswith("refs/") else "refs/heads/" + r  # noqa: E731
+            if "-d" in args and pos:
+                refs.pop(full(pos[0]), None)
+            elif len(pos) >= 2 and "--stdin" not in longs:
+                sha = resolve(pos[1], st)
+                if sha:
+                    refs[full(pos[0])] = sha
+        elif sub == "worktree" and args and args[0] == "add":
+            rest = args[1:]
+            fname, cname = _value(rest, "-B"), _value(rest, "-b")
+            pos = P._positional(rest, ("-b", "-B", "--reason"))
+            if fname or cname:
+                ref = "refs/heads/" + (fname or cname)
+                if fname or ref not in refs:
+                    sha = resolve(pos[1] if len(pos) > 1 else "HEAD", st)
+                    if sha and not (fname and ref in checked_out()):
+                        refs[ref] = sha
+            elif len(pos) == 1 and "--detach" not in longs and "-d" not in args:
+                ref = "refs/heads/" + os.path.basename(os.path.normpath(pos[0]))
+                if ref not in refs:
+                    sha = resolve("HEAD", st)
+                    if sha:
+                        refs[ref] = sha
+
+    old_tips, new_tips = set(orig.values()) | set(stash), set(refs.values()) | set(stash)
+    gone = sorted(old_tips - new_tips)
+    if not gone:
+        return []
+    keep = ["--not", *sorted(new_tips)] if new_tips else []
+    rc, lost = _git(base, "rev-list", *gone, *keep)
+    lost = lost.split()
+    if not lost:
+        return []
+    details = []
+    for ref, sha in sorted(orig.items()):
+        if refs.get(ref) != sha:
+            n = len(_git(base, "rev-list", sha, *keep)[1].split())
+            if n:
+                details.append({"ref": ref, "commits": n, "deleted": ref not in refs})
+    return [{"repo": base, "commits": len(lost), "refs": details}]
+
+
+def describe_loss(loss: dict) -> str:
+    """'deletes branch wip/help-text (1 commit that no other branch, tag or remote holds)'."""
+    parts = []
+    for d in loss["refs"]:
+        kind, name = ("branch", d["ref"][len("refs/heads/"):]) if d["ref"].startswith("refs/heads/") else \
+            (("remote-tracking branch", d["ref"][len("refs/remotes/"):]) if d["ref"].startswith("refs/remotes/") else
+             (("tag", d["ref"][len("refs/tags/"):]) if d["ref"].startswith("refs/tags/") else ("ref", d["ref"])))
+        verb = "deletes" if d["deleted"] else "moves"
+        parts.append(f"{verb} {kind} {name} ({_plural(d['commits'], 'commit')} that no other branch, tag or remote "
+                     "holds)")
+    return "; ".join(parts) or f"leaves {_plural(loss['commits'], 'commit')} unreachable"

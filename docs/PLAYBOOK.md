@@ -24,6 +24,11 @@ uncommitted work come to you with the probability and the reason; everything els
 real-repository scenarios: all 3 that would have destroyed work were flagged at the 0.2 threshold, with 1 false alarm
 among the other 13 ([RELEASE_EVAL.md](../RELEASE_EVAL.md)).
 
+Since client 0.1.3 the hook asks only when something could be lost for good. In fresh Claude Code sessions on real
+repositories it asked 2.9 times per 100 commands (0.1.2: 10.7 on the same commands) and added a median of 0.08 s per
+command, and it still caught 7 of 7 real losses from a less careful agent
+([results/client_0.1.3](../results/client_0.1.3/RESULTS.md)).
+
 ### 2. Pre-flight before anything irreversible
 
 Before rewriting history, bulk resets or cleaning, ask first:

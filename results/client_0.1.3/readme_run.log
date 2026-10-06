@@ -1,0 +1,16 @@
+PASS   pip install the client (candidate folder)
+PASS   version is 0.1.3  [0.1.3]
+PASS   ekbasis health  [{"ok": true, "model": "/dev/shm/conseq/merged_w4a5", "version": "1.3"}]
+PASS   ekbasis git-check -- "git checkout -- app.py" is RISKY (exit 2)  [Ekbasis: RISKY  (lose uncommitted work: 99%)]
+PASS   README Python block runs  [False 0.002182716503739357 [0.0001795279822545126, 0.0006263342220336199, 0.0018102109897881746] Ekbasis: ok  (lose uncommitted work: 0%) |     0% fails  git stash |     0% fails  git checkout feature |     0% fails  git stash pop |   ends on branch feature (100%) | 2 0.9994083642959595 | {'a': '0',]
+PASS   README Look-when-unsure block runs  [{'p1': 'K', 'p2': '7', 'p3': 'Q'} [] []]
+PASS   ekbasis predict --recap  [{"answer": true, "confidence": 0.9909, "probabilities": {"yes": 0.9909, "no": 0.0091}}]
+PASS   client.ask(..., read_once=True)  [True False]
+PASS   hook asks before `git reset --hard` with a changed file  [ask]
+PASS   hook stays silent on `ls -la && git status`  [None]
+PASS   hook lets the worktree route through (0.1.3)  [None]
+PASS   hook (EKBASIS_SHELL_GUARD=1) asks before deleting an untracked file  [ask]
+PASS   ekbasis shell-check -- "rm -r build/" answers  [Ekbasis: RISKY  (lose file content: 99%)]
+PASS   pip install the [mcp] extra
+PASS   ekbasis-mcp lists its tools and answers check_git_commands  [{"tools": ["check_git_commands", "predict_consequences"], "text": "{\n  \"risky\": true,\n  \"reasons\": [\n    \"may permanently lose uncommitted work (99%)\"\n  ],\n  \"p_lost\": 0.9903,\n  \"p_fail\": [\n    0.0006\n  ],\n  \"p_in_progress\": 0.0,\n  \"branch\": [\n    \"main\",\n    0.99987"}]
+{"steps": 15, "failed": 0, "target": "candidate folder", "server": "http://127.0.0.1:18642"}
