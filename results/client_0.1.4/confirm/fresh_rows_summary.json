@@ -1,0 +1,85 @@
+{
+ "dev_rows_hashed": {
+  "apps": 1776,
+  "languages_formats": 3503,
+  "rules_stress": 9075,
+  "habit_vs_rule": 2880,
+  "sql_wild": 1026,
+  "shell_wild": 1854,
+  "accumulation": 1365,
+  "web": 8282,
+  "git_wild": 1625,
+  "planning_probe": 75990,
+  "wsp_dataset": 29029
+ },
+ "dev_prompt_hashes": 106405,
+ "dev_evidence_hashes": 31169,
+ "runner_rows": {
+  "rules_stress/results.jsonl": {
+   "rows": 7725,
+   "set_aside": 0
+  },
+  "rules_stress/results_addendum.jsonl": {
+   "rows": 1350,
+   "set_aside": 0
+  },
+  "sql_wild/results.jsonl": {
+   "rows": 900,
+   "set_aside": 0
+  },
+  "shell_wild/results.jsonl": {
+   "rows": 816,
+   "set_aside": 0
+  },
+  "git_wild/results.jsonl": {
+   "rows": 1014,
+   "set_aside": 0
+  },
+  "accumulation/results.jsonl": {
+   "rows": 3628,
+   "set_aside": 0
+  }
+ },
+ "per_suite": {
+  "accumulation": {
+   "built": 1814,
+   "kept": 1736,
+   "kept_confident": 1411,
+   "kept_confident_errors": 157,
+   "dev_overlap": 61,
+   "fresh_duplicate": 17
+  },
+  "git_wild": {
+   "built": 3250,
+   "kept": 3250,
+   "kept_confident": 3022,
+   "kept_confident_errors": 260
+  },
+  "planning_probe": {
+   "built": 9168,
+   "kept": 8898,
+   "kept_confident": 8409,
+   "kept_confident_errors": 232,
+   "dev_overlap": 210,
+   "fresh_duplicate": 60
+  },
+  "rules_stress": {
+   "built": 9075,
+   "kept": 9075,
+   "kept_confident": 8620,
+   "kept_confident_errors": 227
+  },
+  "shell_wild": {
+   "built": 3708,
+   "kept": 3708,
+   "kept_confident": 3623,
+   "kept_confident_errors": 307
+  },
+  "sql_wild": {
+   "built": 2056,
+   "kept": 2056,
+   "kept_confident": 1966,
+   "kept_confident_errors": 273
+  }
+ }
+}

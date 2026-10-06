@@ -1,0 +1,320 @@
+{
+ "sets": [
+  "ce"
+ ],
+ "eval_rows": {
+  "ce|ce_H": 2472,
+  "ce|ce_T": 7172,
+  "ce|ce_U": 5364
+ },
+ "distinct_evidences": 14960,
+ "training": {
+  "ftrain": {
+   "rows": 68322,
+   "with_struct": 0,
+   "near_candidates": 55702,
+   "candidate_best_jaccard": {
+    "n": 55702,
+    "max": 0.9651,
+    "p99": 0.7935,
+    "median": 0.4674,
+    "n_at_least_0.4": 37254
+   }
+  },
+  "ftrain2": {
+   "rows": 113820,
+   "with_struct": 0,
+   "near_candidates": 55795,
+   "candidate_best_jaccard": {
+    "n": 55795,
+    "max": 0.9651,
+    "p99": 0.7935,
+    "median": 0.4675,
+    "n_at_least_0.4": 37347
+   }
+  },
+  "ftrain3": {
+   "rows": 78322,
+   "with_struct": 0,
+   "near_candidates": 55750,
+   "candidate_best_jaccard": {
+    "n": 55750,
+    "max": 0.9651,
+    "p99": 0.7935,
+    "median": 0.4674,
+    "n_at_least_0.4": 37302
+   }
+  },
+  "ftrain4": {
+   "rows": 78322,
+   "with_struct": 0,
+   "near_candidates": 55752,
+   "candidate_best_jaccard": {
+    "n": 55752,
+    "max": 0.9651,
+    "p99": 0.7935,
+    "median": 0.4674,
+    "n_at_least_0.4": 37304
+   }
+  },
+  "ftrain5": {
+   "rows": 92322,
+   "with_struct": 0,
+   "near_candidates": 55783,
+   "candidate_best_jaccard": {
+    "n": 55783,
+    "max": 0.9651,
+    "p99": 0.7935,
+    "median": 0.4675,
+    "n_at_least_0.4": 37335
+   }
+  },
+  "ftrain_all": {
+   "rows": 140612,
+   "with_struct": 0,
+   "near_candidates": 55544,
+   "candidate_best_jaccard": {
+    "n": 55544,
+    "max": 0.9647,
+    "p99": 0.7978,
+    "median": 0.4677,
+    "n_at_least_0.4": 37340
+   }
+  },
+  "ftrain_cb": {
+   "rows": 68107,
+   "with_struct": 0,
+   "near_candidates": 55399,
+   "candidate_best_jaccard": {
+    "n": 55399,
+    "max": 0.9647,
+    "p99": 0.7935,
+    "median": 0.4673,
+    "n_at_least_0.4": 37195
+   }
+  },
+  "ftrain_cb3": {
+   "rows": 78109,
+   "with_struct": 0,
+   "near_candidates": 55432,
+   "candidate_best_jaccard": {
+    "n": 55432,
+    "max": 0.9647,
+    "p99": 0.7935,
+    "median": 0.4673,
+    "n_at_least_0.4": 37228
+   }
+  },
+  "ftrain_cb3b": {
+   "rows": 92110,
+   "with_struct": 0,
+   "near_candidates": 55487,
+   "candidate_best_jaccard": {
+    "n": 55487,
+    "max": 0.9647,
+    "p99": 0.7935,
+    "median": 0.4674,
+    "n_at_least_0.4": 37283
+   }
+  },
+  "ftrain_gitR": {
+   "rows": 38450,
+   "with_struct": 0,
+   "near_candidates": 0,
+   "candidate_best_jaccard": {
+    "n": 0,
+    "max": null,
+    "p99": null,
+    "median": null,
+    "n_at_least_0.4": 0
+   }
+  },
+  "ftrain_m3only": {
+   "rows": 24003,
+   "with_struct": 0,
+   "near_candidates": 0,
+   "candidate_best_jaccard": {
+    "n": 0,
+    "max": null,
+    "p99": null,
+    "median": null,
+    "n_at_least_0.4": 0
+   }
+  },
+  "ftrain_mix": {
+   "rows": 92110,
+   "with_struct": 0,
+   "near_candidates": 55480,
+   "candidate_best_jaccard": {
+    "n": 55480,
+    "max": 0.9647,
+    "p99": 0.7935,
+    "median": 0.4674,
+    "n_at_least_0.4": 37276
+   }
+  },
+  "ftrain_mixG": {
+   "rows": 118218,
+   "with_struct": 0,
+   "near_candidates": 55546,
+   "candidate_best_jaccard": {
+    "n": 55546,
+    "max": 0.9647,
+    "p99": 0.7957,
+    "median": 0.4677,
+    "n_at_least_0.4": 37342
+   }
+  },
+  "ftrain_mixG2": {
+   "rows": 149591,
+   "with_struct": 0,
+   "near_candidates": 55600,
+   "candidate_best_jaccard": {
+    "n": 55600,
+    "max": 0.9647,
+    "p99": 0.8,
+    "median": 0.4679,
+    "n_at_least_0.4": 37396
+   }
+  },
+  "ftrain_mixG2M": {
+   "rows": 173591,
+   "with_struct": 0,
+   "near_candidates": 79551,
+   "candidate_best_jaccard": {
+    "n": 79551,
+    "max": 0.9647,
+    "p99": 0.7957,
+    "median": 0.4579,
+    "n_at_least_0.4": 51688
+   }
+  },
+  "ftrain_mixG3": {
+   "rows": 198276,
+   "with_struct": 0,
+   "near_candidates": 79566,
+   "candidate_best_jaccard": {
+    "n": 79566,
+    "max": 0.9647,
+    "p99": 0.7957,
+    "median": 0.4579,
+    "n_at_least_0.4": 51703
+   }
+  },
+  "ftrain_mixR": {
+   "rows": 94504,
+   "with_struct": 0,
+   "near_candidates": 55505,
+   "candidate_best_jaccard": {
+    "n": 55505,
+    "max": 0.9647,
+    "p99": 0.7957,
+    "median": 0.4675,
+    "n_at_least_0.4": 37301
+   }
+  },
+  "ftrain_mixRA": {
+   "rows": 114504,
+   "with_struct": 0,
+   "near_candidates": 55505,
+   "candidate_best_jaccard": {
+    "n": 55505,
+    "max": 0.9647,
+    "p99": 0.7957,
+    "median": 0.4675,
+    "n_at_least_0.4": 37301
+   }
+  },
+  "ftrain_multi": {
+   "rows": 116110,
+   "with_struct": 0,
+   "near_candidates": 79406,
+   "candidate_best_jaccard": {
+    "n": 79406,
+    "max": 0.9647,
+    "p99": 0.7935,
+    "median": 0.4574,
+    "n_at_least_0.4": 51543
+   }
+  },
+  "ftrain_realR": {
+   "rows": 34736,
+   "with_struct": 0,
+   "near_candidates": 0,
+   "candidate_best_jaccard": {
+    "n": 0,
+    "max": null,
+    "p99": null,
+    "median": null,
+    "n_at_least_0.4": 0
+   }
+  },
+  "ftrain_tripR": {
+   "rows": 14736,
+   "with_struct": 0,
+   "near_candidates": 0,
+   "candidate_best_jaccard": {
+    "n": 0,
+    "max": null,
+    "p99": null,
+    "median": null,
+    "n_at_least_0.4": 0
+   }
+  },
+  "mined_wide": {
+   "rows": 7458,
+   "with_struct": 0,
+   "near_candidates": 7458,
+   "candidate_best_jaccard": {
+    "n": 7458,
+    "max": 0.963,
+    "p99": 0.7474,
+    "median": 0.441,
+    "n_at_least_0.4": 4810
+   }
+  },
+  "mined_chain": {
+   "rows": 555,
+   "with_struct": 0,
+   "near_candidates": 385,
+   "candidate_best_jaccard": {
+    "n": 385,
+    "max": 0.4511,
+    "p99": 0.3386,
+    "median": 0.2,
+    "n_at_least_0.4": 1
+   }
+  }
+ },
+ "lineage_files": [
+  "ftrain_mixG3",
+  "ftrain_mixG2M",
+  "ftrain_mixG2",
+  "ftrain_multi",
+  "ftrain_mix",
+  "ftrain_m3only",
+  "mined_wide",
+  "mined_chain"
+ ],
+ "by_set_suite": {
+  "ce|ce_H": {
+   "rows": 2472,
+   "rows_hit_any_file": 1296,
+   "rows_hit_lineage": 1227,
+   "rows_identical": 38,
+   "rows_near_only": 1258,
+   "confident_rows_hit_lineage": 1227
+  },
+  "ce|ce_T": {
+   "rows": 7172,
+   "rows_hit_any_file": 4368,
+   "rows_hit_lineage": 4150,
+   "rows_identical": 168,
+   "rows_near_only": 4200,
+   "confident_rows_hit_lineage": 4150
+  },
+  "ce|ce_U": {
+   "rows": 5364
+  }
+ }
+}

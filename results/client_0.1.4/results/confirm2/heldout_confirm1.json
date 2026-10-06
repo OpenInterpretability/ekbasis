@@ -1,0 +1,248 @@
+{
+ "n_confident": 18642,
+ "confident_errors": 1224,
+ "policies": {
+  "global": {
+   "recall": 0.8486,
+   "share": 0.2344
+  },
+  "domain": {
+   "recall": 0.8483,
+   "share": 0.223
+  },
+  "conformal": {
+   "recall": 0.878,
+   "share": 0.2614
+  },
+  "confidence_at_global_share": {
+   "recall": 0.6423,
+   "share": 0.2344
+  }
+ },
+ "per_suite": {
+  "rules_stress": {
+   "n_confident": 8620,
+   "confident_errors": 227,
+   "global": {
+    "recall": 0.8194,
+    "share": 0.1028
+   },
+   "domain": {
+    "recall": 0.8678,
+    "share": 0.1245
+   },
+   "conformal": {
+    "recall": 0.9295,
+    "share": 0.1845
+   }
+  },
+  "sql_wild": {
+   "n_confident": 1966,
+   "confident_errors": 273,
+   "global": {
+    "recall": 0.6886,
+    "share": 0.2767
+   },
+   "domain": {
+    "recall": 0.8681,
+    "share": 0.501
+   },
+   "conformal": {
+    "recall": 0.8608,
+    "share": 0.3723
+   }
+  },
+  "shell_wild": {
+   "n_confident": 3623,
+   "confident_errors": 307,
+   "global": {
+    "recall": 0.8241,
+    "share": 0.2418
+   },
+   "domain": {
+    "recall": 0.8046,
+    "share": 0.2205
+   },
+   "conformal": {
+    "recall": 0.8599,
+    "share": 0.2672
+   }
+  },
+  "git_wild": {
+   "n_confident": 3022,
+   "confident_errors": 260,
+   "global": {
+    "recall": 0.9423,
+    "share": 0.3345
+   },
+   "domain": {
+    "recall": 0.8423,
+    "share": 0.2028
+   },
+   "conformal": {
+    "recall": 0.8731,
+    "share": 0.2177
+   }
+  },
+  "accumulation": {
+   "n_confident": 1411,
+   "confident_errors": 157,
+   "global": {
+    "recall": 0.9809,
+    "share": 0.5953
+   },
+   "domain": {
+    "recall": 0.8662,
+    "share": 0.4203
+   },
+   "conformal": {
+    "recall": 0.8726,
+    "share": 0.5315
+   }
+  }
+ },
+ "auroc_weighted": {
+  "S": 0.9089,
+  "maxp": 0.7709
+ },
+ "conformal_groups": {
+  "accumulation|*rest*": {
+   "errors": 22,
+   "caught": 21,
+   "recall": 0.9545,
+   "below_target": false
+  },
+  "accumulation|budget": {
+   "errors": 19,
+   "caught": 18,
+   "recall": 0.9474,
+   "below_target": false
+  },
+  "accumulation|discount": {
+   "errors": 74,
+   "caught": 67,
+   "recall": 0.9054,
+   "below_target": false
+  },
+  "accumulation|trial": {
+   "errors": 42,
+   "caught": 31,
+   "recall": 0.7381,
+   "below_target": true
+  },
+  "git_wild|*rest*": {
+   "errors": 260,
+   "caught": 227,
+   "recall": 0.8731,
+   "below_target": false
+  },
+  "rules_stress|*rest*": {
+   "errors": 142,
+   "caught": 135,
+   "recall": 0.9507,
+   "below_target": false
+  },
+  "rules_stress|kind|chain4": {
+   "errors": 12,
+   "caught": 10,
+   "recall": 0.8333,
+   "below_target": true
+  },
+  "rules_stress|kind|delay": {
+   "errors": 29,
+   "caught": 23,
+   "recall": 0.7931,
+   "below_target": true
+  },
+  "rules_stress|kind|line3": {
+   "errors": 22,
+   "caught": 22,
+   "recall": 1.0,
+   "below_target": false
+  },
+  "rules_stress|kind|line4": {
+   "errors": 22,
+   "caught": 21,
+   "recall": 0.9545,
+   "below_target": false
+  },
+  "shell_wild|*rest*": {
+   "errors": 307,
+   "caught": 264,
+   "recall": 0.8599,
+   "below_target": false
+  },
+  "sql_wild|*rest*": {
+   "errors": 171,
+   "caught": 143,
+   "recall": 0.8363,
+   "below_target": true
+  },
+  "sql_wild|drop table|drop_parent_onoff": {
+   "errors": 20,
+   "caught": 18,
+   "recall": 0.9,
+   "below_target": false
+  },
+  "sql_wild|replace and upsert|replace_no_conflict": {
+   "errors": 20,
+   "caught": 15,
+   "recall": 0.75,
+   "below_target": true
+  },
+  "sql_wild|replace and upsert|replace_unique_other": {
+   "errors": 20,
+   "caught": 19,
+   "recall": 0.95,
+   "below_target": false
+  },
+  "sql_wild|replace and upsert|replace_vs_upsert_cascade": {
+   "errors": 22,
+   "caught": 22,
+   "recall": 1.0,
+   "below_target": false
+  },
+  "sql_wild|where|where_null": {
+   "errors": 20,
+   "caught": 18,
+   "recall": 0.9,
+   "below_target": false
+  }
+ },
+ "ci95": {
+  "global_recall": [
+   0.8277,
+   0.8696
+  ],
+  "global_share": [
+   0.2286,
+   0.2405
+  ],
+  "domain_recall": [
+   0.8256,
+   0.8698
+  ],
+  "domain_share": [
+   0.2168,
+   0.2289
+  ],
+  "conformal_recall": [
+   0.8567,
+   0.8962
+  ],
+  "conformal_share": [
+   0.255,
+   0.2686
+  ],
+  "auroc_S_minus_maxp": [
+   0.1251,
+   0.1496
+  ]
+ },
+ "missing_extra": 0,
+ "criteria_as_on_confirm2": {
+  "domain": true,
+  "conformal": true,
+  "global": true
+ }
+}

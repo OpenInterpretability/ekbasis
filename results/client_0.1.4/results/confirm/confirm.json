@@ -1,0 +1,225 @@
+{
+ "policy": {
+  "variant": "S_B",
+  "tau": 0.6413503412121874,
+  "no_selfcheck": [
+   "git_wild",
+   "shell_wild"
+  ],
+  "dev_at_tau": {
+   "recall": 0.8432,
+   "share": 0.2581
+  }
+ },
+ "rows": {
+  "built": 19903,
+  "excluded_dev_overlap": 61,
+  "excluded_fresh_duplicate": 17,
+  "kept": 19825,
+  "confident_without_extra_calls": {}
+ },
+ "primary": {
+  "n_confident": 18642,
+  "confident_errors": 1224,
+  "suite_weights": {
+   "rules_stress": 1.005,
+   "sql_wild": 0.9168,
+   "shell_wild": 0.9067,
+   "git_wild": 0.9213,
+   "accumulation": 1.4938
+  },
+  "recall_at_tau": 0.8486,
+  "share_at_tau": 0.2344,
+  "recall_ci95": [
+   0.8274,
+   0.8695
+  ],
+  "share_ci95": [
+   0.2283,
+   0.2404
+  ],
+  "PASS": true
+ },
+ "secondary": {
+  "auroc_weighted": {
+   "S": 0.9089,
+   "maxp": 0.7709,
+   "famobs": 0.8932,
+   "minpert": 0.7965,
+   "verify": 0.7086,
+   "S_cold": 0.8885,
+   "S_all3": 0.8871
+  },
+  "auroc_S_minus_maxp_ci95": [
+   0.1248,
+   0.1505
+  ],
+  "share_needed_weighted": {
+   "S": {
+    "50": 0.0765,
+    "80": 0.1855,
+    "90": 0.285,
+    "95": 0.3665
+   },
+   "maxp": {
+    "50": 0.1341,
+    "80": 0.5091,
+    "90": 0.7039,
+    "95": 0.7905
+   },
+   "famobs": {
+    "50": 0.089,
+    "80": 0.1881,
+    "90": 0.3055,
+    "95": 0.4374
+   },
+   "minpert": {
+    "50": 0.1239,
+    "80": 0.3905,
+    "90": 0.6915,
+    "95": 0.778
+   },
+   "verify": {
+    "50": 0.2836,
+    "80": 0.4123,
+    "90": 0.6154,
+    "95": 0.7411
+   },
+   "S_cold": {
+    "50": 0.0894,
+    "80": 0.2167,
+    "90": 0.3258,
+    "95": 0.429
+   },
+   "S_all3": {
+    "50": 0.0855,
+    "80": 0.2145,
+    "90": 0.3519,
+    "95": 0.4554
+   }
+  },
+  "unweighted_at_tau": {
+   "recall": 0.8382,
+   "share": 0.223
+  },
+  "cold_start_at_tau": {
+   "recall": 0.8495,
+   "share": 0.273
+  },
+  "all3_at_tau": {
+   "recall": 0.845,
+   "share": 0.2569
+  }
+ },
+ "per_suite": {
+  "rules_stress": {
+   "n_confident": 8620,
+   "confident_errors": 227,
+   "recall_at_tau": 0.8194,
+   "share_at_tau": 0.1028,
+   "auroc_S": 0.9471,
+   "auroc_maxp": 0.9388,
+   "auroc_S_all3": 0.9471,
+   "auroc_verify": 0.9426,
+   "auroc_minpert": 0.9383,
+   "auroc_famobs": 0.8296
+  },
+  "sql_wild": {
+   "n_confident": 1966,
+   "confident_errors": 273,
+   "recall_at_tau": 0.6886,
+   "share_at_tau": 0.2767,
+   "auroc_S": 0.8187,
+   "auroc_maxp": 0.6946,
+   "auroc_S_all3": 0.8187,
+   "auroc_verify": 0.6518,
+   "auroc_minpert": 0.7061,
+   "auroc_famobs": 0.8624
+  },
+  "shell_wild": {
+   "n_confident": 3623,
+   "confident_errors": 307,
+   "recall_at_tau": 0.8241,
+   "share_at_tau": 0.2418,
+   "auroc_S": 0.92,
+   "auroc_maxp": 0.7951,
+   "auroc_S_all3": 0.8476,
+   "auroc_verify": 0.5697,
+   "auroc_minpert": 0.7905,
+   "auroc_famobs": 0.9296,
+   "exploratory_selfcheck_kept_at_tau": {
+    "recall": 0.7785,
+    "share": 0.2746
+   }
+  },
+  "git_wild": {
+   "n_confident": 3022,
+   "confident_errors": 260,
+   "recall_at_tau": 0.9423,
+   "share_at_tau": 0.3345,
+   "auroc_S": 0.9275,
+   "auroc_maxp": 0.8318,
+   "auroc_S_all3": 0.8946,
+   "auroc_verify": 0.3279,
+   "auroc_minpert": 0.827,
+   "auroc_famobs": 0.9351,
+   "exploratory_selfcheck_kept_at_tau": {
+    "recall": 0.9769,
+    "share": 0.4464
+   }
+  },
+  "accumulation": {
+   "n_confident": 1411,
+   "confident_errors": 157,
+   "recall_at_tau": 0.9809,
+   "share_at_tau": 0.5953,
+   "auroc_S": 0.8343,
+   "auroc_maxp": 0.7095,
+   "auroc_S_all3": 0.8343,
+   "auroc_verify": 0.8186,
+   "auroc_minpert": 0.7414,
+   "auroc_famobs": 0.7858
+  }
+ },
+ "accumulation_arm": {
+  "n_confident": 1411,
+  "confident_errors": 157,
+  "tau": 0.03344099999999994,
+  "dev_at_tau": {
+   "recall": 0.8615,
+   "share": 0.2342
+  },
+  "recall_at_tau": 0.879,
+  "share_at_tau": 0.2282,
+  "recall_ci95": [
+   0.8269,
+   0.9247
+  ],
+  "share_ci95": [
+   0.2062,
+   0.2509
+  ],
+  "PASS": true,
+  "auroc_ab_gap": 0.9479,
+  "auroc_maxp": 0.7095,
+  "auroc_diff_ci95": [
+   0.1899,
+   0.2861
+  ],
+  "share_needed": {
+   "ab_gap": {
+    "50": 0.0602,
+    "80": 0.1467,
+    "90": 0.2686,
+    "95": 0.3813
+   },
+   "maxp": {
+    "50": 0.1821,
+    "80": 0.5889,
+    "90": 0.8483,
+    "95": 0.8944
+   }
+  },
+  "mean_requests_B": 5.08
+ }
+}

@@ -1,0 +1,73 @@
+{
+ "dev_global_at_tau": {
+  "recall": 0.8432,
+  "share": 0.2581
+ },
+ "domain": {
+  "r": 0.83,
+  "taus": {
+   "rules_stress": 0.6055848106528391,
+   "sql_wild": 0.4836054561014753,
+   "shell_wild": 0.6570531088924103,
+   "git_wild": 0.7675364241656271,
+   "accumulation": 0.7360748425001905
+  },
+  "dev_overall": {
+   "recall": 0.8314,
+   "share": 0.2479
+  },
+  "dev_per_suite": {
+   "rules_stress": {
+    "recall": 0.8333,
+    "share": 0.143
+   },
+   "sql_wild": {
+    "recall": 0.8309,
+    "share": 0.5489
+   },
+   "shell_wild": {
+    "recall": 0.8302,
+    "share": 0.2562
+   },
+   "git_wild": {
+    "recall": 0.8321,
+    "share": 0.2559
+   },
+   "accumulation": {
+    "recall": 0.8308,
+    "share": 0.398
+   }
+  }
+ },
+ "conformal_in_sample": {
+  "overall": {
+   "recall": 0.8861,
+   "share": 0.2931
+  },
+  "per_suite": {
+   "rules_stress": {
+    "recall": 0.9123,
+    "share": 0.2001
+   },
+   "sql_wild": {
+    "recall": 0.9118,
+    "share": 0.3837
+   },
+   "shell_wild": {
+    "recall": 0.8616,
+    "share": 0.327
+   },
+   "git_wild": {
+    "recall": 0.8613,
+    "share": 0.2727
+   },
+   "accumulation": {
+    "recall": 0.8923,
+    "share": 0.5726
+   }
+  },
+  "groups": 17,
+  "own_family_groups": 12
+ },
+ "note": "dev numbers are in-sample (the thresholds were fitted on these rows)"
+}

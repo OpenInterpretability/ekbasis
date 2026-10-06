@@ -256,6 +256,106 @@ environment before relying on it.)
 - **Digital twins and IoT:** machine states between sensor reads; read the sensor when unsure.
 - **Finance operations:** positions and margins after a sequence of orders, checked with the broker when unsure.
 
+## Check when sure (`ekbasis.verify`, since 0.1.4)
+
+Looking when unsure covers the answers below 0.9 confidence. What remains are the **confident errors**: answers with
+confidence ≥ 0.9 that are wrong. Confidence alone ranks them poorly: to catch 80% of them you would verify about half
+of all confident answers. `ekbasis.verify` says which confident answers to check by real execution, and why.
+
+```python
+from ekbasis import Ekbasis, git, verify, world_state, yes_no
+
+client = Ekbasis()
+tracker = verify.FamilyTracker("~/.ekbasis/families.json")  # outcomes you observed, per family of question
+
+# rules, state, actions, questions and render as for simulate() (see Look when unsure)
+text = world_state(rules, render(state), actions)            # the question, asked about all the actions at once
+q = yes_no("Does the alarm ring?")
+ans = client.ask(text, {"q": q})["q"]
+d = verify.check(client, text, q, ans, family="alarms|threshold", tracker=tracker)
+if d.verify:
+    print("check before acting:", *d.reasons, sep="\n  ")
+
+# after acting and reading the real outcome
+tracker.observe("alarms|threshold", correct=(observed == d.answer))
+# a blocked action has no outcome: never observe() it
+tracker.unobserved("alarms|threshold")
+
+# git: one decision per guard question (no self-check for git)
+decisions = verify.git(git.check(["git stash", "git checkout main"]), client, tracker)
+
+# several actions in a row: the direct answer against the step-by-step one
+d = verify.check_steps(client, rules, state, actions, questions, render, target="alarm")
+```
+
+For a confident answer, `check` combines three signals, each placed against fixed reference answers:
+- the error rate of its question family, from the outcomes you observed;
+- how stable the answer is when the options are reversed or the question reworded (one extra request);
+- the model's own self-check (one extra request). It is not used for git and shell, where it misleads.
+
+It asks to verify when their mean percentile reaches the threshold of the answer's domain (`domain=`):
+
+| `domain` | Threshold |
+|---|---|
+| `"rules"` | 0.6056 |
+| `"sql"` | 0.4836 |
+| `"shell"` | 0.6571 |
+| `"git"` | 0.7675 |
+| `"totals"` | 0.7361 |
+| anything else | 0.6414 |
+
+`rule="conformal"` uses per-family thresholds at α = 0.15 instead, and `rule="global"` uses 0.6414 everywhere.
+`check_steps` asks to verify when the step-by-step answer moves the direct answer's probability by ≥ 0.0334.
+
+**Measured** in two pre-registered tests on fresh items from five capability suites (rules, SQL, shell, git, running
+totals). The second, confirm-2, had 18,615 confident answers, 1,202 of them wrong, with every item new against the
+first test too.
+
+| Rule | Confident errors caught | Confident answers verified |
+|---|---|---|
+| `rule="domain"` (default) | 84.5% | 22.6% |
+| `rule="conformal"` | 86.3% | 26.2% |
+| `rule="global"` (first test / confirm-2) | 84.9% / 83.5% | 23.4% / 23.4% |
+| Confidence alone, at the same verified share | 65.7% | 23.4% |
+| `verify.check_steps`, running totals near a limit only (first test / confirm-2) | 87.9% / 86.3% | 22.8% / 22.2% |
+
+Per domain under the default, caught / verified on confirm-2:
+- rules 85.5% / 12.8%;
+- sql 87.6% / 50.3%;
+- shell 79.9% / 21.6%;
+- git 83.7% / 20.1%;
+- totals 87.0% / 44.4%.
+
+Under one global threshold SQL was caught at 67%. Telling the model to answer "unsure" when unsure caught 1%: it
+almost never says it.
+
+A Learn-then-Test rule meant to certify at most 2% errors among the answers acted on without checking did **not** pass
+as pre-registered: 1.16% overall, but rare rule families that fell back to their suite's threshold reached 3.4%. It is
+not in the client.
+
+The items of both tests share no identical and no near-duplicate item with any training file of this model's lineage
+(2.2M rows checked; [report](results/client_0.1.4/firewall/RESULTS_firewall.md)).
+
+**Limits**
+- **What the test used.** Family labels came from the evaluation, with a history of 29,029 evaluation answers. The
+  client's own keys (`git_family`, `shell_family`, yours) are not measured. Starting with no history was measured only
+  with the evaluation's labels and every earlier outcome known: 85.0% caught, 27.3% verified. A family with no history
+  starts at a 50% error rate, so new families are checked more until outcomes come in.
+- **Blocked actions.** Count only outcomes you actually observed. Blocked actions are the ones that looked risky, so a
+  family's observed error rate can be too low. Label some of them anyway: `verify.audit(0.05)` picks a random 5% to
+  replay in a sandbox. Blocking also changes what an agent proposes next, so rates learned offline may not hold live.
+- **Domains.** The thresholds belong to the five measured domains. Pass `domain` for them. Any other domain gets the
+  global threshold, whose numbers come from these five domains, not from yours.
+- **Conformal groups.** They use the evaluation's family labels. With your own family keys, only each domain's "rest"
+  threshold applies, and that combination is not what was tested.
+- **One model version.** The reference answers and thresholds belong to this model (w4a5), measured on its bf16 build.
+  With the FP8, INT4 and MLX builds they are untested, and a new model needs a new calibration.
+- **Cost.** One extra request per confident answer for git and shell, two otherwise. `check_steps` costs one request
+  per action, plus one.
+
+Details: [docs/VERIFY.md](docs/VERIFY.md). Pre-registrations, results and the overlap check:
+[results/client_0.1.4](results/client_0.1.4/RESULTS.md).
+
 ## Claude Code and MCP
 
 - **Claude Code hook** — Claude Code asks you to confirm (or blocks) git commands that may lose uncommitted work, with

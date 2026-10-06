@@ -1,0 +1,134 @@
+{
+ "score": "confirm/policy.py Policy.score (variant B, unchanged)",
+ "tau_global": 0.6413503412121874,
+ "domain": {
+  "budget": 0.25,
+  "r_star": 0.83,
+  "taus": {
+   "rules_stress": 0.6055848106528391,
+   "sql_wild": 0.4836054561014753,
+   "shell_wild": 0.6570531088924103,
+   "git_wild": 0.7675364241656271,
+   "accumulation": 0.7360748425001905
+  }
+ },
+ "conformal": {
+  "alpha": 0.15,
+  "n_min": 10,
+  "own_groups": [
+   "accumulation|budget",
+   "accumulation|discount",
+   "accumulation|trial",
+   "rules_stress|kind|chain4",
+   "rules_stress|kind|delay",
+   "rules_stress|kind|line3",
+   "rules_stress|kind|line4",
+   "sql_wild|drop table|drop_parent_onoff",
+   "sql_wild|replace and upsert|replace_no_conflict",
+   "sql_wild|replace and upsert|replace_unique_other",
+   "sql_wild|replace and upsert|replace_vs_upsert_cascade",
+   "sql_wild|where|where_null"
+  ],
+  "taus": {
+   "accumulation|*rest*": {
+    "n_errors": 15,
+    "k": 2,
+    "tau": 0.5703908738705029
+   },
+   "accumulation|budget": {
+    "n_errors": 13,
+    "k": 2,
+    "tau": 0.7730356351646481
+   },
+   "accumulation|discount": {
+    "n_errors": 65,
+    "k": 9,
+    "tau": 0.7276854591697934
+   },
+   "accumulation|trial": {
+    "n_errors": 37,
+    "k": 5,
+    "tau": 0.8413301578860413
+   },
+   "git_wild|*rest*": {
+    "n_errors": 137,
+    "k": 20,
+    "tau": 0.7488905697934353
+   },
+   "rules_stress|*rest*": {
+    "n_errors": 64,
+    "k": 9,
+    "tau": 0.5211290808268627
+   },
+   "rules_stress|kind|chain4": {
+    "n_errors": 13,
+    "k": 2,
+    "tau": 0.5317769120772015
+   },
+   "rules_stress|kind|delay": {
+    "n_errors": 15,
+    "k": 2,
+    "tau": 0.7746812586564135
+   },
+   "rules_stress|kind|line3": {
+    "n_errors": 10,
+    "k": 1,
+    "tau": 0.7520335817190907
+   },
+   "rules_stress|kind|line4": {
+    "n_errors": 12,
+    "k": 1,
+    "tau": 0.7660374347730056
+   },
+   "shell_wild|*rest*": {
+    "n_errors": 159,
+    "k": 24,
+    "tau": 0.6224031512400163
+   },
+   "sql_wild|*rest*": {
+    "n_errors": 86,
+    "k": 13,
+    "tau": 0.5960043768178224
+   },
+   "sql_wild|drop table|drop_parent_onoff": {
+    "n_errors": 10,
+    "k": 1,
+    "tau": 0.69634220369608
+   },
+   "sql_wild|replace and upsert|replace_no_conflict": {
+    "n_errors": 10,
+    "k": 1,
+    "tau": 0.32257435839323967
+   },
+   "sql_wild|replace and upsert|replace_unique_other": {
+    "n_errors": 10,
+    "k": 1,
+    "tau": 0.47392558657957123
+   },
+   "sql_wild|replace and upsert|replace_vs_upsert_cascade": {
+    "n_errors": 10,
+    "k": 1,
+    "tau": 0.3124942441706009
+   },
+   "sql_wild|where|where_null": {
+    "n_errors": 10,
+    "k": 1,
+    "tau": 0.4290206279330199
+   }
+  }
+ },
+ "population_confident": {
+  "rules_stress": 4739,
+  "sql_wild": 986,
+  "shell_wild": 1797,
+  "git_wild": 1523,
+  "accumulation": 1153
+ },
+ "population_confident_errors": {
+  "rules_stress": 114,
+  "sql_wild": 136,
+  "shell_wild": 159,
+  "git_wild": 137,
+  "accumulation": 130
+ }
+}

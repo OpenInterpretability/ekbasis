@@ -125,6 +125,11 @@ it cannot judge them) and an MCP server (`ekbasis-mcp`). Since client 0.1.3 the 
 be lost for good. In fresh Claude Code sessions on real repositories that meant 2.9 asks per 100 commands, against
 10.7 for 0.1.2 on the same commands, with every real loss still caught
 ([results](https://github.com/OpenInterpretability/ekbasis/blob/main/results/client_0.1.3/RESULTS.md)).
+Since client 0.1.4, `ekbasis.verify` says which confident answers (confidence ≥ 0.9) to check by real execution before
+acting. In a pre-registered test on fresh items from five capability suites, none of them overlapping the training
+data, its default per-domain thresholds caught 84.5% of the confident errors while verifying 22.6% of the confident
+answers; confidence alone, verifying 23.4%, caught 65.7%. A rule meant to certify at most 2% errors among unchecked
+answers did not pass ([details](https://github.com/OpenInterpretability/ekbasis/blob/main/docs/VERIFY.md)).
 Code, docs and the playbook: https://github.com/OpenInterpretability/ekbasis
 
 ## Builds

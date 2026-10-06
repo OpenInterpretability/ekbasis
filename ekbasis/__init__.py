@@ -5,6 +5,6 @@ from .client import Answer, Ekbasis, EkbasisError
 from .prompts import choice, git_state, number, recap, world_state, yes_no
 from .simulate import Simulation, Threshold, simulate, threshold
 
-__version__ = "0.1.3"
+__version__ = "0.1.4"
 __all__ = ["Answer", "Ekbasis", "EkbasisError", "Simulation", "Threshold", "choice", "git_state", "number", "recap",
            "simulate", "threshold", "world_state", "yes_no"]

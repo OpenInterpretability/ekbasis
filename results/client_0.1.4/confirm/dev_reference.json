@@ -1,0 +1,137 @@
+{
+ "n_confident_sample": 2576,
+ "confident_errors_sample": 676,
+ "population_confident": {
+  "rules_stress": 4739,
+  "sql_wild": 986,
+  "shell_wild": 1797,
+  "git_wild": 1523,
+  "accumulation": 1153
+ },
+ "population_confident_errors": {
+  "rules_stress": 114,
+  "sql_wild": 136,
+  "shell_wild": 159,
+  "git_wild": 137,
+  "accumulation": 130
+ },
+ "variants": {
+  "S_A": {
+   "auroc_weighted": 0.8708,
+   "auroc_maxp_weighted": 0.7564,
+   "share_at": {
+    "50": 0.0975,
+    "80": 0.2359,
+    "90": 0.4161,
+    "95": 0.506
+   },
+   "equal_margins": {
+    "tau": 0.6565528836627377,
+    "recall": 0.8299,
+    "share": 0.2657,
+    "margin": 0.0299
+   },
+   "per_suite": {
+    "rules_stress": {
+     "auroc": 0.9301,
+     "auroc_maxp": 0.899
+    },
+    "sql_wild": {
+     "auroc": 0.8035,
+     "auroc_maxp": 0.6782
+    },
+    "shell_wild": {
+     "auroc": 0.8248,
+     "auroc_maxp": 0.8117
+    },
+    "git_wild": {
+     "auroc": 0.8658,
+     "auroc_maxp": 0.8446
+    },
+    "accumulation": {
+     "auroc": 0.8303,
+     "auroc_maxp": 0.6479
+    }
+   }
+  },
+  "S_B": {
+   "auroc_weighted": 0.8936,
+   "auroc_maxp_weighted": 0.7564,
+   "share_at": {
+    "50": 0.0859,
+    "80": 0.204,
+    "90": 0.3325,
+    "95": 0.4295
+   },
+   "equal_margins": {
+    "tau": 0.6413503412121874,
+    "recall": 0.8432,
+    "share": 0.2581,
+    "margin": 0.0419
+   },
+   "per_suite": {
+    "rules_stress": {
+     "auroc": 0.9301,
+     "auroc_maxp": 0.899
+    },
+    "sql_wild": {
+     "auroc": 0.8035,
+     "auroc_maxp": 0.6782
+    },
+    "shell_wild": {
+     "auroc": 0.8938,
+     "auroc_maxp": 0.8117
+    },
+    "git_wild": {
+     "auroc": 0.9097,
+     "auroc_maxp": 0.8446
+    },
+    "accumulation": {
+     "auroc": 0.8303,
+     "auroc_maxp": 0.6479
+    }
+   }
+  }
+ },
+ "chosen": "S_B",
+ "at_tau_per_suite": {
+  "rules_stress": {
+   "recall": 0.7632,
+   "share": 0.1187
+  },
+  "sql_wild": {
+   "recall": 0.7059,
+   "share": 0.2782
+  },
+  "shell_wild": {
+   "recall": 0.8302,
+   "share": 0.2867
+  },
+  "git_wild": {
+   "recall": 0.9343,
+   "share": 0.4015
+  },
+  "accumulation": {
+   "recall": 0.9769,
+   "share": 0.5796
+  }
+ },
+ "accumulation_arm": {
+  "n_confident": 1153,
+  "confident_errors": 130,
+  "auroc_ab_gap": 0.9214,
+  "auroc_maxp": 0.6528,
+  "share_at": {
+   "50": 0.072,
+   "80": 0.1882,
+   "90": 0.2923,
+   "95": 0.4631
+  },
+  "equal_margins": {
+   "tau": 0.03344099999999994,
+   "recall": 0.8615,
+   "share": 0.2342,
+   "margin": 0.0615
+  }
+ }
+}

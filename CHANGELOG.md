@@ -1,5 +1,40 @@
 # Changelog
 
+## 0.1.4 (2026-10-06): check when sure
+
+A new module, `ekbasis.verify` ([docs/VERIFY.md](docs/VERIFY.md); tests and results in
+[results/client_0.1.4](results/client_0.1.4/RESULTS.md)). Nothing else changed: the git guard, the shell guard, the
+Claude Code hook, the CLI and the MCP server are those of 0.1.3, and so is every request they send (no module
+imports `verify`).
+
+- **`ekbasis.verify`**: which confident answers (confidence ≥ 0.9) to check by real execution before acting, with the
+  reasons.
+  - **Policy.** It is frozen from a pre-registered test on fresh items: 84.9% of the confident errors caught while
+    verifying 23.4% of the confident answers, against 50.9% verified for 80% caught with confidence alone.
+  - **Signals:** the question family's observed error rate (`FamilyTracker`); the answer's stability with the options
+    reversed or the question reworded (one request); the self-check (one request, not for git and shell).
+  - `check_steps`: the direct answer against the step-by-step one (`simulate`), for questions about several actions
+    (87.9% caught with 22.8% verified, on running totals near a limit).
+  - `git(verdict, client, tracker)`: one decision per git guard question. `git_family` and `shell_family` give
+    observable family keys.
+  - **Observed outcomes only:** `FamilyTracker.observe` after a real outcome; `unobserved` for a blocked action, which
+    is reported and never counted.
+  - `audit(rate)` picks a random share of blocked actions to replay in a sandbox, or of accepted answers to verify, so
+    the family rates are not biased by what was blocked.
+  - **Fails closed:** if the extra requests fail, the answer is marked to verify. Unsure answers make no extra request.
+  - **Data:** `verify_policy.json` holds the reference distributions and thresholds of this model version (w4a5).
+- **Per-domain thresholds are the default** (`rule="domain"`, `threshold()`, `domain_of()`). Confirmed on a second
+  fresh test: 84.5% caught with 22.6% verified, against 83.5% / 23.4% with the single threshold, which caught SQL at
+  67%. Options: `rule="conformal"` (α = 0.15 per family group: 86.3% / 26.2%) and `rule="global"`.
+  `Decision.threshold` and `Decision.rule` record what was used.
+- **Not adopted:** a Learn-then-Test acceptance rule meant to certify at most 2% errors among the answers acted on
+  without checking. It failed its pre-registered test: 1.16% overall, but 3.4% in rare rule families that fell back to
+  their suite's threshold.
+- **Overlap with training:** the items of both tests (and of the development set) share no identical and no
+  near-duplicate item with any training file of w4a5's lineage (2.2M rows checked).
+- **Not measured yet:** the client's own family keys. Starting with no history was measured only with the evaluation's
+  family labels and every earlier outcome known (85.0% caught, 27.3% verified).
+
 ## 0.1.3 (2026-10-06)
 
 Less friction in the Claude Code hook, from a study of Claude Code agents on real repositories
