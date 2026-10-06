@@ -211,14 +211,18 @@ confidence < 0.9, every chain exact; `RELEASE_EVAL.md`, "Two views").
 wrong and it gave every one of them a probability below 0.7: looking when unsure finds them. In the worlds it was
 trained on, errors are rare (0–0.17 steps in 100) but come with confidence (0.972–0.996): a fixed threshold misses
 them, and the checks are what find them (containers: 2.3 → 1.5 steps wrong along the way per 100 with the checks). A
-pre-registered test on 15,008 new questions in 12 world families, run on V42 (the first release candidate), confirmed
-the pattern: 58% of its wrong answers carried a confidence of 0.9 or more in the families it was trained on, 28% in
+pre-registered test on 15,008 generated questions in 12 world families, run on V42 (the first release candidate),
+confirmed the pattern: 58% of its wrong answers carried a confidence of 0.9 or more in the families it was trained on, 28% in
 the families it never saw (30 points apart, 95% interval 24 to 37), while its confidence ranks right above wrong about
 equally well in both (AUROC 0.92 and 0.91). Eikos-27B, the same model before consequence training, was almost never
 confidently wrong (1.9% and 0.5% of its errors): the training made it
 ([report](results_v42/confident_errors/REPORT.md)). On the same questions the release gives 48% and 25%, with 2.06
 confident errors per 100 answers in the trained families against V42's 2.79
-([report](results/confident_errors/REPORT.md)): fewer, not gone, which is why the checks stay on by default.
+([report](results/confident_errors/REPORT.md)): fewer, not gone, which is why the checks stay on by default. Correction (6 October 2026): 5,318 of the 15,008
+questions, all in the trained families, turned out to repeat or nearly repeat a training row, because the
+generator's small worlds repeat across seeds. Without them the test still confirms the pattern (50.5% against
+27.8%, 22.7 points apart, 95% interval 12.6 to 32.5), the training still made it, and the release gives 50.0% and
+25.1%, with 1.46 confident errors per 100 answers in the trained families against V42's 1.69 ([audit](results/overlap_audit/README.md)).
 
 The idea is classic: the predict–update loop of a state estimator (a Kalman filter), with observations triggered by
 the predictor's own uncertainty (event-based state estimation; with learned models, active observing); the checks'

@@ -127,6 +127,15 @@ answered all 88 right. Without them nothing reported above moves except group T'
 answers, 58.1% of them at a confidence of 0.9 or more; groups H and U have none of them. The pre-registered analysis is
 left as it ran.
 
+**Correction (2026-10-06).** Counting the training data's multi-question and reading rows too, 104 items (all of the
+sequences family, group T, all answered right) share the prompt and the question with a training row. An audit with
+near-duplicate rules then found that 5,318 items overlap V42's training rows: 173 identical prompts and 5,145 near
+duplicates (4,101 of 7,172 in T, 1,217 of 2,472 in H, none in U), mostly the same family template rather than the
+same item. Without them, with the same scripts: 50.5% against 27.8%, 22.7 points apart (95% interval 12.6 to 32.5),
+family medians 62.5% and 25.8%: confirmed. Eikos-27B: 1.8% and 0.5%; the difference between the gaps, 21.4 points
+(10.6 to 31.4): training made it. Without only the 104 items nothing above moves (30.3 points, 23.9 to 36.5; the
+difference 28.9, 23.2 to 34.9). Details: [`results/overlap_audit/`](../../results/overlap_audit/README.md).
+
 ## Files
 
 `items.jsonl` (the questions), `preds.jsonl` (every answer, its confidence, right or wrong, changed or not),

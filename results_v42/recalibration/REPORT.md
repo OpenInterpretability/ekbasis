@@ -47,6 +47,13 @@ threshold. A future test with a larger git guard set could adopt Platt scaling t
 For reference, the fitted maps: one temperature 1.488; Platt scaling
 a = 0.757, d = -0.673 on the log-odds of the chosen answer's confidence.
 
+## Correction (2026-10-06)
+
+5,318 of the 15,008 test questions overlap V42's training rows ([`results/overlap_audit/`](../../results/overlap_audit/README.md)). Without them, with the same fit: at
+temperature 1 the 0.9–0.99 band is right 85.2% of the time (84.0% on all), and 97.1–97.5% after any map; ECE 0.054,
+and 0.015–0.032 after a map; the share of errors at 0.9 or more falls from 51.5% to 18.4–29.1% in T and from 27.7% to
+6.4–10.4% in U, a gap of 12.1–18.7 points. No map passes, as before.
+
 ## Files
 
 `answers.jsonl` (23,885 answers with every option's probability), `report.json` (the pre-registered analysis),

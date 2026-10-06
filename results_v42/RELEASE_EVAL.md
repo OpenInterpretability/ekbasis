@@ -21,7 +21,9 @@ The pre-registered rule, applied as written (`select_release.py`; training-time 
 
 No-regression checks (V42 − V41 must be ≥ −2 points): git2 known +0.0, git2 held −0.5, ftest_family −0.7,
 ftest_in +0.2, multi trainfam changed (one prompt per question / read-once) −0.4 / +0.2, multi testfam changed +1.5 /
-+1.9. **8 of 8 passed → V42.**
++1.9. **8 of 8 passed → V42.** (Added 2026-10-06: `ftest_in` and the trained families' multi-question set overlap
+the training rows in 1,026 of 1,774 rows and 291 of 600 states; on the rest the three checks are −0.3, −1.3 and
+−0.8, still within 2 points, so the rule still selects V42; [`results/overlap_audit/`](../results/overlap_audit/README.md).)
 
 ## Primary 1 — the git guard on fresh real-repository scenarios (T3c)
 
@@ -82,6 +84,9 @@ training. Trained families for reference.
 |---|---|---|
 | **Never-trained families** (1,693 changed answers) | **81.2% [79.3–83.0]** · 1,442 prompt tokens per state | 78.2% [76.3–80.1] · 710 tokens |
 | Trained families (902 changed answers) | 92.5% [90.8–94.1] · 1,634 tokens | 90.9% [89.0–92.8] · 823 tokens |
+
+Added 2026-10-06: 290 of the trained families' 600 states overlap V42's training rows; on the other 310 (473 changed
+answers) V42 answers 93.4% right with one prompt per question and 91.8% read once ([`results/overlap_audit/`](../results/overlap_audit/README.md)).
 
 `ftest_family` (never-trained families, one question per state, one prompt per question): **81.7% [78.7–84.7]** on the
 629 answers the actions change (cards 67.7%, machines 81.3%, timers 97.1%); 85.1% on the answers they leave unchanged;
@@ -270,6 +275,8 @@ and 0.91). The effect holds within answer formats and within bands of difficulty
 22 to 33 points; with whole families as the unit (12 of them) the interval includes zero: two families go the other
 way. Follow-up (`PREREG_confident_errors_eikos.md`): Eikos-27B on the same items, 1.9% and 0.5% of its wrong answers
 at 0.9 or more (gap 1.4); the difference between the gaps, 28.9 points (95% interval 22.8 to 34.9): training made it.
+Without the 5,318 questions that overlap V42's training rows: 50.5% against 27.8% (22.7 points, 12.6 to 32.5) and a
+difference of 21.4 points (10.6 to 31.4): still confirmed ([`results/overlap_audit/`](../results/overlap_audit/README.md)).
 
 **The guard on a 17× larger set** (`PLAN_guard_set.md`, built after this evaluation to judge later candidates). It
 holds 20,000 new examples per split from the same git generator, from repository states no earlier set contains,

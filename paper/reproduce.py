@@ -473,6 +473,10 @@ numbers["prereg_seals"] = {"plans": len(seals), "match": sum(seals.values()), "m
 print(f"{'ok  ' if all(seals.values()) else 'DIFF'} seals: {sum(seals.values())}/{len(seals)} plans match their sealed SHA-256")
 if not all(seals.values()):
     raise SystemExit(f"plans changed after sealing: {numbers['prereg_seals']['mismatch']}")
+# 10. The overlap audit (6 October 2026): every number of the correction (Appendix A), from results/overlap_audit/.
+OA = HERE.parent / "results" / "overlap_audit" / "numbers.json"
+if OA.exists():
+    numbers["overlap_audit"] = json.load(open(OA))
 numbers["checks"] = checks
 json.dump(numbers, open(HERE / "numbers.json", "w"), indent=1)
 print(f"{sum(c['identical'] for c in checks)}/{len(checks)} analyses reproduce their stored results; numbers.json written")

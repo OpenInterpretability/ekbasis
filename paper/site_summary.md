@@ -1,7 +1,7 @@
 # Look When Unsure, Check When Sure
 ### Consequence training makes a world model's remaining errors confident, most of all where it knows the world best
 
-**Caio Vicentino · OpenInterpretability · Published 2026-10-04.**
+**Caio Vicentino · OpenInterpretability · Published 2026-10-04 · Corrected 2026-10-06 (see the correction below).**
 **Zenodo · CC-BY-4.0 · [DOI 10.5281/zenodo.23146971](https://doi.org/10.5281/zenodo.23146971).**
 
 > The on-site summary. The full paper — every table, the pre-registrations and the reproduction script — is the
@@ -21,10 +21,12 @@ agent should look.
 - **The result.** The rule keeps **197 of 200** fresh 100- and 200-action chains exact in four worlds, two of them never
   seen in training, at **17.9 looks per 100 actions**. Never looking keeps 25 of 40.
 
-The checks are needed because of a pre-registered finding. On 15,008 new questions, **58.1%** of the model's errors in
-the families it was trained on carry confidence ≥ 0.9, against **27.8%** in families it never saw (+30.3 points, 95% CI
-[24.0, 36.5]). The model before consequence training shows almost none (1.9% and 0.5%). The training cut its errors in
-the trained families by two-thirds, but multiplied confident errors per answer tenfold.
+The checks are needed because of a pre-registered finding. On 15,008 generated questions, **58.1%** of the model's
+errors in the families it was trained on carry confidence ≥ 0.9, against **27.8%** in families it never saw (+30.3
+points, 95% CI [24.0, 36.5]); without the 5,318 questions that turned out to overlap the training rows, 50.5% against
+27.8% (+22.7, [12.6, 32.5]). The model before consequence training shows almost none (1.9% and 0.5%). The training cut
+its errors in the trained families by two-thirds, but multiplied confident errors per answer tenfold (8.7-fold without
+the overlapping questions).
 
 Recalibration and smoother losses do not fix it. Training on the model's own errors made inside its own chains does,
 cutting silent wrong steps by 71–97% with no more looks. Every such fine-tune, though, failed a release criterion, most
@@ -47,12 +49,12 @@ fix belongs in training, on the states the model visits itself, and every such f
     ones.
   - Reading the cards from two views halves their looks (33.4 to 17.0).
 - **Confident where trained (pre-registered).** 58.1% of errors at ≥ 0.9 in trained families against 27.8% in unseen
-  ones.
+  ones; 50.5% against 27.8% without the questions that overlap the training rows.
   - The ranking of confidences is similar (AUROC 0.922 and 0.908), but the scale is not.
   - A 0.9 trigger can flag at most 41.9% of the errors in the trained families, against 72.2% in the unseen ones.
 - **Training made it (pre-registered).** The parent model shows 1.9% and 0.5%. The difference in gaps is +28.9 points
-  [22.8, 34.9].
-  - Confident errors per 100 answers went from 0.28 to 2.79 in the trained families.
+  [22.8, 34.9] (+21.4 [10.6, 31.4] without the overlapping questions).
+  - Confident errors per 100 answers went from 0.28 to 2.79 in the trained families (0.20 to 1.69 without them).
   - 200 more training steps raised the confident share again, from 57.7% to 67.3%.
   - In long chains, the parent's step probabilities never reach 0.9. To run the same loop it looks at 99 of every
     100 actions, where V42 looks at about 17.
@@ -73,8 +75,26 @@ fix belongs in training, on the states the model visits itself, and every such f
     0 false alarms.
 - **Halfway back in weight space.** The exact interpolation between V42 and the first chain-mined run
   passes the guard on both splits and every single-question criterion, with 2.05 confident errors per 100 answers in
-  the trained families against 2.76. On 160 fresh chains it cut silent wrong steps by 91% (0.57 to 0.05 per 100
+  the trained families against 2.76 (1.42 against 1.69 without the overlapping questions). On 160 fresh chains it cut silent wrong steps by 91% (0.57 to 0.05 per 100
   actions) with 6% fewer looks. It then passed the release evaluation and is the released Ekbasis-27B.
+
+## Correction (2026-10-06): overlap with the training data
+
+An audit after publication found that the world generator's small worlds repeat across seeds. **5,318 of the 15,008
+questions** (4,101 of 7,172 in the trained families, 1,217 of 2,472 with held-out question types, none of the 5,364 in
+the never-trained families) repeat or nearly repeat a row of V42's training data: 173 identical prompts (104 questions
+with the same prompt and question; the first note counted 88) and 5,145 near duplicates, mostly the same family template
+rather than the same item. Recomputed without them, with the same scripts:
+
+- every pre-registered conclusion holds: 50.5% against 27.8%, +22.7 [12.6, 32.5]; training made it, +21.4 [10.6, 31.4];
+  no recalibration map passes;
+- two exploratory conclusions change: the round-3 run (r3w20) no longer beats V42 in accuracy (88.6% against 88.9%), and
+  the logistic regression's odds ratio for familiarity falls from 2.44 to 1.10;
+- the chains' container steps also overlap at the template level (3,601 of 9,600 distinct step prompts), but errors are
+  not rarer there, and every chain conclusion holds on the steps that do not overlap;
+- the git, guard and never-trained-family sets have no overlap.
+
+Every number is in the paper's new Appendix A and in `results/overlap_audit/` of the code repository.
 
 ## Reproducibility
 

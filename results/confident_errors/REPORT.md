@@ -48,3 +48,13 @@ The difference between the release's gap and Eikos-27B's: 21.9 points (95% inter
   and 0.91).
 - So the advice stands: look when unsure, and keep the checks (the client's default), because in the worlds it knows
   its remaining errors can still come with confidence.
+
+## Correction (2026-10-06): overlap with the training data
+
+An audit after publication found that 5,378 of the 15,008 questions (4,151 of 7,172 in the trained families, 1,227
+of 2,472 with held-out question types, none in the never-seen families) repeat or nearly repeat a row of the
+release's training lineage (V42's file and r4a's two mined sets): 174 identical prompts and 5,204 near duplicates,
+mostly the same family template rather than the same item. Without them, with the same analysis: 50.0% against
+25.1%, 24.9 points apart (95% interval 13.3 to 35.8); accuracy in the trained families 97.1% (V42 96.8% on the same
+questions); confident errors per 100 answers 1.46 against V42's 1.69 (−14%, against −26% on all questions). The
+conclusion stands: fewer, not gone. Details: [`results/overlap_audit/`](../../results/overlap_audit/README.md).

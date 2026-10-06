@@ -189,8 +189,8 @@ uncommitted work were flagged.
 Claude models answered as hand-offs in batches with the answer order shuffled; the others answered each question alone.
 
 **Never-trained worlds** (only the answers the actions change): 81.2% [79.3–83.0], one prompt per question; 78.0% with
-the state read once (half the prompt tokens). Trained families: 92.4% / 91.5%. Portuguese 83.3% against English 85.6%
-on the same questions.
+the state read once (half the prompt tokens). Trained families: 92.4% / 91.5% (93.6% / 92.8% on the 309 of
+their 600 states that overlap no training row). Portuguese 83.3% against English 85.6% on the same questions.
 
 **Long chains** (one action per step, every variable asked, the next state rebuilt from the answers; 6 chains per
 cell): the final answer right after 200 actions in 100% of the chains for containers, lamps and machines (containers
@@ -278,16 +278,19 @@ confidence < 0.9, every chain exact; `RELEASE_EVAL.md`, "Two views").
 wrong and it gave every one of them a probability below 0.7: looking when unsure finds them. In the worlds it was
 trained on, errors are rare (0–0.17 steps in 100) but come with confidence (0.972–0.996): a fixed threshold misses
 them, and the checks are what find them (containers: 2.3 → 1.5 steps wrong along the way per 100 with the checks). A
-pre-registered test on 15,008 new questions in 12 world families, run on V42 (the first release candidate), confirmed
-the pattern: 58% of its wrong answers carried a confidence of 0.9 or more in the families it was trained on, 28% in
+pre-registered test on 15,008 generated questions in 12 world families, run on V42 (the first release candidate),
+confirmed the pattern: 58% of its wrong answers carried a confidence of 0.9 or more in the families it was trained on, 28% in
 the families it never saw (30 points apart, 95% interval 24 to 37), while its confidence ranks right above wrong about
 equally well in both (AUROC 0.92 and 0.91). Eikos-27B, the same model before consequence training, was almost never
 confidently wrong (1.9% and 0.5% of its errors): the training made it
 ([report](https://github.com/OpenInterpretability/ekbasis/blob/main/results_v42/confident_errors/REPORT.md)). On the
 same questions the release gives 48% and 25%, with 2.06 confident errors per 100 answers in the trained families
 against V42's 2.79
-([report](https://github.com/OpenInterpretability/ekbasis/blob/main/results/confident_errors/REPORT.md)): fewer, not
-gone, which is why the checks stay on by default.
+([report](https://github.com/OpenInterpretability/ekbasis/blob/main/results/confident_errors/REPORT.md)): fewer, not gone, which is why the checks stay on by default. Correction (6 October 2026): 5,318 of the 15,008
+questions, all in the trained families, turned out to repeat or nearly repeat a training row, because the
+generator's small worlds repeat across seeds. Without them the test still confirms the pattern (50.5% against
+27.8%, 22.7 points apart, 95% interval 12.6 to 32.5), the training still made it, and the release gives 50.0% and
+25.1%, with 1.46 confident errors per 100 answers in the trained families against V42's 1.69 ([audit](https://github.com/OpenInterpretability/ekbasis/blob/main/results/overlap_audit/README.md)).
 
 ![Where it is wrong, how sure was it: the share of wrong answers given with high confidence, per world family](https://huggingface.co/caiovicentino1/Ekbasis-27B/resolve/main/assets/chart_confident_errors.png)
 

@@ -32,11 +32,14 @@ agent should look, with V42, the first release candidate of Ekbasis, an open 27B
 probability of every candidate next state from a single forward pass. A simple rule---look when the chain's confidence since the last look falls below 0.9,
 plus scheduled checks with a Trickle-style backoff---keeps 197 of 200 fresh 100- and 200-action chains exact in four
 worlds, two of them never seen in training, at 17.9 looks per 100 actions; never looking keeps 25 of 40 exact. The
-checks are needed because of a pre-registered finding about the model's confidence. On 15,008 new questions, 58.1\% of
+checks are needed because of a pre-registered finding about the model's confidence. On 15,008 generated questions, 58.1\% of
 its errors in the world families it was trained on carry confidence $\ge 0.9$, against 27.8\% in families it never saw
-($+30.3$ points, 95\% CI $[24.0, 36.5]$). The same questions answered by the model \emph{before} consequence training
+($+30.3$ points, 95\% CI $[24.0, 36.5]$). (Correction: 5,318 of these questions, all in trained families, repeat or
+nearly repeat a training row; without them, 50.5\% against 27.8\%, $+22.7$ $[12.6, 32.5]$; Appendix~\ref{app:overlap}.)
+The same questions answered by the model \emph{before} consequence training
 show almost none (1.9\% and 0.5\%). Training cut its errors in the trained families by two-thirds, but multiplied
-confident errors per answer tenfold (0.28 to 2.79 per 100), and further training raised them again.
+confident errors per answer tenfold (0.28 to 2.79 per 100; 0.20 to 1.69 without the overlapping questions), and
+further training raised them again.
 In long chains, the parent's step probabilities never reach 0.9, right or wrong, so the same rule has to look at 99
 of every 100 actions: consequence training is what makes the loop cheap, and what makes the checks necessary.
 Pre-registered fixes that reshape confidence---temperature, Platt
@@ -69,8 +72,9 @@ this works (\S\ref{sec:loop}). The interesting part is \emph{where it fails}, an
 
 The model's rare errors in the worlds it knows best are confident. A confidence trigger cannot see them, so the default
 rule adds scheduled checks whose interval doubles while the forecasts hold, as in the Trickle algorithm
-\cite{rfc6206}. A pre-registered test on 15,008 new questions confirms the pattern beyond the chains
-(\S\ref{sec:confident}). A second pre-registered test, against the same model before consequence training, shows that
+\cite{rfc6206}. A pre-registered test on 15,008 generated questions confirms the pattern beyond the chains
+(\S\ref{sec:confident}), also without the 5,318 of them that turned out to overlap the training rows
+(Appendix~\ref{app:overlap}). A second pre-registered test, against the same model before consequence training, shows that
 the training made it. Training improved accuracy and, at the same time, made the remaining errors look like right
 answers.
 
@@ -89,10 +93,11 @@ Every test was pre-registered \cite{nosek2018}, with its plan's SHA-256 sealed b
   fresh long chains exact at 17.9 looks per 100 actions, and it looks 2--9$\times$ more in worlds the model never saw.
   It is the default of the released client.
   \item \textbf{Confident errors where the model was trained} (\prereg): 58.1\% of errors at $\ge 0.9$ in trained
-  families against 27.8\% in unseen ones. The ranking of confidences is similar (AUROC 0.92 and 0.91), but the scale
-  is not.
+  families against 27.8\% in unseen ones (50.5\% in trained families without the questions that overlap the training
+  rows). The ranking of confidences is similar (AUROC 0.92 and 0.91), but the scale is not.
   \item \textbf{Training made it} (\prereg, against the parent model): the difference in gaps is $+28.9$ points
-  $[22.8, 34.9]$. Confident errors per answer grew tenfold in trained families while total errors fell by two-thirds.
+  $[22.8, 34.9]$ ($+21.4$ $[10.6, 31.4]$ without the overlapping questions). Confident errors per answer grew tenfold
+  in trained families (8.7-fold without them) while total errors fell by two-thirds.
   In long chains the parent never reaches 0.9 and has to look at 99 of every 100 actions.
   \item \textbf{What does not fix it} (\prereg): recalibration, label smoothing and focal loss lower the scale but keep
   the gap, or blur the ranking. Errors mined from true states make single answers honest and the loop look more.
@@ -263,7 +268,9 @@ orderings differ from the other worlds in kind. So we tested it.
 
 \paragraph{The test (\prereg).} We generated 15,008 new short questions (1--3 actions) from the world generator:
 \begin{itemize}
-  \item 12 families, 120 per family, question type and number of actions, with seeds never used before;
+  \item 12 families, 120 per family, question type and number of actions, with seeds never used before. New seeds
+  did not always make new items: small worlds repeat across seeds, and an audit after publication found that 5,318 of
+  the questions, all in T and H, repeat or nearly repeat a row of V42's training data (Appendix~\ref{app:overlap});
   \item three groups: \textbf{T}, the 7 training families with their trained question types (7,172); \textbf{H}, the
   same families with a held-out question type (2,472); \textbf{U}, 5 families never trained (5,364).
 \end{itemize}
@@ -271,9 +278,10 @@ The primary statistic is the share of wrong answers made with confidence $\ge 0.
 comes from a percentile bootstrap that resamples items within each family (2,000 resamples) \cite{efron1979}.
 
 \begin{table}[t]\centering\small
-\caption{Confident errors on 15,008 new questions (\prereg), for V42 and for the same model before consequence
+\caption{Confident errors on 15,008 generated questions (\prereg), for V42 and for the same model before consequence
 training (Eikos-27B, the parent), on the same items through the same service at temperature 1. T: trained
-families; H: trained families, held-out question types; U: families never trained.}
+families; H: trained families, held-out question types; U: families never trained. Table~\ref{tab:overlap} gives the
+same table without the 5,318 questions that overlap V42's training rows.}
 \label{tab:ce}
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{llcccccc}
@@ -295,7 +303,9 @@ families; H: trained families, held-out question types; U: families never traine
 Confirmed (Table~\ref{tab:ce}, Figure~\ref{fig:ce}). 58.1\% of the errors in T carry confidence $\ge 0.9$, against
 27.8\% in U: $+30.3$ points, 95\% CI $[24.0, 36.5]$. The family medians agree (60.9\% against 25.8\%). Among answers that
 the actions change (secondary), the gap is larger: 62.0\% against 21.6\%, $+40.4$ $[32.8, 48.1]$. H lies in between
-(37.1\%).
+(37.1\%). Without the 5,318 questions that overlap V42's training rows (Appendix~\ref{app:overlap}), T keeps 3,071
+questions and the statistic is 50.5\% against 27.8\%: $+22.7$ points, $[12.6, 32.5]$, family medians 62.5\% against
+25.8\%. It is still confirmed.
 
 The AUROC of confidence for right against wrong answers is similar in T and U (0.922 and 0.908): the model \emph{ranks}
 its answers about as well in both groups, but the \emph{scale} differs. One consequence matters for agents. A trigger at
@@ -311,7 +321,10 @@ errors (4.14 against 2.79 per 100), because it has three times as many errors.
 A logistic regression on the wrong answers gives familiarity an odds ratio of 2.44, controlling for the cell's error
 rate and the answer format. With families as the unit (a family-cluster bootstrap), however, the interval includes
 zero ($[-0.35, 1.63]$ on the log-odds), because two families go against the trend: timers (U, 61.8\%) and counters (T,
-32.4\%). It is a strong tendency across items, not a law across families.
+32.4\%). Without the questions that overlap the training rows, the shares keep the pattern (yes/no 50.7\% against
+41.2\%, choices 50.0\% against 19.9\%, every stratum, every family left out), but the odds ratio falls to 1.10: there,
+the cell's error rate and the answer format account for most of the gap. It is a tendency of the shares across items,
+not a law across families.
 
 \begin{figure}[t]\centering
 \includegraphics[width=\textwidth]{figures/fig_confident_errors.pdf}
@@ -326,7 +339,8 @@ unseen families are simply harder? We asked the parent model, Eikos-27B, the sam
 service, letter readout and temperature. Its errors are frequent but almost never confident: 1.9\% of its errors in T
 and 0.5\% in U are at $\ge 0.9$ (gap $+1.4$, $[0.4, 2.4]$). Its confidence never exceeds 0.976, a ceiling of its letter
 readout, but 0.9 sits inside its range: 54.7\% of its right answers reach it, against 92.6\% of V42's. The pre-registered statistic, the difference between the
-two models' gaps by a paired bootstrap, is $D = +28.9$ points, $[22.8, 34.9]$. The training made the gap.
+two models' gaps by a paired bootstrap, is $D = +28.9$ points, $[22.8, 34.9]$ ($+21.4$ $[10.6, 31.4]$ without the
+questions that overlap the training rows). The training made the gap.
 
 What the training did is visible in Table~\ref{tab:ce}:
 \begin{itemize}
@@ -337,7 +351,8 @@ What the training did is visible in Table~\ref{tab:ce}:
 On each model's own scale (\explo; the threshold at the confidence of its 10th-percentile right answer: 0.608 for the
 parent, 0.943 for V42), the parent already shows a small gap in the same direction ($+8.8$ points)
 against $+28.3$ after training. Familiar worlds were slightly more prone to confident errors from the start, and the
-training amplified it and lifted the whole scale.
+training amplified it and lifted the whole scale. Without the overlapping questions the two gaps are $+13.2$ and $+20.1$
+points (thresholds 0.608 and 0.931): the amplification is smaller.
 
 \paragraph{More training, more of it (\explo).} The control arm of our first repair round (\S\ref{sec:nulls})
 continued V42's recipe for 200 more steps. It raised the share of confident errors further, from 57.7\% to
@@ -414,7 +429,9 @@ questions from the 7 trained families and was wrong on 2,486 (5.2\%), 1,381 of t
   \item \textbf{r3w20} (\S\ref{sec:dagger}, Table~\ref{tab:runs}) mixed in right-but-unsure answers (2,486 errors and
   4,972 right answers below 0.99, 20\% of every batch). It beat V42 on the 15,008 questions (accuracy
   90.5\% against 90.2\%; 1.37 confident errors per 100 answers in T against 2.76) and kept most of its sharpness
-  (68.0\% of right answers at $\ge 0.99$, against 74.4\%). In the loop, on 240 paired chains, it was not better: 0.50 against 0.42 silent
+  (68.0\% of right answers at $\ge 0.99$, against 74.4\%). On the questions that overlap neither model's training rows
+  it did not beat V42 in accuracy (88.6\% against 88.9\%), with 1.36 confident errors per 100 answers in T against
+  1.69. In the loop, on 240 paired chains, it was not better: 0.50 against 0.42 silent
   wrong steps and 23.1 against 18.9 looks per 100 actions. In the trained worlds' never-look traces, 16 of its 23 wrong
   steps (in 4,800 steps) were confident, against 11 of 13 (in 2,400) for V42.
 \end{itemize}
@@ -441,7 +458,8 @@ look gives that up.
 \begin{table}[t]\centering\small
 \caption{What did not fix it: post-hoc recalibration (\prereg; V42's answers, fit on separate items)
 and training losses (\prereg; 200 more steps from the V42 adapter, the trainer's readout). ``Errors at
-$\ge 0.9$'': share of the errors, T / U.}
+$\ge 0.9$'': share of the errors, T / U. Appendix~\ref{app:overlap}: the same without the questions that overlap the
+training rows.}
 \label{tab:nulls}
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{lcccc}
@@ -474,7 +492,8 @@ are in Table~\ref{tab:runs}.
 
 \begin{table}[t]\centering\small
 \caption{Training on its own errors. Single questions: the trainer's readout on the 15,008 items (accuracy; confident
-errors per 100 answers in T / H / U). Loop: the default rule on chains paired with V42, silent wrong steps
+errors per 100 answers in T / H / U; Appendix~\ref{app:overlap} gives them without the questions that overlap the
+training rows). Loop: the default rule on chains paired with V42, silent wrong steps
 and looks per 100 actions. Guard: the pre-registered gate on the larger guard set (Table~\ref{tab:guard}).}
 \label{tab:runs}
 \resizebox{\textwidth}{!}{%
@@ -654,7 +673,7 @@ The ranking survives (AUROC 0.922 and 0.908), so what fails is a fixed threshold
 say the same: the parent ranks its right steps above its wrong ones about as well as V42 (AUROC 0.961 and
 0.946 in the trained worlds), on a scale that never reaches 0.9. Further
 training moves in the same direction, and on each model's own scale the gap is larger after training than before
-($+28.3$ against $+8.8$ points).
+($+28.3$ against $+8.8$ points; $+20.1$ against $+13.2$ without the questions that overlap the training rows).
 
 \paragraph{What to do in an agent.}
 \begin{itemize}
@@ -669,7 +688,8 @@ training moves in the same direction, and on each model's own scale the gap is l
 
 \paragraph{What the next test caught.} Several results that looked like fixes did not survive the next test.
 \begin{itemize}
-  \item r3w20 beat V42 on the 15,008 questions and not in the loop.
+  \item r3w20 beat V42 on the 15,008 questions (but not in accuracy on those that overlap no training row) and not in
+  the loop.
   \item r2hard had no silent wrong step on the 100-action chains (against 0.55 per 100 actions), but on the 200-action
   chains it had as many (0.35 against 0.33), while looking more at both lengths.
   \item The chain-mined runs that won the loop then lost rare git commands.
@@ -751,6 +771,9 @@ errors in familiar worlds are confident, and the parent model shows that consequ
   \item \textbf{Different readouts.} The trainer's readout (training rounds) and the service's readout (release tests)
   differ slightly, for instance 57.7\% against 58.1\% for V42 in T; each comparison uses one readout on
   both sides.
+  \item \textbf{Overlap with the training data.} The generator's small worlds repeat across seeds: 5,318 of the 15,008
+  questions and many container steps of the chains repeat or nearly repeat a training row (Appendix~\ref{app:overlap}).
+  Every pre-registered conclusion holds without them; two exploratory ones change.
   \item \textbf{Training data.} The replay data of the lineage came from the parent's training snapshot and included
   about 48 draws of FinQA items, a family the parent uses for evaluation. No evaluation here uses FinQA.
 \end{itemize}
@@ -792,6 +815,104 @@ Every plan's SHA-256 was sealed before its run (Appendix~\ref{app:prereg}); \tex
 plan still matches its seal.
 
 \appendix
+\section{Overlap with the training data (correction, 6 October 2026)}\label{app:overlap}
+An audit made after publication, while new training data was checked against every evaluation set, found that the
+world generator's item space is smaller than ``seeds never used before'' implies: small worlds come out the same, or
+nearly the same, from different seeds. We then checked every evaluation set behind a published number against V42's
+training rows, and against those of the released model's lineage (V42's rows and r4a's two mined sets), with two rules:
+\begin{itemize}
+  \item \emph{identical}: the prompt (rules, state and actions), with whitespace normalized and in lower case, equals a
+  training row's prompt or hindsight prompt;
+  \item \emph{near duplicate}: the prompt's word 8-grams, minus the set's own layout (8-grams in at least 20\% of its
+  prompts, and its question texts), are at least half present in the training rows, and their Jaccard similarity with
+  one training row is at least 0.5.
+\end{itemize}
+The scripts, the flags of every item and every number below are in \texttt{results/overlap\_audit/}.
+
+\paragraph{The 15,008 questions.} 5,318 of them overlap V42's training rows (173 identical prompts and 5,145 near
+duplicates): 4,101 of the 7,172 in T, 1,217 of the 2,472 in H and none of the 5,364 in U. 104 questions also ask the
+same question as a training row with the same prompt, all in the sequences family and all answered right by V42; the
+note in the confident-errors report counted 88. Most matches share the family's template rather than the item. Of the
+5,378 questions that overlap the released lineage's rows, 174 have an identical prompt; among the near duplicates, 2,869
+differ from the row they match in both the state and the actions, 1,838 share only the actions, 439 share only the start
+state and 58 share both with other wording. Whole families are flagged in T: grids (1,440 of 1,440) and sequences (1,080
+of 1,080), then counters (856 of 1,080), containers (472 of 1,080), gravity (273 of 1,052), lamps (29 of 720) and
+crafting (1 of 720).
+
+\begin{table}[h]\centering\small
+\caption{Table~\ref{tab:ce} without the 5,318 questions that overlap V42's training rows (the same scripts; U is
+unchanged).}
+\label{tab:overlap}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{llcccccc}
+\toprule
+ & & n & wrong & errors at $\ge 0.9$ & confident errors & median confidence & AUROC \\
+ & & & (\% of answers) & (\% of errors) & per 100 answers & of the errors & \\
+\midrule
+\multirow{3}{*}{V42} & T & 3,071 & 3.4 & \textbf{50.5} & 1.69 & 0.905 & 0.954 \\
+ & H & 1,255 & 15.0 & 36.2 & 5.42 & 0.768 & 0.891 \\
+ & U & 5,364 & 14.9 & \textbf{27.8} & 4.14 & 0.748 & 0.908 \\
+\midrule
+\multirow{3}{*}{Eikos-27B (before)} & T & 3,071 & 10.9 & 1.8 & 0.20 & 0.593 & 0.918 \\
+ & H & 1,255 & 33.9 & 0.5 & 0.16 & 0.490 & 0.897 \\
+ & U & 5,364 & 21.3 & 0.5 & 0.11 & 0.539 & 0.900 \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\paragraph{What changes, and what does not.} Recomputed with the same scripts on the other 9,690 questions:
+\begin{itemize}
+  \item \textbf{Primary (\prereg):} 50.5\% against 27.8\%, $+22.7$ points $[12.6, 32.5]$, family medians 62.5\% and
+  25.8\%: confirmed. Answers that the actions change: 53.8\% against 21.6\%, $+32.2$ $[18.5, 46.6]$. A trigger at 0.9
+  can flag at most 49.5\% of the errors in T.
+  \item \textbf{Training made it (\prereg):} the parent shows 1.8\% and 0.5\% (gap $+1.3$, $[-0.1, 2.9]$), and
+  $D = +21.4$ $[10.6, 31.4]$. Training cut the errors in T from 10.9\% to 3.4\% and raised the confident share by 48.7
+  points $[38.4, 58.6]$; confident errors per 100 answers in T went from 0.20 to 1.69 (8.7-fold). Of the parent's right
+  answers 55.3\% reach 0.9, against 91.9\% of V42's.
+  \item \textbf{Robustness (\explo):} yes/no 50.7\% against 41.2\%, choices 50.0\% against 19.9\%, T above U in every
+  difficulty stratum, 17.3 to 31.8 points when any one family is left out. The logistic regression's odds ratio for
+  familiarity falls from 2.44 to 1.10 (log-odds interval $[-0.82, 1.21]$ by family clusters).
+  \item \textbf{Own scale (\explo):} $+20.1$ points for V42 against $+13.2$ for the parent (thresholds 0.931 and
+  0.608), against $+28.3$ and $+8.8$ on all questions.
+  \item \textbf{Recalibration (\prereg):} at $T{=}1$ the 0.9--0.99 band is right 85.2\% of the time, and 97.1--97.5\%
+  after any map; ECE 0.054, and 0.015--0.032 after a map; after a map the T--U gap is 12.1 to 18.7 points. No map
+  passes, as before.
+  \item \textbf{Losses (\prereg; the trainer's readout, against V42 on the same questions):} label smoothing 26.5\% /
+  14.7\% with AUROC 0.881 against 0.925; focal loss 9.6\% / 1.5\% with AUROC 0.895, its 0.9--0.99 band saying 94.1\%
+  and right 99.2\%; the control arm raised the share in T from 50.5\% to 60.7\%.
+  \item \textbf{Repair rounds (the trainer's readout, each run against V42 on the questions that overlap neither's
+  training rows):} r2err 0.13 against 1.67 confident errors per 100 answers in T, AUROC 0.933 against 0.925, right
+  answers at $\ge 0.99$ 43.7\% against 71.8\%; r3w20 88.6\% accuracy against 88.9\%, 1.36 against 1.69; r4a 89.0\% and
+  1.42; r4b 88.9\% and 1.46; r4c 88.9\% and 1.37; r5a--c 88.4--89.1\% and 1.42--2.09; w4a5 89.0\% against 88.9\%,
+  1.42 against 1.69, with 72.0\% of its right answers at $\ge 0.99$ against 71.8\%.
+  \item \textbf{The released model} (its lineage's 5,378 questions removed): 50.0\% against 25.1\% of errors at
+  $\ge 0.9$, $+24.9$ $[13.3, 35.8]$, and 1.46 confident errors per 100 answers in T against V42's 1.69 on the same
+  questions.
+\end{itemize}
+Every pre-registered conclusion holds. Two exploratory ones change: r3w20 does not beat V42 in accuracy on these
+questions, and the logistic regression no longer separates familiarity from the cell's error rate. The amplification on
+each model's own scale is smaller.
+
+\paragraph{The chains.} We rebuilt every chain from its seed and checked the prompt of each step (rules, the state
+before the action and one action, written with the true state). In containers, 3,601 of 9,600 distinct step prompts
+are near duplicates of training rows, one of them identical; in 3,059 the rules differ (other names or capacities).
+In lamps 218 of 9,600 are, in machines and cards none. Errors are not rarer at those steps: in V42's 200 fresh chains,
+55 errors in 4,898 steps that overlap, against 42 in 8,302 that do not. On the steps that overlap no training row:
+\begin{itemize}
+  \item V42's never-look traces in the trained worlds have 6 wrong steps, all at $\ge 0.9$ (9 of 9 on all steps); the
+  parent's have 170, none at $\ge 0.9$ (one-sided Fisher $p = 2.6\times10^{-11}$);
+  \item errors made in containers and lamps on the fresh confirmation chains, against V42 on the same chains: r4a 0
+  against 27, r4b 2 against 27, r4c 6 against 28, w4a5 2 against 14.
+\end{itemize}
+Silent wrong steps per 100 actions cannot be split by step, since a wrong state persists into the following steps.
+Every chain conclusion holds on the steps that overlap no training row.
+
+\paragraph{The other sets.} No prompt is identical or a near duplicate in the git test sets (v2 and v3, and the
+240-question comparison drawn from v2), the larger guard set, the never-trained families' sets or the validation sets.
+The trained families' multi-question set overlaps in 291 of its 600 states (5 identical prompts, with the same
+questions); on the others, the released model answers 93.6\% $[91.3, 95.8]$ of the changed answers right with one
+prompt per question and 92.8\% read once (92.4\% and 91.5\% on all states).
+
 \section{Pre-registrations}\label{app:prereg}
 Each plan was written and its SHA-256 recorded (\texttt{PREREG\_sha256.txt}) before the run it governs. The plans are
 published with the code: the \texttt{PREREG} files at the repository root and the \texttt{PLAN} files under

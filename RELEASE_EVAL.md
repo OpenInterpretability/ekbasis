@@ -18,8 +18,9 @@ through the `ekbasis` client. All results are reported, favourable or not; every
    macro mean of the git v3 held-out tests, 88.52 against 86.71, and 8 of 8 no-regression checks) and passed that
    evaluation (`results_v42/release_eval/`).
 2. **In the worlds it was trained on, V42's rare errors came with high confidence.** A pre-registered test on 15,008
-   new questions found 58.1% of its wrong answers at a confidence of 0.9 or more in the families it was trained on,
-   against 27.8% in the families it never saw (`results_v42/confident_errors/REPORT.md`). A confidence threshold alone
+   generated questions found 58.1% of its wrong answers at a confidence of 0.9 or more in the families it was trained
+   on, against 27.8% in the families it never saw (`results_v42/confident_errors/REPORT.md`); 5,318 of the questions
+   overlap V42's training rows, and without them it finds 50.5% against 27.8% ([`results/overlap_audit/`](results/overlap_audit/README.md)). A confidence threshold alone
    misses such errors in long chains.
 3. **Training on errors mined inside its own chains fixed the loop but cost rare git knowledge.** r4a cut the steps
    carried wrong without a look from 0.93 to 0.03 per 100 actions on 160 fresh chains (pre-registered), but stopped
@@ -111,6 +112,9 @@ training. Trained families for reference.
 | **Never-trained families** (1,693 changed answers) | **81.2% [79.3–83.0]** · 1,442 prompt tokens per state | 78.0% [76.0–80.0] · 710 tokens |
 | Trained families (902 changed answers) | 92.4% [90.6–94.0] · 1,634 tokens | 91.5% [89.7–93.3] · 823 tokens |
 
+The trained families' set overlaps the training rows in 291 of its 600 states (added 2026-10-06, [`results/overlap_audit/`](results/overlap_audit/README.md)); on the
+other 309 (471 changed answers): 93.6% [91.3–95.8] with one prompt per question, 92.8% [90.4–95.1] read once.
+
 `ftest_family` (never-trained families, one question per state, one prompt per question): **81.9% [79.0–84.9]** on the
 629 answers the actions change (cards 69.5%, machines 80.3%, timers 96.6%); 85.4% on the answers they leave unchanged;
 83.3% [81.2–85.5] on all 1,080. Read-once does not apply (one question per state).
@@ -191,7 +195,9 @@ throughput: 16 in parallel (80).
 ### Portuguese
 
 The same 90 questions the actions change (machines, lamps, containers; 30 each), in English and in Portuguese: English
-85.6% (77), Portuguese 83.3% (75).
+85.6% (77), Portuguese 83.3% (75). Two of the 90 English questions (lamps) overlap the training rows, none of the
+Portuguese ones; the answers per question were not kept, so the numbers without them cannot be recomputed (at most
+two questions).
 
 ### Chains that start from an image
 
@@ -213,7 +219,9 @@ per question (Qwen answers collected before V42's release evaluation on the same
 | 0.99 | 21.3% | 100% |
 
 Calibration on these checks: confidence 0.99 and above (189 answers) → 100% right; 0.90–0.99 (35) → mean confidence
-96.9%, 91.4% right; 0.50–0.90 (13) → 75.8%, 76.9% right.
+96.9%, 91.4% right; 0.50–0.90 (13) → 75.8%, 76.9% right. 20 of the 240 items overlap the training rows (19 container items and 1 lamp
+item, all in the original wording; added 2026-10-06): without them, 95.0% / 97.5%; routing below 0.90 sends 6.8% for
+98.6%, below 0.99 21.8% for 100%; confidence 0.99 and above (172 answers) → 100% right.
 
 **One check, one GPU**: 0.088 s (median; 90th percentile 0.091 s) one at a time; 23 checks per second with 16 in
 parallel.
@@ -230,7 +238,8 @@ per run).
 
 On the same puzzles: Qwen3.8-27B writing the plan while reasoning 97.8% (about 720 generated tokens per puzzle),
 answering at once 38.3%; Eikos-27B without consequence training, searching the same way, 93.3% (all measured before
-V42's release evaluation).
+V42's release evaluation). At the first search step, 6 and 10 of the 180 puzzles ask about a prompt that nearly
+repeats a training row (containers and lamps; added 2026-10-06); without them, 100.0% and 98.8% of the plans work.
 
 **Predict, observe, correct** (`long_chain3.py`; `results/release_eval/long_chain3*.jsonl`). The simulation may read
 the real state (a look) and continue from it; it looks when its chain confidence (the product of each step's
@@ -294,6 +303,12 @@ against 0), looks 16.9 against 17.3. Never looking, on 40 of these chains (cards
 more; machines 1 of 1,200 steps wrong, 0 of them at 0.9 or more; cards 120 of 2,400 steps wrong, 0 of them at 0.9 or
 more.
 
+**Overlap with the training data (added 2026-10-06).** Rebuilt from their seeds, the container chains' step prompts
+nearly repeat training rows at the level of the family template (3,601 of 9,600 distinct step prompts, 1 identical),
+the lamp chains' rarely (218 of 9,600), the machine and card chains' never. Errors are not rarer at those steps (V42's
+200 fresh chains: 55 errors in 4,898 such steps, 42 in 8,302 others), and the conclusions above hold on the steps
+that do not overlap ([`results/overlap_audit/`](results/overlap_audit/README.md)).
+
 **Confident errors in familiar worlds.** The pre-registered test (`PREREG_confident_errors.md`) ran on V42 and was
 confirmed: 58.1% of its wrong answers carried a confidence of 0.9 or more in the families it was trained on, against
 27.8% in the families it never saw (30.3 points apart, 95% interval 24.0 to 36.5); Eikos-27B, the same model before
@@ -301,7 +316,11 @@ consequence training, 1.9% and 0.5%: training made it (`results_v42/confident_er
 questions answered by the release, with the same analysis (not pre-registered for it;
 [report](results/confident_errors/REPORT.md)): 48.4% and 25.1% (23.3 points apart, 95% interval 16.8 to 30.1);
 accuracy 95.7% and 85.1% (V42 95.2% and 85.1%); confident errors per 100 answers in the trained families 2.06 against
-V42's 2.79.
+V42's 2.79. 5,318 of the 15,008 questions (all in the trained families) overlap V42's training rows, and 5,378
+the release's lineage; without them: V42 50.5% against 27.8% (22.7 points apart, 95% interval 12.6 to 32.5),
+Eikos-27B 1.8% and 0.5%, the difference between the gaps 21.4 points (10.6 to 31.4): still confirmed; the release
+50.0% and 25.1% (24.9 points, 13.3 to 35.8), accuracy in the trained families 97.1% (V42 96.8%), 1.46 confident
+errors per 100 answers against V42's 1.69 ([`results/overlap_audit/`](results/overlap_audit/README.md)).
 
 **The guard on a 17× larger set** (`PLAN_guard_set.md`; `results/release_eval/guard_larger_set/`). 20,000 new examples
 per split from the same git generator, from repository states no earlier set contains, balanced like the test sets
