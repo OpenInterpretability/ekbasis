@@ -71,7 +71,7 @@ model-index:
 
 ![Ekbasis overview: git consequences against Claude and Qwen, the git guard on fresh real repositories, and speed against a reasoning model](https://huggingface.co/caiovicentino1/Ekbasis-27B/resolve/main/assets/ekbasis_launch.png)
 
-**Paper:** [Look When Unsure, Check When Sure](https://doi.org/10.5281/zenodo.23146971) · DOI [10.5281/zenodo.23146971](https://doi.org/10.5281/zenodo.23146971) · **Code:** [github.com/OpenInterpretability/ekbasis](https://github.com/OpenInterpretability/ekbasis) · **Site:** [openinterp.org/ekbasis](https://openinterp.org/ekbasis)
+**Paper:** [Look When Unsure, Check When Sure](https://doi.org/10.5281/zenodo.23146970) · DOI [10.5281/zenodo.23146970](https://doi.org/10.5281/zenodo.23146970) · **Code:** [github.com/OpenInterpretability/ekbasis](https://github.com/OpenInterpretability/ekbasis) · **Site:** [openinterp.org/ekbasis](https://openinterp.org/ekbasis)
 
 **What happens if I run this?** Given the current state and an action, Ekbasis-27B predicts what the action will do —
 *will this lose work? will it fail? what will X be afterwards?* — as **calibrated, typed answers**, in **one forward
@@ -232,7 +232,7 @@ branch name moved a pull that works from 44% to 53%; with commit messages shown,
 
 The study behind this section is the paper *Look When Unsure, Check When Sure*
 ([PDF](https://github.com/OpenInterpretability/ekbasis/blob/main/paper/look_when_unsure.pdf),
-[doi:10.5281/zenodo.23146971](https://doi.org/10.5281/zenodo.23146971)), every analysis pre-registered and re-run from
+[doi:10.5281/zenodo.23146970](https://doi.org/10.5281/zenodo.23146970)), every analysis pre-registered and re-run from
 the saved outputs.
 
 Ekbasis follows long sequences one action at a time. Where a later action overwrites a mistake (a container refilled,
@@ -491,7 +491,7 @@ The paper on when an agent should look (V42, the first release candidate, and th
   author       = {Vicentino, Caio},
   year         = {2026},
   publisher    = {Zenodo},
-  doi          = {10.5281/zenodo.23146971},
-  url          = {https://doi.org/10.5281/zenodo.23146971}
+  doi          = {10.5281/zenodo.23146970},
+  url          = {https://doi.org/10.5281/zenodo.23146970}
 }
 ```

@@ -9,7 +9,7 @@ of V42 by [PLAN_v43_release_eval.md](paper/prereg/PLAN_v43_release_eval.md), wit
 interpolated adapter merged into Eikos-27B), served by vLLM and the System One API (`serve.py` 1.3) and reached
 through the `ekbasis` client. All results are reported, favourable or not; every prediction is in
 [`results/release_eval/`](results/release_eval/). V42's evaluation, the data of the paper *Look When Unsure*
-([doi:10.5281/zenodo.23146971](https://doi.org/10.5281/zenodo.23146971), [PDF](paper/look_when_unsure.pdf)), is in
+([doi:10.5281/zenodo.23146970](https://doi.org/10.5281/zenodo.23146970), [PDF](paper/look_when_unsure.pdf)), is in
 [`results_v42/`](results_v42/). Deviations from the pre-registrations are listed at the end.
 
 ## How this checkpoint was chosen

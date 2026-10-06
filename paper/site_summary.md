@@ -2,10 +2,10 @@
 ### Consequence training makes a world model's remaining errors confident, most of all where it knows the world best
 
 **Caio Vicentino · OpenInterpretability · Published 2026-10-04 · Corrected 2026-10-06 (see the correction below).**
-**Zenodo · CC-BY-4.0 · [DOI 10.5281/zenodo.23146971](https://doi.org/10.5281/zenodo.23146971).**
+**Zenodo · CC-BY-4.0 · [DOI 10.5281/zenodo.23146970](https://doi.org/10.5281/zenodo.23146970).**
 
 > The on-site summary. The full paper — every table, the pre-registrations and the reproduction script — is the
-> **[PDF](/papers/look-when-unsure.pdf)**, also on **[Zenodo](https://doi.org/10.5281/zenodo.23146971)**.
+> **[PDF](/papers/look-when-unsure.pdf)**, also on **[Zenodo](https://doi.org/10.5281/zenodo.23146970)**.
 
 ---
 
