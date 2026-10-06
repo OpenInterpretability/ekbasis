@@ -445,8 +445,65 @@ Details: [docs/VERIFY.md](docs/VERIFY.md). Pre-registrations, results and the ov
   96.2%, against 54.8% for a list of destructive commands (82.0% flagged, 67.9% false alarms). What it misses: see
   Limits.
 
+- **Preflight (since 0.1.6)** — `ekbasis preflight -- "sqlite3 app.db < migrations/0012.sql"` (or
+  `ekbasis.preflight.check_line`) checks a multi-step change before it runs: a sqlite3 run of several statements (a file
+  through `<`, `.read`, a pipe, a here-document, `{ echo "BEGIN;"; cat f.sql; echo "COMMIT;"; } | sqlite3 db`, a file
+  written earlier on the same line), a shell script (`bash x.sh`, `./x.sh`), or a chain of commands. It warns only when
+  the first failure would leave the change **half applied**: a table rebuild whose copy fails but whose `DROP TABLE`
+  still runs, a move that fails followed by the `rm` that cleans up, `cd build/output; rm -rf *` when the folder is
+  missing.
+  - **On a copy when it can be.** Local files and local SQLite databases: the plan runs on a clone of the folder or
+    the database (APFS clonefile on macOS; reflinks or a size-capped copy elsewhere), one step at a time, with a
+    timeout. The first real failure and its error are known exactly, and your files are never touched. Only plans
+    whose every step is a local file or SQLite command from an allowlist (and so is any program it would start, as
+    with `xargs` or `find -exec`), writing inside the folder or the temporary folder, run on a copy.
+    - Shell steps run on a copy **only inside `sandbox-exec`** (macOS): no network, no writes outside the copy. Where
+      there is no sandbox (Linux), or it cannot start (preflight itself running inside another sandbox), shell plans
+      are judged by Ekbasis instead.
+    - SQL plans run on a copy wherever the `sqlite3` command-line tool is installed (inside `sandbox-exec` on macOS).
+      SQL that writes other files (`ATTACH`, `VACUUM INTO`, `readfile`/`writefile`, extensions) never does.
+    - Without the `sqlite3` tool, a `sqlite3` command fails before any statement runs: preflight says so and does not
+      warn. SQL given to the Python API (`check_sql`, for SQL you run some other way) is judged by Ekbasis.
+  - **Otherwise by Ekbasis** (remote or side-effectful targets: a script that calls a service, pushes, or uses a tool
+    outside the allowlist). One request asks whether each step fails on the current state; scripts and chains also
+    get a step walk (each step asked with only the steps before it). Facts that code can state decide their step: a
+    `mkdir` onto a file, a trailing-slash destination that is not a folder, a missing source, a `cd` into a missing
+    folder, writing into a folder you cannot write, an archive into a folder that is not there, a command that is not
+    installed. Numbers within a CHECK bound are decided in code. SQL run by sqlite3 inside a chain is judged as SQL.
+  - **Not warned on:** a failing step that only reads (`git status`, `ls`, a `curl` notification) and steps that only
+    add (a backup copy, a new folder, CREATE TABLE), on their own; a plan that fails atomically (`sqlite3 -bail` inside
+    `BEGIN ... COMMIT`).
+  - **When it cannot judge** (loops, conditionals, functions, other dot-commands, variables it cannot resolve), it says
+    nothing: it is an extra check (`--fail-closed` / `EKBASIS_PREFLIGHT_FAIL_CLOSED=1` warns instead).
+
+  In the Claude Code hook it is opt-in: `EKBASIS_PREFLIGHT=1`. In headless runs an "ask" is a denial, so the warning
+  says so, and the same command run again in the same session goes through (`EKBASIS_PREFLIGHT_REPEAT=0`: always warn).
+  `EKBASIS_PREFLIGHT_COPY=0` never runs on a copy; `EKBASIS_GIT_GUARD=0` runs preflight alone. The MCP server exposes
+  it as `preflight_command`. **Rows go to your Ekbasis server** when the model is asked about SQL (`--no-rows` sends the
+  schema, counts and facts instead).
+
+  **Measured** ([results/client_0.1.6](results/client_0.1.6/RESULTS.md); pre-registered, 20 new tasks, Claude Code
+  agents, **on one Mac**: macOS 26.3, sqlite3 shell 3.51.0):
+  - With Claude Haiku 4.5, damage in trap tasks fell from 23/28 to 3/28 sessions and tasks done rose from 17/40 to
+    34/40, with no warning on a control.
+  - With Claude Sonnet 5.5, all 7 warnings were right, no session got a needless one, and damage fell from 5/14 to
+    1/14.
+
+  Limits:
+  - The tasks are ours.
+  - Most traps (9 of 14) ran on a copy, which is exact.
+  - On the model's path (commands that cannot run on a copy), 58 of 69 half-applied changes were caught (37 by
+    code-stated facts) and 4 of 51 warnings were needless. The model alone missed macOS `sed -i` taking the next word
+    as a suffix.
+  - **On Linux, shell plans are always on the model's path.** It was not measured with agents on the 3 shell traps and
+    2 shell controls that ran on a copy on the Mac. On the first study's 20 task commands, with copies off, it warned
+    on 14 of 14 traps and on 0 of 6 controls.
+  - SQL plans run on a copy on Linux too, where the `sqlite3` tool is installed. That is checked by unit tests only
+    (sqlite3 3.46, Python 3.9 and 3.12).
+
 - **MCP server** (`pip install "ekbasis[mcp] @ git+https://github.com/OpenInterpretability/ekbasis"`, Python ≥ 3.10):
-  the command `ekbasis-mcp` exposes `check_git_commands` and `predict_consequences` to any MCP client. In Claude Code:
+  the command `ekbasis-mcp` exposes `check_git_commands`, `predict_consequences` and (since 0.1.6) `preflight_command`
+  to any MCP client. In Claude Code:
 
   ```bash
   claude mcp add --scope user ekbasis -e EKBASIS_URL=http://127.0.0.1:8000 -- ekbasis-mcp

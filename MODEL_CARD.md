@@ -134,6 +134,10 @@ Client 0.1.5 adds a certified mode, `rule="certified"`: a confident answer goes 
 certificate holds. In a third pre-registered test it left 0.39% errors among the answers it accepted, verifying 26.9%
 and catching 94.8% of the confident errors
 ([results](https://github.com/OpenInterpretability/ekbasis/blob/main/results/client_0.1.5/RESULTS.md)).
+Client 0.1.6 adds `ekbasis preflight` (`EKBASIS_PREFLIGHT=1` in the hook). It checks a migration, script or chain
+before it runs and warns when the first failure would leave the change half applied. In pre-registered agent tasks on
+one Mac, Claude Haiku 4.5's damage fell from 23/28 to 3/28 trap sessions, and Claude Sonnet 5.5 got 0 needless warnings
+in 20 sessions ([results](https://github.com/OpenInterpretability/ekbasis/blob/main/results/client_0.1.6/RESULTS.md)).
 Code, docs and the playbook: https://github.com/OpenInterpretability/ekbasis
 
 ## Builds

@@ -28,6 +28,16 @@ mode and fail-closed rule.
 - Lost committed work, a separate check done by code: branch deletion (-D), forced branch moves, `reset <commit>`,
   tag deletion and the like that leave commits no branch, tag, remote-tracking branch or stash holds (git.committed_loss).
 
+Since 0.1.6: preflight, opt-in with EKBASIS_PREFLIGHT=1 (ekbasis.preflight). A line that runs a multi-step
+change (a sqlite3 run of several statements, a shell script, a chain of commands with two or more steps that change
+something) is checked before it runs: on a copy when it can be (local files and SQLite; shell steps only inside the
+macOS sandbox; EKBASIS_PREFLIGHT_COPY=0 turns that off), otherwise by Ekbasis, and code works out whether the first
+failure would leave the change half applied. Only
+that case warns; a plan that fails atomically, or a failing check that only reads, does not. In a headless run an "ask"
+is a denial, so the warning says so and the same command in the same session goes through the second time
+(EKBASIS_PREFLIGHT_REPEAT=0: always warn). When preflight cannot judge a line it says nothing
+(EKBASIS_PREFLIGHT_FAIL_CLOSED=1: it warns once, the same way).
+
 Install (after `pip install ./ekbasis`), in .claude/settings.json (one project) or ~/.claude/settings.json (all):
   {"hooks": {"PreToolUse": [{"matcher": "Bash",
                              "hooks": [{"type": "command", "command": "ekbasis-claude-hook", "timeout": 30}]}]}}
@@ -35,20 +45,26 @@ env: EKBASIS_URL (server), EKBASIS_LOST_THRESHOLD (0.2), EKBASIS_GUARD_MODE (ask
 first so the state shows the real remote; slower), EKBASIS_SHELL_GUARD (1: also check other lines that change files),
 EKBASIS_FAIL_OPEN (1: stay silent when it cannot judge), EKBASIS_HOOK_DEADLINE (seconds, default 25, for the whole
 line: keep it below the hook's "timeout", or Claude Code stops the hook first and the command goes through unchecked),
-EKBASIS_SHORTCUTS (0: always ask the model, as 0.1.2 did).
+EKBASIS_SHORTCUTS (0: always ask the model, as 0.1.2 did), EKBASIS_PREFLIGHT (1: check multi-step changes before they run),
+EKBASIS_PREFLIGHT_REPEAT (1, the default: a warned command passes when it is run again in the same session),
+EKBASIS_GIT_GUARD (0: no git checks, for preflight alone), EKBASIS_PREFLIGHT_COPY (0: never run on a copy),
+EKBASIS_PREFLIGHT_FAIL_CLOSED (1: warn when preflight cannot judge).
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import re
 import shlex
 import sys
+import tempfile
 import threading
 import time
 from dataclasses import dataclass, field
 
 from . import git as G
+from . import preflight as PF
 from . import prompts as P
 from . import recover as R
 from . import shell as S
@@ -336,6 +352,75 @@ def _with_deadline(fn, seconds: float):
     return out["v"]
 
 
+def _seen_path(session: str) -> str:
+    return os.path.join(tempfile.gettempdir(), "ekbasis-preflight", re.sub(r"[^A-Za-z0-9_.-]", "_", session) + ".json")
+
+
+def _preflight_key(line: str, cwd: str) -> str:
+    """The command and what it would run: a script or SQL file edited since the warning is checked again."""
+    content = ""
+    try:
+        plan = PF.plan_line(line, cwd)
+        if plan is not None:
+            content = "\n".join(s.text + "".join("\n" + x.text for x in (s.sql or [])) for s in plan.steps)
+    except Exception:  # noqa: BLE001 — the line alone is the key then
+        pass
+    return hashlib.sha256(f"{os.path.realpath(cwd)}\0{line}\0{content}".encode()).hexdigest()[:32]
+
+
+def _seen(session: str | None, key: str) -> bool:
+    if not session or os.environ.get("EKBASIS_PREFLIGHT_REPEAT", "1") == "0":
+        return False
+    try:
+        with open(_seen_path(session)) as fh:
+            return key in json.load(fh)
+    except (OSError, ValueError):
+        return False
+
+
+def _remember(session: str | None, key: str) -> None:
+    if not session:
+        return
+    path = _seen_path(session)
+    try:
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        try:
+            with open(path) as fh:
+                keys = json.load(fh)
+        except (OSError, ValueError):
+            keys = []
+        with open(path, "w") as fh:
+            json.dump(keys + [key], fh)
+    except OSError:
+        pass
+
+
+def _preflight(line: str, cwd: str, session: str | None, client, left) -> str | None:
+    """The preflight warning for this line, or None (since 0.1.6). Silent when it cannot judge, unless
+    EKBASIS_PREFLIGHT_FAIL_CLOSED=1: preflight is an extra check, not the guard against lost work."""
+    key = _preflight_key(line, cwd)
+    if _seen(session, key):
+        return None   # warned before in this session: the second run goes through
+    again = "" if os.environ.get("EKBASIS_PREFLIGHT_REPEAT", "1") == "0" or not session else \
+        " Fix the plan first, or run the same command again to go ahead anyway."
+    fail_closed = os.environ.get("EKBASIS_PREFLIGHT_FAIL_CLOSED") == "1"
+    copy = os.environ.get("EKBASIS_PREFLIGHT_COPY", "1") != "0"
+    try:
+        v = _with_deadline(lambda: PF.check_line(line, cwd, client=client, fail_closed=fail_closed, copy=copy), left())
+    except CannotJudge as e:
+        if not fail_closed:
+            print(f"ekbasis preflight: cannot judge ({e}); saying nothing", file=sys.stderr)
+            return None
+        _remember(session, key)
+        return f"Ekbasis preflight could not check this multi-step change ({e}).{again}"
+    if v is None or not v.risky:
+        if v is not None and v.cannot_judge:
+            print("ekbasis preflight: cannot judge (" + "; ".join(v.plan.unread) + "); saying nothing", file=sys.stderr)
+        return None
+    _remember(session, key)
+    return v.message() + again
+
+
 def main() -> int:
     try:
         data = json.load(sys.stdin)
@@ -359,9 +444,11 @@ def main() -> int:
 
         client = Ekbasis(timeout=deadline)
         plan = plan_line(line, cwd)
-        if plan.why:
+        if plan.why and os.environ.get("EKBASIS_GIT_GUARD", "1") != "0":
             return _cannot_judge("; ".join(plan.why))
         found = []
+        if os.environ.get("EKBASIS_GIT_GUARD", "1") == "0":
+            plan.steps = []   # preflight only: no git checks
         for loss in G.committed_loss(plan.steps) if plan.steps else []:
             found.append(f"Ekbasis (committed work, checked by code): this line {G.describe_loss(loss)}. Keep a branch "
                          "or tag on those commits first if you need them.")
@@ -393,6 +480,10 @@ def main() -> int:
             if v.risky:
                 what = "could not judge every part of the line" if not v.lost_risky else "; ".join(v.reasons)
                 found.append(f"Ekbasis (shell guard): {what}. Line: {line}. Consider keeping a copy of the files first.")
+        if os.environ.get("EKBASIS_PREFLIGHT") == "1":
+            warn = _preflight(line, cwd, data.get("session_id"), client, left)
+            if warn:
+                found.append(warn)
     except CannotJudge as e:
         return _cannot_judge(str(e))
     except Exception as e:  # noqa: BLE001  (anything else: cannot judge)

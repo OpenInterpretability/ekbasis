@@ -1,0 +1,33 @@
+{
+ "what": "After the confirmation study: every multi-step command of both preflight studies, on the snapshot taken just before it ran, read and run on a copy by the fixed client, compared with the client before the fix. No model calls.",
+ "machine": "macOS 26.3 (Apple silicon), sqlite3 shell 3.51.0, runs on a copy inside sandbox-exec",
+ "studies": {
+  "first study (0.1.4.dev0 sessions, dev data)": {
+   "multi_step_plans": 286,
+   "moved_between_copy_and_model": 0,
+   "run_on_a_copy": {
+    "sql": 144,
+    "shell": 138
+   },
+   "same_first_failure": "282/282"
+  },
+  "confirmation study (client 0.1.5.dev0)": {
+   "multi_step_plans": 351,
+   "moved_between_copy_and_model": 0,
+   "run_on_a_copy": {
+    "sql": 121,
+    "shell": 93
+   },
+   "same_first_failure": "214/214"
+  }
+ },
+ "unit_tests": {
+  "macOS 26.3, Python 3.12, sqlite3 3.51.0": "129 passed",
+  "Linux (Debian, Docker), Python 3.12, root, no sqlite3": "119 passed, 10 skipped (6 need the sqlite3 tool, 3 the macOS sandbox, 1 a non-root user)",
+  "Linux, Python 3.12, root, sqlite3 3.46.1": "125 passed, 4 skipped (3 the macOS sandbox, 1 a non-root user)",
+  "Linux, Python 3.12, normal user, sqlite3 3.46.1": "126 passed, 3 skipped (the macOS sandbox)",
+  "Linux, Python 3.9, root, no sqlite3": "119 passed, 10 skipped",
+  "Linux, Python 3.9, normal user, sqlite3 3.46.1": "126 passed, 3 skipped (the macOS sandbox)"
+ },
+ "linux_repro": "Python 3.12 on Linux, project outside /tmp: checking `cp new.conf <outside>/app.conf; rm old.txt; rm missing.txt` with the client the study ran overwrote the real outside file; with the fix the line is judged by the model and the file is untouched."
+}

@@ -1,0 +1,26 @@
+{
+ "pf_warnings": {
+  "h": {
+   "total": 27,
+   "right": 26,
+   "needless": 1
+  },
+  "s": {
+   "total": 7,
+   "right": 7,
+   "needless": 0
+  }
+ },
+ "commands_with_truth": 351,
+ "half_applied": 182,
+ "pf_missed": {
+  "h": 5,
+  "s": 1
+ },
+ "model_path": {
+  "commands": 137,
+  "half_warned": "59/81",
+  "needless": "4/56",
+  "decided_by_code": 38
+ }
+}

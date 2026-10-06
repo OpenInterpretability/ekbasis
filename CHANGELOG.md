@@ -1,5 +1,41 @@
 # Changelog
 
+## 0.1.6 (2026-10-06): preflight
+
+Preflight for multi-step changes (`ekbasis.preflight`, `ekbasis preflight`, the MCP tool `preflight_command`, the Claude
+Code hook with `EKBASIS_PREFLIGHT=1`). Before a migration file, a script or a chain of commands runs, it finds the first
+step that fails, on a copy of the folder or database when the plan is local (exact), otherwise by Ekbasis with
+code-stated facts and a step walk, and warns only when that failure would leave the change half applied. Nothing else
+changes: with `EKBASIS_PREFLIGHT` unset, every request is byte-identical to 0.1.5's.
+
+- Built from a first preflight study (0.1.4.dev0, not released): it cut damage with Claude Haiku (16/28 → 6/28 trap
+  sessions) but interrupted Claude Sonnet needlessly (25 warnings, none right) and missed three kinds of shell trap.
+  This version changes what counts as a change (reads and additions are not half-done changes), follows more of what
+  careful agents write (backups, `{ ...; } | sqlite3`, files written on the same line, `cd`, variables, sqlite3 inside
+  chains), runs local plans on a copy, adds code-stated facts and the step walk, and is silent when it cannot judge.
+- Measured on 20 new tasks, pre-registered ([results/client_0.1.6](results/client_0.1.6/RESULTS.md)): Haiku 4.5's damage in traps 23/28 → 3/28 sessions, tasks done 17/40 → 34/40, no control warned; Sonnet 5.5: 7 warnings, all right, no needless one, damage 5/14 → 1/14.
+- The warn-once rule keys on the command and on what it would run: an edited script or SQL file is checked again (after the study; covered by a test).
+- **Runs on a copy never touch real files** (after the study; found before release).
+  - Before: on a machine without a sandbox, a shell step that wrote an existing file outside the folder wrote the real
+    file during the check (reproduced on Linux). Such a step uses an absolute path, `..`, a symbolic link or `xargs`
+    over a list.
+  - Now: shell steps run on a copy only inside `sandbox-exec` (macOS: no network, writes only in the copy). Elsewhere,
+    or when the sandbox cannot start, Ekbasis judges the plan.
+  - A step that would start a program outside the allowlist is not run on a copy either: `xargs` or `find -exec` with
+    such a program, `awk` with `system()` or a pipe, or `tar`/`zip`/`sort`/`git` options that name a program.
+  - When the sandbox refuses a step's write outside the copy, Ekbasis judges the plan. Before, the refusal counted as
+    the step's failure, although the real run may succeed.
+  - SQL copies run inside the sandbox on macOS. SQL that writes other files (`VACUUM INTO`, `zipfile`) never runs on a
+    copy.
+  - Replayed on every multi-step command of both preflight studies (637 plans, on the snapshot taken before each):
+    none moved between the copy and the model, and all 496 runs on a copy found the same first failure.
+- Without the `sqlite3` command-line tool, a `sqlite3` line fails before any statement runs. Preflight now reports
+  that, by code and without a warning; before, it asked Ekbasis about statements that would never run.
+- Tests that need the `sqlite3` tool, a non-root user or the macOS sandbox are skipped where those are missing. The
+  suite passes on Linux: Python 3.9 and 3.12, with and without `sqlite3`, as root and as a normal user.
+- Hook: `EKBASIS_PREFLIGHT_REPEAT=0` always warns; `EKBASIS_PREFLIGHT_COPY=0` never runs on a copy;
+  `EKBASIS_PREFLIGHT_FAIL_CLOSED=1` warns when it cannot judge; `EKBASIS_GIT_GUARD=0` turns the git checks off.
+
 ## 0.1.5 (2026-10-06): certified mode for `ekbasis.verify`
 
 One addition to `ekbasis.verify` ([docs/VERIFY.md](docs/VERIFY.md); results in
