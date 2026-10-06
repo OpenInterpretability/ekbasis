@@ -141,6 +141,79 @@ class TestThresholds(unittest.TestCase):
         self.assertEqual((sql.rule, sql.threshold), ("domain", V.threshold("sql")))
 
 
+class TestCertified(unittest.TestCase):
+    """rule="certified": confirm-3's rule L2 (Learn-then-Test, alpha 2%, delta 0.05), with its frozen parameters
+    (results/client_0.1.5/confirm3/params_confirm3.json)."""
+
+    SUITE = {"rules_stress": "rules", "sql_wild": "sql", "shell_wild": "shell", "git_wild": "git", "accumulation": "totals"}
+
+    def test_parameters_are_confirm3s(self):
+        c = V.policy()["certified"]
+        self.assertEqual((c["alpha"], c["delta"], c["buckets"]), (0.02, 0.05, [0.01, 0.03, 0.1]))
+        self.assertEqual({k: v for k, v in c["difficulty_nodes"].items() if v is not None},
+                         {"git|d2": 0.8978224532573342, "rules|d0": 0.6031622023580614, "rules|d1": 0.7082093333603049,
+                          "shell|d2": 0.7847220616961453, "shell|d3": 0.5177450634418502, "sql|d1": 0.7538036056990244})
+        self.assertEqual(len(c["family_nodes"]), 37)
+        self.assertEqual(c["family_nodes"]["rules|addendum|clock"], 0.5296470578147662)
+        self.assertEqual(len(c["family_rate"]), 530)
+
+    def test_reproduces_confirm3_l2_decisions(self):
+        """602 stored confirm-3 units (every node kind, accepted and verified; tests/data/confirm3_l2_sample.jsonl): the
+        client's score and certified decision equal the frozen analysis's, exactly."""
+        path = os.path.join(os.path.dirname(__file__), "data", "confirm3_l2_sample.jsonl")
+        with open(path) as f:
+            rows = [json.loads(l) for l in f]
+        self.assertEqual(len(rows), 602)
+        for r in rows:
+            doubt = None if r["domain"] in ("git", "shell") else r["verify"]
+            s = V.score(r["famobs"], r["minpert"], doubt)
+            self.assertEqual(s, r["S"])
+            where, lam = V.node(r["domain"], r["family"], rule="certified")
+            kind, _, key = where.partition(":")
+            self.assertEqual(kind, r["node_kind"], r)
+            if r["node"] is not None:
+                suite, rest = r["node"].split("|", 1)
+                self.assertEqual(key, f"{self.SUITE[suite]}|{rest}")
+            self.assertEqual(lam is not None and s < lam, r["accepted"], r)
+
+    def test_decisions_carry_rule_node_and_threshold(self):
+        tr = V.FamilyTracker()
+        for _ in range(100):
+            tr.observe("addendum|clock", correct=True)
+        m = MockServer(rule_from(0.999, 0.999, 0.001))
+        try:
+            d = V.check(m.client, STATE, CHOICE, Answer("A", 0.99, {"A": 0.99, "B": 0.01}), family="addendum|clock",
+                        domain="rules", tracker=tr, rule="certified")
+        finally:
+            m.close()
+        self.assertEqual((d.rule, d.node, d.threshold), ("certified", "family:rules|addendum|clock", 0.5296470578147662))
+        self.assertEqual(d.verify, d.score >= d.threshold)
+        self.assertEqual(d.requests, 2)
+
+    def test_no_certificate_means_verify_with_no_request(self):
+        cases = [("rules", "kind|no-such-family", "unseen:rules|kind|no-such-family"),
+                 ("totals", "budget", "uncertified:totals|d3"),        # seen; its difficulty node has no certificate
+                 ("terraform", "plan|destroy", "unseen:terraform"),     # outside the five domains
+                 ("git", "git:checkout|lost", "unseen:git|git:checkout|lost")]  # the client's own keys are not certified
+        for domain, family, want in cases:
+            m = MockServer(rule_from(0.999, 0.999, 0.001))
+            try:
+                d = V.check(m.client, STATE, YESNO, Answer(True, 0.99, {"yes": 0.99, "no": 0.01}, p_yes=0.99),
+                            family=family, domain=domain, rule="certified")
+                self.assertTrue(d.verify)
+                self.assertEqual((d.node, d.threshold, d.requests, len(m.requests)), (want, None, 0, 0))
+                self.assertIn("no certificate", d.reasons[0])
+            finally:
+                m.close()
+
+    def test_other_rules_name_their_node(self):
+        self.assertEqual(V.node("git"), ("domain:git", 0.7675364241656271))
+        self.assertEqual(V.node(None), ("global", V.policy()["tau"]))
+        self.assertEqual(V.node("rules", "kind|delay", rule="conformal"), ("conformal:rules|kind|delay", 0.7746812586564135))
+        self.assertEqual(V.node("sql", "x", rule="global"), ("global", V.policy()["tau"]))
+        self.assertIsNone(V.threshold("rules", "nope", rule="certified"))
+
+
 class TestRequests(unittest.TestCase):
     def test_unsure_answer_needs_no_call(self):
         m = MockServer(rule_from(0.9, 0.9, 0.1))

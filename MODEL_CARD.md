@@ -130,6 +130,10 @@ acting. In a pre-registered test on fresh items from five capability suites, non
 data, its default per-domain thresholds caught 84.5% of the confident errors while verifying 22.6% of the confident
 answers; confidence alone, verifying 23.4%, caught 65.7%. A rule meant to certify at most 2% errors among unchecked
 answers did not pass ([details](https://github.com/OpenInterpretability/ekbasis/blob/main/docs/VERIFY.md)).
+Client 0.1.5 adds a certified mode, `rule="certified"`: a confident answer goes unchecked only where a Learn-then-Test
+certificate holds. In a third pre-registered test it left 0.39% errors among the answers it accepted, verifying 26.9%
+and catching 94.8% of the confident errors
+([results](https://github.com/OpenInterpretability/ekbasis/blob/main/results/client_0.1.5/RESULTS.md)).
 Code, docs and the playbook: https://github.com/OpenInterpretability/ekbasis
 
 ## Builds

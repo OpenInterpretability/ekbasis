@@ -1,0 +1,318 @@
+{
+ "sets": [
+  "c3"
+ ],
+ "eval_rows": {
+  "c3|accumulation": 1671,
+  "c3|git_wild": 3250,
+  "c3|rules_stress": 9075,
+  "c3|shell_wild": 3708,
+  "c3|sql_wild": 2034
+ },
+ "distinct_evidences": 13474,
+ "training": {
+  "ftrain": {
+   "rows": 68322,
+   "with_struct": 0,
+   "near_candidates": 0,
+   "candidate_best_jaccard": {
+    "n": 0,
+    "max": null,
+    "p99": null,
+    "median": null,
+    "n_at_least_0.4": 0
+   }
+  },
+  "ftrain2": {
+   "rows": 113820,
+   "with_struct": 0,
+   "near_candidates": 0,
+   "candidate_best_jaccard": {
+    "n": 0,
+    "max": null,
+    "p99": null,
+    "median": null,
+    "n_at_least_0.4": 0
+   }
+  },
+  "ftrain3": {
+   "rows": 78322,
+   "with_struct": 0,
+   "near_candidates": 0,
+   "candidate_best_jaccard": {
+    "n": 0,
+    "max": null,
+    "p99": null,
+    "median": null,
+    "n_at_least_0.4": 0
+   }
+  },
+  "ftrain4": {
+   "rows": 78322,
+   "with_struct": 0,
+   "near_candidates": 0,
+   "candidate_best_jaccard": {
+    "n": 0,
+    "max": null,
+    "p99": null,
+    "median": null,
+    "n_at_least_0.4": 0
+   }
+  },
+  "ftrain5": {
+   "rows": 92322,
+   "with_struct": 0,
+   "near_candidates": 0,
+   "candidate_best_jaccard": {
+    "n": 0,
+    "max": null,
+    "p99": null,
+    "median": null,
+    "n_at_least_0.4": 0
+   }
+  },
+  "ftrain_all": {
+   "rows": 140612,
+   "with_struct": 0,
+   "near_candidates": 15044,
+   "candidate_best_jaccard": {
+    "n": 15044,
+    "max": 0.4844,
+    "p99": 0.4173,
+    "median": 0.3504,
+    "n_at_least_0.4": 834
+   }
+  },
+  "ftrain_cb": {
+   "rows": 68107,
+   "with_struct": 0,
+   "near_candidates": 0,
+   "candidate_best_jaccard": {
+    "n": 0,
+    "max": null,
+    "p99": null,
+    "median": null,
+    "n_at_least_0.4": 0
+   }
+  },
+  "ftrain_cb3": {
+   "rows": 78109,
+   "with_struct": 0,
+   "near_candidates": 0,
+   "candidate_best_jaccard": {
+    "n": 0,
+    "max": null,
+    "p99": null,
+    "median": null,
+    "n_at_least_0.4": 0
+   }
+  },
+  "ftrain_cb3b": {
+   "rows": 92110,
+   "with_struct": 0,
+   "near_candidates": 0,
+   "candidate_best_jaccard": {
+    "n": 0,
+    "max": null,
+    "p99": null,
+    "median": null,
+    "n_at_least_0.4": 0
+   }
+  },
+  "ftrain_gitR": {
+   "rows": 38450,
+   "with_struct": 0,
+   "near_candidates": 0,
+   "candidate_best_jaccard": {
+    "n": 0,
+    "max": null,
+    "p99": null,
+    "median": null,
+    "n_at_least_0.4": 0
+   }
+  },
+  "ftrain_m3only": {
+   "rows": 24003,
+   "with_struct": 0,
+   "near_candidates": 0,
+   "candidate_best_jaccard": {
+    "n": 0,
+    "max": null,
+    "p99": null,
+    "median": null,
+    "n_at_least_0.4": 0
+   }
+  },
+  "ftrain_mix": {
+   "rows": 92110,
+   "with_struct": 0,
+   "near_candidates": 0,
+   "candidate_best_jaccard": {
+    "n": 0,
+    "max": null,
+    "p99": null,
+    "median": null,
+    "n_at_least_0.4": 0
+   }
+  },
+  "ftrain_mixG": {
+   "rows": 118218,
+   "with_struct": 0,
+   "near_candidates": 0,
+   "candidate_best_jaccard": {
+    "n": 0,
+    "max": null,
+    "p99": null,
+    "median": null,
+    "n_at_least_0.4": 0
+   }
+  },
+  "ftrain_mixG2": {
+   "rows": 149591,
+   "with_struct": 0,
+   "near_candidates": 0,
+   "candidate_best_jaccard": {
+    "n": 0,
+    "max": null,
+    "p99": null,
+    "median": null,
+    "n_at_least_0.4": 0
+   }
+  },
+  "ftrain_mixG2M": {
+   "rows": 173591,
+   "with_struct": 0,
+   "near_candidates": 0,
+   "candidate_best_jaccard": {
+    "n": 0,
+    "max": null,
+    "p99": null,
+    "median": null,
+    "n_at_least_0.4": 0
+   }
+  },
+  "ftrain_mixG3": {
+   "rows": 198276,
+   "with_struct": 0,
+   "near_candidates": 149,
+   "candidate_best_jaccard": {
+    "n": 149,
+    "max": 0.254,
+    "p99": 0.252,
+    "median": 0.1875,
+    "n_at_least_0.4": 0
+   }
+  },
+  "ftrain_mixR": {
+   "rows": 94504,
+   "with_struct": 0,
+   "near_candidates": 0,
+   "candidate_best_jaccard": {
+    "n": 0,
+    "max": null,
+    "p99": null,
+    "median": null,
+    "n_at_least_0.4": 0
+   }
+  },
+  "ftrain_mixRA": {
+   "rows": 114504,
+   "with_struct": 0,
+   "near_candidates": 0,
+   "candidate_best_jaccard": {
+    "n": 0,
+    "max": null,
+    "p99": null,
+    "median": null,
+    "n_at_least_0.4": 0
+   }
+  },
+  "ftrain_multi": {
+   "rows": 116110,
+   "with_struct": 0,
+   "near_candidates": 0,
+   "candidate_best_jaccard": {
+    "n": 0,
+    "max": null,
+    "p99": null,
+    "median": null,
+    "n_at_least_0.4": 0
+   }
+  },
+  "ftrain_realR": {
+   "rows": 34736,
+   "with_struct": 0,
+   "near_candidates": 0,
+   "candidate_best_jaccard": {
+    "n": 0,
+    "max": null,
+    "p99": null,
+    "median": null,
+    "n_at_least_0.4": 0
+   }
+  },
+  "ftrain_tripR": {
+   "rows": 14736,
+   "with_struct": 0,
+   "near_candidates": 0,
+   "candidate_best_jaccard": {
+    "n": 0,
+    "max": null,
+    "p99": null,
+    "median": null,
+    "n_at_least_0.4": 0
+   }
+  },
+  "mined_wide": {
+   "rows": 7458,
+   "with_struct": 0,
+   "near_candidates": 0,
+   "candidate_best_jaccard": {
+    "n": 0,
+    "max": null,
+    "p99": null,
+    "median": null,
+    "n_at_least_0.4": 0
+   }
+  },
+  "mined_chain": {
+   "rows": 555,
+   "with_struct": 0,
+   "near_candidates": 0,
+   "candidate_best_jaccard": {
+    "n": 0,
+    "max": null,
+    "p99": null,
+    "median": null,
+    "n_at_least_0.4": 0
+   }
+  }
+ },
+ "lineage_files": [
+  "ftrain_mixG3",
+  "ftrain_mixG2M",
+  "ftrain_mixG2",
+  "ftrain_multi",
+  "ftrain_mix",
+  "ftrain_m3only",
+  "mined_wide",
+  "mined_chain"
+ ],
+ "by_set_suite": {
+  "c3|accumulation": {
+   "rows": 1671
+  },
+  "c3|git_wild": {
+   "rows": 3250
+  },
+  "c3|rules_stress": {
+   "rows": 9075
+  },
+  "c3|shell_wild": {
+   "rows": 3708
+  },
+  "c3|sql_wild": {
+   "rows": 2034
+  }
+ }
+}

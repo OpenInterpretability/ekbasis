@@ -1,0 +1,70 @@
+{
+ "runner_rows": {
+  "rules_stress/results.jsonl": {
+   "rows": 7725,
+   "set_aside": 0
+  },
+  "rules_stress/results_addendum.jsonl": {
+   "rows": 1350,
+   "set_aside": 0
+  },
+  "sql_wild/results.jsonl": {
+   "rows": 900,
+   "set_aside": 0
+  },
+  "shell_wild/results.jsonl": {
+   "rows": 816,
+   "set_aside": 0
+  },
+  "git_wild/results.jsonl": {
+   "rows": 1014,
+   "set_aside": 0
+  },
+  "accumulation/results.jsonl": {
+   "rows": 1807,
+   "set_aside": 0
+  }
+ },
+ "per_suite": {
+  "accumulation": {
+   "built": 1807,
+   "kept": 1671,
+   "kept_confident": 1339,
+   "kept_confident_errors": 162,
+   "earlier_confirm_overlap": 63,
+   "fresh_duplicate": 16,
+   "dev_overlap": 57
+  },
+  "git_wild": {
+   "built": 3250,
+   "kept": 3250,
+   "kept_confident": 3037,
+   "kept_confident_errors": 272
+  },
+  "rules_stress": {
+   "built": 9075,
+   "kept": 9075,
+   "kept_confident": 8611,
+   "kept_confident_errors": 230
+  },
+  "shell_wild": {
+   "built": 3708,
+   "kept": 3708,
+   "kept_confident": 3608,
+   "kept_confident_errors": 316
+  },
+  "sql_wild": {
+   "built": 2038,
+   "kept": 2034,
+   "kept_confident": 1949,
+   "kept_confident_errors": 270,
+   "earlier_confirm_overlap": 4
+  }
+ },
+ "excluded_against": {
+  "dev_prompts": 106405,
+  "dev_evidences": 31169,
+  "confirm1_2_prompts": 48792,
+  "confirm1_2_evidences": 28729
+ }
+}

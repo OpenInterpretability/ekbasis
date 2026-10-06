@@ -305,7 +305,10 @@ It asks to verify when their mean percentile reaches the threshold of the answer
 | anything else | 0.6414 |
 
 `rule="conformal"` uses per-family thresholds at α = 0.15 instead, and `rule="global"` uses 0.6414 everywhere.
-`check_steps` asks to verify when the step-by-step answer moves the direct answer's probability by ≥ 0.0334.
+`rule="certified"` (0.1.5) acts without verifying only where a Learn-then-Test certificate holds (≤ 2% errors among
+the answers it accepts, δ = 0.05); every other answer is verified. Each `Decision` records its `rule`, `node` and
+`threshold`. `check_steps` asks to verify when the step-by-step answer moves the direct answer's probability by
+≥ 0.0334.
 
 **Measured** in two pre-registered tests on fresh items from five capability suites (rules, SQL, shell, git, running
 totals). The second, confirm-2, had 18,615 confident answers, 1,202 of them wrong, with every item new against the
@@ -329,12 +332,27 @@ Per domain under the default, caught / verified on confirm-2:
 Under one global threshold SQL was caught at 67%. Telling the model to answer "unsure" when unsure caught 1%: it
 almost never says it.
 
-A Learn-then-Test rule meant to certify at most 2% errors among the answers acted on without checking did **not** pass
-as pre-registered: 1.16% overall, but rare rule families that fell back to their suite's threshold reached 3.4%. It is
-not in the client.
+**Certified mode (0.1.5).** A first Learn-then-Test rule did not pass in confirm-2: rare rule families that fell back
+to their suite's threshold reached 3.4%. Its fix passed a third pre-registered test (confirm-3, 12,667 fresh
+scenarios): a rare family falls back to a (domain, difficulty) node.
 
-The items of both tests share no identical and no near-duplicate item with any training file of this model's lineage
-(2.2M rows checked; [report](results/client_0.1.4/firewall/RESULTS_firewall.md)).
+| | Errors among the answers it accepts | Verified | Confident errors caught |
+|---|---|---|---|
+| `rule="certified"` | 0.39% | 26.9% | 94.8% |
+
+No node exceeded 2%. In the same test the default caught 85.1% while verifying 22.8%.
+
+The certificate holds per node, for this model and these generators. It does not cover:
+- real traffic;
+- blocked actions;
+- families outside the calibration, which are always verified, including any family key other than the evaluation's
+  labels.
+
+Details: [docs/VERIFY.md](docs/VERIFY.md).
+
+The items of all three tests share no identical and no near-duplicate item with any training file of this model's
+lineage (2.2M rows checked; [report](results/client_0.1.4/firewall/RESULTS_firewall.md),
+[confirm-3](results/client_0.1.5/firewall/RESULTS_firewall.md)).
 
 **Limits**
 - **What the test used.** Family labels came from the evaluation, with a history of 29,029 evaluation answers. The

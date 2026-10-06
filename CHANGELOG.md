@@ -1,5 +1,38 @@
 # Changelog
 
+## 0.1.5 (2026-10-06): certified mode for `ekbasis.verify`
+
+One addition to `ekbasis.verify` ([docs/VERIFY.md](docs/VERIFY.md); results in
+[results/client_0.1.5](results/client_0.1.5/RESULTS.md)). Nothing else changed: the git guard, the shell guard, the
+Claude Code hook, the CLI and the MCP server are those of 0.1.4, and so is every request they send.
+
+- **`rule="certified"`:** act on a confident answer without verifying it only where a certificate holds.
+  - **Rule:** Learn-then-Test at α = 2%, δ = 0.05: at most 2% errors among the answers it accepts, per node.
+  - **Nodes:**
+    - a family with its own certified threshold (37 families);
+    - else, for a family seen in the calibration, its (domain, difficulty) node (6 certified);
+    - a family never seen, or a node with no certificate, is always verified, with no extra request.
+  - **Calibration:** two fully counted fresh sets, frozen as WS-U confirm-3's parameters
+    (`results/client_0.1.5/confirm3/params_confirm3.json`).
+  - **Third pre-registered test** (12,667 fresh scenarios): 0.39% errors among accepted answers, 26.9% verified,
+    94.8% of the confident errors caught, no node above 2%.
+  - **Scope:** per node, this model version (w4a5) and these generators. Not real traffic, not blocked actions, not
+    families outside the calibration.
+- **Every `Decision` records `rule`, `node` and `threshold`**, e.g. `"domain:git"`, `"family:rules|kind|delay"`,
+  `"difficulty:sql|d1"`, `"unseen:git|x"`, `"steps"`.
+  - New helpers: `verify.node()` and `verify.difficulty()`.
+  - `verify.threshold()` returns None under `"certified"` when no certificate covers the answer.
+- **The default is unchanged** (`rule="domain"`). In the same third test it caught 85.1% of the confident errors while
+  verifying 22.8%, every domain ≥ 80%.
+- **Tests:** the client reproduces confirm-3's certified decisions exactly on 602 stored scenarios
+  (`tests/data/confirm3_l2_sample.jsonl`), plus the node lookup, the rule, node and threshold on every decision, and
+  "no certificate → verify with no request".
+- **Training overlap:** confirm-3's items share nothing with the lineage's training files
+  (`results/client_0.1.5/firewall`).
+- **Fix:** `verify.score` adds the percentiles left to right, as the frozen policy does. On Python 3.12, whose `sum()`
+  uses compensated summation, a score could differ from the policy's by 1 ulp. Found by the stored-decision test on
+  Linux.
+
 ## 0.1.4 (2026-10-06): check when sure
 
 A new module, `ekbasis.verify` ([docs/VERIFY.md](docs/VERIFY.md); tests and results in

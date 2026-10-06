@@ -1,0 +1,291 @@
+{
+ "a02": {
+  "L1": {
+   "units": 25470,
+   "accepted": 14159,
+   "verified_share": 0.4441,
+   "errors_among_accepted": 38,
+   "error_rate_among_accepted": 0.00268,
+   "errors_caught_share": 0.9712,
+   "by_suite": {
+    "rules_stress": {
+     "units": 17237,
+     "verified_share": 0.2247
+    },
+    "sql_wild": {
+     "units": 1783,
+     "verified_share": 1.0
+    },
+    "shell_wild": {
+     "units": 1632,
+     "verified_share": 1.0
+    },
+    "git_wild": {
+     "units": 2017,
+     "verified_share": 1.0
+    },
+    "accumulation": {
+     "units": 2801,
+     "verified_share": 0.7158
+    }
+   },
+   "rate_ok": true,
+   "no_node_significantly_above": true,
+   "n_nodes_used": 37
+  },
+  "L2": {
+   "units": 25470,
+   "accepted": 18739,
+   "verified_share": 0.2643,
+   "errors_among_accepted": 46,
+   "error_rate_among_accepted": 0.00245,
+   "errors_caught_share": 0.9651,
+   "by_suite": {
+    "rules_stress": {
+     "units": 17237,
+     "verified_share": 0.1396
+    },
+    "sql_wild": {
+     "units": 1783,
+     "verified_share": 0.5093
+    },
+    "shell_wild": {
+     "units": 1632,
+     "verified_share": 0.3591
+    },
+    "git_wild": {
+     "units": 2017,
+     "verified_share": 0.409
+    },
+    "accumulation": {
+     "units": 2801,
+     "verified_share": 0.7158
+    }
+   },
+   "rate_ok": true,
+   "no_node_significantly_above": true,
+   "n_nodes_used": 43
+  },
+  "family_nodes": 43,
+  "family_nodes_certified": 37,
+  "difficulty_nodes_certified": {
+   "accumulation|d2": [
+    null,
+    332,
+    14
+   ],
+   "accumulation|d3": [
+    null,
+    1191,
+    257
+   ],
+   "git_wild|d1": [
+    null,
+    36,
+    0
+   ],
+   "git_wild|d2": [
+    0.8978,
+    1198,
+    0
+   ],
+   "git_wild|d3": [
+    null,
+    783,
+    164
+   ],
+   "rules_stress|d0": [
+    0.6032,
+    1045,
+    3
+   ],
+   "rules_stress|d1": [
+    0.7082,
+    439,
+    7
+   ],
+   "rules_stress|d2": [
+    null,
+    420,
+    34
+   ],
+   "rules_stress|d3": [
+    null,
+    421,
+    53
+   ],
+   "shell_wild|d2": [
+    0.7847,
+    564,
+    0
+   ],
+   "shell_wild|d3": [
+    0.5177,
+    1068,
+    139
+   ],
+   "sql_wild|d1": [
+    0.7538,
+    880,
+    0
+   ],
+   "sql_wild|d2": [
+    null,
+    119,
+    5
+   ],
+   "sql_wild|d3": [
+    null,
+    784,
+    260
+   ]
+  }
+ },
+ "a01": {
+  "L1": {
+   "units": 25470,
+   "accepted": 10935,
+   "verified_share": 0.5707,
+   "errors_among_accepted": 1,
+   "error_rate_among_accepted": 9e-05,
+   "errors_caught_share": 0.9992,
+   "by_suite": {
+    "rules_stress": {
+     "units": 17237,
+     "verified_share": 0.391
+    },
+    "sql_wild": {
+     "units": 1783,
+     "verified_share": 1.0
+    },
+    "shell_wild": {
+     "units": 1632,
+     "verified_share": 1.0
+    },
+    "git_wild": {
+     "units": 2017,
+     "verified_share": 1.0
+    },
+    "accumulation": {
+     "units": 2801,
+     "verified_share": 0.8436
+    }
+   },
+   "rate_ok": true,
+   "no_node_significantly_above": true,
+   "n_nodes_used": 25
+  },
+  "L2": {
+   "units": 25470,
+   "accepted": 16856,
+   "verified_share": 0.3382,
+   "errors_among_accepted": 9,
+   "error_rate_among_accepted": 0.00053,
+   "errors_caught_share": 0.9932,
+   "by_suite": {
+    "rules_stress": {
+     "units": 17237,
+     "verified_share": 0.226
+    },
+    "sql_wild": {
+     "units": 1783,
+     "verified_share": 0.5093
+    },
+    "shell_wild": {
+     "units": 1632,
+     "verified_share": 0.3817
+    },
+    "git_wild": {
+     "units": 2017,
+     "verified_share": 0.409
+    },
+    "accumulation": {
+     "units": 2801,
+     "verified_share": 0.8436
+    }
+   },
+   "rate_ok": true,
+   "no_node_significantly_above": true,
+   "n_nodes_used": 33
+  },
+  "family_nodes": 42,
+  "family_nodes_certified": 25,
+  "difficulty_nodes_certified": {
+   "accumulation|d1": [
+    null,
+    415,
+    8
+   ],
+   "accumulation|d2": [
+    null,
+    743,
+    33
+   ],
+   "accumulation|d3": [
+    null,
+    1191,
+    257
+   ],
+   "git_wild|d1": [
+    null,
+    36,
+    0
+   ],
+   "git_wild|d2": [
+    0.8978,
+    1198,
+    0
+   ],
+   "git_wild|d3": [
+    null,
+    783,
+    164
+   ],
+   "rules_stress|d0": [
+    0.2792,
+    1937,
+    7
+   ],
+   "rules_stress|d1": [
+    0.5938,
+    439,
+    7
+   ],
+   "rules_stress|d2": [
+    0.5242,
+    2264,
+    125
+   ],
+   "rules_stress|d3": [
+    0.6468,
+    1454,
+    205
+   ],
+   "shell_wild|d2": [
+    0.7847,
+    564,
+    0
+   ],
+   "shell_wild|d3": [
+    0.4974,
+    1068,
+    139
+   ],
+   "sql_wild|d1": [
+    0.7538,
+    880,
+    0
+   ],
+   "sql_wild|d2": [
+    null,
+    119,
+    5
+   ],
+   "sql_wild|d3": [
+    null,
+    784,
+    260
+   ]
+  }
+ }
+}

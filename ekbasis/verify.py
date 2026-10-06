@@ -23,8 +23,16 @@ the answer should be verified when the score reaches the threshold of its domain
            evaluation's family labels; any other family of a domain uses the domain's "rest" threshold.
   global   (option) 0.6414 for everything: confirmed first (84.9% / 23.4%) and replicated (83.5% / 23.4%), but it
            caught only 67% of the SQL errors.
+  certified  (option, 0.1.5) act without verifying only where a certificate holds: Learn-then-Test at alpha 2%,
+           delta 0.05 (confirm-3's rule L2). A family with its own certified threshold uses it; another family seen in
+           the calibration uses its (domain, difficulty) node; a family never seen, or a node with no certificate, is
+           always verified. On a third fresh test (confirm-3, 18,544 confident answers): 0.39% errors among the answers
+           it accepted (36 of 9,259 scenarios), 26.9% verified, 94.8% of the confident errors caught; no node above 2%.
+           The certificate holds per node, for this model (w4a5) and these generators; family keys are the
+           evaluation's labels, so any other key is verified.
 
-Confidence alone, at the same verified share, catches about 65%.
+Confidence alone, at the same verified share, catches about 65%. The per-domain default passed its third fresh test in
+confirm-3 (85.1% caught, 22.8% verified).
 
 For a question about several actions in a row, `check_steps` compares the direct answer with the step-by-step one
 (`simulate`) and asks to verify when they differ by >= 0.0334 on the direct answer's probability. That caught 87.9% of
@@ -95,7 +103,10 @@ def score(family_rate: float, stability: float, doubt: float | None = None, pol:
     pcts = [percentile(pol, "famobs", family_rate), percentile(pol, "minpert", stability)]
     if doubt is not None:
         pcts.append(percentile(pol, "verify", doubt))
-    return sum(pcts) / len(pcts)
+    total = 0.0
+    for x in pcts:  # left to right, as the frozen policy adds them: Python 3.12's sum() compensates and can differ by 1 ulp
+        total += x
+    return total / len(pcts)
 
 
 def audit(rate: float = 0.05, rng=None) -> bool:
@@ -107,7 +118,7 @@ def audit(rate: float = 0.05, rng=None) -> bool:
     return (rng or random).random() < rate
 
 
-RULES = ("domain", "conformal", "global")
+RULES = ("domain", "conformal", "global", "certified")
 
 
 def domain_of(domain: str | None, pol: dict | None = None) -> str | None:
@@ -119,22 +130,54 @@ def domain_of(domain: str | None, pol: dict | None = None) -> str | None:
     return d if d in pol.get("domain_tau", {}) else None
 
 
-def threshold(domain: str | None = None, family: str | None = None, rule: str = "domain", pol: dict | None = None) -> float:
-    """The score at or above which a confident answer should be verified, under `rule`:
-      "domain"    (default) the domain's threshold; the global one for any other domain;
-      "conformal" the family group's threshold (family = the evaluation's label, e.g. "kind|delay"), else the domain's
-                  "rest" group, else the global one;
-      "global"    one threshold for everything."""
+def difficulty(rate: float, pol: dict | None = None) -> int:
+    """The certificate's difficulty level of a family error rate: 0 below 1%, 1 below 3%, 2 below 10%, 3 above."""
+    pol = pol or policy()
+    return sum(rate >= b for b in pol["certified"]["buckets"])
+
+
+def node(domain: str | None = None, family: str | None = None, rule: str = "domain", pol: dict | None = None):
+    """(node, threshold) a confident answer is decided by under `rule`; verify when the score is >= threshold, and
+    always when threshold is None (only "certified" has such nodes).
+      "domain"    ("domain:<d>", the domain's threshold), or ("global", 0.6414) for any other domain;
+      "conformal" ("conformal:<d>|<family>", ...) for a family group, else ("conformal:<d>|*rest*", ...), else global;
+      "global"    ("global", 0.6414);
+      "certified" the L2 rule of confirm-3 (alpha 2%, delta 0.05): ("family:<d>|<family>", lambda) when the family has
+                  its own certified threshold; else, for a family seen in the calibration, ("difficulty:<d>|d<k>",
+                  lambda) at its difficulty level k, or ("uncertified:<d>|d<k>", None) when that node has no
+                  certificate; a family never seen in the calibration gives ("unseen:<d>|<family>", None) and a domain
+                  outside the five gives ("unseen:<domain>", None). Family keys are the evaluation's labels (e.g.
+                  "kind|delay" for rules); any other key is unseen, so it is always verified."""
     pol = pol or policy()
     if rule not in RULES:
         raise ValueError(f"rule must be one of {', '.join(RULES)}")
     d = domain_of(domain, pol)
+    if rule == "certified":
+        if d is None:
+            return f"unseen:{(domain or '').strip().lower() or '-'}", None
+        c, key = pol["certified"], f"{d}|{family}"
+        if key in c["family_nodes"]:
+            return f"family:{key}", c["family_nodes"][key]
+        if key in c["family_rate"]:
+            dk = f"{d}|d{difficulty(c['family_rate'][key], pol)}"
+            lam = c["difficulty_nodes"].get(dk)
+            return (f"difficulty:{dk}", lam) if lam is not None else (f"uncertified:{dk}", None)
+        return f"unseen:{key}", None
     if rule == "global" or d is None:
-        return pol["tau"]
+        return "global", pol["tau"]
     if rule == "domain":
-        return pol["domain_tau"][d]
+        return f"domain:{d}", pol["domain_tau"][d]
     groups = pol["conformal"]["groups"]
-    return groups.get(f"{d}|{family}", groups.get(f"{d}|*rest*", pol["tau"]))
+    for g in (f"{d}|{family}", f"{d}|*rest*"):
+        if g in groups:
+            return f"conformal:{g}", groups[g]
+    return "global", pol["tau"]
+
+
+def threshold(domain: str | None = None, family: str | None = None, rule: str = "domain", pol: dict | None = None):
+    """The score at or above which a confident answer should be verified under `rule` (see `node`); None under
+    "certified" when no certificate covers the answer (always verify)."""
+    return node(domain, family, rule, pol)[1]
 
 
 class FamilyTracker:
@@ -205,8 +248,9 @@ class Decision:
     family: str | None = None
     signals: dict = field(default_factory=dict)   # raw values and their reference percentiles
     requests: int = 0                  # extra requests made
-    threshold: float | None = None     # the score at or above which the answer is verified (see `threshold`)
-    rule: str | None = None            # "domain" (default), "conformal" or "global"
+    threshold: float | None = None     # the score at or above which the answer is verified (see `node`); None: always
+    rule: str | None = None            # "domain" (default), "conformal", "global" or "certified"
+    node: str | None = None            # what decided it, e.g. "domain:git", "family:rules|kind|delay", "unseen:git|x"
 
     def __bool__(self):
         return self.verify
@@ -262,14 +306,19 @@ def check(client, state: str, question: dict, answer: Answer, family: str | None
     """Should this answer be verified before acting on it? state and question: exactly what was asked; answer: what came
     back (client.ask(state, {"q": question})["q"]). family: an observable key for this kind of question. domain: "rules",
     "sql", "shell", "git" or "totals" sets the threshold (`threshold`), and "git" and "shell" skip the self-check.
-    rule: "domain" (default), "conformal" or "global". Unsure answers (confidence < 0.9) get verify=True with no extra
-    request."""
+    rule: "domain" (default), "conformal", "global" or "certified" (see `node`). Unsure answers (confidence < 0.9), and
+    under "certified" answers no certificate covers, get verify=True with no extra request."""
     pol = pol or policy()
-    tau = threshold(domain, family, rule, pol)
+    where, tau = node(domain, family, rule, pol)
     label, conf = label_of(question, answer), float(answer.confidence)
     if conf < pol["confident"]:
         return Decision(True, [f"the model is unsure (confidence {conf:.2f} < {pol['confident']}): look before acting"],
-                        label, conf, family=family, threshold=tau, rule=rule)
+                        label, conf, family=family, threshold=tau, rule=rule, node=where)
+    if tau is None:  # "certified" with no certificate for this answer: verify, no extra request needed
+        why = {"unseen": "this family (or domain) was never seen in the certificate's calibration",
+               "uncertified": "its difficulty node has no certificate"}[where.split(":", 1)[0]]
+        return Decision(True, [f"no certificate covers this answer ({why}): verify"], label, conf, family=family,
+                        rule=rule, node=where)
     rate = tracker.rate(family) if tracker is not None else (pol["family_prior"][0] / sum(pol["family_prior"]))
     use_self = (domain or "").lower() not in pol["no_selfcheck_domains"]
     requests = 0
@@ -280,7 +329,7 @@ def check(client, state: str, question: dict, answer: Answer, family: str | None
         requests += 1 if use_self else 0
     except (EkbasisError, OSError, KeyError, ValueError) as e:
         return Decision(True, [f"the checks could not run ({e}): verify"], label, conf, family=family, requests=requests,
-                        threshold=tau, rule=rule)
+                        threshold=tau, rule=rule, node=where)
     sig = {"family": {"value": rate, "pct": percentile(pol, "famobs", rate)},
            "stability": {"value": stab, "pct": percentile(pol, "minpert", stab)}}
     if use_self:
@@ -298,13 +347,16 @@ def check(client, state: str, question: dict, answer: Answer, family: str | None
     if verify:
         reasons = [f"{words[k]} (higher than {100 * sig[k]['pct']:.0f}% of reference answers)" for k in order if sig[k]["pct"] >= 0.5]
         reasons = reasons or [f"the signals together score {s:.2f} >= {tau:.2f}"]
+    elif rule == "certified":
+        reasons = [f"confident ({conf:.2f}) and the signals score {s:.2f} < {tau:.4f} at certified node {where}: on the "
+                   f"test's fresh items, errors among answers accepted this way stayed under 2%"]
     else:
         reasons = [f"confident ({conf:.2f}) and the signals score {s:.2f} < {tau:.2f} ({rule} threshold)"]
     if c and c["unobserved"]:
         reasons.append(f"{c['unobserved']} earlier answers of this family were never observed (blocked or not read): "
                        "its observed error rate may be too low")
     return Decision(verify, reasons, label, conf, score=s, family=family, signals=sig, requests=requests, threshold=tau,
-                    rule=rule)
+                    rule=rule, node=where)
 
 
 class _Recorder:
@@ -336,12 +388,13 @@ def check_steps(client, rules: str, state: dict, actions, questions: dict, rende
     label, conf = label_of(q, direct), float(direct.confidence)
     if conf < pol["confident"]:
         return Decision(True, [f"the model is unsure (confidence {conf:.2f} < {pol['confident']}): look before acting"],
-                        label, conf, requests=1)
+                        label, conf, requests=1, threshold=pol["steps_tau"], rule="steps", node="steps")
     rec = _Recorder(client)
     try:
         sim = simulate(rec, rules, state, actions, questions, render, **simulate_kw)
     except (EkbasisError, OSError) as e:
-        return Decision(True, [f"the step-by-step check could not run ({e}): verify"], label, conf, requests=1 + len(rec.log))
+        return Decision(True, [f"the step-by-step check could not run ({e}): verify"], label, conf, requests=1 + len(rec.log),
+                        threshold=pol["steps_tau"], rule="steps", node="steps")
     p_direct, p_steps = prob_of(q, direct, label), prob_of(q, rec.log[-1][target], label)
     gap = abs(p_direct - p_steps)
     verify = gap >= pol["steps_tau"]
@@ -350,7 +403,8 @@ def check_steps(client, rules: str, state: dict, actions, questions: dict, rende
            f"a gap of {gap:.3f}")
     reasons = [why + (f" >= {pol['steps_tau']:.4f}" if verify else f" < {pol['steps_tau']:.4f}")]
     return Decision(verify, reasons, label, conf, score=gap, signals={"direct": p_direct, "steps": p_steps,
-                    "final_steps": stepwise}, requests=1 + len(rec.log))
+                    "final_steps": stepwise}, requests=1 + len(rec.log), threshold=pol["steps_tau"], rule="steps",
+                    node="steps")
 
 
 def git_family(commands, key: str) -> str:

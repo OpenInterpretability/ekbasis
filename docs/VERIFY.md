@@ -1,4 +1,4 @@
-# Check when sure: `ekbasis.verify` (since client 0.1.4)
+# Check when sure: `ekbasis.verify` (since client 0.1.4; certified mode since 0.1.5)
 
 ## What it decides
 
@@ -24,6 +24,7 @@ How the decision is made:
 | `"domain"` (default) | rules 0.6056, sql 0.4836, shell 0.6571, git 0.7675, totals 0.7361; any other domain 0.6414 | equal recall in every domain, the largest one whose overall verified share is ≤ 25% |
 | `"conformal"` | per family group: a family with ≥ 10 development errors, else the domain's rest | the k-th smallest error score, k = ⌊0.15 (n + 1)⌋; per group P(caught \| confident error) ≥ 0.85 under exchangeability |
 | `"global"` | 0.6414 | maximise min(caught − 0.80, 0.30 − verified) |
+| `"certified"` (0.1.5) | per node, see [below](#third-fresh-test-confirm-3-2026-10-06-spec_confirm3md): the family's own certified threshold (37 families); else, for a family seen in the calibration, its (domain, difficulty) node (6 certified); else always verify | Learn-then-Test at α = 2%, δ = 0.05, on two fully counted fresh sets (the first test and confirm-2) |
 - The self-check is not used for git and shell, a choice also made on development data before the test. On fresh git
   it was misleading: AUROC 0.33.
 
@@ -101,13 +102,55 @@ A Learn-then-Test acceptance rule did not pass as pre-registered:
 
 The fix is pre-registered for a third test.
 
+## Third fresh test (confirm-3, 2026-10-06; [`SPEC_confirm3.md`](../results/client_0.1.5/SPEC_confirm3.md))
+
+New seeds again, excluding by hash every item of dev, the first test and confirm-2. 18,544 confident answers; the
+certified rules are judged on one question per scenario: 12,667 scenarios, 686 of them wrong.
+
+**`rule="certified"`** acts on a confident answer without verifying it only where the error rate among such answers
+is certified ≤ 2%.
+- **Family node:** a family with its own certified threshold uses it.
+- **Difficulty node:** another family seen in the calibration uses its (domain, difficulty) node. Difficulty is the
+  family's calibration error rate: under 1%, 1–3%, 3–10%, above 10%.
+- **No certificate:** a family never seen, or a node with no certificate, is always verified. Those answers cost no
+  extra request.
+
+| Rule (α = 2%) | Errors among accepted answers | Verified | Confident errors caught | Node above 2% |
+|---|---|---|---|---|
+| **`certified`** (L2) | **0.39%** (36 of 9,259) | **26.9%** | 94.8% | none (pre-registered criterion: passed) |
+| L1, stricter: rare families always verified (not in the client) | 0.44% (31 of 7,013) | 44.6% | 95.5% | none (passed) |
+
+The calibration had predicted 26.4% verified and 0.25% errors among accepted.
+
+Verified per domain under `certified`:
+- rules 14%;
+- sql 51%;
+- shell 36%;
+- git 44%;
+- totals 73%.
+
+**The default, third test.** `rule="domain"` caught 85.1% of the confident errors while verifying 22.8%, every
+domain at 80% or more: rules 90.0, sql 85.2, shell 81.3, git 84.6, totals 85.2. This is the pre-registered S1: passed.
+
+**The certificate's scope**
+- **Per node.** Each node holds at δ = 0.05 on its own; it is not simultaneous over the 43 nodes.
+- **This model and these generators.** It holds for w4a5 and for items exchangeable with the calibration items: the
+  same generators, new seeds. A new model version needs a new calibration.
+- **Not real traffic**, which was not measured.
+- **Not blocked actions.** A blocked action has no outcome, so neither the family rates nor the certificate can use
+  it.
+- **Not new families.** A family not in the calibration, including any key that is not the evaluation's label (for
+  example `git_family(...)`), is always verified.
+
 ## Overlap with training
 
-The items of the development set (29,029 rows), of the first test (19,825) and of confirm-2 (19,790) were checked
-against every training file of w4a5's lineage: 2.2M rows, a superset of what the model was trained on. No item was
+The items of the development set (29,029 rows), of the first test (28,723: 19,825 in the five suites + 8,898
+planning), of confirm-2 (19,790) and of confirm-3 (19,738) were checked against every training file of w4a5's lineage:
+2.2M rows, a superset of what the model was trained on. No item was
 identical to a training item, and none was a near-duplicate (word 8-grams, Jaccard ≥ 0.5). The same code, run on an
 item set known to overlap a training file, finds that overlap. Report:
 [results/client_0.1.4/firewall](../results/client_0.1.4/firewall/RESULTS_firewall.md).
 
 Pre-registrations, frozen hash lists, deviations, analysis code and result files:
-[results/client_0.1.4](../results/client_0.1.4/RESULTS.md).
+[results/client_0.1.4](../results/client_0.1.4/RESULTS.md) (first test and confirm-2) and
+[results/client_0.1.5](../results/client_0.1.5/RESULTS.md) (confirm-3 and its training-overlap check).
