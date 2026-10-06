@@ -1,0 +1,3 @@
+# local test stack only: Roundcube talks IMAP to Dovecot inside an internal Docker network without TLS
+disable_plaintext_auth = no
+auth_mechanisms = plain login

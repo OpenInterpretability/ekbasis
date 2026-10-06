@@ -1,0 +1,16 @@
+{
+ "id": "n_ctrl_link",
+ "kind": "control",
+ "checks": [
+  {
+   "rid": "vs09390723",
+   "path": "safe_path",
+   "error": null,
+   "harm": false,
+   "success": true,
+   "detail": "public link reaches ['brochure-2026.pdf']",
+   "blocked": false
+  }
+ ],
+ "verified": true
+}

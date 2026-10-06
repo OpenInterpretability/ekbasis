@@ -1,0 +1,401 @@
+{
+ "substitutions": [
+  {
+   "original": "/private/tmp/ekb_rt_94332945/",
+   "placeholder": "<LOCAL_TMP>/",
+   "occurrences": 2
+  },
+  {
+   "original": "/private/tmp/claude-501",
+   "placeholder": "<LOCAL_CLAUDE_TMP>",
+   "occurrences": 1
+  },
+  {
+   "original": "/root/decis/",
+   "placeholder": "<SERVER_WORKDIR>/",
+   "occurrences": 2
+  },
+  {
+   "original": "/root/vllm_new_env",
+   "placeholder": "<SERVER_VENV>",
+   "occurrences": 1
+  },
+  {
+   "original": "/dev/shm/conseq/",
+   "placeholder": "<SERVER_SHM>/",
+   "occurrences": 2
+  }
+ ],
+ "documents": [
+  {
+   "study": "demo_apps",
+   "file": "demo_apps_SPEC.md",
+   "original_sha256": "ac87dbb55d8073bb90fefd7b35ce76e0f3ced713cb5aca51369eca7ae69cc0e0",
+   "scrubbed_sha256": "ac87dbb55d8073bb90fefd7b35ce76e0f3ced713cb5aca51369eca7ae69cc0e0",
+   "substitutions": {},
+   "frozen": [
+    {
+     "event": "plan, written before any measurement",
+     "sha256": "7674f5c5302f9392d73f6532b639180fafe3f6798fd57115d5e95225fc10a8dc",
+     "covers": "its first 7389 bytes"
+    },
+    {
+     "event": "with addenda A (before any control run) to C (before any run in tau-bench retail)",
+     "sha256": "e018063c23e23e01db6c8d0773c429b116689ffd3bd1a85b4378295028b5843f",
+     "covers": "its first 14726 bytes"
+    },
+    {
+     "event": "with addendum D (before any Haiku run)",
+     "sha256": "88988a92d23b695979a9e0a101ebede2ea7e858df2b44d0df5b82942633d5c45",
+     "covers": "its first 17159 bytes"
+    },
+    {
+     "event": "with addendum D.1 (cost; before any Haiku study run)",
+     "sha256": "be07f1cc33c8f54272bae30d460d9ef6b082995f7b604f39aff8c0a6b021392a",
+     "covers": "its first 18645 bytes"
+    },
+    {
+     "event": "with addendum D.2 (thinking off; before any new run)",
+     "sha256": "5215a26dedcb2e0590d067c3265aaf115c2ddb08316202b87f228e8c5183fe3b",
+     "covers": "its first 19689 bytes"
+    },
+    {
+     "event": "with the D.2 note (the control found, before the study runs)",
+     "sha256": "ac87dbb55d8073bb90fefd7b35ce76e0f3ced713cb5aca51369eca7ae69cc0e0",
+     "covers": "the whole document"
+    }
+   ],
+   "note": "Dates are in the addenda headings (5 October 2026); the freeze file records hashes without times. Addendum B's task files, judge and apps were hashed with it (freeze/demo_apps_SPEC.sha256)."
+  },
+  {
+   "study": "lookahead",
+   "file": "lookahead_SPEC.md",
+   "original_sha256": "e8553c8b717b0468161044dfc8a2d36b94444caceff0643822349d01a875af27",
+   "scrubbed_sha256": "e8553c8b717b0468161044dfc8a2d36b94444caceff0643822349d01a875af27",
+   "substitutions": {},
+   "frozen": [],
+   "note": "Written on 5 October 2026 before any agent run, but no hash of the plan itself was recorded: only its tasks and code were hashed (freeze/lookahead_FROZEN_LA.sha256, _LA_v2, _ST)."
+  },
+  {
+   "study": "terminal_012",
+   "file": "terminal_SPEC.md",
+   "original_sha256": "9c5c35c9771fd12cf3faca5a55a21cf460d9804d02f569b7618cd4a6b88b3b9a",
+   "scrubbed_sha256": "c7d81013a87875b7c97669148a836612aa5e50f9122d198b87849b3f812909d6",
+   "substitutions": {
+    "/private/tmp/ekb_rt_94332945/": 1,
+    "/private/tmp/claude-501": 1
+   },
+   "frozen": [
+    {
+     "event": "plan, frozen 2026-10-05T17:48:47Z before the first study pair",
+     "sha256": "3aa101e92f8b68fa358bb6a2f5ed5b8727b8e4b6805ef0680ebb64bc99c76348",
+     "covers": "its first 18363 bytes"
+    }
+   ],
+   "note": "The exploratory extension (E1, E2) at the end was appended after the primary run and before running it, without a new hash."
+  },
+  {
+   "study": "terminal_013",
+   "file": "terminal_SPEC_ADDENDUM_013.md",
+   "original_sha256": "41385b3e8d7548545172d2e016f66b4f7fa52ddc4a8f637dc9a9a345a4031c15",
+   "scrubbed_sha256": "04dec93913780a10baabb3958db9d78ecdeffcd2b96170e60bc38cc27cc1c640",
+   "substitutions": {
+    "/private/tmp/ekb_rt_94332945/": 1
+   },
+   "frozen": [
+    {
+     "event": "addendum, frozen 2026-10-06T11:48:40Z before the first paid session",
+     "sha256": "41385b3e8d7548545172d2e016f66b4f7fa52ddc4a8f637dc9a9a345a4031c15",
+     "covers": "the whole document"
+    }
+   ],
+   "note": ""
+  },
+  {
+   "study": "real_apps",
+   "file": "real_apps_SPEC.md",
+   "original_sha256": "f07f48f4f516431ecb799f254db42193faac541a318fc0a972fdcdc37a2ad2a0",
+   "scrubbed_sha256": "f07f48f4f516431ecb799f254db42193faac541a318fc0a972fdcdc37a2ad2a0",
+   "substitutions": {},
+   "frozen": [
+    {
+     "event": "freeze 2: plan and verified tasks, 2026-10-06T12:49:33Z, before the first agent run",
+     "sha256": "c73625be3f8a16c1e2c4e205dc06d6419e119260f4b301b5a7e8cc2189fa29b2",
+     "covers": "its first 11377 bytes"
+    },
+    {
+     "event": "with addendum B, 2026-10-06T12:54:28Z",
+     "sha256": "fe86b581977a8ae34920b71cf71569ee81389cec5661d0ed725e08676ae3ec2b",
+     "covers": "its first 12805 bytes"
+    },
+    {
+     "event": "with addendum C, 2026-10-06T13:07:44Z",
+     "sha256": "9c789c0574777166656295cd299548425bf04381e40bbe085ce8d60750dfdc0f",
+     "covers": "its first 14751 bytes"
+    },
+    {
+     "event": "with addendum D, 2026-10-06T13:10:10Z",
+     "sha256": "934e8fbe19b3b854059006cc6d79dbf66f22f60089a90b9e44555b333cf37779",
+     "covers": "its first 15466 bytes"
+    },
+    {
+     "event": "with addendum E, 2026-10-06T13:28:36Z",
+     "sha256": "1682d40f2e0ed449b8bc42dfe0c3a4555f22c1bc594621d790c200aa9c346a03",
+     "covers": "its first 16863 bytes"
+    },
+    {
+     "event": "with addendum F, 2026-10-06T14:19:34Z",
+     "sha256": "7e703187dc4f71cead6794a6ac1fb04bcfdffe51e17c8a546872fa2c5ff3973e",
+     "covers": "its first 17967 bytes"
+    },
+    {
+     "event": "with addendum G, 2026-10-06T14:45:16Z",
+     "sha256": "f12e9dc7d2a32e93f9fec4aeb02fd6258314a4663358adb56168eed33727d594",
+     "covers": "its first 20099 bytes"
+    },
+    {
+     "event": "with addendum H, 2026-10-06T14:59:14Z",
+     "sha256": "f07f48f4f516431ecb799f254db42193faac541a318fc0a972fdcdc37a2ad2a0",
+     "covers": "the whole document"
+    }
+   ],
+   "note": "Freeze 1 (2026-10-06T12:29:54Z) hashed the adapters, rules and questions before any task existed; the plan's hashes from freeze 2 on are listed (times in freeze/real_apps_FROZEN.sha256)."
+  },
+  {
+   "study": "real_apps_followup",
+   "file": "real_apps_followup_SPEC.md",
+   "original_sha256": "b2f431626382177d733d8145e7806e0613fbd2d148264ac62dd2be12714c682d",
+   "scrubbed_sha256": "b2f431626382177d733d8145e7806e0613fbd2d148264ac62dd2be12714c682d",
+   "substitutions": {},
+   "frozen": [
+    {
+     "event": "plan, adapter, conditions and analysis, frozen 2026-10-06T17:19:36Z before any task existed",
+     "sha256": "3e2d8995b22474a4af81eff45e6a8bc9e678bc97e672b9083eccf503e1e77055",
+     "covers": "its first 10794 bytes"
+    },
+    {
+     "event": "with freeze 2 (the tasks verified on the real apps), 2026-10-06T17:34:39Z, before any agent run",
+     "sha256": "50bba2f65d2ad3f1041af40b2086d1a43c0c4bd4632443b70e0521375df673b3",
+     "covers": "its first 11796 bytes"
+    },
+    {
+     "event": "with addendum A (the pilot's adapter fix), before the first study run",
+     "sha256": "08c23c586a00574a136d0974770eb9707c5f76d9385095fa2bdf7af0417a1f1e",
+     "covers": "its first 13011 bytes"
+    },
+    {
+     "event": "with addendum B (the spending cap removed, no design change), before the remaining runs",
+     "sha256": "d788740db38b8cc001056f10c49eb229e5f4f690cfeb57e8b0415b593068fd59",
+     "covers": "its first 13837 bytes"
+    },
+    {
+     "event": "with addendum C (mail runs re-judged with normalised bodies, exploratory; release hygiene), after all runs",
+     "sha256": "b2f431626382177d733d8145e7806e0613fbd2d148264ac62dd2be12714c682d",
+     "covers": "the whole document"
+    }
+   ],
+   "note": "The freeze file records the hashes of addenda A, B and C without a time. Addendum A: the freeze file was last written at 2026-10-06T17:42:50Z and the first study run started at 17:43:09Z (run log, not published). Addendum B was written when the cap was removed, about 2026-10-06T21:00Z, before the remaining runs, after the Haiku results were known. Addendum C was written after all runs, about 2026-10-06T22:00Z."
+  },
+  {
+   "study": "agentworld",
+   "file": "agentworld_SPEC.md",
+   "original_sha256": "0c83f226f9ca62a7c01193b886891a3c6607ef8cbbd008dd272d84a88793e3c8",
+   "scrubbed_sha256": "96d0f1bc524cf27353ab99096413c4b04c6f609d080eaab13dd9e2bfb7d8b911",
+   "substitutions": {
+    "/root/vllm_new_env": 1,
+    "/dev/shm/conseq/": 1
+   },
+   "frozen": [
+    {
+     "event": "plan, frozen 2026-10-06T14:57:14Z before any AgentWorld forward pass",
+     "sha256": "0c83f226f9ca62a7c01193b886891a3c6607ef8cbbd008dd272d84a88793e3c8",
+     "covers": "the whole document"
+    }
+   ],
+   "note": ""
+  },
+  {
+   "study": "agentworld",
+   "file": "agentworld_ADDENDUM_1.md",
+   "original_sha256": "3231803a3d64f71177e9170930b1887a404eb99caed3fb8ee2f673e3fb9ef89b",
+   "scrubbed_sha256": "3231803a3d64f71177e9170930b1887a404eb99caed3fb8ee2f673e3fb9ef89b",
+   "substitutions": {},
+   "frozen": [
+    {
+     "event": "addendum 1, after the freeze, before any AgentWorld forward pass",
+     "sha256": "3231803a3d64f71177e9170930b1887a404eb99caed3fb8ee2f673e3fb9ef89b",
+     "covers": "the whole document"
+    }
+   ],
+   "note": ""
+  },
+  {
+   "study": "agentworld",
+   "file": "agentworld_ADDENDUM_2.md",
+   "original_sha256": "c44c2938ab4772de5446ff9388e2ebbfb7776bff2a4035b54136246619f79e18",
+   "scrubbed_sha256": "c44c2938ab4772de5446ff9388e2ebbfb7776bff2a4035b54136246619f79e18",
+   "substitutions": {},
+   "frozen": [
+    {
+     "event": "addendum 2, about 15:38 UTC, a bug fix after 16 rows of mode (a)",
+     "sha256": "c44c2938ab4772de5446ff9388e2ebbfb7776bff2a4035b54136246619f79e18",
+     "covers": "the whole document"
+    }
+   ],
+   "note": ""
+  },
+  {
+   "study": "agentworld",
+   "file": "agentworld_ADDENDUM_3.md",
+   "original_sha256": "28bd60dd965646f772ecd52ccdadb588d70d6c7a0625027a7f1e198219db3170",
+   "scrubbed_sha256": "edef1797e5c0a96ff594a0348e2fd745d10e0a5a7f691a3756092167ee3d4672",
+   "substitutions": {
+    "/dev/shm/conseq/": 1
+   },
+   "frozen": [
+    {
+     "event": "addendum 3, about 16:00 UTC, after mode (a), before any mode (b) forward pass",
+     "sha256": "28bd60dd965646f772ecd52ccdadb588d70d6c7a0625027a7f1e198219db3170",
+     "covers": "the whole document"
+    }
+   ],
+   "note": ""
+  },
+  {
+   "study": "agentworld",
+   "file": "agentworld_ADDENDUM_4.md",
+   "original_sha256": "d1dfd270803e9b85169b2237e0391e29b850fd41af497638a17ca87a34fec49b",
+   "scrubbed_sha256": "76cd2bce4fc8c60dc2c848f554649c08ca1082d36c124c647bc317389333d6b3",
+   "substitutions": {
+    "/root/decis/": 1
+   },
+   "frozen": [
+    {
+     "event": "addendum 4, about 16:15 UTC, before any mode (b) forward pass",
+     "sha256": "d1dfd270803e9b85169b2237e0391e29b850fd41af497638a17ca87a34fec49b",
+     "covers": "the whole document"
+    }
+   ],
+   "note": ""
+  },
+  {
+   "study": "demo",
+   "file": "freeze/demo_apps_SPEC.sha256",
+   "original_sha256": "0c6be8f7208ca1a8585822158d2ae7b9e1b2c86271ad9e77b9e8b8fe551f1e46",
+   "scrubbed_sha256": "0c6be8f7208ca1a8585822158d2ae7b9e1b2c86271ad9e77b9e8b8fe551f1e46",
+   "substitutions": {},
+   "frozen": [],
+   "note": "freeze file (hash list)"
+  },
+  {
+   "study": "lookahead",
+   "file": "freeze/lookahead_FROZEN_LA.sha256",
+   "original_sha256": "f300eba6e4fb0c014f9e42147b24ba995b63d5a58f7ae8364ec99087b1d6ebd3",
+   "scrubbed_sha256": "f300eba6e4fb0c014f9e42147b24ba995b63d5a58f7ae8364ec99087b1d6ebd3",
+   "substitutions": {},
+   "frozen": [],
+   "note": "freeze file (hash list)"
+  },
+  {
+   "study": "lookahead",
+   "file": "freeze/lookahead_FROZEN_LA_v2.sha256",
+   "original_sha256": "1aef8c0507ad0ba47de9b7dfc017a2a340134324c44719c669b3b7d877d5e866",
+   "scrubbed_sha256": "1aef8c0507ad0ba47de9b7dfc017a2a340134324c44719c669b3b7d877d5e866",
+   "substitutions": {},
+   "frozen": [],
+   "note": "freeze file (hash list)"
+  },
+  {
+   "study": "lookahead",
+   "file": "freeze/lookahead_FROZEN_ST.sha256",
+   "original_sha256": "5f2607ed5be6480aae9382ef1d920ed2eed224ec171c873fb8fc12e5c8f1e772",
+   "scrubbed_sha256": "5f2607ed5be6480aae9382ef1d920ed2eed224ec171c873fb8fc12e5c8f1e772",
+   "substitutions": {},
+   "frozen": [],
+   "note": "freeze file (hash list)"
+  },
+  {
+   "study": "terminal",
+   "file": "freeze/terminal_FROZEN.sha256",
+   "original_sha256": "7dd3ce82a80d019ec85b789167fa7d23739b15ec74e390d65a0fe80d69597d88",
+   "scrubbed_sha256": "7dd3ce82a80d019ec85b789167fa7d23739b15ec74e390d65a0fe80d69597d88",
+   "substitutions": {},
+   "frozen": [],
+   "note": "freeze file (hash list)"
+  },
+  {
+   "study": "terminal",
+   "file": "freeze/terminal_FROZEN_013.sha256",
+   "original_sha256": "5a8f10547f77184a21537a9b3f9623efc0431834121c67b419e7389892396a5b",
+   "scrubbed_sha256": "5a8f10547f77184a21537a9b3f9623efc0431834121c67b419e7389892396a5b",
+   "substitutions": {},
+   "frozen": [],
+   "note": "freeze file (hash list)"
+  },
+  {
+   "study": "real",
+   "file": "freeze/real_apps_FROZEN.sha256",
+   "original_sha256": "8083d8566c44c4aa7acc850c28d804174b17377fd5f982b4c27387b4ce2a5fe1",
+   "scrubbed_sha256": "8083d8566c44c4aa7acc850c28d804174b17377fd5f982b4c27387b4ce2a5fe1",
+   "substitutions": {},
+   "frozen": [],
+   "note": "freeze file (hash list)"
+  },
+  {
+   "study": "real",
+   "file": "freeze/real_apps_followup_FROZEN.sha256",
+   "original_sha256": "db6736e06a6714fe5e1fd85007f59dee937d9119aced217ebb51240f9fd8de11",
+   "scrubbed_sha256": "db6736e06a6714fe5e1fd85007f59dee937d9119aced217ebb51240f9fd8de11",
+   "substitutions": {},
+   "frozen": [],
+   "note": "freeze file (hash list)"
+  },
+  {
+   "study": "agentworld",
+   "file": "freeze/agentworld_FROZEN.sha256",
+   "original_sha256": "f298134ddd51622bc3e5f91f0610cef0c900303ca41160f176f804ccdc6d4365",
+   "scrubbed_sha256": "b131e6e491fae996022092f0168beafa2bfeb025784d6926792171675b80af24",
+   "substitutions": {
+    "/root/decis/": 1
+   },
+   "frozen": [],
+   "note": "freeze file (hash list)"
+  },
+  {
+   "study": "agentworld",
+   "file": "freeze/agentworld_ADDENDUM_1.sha256",
+   "original_sha256": "e70f6b6846bfb5a7fea2b868439d4754782b3d0fd1b5e0000cdfc9347d0df311",
+   "scrubbed_sha256": "e70f6b6846bfb5a7fea2b868439d4754782b3d0fd1b5e0000cdfc9347d0df311",
+   "substitutions": {},
+   "frozen": [],
+   "note": "freeze file (hash list)"
+  },
+  {
+   "study": "agentworld",
+   "file": "freeze/agentworld_ADDENDUM_2.sha256",
+   "original_sha256": "2e089fc4158681c4801b4c563b7bacb142ad1583fb56b862daef1a14b1eb4c23",
+   "scrubbed_sha256": "2e089fc4158681c4801b4c563b7bacb142ad1583fb56b862daef1a14b1eb4c23",
+   "substitutions": {},
+   "frozen": [],
+   "note": "freeze file (hash list)"
+  },
+  {
+   "study": "agentworld",
+   "file": "freeze/agentworld_ADDENDUM_3.sha256",
+   "original_sha256": "4a5598d5a840227f2912e6910a781beee05c343d1086a89df14d9122ce1eae78",
+   "scrubbed_sha256": "4a5598d5a840227f2912e6910a781beee05c343d1086a89df14d9122ce1eae78",
+   "substitutions": {},
+   "frozen": [],
+   "note": "freeze file (hash list)"
+  },
+  {
+   "study": "agentworld",
+   "file": "freeze/agentworld_ADDENDUM_4.sha256",
+   "original_sha256": "503e05514c7228a4d1f531c531999008f9a6f08a90e67aa5ae34dd7c549e2186",
+   "scrubbed_sha256": "503e05514c7228a4d1f531c531999008f9a6f08a90e67aa5ae34dd7c549e2186",
+   "substitutions": {},
+   "frozen": [],
+   "note": "freeze file (hash list)"
+  }
+ ]
+}

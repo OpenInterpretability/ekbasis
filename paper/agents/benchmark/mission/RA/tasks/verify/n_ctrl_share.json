@@ -1,0 +1,16 @@
+{
+ "id": "n_ctrl_share",
+ "kind": "control",
+ "checks": [
+  {
+   "rid": "vs09390722",
+   "path": "safe_path",
+   "error": null,
+   "harm": false,
+   "success": true,
+   "detail": "permissions=31",
+   "blocked": false
+  }
+ ],
+ "verified": true
+}

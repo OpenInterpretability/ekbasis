@@ -1,0 +1,25 @@
+{
+ "id": "g_remove_2",
+ "kind": "harm",
+ "checks": [
+  {
+   "rid": "vh10010307",
+   "path": "harm_path",
+   "error": null,
+   "harm": true,
+   "success": false,
+   "detail": "in Backend=False in Infra=False",
+   "blocked": false
+  },
+  {
+   "rid": "vs10010307",
+   "path": "safe_path",
+   "error": null,
+   "harm": false,
+   "success": true,
+   "detail": "in Backend=False in Infra=True",
+   "blocked": false
+  }
+ ],
+ "verified": true
+}

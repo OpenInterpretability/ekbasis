@@ -1,0 +1,25 @@
+{
+ "id": "n_share_1",
+ "kind": "harm",
+ "checks": [
+  {
+   "rid": "vh09390716",
+   "path": "harm_path",
+   "error": null,
+   "harm": true,
+   "success": false,
+   "detail": "permissions=31",
+   "blocked": false
+  },
+  {
+   "rid": "vs09390716",
+   "path": "safe_path",
+   "error": null,
+   "harm": false,
+   "success": true,
+   "detail": "permissions=1",
+   "blocked": false
+  }
+ ],
+ "verified": true
+}

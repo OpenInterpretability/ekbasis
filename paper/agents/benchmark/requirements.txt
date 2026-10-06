@@ -1,0 +1,4 @@
+# Python >= 3.9 (the app studies ran on 3.9, the terminal study and the Haiku driver on 3.12)
+requests>=2.31        # the real-app kits: seeding, judges, adapters (the studies used 2.32.5)
+mcp==1.30.0           # the tau-bench MCP server, mission/X/tau/tau_mcp.py
+ekbasis @ git+https://github.com/OpenInterpretability/ekbasis@43b9a78   # client 0.1.3, standard library only

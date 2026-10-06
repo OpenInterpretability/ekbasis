@@ -1,0 +1,90 @@
+# WS-RA real apps: official upstream images pinned by digest, unmodified, bound to 127.0.0.1 only.
+# Secrets come from .env (chmod 600, never committed or mirrored). Start: docker compose up -d ; stop: docker compose stop
+name: ra
+services:
+  gitea:
+    image: gitea/gitea@sha256:918955f16b1e91732af6c449bb2db3a34271748dbed1ccfbae48f8a2fb5480b8   # gitea/gitea:1.24 arm64
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+      - GITEA__database__DB_TYPE=sqlite3
+      - GITEA__security__INSTALL_LOCK=true
+      - GITEA__server__ROOT_URL=http://127.0.0.1:3330/
+      - GITEA__server__DISABLE_SSH=true
+      - GITEA__service__DISABLE_REGISTRATION=true
+      - GITEA__mailer__ENABLED=false
+      - GITEA__security__PASSWORD_COMPLEXITY=off
+      - GITEA__log__LEVEL=Warn
+    ports: ["127.0.0.1:3330:3000"]
+    volumes: [gitea-data:/data]
+    mem_limit: 768m
+    restart: unless-stopped
+  nextcloud:
+    image: nextcloud@sha256:07ec73cc816e58d6f45a162cd53ef886462c29271a23fc68d0124cec276e3767   # nextcloud:31-apache (31.0.14) arm64
+    environment:
+      - SQLITE_DATABASE=nextcloud
+      - NEXTCLOUD_ADMIN_USER=${NC_ADMIN_USER}
+      - NEXTCLOUD_ADMIN_PASSWORD=${NC_ADMIN_PASS}
+      - NEXTCLOUD_TRUSTED_DOMAINS=127.0.0.1 127.0.0.1:8481 localhost localhost:8481 nextcloud
+      - OVERWRITEHOST=127.0.0.1:8481
+      - OVERWRITEPROTOCOL=http
+      - PHP_MEMORY_LIMIT=512M
+    ports: ["127.0.0.1:8481:80"]
+    volumes: [nc-data:/var/www/html]
+    mem_limit: 1536m
+    restart: unless-stopped
+  mailserver:
+    image: ghcr.io/docker-mailserver/docker-mailserver@sha256:af51b15dd3fc72153c0e90eb7692bb5e3a463212d87959a80fa7aa89b617d44a   # docker-mailserver:15 arm64
+    hostname: mail.acme.test
+    environment:
+      - ENABLE_SPAMASSASSIN=0
+      - ENABLE_CLAMAV=0
+      - ENABLE_FAIL2BAN=0
+      - ENABLE_POSTGREY=0
+      - ENABLE_AMAVIS=0
+      - ENABLE_OPENDKIM=0
+      - ENABLE_OPENDMARC=0
+      - ENABLE_POLICYD_SPF=0
+      - ENABLE_RSPAMD=0
+      - ENABLE_POP3=0
+      - ENABLE_MANAGESIEVE=0
+      - ENABLE_UPDATE_CHECK=0
+      - SSL_TYPE=
+      - PERMIT_DOCKER=connected-networks
+      - SPOOF_PROTECTION=0
+      - LOG_LEVEL=warn
+      - POSTFIX_INET_PROTOCOLS=ipv4
+      - DOVECOT_INET_PROTOCOLS=ipv4
+    volumes:
+      - mail-data:/var/mail
+      - mail-state:/var/mail-state
+      - ./mailconf:/tmp/docker-mailserver
+    networks: [mailnet]
+    mem_limit: 768m
+    restart: unless-stopped
+  roundcube:
+    image: roundcube/roundcubemail@sha256:1162705d5fa6514e6dc2eb71896c208fc3cae35b9cb49019ae23e3cbd9eab79b   # roundcube/roundcubemail:latest-apache arm64
+    environment:
+      - ROUNDCUBEMAIL_DEFAULT_HOST=mailserver
+      - ROUNDCUBEMAIL_DEFAULT_PORT=143
+      - ROUNDCUBEMAIL_SMTP_SERVER=mailserver
+      - ROUNDCUBEMAIL_SMTP_PORT=25
+      - ROUNDCUBEMAIL_DB_TYPE=sqlite
+      - ROUNDCUBEMAIL_SKIN=elastic
+      - ROUNDCUBEMAIL_PLUGINS=archive,zipdownload
+    volumes:
+      - ./roundcube_config:/var/roundcube/config
+      - rc-db:/var/roundcube/db
+    ports: ["127.0.0.1:8491:80"]
+    networks: [mailnet, default]
+    mem_limit: 512m
+    restart: unless-stopped
+networks:
+  mailnet:
+    internal: true   # the mail server has no route out: nothing it receives can be delivered outside this stack
+volumes:
+  gitea-data: {}
+  nc-data: {}
+  mail-data: {}
+  mail-state: {}
+  rc-db: {}

@@ -1,0 +1,74 @@
+# WS-RA freezes. Freeze 1 — foresee adapters, rules, questions, stage and Ekbasis bridge, written and frozen BEFORE any task existed.
+# 2026-10-06T12:29:54Z (no file under tasks/ exists at this time: 0 files)
+dcfe6abc13ea411073779f8252d44b2b26dae74a150a90a89d0043930e978e3f  adapters/spec_server.py
+e7358aba17188eed882cb22b8cd7d70cc75e8e43ea15c2d1d020bdf3cd9a9729  harness/stage_real.mjs
+649bff90b6339df78977dcba391adb1f6c43c744019f6ff8c43e933d96bcb438  harness/foresee_ra.py
+0e8d7c67109f2e29cb0cf8599b72c2f142de6b61d4fa3539a59ba5848a1fb31f  harness/oracle_ra.py
+5301c8422102c0c55003590163715364ea723c100e948df2aeb42d536b9533bf  apps/ra_lib.py
+
+# Addendum A (stage changes after freeze 1, found while verifying the tasks; none changes what the adapters receive or ask):
+# the page text now lists the options inside container controls (Gitea's owner dropdown); reads the page again while it is
+# navigating after a click (Roundcube's Send); lists icon-only controls such as a recipient's remove 'x', named by icon and context.
+# adapters/spec_server.py, foresee_ra.py, oracle_ra.py and ra_lib.py are byte-identical to freeze 1.
+# Freeze 2 — verified task set (32 tasks: 24 harm, 8 controls; dropped 0), SPEC and harness as run. 2026-10-06T12:49:33Z, before the first agent run.
+c73625be3f8a16c1e2c4e205dc06d6419e119260f4b301b5a7e8cc2189fa29b2  SPEC.md
+01fe4a12b58fdbabd7f2f5ca27fd610eba8652748fa21760aae8cc0ccf317432  tasks/ra_tasks.py
+ccfb59eee047bb34fb7f8fe3941e603700e96513313049754dbb1fda7637893c  tasks/frozen_tasks.json
+b20bf8cd4b0cbbefe54f6593239d6b1a2ff1530fad53d8173da7e716ecf30611  tasks/verify_tasks.py
+18d141872d8f6a72b41121b321160a687d3782a95e7109267bcf2ea3269406d5  tasks/predict_paths.py
+dcfe6abc13ea411073779f8252d44b2b26dae74a150a90a89d0043930e978e3f  adapters/spec_server.py
+5542d2c778f050b663fdcc5e30e53dabe96b0048407b380899857cecc254d4ac  harness/stage_real.mjs
+39269fa9feecd3a40315ea390c0f7579ad7d8b8e15afb23a7bcb8e815755ebc4  harness/agent_mcp_real.mjs
+649bff90b6339df78977dcba391adb1f6c43c744019f6ff8c43e933d96bcb438  harness/foresee_ra.py
+0e8d7c67109f2e29cb0cf8599b72c2f142de6b61d4fa3539a59ba5848a1fb31f  harness/oracle_ra.py
+165b746d9f5bc17a5e3566ff2ae3a9c2b0e94189463549419df1b6f863eb166d  harness/run_agent_ra.sh
+ef98b62effc7a2424e13884d5fa4825c09ca1ab7cdddaf9b1218a413bcea4d20  harness/run_agent_ra_qwen.sh
+ed0567b48b31aaa99d6000404f208c0d9bfa99577513c8d45a2b551789b51867  harness/run_study_ra.py
+f15079f03e9c5e6cd3408863d37eac62c2feffd09f2f5bceb9d9f66e671e8a70  harness/analyze_ra.py
+b7665e2d1673c91324aeb58c3e7c00b94fef9ac2a6f4f46008ed597e6e48ffd8  harness/app_docs.py
+1808fd4fb5257bec7cd99d0469064e8fe35afb199054152bebc0a4be4b9c077a  harness/agent_system_see_ra.txt
+a9004374d79b666c9e3709cf12303447876bd6566982c6fa17d71dc1ae7b07ec  harness/agent_system_blind_ra.txt
+5938089aa3a2a1f3816044ed5f1d1065e614d597134f42016bf0786b724d97ad  harness/login.mjs
+5301c8422102c0c55003590163715364ea723c100e948df2aeb42d536b9533bf  apps/ra_lib.py
+070e823d0aeb68ed8843fec9650dccf20ecfcb5bf2d1d8977dadb04482968042  apps/docker-compose.yml
+# Addendum B — after the pilot, before any study run (2026-10-06T12:54:28Z): see prompt and foresee tool description cover any click that changes something; secondary conditions on the 24 harm tasks (SPEC addendum B).
+fe86b581977a8ae34920b71cf71569ee81389cec5661d0ed725e08676ae3ec2b  SPEC.md
+9ea81b630e96cb22904453eb3c603091f846008e6e6349bfa96d7f5c21ac2f82  harness/agent_system_see_ra.txt
+9d008451d8ef47f9aadaa8790893e824ffec1a7fb5ee4ef32441a188e1163a73  harness/agent_mcp_real.mjs
+# Addendum C — before any study run (2026-10-06T13:07:44Z): private per-run orgs except gitea.public_default, cleanup after each judged run, leftovers deleted, Gitea tasks re-verified; guard condition (SPEC addendum C).
+9c789c0574777166656295cd299548425bf04381e40bbe085ce8d60750dfdc0f  SPEC.md
+4107e5b7d8df861c6d20d818bb34b4e5a44075a02ca47d22879382e8540d5839  tasks/ra_tasks.py
+1efb29ae86b35585d18e4160b95bfc29f4c0236ad2ce1f3240b2410a940e5c50  harness/stage_real.mjs
+f7344b34aa82bf3dbaf85d8b8ceefb2b7a2d3bc42201da24af545563433259f4  harness/run_agent_ra.sh
+afcc3d7e938f2b3458e78d5a1a4afe11c3e4b3f9db2765d76f98ae6e08e73b25  harness/run_study_ra.py
+4faed5974f7a3dd4a98a1b51425ebcd68825585ca9b73467d352b568c291a782  harness/analyze_ra.py
+729c18e0460eb5adce78dfdc9080031646b7da88a46d13f7f21b940592ffd76f  harness/agent_system_guard_ra.txt
+9d824b74934d723a7158f713b818296a6cd84db0fc2d2aab804df8fe3f3ed21c  apps/cleanup.py
+# Addendum D (2026-10-06T13:10:10Z): one Nextcloud run at a time; retry refused Nextcloud writes when seeding.
+934e8fbe19b3b854059006cc6d79dbf66f22f60089a90b9e44555b333cf37779  SPEC.md
+797f674e79f150ab2638fddb805a36ea8b43b0297d281d2860bdc5dedfd225f7  harness/run_study_ra.py
+b1713d89824f28b32cc434b1f3a35bbffe46311b95f38234be1dbc8b717fbad0  tasks/ra_tasks.py
+# Addendum E (2026-10-06T13:28:36Z): Caio lifted the cap — every registered condition on all its tasks, 2 reps of the primary contrasts, Sonnet guard, Qwen 9B (and 4B if up); safety stop US$40. Only adds runs.
+1682d40f2e0ed449b8bc42dfe0c3a4555f22c1bc594621d790c200aa9c346a03  SPEC.md
+0ba2d5457b70a78561abcf6a2c7b64fe89d449e46fabad1f3733981a6ef146fc  harness/run_study_ra.py
+24979a708ade06c7a5a265587727b46a53b8cbf8dd0ee3aeee3dab1c66816979  harness/run_agent_ra_qwen.sh
+657b136cf9c713a86d1ce75d462ecd487e1e1a5c9d0d6341023b7f6d41f067f8  harness/analyze_ra.py
+04156b87e44c32b42229b387c2efae4fa8968ad68ab5ed7577e3121dbd7318f2  harness/run_all_claude.sh
+e18f8f2c6609d076bf49228b6cf39b5ab38781a300b7636244a50d56ec284101  harness/run_all_qwen.sh
+# Addendum F (2026-10-06T14:19:34Z): Qwen cut by the GPU reallocation; Ekbasis-dependent Claude conditions first; pause when the replica is down; Ekbasis failures logged and excluded (SPEC addendum F).
+7e703187dc4f71cead6794a6ac1fb04bcfdffe51e17c8a546872fa2c5ff3973e  SPEC.md
+d85d87a38ed96bd1bad24af71ca07bcc808ec79212df9fd2c9762ee55f7f7e5b  harness/stage_real.mjs
+253ac1dee2997057dc88cb31ebd66edc3cfafe0b7839ee36af706be5d6defb6e  harness/run_study_ra.py
+5b111cc454aff5a338600a64a1030a6a10d3ac5485624f7e815e4ee059fe4fa5  harness/analyze_ra.py
+736439e4addfc1633c28f85a2f72a86c057af7228528112a9095aa2448b04a39  harness/run_all_claude2.sh
+# Addendum G (2026-10-06T14:45:16Z), before any guard_goal run: guard_goal arm; exploratory instruction-conflict and flag-precision analysis; window order. adapters/spec_server.py changes only for requests that carry goal+request.
+f12e9dc7d2a32e93f9fec4aeb02fd6258314a4663358adb56168eed33727d594  SPEC.md
+faae0abc191d220c8418c63da1a31414a6970151fd1b2ad6aa63233e060a93e0  adapters/spec_server.py
+e449872025352e938965ffc7e6d8881ba8dc89fa2a67d7479caafeaf21d44d45  harness/stage_real.mjs
+92f10740f00e03e2b96831818327d088b601e3ea93b9992b5b27ab167fc32c5e  harness/run_agent_ra.sh
+3337cbe2d40b213d2de517134a3f71a7a143930638d805c3f5bfa14fb6087687  harness/run_study_ra.py
+ed7030fe05b5cfafbbd6116a18e117f2822803605445e64e0bd9ee7e0a5dafd9  harness/analyze_ra.py
+# Addendum H (2026-10-06T14:59:14Z): known no-questions adapter defect kept, not an outage; runs listed apart. Adapter unchanged.
+f07f48f4f516431ecb799f254db42193faac541a318fc0a972fdcdc37a2ad2a0  SPEC.md
+9974ec0b1314d852deee376aba3fff46416a0e06eb7f0444ad65e6d46d4ce45e  harness/run_study_ra.py
+7dceb25c456f1c2a1574d60d198dad757c8dc664a69c61f3114461562d99deb1  harness/analyze_ra.py

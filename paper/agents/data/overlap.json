@@ -1,0 +1,58 @@
+{
+ "rules": "a row is flagged when its state text is identical to a training row's, or when it is a word 8-gram near-duplicate (layout removed; >= 50% contained, Jaccard >= 0.5) of a training row",
+ "training_side": "every training file of the released model's lineage: V42's training file and the two mined sets of its interpolation partner (r4a)",
+ "firewall_flags_total": 0,
+ "sets": {
+  "A_accumulation": {
+   "scan": "evaluation-set firewall (confirmation set 1)",
+   "rows": 1736
+  },
+  "A_git_wild": {
+   "scan": "evaluation-set firewall (confirmation set 1)",
+   "rows": 3250
+  },
+  "A_planning_probe": {
+   "scan": "evaluation-set firewall (confirmation set 1)",
+   "rows": 8898
+  },
+  "A_rules_stress": {
+   "scan": "evaluation-set firewall (confirmation set 1)",
+   "rows": 9075
+  },
+  "A_shell_wild": {
+   "scan": "evaluation-set firewall (confirmation set 1)",
+   "rows": 3708
+  },
+  "A_sql_wild": {
+   "scan": "evaluation-set firewall (confirmation set 1)",
+   "rows": 2056
+  },
+  "B_apps": {
+   "scan": "evaluation-set firewall (development set)",
+   "rows": 1776
+  },
+  "B_git_wild_capmap": {
+   "scan": "evaluation-set firewall (development set)",
+   "rows": 1625
+  },
+  "B_habit_vs_rule": {
+   "scan": "evaluation-set firewall (development set)",
+   "rows": 2880
+  },
+  "B_languages_formats": {
+   "scan": "evaluation-set firewall (development set)",
+   "rows": 3503
+  },
+  "C_guard_known": {
+   "scan": "integrity audit of the public evaluation sets",
+   "rows": 4486,
+   "flagged": 0
+  },
+  "C_guard_held": {
+   "scan": "integrity audit of the public evaluation sets",
+   "rows": 6394,
+   "flagged": 0
+  }
+ },
+ "agentworldbench": "third-party items (AgentWorldBench, Apache-2.0); not scanned"
+}

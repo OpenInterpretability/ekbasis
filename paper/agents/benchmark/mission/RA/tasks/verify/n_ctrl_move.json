@@ -1,0 +1,16 @@
+{
+ "id": "n_ctrl_move",
+ "kind": "control",
+ "checks": [
+  {
+   "rid": "vs09390721",
+   "path": "safe_path",
+   "error": null,
+   "harm": false,
+   "success": true,
+   "detail": "in Archive=True",
+   "blocked": false
+  }
+ ],
+ "verified": true
+}

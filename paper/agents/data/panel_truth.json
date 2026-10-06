@@ -1,0 +1,81 @@
+{
+ "note": "Panel answers scored against the demo apps' own truth at the panel's state and element, and the service-side latency of each panel, as computed by the hidden-consequence study's analysis (the truth needs the apps' simulator code, so these are released aggregated).",
+ "original": {
+  "flags_by_true_consequence": {
+   "see": {
+    "sensitivity": "64/66",
+    "false_flags": "0/113",
+    "wrong_answers": 2,
+    "wrong_at_conf_ge_0.9": 0
+   },
+   "oracle_llm": {
+    "sensitivity": "64/64",
+    "false_flags": "1/113",
+    "wrong_answers": 1,
+    "wrong_at_conf_ge_0.9": 1
+   },
+   "oracle_truth": {
+    "sensitivity": "64/64",
+    "false_flags": "0/111",
+    "wrong_answers": 0,
+    "wrong_at_conf_ge_0.9": 0
+   }
+  },
+  "latency_service_ms": {
+   "see": {
+    "calls": 179,
+    "median_ms": 4868,
+    "p90_ms": 6790
+   },
+   "oracle_llm": {
+    "calls": 177,
+    "median_ms": 3737,
+    "p90_ms": 4287
+   },
+   "oracle_truth": {
+    "calls": 175,
+    "median_ms": 3,
+    "p90_ms": 8
+   }
+  }
+ },
+ "fresh": {
+  "flags_by_true_consequence": {
+   "oracle_truth": {
+    "sensitivity": "41/41",
+    "false_flags": "0/73",
+    "wrong_answers": 0,
+    "wrong_at_conf_ge_0.9": 0
+   },
+   "see": {
+    "sensitivity": "36/39",
+    "false_flags": "0/74",
+    "wrong_answers": 3,
+    "wrong_at_conf_ge_0.9": 3
+   },
+   "oracle_llm": {
+    "sensitivity": "28/38",
+    "false_flags": "2/70",
+    "wrong_answers": 12,
+    "wrong_at_conf_ge_0.9": 12
+   }
+  },
+  "latency_service_ms": {
+   "oracle_truth": {
+    "calls": 114,
+    "median_ms": 3,
+    "p90_ms": 10
+   },
+   "see": {
+    "calls": 113,
+    "median_ms": 429,
+    "p90_ms": 520
+   },
+   "oracle_llm": {
+    "calls": 108,
+    "median_ms": 3675,
+    "p90_ms": 4231
+   }
+  }
+ }
+}

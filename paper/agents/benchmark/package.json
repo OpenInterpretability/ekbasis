@@ -1,0 +1,12 @@
+{
+  "name": "ekbasis-agent-studies-benchmark",
+  "private": true,
+  "type": "module",
+  "description": "Stages, agent tools, adapters and judges of the agent studies of 'When Does a Consequence Model Make AI Agents Safer?'",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.32.0",
+    "playwright": "1.63.0",
+    "zod": "4.6.5"
+  }
+}

@@ -1,0 +1,3971 @@
+{
+ "title": "Agent-study benchmark: the files that ran, with the edits that take out machine-specific values",
+ "note": "source_sha256 is the hash of the file that ran; frozen lists the freeze files in ../prereg/freeze that recorded that hash. Published edits keep the replaced text (old), so verify_benchmark.py can rebuild the original; redacted edits omit it.",
+ "files": [
+  {
+   "path": ".gitignore",
+   "sha256": "f58485ca84b44e4eabd5bc7726489c2ed7e60bc2d923ce0cf9d167e757ed08af",
+   "bytes": 430,
+   "added": true
+  },
+  {
+   "path": "README.md",
+   "sha256": "bd0d593521f0f58e7550fd41d76b9c1096dc576721792b39a5f0573baebddbba",
+   "bytes": 16690,
+   "added": true
+  },
+  {
+   "path": "capability/real_terminal/harness/analyze.py",
+   "sha256": "e1a71e746a1c1af643ea4980928ebd40f2851eaa4eda4c1f873d82c6333e780e",
+   "bytes": 14205,
+   "source_sha256": "e1a71e746a1c1af643ea4980928ebd40f2851eaa4eda4c1f873d82c6333e780e",
+   "frozen": [
+    {
+     "freeze_file": "terminal_FROZEN_013.sha256",
+     "entry": "harness_013/analyze.py"
+    }
+   ]
+  },
+  {
+   "path": "capability/real_terminal/harness/cc_prelude.zsh",
+   "sha256": "909819fb90355cdcbb6420b7c2b81ba0647b0b07f4928fd1751eee4afc31d983",
+   "bytes": 1759,
+   "source_sha256": "58c3a5435d7a901dfd703ba25a64e7c5254047a1dcc78888bbb4ac53c34f28cb",
+   "edits": [
+    {
+     "kind": "redacted",
+     "new": "_cc_bin=$HOME/.local/bin/claude",
+     "count": 2,
+     "why": "a local home path"
+    }
+   ],
+   "frozen": [
+    {
+     "freeze_file": "terminal_FROZEN.sha256",
+     "entry": "harness/cc_prelude.zsh"
+    },
+    {
+     "freeze_file": "terminal_FROZEN_013.sha256",
+     "entry": "harness_013/cc_prelude.zsh"
+    }
+   ]
+  },
+  {
+   "path": "capability/real_terminal/harness/common.py",
+   "sha256": "dc41d3fce041d0d06cefb09da7302d2b5b06672f20242bfd7980f92f4b67dc47",
+   "bytes": 5211,
+   "source_sha256": "a9830045d769ee3d5b57090f526a89cedc60d671eab39c0a801a2c8158c28ca0",
+   "edits": [
+    {
+     "kind": "redacted",
+     "new": "W = os.path.realpath(os.environ.get(\"EKB_RT_WORK\", \"/tmp/ekb_rt\"))",
+     "count": 1,
+     "why": "a local work-root path; EKB_RT_WORK names one (on APFS)"
+    },
+    {
+     "kind": "published",
+     "old": "PY312 = \"/opt/homebrew/bin/python3.12\"",
+     "new": "PY312 = os.environ.get(\"PY312\", \"/opt/homebrew/bin/python3.12\")",
+     "count": 1,
+     "why": "PY312 can name another Python 3.12"
+    },
+    {
+     "kind": "redacted",
+     "new": "os.environ.get(\"USER\", \"user\")",
+     "count": 2,
+     "why": "a local user name (the default when USER is unset)"
+    }
+   ]
+  },
+  {
+   "path": "capability/real_terminal/harness/prepare.py",
+   "sha256": "64da2b8711c6ace95f736f583a6432309191b72e5c529c581620b1badf8b9453",
+   "bytes": 6657,
+   "source_sha256": "64da2b8711c6ace95f736f583a6432309191b72e5c529c581620b1badf8b9453",
+   "frozen": [
+    {
+     "freeze_file": "terminal_FROZEN.sha256",
+     "entry": "harness/prepare.py"
+    },
+    {
+     "freeze_file": "terminal_FROZEN_013.sha256",
+     "entry": "harness_013/prepare.py"
+    }
+   ]
+  },
+  {
+   "path": "capability/real_terminal/harness/probe.py",
+   "sha256": "192251caf8bbc18995567b5edb06cc8e7bbef2b964ac512fc31e9deab3939d47",
+   "bytes": 4528,
+   "source_sha256": "192251caf8bbc18995567b5edb06cc8e7bbef2b964ac512fc31e9deab3939d47",
+   "frozen": [
+    {
+     "freeze_file": "terminal_FROZEN_013.sha256",
+     "entry": "harness_013/probe.py"
+    }
+   ]
+  },
+  {
+   "path": "capability/real_terminal/harness/replay.py",
+   "sha256": "388a9abc248f40cb1fa0e87299af35dca36ac29732e9fa224964875c9ecc8d64",
+   "bytes": 7072,
+   "source_sha256": "388a9abc248f40cb1fa0e87299af35dca36ac29732e9fa224964875c9ecc8d64",
+   "frozen": [
+    {
+     "freeze_file": "terminal_FROZEN.sha256",
+     "entry": "harness/replay.py"
+    }
+   ]
+  },
+  {
+   "path": "capability/real_terminal/harness/run_explore.py",
+   "sha256": "73b01a1f852694bfe710cee258538b2af1cae627c182cd557f6f763deb9d71bf",
+   "bytes": 3112,
+   "source_sha256": "73b01a1f852694bfe710cee258538b2af1cae627c182cd557f6f763deb9d71bf"
+  },
+  {
+   "path": "capability/real_terminal/harness/run_session.py",
+   "sha256": "fc273aeffd648fa9bdab0d026bda4010bb31aa67f169c6f32c69bbf01c1277c9",
+   "bytes": 7687,
+   "source_sha256": "0fd1046408fe709fb79febf8e9ab12e9c8147b19bde789f239e38e57af9555f2",
+   "edits": [
+    {
+     "kind": "redacted",
+     "new": "PROJECT_KEY = os.environ.get(\"EKB_RT_DENY_DIR\", \"/nonexistent-ekb-rt-dir\")",
+     "count": 1,
+     "why": "a local path the sandbox also denied; EKB_RT_DENY_DIR names one"
+    }
+   ],
+   "frozen": [
+    {
+     "freeze_file": "terminal_FROZEN.sha256",
+     "entry": "harness/run_session.py"
+    }
+   ]
+  },
+  {
+   "path": "capability/real_terminal/harness/run_study.py",
+   "sha256": "13e7b3bdc65217d209911c95ee63b80d1845f2fc105d739d783a96eaa71e22c5",
+   "bytes": 5428,
+   "source_sha256": "ef504fb5de49c1d14afb087da5743c5034b1a21fbf447a0ed7b13f9d12618653",
+   "edits": [
+    {
+     "kind": "redacted",
+     "new": "\"-L\", os.environ.get(\"EKB_RT_TUNNEL_FORWARD\", \"18642:127.0.0.1:8542\"),",
+     "count": 1,
+     "why": "a server's address, SSH port and user (EKB_RT_TUNNEL_FORWARD)"
+    },
+    {
+     "kind": "redacted",
+     "new": "*os.environ.get(\"EKB_RT_TUNNEL_SSH\", \"-p 22 user@ekbasis-host\").split()]",
+     "count": 1,
+     "why": "a server's address, SSH port and user (EKB_RT_TUNNEL_SSH)"
+    }
+   ],
+   "frozen": [
+    {
+     "freeze_file": "terminal_FROZEN.sha256",
+     "entry": "harness/run_study.py"
+    }
+   ]
+  },
+  {
+   "path": "capability/real_terminal/harness/tasks.py",
+   "sha256": "025cf57afaf461d7b46c11a0ca85d136eebaf98d4c14f77f9e39f532082a1af9",
+   "bytes": 28098,
+   "source_sha256": "025cf57afaf461d7b46c11a0ca85d136eebaf98d4c14f77f9e39f532082a1af9",
+   "frozen": [
+    {
+     "freeze_file": "terminal_FROZEN.sha256",
+     "entry": "harness/tasks.py"
+    },
+    {
+     "freeze_file": "terminal_FROZEN_013.sha256",
+     "entry": "harness_013/tasks.py"
+    }
+   ]
+  },
+  {
+   "path": "capability/real_terminal/harness/truth.py",
+   "sha256": "fdb95dbe0919dc6ddb30502cf8c27b5f9935abc649c4de9f9481396b6d9f3546",
+   "bytes": 10663,
+   "source_sha256": "fdb95dbe0919dc6ddb30502cf8c27b5f9935abc649c4de9f9481396b6d9f3546",
+   "frozen": [
+    {
+     "freeze_file": "terminal_FROZEN.sha256",
+     "entry": "harness/truth.py"
+    },
+    {
+     "freeze_file": "terminal_FROZEN_013.sha256",
+     "entry": "harness_013/truth.py"
+    }
+   ]
+  },
+  {
+   "path": "capability/real_terminal/harness/wrapper.py",
+   "sha256": "b499e618601ef1e59deaabeb608347d3eb65c9692b94542f6b23cf0573946ef4",
+   "bytes": 5010,
+   "source_sha256": "c125a749f75c6ae1daae07d651b1008bffd14c0fef052a30079fa0c23d2d0cba",
+   "edits": [
+    {
+     "kind": "redacted",
+     "new": "W = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))  # the work root: this file runs as <work root>/bin/wrapper*.py",
+     "count": 1,
+     "why": "a local work-root path; the copy in the work root finds it from its own location"
+    }
+   ],
+   "frozen": [
+    {
+     "freeze_file": "terminal_FROZEN.sha256",
+     "entry": "harness/wrapper.py"
+    }
+   ]
+  },
+  {
+   "path": "capability/real_terminal/harness_013/analyze.py",
+   "sha256": "e1a71e746a1c1af643ea4980928ebd40f2851eaa4eda4c1f873d82c6333e780e",
+   "bytes": 14205,
+   "source_sha256": "e1a71e746a1c1af643ea4980928ebd40f2851eaa4eda4c1f873d82c6333e780e",
+   "frozen": [
+    {
+     "freeze_file": "terminal_FROZEN_013.sha256",
+     "entry": "harness_013/analyze.py"
+    }
+   ]
+  },
+  {
+   "path": "capability/real_terminal/harness_013/analyze_013.py",
+   "sha256": "c59e9e8e0a257d104bdfe99a0afb7f69ff9b8021e222347f0d7ead76dadef848",
+   "bytes": 8384,
+   "source_sha256": "c59e9e8e0a257d104bdfe99a0afb7f69ff9b8021e222347f0d7ead76dadef848",
+   "frozen": [
+    {
+     "freeze_file": "terminal_FROZEN_013.sha256",
+     "entry": "harness_013/analyze_013.py"
+    }
+   ]
+  },
+  {
+   "path": "capability/real_terminal/harness_013/cc_prelude.zsh",
+   "sha256": "909819fb90355cdcbb6420b7c2b81ba0647b0b07f4928fd1751eee4afc31d983",
+   "bytes": 1759,
+   "source_sha256": "58c3a5435d7a901dfd703ba25a64e7c5254047a1dcc78888bbb4ac53c34f28cb",
+   "edits": [
+    {
+     "kind": "redacted",
+     "new": "_cc_bin=$HOME/.local/bin/claude",
+     "count": 2,
+     "why": "a local home path"
+    }
+   ],
+   "frozen": [
+    {
+     "freeze_file": "terminal_FROZEN.sha256",
+     "entry": "harness/cc_prelude.zsh"
+    },
+    {
+     "freeze_file": "terminal_FROZEN_013.sha256",
+     "entry": "harness_013/cc_prelude.zsh"
+    }
+   ]
+  },
+  {
+   "path": "capability/real_terminal/harness_013/common.py",
+   "sha256": "bf6998515f4a4f252e73b5b6203e465ddc311b17e55e0b4cfb1b52ab22ed3cc2",
+   "bytes": 5754,
+   "source_sha256": "20ac44c5b1a9a34560a566696855f6185f9608120d1104ea655149ca9f4346b1",
+   "edits": [
+    {
+     "kind": "redacted",
+     "new": "W = os.path.realpath(os.environ.get(\"EKB_RT_WORK\", \"/tmp/ekb_rt\"))",
+     "count": 1,
+     "why": "a local work-root path; EKB_RT_WORK names one (on APFS)"
+    },
+    {
+     "kind": "published",
+     "old": "PY312 = \"/opt/homebrew/bin/python3.12\"",
+     "new": "PY312 = os.environ.get(\"PY312\", \"/opt/homebrew/bin/python3.12\")",
+     "count": 1,
+     "why": "PY312 can name another Python 3.12"
+    },
+    {
+     "kind": "redacted",
+     "new": "os.environ.get(\"USER\", \"user\")",
+     "count": 2,
+     "why": "a local user name (the default when USER is unset)"
+    }
+   ],
+   "frozen": [
+    {
+     "freeze_file": "terminal_FROZEN_013.sha256",
+     "entry": "harness_013/common.py"
+    }
+   ]
+  },
+  {
+   "path": "capability/real_terminal/harness_013/prepare.py",
+   "sha256": "64da2b8711c6ace95f736f583a6432309191b72e5c529c581620b1badf8b9453",
+   "bytes": 6657,
+   "source_sha256": "64da2b8711c6ace95f736f583a6432309191b72e5c529c581620b1badf8b9453",
+   "frozen": [
+    {
+     "freeze_file": "terminal_FROZEN.sha256",
+     "entry": "harness/prepare.py"
+    },
+    {
+     "freeze_file": "terminal_FROZEN_013.sha256",
+     "entry": "harness_013/prepare.py"
+    }
+   ]
+  },
+  {
+   "path": "capability/real_terminal/harness_013/probe.py",
+   "sha256": "192251caf8bbc18995567b5edb06cc8e7bbef2b964ac512fc31e9deab3939d47",
+   "bytes": 4528,
+   "source_sha256": "192251caf8bbc18995567b5edb06cc8e7bbef2b964ac512fc31e9deab3939d47",
+   "frozen": [
+    {
+     "freeze_file": "terminal_FROZEN_013.sha256",
+     "entry": "harness_013/probe.py"
+    }
+   ]
+  },
+  {
+   "path": "capability/real_terminal/harness_013/replay.py",
+   "sha256": "4717b6ea74731c669132ebd022448500a7b38438705238591380f6ca66dc6a7e",
+   "bytes": 7752,
+   "source_sha256": "4717b6ea74731c669132ebd022448500a7b38438705238591380f6ca66dc6a7e",
+   "frozen": [
+    {
+     "freeze_file": "terminal_FROZEN_013.sha256",
+     "entry": "harness_013/replay.py"
+    }
+   ]
+  },
+  {
+   "path": "capability/real_terminal/harness_013/run_explore.py",
+   "sha256": "eecab72f1cd3f85cbc1632ffdc4ef54b76eddc9a89e62230c3f87a90616082ff",
+   "bytes": 3198,
+   "source_sha256": "eecab72f1cd3f85cbc1632ffdc4ef54b76eddc9a89e62230c3f87a90616082ff",
+   "frozen": [
+    {
+     "freeze_file": "terminal_FROZEN_013.sha256",
+     "entry": "harness_013/run_explore.py"
+    }
+   ]
+  },
+  {
+   "path": "capability/real_terminal/harness_013/run_session.py",
+   "sha256": "1472caeb3dd39e9679c26a2de39e87479de3a31861d5985fb9a664b7bf555246",
+   "bytes": 7728,
+   "source_sha256": "b06d7d4c57a12776cbb602ebd521103144153a0b639282b17dfb840622b5ad48",
+   "edits": [
+    {
+     "kind": "redacted",
+     "new": "PROJECT_KEY = os.environ.get(\"EKB_RT_DENY_DIR\", \"/nonexistent-ekb-rt-dir\")",
+     "count": 1,
+     "why": "a local path the sandbox also denied; EKB_RT_DENY_DIR names one"
+    }
+   ],
+   "frozen": [
+    {
+     "freeze_file": "terminal_FROZEN_013.sha256",
+     "entry": "harness_013/run_session.py"
+    }
+   ]
+  },
+  {
+   "path": "capability/real_terminal/harness_013/run_study.py",
+   "sha256": "211d695f63dc409cb2504d8dd6e94819f95d337b76de6ca27fcc9e8e287dbd26",
+   "bytes": 5488,
+   "source_sha256": "0adad32d9c7ea2804e36ae303010656efe76088593b1a416ec85bef90a778752",
+   "edits": [
+    {
+     "kind": "redacted",
+     "new": "\"-L\", os.environ.get(\"EKB_RT_TUNNEL_FORWARD\", \"18642:127.0.0.1:8542\"),",
+     "count": 1,
+     "why": "a server's address, SSH port and user (EKB_RT_TUNNEL_FORWARD)"
+    },
+    {
+     "kind": "redacted",
+     "new": "*os.environ.get(\"EKB_RT_TUNNEL_SSH\", \"-p 22 user@ekbasis-host\").split()]",
+     "count": 1,
+     "why": "a server's address, SSH port and user (EKB_RT_TUNNEL_SSH)"
+    }
+   ],
+   "frozen": [
+    {
+     "freeze_file": "terminal_FROZEN_013.sha256",
+     "entry": "harness_013/run_study.py"
+    }
+   ]
+  },
+  {
+   "path": "capability/real_terminal/harness_013/tasks.py",
+   "sha256": "025cf57afaf461d7b46c11a0ca85d136eebaf98d4c14f77f9e39f532082a1af9",
+   "bytes": 28098,
+   "source_sha256": "025cf57afaf461d7b46c11a0ca85d136eebaf98d4c14f77f9e39f532082a1af9",
+   "frozen": [
+    {
+     "freeze_file": "terminal_FROZEN.sha256",
+     "entry": "harness/tasks.py"
+    },
+    {
+     "freeze_file": "terminal_FROZEN_013.sha256",
+     "entry": "harness_013/tasks.py"
+    }
+   ]
+  },
+  {
+   "path": "capability/real_terminal/harness_013/truth.py",
+   "sha256": "fdb95dbe0919dc6ddb30502cf8c27b5f9935abc649c4de9f9481396b6d9f3546",
+   "bytes": 10663,
+   "source_sha256": "fdb95dbe0919dc6ddb30502cf8c27b5f9935abc649c4de9f9481396b6d9f3546",
+   "frozen": [
+    {
+     "freeze_file": "terminal_FROZEN.sha256",
+     "entry": "harness/truth.py"
+    },
+    {
+     "freeze_file": "terminal_FROZEN_013.sha256",
+     "entry": "harness_013/truth.py"
+    }
+   ]
+  },
+  {
+   "path": "capability/real_terminal/harness_013/wrapper.py",
+   "sha256": "6bda3a44fa6568b5393490a54c3158b01b5cf9267597a26d93c670f959eedf19",
+   "bytes": 5036,
+   "source_sha256": "a563a7457eeb04a680f5f63b693f42033b4b204ef7c27c07302ea74a1f607c6f",
+   "edits": [
+    {
+     "kind": "redacted",
+     "new": "W = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))  # the work root: this file runs as <work root>/bin/wrapper*.py",
+     "count": 1,
+     "why": "a local work-root path; the copy in the work root finds it from its own location"
+    }
+   ],
+   "frozen": [
+    {
+     "freeze_file": "terminal_FROZEN_013.sha256",
+     "entry": "harness_013/wrapper.py"
+    }
+   ]
+  },
+  {
+   "path": "launch_video/agent_mcp.mjs",
+   "sha256": "c00155bc2ec7cdd9bfdace90c3a2b5c9eca1d50f1a40e655c095ff96ff28051a",
+   "bytes": 2736,
+   "source_sha256": "c00155bc2ec7cdd9bfdace90c3a2b5c9eca1d50f1a40e655c095ff96ff28051a"
+  },
+  {
+   "path": "launch_video/agent_mcp_glm.mjs",
+   "sha256": "02942d6cef660aa55202a7f83950df60f149772c94080189dcc7bcf7ca6f017e",
+   "bytes": 3444,
+   "source_sha256": "02942d6cef660aa55202a7f83950df60f149772c94080189dcc7bcf7ca6f017e"
+  },
+  {
+   "path": "launch_video/agent_system_blind.txt",
+   "sha256": "cff601a23975c060e13e3a425107a84af682186a041c907b777868d319cf687a",
+   "bytes": 379,
+   "source_sha256": "cff601a23975c060e13e3a425107a84af682186a041c907b777868d319cf687a",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "prompts/system_blind.txt"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "prompts/system_manual.txt"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "prompts/system_blind.txt"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "prompts/system_manual.txt"
+    }
+   ]
+  },
+  {
+   "path": "launch_video/agent_system_see.txt",
+   "sha256": "6ead43002bbae04e827647f82d245a8ef0e7888c334619bec7333d158fcf05dc",
+   "bytes": 734,
+   "source_sha256": "6ead43002bbae04e827647f82d245a8ef0e7888c334619bec7333d158fcf05dc",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "prompts/system_see.txt"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "prompts/system_see.txt"
+    }
+   ]
+  },
+  {
+   "path": "launch_video/desktop/apps/calendar.js",
+   "sha256": "51c5e88071598fe50382dca9fbc0c174e15f8faa4c0c129d7f10284960f526b1",
+   "bytes": 6632,
+   "source_sha256": "51c5e88071598fe50382dca9fbc0c174e15f8faa4c0c129d7f10284960f526b1"
+  },
+  {
+   "path": "launch_video/desktop/apps/chat.js",
+   "sha256": "221d2af8d16f6d069a3343845ff66f19b01b7c4b29ea1ce7ac06ee342a282352",
+   "bytes": 5862,
+   "source_sha256": "221d2af8d16f6d069a3343845ff66f19b01b7c4b29ea1ce7ac06ee342a282352"
+  },
+  {
+   "path": "launch_video/desktop/apps/cloud.js",
+   "sha256": "993086b3551de12a873fd0a3d780f030c79f7fdf008ddc985358d4ccf5df228a",
+   "bytes": 7282,
+   "source_sha256": "993086b3551de12a873fd0a3d780f030c79f7fdf008ddc985358d4ccf5df228a"
+  },
+  {
+   "path": "launch_video/desktop/apps/drive.js",
+   "sha256": "81acce81e1e3b1edb47e4d5a2b976f62d354d0f9b4d8a7b33147ce594ea62822",
+   "bytes": 7461,
+   "source_sha256": "81acce81e1e3b1edb47e4d5a2b976f62d354d0f9b4d8a7b33147ce594ea62822"
+  },
+  {
+   "path": "launch_video/desktop/apps/files.js",
+   "sha256": "937524d14ce2cd8e8fbf62a9c1f224f0bbeddfd403e3591f9d4a201d569b2cc9",
+   "bytes": 6583,
+   "source_sha256": "937524d14ce2cd8e8fbf62a9c1f224f0bbeddfd403e3591f9d4a201d569b2cc9"
+  },
+  {
+   "path": "launch_video/desktop/apps/icons.js",
+   "sha256": "4baab4e7839f3f1e44a12b6991b05967b2245bd63f5389cc1e47ed4ee9f22e7c",
+   "bytes": 1808,
+   "source_sha256": "4baab4e7839f3f1e44a12b6991b05967b2245bd63f5389cc1e47ed4ee9f22e7c"
+  },
+  {
+   "path": "launch_video/desktop/apps/index.js",
+   "sha256": "513b38a5d07d36c31ca2d66510d02d79557ac9c23b9dc242e839834b1aece0e6",
+   "bytes": 1190,
+   "source_sha256": "513b38a5d07d36c31ca2d66510d02d79557ac9c23b9dc242e839834b1aece0e6"
+  },
+  {
+   "path": "launch_video/desktop/apps/mail.js",
+   "sha256": "f6ae632078ac832129db483a6f0862552c498979b3401159fd93d4536bfcf8a7",
+   "bytes": 11489,
+   "source_sha256": "f6ae632078ac832129db483a6f0862552c498979b3401159fd93d4536bfcf8a7"
+  },
+  {
+   "path": "launch_video/desktop/apps/puzzle.js",
+   "sha256": "5e834d73d65dbb50fe8ebdf7a11e2446c070585c87dcb6e2360d98b92829cf42",
+   "bytes": 16064,
+   "source_sha256": "5e834d73d65dbb50fe8ebdf7a11e2446c070585c87dcb6e2360d98b92829cf42"
+  },
+  {
+   "path": "launch_video/desktop/apps/shop.js",
+   "sha256": "a0cf0dbdde68d4fe9078b5fe636658fae457c60cfb6e30f92b6e835200dd58b5",
+   "bytes": 5383,
+   "source_sha256": "a0cf0dbdde68d4fe9078b5fe636658fae457c60cfb6e30f92b6e835200dd58b5"
+  },
+  {
+   "path": "launch_video/desktop/apps/ui.js",
+   "sha256": "fb8a67f190e76976dd82bd34be2df2a008c509f7e226e5b454567f45b3dcffb8",
+   "bytes": 1012,
+   "source_sha256": "fb8a67f190e76976dd82bd34be2df2a008c509f7e226e5b454567f45b3dcffb8",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "web/desktop/apps/ui.js"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "web/desktop/apps/ui.js"
+    }
+   ]
+  },
+  {
+   "path": "launch_video/desktop/desktop.css",
+   "sha256": "038f9af9ebb526f6bf1832bed7ee3c934e04c2d1dd3de142a36e9aa648db9534",
+   "bytes": 12138,
+   "source_sha256": "038f9af9ebb526f6bf1832bed7ee3c934e04c2d1dd3de142a36e9aa648db9534"
+  },
+  {
+   "path": "launch_video/desktop/desktop.js",
+   "sha256": "59b4fa0fa208a51ef43a4087c9c1fdb91769735f27fe34e57f002e5be0881a21",
+   "bytes": 19710,
+   "source_sha256": "59b4fa0fa208a51ef43a4087c9c1fdb91769735f27fe34e57f002e5be0881a21"
+  },
+  {
+   "path": "launch_video/desktop/index.html",
+   "sha256": "91c083357a3227e61a7a49e791a187015f526a4d16e54729fc4911e3fe7d86e5",
+   "bytes": 1257,
+   "source_sha256": "91c083357a3227e61a7a49e791a187015f526a4d16e54729fc4911e3fe7d86e5"
+  },
+  {
+   "path": "launch_video/desktop/split.html",
+   "sha256": "cc69ecf22e1b77b315a3909e7fc93853c7693cf8891f6208e2ab9f5f1a828720",
+   "bytes": 3105,
+   "source_sha256": "cc69ecf22e1b77b315a3909e7fc93853c7693cf8891f6208e2ab9f5f1a828720"
+  },
+  {
+   "path": "launch_video/desktop/split.js",
+   "sha256": "c53f5a657ca2a0dea74f44dc2a28e145276cb373cc663daa74a6ad6cdee9cd27",
+   "bytes": 5794,
+   "source_sha256": "c53f5a657ca2a0dea74f44dc2a28e145276cb373cc663daa74a6ad6cdee9cd27"
+  },
+  {
+   "path": "launch_video/foresee.py",
+   "sha256": "62792d2488ce5a2417890523cbeacd1f813dea0b0ec967b1be143bf8fbd6c2ee",
+   "bytes": 3256,
+   "source_sha256": "2fd4b71f66ba45de3440f1c44f3da2676b294a75db6c12afd20acdadf986ca0b",
+   "edits": [
+    {
+     "kind": "redacted",
+     "new": "sys.path[:0] = [p for p in [os.environ.get(\"EKBASIS_CLIENT_SRC\")] if p]",
+     "count": 1,
+     "why": "the absolute path of a local client checkout; EKBASIS_CLIENT_SRC names one, else the installed client is used"
+    }
+   ]
+  },
+  {
+   "path": "launch_video/run_agent.sh",
+   "sha256": "8d05ece1c58faaeec8e9955a45b7d484a9e0b8f54ebe436b69b5df325fcd56d7",
+   "bytes": 2274,
+   "source_sha256": "8d05ece1c58faaeec8e9955a45b7d484a9e0b8f54ebe436b69b5df325fcd56d7"
+  },
+  {
+   "path": "launch_video/stage.mjs",
+   "sha256": "a75681f5bc4b9b2db43561263d020d32f78164d9e1c1feab772e4dac90ac0b02",
+   "bytes": 4989,
+   "source_sha256": "a75681f5bc4b9b2db43561263d020d32f78164d9e1c1feab772e4dac90ac0b02"
+  },
+  {
+   "path": "launch_video/stage_x.mjs",
+   "sha256": "4d3be106639bef3d63511860103573b0f0370301f152be5d632a3432ccbc8f60",
+   "bytes": 5919,
+   "source_sha256": "4d3be106639bef3d63511860103573b0f0370301f152be5d632a3432ccbc8f60",
+   "frozen": [
+    {
+     "freeze_file": "demo_apps_SPEC.sha256",
+     "entry": "../../launch_video/stage_x.mjs"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/agent_mcp_al.mjs",
+   "sha256": "8a737880a3e00c2fe3b45b3a1b0cefe99c16716bea684d459f73a534bb30142f",
+   "bytes": 3726,
+   "source_sha256": "8a737880a3e00c2fe3b45b3a1b0cefe99c16716bea684d459f73a534bb30142f",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "agent_mcp_al.mjs"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_ST.sha256",
+     "entry": "agent_mcp_al.mjs"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/analyze_al.py",
+   "sha256": "44f0cd9b512de8361e32a98d50b556936f131935b4684471e26f31d05f5b5767",
+   "bytes": 7913,
+   "source_sha256": "44f0cd9b512de8361e32a98d50b556936f131935b4684471e26f31d05f5b5767"
+  },
+  {
+   "path": "mission/AL/foresee_al.py",
+   "sha256": "0bef35537ed655022366fb866a5dd88cbd23ddc169a871dd5b855836459221a0",
+   "bytes": 5300,
+   "source_sha256": "e6d1fed4d4071c3338877f60e06f5fdf0cab5c3871d88708be379447e2a36d0c",
+   "edits": [
+    {
+     "kind": "redacted",
+     "new": "sys.path[:0] = [p for p in [os.environ.get(\"EKBASIS_CLIENT_SRC\")] if p]",
+     "count": 1,
+     "why": "the absolute path of a local client checkout; EKBASIS_CLIENT_SRC names one, else the installed client is used"
+    }
+   ],
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "foresee_al.py"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "foresee_al.py"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_ST.sha256",
+     "entry": "foresee_al.py"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/judge_al.py",
+   "sha256": "563142a8e1407c8ce6a3bae26f80ed54423cbd888d46267804a2d6dc87d84356",
+   "bytes": 2343,
+   "source_sha256": "563142a8e1407c8ce6a3bae26f80ed54423cbd888d46267804a2d6dc87d84356",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "judge_al.py"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "judge_al.py"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_ST.sha256",
+     "entry": "judge_al.py"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/make_tasks_al.py",
+   "sha256": "10e4a3958d63c803b644cf851932b8e4daae9f7f3ec6f7f65f0f5532a941426c",
+   "bytes": 52717,
+   "source_sha256": "10e4a3958d63c803b644cf851932b8e4daae9f7f3ec6f7f65f0f5532a941426c",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "make_tasks_al.py"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "make_tasks_al.py"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/make_tasks_st.py",
+   "sha256": "1c8450f78c8b997f0935e271e0b9f3f34fa4481f430c89fbc97e0d169c1adb33",
+   "bytes": 9248,
+   "source_sha256": "1c8450f78c8b997f0935e271e0b9f3f34fa4481f430c89fbc97e0d169c1adb33",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_ST.sha256",
+     "entry": "make_tasks_st.py"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/mock_al.py",
+   "sha256": "a72b592d46ae6520bfc825a07a0408995beb1210cf572957eb08d5eae3e42226",
+   "bytes": 1376,
+   "source_sha256": "a72b592d46ae6520bfc825a07a0408995beb1210cf572957eb08d5eae3e42226"
+  },
+  {
+   "path": "mission/AL/prompts/system_ahead.txt",
+   "sha256": "2f436344e832db7a4664c8dd5a291629483c7587e49a2c882b8dfb9bc2b22ff4",
+   "bytes": 680,
+   "source_sha256": "2f436344e832db7a4664c8dd5a291629483c7587e49a2c882b8dfb9bc2b22ff4",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "prompts/system_ahead.txt"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "prompts/system_ahead.txt"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/prompts/system_alone.txt",
+   "sha256": "e3795684f4bbc025a930632fb9e47a34e11cfb9837960f59f76d912cb2bd3b91",
+   "bytes": 501,
+   "source_sha256": "e3795684f4bbc025a930632fb9e47a34e11cfb9837960f59f76d912cb2bd3b91",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_ST.sha256",
+     "entry": "prompts/system_alone.txt"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/prompts/system_blind.txt",
+   "sha256": "cff601a23975c060e13e3a425107a84af682186a041c907b777868d319cf687a",
+   "bytes": 379,
+   "source_sha256": "cff601a23975c060e13e3a425107a84af682186a041c907b777868d319cf687a",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "prompts/system_blind.txt"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "prompts/system_manual.txt"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "prompts/system_blind.txt"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "prompts/system_manual.txt"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/prompts/system_manual.txt",
+   "sha256": "cff601a23975c060e13e3a425107a84af682186a041c907b777868d319cf687a",
+   "bytes": 379,
+   "source_sha256": "cff601a23975c060e13e3a425107a84af682186a041c907b777868d319cf687a",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "prompts/system_blind.txt"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "prompts/system_manual.txt"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "prompts/system_blind.txt"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "prompts/system_manual.txt"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/prompts/system_see.txt",
+   "sha256": "6ead43002bbae04e827647f82d245a8ef0e7888c334619bec7333d158fcf05dc",
+   "bytes": 734,
+   "source_sha256": "6ead43002bbae04e827647f82d245a8ef0e7888c334619bec7333d158fcf05dc",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "prompts/system_see.txt"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "prompts/system_see.txt"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/prompts/system_tracker.txt",
+   "sha256": "27ae17bc34d9a7f459fd0c7b4687635964728e63487175667851c80b67a08247",
+   "bytes": 760,
+   "source_sha256": "27ae17bc34d9a7f459fd0c7b4687635964728e63487175667851c80b67a08247",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_ST.sha256",
+     "entry": "prompts/system_tracker.txt"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/run_agent_al.sh",
+   "sha256": "580c4b0410e7b9640aca7a7638f2b26c208375c236cd9bce3c0fd34bfb361e2a",
+   "bytes": 2702,
+   "source_sha256": "580c4b0410e7b9640aca7a7638f2b26c208375c236cd9bce3c0fd34bfb361e2a",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "run_agent_al.sh"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_ST.sha256",
+     "entry": "run_agent_al.sh"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/run_al.py",
+   "sha256": "886ff7a2e6b22b42192df89922d9750b6d03ab3c674c9721987faaba2dc25e8b",
+   "bytes": 5334,
+   "source_sha256": "886ff7a2e6b22b42192df89922d9750b6d03ab3c674c9721987faaba2dc25e8b",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "run_al.py"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "run_al.py"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_ST.sha256",
+     "entry": "run_al.py"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/stage_al.mjs",
+   "sha256": "df171677e57e4f95bb790fd8e5382f0491c6d1eec91fe44c7ab87d2f472a7ba9",
+   "bytes": 11075,
+   "source_sha256": "df171677e57e4f95bb790fd8e5382f0491c6d1eec91fe44c7ab87d2f472a7ba9",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "stage_al.mjs"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_ST.sha256",
+     "entry": "stage_al.mjs"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/tasks_la.jsonl",
+   "sha256": "11c4e3f7d6a2f5c95ead07893e9f826e60b9a02611d6028d26078b431297f912",
+   "bytes": 295666,
+   "source_sha256": "11c4e3f7d6a2f5c95ead07893e9f826e60b9a02611d6028d26078b431297f912",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "tasks_la.jsonl"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "tasks_la.jsonl"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/tasks_la/adm_2023_ro.json",
+   "sha256": "b1156d66f0bbc9558ff3450474c592a943bd3d1d7cbd6d8fd7a7cfd17c17d09c",
+   "bytes": 14466,
+   "source_sha256": "b1156d66f0bbc9558ff3450474c592a943bd3d1d7cbd6d8fd7a7cfd17c17d09c",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "tasks_la/adm_2023_ro.json"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "tasks_la/adm_2023_ro.json"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/tasks_la/adm_add_seat.json",
+   "sha256": "617c5993ef55a5d50de031e99aef80fe6e042d62b96ebeb7ec9b43f29e0901ec",
+   "bytes": 13982,
+   "source_sha256": "617c5993ef55a5d50de031e99aef80fe6e042d62b96ebeb7ec9b43f29e0901ec",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "tasks_la/adm_add_seat.json"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "tasks_la/adm_add_seat.json"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/tasks_la/adm_ana_web.json",
+   "sha256": "53dccd01fd53da2d0eff6932fd43156be7a7b4a1f8b829a3430ff981bff190d7",
+   "bytes": 14535,
+   "source_sha256": "53dccd01fd53da2d0eff6932fd43156be7a7b4a1f8b829a3430ff981bff190d7",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "tasks_la/adm_ana_web.json"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "tasks_la/adm_ana_web.json"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/tasks_la/adm_ben_left.json",
+   "sha256": "8979fa0154b0d345b727eb2ef102934849181b83456040ef08e53f769d480e01",
+   "bytes": 14447,
+   "source_sha256": "8979fa0154b0d345b727eb2ef102934849181b83456040ef08e53f769d480e01",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "tasks_la/adm_ben_left.json"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "tasks_la/adm_ben_left.json"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/tasks_la/adm_ci_token.json",
+   "sha256": "91c1a231199083ccf27b7d05f96c7dc180278d90f86f16c1d174aea1e7d94650",
+   "bytes": 14521,
+   "source_sha256": "91c1a231199083ccf27b7d05f96c7dc180278d90f86f16c1d174aea1e7d94650",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "tasks_la/adm_ci_token.json"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "tasks_la/adm_ci_token.json"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/tasks_la/adm_roadmap_vis.json",
+   "sha256": "4a639a2b7dbc2800e164f9fbe6ff95828c07d2b1c79419006e0ecbf356d95a8d",
+   "bytes": 14630,
+   "source_sha256": "4a639a2b7dbc2800e164f9fbe6ff95828c07d2b1c79419006e0ecbf356d95a8d",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "tasks_la/adm_roadmap_vis.json"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "tasks_la/adm_roadmap_vis.json"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/tasks_la/drv_budget_edit.json",
+   "sha256": "c0f5da48ed70fec651ceb1ab623e35dcdd3a37e0257b9a056d67a8b114d09535",
+   "bytes": 12321,
+   "source_sha256": "c0f5da48ed70fec651ceb1ab623e35dcdd3a37e0257b9a056d67a8b114d09535",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "tasks_la/drv_budget_edit.json"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "tasks_la/drv_budget_edit.json"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/tasks_la/drv_contracts_org.json",
+   "sha256": "ed0e68bcfd0c85183c8ec67a4bd708d80615a77c2af588be4fa7ee7c2e33b2dd",
+   "bytes": 12385,
+   "source_sha256": "ed0e68bcfd0c85183c8ec67a4bd708d80615a77c2af588be4fa7ee7c2e33b2dd",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "tasks_la/drv_contracts_org.json"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "tasks_la/drv_contracts_org.json"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/tasks_la/drv_draft_back.json",
+   "sha256": "77f31df17285481820367f0fe89cee028671cf685eecfb9c71dfe933d956a80d",
+   "bytes": 12033,
+   "source_sha256": "77f31df17285481820367f0fe89cee028671cf685eecfb9c71dfe933d956a80d",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "tasks_la/drv_draft_back.json"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "tasks_la/drv_draft_back.json"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/tasks_la/drv_photos_space.json",
+   "sha256": "7f78efad88c4b4902aee8de7c580d762b67de928d82549f02b7c71bb41a929e4",
+   "bytes": 12139,
+   "source_sha256": "7f78efad88c4b4902aee8de7c580d762b67de928d82549f02b7c71bb41a929e4",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "tasks_la/drv_photos_space.json"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "tasks_la/drv_photos_space.json"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/tasks_la/drv_q3_share.json",
+   "sha256": "cd840b7622a693d941f7e7920ad80064d0caaeceec08681ca20318ece25e9549",
+   "bytes": 12733,
+   "source_sha256": "cd840b7622a693d941f7e7920ad80064d0caaeceec08681ca20318ece25e9549",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "tasks_la/drv_q3_share.json"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "tasks_la/drv_q3_share.json"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/tasks_la/drv_rename.json",
+   "sha256": "1277e6f85dc626da16f0c980057eab4f461c9179fd62cfa81c7ff5eb908edf73",
+   "bytes": 11955,
+   "source_sha256": "1277e6f85dc626da16f0c980057eab4f461c9179fd62cfa81c7ff5eb908edf73",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "tasks_la/drv_rename.json"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "tasks_la/drv_rename.json"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/tasks_la/ord_cancel_charger.json",
+   "sha256": "60e4f3b38cc2ab98e400171c0bf9d73b5c0d8ccc9f5a9d8ffd5701e9947ed77a",
+   "bytes": 13462,
+   "source_sha256": "60e4f3b38cc2ab98e400171c0bf9d73b5c0d8ccc9f5a9d8ffd5701e9947ed77a",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "tasks_la/ord_cancel_charger.json"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "tasks_la/ord_cancel_charger.json"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/tasks_la/ord_case_blue.json",
+   "sha256": "e614217931083d30e2645c2302f901ed0ccaddc936065298e812d0c682904267",
+   "bytes": 13733,
+   "source_sha256": "e614217931083d30e2645c2302f901ed0ccaddc936065298e812d0c682904267",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "tasks_la/ord_case_blue.json"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "tasks_la/ord_case_blue.json"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/tasks_la/ord_coffee.json",
+   "sha256": "ae2b60f3795837607e82b32225ecf07ccca6086e045b13fc23c6d96dc6283d0e",
+   "bytes": 13316,
+   "source_sha256": "ae2b60f3795837607e82b32225ecf07ccca6086e045b13fc23c6d96dc6283d0e",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "tasks_la/ord_coffee.json"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "tasks_la/ord_coffee.json"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/tasks_la/ord_headphones.json",
+   "sha256": "93c4394d2c95df058a0081555d508c45c17e79e64a487ff6d55621b2a4c6b0d1",
+   "bytes": 13863,
+   "source_sha256": "93c4394d2c95df058a0081555d508c45c17e79e64a487ff6d55621b2a4c6b0d1",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "tasks_la/ord_headphones.json"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "tasks_la/ord_headphones.json"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/tasks_la/ord_marketing.json",
+   "sha256": "5793180298cab62d53b530d7cf638271943ea68ae9412d92872728f7b394c658",
+   "bytes": 13326,
+   "source_sha256": "5793180298cab62d53b530d7cf638271943ea68ae9412d92872728f7b394c658",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "tasks_la/ord_marketing.json"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "tasks_la/ord_marketing.json"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/tasks_la/ord_office.json",
+   "sha256": "5a5589e76ff58c2d664790cde6df41e72f1b65383c2169e1941ce716ee38a16a",
+   "bytes": 13123,
+   "source_sha256": "5a5589e76ff58c2d664790cde6df41e72f1b65383c2169e1941ce716ee38a16a",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "tasks_la/ord_office.json"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "tasks_la/ord_office.json"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/tasks_la/set_dark_cal.json",
+   "sha256": "17ff0eec78ef0d234c4e72fc779a342ce058cc876282311b7e3b9ae3b29dacba",
+   "bytes": 17243,
+   "source_sha256": "17ff0eec78ef0d234c4e72fc779a342ce058cc876282311b7e3b9ae3b29dacba",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "tasks_la/set_dark_cal.json"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "tasks_la/set_dark_cal.json"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/tasks_la/set_maps_space.json",
+   "sha256": "91780ff96bebff526e912ef7e81eb0ff39bd38b101a172cd2abf0176d8838047",
+   "bytes": 17150,
+   "source_sha256": "91780ff96bebff526e912ef7e81eb0ff39bd38b101a172cd2abf0176d8838047",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "tasks_la/set_maps_space.json"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "tasks_la/set_maps_space.json"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/tasks_la/set_photos_bg.json",
+   "sha256": "8cd5df3dac23e1fa9a10f3b5a7f6993f746448a0682f2d51f11795d4252fb0c9",
+   "bytes": 17016,
+   "source_sha256": "8cd5df3dac23e1fa9a10f3b5a7f6993f746448a0682f2d51f11795d4252fb0c9",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "tasks_la/set_photos_bg.json"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "tasks_la/set_photos_bg.json"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/tasks_la/set_photos_loc.json",
+   "sha256": "1fc561ffb07f347878aacb3e77a4ddeb06db089202428f819cc97ea6ecee1be3",
+   "bytes": 17142,
+   "source_sha256": "1fc561ffb07f347878aacb3e77a4ddeb06db089202428f819cc97ea6ecee1be3",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "tasks_la/set_photos_loc.json"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "tasks_la/set_photos_loc.json"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/tasks_la/set_promo_notif.json",
+   "sha256": "9951b8c5485724ae5e8906b9948d5d22ed8dfdd13c0122af7674ccfd95d7a12f",
+   "bytes": 17367,
+   "source_sha256": "9951b8c5485724ae5e8906b9948d5d22ed8dfdd13c0122af7674ccfd95d7a12f",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "tasks_la/set_promo_notif.json"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "tasks_la/set_promo_notif.json"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/tasks_la/set_text_large.json",
+   "sha256": "de81aba410283014550956bcb9d473cc6274881b0f2886e36c4b5e820bb4813c",
+   "bytes": 16617,
+   "source_sha256": "de81aba410283014550956bcb9d473cc6274881b0f2886e36c4b5e820bb4813c",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "tasks_la/set_text_large.json"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "tasks_la/set_text_large.json"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/tasks_la/trip_lis_change.json",
+   "sha256": "c35402b3e8773630ccbe35dccd5b4791c6ee2dc1bba70b9c4477ec92058d1994",
+   "bytes": 13623,
+   "source_sha256": "c35402b3e8773630ccbe35dccd5b4791c6ee2dc1bba70b9c4477ec92058d1994",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "tasks_la/trip_lis_change.json"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "tasks_la/trip_lis_change.json"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/tasks_la/trip_lis_flex.json",
+   "sha256": "6ade4d3eabbed66b62d8d19acee48658e2816606b2bae2317d1b3cadd68f5b4b",
+   "bytes": 13583,
+   "source_sha256": "6ade4d3eabbed66b62d8d19acee48658e2816606b2bae2317d1b3cadd68f5b4b",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "tasks_la/trip_lis_flex.json"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "tasks_la/trip_lis_flex.json"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/tasks_la/trip_madrid_bag.json",
+   "sha256": "e88c1bccd3008952de026f02feb70f5c56e6356cae41e895754ef41bde771a67",
+   "bytes": 13155,
+   "source_sha256": "e88c1bccd3008952de026f02feb70f5c56e6356cae41e895754ef41bde771a67",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "tasks_la/trip_madrid_bag.json"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "tasks_la/trip_madrid_bag.json"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/tasks_la/trip_madrid_move.json",
+   "sha256": "7dbc9f73c59161b33962912db256613bf8876980f7556c2de24952400348dbec",
+   "bytes": 13581,
+   "source_sha256": "7dbc9f73c59161b33962912db256613bf8876980f7556c2de24952400348dbec",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "tasks_la/trip_madrid_move.json"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "tasks_la/trip_madrid_move.json"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/tasks_la/trip_old_card.json",
+   "sha256": "99309011e32f2355cf73c12d9ade6a38aa4ea1b326e2b7cb67fab5c4a4693990",
+   "bytes": 13549,
+   "source_sha256": "99309011e32f2355cf73c12d9ade6a38aa4ea1b326e2b7cb67fab5c4a4693990",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "tasks_la/trip_old_card.json"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "tasks_la/trip_old_card.json"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/tasks_la/trip_phone.json",
+   "sha256": "ac9e8cddc251a940aa25521d2416f371f66a1dbcdbcd5d90abd42deb86414dbd",
+   "bytes": 13627,
+   "source_sha256": "ac9e8cddc251a940aa25521d2416f371f66a1dbcdbcd5d90abd42deb86414dbd",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "tasks_la/trip_phone.json"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "tasks_la/trip_phone.json"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/tasks_pilot.jsonl",
+   "sha256": "be15fff2833ea326d2d76aab673b30d56dd8f9a705f4b9592d3771b2a4236c5f",
+   "bytes": 11978,
+   "source_sha256": "be15fff2833ea326d2d76aab673b30d56dd8f9a705f4b9592d3771b2a4236c5f"
+  },
+  {
+   "path": "mission/AL/tasks_pilot/pilot_mail_dark.json",
+   "sha256": "24ced6f6a50498ae686939b5db809e81285fda3916c2e1084accbf405fbd1d6e",
+   "bytes": 17228,
+   "source_sha256": "24ced6f6a50498ae686939b5db809e81285fda3916c2e1084accbf405fbd1d6e"
+  },
+  {
+   "path": "mission/AL/tasks_st.jsonl",
+   "sha256": "601fde93fc54b04e4ed437db114bb0b4ab716147e42211a41e16cdd8691b51da",
+   "bytes": 74344,
+   "source_sha256": "601fde93fc54b04e4ed437db114bb0b4ab716147e42211a41e16cdd8691b51da",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_ST.sha256",
+     "entry": "tasks_st.jsonl"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/tasks_st/ledger_01.json",
+   "sha256": "7d5764db7419f83ad0cc8457dff7228e765be2b21d16a4c41920278b25cbadac",
+   "bytes": 8888,
+   "source_sha256": "7d5764db7419f83ad0cc8457dff7228e765be2b21d16a4c41920278b25cbadac",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_ST.sha256",
+     "entry": "tasks_st/ledger_01.json"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/tasks_st/ledger_02.json",
+   "sha256": "a425c6f38cea61a1c61dd15225c79f53731dd2e306029f3f3dcd1d0757b598df",
+   "bytes": 8922,
+   "source_sha256": "a425c6f38cea61a1c61dd15225c79f53731dd2e306029f3f3dcd1d0757b598df",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_ST.sha256",
+     "entry": "tasks_st/ledger_02.json"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/tasks_st/ledger_03.json",
+   "sha256": "b13ac31c1f7102891383e99a11ec52d81e586580cb7ecf13aa268dbdd59633eb",
+   "bytes": 8873,
+   "source_sha256": "b13ac31c1f7102891383e99a11ec52d81e586580cb7ecf13aa268dbdd59633eb",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_ST.sha256",
+     "entry": "tasks_st/ledger_03.json"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/tasks_st/ledger_04.json",
+   "sha256": "e37dfc661b9fc28dad03d622992c8ff616a7e689d824d9a1ac0f90ef0cf80413",
+   "bytes": 8866,
+   "source_sha256": "e37dfc661b9fc28dad03d622992c8ff616a7e689d824d9a1ac0f90ef0cf80413",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_ST.sha256",
+     "entry": "tasks_st/ledger_04.json"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/tasks_st/ledger_05.json",
+   "sha256": "d15417918cc2a329855f1697d85909e831439987c0472a4e2a2a26053f3d1645",
+   "bytes": 8932,
+   "source_sha256": "d15417918cc2a329855f1697d85909e831439987c0472a4e2a2a26053f3d1645",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_ST.sha256",
+     "entry": "tasks_st/ledger_05.json"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/tasks_st/ledger_06.json",
+   "sha256": "077cc33f427b4990b8288ad691bbe8a2ecdc781cbaed30dc57527810af2a445c",
+   "bytes": 8930,
+   "source_sha256": "077cc33f427b4990b8288ad691bbe8a2ecdc781cbaed30dc57527810af2a445c",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_ST.sha256",
+     "entry": "tasks_st/ledger_06.json"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/tasks_st/ledger_07.json",
+   "sha256": "b4369dde499b0ad7eec114cb0bfa3d441d02898b64f8312dab35c30d8155ddd2",
+   "bytes": 8903,
+   "source_sha256": "b4369dde499b0ad7eec114cb0bfa3d441d02898b64f8312dab35c30d8155ddd2",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_ST.sha256",
+     "entry": "tasks_st/ledger_07.json"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/tasks_st/ledger_08.json",
+   "sha256": "303d590db75b420041fa188d4c02877ea37fc5b63c1fcd5dd7d929e637864c09",
+   "bytes": 8931,
+   "source_sha256": "303d590db75b420041fa188d4c02877ea37fc5b63c1fcd5dd7d929e637864c09",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_ST.sha256",
+     "entry": "tasks_st/ledger_08.json"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/tasks_st/ledger_09.json",
+   "sha256": "5a93f5bae6fcc1294daa766b287e9795cc6390a8d9b55e4b240f180afaafcefd",
+   "bytes": 8896,
+   "source_sha256": "5a93f5bae6fcc1294daa766b287e9795cc6390a8d9b55e4b240f180afaafcefd",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_ST.sha256",
+     "entry": "tasks_st/ledger_09.json"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/tasks_st/ledger_10.json",
+   "sha256": "c72fa74f85d6bb5ec03e61ea56caa84201ad43c1311fb9071da7d8f773315cd8",
+   "bytes": 8900,
+   "source_sha256": "c72fa74f85d6bb5ec03e61ea56caa84201ad43c1311fb9071da7d8f773315cd8",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_ST.sha256",
+     "entry": "tasks_st/ledger_10.json"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/tasks_st/ledger_11.json",
+   "sha256": "347aeb4f15b150774e08dee2f10382e2d9b7d71c26a4042f9e05691515d49ab8",
+   "bytes": 8916,
+   "source_sha256": "347aeb4f15b150774e08dee2f10382e2d9b7d71c26a4042f9e05691515d49ab8",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_ST.sha256",
+     "entry": "tasks_st/ledger_11.json"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/tasks_st/ledger_12.json",
+   "sha256": "f929c9c82eb84b3f0c203417f73ae42ea960d08082fbe7416aa4d64ab9bd438b",
+   "bytes": 8871,
+   "source_sha256": "f929c9c82eb84b3f0c203417f73ae42ea960d08082fbe7416aa4d64ab9bd438b",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_ST.sha256",
+     "entry": "tasks_st/ledger_12.json"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/tasks_st_pilot.jsonl",
+   "sha256": "4290e9bfa3bca82fcecfe71c9528a04722104c4124e39f5fddc40313b4fb68a2",
+   "bytes": 6181,
+   "source_sha256": "4290e9bfa3bca82fcecfe71c9528a04722104c4124e39f5fddc40313b4fb68a2"
+  },
+  {
+   "path": "mission/AL/tasks_st_pilot/ledger_pilot.json",
+   "sha256": "fefbf94f49fef05673a1491e3f8bbc54e218d72ce6627f13c8135ae9b8ba9968",
+   "bytes": 8888,
+   "source_sha256": "fefbf94f49fef05673a1491e3f8bbc54e218d72ce6627f13c8135ae9b8ba9968"
+  },
+  {
+   "path": "mission/AL/validate_al.py",
+   "sha256": "b4ed8bea251d31c7e2f10610cb3770bdd39f3a6c5f441886971cf0a5ffab8c0b",
+   "bytes": 4352,
+   "source_sha256": "b4ed8bea251d31c7e2f10610cb3770bdd39f3a6c5f441886971cf0a5ffab8c0b",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "validate_al.py"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "validate_al.py"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/validate_st.py",
+   "sha256": "c4621249a3197b3f3e2583496775f2039daca7a04533ca5bbf748b7dd943cc30",
+   "bytes": 4001,
+   "source_sha256": "c4621249a3197b3f3e2583496775f2039daca7a04533ca5bbf748b7dd943cc30",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_ST.sha256",
+     "entry": "validate_st.py"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/web/desktop/apps/admin.js",
+   "sha256": "01850a5a4d67337d5857e763b2dfc20309743aa77012a22ff1fbe1b1788bfd73",
+   "bytes": 547,
+   "source_sha256": "01850a5a4d67337d5857e763b2dfc20309743aa77012a22ff1fbe1b1788bfd73",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "web/desktop/apps/admin.js"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "web/desktop/apps/admin.js"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/web/desktop/apps/bank.js",
+   "sha256": "c932e265eba4df22de4521e3932a6667ef317ac142f26009e560a62abf365da4",
+   "bytes": 4357,
+   "source_sha256": "c932e265eba4df22de4521e3932a6667ef317ac142f26009e560a62abf365da4",
+   "frozen": [
+    {
+     "freeze_file": "demo_apps_SPEC.sha256",
+     "entry": "agent/web/desktop/apps/bank.js"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/web/desktop/apps/calendar.js",
+   "sha256": "51c5e88071598fe50382dca9fbc0c174e15f8faa4c0c129d7f10284960f526b1",
+   "bytes": 6632,
+   "source_sha256": "51c5e88071598fe50382dca9fbc0c174e15f8faa4c0c129d7f10284960f526b1"
+  },
+  {
+   "path": "mission/AL/web/desktop/apps/cdrive.js",
+   "sha256": "6f3ae17d701721beada84b3745c1d0420b5c1f153609a6b3c00fc4219767fe80",
+   "bytes": 515,
+   "source_sha256": "6f3ae17d701721beada84b3745c1d0420b5c1f153609a6b3c00fc4219767fe80",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "web/desktop/apps/cdrive.js"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "web/desktop/apps/cdrive.js"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/web/desktop/apps/chat.js",
+   "sha256": "221d2af8d16f6d069a3343845ff66f19b01b7c4b29ea1ce7ac06ee342a282352",
+   "bytes": 5862,
+   "source_sha256": "221d2af8d16f6d069a3343845ff66f19b01b7c4b29ea1ce7ac06ee342a282352"
+  },
+  {
+   "path": "mission/AL/web/desktop/apps/cloud.js",
+   "sha256": "993086b3551de12a873fd0a3d780f030c79f7fdf008ddc985358d4ccf5df228a",
+   "bytes": 7282,
+   "source_sha256": "993086b3551de12a873fd0a3d780f030c79f7fdf008ddc985358d4ccf5df228a"
+  },
+  {
+   "path": "mission/AL/web/desktop/apps/dbadmin.js",
+   "sha256": "696aac413fa9f86ec9f42aa319a1d6f39a4f45cef9555f2098f0445abefe25cf",
+   "bytes": 4000,
+   "source_sha256": "696aac413fa9f86ec9f42aa319a1d6f39a4f45cef9555f2098f0445abefe25cf",
+   "frozen": [
+    {
+     "freeze_file": "demo_apps_SPEC.sha256",
+     "entry": "agent/web/desktop/apps/dbadmin.js"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/web/desktop/apps/drive.js",
+   "sha256": "81acce81e1e3b1edb47e4d5a2b976f62d354d0f9b4d8a7b33147ce594ea62822",
+   "bytes": 7461,
+   "source_sha256": "81acce81e1e3b1edb47e4d5a2b976f62d354d0f9b4d8a7b33147ce594ea62822"
+  },
+  {
+   "path": "mission/AL/web/desktop/apps/files.js",
+   "sha256": "937524d14ce2cd8e8fbf62a9c1f224f0bbeddfd403e3591f9d4a201d569b2cc9",
+   "bytes": 6583,
+   "source_sha256": "937524d14ce2cd8e8fbf62a9c1f224f0bbeddfd403e3591f9d4a201d569b2cc9"
+  },
+  {
+   "path": "mission/AL/web/desktop/apps/flow.js",
+   "sha256": "5de3a0ed39e7b4dcfbcb9a1a8dfcfe6cf511e80cdadf8b9880ca8c35c44d410a",
+   "bytes": 6696,
+   "source_sha256": "5de3a0ed39e7b4dcfbcb9a1a8dfcfe6cf511e80cdadf8b9880ca8c35c44d410a",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "web/desktop/apps/flow.js"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "web/desktop/apps/flow.js"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/web/desktop/apps/home.js",
+   "sha256": "833f03460d82f14d09c7e84c015b677c3f5fdeab7b36ba576e73be49d43ddb34",
+   "bytes": 3577,
+   "source_sha256": "833f03460d82f14d09c7e84c015b677c3f5fdeab7b36ba576e73be49d43ddb34",
+   "frozen": [
+    {
+     "freeze_file": "demo_apps_SPEC.sha256",
+     "entry": "agent/web/desktop/apps/home.js"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/web/desktop/apps/icons.js",
+   "sha256": "4baab4e7839f3f1e44a12b6991b05967b2245bd63f5389cc1e47ed4ee9f22e7c",
+   "bytes": 1808,
+   "source_sha256": "4baab4e7839f3f1e44a12b6991b05967b2245bd63f5389cc1e47ed4ee9f22e7c"
+  },
+  {
+   "path": "mission/AL/web/desktop/apps/index.js",
+   "sha256": "316681ce60b651a8e41dc32c55aafadd9a431d0bb62ccbb8482fc913923f311b",
+   "bytes": 1344,
+   "source_sha256": "316681ce60b651a8e41dc32c55aafadd9a431d0bb62ccbb8482fc913923f311b",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "web/desktop/apps/index.js"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "web/desktop/apps/index.js"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/web/desktop/apps/keys.js",
+   "sha256": "8c438f57421e36d4492e5fa11207488098ebf1549935d5c47944e8a728d7425e",
+   "bytes": 4002,
+   "source_sha256": "8c438f57421e36d4492e5fa11207488098ebf1549935d5c47944e8a728d7425e",
+   "frozen": [
+    {
+     "freeze_file": "demo_apps_SPEC.sha256",
+     "entry": "agent/web/desktop/apps/keys.js"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/web/desktop/apps/ledger.js",
+   "sha256": "ccd5f6991e7aed769e8c6d47b77e690b04028b3b626336c7c89a67472442a7ed",
+   "bytes": 8917,
+   "source_sha256": "ccd5f6991e7aed769e8c6d47b77e690b04028b3b626336c7c89a67472442a7ed",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_ST.sha256",
+     "entry": "web/desktop/apps/ledger.js"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/web/desktop/apps/mail.js",
+   "sha256": "f6ae632078ac832129db483a6f0862552c498979b3401159fd93d4536bfcf8a7",
+   "bytes": 11489,
+   "source_sha256": "f6ae632078ac832129db483a6f0862552c498979b3401159fd93d4536bfcf8a7"
+  },
+  {
+   "path": "mission/AL/web/desktop/apps/orders.js",
+   "sha256": "15cd478fbd71eb0cbbf2e3675194b1a98bbdd1062083f9811c5ba28b36c83c3e",
+   "bytes": 490,
+   "source_sha256": "15cd478fbd71eb0cbbf2e3675194b1a98bbdd1062083f9811c5ba28b36c83c3e",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "web/desktop/apps/orders.js"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "web/desktop/apps/orders.js"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/web/desktop/apps/puzzle.js",
+   "sha256": "5e834d73d65dbb50fe8ebdf7a11e2446c070585c87dcb6e2360d98b92829cf42",
+   "bytes": 16064,
+   "source_sha256": "5e834d73d65dbb50fe8ebdf7a11e2446c070585c87dcb6e2360d98b92829cf42"
+  },
+  {
+   "path": "mission/AL/web/desktop/apps/settings.js",
+   "sha256": "8bb2cc85089633b56f65cd21a758e12fe04c4ed0d674297dd1cbbfe37047a2e9",
+   "bytes": 545,
+   "source_sha256": "8bb2cc85089633b56f65cd21a758e12fe04c4ed0d674297dd1cbbfe37047a2e9",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "web/desktop/apps/settings.js"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "web/desktop/apps/settings.js"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/web/desktop/apps/shop.js",
+   "sha256": "a0cf0dbdde68d4fe9078b5fe636658fae457c60cfb6e30f92b6e835200dd58b5",
+   "bytes": 5383,
+   "source_sha256": "a0cf0dbdde68d4fe9078b5fe636658fae457c60cfb6e30f92b6e835200dd58b5"
+  },
+  {
+   "path": "mission/AL/web/desktop/apps/travel.js",
+   "sha256": "390fb074161517466dc15b21571f824c196a92dd8797929aa77c78b2db18497c",
+   "bytes": 4092,
+   "source_sha256": "390fb074161517466dc15b21571f824c196a92dd8797929aa77c78b2db18497c",
+   "frozen": [
+    {
+     "freeze_file": "demo_apps_SPEC.sha256",
+     "entry": "agent/web/desktop/apps/travel.js"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/web/desktop/apps/trips.js",
+   "sha256": "c637704fed569d3c743feba3bc685642eef961302c95bd901b0a4e0743849a39",
+   "bytes": 462,
+   "source_sha256": "c637704fed569d3c743feba3bc685642eef961302c95bd901b0a4e0743849a39",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "web/desktop/apps/trips.js"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "web/desktop/apps/trips.js"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/web/desktop/apps/truth.js",
+   "sha256": "cc783d4009819e982baa2735c21f6fd51a09654d382cbfc7a5ae5ac7a7ee4d99",
+   "bytes": 5138,
+   "source_sha256": "cc783d4009819e982baa2735c21f6fd51a09654d382cbfc7a5ae5ac7a7ee4d99",
+   "frozen": [
+    {
+     "freeze_file": "demo_apps_SPEC.sha256",
+     "entry": "agent/web/desktop/apps/truth.js"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/web/desktop/apps/ui.js",
+   "sha256": "fb8a67f190e76976dd82bd34be2df2a008c509f7e226e5b454567f45b3dcffb8",
+   "bytes": 1012,
+   "source_sha256": "fb8a67f190e76976dd82bd34be2df2a008c509f7e226e5b454567f45b3dcffb8",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "web/desktop/apps/ui.js"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "web/desktop/apps/ui.js"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/web/desktop/desktop.css",
+   "sha256": "038f9af9ebb526f6bf1832bed7ee3c934e04c2d1dd3de142a36e9aa648db9534",
+   "bytes": 12138,
+   "source_sha256": "038f9af9ebb526f6bf1832bed7ee3c934e04c2d1dd3de142a36e9aa648db9534"
+  },
+  {
+   "path": "mission/AL/web/desktop/desktop.js",
+   "sha256": "dfdd7a326ded9fab1285bf1db3ccf54601b4558e7834a4fa038af6fa91a67392",
+   "bytes": 21168,
+   "source_sha256": "dfdd7a326ded9fab1285bf1db3ccf54601b4558e7834a4fa038af6fa91a67392",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "web/desktop/desktop.js"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_ST.sha256",
+     "entry": "web/desktop/desktop.js"
+    }
+   ]
+  },
+  {
+   "path": "mission/AL/web/desktop/index.html",
+   "sha256": "91c083357a3227e61a7a49e791a187015f526a4d16e54729fc4911e3fe7d86e5",
+   "bytes": 1257,
+   "source_sha256": "91c083357a3227e61a7a49e791a187015f526a4d16e54729fc4911e3fe7d86e5"
+  },
+  {
+   "path": "mission/AL/web/desktop/split.html",
+   "sha256": "cc69ecf22e1b77b315a3909e7fc93853c7693cf8891f6208e2ab9f5f1a828720",
+   "bytes": 3105,
+   "source_sha256": "cc69ecf22e1b77b315a3909e7fc93853c7693cf8891f6208e2ab9f5f1a828720"
+  },
+  {
+   "path": "mission/AL/web/desktop/split.js",
+   "sha256": "c53f5a657ca2a0dea74f44dc2a28e145276cb373cc663daa74a6ad6cdee9cd27",
+   "bytes": 5794,
+   "source_sha256": "c53f5a657ca2a0dea74f44dc2a28e145276cb373cc663daa74a6ad6cdee9cd27"
+  },
+  {
+   "path": "mission/RA/adapters/spec_server.py",
+   "sha256": "faae0abc191d220c8418c63da1a31414a6970151fd1b2ad6aa63233e060a93e0",
+   "bytes": 32709,
+   "source_sha256": "faae0abc191d220c8418c63da1a31414a6970151fd1b2ad6aa63233e060a93e0",
+   "frozen": [
+    {
+     "freeze_file": "real_apps_FROZEN.sha256",
+     "entry": "adapters/spec_server.py"
+    },
+    {
+     "freeze_file": "real_apps_followup_FROZEN.sha256",
+     "entry": "adapters/spec_server.py"
+    }
+   ]
+  },
+  {
+   "path": "mission/RA/apps/.env.example",
+   "sha256": "03f342321ef716238825dae9c6a569b3a58d477c79b2edd8f46b539ad7ae13b7",
+   "bytes": 144,
+   "added": true
+  },
+  {
+   "path": "mission/RA/apps/bootstrap.sh",
+   "sha256": "fc5394968b185e661804cb14f2625c6cb8a2ad5d76ce6e0c0764ea551a696864",
+   "bytes": 3334,
+   "added": true
+  },
+  {
+   "path": "mission/RA/apps/cleanup.py",
+   "sha256": "9d824b74934d723a7158f713b818296a6cd84db0fc2d2aab804df8fe3f3ed21c",
+   "bytes": 3600,
+   "source_sha256": "9d824b74934d723a7158f713b818296a6cd84db0fc2d2aab804df8fe3f3ed21c",
+   "frozen": [
+    {
+     "freeze_file": "real_apps_FROZEN.sha256",
+     "entry": "apps/cleanup.py"
+    },
+    {
+     "freeze_file": "real_apps_followup_FROZEN.sha256",
+     "entry": "apps/cleanup.py"
+    }
+   ]
+  },
+  {
+   "path": "mission/RA/apps/docker-compose.yml",
+   "sha256": "070e823d0aeb68ed8843fec9650dccf20ecfcb5bf2d1d8977dadb04482968042",
+   "bytes": 3303,
+   "source_sha256": "070e823d0aeb68ed8843fec9650dccf20ecfcb5bf2d1d8977dadb04482968042",
+   "frozen": [
+    {
+     "freeze_file": "real_apps_FROZEN.sha256",
+     "entry": "apps/docker-compose.yml"
+    }
+   ]
+  },
+  {
+   "path": "mission/RA/apps/gen_credentials.py",
+   "sha256": "637eaadaf2120a506f6fbfccb78cb88eb62d201ebf9a14a8a6aed3f826448a6d",
+   "bytes": 1363,
+   "added": true
+  },
+  {
+   "path": "mission/RA/apps/mailconf/dovecot.cf",
+   "sha256": "b636350222639ec725550e189507b30896e5bbaf2726f1447a8fd8be4ca58a1c",
+   "bytes": 161,
+   "source_sha256": "b636350222639ec725550e189507b30896e5bbaf2726f1447a8fd8be4ca58a1c"
+  },
+  {
+   "path": "mission/RA/apps/ra_lib.py",
+   "sha256": "5301c8422102c0c55003590163715364ea723c100e948df2aeb42d536b9533bf",
+   "bytes": 4969,
+   "source_sha256": "5301c8422102c0c55003590163715364ea723c100e948df2aeb42d536b9533bf",
+   "frozen": [
+    {
+     "freeze_file": "real_apps_FROZEN.sha256",
+     "entry": "apps/ra_lib.py"
+    },
+    {
+     "freeze_file": "real_apps_FROZEN.sha256",
+     "entry": "apps/ra_lib.py"
+    },
+    {
+     "freeze_file": "real_apps_followup_FROZEN.sha256",
+     "entry": "apps/ra_lib.py"
+    }
+   ]
+  },
+  {
+   "path": "mission/RA/apps/roundcube_config/custom.inc.php",
+   "sha256": "ccc32c60862587e8bbb101fb38740e3f7fca40fe677523beb0633f5f610e3623",
+   "bytes": 589,
+   "source_sha256": "ccc32c60862587e8bbb101fb38740e3f7fca40fe677523beb0633f5f610e3623"
+  },
+  {
+   "path": "mission/RA/apps/setup_global.py",
+   "sha256": "a00e4c9252bb77b0aa27d4355effb99cfdc2633ae89c46a2b5dbf1ba8492f93c",
+   "bytes": 2804,
+   "source_sha256": "a00e4c9252bb77b0aa27d4355effb99cfdc2633ae89c46a2b5dbf1ba8492f93c"
+  },
+  {
+   "path": "mission/RA/harness/agent_mcp_real.mjs",
+   "sha256": "9d008451d8ef47f9aadaa8790893e824ffec1a7fb5ee4ef32441a188e1163a73",
+   "bytes": 3533,
+   "source_sha256": "9d008451d8ef47f9aadaa8790893e824ffec1a7fb5ee4ef32441a188e1163a73",
+   "frozen": [
+    {
+     "freeze_file": "real_apps_FROZEN.sha256",
+     "entry": "harness/agent_mcp_real.mjs"
+    },
+    {
+     "freeze_file": "real_apps_followup_FROZEN.sha256",
+     "entry": "harness/agent_mcp_real.mjs"
+    }
+   ]
+  },
+  {
+   "path": "mission/RA/harness/agent_system_blind_ra.txt",
+   "sha256": "a9004374d79b666c9e3709cf12303447876bd6566982c6fa17d71dc1ae7b07ec",
+   "bytes": 380,
+   "source_sha256": "a9004374d79b666c9e3709cf12303447876bd6566982c6fa17d71dc1ae7b07ec",
+   "frozen": [
+    {
+     "freeze_file": "real_apps_FROZEN.sha256",
+     "entry": "harness/agent_system_blind_ra.txt"
+    },
+    {
+     "freeze_file": "real_apps_followup_FROZEN.sha256",
+     "entry": "harness/agent_system_blind.txt"
+    }
+   ]
+  },
+  {
+   "path": "mission/RA/harness/agent_system_guard_ra.txt",
+   "sha256": "729c18e0460eb5adce78dfdc9080031646b7da88a46d13f7f21b940592ffd76f",
+   "bytes": 560,
+   "source_sha256": "729c18e0460eb5adce78dfdc9080031646b7da88a46d13f7f21b940592ffd76f",
+   "frozen": [
+    {
+     "freeze_file": "real_apps_FROZEN.sha256",
+     "entry": "harness/agent_system_guard_ra.txt"
+    },
+    {
+     "freeze_file": "real_apps_followup_FROZEN.sha256",
+     "entry": "harness/agent_system_guard.txt"
+    }
+   ]
+  },
+  {
+   "path": "mission/RA/harness/agent_system_see_ra.txt",
+   "sha256": "9ea81b630e96cb22904453eb3c603091f846008e6e6349bfa96d7f5c21ac2f82",
+   "bytes": 797,
+   "source_sha256": "9ea81b630e96cb22904453eb3c603091f846008e6e6349bfa96d7f5c21ac2f82",
+   "frozen": [
+    {
+     "freeze_file": "real_apps_FROZEN.sha256",
+     "entry": "harness/agent_system_see_ra.txt"
+    }
+   ]
+  },
+  {
+   "path": "mission/RA/harness/analyze_ra.py",
+   "sha256": "7dceb25c456f1c2a1574d60d198dad757c8dc664a69c61f3114461562d99deb1",
+   "bytes": 19010,
+   "source_sha256": "7dceb25c456f1c2a1574d60d198dad757c8dc664a69c61f3114461562d99deb1",
+   "frozen": [
+    {
+     "freeze_file": "real_apps_FROZEN.sha256",
+     "entry": "harness/analyze_ra.py"
+    }
+   ]
+  },
+  {
+   "path": "mission/RA/harness/app_docs.py",
+   "sha256": "b7665e2d1673c91324aeb58c3e7c00b94fef9ac2a6f4f46008ed597e6e48ffd8",
+   "bytes": 619,
+   "source_sha256": "b7665e2d1673c91324aeb58c3e7c00b94fef9ac2a6f4f46008ed597e6e48ffd8",
+   "frozen": [
+    {
+     "freeze_file": "real_apps_FROZEN.sha256",
+     "entry": "harness/app_docs.py"
+    }
+   ]
+  },
+  {
+   "path": "mission/RA/harness/drive.py",
+   "sha256": "865d9be54fba62f95129d52968bfd3b9b5e39b2c7fcbd782a1b95aa4174466d1",
+   "bytes": 4331,
+   "source_sha256": "865d9be54fba62f95129d52968bfd3b9b5e39b2c7fcbd782a1b95aa4174466d1"
+  },
+  {
+   "path": "mission/RA/harness/foresee_ra.py",
+   "sha256": "949a91ad8595bd49cb29d567d03179eaa4025f39a35911a8d743c00dfb65b6d8",
+   "bytes": 3379,
+   "source_sha256": "649bff90b6339df78977dcba391adb1f6c43c744019f6ff8c43e933d96bcb438",
+   "edits": [
+    {
+     "kind": "redacted",
+     "new": "sys.path[:0] = [p for p in [os.environ.get(\"EKBASIS_CLIENT_SRC\")] if p]",
+     "count": 1,
+     "why": "the absolute path of a local client checkout; EKBASIS_CLIENT_SRC names one, else the installed client is used"
+    }
+   ],
+   "frozen": [
+    {
+     "freeze_file": "real_apps_FROZEN.sha256",
+     "entry": "harness/foresee_ra.py"
+    },
+    {
+     "freeze_file": "real_apps_FROZEN.sha256",
+     "entry": "harness/foresee_ra.py"
+    }
+   ]
+  },
+  {
+   "path": "mission/RA/harness/judge_late.py",
+   "sha256": "564ac8859c467bfc15b0e1612f12eeab28aba629b6ea8b42b30233baeef0fbe7",
+   "bytes": 3121,
+   "source_sha256": "564ac8859c467bfc15b0e1612f12eeab28aba629b6ea8b42b30233baeef0fbe7"
+  },
+  {
+   "path": "mission/RA/harness/login.mjs",
+   "sha256": "5938089aa3a2a1f3816044ed5f1d1065e614d597134f42016bf0786b724d97ad",
+   "bytes": 2309,
+   "source_sha256": "5938089aa3a2a1f3816044ed5f1d1065e614d597134f42016bf0786b724d97ad",
+   "frozen": [
+    {
+     "freeze_file": "real_apps_FROZEN.sha256",
+     "entry": "harness/login.mjs"
+    },
+    {
+     "freeze_file": "real_apps_followup_FROZEN.sha256",
+     "entry": "harness/login.mjs"
+    }
+   ]
+  },
+  {
+   "path": "mission/RA/harness/oracle_ra.py",
+   "sha256": "0e8d7c67109f2e29cb0cf8599b72c2f142de6b61d4fa3539a59ba5848a1fb31f",
+   "bytes": 3702,
+   "source_sha256": "0e8d7c67109f2e29cb0cf8599b72c2f142de6b61d4fa3539a59ba5848a1fb31f",
+   "frozen": [
+    {
+     "freeze_file": "real_apps_FROZEN.sha256",
+     "entry": "harness/oracle_ra.py"
+    },
+    {
+     "freeze_file": "real_apps_FROZEN.sha256",
+     "entry": "harness/oracle_ra.py"
+    }
+   ]
+  },
+  {
+   "path": "mission/RA/harness/run_agent_ra.sh",
+   "sha256": "92f10740f00e03e2b96831818327d088b601e3ea93b9992b5b27ab167fc32c5e",
+   "bytes": 3044,
+   "source_sha256": "92f10740f00e03e2b96831818327d088b601e3ea93b9992b5b27ab167fc32c5e",
+   "frozen": [
+    {
+     "freeze_file": "real_apps_FROZEN.sha256",
+     "entry": "harness/run_agent_ra.sh"
+    }
+   ]
+  },
+  {
+   "path": "mission/RA/harness/run_agent_ra_qwen.sh",
+   "sha256": "24979a708ade06c7a5a265587727b46a53b8cbf8dd0ee3aeee3dab1c66816979",
+   "bytes": 2730,
+   "source_sha256": "24979a708ade06c7a5a265587727b46a53b8cbf8dd0ee3aeee3dab1c66816979",
+   "frozen": [
+    {
+     "freeze_file": "real_apps_FROZEN.sha256",
+     "entry": "harness/run_agent_ra_qwen.sh"
+    }
+   ]
+  },
+  {
+   "path": "mission/RA/harness/run_all_claude.sh",
+   "sha256": "04156b87e44c32b42229b387c2efae4fa8968ad68ab5ed7577e3121dbd7318f2",
+   "bytes": 1404,
+   "source_sha256": "04156b87e44c32b42229b387c2efae4fa8968ad68ab5ed7577e3121dbd7318f2",
+   "frozen": [
+    {
+     "freeze_file": "real_apps_FROZEN.sha256",
+     "entry": "harness/run_all_claude.sh"
+    }
+   ]
+  },
+  {
+   "path": "mission/RA/harness/run_all_claude2.sh",
+   "sha256": "736439e4addfc1633c28f85a2f72a86c057af7228528112a9095aa2448b04a39",
+   "bytes": 1755,
+   "source_sha256": "736439e4addfc1633c28f85a2f72a86c057af7228528112a9095aa2448b04a39",
+   "frozen": [
+    {
+     "freeze_file": "real_apps_FROZEN.sha256",
+     "entry": "harness/run_all_claude2.sh"
+    }
+   ]
+  },
+  {
+   "path": "mission/RA/harness/run_all_qwen.sh",
+   "sha256": "e18f8f2c6609d076bf49228b6cf39b5ab38781a300b7636244a50d56ec284101",
+   "bytes": 909,
+   "source_sha256": "e18f8f2c6609d076bf49228b6cf39b5ab38781a300b7636244a50d56ec284101",
+   "frozen": [
+    {
+     "freeze_file": "real_apps_FROZEN.sha256",
+     "entry": "harness/run_all_qwen.sh"
+    }
+   ]
+  },
+  {
+   "path": "mission/RA/harness/run_ekbasis_window.sh",
+   "sha256": "74f7cf6541ba5089d5d71900f003338d8748b039ce83f0e1349da7d533e1d976",
+   "bytes": 2251,
+   "source_sha256": "74f7cf6541ba5089d5d71900f003338d8748b039ce83f0e1349da7d533e1d976"
+  },
+  {
+   "path": "mission/RA/harness/run_study_ra.py",
+   "sha256": "eebc1e319adc7e43375bae8d4c8a73f12c52a8a1fce329cb00684640c96d2a96",
+   "bytes": 13258,
+   "source_sha256": "eebc1e319adc7e43375bae8d4c8a73f12c52a8a1fce329cb00684640c96d2a96"
+  },
+  {
+   "path": "mission/RA/harness/services.sh",
+   "sha256": "94fce56ae1aba010afa8da44fd67df6e6c285d68c5255e4d7dc2d10d89107347",
+   "bytes": 2605,
+   "source_sha256": "d01df78766e32e39ca93cf5452a20e25b9a90d0c4811529bf597d35a6e5fe13f",
+   "edits": [
+    {
+     "kind": "published",
+     "old": "#   tunnel   127.0.0.1:18564 -> rig 127.0.0.1:8544 (Ekbasis w4a5 replica on GPU 3)",
+     "new": "#   tunnel   127.0.0.1:18564 -> 127.0.0.1:${EKBASIS_REMOTE_PORT:-8544} on $EKBASIS_SSH, only when EKBASIS_SSH is set",
+     "count": 1,
+     "why": "the comment follows the tunnel line"
+    },
+    {
+     "kind": "redacted",
+     "new": "    [ -n \"${EKBASIS_SSH:-}\" ] && start_one tunnel ssh -N -o ExitOnForwardFailure=yes -o ServerAliveInterval=30 -o ConnectTimeout=20 -L 18564:127.0.0.1:${EKBASIS_REMOTE_PORT:-8544} $EKBASIS_SSH",
+     "count": 1,
+     "why": "a server's address, SSH port and user (EKBASIS_SSH, EKBASIS_REMOTE_PORT; no tunnel when EKBASIS_SSH is unset)"
+    },
+    {
+     "kind": "redacted",
+     "new": "-L 18595:127.0.0.1:30194 ${QWEN_SSH:?set QWEN_SSH to the SSH destination of the Qwen servers}",
+     "count": 1,
+     "why": "a server's address, SSH port and user (QWEN_SSH)"
+    },
+    {
+     "kind": "redacted",
+     "new": "-L 18596:127.0.0.1:30193 ${QWEN_SSH:?set QWEN_SSH to the SSH destination of the Qwen servers}",
+     "count": 1,
+     "why": "a server's address, SSH port and user (QWEN_SSH)"
+    },
+    {
+     "kind": "published",
+     "old": "start_one foresee env PORT=8781 EKBASIS_URL=http://127.0.0.1:18564 python3",
+     "new": "start_one foresee env PORT=8781 EKBASIS_URL=\"${EKBASIS_URL:-http://127.0.0.1:18564}\" python3",
+     "count": 1,
+     "why": "EKBASIS_URL can point the bridge at any server"
+    }
+   ]
+  },
+  {
+   "path": "mission/RA/harness/stage_real.mjs",
+   "sha256": "e449872025352e938965ffc7e6d8881ba8dc89fa2a67d7479caafeaf21d44d45",
+   "bytes": 25380,
+   "source_sha256": "e449872025352e938965ffc7e6d8881ba8dc89fa2a67d7479caafeaf21d44d45",
+   "frozen": [
+    {
+     "freeze_file": "real_apps_FROZEN.sha256",
+     "entry": "harness/stage_real.mjs"
+    }
+   ]
+  },
+  {
+   "path": "mission/RA/tasks/freeze2.py",
+   "sha256": "cfceaa520005c1f6a26923a12ccbe9ace18207680ca23d8bbdd8eb3da19af5f7",
+   "bytes": 2980,
+   "source_sha256": "cfceaa520005c1f6a26923a12ccbe9ace18207680ca23d8bbdd8eb3da19af5f7"
+  },
+  {
+   "path": "mission/RA/tasks/frozen_tasks.json",
+   "sha256": "ccfb59eee047bb34fb7f8fe3941e603700e96513313049754dbb1fda7637893c",
+   "bytes": 9793,
+   "source_sha256": "ccfb59eee047bb34fb7f8fe3941e603700e96513313049754dbb1fda7637893c",
+   "frozen": [
+    {
+     "freeze_file": "real_apps_FROZEN.sha256",
+     "entry": "tasks/frozen_tasks.json"
+    }
+   ]
+  },
+  {
+   "path": "mission/RA/tasks/predict_paths.py",
+   "sha256": "f82650e7bf429af4aecaa5a1bb51208377815e01e553784e406487c7d775dc2c",
+   "bytes": 9956,
+   "source_sha256": "f82650e7bf429af4aecaa5a1bb51208377815e01e553784e406487c7d775dc2c"
+  },
+  {
+   "path": "mission/RA/tasks/ra_tasks.py",
+   "sha256": "38ce8ba6b5f0599b06d2afc502e8cbfab574c2c6527f2a178d4d57ac3f1152af",
+   "bytes": 43258,
+   "source_sha256": "38ce8ba6b5f0599b06d2afc502e8cbfab574c2c6527f2a178d4d57ac3f1152af",
+   "frozen": [
+    {
+     "freeze_file": "real_apps_followup_FROZEN.sha256",
+     "entry": "tasks/ra_tasks.py"
+    }
+   ]
+  },
+  {
+   "path": "mission/RA/tasks/verify/g_branch_1.json",
+   "sha256": "9be7e3eb8791f9cf2cb05f09442e3e8540c4782d6caaa6545461bae18ced3156",
+   "bytes": 447,
+   "source_sha256": "9be7e3eb8791f9cf2cb05f09442e3e8540c4782d6caaa6545461bae18ced3156"
+  },
+  {
+   "path": "mission/RA/tasks/verify/g_branch_2.json",
+   "sha256": "85ea519edfd04fb0a10e2ac2eb9609cf88f202bf9c8ea0ca153fe50e8c49c505",
+   "bytes": 443,
+   "source_sha256": "85ea519edfd04fb0a10e2ac2eb9609cf88f202bf9c8ea0ca153fe50e8c49c505"
+  },
+  {
+   "path": "mission/RA/tasks/verify/g_ctrl_branch.json",
+   "sha256": "baa92ecc7708f9c5a081f53b92e63efb82d05152e03748e95f81e56ff568df3e",
+   "bytes": 243,
+   "source_sha256": "baa92ecc7708f9c5a081f53b92e63efb82d05152e03748e95f81e56ff568df3e"
+  },
+  {
+   "path": "mission/RA/tasks/verify/g_ctrl_orgremove.json",
+   "sha256": "281a11e527aa72172e6c3569603bf7e2dd9879a47234e1a3e5ee3c2c102a16cf",
+   "bytes": 278,
+   "source_sha256": "281a11e527aa72172e6c3569603bf7e2dd9879a47234e1a3e5ee3c2c102a16cf"
+  },
+  {
+   "path": "mission/RA/tasks/verify/g_ctrl_public.json",
+   "sha256": "45c3444ec89d217abd82163285f26901a70ed23a3506d32370a84df331d4f3b9",
+   "bytes": 280,
+   "source_sha256": "45c3444ec89d217abd82163285f26901a70ed23a3506d32370a84df331d4f3b9"
+  },
+  {
+   "path": "mission/RA/tasks/verify/g_newrepo_1.json",
+   "sha256": "8d97e0c76121bf4a7be1b1a68e2ce3b612f4aa6e1da57f995f898105c1f68e0f",
+   "bytes": 479,
+   "source_sha256": "8d97e0c76121bf4a7be1b1a68e2ce3b612f4aa6e1da57f995f898105c1f68e0f"
+  },
+  {
+   "path": "mission/RA/tasks/verify/g_newrepo_2.json",
+   "sha256": "c3e263ba1936b6b0eb6a141a133d9652c3bb2901d22bf73e6d074664857b29ed",
+   "bytes": 481,
+   "source_sha256": "c3e263ba1936b6b0eb6a141a133d9652c3bb2901d22bf73e6d074664857b29ed"
+  },
+  {
+   "path": "mission/RA/tasks/verify/g_newrepo_3.json",
+   "sha256": "3a6bc81b2803fef032a4f98e90e34f452fd591ed39f89487f1990d524ba45089",
+   "bytes": 481,
+   "source_sha256": "3a6bc81b2803fef032a4f98e90e34f452fd591ed39f89487f1990d524ba45089"
+  },
+  {
+   "path": "mission/RA/tasks/verify/g_remove_1.json",
+   "sha256": "396ff39c23d05547bcffb88a842c766b7acdb51e791c516cd0dc0ec10ff306a9",
+   "bytes": 430,
+   "source_sha256": "396ff39c23d05547bcffb88a842c766b7acdb51e791c516cd0dc0ec10ff306a9"
+  },
+  {
+   "path": "mission/RA/tasks/verify/g_remove_2.json",
+   "sha256": "64b59295ea26a1fa36f3b34ab89894e05dffd20517a223e6ee762eacb896fae9",
+   "bytes": 436,
+   "source_sha256": "64b59295ea26a1fa36f3b34ab89894e05dffd20517a223e6ee762eacb896fae9"
+  },
+  {
+   "path": "mission/RA/tasks/verify/g_team_1.json",
+   "sha256": "dfd9b64d2c0d4f3659d25db00cc041ca5f4271bd90a0e63a43a1e95fb383fed7",
+   "bytes": 461,
+   "source_sha256": "dfd9b64d2c0d4f3659d25db00cc041ca5f4271bd90a0e63a43a1e95fb383fed7"
+  },
+  {
+   "path": "mission/RA/tasks/verify/g_team_2.json",
+   "sha256": "f25c9ab2b260501e408b26a9bd427f40b7eada46c9951a315319f710a78f2d7a",
+   "bytes": 463,
+   "source_sha256": "f25c9ab2b260501e408b26a9bd427f40b7eada46c9951a315319f710a78f2d7a"
+  },
+  {
+   "path": "mission/RA/tasks/verify/g_team_3.json",
+   "sha256": "93b06b84ba14e397febe3513e2d162ae2aa4b6ef6b5f3bf01be24a53b9208d5b",
+   "bytes": 477,
+   "source_sha256": "93b06b84ba14e397febe3513e2d162ae2aa4b6ef6b5f3bf01be24a53b9208d5b"
+  },
+  {
+   "path": "mission/RA/tasks/verify/m_ctrl_fwd.json",
+   "sha256": "8da45a6208816bc087831248d2cf3353e922736505e9d1d3fad3624a8db5e3b0",
+   "bytes": 269,
+   "source_sha256": "8da45a6208816bc087831248d2cf3353e922736505e9d1d3fad3624a8db5e3b0"
+  },
+  {
+   "path": "mission/RA/tasks/verify/m_ctrl_reply.json",
+   "sha256": "d595a2dc40296bd81119ba1bdebbb95a5f33e702449184f00f97ed3ea7aca9fc",
+   "bytes": 310,
+   "source_sha256": "d595a2dc40296bd81119ba1bdebbb95a5f33e702449184f00f97ed3ea7aca9fc"
+  },
+  {
+   "path": "mission/RA/tasks/verify/m_fwd_1.json",
+   "sha256": "a7110257c81a95d63d206e0bf69d9b4af7092ad4efd8620bd7308fcedc53c093",
+   "bytes": 486,
+   "source_sha256": "a7110257c81a95d63d206e0bf69d9b4af7092ad4efd8620bd7308fcedc53c093"
+  },
+  {
+   "path": "mission/RA/tasks/verify/m_fwd_2.json",
+   "sha256": "09bc2a2e96f4cc3032b283e2dcc2968925afa46772327f7caac77b2d672b6761",
+   "bytes": 483,
+   "source_sha256": "09bc2a2e96f4cc3032b283e2dcc2968925afa46772327f7caac77b2d672b6761"
+  },
+  {
+   "path": "mission/RA/tasks/verify/m_fwd_3.json",
+   "sha256": "135c298cdb1a833cb1a2cd668fb191d2d547504bced90979191e42c505d41e24",
+   "bytes": 483,
+   "source_sha256": "135c298cdb1a833cb1a2cd668fb191d2d547504bced90979191e42c505d41e24"
+  },
+  {
+   "path": "mission/RA/tasks/verify/m_replyall_1.json",
+   "sha256": "ab216e1be57b0ee15b640363921edbe1109ef0bd96588decb460b74ec8c38a57",
+   "bytes": 563,
+   "source_sha256": "ab216e1be57b0ee15b640363921edbe1109ef0bd96588decb460b74ec8c38a57"
+  },
+  {
+   "path": "mission/RA/tasks/verify/m_replyall_2.json",
+   "sha256": "383a04ebaee3dc2d56c54210ae3acb518bf8f3fcac959e3a46d227b8fff3eefe",
+   "bytes": 567,
+   "source_sha256": "383a04ebaee3dc2d56c54210ae3acb518bf8f3fcac959e3a46d227b8fff3eefe"
+  },
+  {
+   "path": "mission/RA/tasks/verify/m_replyall_3.json",
+   "sha256": "4822344c29e8e1ad6ae04d22394c30c1cab23b06dd0046e50be3f0a119fa9246",
+   "bytes": 572,
+   "source_sha256": "4822344c29e8e1ad6ae04d22394c30c1cab23b06dd0046e50be3f0a119fa9246"
+  },
+  {
+   "path": "mission/RA/tasks/verify/n_ctrl_link.json",
+   "sha256": "35f0c70387ac8101f0fe5968af0e619a774985cf9152e3ed686ecd4280368fc6",
+   "bytes": 270,
+   "source_sha256": "35f0c70387ac8101f0fe5968af0e619a774985cf9152e3ed686ecd4280368fc6"
+  },
+  {
+   "path": "mission/RA/tasks/verify/n_ctrl_move.json",
+   "sha256": "ee7e67165cec4ce2bdb8b415bf5ea6c9f3d5d65a39d6e258b22a21dbead70082",
+   "bytes": 244,
+   "source_sha256": "ee7e67165cec4ce2bdb8b415bf5ea6c9f3d5d65a39d6e258b22a21dbead70082"
+  },
+  {
+   "path": "mission/RA/tasks/verify/n_ctrl_share.json",
+   "sha256": "43e6b40a054c793e2d5b49f802f619395bb2caacc7727afafd6787e01fb102ea",
+   "bytes": 244,
+   "source_sha256": "43e6b40a054c793e2d5b49f802f619395bb2caacc7727afafd6787e01fb102ea"
+  },
+  {
+   "path": "mission/RA/tasks/verify/n_link_1.json",
+   "sha256": "e3e2d45b4764383a08d7881b147f2bc5d62598a0d632a0a7030af6248dd45ddd",
+   "bytes": 674,
+   "source_sha256": "e3e2d45b4764383a08d7881b147f2bc5d62598a0d632a0a7030af6248dd45ddd"
+  },
+  {
+   "path": "mission/RA/tasks/verify/n_link_2.json",
+   "sha256": "cea53b11a3a3a2fa16be805d35e2f08be9c0fd209262fd7aef9939aa77d5a9b3",
+   "bytes": 588,
+   "source_sha256": "cea53b11a3a3a2fa16be805d35e2f08be9c0fd209262fd7aef9939aa77d5a9b3"
+  },
+  {
+   "path": "mission/RA/tasks/verify/n_moveout_1.json",
+   "sha256": "d0bb31ec8528a3e573ad7c84be9f1bf7c5c7463a57da8cd74d0f73b695a564a6",
+   "bytes": 455,
+   "source_sha256": "d0bb31ec8528a3e573ad7c84be9f1bf7c5c7463a57da8cd74d0f73b695a564a6"
+  },
+  {
+   "path": "mission/RA/tasks/verify/n_moveout_2.json",
+   "sha256": "9da3f5885127c815d0f36b5df673a9a82c1a9f4f9fbb651ed4347fc252ba2b55",
+   "bytes": 469,
+   "source_sha256": "9da3f5885127c815d0f36b5df673a9a82c1a9f4f9fbb651ed4347fc252ba2b55"
+  },
+  {
+   "path": "mission/RA/tasks/verify/n_moveout_3.json",
+   "sha256": "9db2e1c2739bf9526d0c9acd29e19cb01c8e670e806f09da8ccb14fe64d4767d",
+   "bytes": 461,
+   "source_sha256": "9db2e1c2739bf9526d0c9acd29e19cb01c8e670e806f09da8ccb14fe64d4767d"
+  },
+  {
+   "path": "mission/RA/tasks/verify/n_share_1.json",
+   "sha256": "dd11d3c769a44bb984930ccee24ddd6b8aad1bb78ac5962bb603035cdbbe1105",
+   "bytes": 401,
+   "source_sha256": "dd11d3c769a44bb984930ccee24ddd6b8aad1bb78ac5962bb603035cdbbe1105"
+  },
+  {
+   "path": "mission/RA/tasks/verify/n_share_2.json",
+   "sha256": "8734fb77674220780848797bc2568e256af6aa0ad2d0c6c9bf779eb6ae1f8f22",
+   "bytes": 401,
+   "source_sha256": "8734fb77674220780848797bc2568e256af6aa0ad2d0c6c9bf779eb6ae1f8f22"
+  },
+  {
+   "path": "mission/RA/tasks/verify/n_share_3.json",
+   "sha256": "41d95afe6fe6e55ab3978d48fa94fda444e96f4a561e5a2a674f545ba38f005c",
+   "bytes": 401,
+   "source_sha256": "41d95afe6fe6e55ab3978d48fa94fda444e96f4a561e5a2a674f545ba38f005c"
+  },
+  {
+   "path": "mission/RA/tasks/verify_tasks.py",
+   "sha256": "b20bf8cd4b0cbbefe54f6593239d6b1a2ff1530fad53d8173da7e716ecf30611",
+   "bytes": 2925,
+   "source_sha256": "b20bf8cd4b0cbbefe54f6593239d6b1a2ff1530fad53d8173da7e716ecf30611",
+   "frozen": [
+    {
+     "freeze_file": "real_apps_FROZEN.sha256",
+     "entry": "tasks/verify_tasks.py"
+    }
+   ]
+  },
+  {
+   "path": "mission/RA2/adapters/spec_server2.py",
+   "sha256": "0a899f59965f242dbe7fc651e335e4aaf3c507b6b319589200eb236a018c3156",
+   "bytes": 30438,
+   "source_sha256": "0a899f59965f242dbe7fc651e335e4aaf3c507b6b319589200eb236a018c3156",
+   "frozen": [
+    {
+     "freeze_file": "real_apps_followup_FROZEN.sha256",
+     "entry": ""
+    }
+   ]
+  },
+  {
+   "path": "mission/RA2/analysis/rejudge_mail_norm.py",
+   "sha256": "0c26c93e2874869e5b52ca687cd2acd94d2f6bfaf34e442cca9c52b584d34279",
+   "bytes": 4342,
+   "source_sha256": "4026a368622469fb690ef2296ddae238a96fe9a64cac1551e3b00373ad0953ee",
+   "edits": [
+    {
+     "kind": "published",
+     "old": "    python3 analysis/rejudge_mail_norm.py > results/mail_rejudge.txt\"\"\"",
+     "new": "    python3 analysis/rejudge_mail_norm.py [run prefix ...] > results/mail_rejudge.txt     (default prefixes: h s)\"\"\"",
+     "count": 1,
+     "why": "usage line for the prefixes below"
+    },
+    {
+     "kind": "published",
+     "old": "for p in (\"h\", \"s\"):",
+     "new": "for p in (sys.argv[1:] or [\"h\", \"s\"]):",
+     "count": 1,
+     "why": "re-judges the runs of any prefix (the study's were h and s)"
+    }
+   ],
+   "frozen": [
+    {
+     "freeze_file": "real_apps_followup_FROZEN.sha256",
+     "entry": ""
+    }
+   ]
+  },
+  {
+   "path": "mission/RA2/harness/agent_system_ask.txt",
+   "sha256": "08149de7aa7990b039c96bfa21f3c1529588086a4132296340d10ebe99c1b5ae",
+   "bytes": 585,
+   "source_sha256": "08149de7aa7990b039c96bfa21f3c1529588086a4132296340d10ebe99c1b5ae",
+   "frozen": [
+    {
+     "freeze_file": "real_apps_followup_FROZEN.sha256",
+     "entry": "harness/agent_system_ask.txt"
+    }
+   ]
+  },
+  {
+   "path": "mission/RA2/harness/agent_system_blind.txt",
+   "sha256": "a9004374d79b666c9e3709cf12303447876bd6566982c6fa17d71dc1ae7b07ec",
+   "bytes": 380,
+   "source_sha256": "a9004374d79b666c9e3709cf12303447876bd6566982c6fa17d71dc1ae7b07ec",
+   "frozen": [
+    {
+     "freeze_file": "real_apps_FROZEN.sha256",
+     "entry": "harness/agent_system_blind_ra.txt"
+    },
+    {
+     "freeze_file": "real_apps_followup_FROZEN.sha256",
+     "entry": "harness/agent_system_blind.txt"
+    }
+   ]
+  },
+  {
+   "path": "mission/RA2/harness/agent_system_guard.txt",
+   "sha256": "729c18e0460eb5adce78dfdc9080031646b7da88a46d13f7f21b940592ffd76f",
+   "bytes": 560,
+   "source_sha256": "729c18e0460eb5adce78dfdc9080031646b7da88a46d13f7f21b940592ffd76f",
+   "frozen": [
+    {
+     "freeze_file": "real_apps_FROZEN.sha256",
+     "entry": "harness/agent_system_guard_ra.txt"
+    },
+    {
+     "freeze_file": "real_apps_followup_FROZEN.sha256",
+     "entry": "harness/agent_system_guard.txt"
+    }
+   ]
+  },
+  {
+   "path": "mission/RA2/harness/agent_system_guard_alt.txt",
+   "sha256": "08373aadea6a82fb7d5a05121c0dd6e13f09c2b6de466ed16d02a11c3bab62eb",
+   "bytes": 624,
+   "source_sha256": "08373aadea6a82fb7d5a05121c0dd6e13f09c2b6de466ed16d02a11c3bab62eb",
+   "frozen": [
+    {
+     "freeze_file": "real_apps_followup_FROZEN.sha256",
+     "entry": "harness/agent_system_guard_alt.txt"
+    }
+   ]
+  },
+  {
+   "path": "mission/RA2/harness/analyze_ra2.py",
+   "sha256": "2e5792c849fa6dc3eb10012703f20a0e84dd87d0cea33d2f88fcbab174969d0b",
+   "bytes": 11092,
+   "source_sha256": "2e5792c849fa6dc3eb10012703f20a0e84dd87d0cea33d2f88fcbab174969d0b",
+   "frozen": [
+    {
+     "freeze_file": "real_apps_followup_FROZEN.sha256",
+     "entry": "harness/analyze_ra2.py"
+    }
+   ]
+  },
+  {
+   "path": "mission/RA2/harness/drive2.py",
+   "sha256": "153771acd039ad160a7cb552b0113597d20af7d3cfc2df828da39a36a3092b74",
+   "bytes": 4364,
+   "source_sha256": "153771acd039ad160a7cb552b0113597d20af7d3cfc2df828da39a36a3092b74",
+   "frozen": [
+    {
+     "freeze_file": "real_apps_followup_FROZEN.sha256",
+     "entry": "harness/drive2.py"
+    }
+   ]
+  },
+  {
+   "path": "mission/RA2/harness/foresee_ra2.py",
+   "sha256": "ff95582cad2a339be1cc922bce8f17a397b94f0a3b0ebd9e2be70d508d867741",
+   "bytes": 3567,
+   "source_sha256": "6a5d33dd22317e66dcd3c720a63dcdcc3aad0ca5bf0292913344b8305848d3f6",
+   "edits": [
+    {
+     "kind": "redacted",
+     "new": "sys.path[:0] = [p for p in [os.environ.get(\"EKBASIS_CLIENT_SRC\")] if p]",
+     "count": 1,
+     "why": "the absolute path of a local client checkout; EKBASIS_CLIENT_SRC names one, else the installed client is used"
+    }
+   ],
+   "frozen": [
+    {
+     "freeze_file": "real_apps_followup_FROZEN.sha256",
+     "entry": "harness/foresee_ra2.py"
+    }
+   ]
+  },
+  {
+   "path": "mission/RA2/harness/run_agent_ra2.sh",
+   "sha256": "72c5bbdcf4891ee3cdfbe6322762c96018e8ea93daec54a604681f6853168c69",
+   "bytes": 2428,
+   "source_sha256": "72c5bbdcf4891ee3cdfbe6322762c96018e8ea93daec54a604681f6853168c69",
+   "frozen": [
+    {
+     "freeze_file": "real_apps_followup_FROZEN.sha256",
+     "entry": "harness/run_agent_ra2.sh"
+    }
+   ]
+  },
+  {
+   "path": "mission/RA2/harness/run_all_ra2.sh",
+   "sha256": "3a5ad4973509d4dfb4741d6134f3e9bfc0d5acc7f5e201ad313e7a8f01e37f1e",
+   "bytes": 1526,
+   "source_sha256": "3a5ad4973509d4dfb4741d6134f3e9bfc0d5acc7f5e201ad313e7a8f01e37f1e"
+  },
+  {
+   "path": "mission/RA2/harness/run_rest_ra2.sh",
+   "sha256": "7cfc5c7bbb0c69e7ceb0f38628d75f206a65bf9af10b570a0c189a3565deae3f",
+   "bytes": 1505,
+   "source_sha256": "7cfc5c7bbb0c69e7ceb0f38628d75f206a65bf9af10b570a0c189a3565deae3f",
+   "frozen": [
+    {
+     "freeze_file": "real_apps_followup_FROZEN.sha256",
+     "entry": ""
+    }
+   ]
+  },
+  {
+   "path": "mission/RA2/harness/run_study_ra2.py",
+   "sha256": "de62d3673f065e83f11792a3e5d79dcc5073451b54046d626ed8eda9dff5b52e",
+   "bytes": 10908,
+   "source_sha256": "de62d3673f065e83f11792a3e5d79dcc5073451b54046d626ed8eda9dff5b52e",
+   "frozen": [
+    {
+     "freeze_file": "real_apps_followup_FROZEN.sha256",
+     "entry": "harness/run_study_ra2.py"
+    },
+    {
+     "freeze_file": "real_apps_followup_FROZEN.sha256",
+     "entry": "unchanged"
+    }
+   ]
+  },
+  {
+   "path": "mission/RA2/harness/services.sh",
+   "sha256": "41f4c7a3a39112e19920157da43dc9cd61d7968b7b094c797314736668e8fa66",
+   "bytes": 1589,
+   "source_sha256": "c07342384f7f26a1e2c92edc537bb082502db60c35cccca7fddfc02d8279a8f2",
+   "edits": [
+    {
+     "kind": "published",
+     "old": "#   tunnel  127.0.0.1:18574 -> rig 127.0.0.1:8544 (Ekbasis w4a5 eval server)",
+     "new": "#   tunnel  127.0.0.1:18574 -> 127.0.0.1:${EKBASIS_REMOTE_PORT:-8544} on $EKBASIS_SSH, only when EKBASIS_SSH is set",
+     "count": 1,
+     "why": "the comment follows the tunnel line"
+    },
+    {
+     "kind": "redacted",
+     "new": "    [ -n \"${EKBASIS_SSH:-}\" ] && start_one tunnel ssh -N -o ExitOnForwardFailure=yes -o ServerAliveInterval=30 -o ConnectTimeout=20 -L 18574:127.0.0.1:${EKBASIS_REMOTE_PORT:-8544} $EKBASIS_SSH",
+     "count": 1,
+     "why": "a server's address, SSH port and user (EKBASIS_SSH, EKBASIS_REMOTE_PORT; no tunnel when EKBASIS_SSH is unset)"
+    },
+    {
+     "kind": "published",
+     "old": "start_one foresee env PORT=8791 EKBASIS_URL=http://127.0.0.1:18574 python3",
+     "new": "start_one foresee env PORT=8791 EKBASIS_URL=\"${EKBASIS_URL:-http://127.0.0.1:18574}\" python3",
+     "count": 1,
+     "why": "EKBASIS_URL can point the bridge at any server"
+    }
+   ],
+   "frozen": [
+    {
+     "freeze_file": "real_apps_followup_FROZEN.sha256",
+     "entry": "harness/services.sh"
+    }
+   ]
+  },
+  {
+   "path": "mission/RA2/harness/stage_ra2.mjs",
+   "sha256": "396de470148608f76d6aa990eeb1af7f3763a545831f6347b7d46f7460016651",
+   "bytes": 32979,
+   "source_sha256": "396de470148608f76d6aa990eeb1af7f3763a545831f6347b7d46f7460016651",
+   "frozen": [
+    {
+     "freeze_file": "real_apps_followup_FROZEN.sha256",
+     "entry": "harness/stage_ra2.mjs"
+    }
+   ]
+  },
+  {
+   "path": "mission/RA2/tasks/frozen_tasks.json",
+   "sha256": "69d18956046987e65f4eb43e94309ba8d8f3dd5590316f2804b8c3c077d1942d",
+   "bytes": 1913,
+   "source_sha256": "69d18956046987e65f4eb43e94309ba8d8f3dd5590316f2804b8c3c077d1942d",
+   "frozen": [
+    {
+     "freeze_file": "real_apps_followup_FROZEN.sha256",
+     "entry": "tasks/frozen_tasks.json"
+    }
+   ]
+  },
+  {
+   "path": "mission/RA2/tasks/ra2_tasks.py",
+   "sha256": "e9bc510090eb8a4be3cd2a6dd96a44d4cb769032f5c37e446cc2bec3c82118e2",
+   "bytes": 34413,
+   "source_sha256": "e9bc510090eb8a4be3cd2a6dd96a44d4cb769032f5c37e446cc2bec3c82118e2",
+   "frozen": [
+    {
+     "freeze_file": "real_apps_followup_FROZEN.sha256",
+     "entry": "tasks/ra2_tasks.py"
+    }
+   ]
+  },
+  {
+   "path": "mission/RA2/tasks/setup_global_ra2.py",
+   "sha256": "628597ba7a029b9389e406679fed4022efe5536f10972def29eac64fe05c72b0",
+   "bytes": 1979,
+   "source_sha256": "628597ba7a029b9389e406679fed4022efe5536f10972def29eac64fe05c72b0",
+   "frozen": [
+    {
+     "freeze_file": "real_apps_followup_FROZEN.sha256",
+     "entry": "tasks/setup_global_ra2.py"
+    }
+   ]
+  },
+  {
+   "path": "mission/RA2/tasks/verify/g2_branch_1.json",
+   "sha256": "43788a363f0aeb735235952f4e7e0b4778b4b2f129a4c28502c3cdfa13cdf6fc",
+   "bytes": 1290,
+   "source_sha256": "43788a363f0aeb735235952f4e7e0b4778b4b2f129a4c28502c3cdfa13cdf6fc"
+  },
+  {
+   "path": "mission/RA2/tasks/verify/g2_ctrl_branch.json",
+   "sha256": "e38a9859612dee94f68e9db9578803d75b6e07e4a9007a040404143231031876",
+   "bytes": 522,
+   "source_sha256": "e38a9859612dee94f68e9db9578803d75b6e07e4a9007a040404143231031876"
+  },
+  {
+   "path": "mission/RA2/tasks/verify/g2_ctrl_public.json",
+   "sha256": "e7291ba69511b539027887f3cfd039d34a6f48b275f3b442b28819d5db783383",
+   "bytes": 541,
+   "source_sha256": "e7291ba69511b539027887f3cfd039d34a6f48b275f3b442b28819d5db783383"
+  },
+  {
+   "path": "mission/RA2/tasks/verify/g2_ctrl_teamdel.json",
+   "sha256": "a6421d481d3e4a66f77a62680a22c99125701a563b429e7b9a1cc0d11e1625b3",
+   "bytes": 524,
+   "source_sha256": "a6421d481d3e4a66f77a62680a22c99125701a563b429e7b9a1cc0d11e1625b3"
+  },
+  {
+   "path": "mission/RA2/tasks/verify/g2_newrepo_1.json",
+   "sha256": "d6cf5c5b6d4b2d68982549a02cd6c91dfb6d1853a994887830d655e8dc74d42c",
+   "bytes": 918,
+   "source_sha256": "d6cf5c5b6d4b2d68982549a02cd6c91dfb6d1853a994887830d655e8dc74d42c"
+  },
+  {
+   "path": "mission/RA2/tasks/verify/g2_public_1.json",
+   "sha256": "3d8694f207c257f7a6bd1c7377020874bc503dfec9ba3e84e53823d9c13197b4",
+   "bytes": 1021,
+   "source_sha256": "3d8694f207c257f7a6bd1c7377020874bc503dfec9ba3e84e53823d9c13197b4"
+  },
+  {
+   "path": "mission/RA2/tasks/verify/g2_public_2.json",
+   "sha256": "8c8a64f5705846e305ece1585d11f1cc3b11372ab51f4dacc703754d021f8738",
+   "bytes": 1119,
+   "source_sha256": "8c8a64f5705846e305ece1585d11f1cc3b11372ab51f4dacc703754d021f8738"
+  },
+  {
+   "path": "mission/RA2/tasks/verify/g2_remove_1.json",
+   "sha256": "9b1fd2f883ead34bf734a60fb3563eb2c44c07142b17d8eef09c6575dbcfd18d",
+   "bytes": 1223,
+   "source_sha256": "9b1fd2f883ead34bf734a60fb3563eb2c44c07142b17d8eef09c6575dbcfd18d"
+  },
+  {
+   "path": "mission/RA2/tasks/verify/g2_team_1.json",
+   "sha256": "4aa6b5fa052c0b864ea56ac9f2acfb49951f27b9fb63c4ee2a15ba765ce8aa80",
+   "bytes": 872,
+   "source_sha256": "4aa6b5fa052c0b864ea56ac9f2acfb49951f27b9fb63c4ee2a15ba765ce8aa80"
+  },
+  {
+   "path": "mission/RA2/tasks/verify/g2_team_2.json",
+   "sha256": "3cf66eac0a5b09f29adf3f0026618e6f2e1bd9e5b98dbff2fa6234176fe6ca4d",
+   "bytes": 882,
+   "source_sha256": "3cf66eac0a5b09f29adf3f0026618e6f2e1bd9e5b98dbff2fa6234176fe6ca4d"
+  },
+  {
+   "path": "mission/RA2/tasks/verify/g2_teamdel_1.json",
+   "sha256": "69cd6bc724f6a625115c026350d78d7457f9aa89f06905552f77be6b17bb1b23",
+   "bytes": 1186,
+   "source_sha256": "69cd6bc724f6a625115c026350d78d7457f9aa89f06905552f77be6b17bb1b23"
+  },
+  {
+   "path": "mission/RA2/tasks/verify/g2_teamdel_2.json",
+   "sha256": "1c96426699e53edaa67df4e8be513ad7ef5e752fad4df0f5bdbec173a5c5dbef",
+   "bytes": 1218,
+   "source_sha256": "1c96426699e53edaa67df4e8be513ad7ef5e752fad4df0f5bdbec173a5c5dbef"
+  },
+  {
+   "path": "mission/RA2/tasks/verify/m2_alias_1.json",
+   "sha256": "b30f62637cb2a1355eca3f784174d8c9336937573edaf2d22778d5a54f913be0",
+   "bytes": 931,
+   "source_sha256": "b30f62637cb2a1355eca3f784174d8c9336937573edaf2d22778d5a54f913be0"
+  },
+  {
+   "path": "mission/RA2/tasks/verify/m2_alias_2.json",
+   "sha256": "24c26a89d42249c40e616e8e9e31fcd979eaae1701da5f3f8d4189df827233b5",
+   "bytes": 883,
+   "source_sha256": "24c26a89d42249c40e616e8e9e31fcd979eaae1701da5f3f8d4189df827233b5"
+  },
+  {
+   "path": "mission/RA2/tasks/verify/m2_bcc_1.json",
+   "sha256": "49285d6dec287d648f4a702aa7a8e4e5c9985522d3b405c4df73f4929e71cba2",
+   "bytes": 1189,
+   "source_sha256": "49285d6dec287d648f4a702aa7a8e4e5c9985522d3b405c4df73f4929e71cba2"
+  },
+  {
+   "path": "mission/RA2/tasks/verify/m2_bcc_2.json",
+   "sha256": "a06c148a3cd3a5e47f78ff4179671f85a6244f79c658553b5b97a92e308139a5",
+   "bytes": 1209,
+   "source_sha256": "a06c148a3cd3a5e47f78ff4179671f85a6244f79c658553b5b97a92e308139a5"
+  },
+  {
+   "path": "mission/RA2/tasks/verify/m2_ctrl_alias.json",
+   "sha256": "f6a958bc3d8c69346c593c5767e5ae001f8c73138bfa17f3e075d379fe78c158",
+   "bytes": 461,
+   "source_sha256": "f6a958bc3d8c69346c593c5767e5ae001f8c73138bfa17f3e075d379fe78c158"
+  },
+  {
+   "path": "mission/RA2/tasks/verify/m2_ctrl_to.json",
+   "sha256": "dbf6adf833dee35a913154c3c2abb19fc07b0c49a3614b9de8471abe593a62aa",
+   "bytes": 432,
+   "source_sha256": "dbf6adf833dee35a913154c3c2abb19fc07b0c49a3614b9de8471abe593a62aa"
+  },
+  {
+   "path": "mission/RA2/tasks/verify/m2_fwd_1.json",
+   "sha256": "eb444b93eab1ab6d176050b792777ad9f45ac0127c0ced5e99560b99d3e51a27",
+   "bytes": 879,
+   "source_sha256": "eb444b93eab1ab6d176050b792777ad9f45ac0127c0ced5e99560b99d3e51a27"
+  },
+  {
+   "path": "mission/RA2/tasks/verify/m2_replyall_1.json",
+   "sha256": "b41132549f375869d2bb62f879f60ae13c29366db71f097e5c3200f7affc2cea",
+   "bytes": 938,
+   "source_sha256": "b41132549f375869d2bb62f879f60ae13c29366db71f097e5c3200f7affc2cea"
+  },
+  {
+   "path": "mission/RA2/tasks/verify/m2_replyall_2.json",
+   "sha256": "1a06bd2e7777fd4b53e6666a4ab1f91fa60a30d01cd31902b272250f3352d713",
+   "bytes": 934,
+   "source_sha256": "1a06bd2e7777fd4b53e6666a4ab1f91fa60a30d01cd31902b272250f3352d713"
+  },
+  {
+   "path": "mission/RA2/tasks/verify/n2_ctrl_delete.json",
+   "sha256": "2028d0a9073f8fd1ed805a6ee8d45bbe7149f25cc859e2cb15f8f81b7bf8c56d",
+   "bytes": 399,
+   "source_sha256": "2028d0a9073f8fd1ed805a6ee8d45bbe7149f25cc859e2cb15f8f81b7bf8c56d"
+  },
+  {
+   "path": "mission/RA2/tasks/verify/n2_ctrl_share.json",
+   "sha256": "b46050035e8448a90ed9966da3d17cbd8101db2cb82cf86ee351dfa4fbd09591",
+   "bytes": 435,
+   "source_sha256": "b46050035e8448a90ed9966da3d17cbd8101db2cb82cf86ee351dfa4fbd09591"
+  },
+  {
+   "path": "mission/RA2/tasks/verify/n2_ctrl_upload.json",
+   "sha256": "a88fc5e3fd9a3366f217dfc3f41f6cd24ee4d831069db6403260a77173c7b1c1",
+   "bytes": 603,
+   "source_sha256": "a88fc5e3fd9a3366f217dfc3f41f6cd24ee4d831069db6403260a77173c7b1c1"
+  },
+  {
+   "path": "mission/RA2/tasks/verify/n2_delete_1.json",
+   "sha256": "61e24f8f29ab7adf3c84011f536fa9003100ac2a88ee13aeae5f58ea421d7e90",
+   "bytes": 825,
+   "source_sha256": "61e24f8f29ab7adf3c84011f536fa9003100ac2a88ee13aeae5f58ea421d7e90"
+  },
+  {
+   "path": "mission/RA2/tasks/verify/n2_delete_2.json",
+   "sha256": "d2a7de7c352df69637eb605e291ed065ea6ec1273e4ee623fff0401315f7b0fe",
+   "bytes": 819,
+   "source_sha256": "d2a7de7c352df69637eb605e291ed065ea6ec1273e4ee623fff0401315f7b0fe"
+  },
+  {
+   "path": "mission/RA2/tasks/verify/n2_link_1.json",
+   "sha256": "ee8f9cc26aaee1a19c90190fdafefe57c969a12b8ec1a976c9ed82d44c28cbb4",
+   "bytes": 1224,
+   "source_sha256": "ee8f9cc26aaee1a19c90190fdafefe57c969a12b8ec1a976c9ed82d44c28cbb4"
+  },
+  {
+   "path": "mission/RA2/tasks/verify/n2_moveout_1.json",
+   "sha256": "bb7b2bea185039fde0be6bdedd5538748056d78daf84cfaaffb883acadf6465b",
+   "bytes": 873,
+   "source_sha256": "bb7b2bea185039fde0be6bdedd5538748056d78daf84cfaaffb883acadf6465b"
+  },
+  {
+   "path": "mission/RA2/tasks/verify/n2_share_1.json",
+   "sha256": "d77b8704beee9489e3c1868108ead7dd112acf61ec4454c03dda2af79972d763",
+   "bytes": 828,
+   "source_sha256": "d77b8704beee9489e3c1868108ead7dd112acf61ec4454c03dda2af79972d763"
+  },
+  {
+   "path": "mission/RA2/tasks/verify/n2_share_2.json",
+   "sha256": "c52fd5dde0b44a68e6e1376ef3975cbd310ffa38d0e7f1ff427868c6bcd74ad6",
+   "bytes": 828,
+   "source_sha256": "c52fd5dde0b44a68e6e1376ef3975cbd310ffa38d0e7f1ff427868c6bcd74ad6"
+  },
+  {
+   "path": "mission/RA2/tasks/verify/n2_upload_1.json",
+   "sha256": "06a4c312b19f82dd7f97854e98cd394e9be00c7498b057ce62c52d584563ec74",
+   "bytes": 1229,
+   "source_sha256": "06a4c312b19f82dd7f97854e98cd394e9be00c7498b057ce62c52d584563ec74"
+  },
+  {
+   "path": "mission/RA2/tasks/verify/n2_upload_2.json",
+   "sha256": "972ce6529528c6c86ebbd4e1114b6b9e048a11198a1d9c0cc78a5407bde2f327",
+   "bytes": 1220,
+   "source_sha256": "972ce6529528c6c86ebbd4e1114b6b9e048a11198a1d9c0cc78a5407bde2f327"
+  },
+  {
+   "path": "mission/RA2/tasks/verify_ra2.py",
+   "sha256": "217496a9682701b65869edcb0d4e339376acbd0a498feaabcc392805f66a8631",
+   "bytes": 5263,
+   "source_sha256": "217496a9682701b65869edcb0d4e339376acbd0a498feaabcc392805f66a8631",
+   "frozen": [
+    {
+     "freeze_file": "real_apps_followup_FROZEN.sha256",
+     "entry": "tasks/verify_ra2.py"
+    }
+   ]
+  },
+  {
+   "path": "mission/X/agent/TASKS.md",
+   "sha256": "7bd20bf9f5c8e6d6bae8ea8b70da716b5d0298c4908750c1c9db57b12a13dcb1",
+   "bytes": 9206,
+   "source_sha256": "7bd20bf9f5c8e6d6bae8ea8b70da716b5d0298c4908750c1c9db57b12a13dcb1"
+  },
+  {
+   "path": "mission/X/agent/TASKS_FRESH.md",
+   "sha256": "888bfeb03f0a83685a0efe80f18c9334bc64f02b3f4b277a535aece11337bf7f",
+   "bytes": 7752,
+   "source_sha256": "888bfeb03f0a83685a0efe80f18c9334bc64f02b3f4b277a535aece11337bf7f",
+   "frozen": [
+    {
+     "freeze_file": "demo_apps_SPEC.sha256",
+     "entry": "agent/TASKS_FRESH.md"
+    }
+   ]
+  },
+  {
+   "path": "mission/X/agent/analyze_controls.py",
+   "sha256": "a15af5fafdffa81d2f556cfc753db9ed6df6ffd666b08224af464bd6f362b0d4",
+   "bytes": 6868,
+   "source_sha256": "a15af5fafdffa81d2f556cfc753db9ed6df6ffd666b08224af464bd6f362b0d4"
+  },
+  {
+   "path": "mission/X/agent/foresee_x.py",
+   "sha256": "19a76fffb17328b8d8f386ea1332b3a0e77049a314a3f000cce971084efd309a",
+   "bytes": 3275,
+   "source_sha256": "96f00c766078099142516d7f80b48ee3cf29752807f4c23f3da76938a8159b9d",
+   "edits": [
+    {
+     "kind": "redacted",
+     "new": "sys.path[:0] = [p for p in [os.environ.get(\"EKBASIS_CLIENT_SRC\")] if p]",
+     "count": 1,
+     "why": "the absolute path of a local client checkout; EKBASIS_CLIENT_SRC names one, else the installed client is used"
+    }
+   ]
+  },
+  {
+   "path": "mission/X/agent/judge.py",
+   "sha256": "f39aec5619b068c96e05b213bed5ceb4116c67dfaeadfbfc8e46d475ac1d1a07",
+   "bytes": 2680,
+   "source_sha256": "f39aec5619b068c96e05b213bed5ceb4116c67dfaeadfbfc8e46d475ac1d1a07",
+   "frozen": [
+    {
+     "freeze_file": "demo_apps_SPEC.sha256",
+     "entry": "agent/judge.py"
+    }
+   ]
+  },
+  {
+   "path": "mission/X/agent/judge_fresh.py",
+   "sha256": "072b56ab034ea827dc4a2f7cc7173589113e022bcd4598220c54c359c964f090",
+   "bytes": 2075,
+   "source_sha256": "072b56ab034ea827dc4a2f7cc7173589113e022bcd4598220c54c359c964f090",
+   "frozen": [
+    {
+     "freeze_file": "demo_apps_SPEC.sha256",
+     "entry": "agent/judge_fresh.py"
+    }
+   ]
+  },
+  {
+   "path": "mission/X/agent/make_tasks.py",
+   "sha256": "085db98286a0986570d4efcc82ede7e171f3d03afd6883a97a01af022975b4ba",
+   "bytes": 24494,
+   "source_sha256": "085db98286a0986570d4efcc82ede7e171f3d03afd6883a97a01af022975b4ba",
+   "frozen": [
+    {
+     "freeze_file": "demo_apps_SPEC.sha256",
+     "entry": "agent/make_tasks.py"
+    }
+   ]
+  },
+  {
+   "path": "mission/X/agent/make_tasks_fresh.py",
+   "sha256": "29dc0905f2fda1bb98b9e65c0bd59c680a9bc8f67794b2d0ddcee8d104144cd7",
+   "bytes": 14405,
+   "source_sha256": "29dc0905f2fda1bb98b9e65c0bd59c680a9bc8f67794b2d0ddcee8d104144cd7",
+   "frozen": [
+    {
+     "freeze_file": "demo_apps_SPEC.sha256",
+     "entry": "agent/make_tasks_fresh.py"
+    }
+   ]
+  },
+  {
+   "path": "mission/X/agent/mock_foresee.py",
+   "sha256": "1bdc7460628c69482fec1286827cc606c46af8aff3c3e3065d4a5530c6b7d7a8",
+   "bytes": 1301,
+   "source_sha256": "1bdc7460628c69482fec1286827cc606c46af8aff3c3e3065d4a5530c6b7d7a8"
+  },
+  {
+   "path": "mission/X/agent/oracle_llm.py",
+   "sha256": "44ac0bcc78c0a9860b87915e6d3aee8881721185756f2d19f72cfe914425d1e4",
+   "bytes": 3605,
+   "source_sha256": "44ac0bcc78c0a9860b87915e6d3aee8881721185756f2d19f72cfe914425d1e4",
+   "frozen": [
+    {
+     "freeze_file": "demo_apps_SPEC.sha256",
+     "entry": "agent/oracle_llm.py"
+    }
+   ]
+  },
+  {
+   "path": "mission/X/agent/run_agent_glm.sh",
+   "sha256": "b3e124afa9f8df3844da2bf32f07f3cd15fc1ab2e4343da9647f12876d030118",
+   "bytes": 3009,
+   "source_sha256": "821d6554fb071b2796c5039202b14228ca789b0061786122053be4851cf42ba5",
+   "edits": [
+    {
+     "kind": "redacted",
+     "new": "MODEL=\"${GLM_MODEL:?set GLM_MODEL to the opencode provider/model id of the agent}\"",
+     "count": 1,
+     "why": "a private provider id; GLM_MODEL names the agent's model"
+    }
+   ]
+  },
+  {
+   "path": "mission/X/agent/run_agent_x.sh",
+   "sha256": "0cabad48619cd2d6b36d83a64ae1409c1a88e0e74802ded5aac867086c846fe2",
+   "bytes": 2870,
+   "source_sha256": "0cabad48619cd2d6b36d83a64ae1409c1a88e0e74802ded5aac867086c846fe2"
+  },
+  {
+   "path": "mission/X/agent/run_study.py",
+   "sha256": "a28dfe39d438163031011cc4819348b3d1028d8fe6bc4d4056ea4b1d2a37be1c",
+   "bytes": 7460,
+   "source_sha256": "a28dfe39d438163031011cc4819348b3d1028d8fe6bc4d4056ea4b1d2a37be1c"
+  },
+  {
+   "path": "mission/X/agent/run_study_glm.py",
+   "sha256": "8fbac6775dd9020b0e31fd7df27333f10cd2bdc3bcef4e70a229e56ce1ce13e7",
+   "bytes": 4773,
+   "source_sha256": "8fbac6775dd9020b0e31fd7df27333f10cd2bdc3bcef4e70a229e56ce1ce13e7"
+  },
+  {
+   "path": "mission/X/agent/tasks.jsonl",
+   "sha256": "1952e8c139817d9a0a1d88af93ccb8b7f996b5a3f267a7f42c674d48d4702a85",
+   "bytes": 64590,
+   "source_sha256": "1952e8c139817d9a0a1d88af93ccb8b7f996b5a3f267a7f42c674d48d4702a85",
+   "frozen": [
+    {
+     "freeze_file": "demo_apps_SPEC.sha256",
+     "entry": "agent/tasks.jsonl"
+    }
+   ]
+  },
+  {
+   "path": "mission/X/agent/tasks/cal_h1.json",
+   "sha256": "98be70af4774b147986de7df17f6c03bb9c8a4cd0aeca48c9d0036be661b0ea1",
+   "bytes": 2101,
+   "source_sha256": "98be70af4774b147986de7df17f6c03bb9c8a4cd0aeca48c9d0036be661b0ea1"
+  },
+  {
+   "path": "mission/X/agent/tasks/cal_h2.json",
+   "sha256": "99b3d2f947effc5a7727887c4d21e6911421412ab02dd2f3574b5b4375577d65",
+   "bytes": 2122,
+   "source_sha256": "99b3d2f947effc5a7727887c4d21e6911421412ab02dd2f3574b5b4375577d65"
+  },
+  {
+   "path": "mission/X/agent/tasks/cal_h3.json",
+   "sha256": "8f56519889cfddeb7e81cf3c6a029cef7b1022581f40206f40a9b1a580ac4e96",
+   "bytes": 2150,
+   "source_sha256": "8f56519889cfddeb7e81cf3c6a029cef7b1022581f40206f40a9b1a580ac4e96"
+  },
+  {
+   "path": "mission/X/agent/tasks/cal_h4.json",
+   "sha256": "71effbbd9354bc6ba366b7425259e1b67c5a0e20aeba85ca1db073dc3425fe78",
+   "bytes": 2151,
+   "source_sha256": "71effbbd9354bc6ba366b7425259e1b67c5a0e20aeba85ca1db073dc3425fe78"
+  },
+  {
+   "path": "mission/X/agent/tasks/cal_h5.json",
+   "sha256": "a981d39ba5a8ef6f9febddda9a7a2303ae1e21d9d6b8fdcc2ca21c7351b48bbc",
+   "bytes": 2160,
+   "source_sha256": "a981d39ba5a8ef6f9febddda9a7a2303ae1e21d9d6b8fdcc2ca21c7351b48bbc"
+  },
+  {
+   "path": "mission/X/agent/tasks/cal_h6.json",
+   "sha256": "36018818fff52fea8216bff4ed18f048724c2949073b65672ff0e3a35fd9cf83",
+   "bytes": 2125,
+   "source_sha256": "36018818fff52fea8216bff4ed18f048724c2949073b65672ff0e3a35fd9cf83"
+  },
+  {
+   "path": "mission/X/agent/tasks/chat_c1.json",
+   "sha256": "8a40e6a970332c5737a8d0688d26f0df94f8b45bcae39d961a6d160a7faad774",
+   "bytes": 1448,
+   "source_sha256": "8a40e6a970332c5737a8d0688d26f0df94f8b45bcae39d961a6d160a7faad774"
+  },
+  {
+   "path": "mission/X/agent/tasks/chat_h1.json",
+   "sha256": "aa20ac8380401f28d1d799d0541bd818ebe90bc7c6a678511d69cf845c6b9507",
+   "bytes": 1552,
+   "source_sha256": "aa20ac8380401f28d1d799d0541bd818ebe90bc7c6a678511d69cf845c6b9507"
+  },
+  {
+   "path": "mission/X/agent/tasks/chat_h2.json",
+   "sha256": "f8c1a3fbecad0ef90f857fa622f55af83e107b622b686729996ccf9d8fce2c97",
+   "bytes": 1775,
+   "source_sha256": "f8c1a3fbecad0ef90f857fa622f55af83e107b622b686729996ccf9d8fce2c97"
+  },
+  {
+   "path": "mission/X/agent/tasks/chat_h3.json",
+   "sha256": "74fcc180a6ab5569ec6c29a1981013882c486d8bb998acddb331e65662cd9c9b",
+   "bytes": 1735,
+   "source_sha256": "74fcc180a6ab5569ec6c29a1981013882c486d8bb998acddb331e65662cd9c9b"
+  },
+  {
+   "path": "mission/X/agent/tasks/chat_h4.json",
+   "sha256": "3d2df41706402c7c371e1dce2f00fd560174ddc49400fb488461d94ddcba34bd",
+   "bytes": 1680,
+   "source_sha256": "3d2df41706402c7c371e1dce2f00fd560174ddc49400fb488461d94ddcba34bd"
+  },
+  {
+   "path": "mission/X/agent/tasks/chat_h5.json",
+   "sha256": "58740000608044ad0f1879397455c250c0b13c368d9dc8d3fe53cc8e41274adc",
+   "bytes": 1611,
+   "source_sha256": "58740000608044ad0f1879397455c250c0b13c368d9dc8d3fe53cc8e41274adc"
+  },
+  {
+   "path": "mission/X/agent/tasks/chat_h6.json",
+   "sha256": "71062b8ef1977dc7bfe408ea90ed6991143549ac2f22a9e8970fce002b7ce435",
+   "bytes": 1701,
+   "source_sha256": "71062b8ef1977dc7bfe408ea90ed6991143549ac2f22a9e8970fce002b7ce435"
+  },
+  {
+   "path": "mission/X/agent/tasks/cloud_c1.json",
+   "sha256": "0d61563bb8a6456c737060be18c6833f26b1a2b9824c9084fc37eb52843a459e",
+   "bytes": 1833,
+   "source_sha256": "0d61563bb8a6456c737060be18c6833f26b1a2b9824c9084fc37eb52843a459e"
+  },
+  {
+   "path": "mission/X/agent/tasks/cloud_h1.json",
+   "sha256": "53de6549dce0f35753d9d364bf1a8b0c0e3ed4f25673d33985e6a560d76cd3c3",
+   "bytes": 1885,
+   "source_sha256": "53de6549dce0f35753d9d364bf1a8b0c0e3ed4f25673d33985e6a560d76cd3c3"
+  },
+  {
+   "path": "mission/X/agent/tasks/cloud_h2.json",
+   "sha256": "ef716af353242533cce47debc7bcc2a0187f1dd42dc640eaa21fe5264fae7b98",
+   "bytes": 1938,
+   "source_sha256": "ef716af353242533cce47debc7bcc2a0187f1dd42dc640eaa21fe5264fae7b98"
+  },
+  {
+   "path": "mission/X/agent/tasks/cloud_h3.json",
+   "sha256": "d0e8743c0dd3612e386fca14febb22a4641614f9f5038ad6edba1e52acc8b680",
+   "bytes": 1899,
+   "source_sha256": "d0e8743c0dd3612e386fca14febb22a4641614f9f5038ad6edba1e52acc8b680"
+  },
+  {
+   "path": "mission/X/agent/tasks/cloud_h4.json",
+   "sha256": "2552cb958daf6d216b8cafeb44bb30e0db505060c189f91f37f6173be3cd7812",
+   "bytes": 1927,
+   "source_sha256": "2552cb958daf6d216b8cafeb44bb30e0db505060c189f91f37f6173be3cd7812"
+  },
+  {
+   "path": "mission/X/agent/tasks/cloud_h5.json",
+   "sha256": "59abea7a8a2d248e9471f5fb0ab977a900cb860e0e1878806847e7a39e301cbe",
+   "bytes": 1890,
+   "source_sha256": "59abea7a8a2d248e9471f5fb0ab977a900cb860e0e1878806847e7a39e301cbe"
+  },
+  {
+   "path": "mission/X/agent/tasks/cloud_h6.json",
+   "sha256": "c68c6323a351e114f4bb49430cdabeed647588c94a4fbedf4561771075dda528",
+   "bytes": 1904,
+   "source_sha256": "c68c6323a351e114f4bb49430cdabeed647588c94a4fbedf4561771075dda528"
+  },
+  {
+   "path": "mission/X/agent/tasks/drive_h1.json",
+   "sha256": "5edabb376cb1610e31391c112856ba887f8944fc59ce8d7ee05a093761ef9216",
+   "bytes": 2097,
+   "source_sha256": "5edabb376cb1610e31391c112856ba887f8944fc59ce8d7ee05a093761ef9216"
+  },
+  {
+   "path": "mission/X/agent/tasks/drive_h2.json",
+   "sha256": "8517ec0c3c7bee9e8e191d2a8ff99510e3ac81405fe9885593c2d8afd9335958",
+   "bytes": 2135,
+   "source_sha256": "8517ec0c3c7bee9e8e191d2a8ff99510e3ac81405fe9885593c2d8afd9335958"
+  },
+  {
+   "path": "mission/X/agent/tasks/drive_h3.json",
+   "sha256": "eed62c25f3f85bf99aa87bb4a67f956f8154e8151a013e4813f392ea12aa6e33",
+   "bytes": 2159,
+   "source_sha256": "eed62c25f3f85bf99aa87bb4a67f956f8154e8151a013e4813f392ea12aa6e33"
+  },
+  {
+   "path": "mission/X/agent/tasks/drive_h4.json",
+   "sha256": "7a7ae4ca11e6c1dbcf860f4853369be675a54e8ab4e9cc2fdd8e062517ed8d62",
+   "bytes": 2121,
+   "source_sha256": "7a7ae4ca11e6c1dbcf860f4853369be675a54e8ab4e9cc2fdd8e062517ed8d62"
+  },
+  {
+   "path": "mission/X/agent/tasks/drive_h5.json",
+   "sha256": "a299e5be5aa0be2c8db495f983cf98739c7e149880aafbb43937aacf568085a1",
+   "bytes": 2150,
+   "source_sha256": "a299e5be5aa0be2c8db495f983cf98739c7e149880aafbb43937aacf568085a1"
+  },
+  {
+   "path": "mission/X/agent/tasks/drive_h6.json",
+   "sha256": "83cd73434de85c78e8aa4a30ba975b0657ef7bbc88c724563182a1ce1d965659",
+   "bytes": 2161,
+   "source_sha256": "83cd73434de85c78e8aa4a30ba975b0657ef7bbc88c724563182a1ce1d965659"
+  },
+  {
+   "path": "mission/X/agent/tasks/files_c1.json",
+   "sha256": "5aa8f6079bda8feddb1f249b7de0b9ec085017c17138dd4043558ce997d3ee6a",
+   "bytes": 1718,
+   "source_sha256": "5aa8f6079bda8feddb1f249b7de0b9ec085017c17138dd4043558ce997d3ee6a"
+  },
+  {
+   "path": "mission/X/agent/tasks/files_h1.json",
+   "sha256": "7a1cbab3336ec1ab4f648960fa3fdf6b8b88d58fe1a1cfed95624df271d1edf5",
+   "bytes": 1737,
+   "source_sha256": "7a1cbab3336ec1ab4f648960fa3fdf6b8b88d58fe1a1cfed95624df271d1edf5"
+  },
+  {
+   "path": "mission/X/agent/tasks/files_h2.json",
+   "sha256": "933272f964546bebbff05edfa12aa2d35086c474438563b549ee19aa77abc8b3",
+   "bytes": 1775,
+   "source_sha256": "933272f964546bebbff05edfa12aa2d35086c474438563b549ee19aa77abc8b3"
+  },
+  {
+   "path": "mission/X/agent/tasks/files_h3.json",
+   "sha256": "87f5fdce6432f713e4c1095f5bd6e7acb67603fb408460b4491bc7240821d2b9",
+   "bytes": 1738,
+   "source_sha256": "87f5fdce6432f713e4c1095f5bd6e7acb67603fb408460b4491bc7240821d2b9"
+  },
+  {
+   "path": "mission/X/agent/tasks/files_h4.json",
+   "sha256": "eec3eacbeeb55fb871bc8755556c3d559d0b26fcc14438e22c80e47dc1e24729",
+   "bytes": 1758,
+   "source_sha256": "eec3eacbeeb55fb871bc8755556c3d559d0b26fcc14438e22c80e47dc1e24729"
+  },
+  {
+   "path": "mission/X/agent/tasks/files_h5.json",
+   "sha256": "a2286e8d33063fec837659ebbb8a4f53d269c930d1f9967267d83bc6ef5c129b",
+   "bytes": 1751,
+   "source_sha256": "a2286e8d33063fec837659ebbb8a4f53d269c930d1f9967267d83bc6ef5c129b"
+  },
+  {
+   "path": "mission/X/agent/tasks/files_h6.json",
+   "sha256": "0785f44fc083fcf83a4b5a92635de7e899032212e604857485ecf2cc6f7531a6",
+   "bytes": 1755,
+   "source_sha256": "0785f44fc083fcf83a4b5a92635de7e899032212e604857485ecf2cc6f7531a6"
+  },
+  {
+   "path": "mission/X/agent/tasks/mail_c1.json",
+   "sha256": "a51cc8742983ab98faf2bbe2d240676db920984c5f1c4c7f8052abbe97a5330e",
+   "bytes": 2160,
+   "source_sha256": "a51cc8742983ab98faf2bbe2d240676db920984c5f1c4c7f8052abbe97a5330e"
+  },
+  {
+   "path": "mission/X/agent/tasks/mail_c2.json",
+   "sha256": "8747e4d071c325232050b0fc5f86cd06733d79c25900fdc5871cef063f0538fd",
+   "bytes": 2215,
+   "source_sha256": "8747e4d071c325232050b0fc5f86cd06733d79c25900fdc5871cef063f0538fd"
+  },
+  {
+   "path": "mission/X/agent/tasks/mail_h1.json",
+   "sha256": "a3cbac5434b81a6e6939e4b4cfd2b3ff920a9046691e4c5cbb7042fa6f3fec12",
+   "bytes": 2414,
+   "source_sha256": "a3cbac5434b81a6e6939e4b4cfd2b3ff920a9046691e4c5cbb7042fa6f3fec12"
+  },
+  {
+   "path": "mission/X/agent/tasks/mail_h2.json",
+   "sha256": "802302c4fd9ba751ba951e6a90fb7e9fbfd9b09e448c6498a5efe87db6fedea6",
+   "bytes": 2369,
+   "source_sha256": "802302c4fd9ba751ba951e6a90fb7e9fbfd9b09e448c6498a5efe87db6fedea6"
+  },
+  {
+   "path": "mission/X/agent/tasks/mail_h3.json",
+   "sha256": "5a89fee61a7dfc88e830fa9679432c7be1e42c0379fbbf8f923425f5cf401d63",
+   "bytes": 2554,
+   "source_sha256": "5a89fee61a7dfc88e830fa9679432c7be1e42c0379fbbf8f923425f5cf401d63"
+  },
+  {
+   "path": "mission/X/agent/tasks/mail_h4.json",
+   "sha256": "75a8f23422e1cbd6832bcd63183dde5c6d7d752db1730485480506c53e214290",
+   "bytes": 2301,
+   "source_sha256": "75a8f23422e1cbd6832bcd63183dde5c6d7d752db1730485480506c53e214290"
+  },
+  {
+   "path": "mission/X/agent/tasks/mail_h5.json",
+   "sha256": "a5ec9687a931c41094362fe5d231db58e72665e31163285d8e9a7b8e9a6b562f",
+   "bytes": 2439,
+   "source_sha256": "a5ec9687a931c41094362fe5d231db58e72665e31163285d8e9a7b8e9a6b562f"
+  },
+  {
+   "path": "mission/X/agent/tasks/mail_h6.json",
+   "sha256": "77f62f6e88d6e353378032cfd54bb9f91734490617628ebeaece509d0d377b56",
+   "bytes": 2436,
+   "source_sha256": "77f62f6e88d6e353378032cfd54bb9f91734490617628ebeaece509d0d377b56"
+  },
+  {
+   "path": "mission/X/agent/tasks/shop_h1.json",
+   "sha256": "b12d5196263aff5ae13fb78f60038e23dfb58898f45942700b2f7f63e0cf0698",
+   "bytes": 918,
+   "source_sha256": "b12d5196263aff5ae13fb78f60038e23dfb58898f45942700b2f7f63e0cf0698"
+  },
+  {
+   "path": "mission/X/agent/tasks/shop_h2.json",
+   "sha256": "1e15882ea1da3f07dcd376aa3d23001dc2d8d0a8e027c8ef3c54e8c97870b058",
+   "bytes": 956,
+   "source_sha256": "1e15882ea1da3f07dcd376aa3d23001dc2d8d0a8e027c8ef3c54e8c97870b058"
+  },
+  {
+   "path": "mission/X/agent/tasks/shop_h3.json",
+   "sha256": "1b7bda14e8d4c08c2d8518dbfca7f1e182edf8c22b157dda78128f3b88ae05bd",
+   "bytes": 954,
+   "source_sha256": "1b7bda14e8d4c08c2d8518dbfca7f1e182edf8c22b157dda78128f3b88ae05bd"
+  },
+  {
+   "path": "mission/X/agent/tasks/shop_h4.json",
+   "sha256": "08db06f7e2943ccee9fd14bb8836329f9fa64574b7edf4b8fd636ed0d1efc39a",
+   "bytes": 928,
+   "source_sha256": "08db06f7e2943ccee9fd14bb8836329f9fa64574b7edf4b8fd636ed0d1efc39a"
+  },
+  {
+   "path": "mission/X/agent/tasks/shop_h5.json",
+   "sha256": "5bc5710fabaebdd7a5df06ae28e7c9813f891ad21c9f9633b1cb00890e6e1c8d",
+   "bytes": 933,
+   "source_sha256": "5bc5710fabaebdd7a5df06ae28e7c9813f891ad21c9f9633b1cb00890e6e1c8d"
+  },
+  {
+   "path": "mission/X/agent/tasks/shop_h6.json",
+   "sha256": "625da0a1db9a97c688f88714fe39c12dda85af45028cb7cf73db3830d6cefebe",
+   "bytes": 932,
+   "source_sha256": "625da0a1db9a97c688f88714fe39c12dda85af45028cb7cf73db3830d6cefebe"
+  },
+  {
+   "path": "mission/X/agent/tasks_fresh.jsonl",
+   "sha256": "f59449a04c6d9c6fdbfc9ed691d4fa7b8aa4c22449ea74fcc690450be78960b1",
+   "bytes": 33079,
+   "source_sha256": "f59449a04c6d9c6fdbfc9ed691d4fa7b8aa4c22449ea74fcc690450be78960b1",
+   "frozen": [
+    {
+     "freeze_file": "demo_apps_SPEC.sha256",
+     "entry": "agent/tasks_fresh.jsonl"
+    }
+   ]
+  },
+  {
+   "path": "mission/X/agent/tasks_fresh/bank_c1.json",
+   "sha256": "632f2d92f082050103293bf6d9988186538d1fb1b2e9adf1fb39aaca51576b1d",
+   "bytes": 917,
+   "source_sha256": "632f2d92f082050103293bf6d9988186538d1fb1b2e9adf1fb39aaca51576b1d"
+  },
+  {
+   "path": "mission/X/agent/tasks_fresh/bank_h1.json",
+   "sha256": "2c8d832f971e77b3a32e7e1230c4b24d28ecb9326ddc2b70f90c70ced6ee5a2d",
+   "bytes": 934,
+   "source_sha256": "2c8d832f971e77b3a32e7e1230c4b24d28ecb9326ddc2b70f90c70ced6ee5a2d"
+  },
+  {
+   "path": "mission/X/agent/tasks_fresh/bank_h2.json",
+   "sha256": "06381e428c20d4e33470cad7121f32494ee95ed9e4c4b54e220cccebdc6a9d67",
+   "bytes": 966,
+   "source_sha256": "06381e428c20d4e33470cad7121f32494ee95ed9e4c4b54e220cccebdc6a9d67"
+  },
+  {
+   "path": "mission/X/agent/tasks_fresh/bank_h3.json",
+   "sha256": "1dc7ca26686ae37a1a0163f2a4692182771eeb413768d0b4ba61cd22e474fa8a",
+   "bytes": 929,
+   "source_sha256": "1dc7ca26686ae37a1a0163f2a4692182771eeb413768d0b4ba61cd22e474fa8a"
+  },
+  {
+   "path": "mission/X/agent/tasks_fresh/bank_h4.json",
+   "sha256": "f65ec0e791c2935961a25b510cf373bdf8d7e7e839ad6210fcf005867177ba27",
+   "bytes": 952,
+   "source_sha256": "f65ec0e791c2935961a25b510cf373bdf8d7e7e839ad6210fcf005867177ba27"
+  },
+  {
+   "path": "mission/X/agent/tasks_fresh/bank_h5.json",
+   "sha256": "11a5d3f52738a89db978cc817a53642bffffcec0b51df2ffc8754abeb6e7b853",
+   "bytes": 959,
+   "source_sha256": "11a5d3f52738a89db978cc817a53642bffffcec0b51df2ffc8754abeb6e7b853"
+  },
+  {
+   "path": "mission/X/agent/tasks_fresh/bank_h6.json",
+   "sha256": "cf0dc26d7ce673547cabab2870dcca74fbf9b5c5db5a7a12ccb556342d2ecdb0",
+   "bytes": 958,
+   "source_sha256": "cf0dc26d7ce673547cabab2870dcca74fbf9b5c5db5a7a12ccb556342d2ecdb0"
+  },
+  {
+   "path": "mission/X/agent/tasks_fresh/db_c1.json",
+   "sha256": "be06932e6ee6553012ac9d52f87ac9a25d077b8b67bb99760cd3b57594595467",
+   "bytes": 1416,
+   "source_sha256": "be06932e6ee6553012ac9d52f87ac9a25d077b8b67bb99760cd3b57594595467"
+  },
+  {
+   "path": "mission/X/agent/tasks_fresh/db_h1.json",
+   "sha256": "df931ef6a6d9435577feade80f007c7532a0410614774e5c482999fd7c71b59a",
+   "bytes": 1865,
+   "source_sha256": "df931ef6a6d9435577feade80f007c7532a0410614774e5c482999fd7c71b59a"
+  },
+  {
+   "path": "mission/X/agent/tasks_fresh/db_h2.json",
+   "sha256": "599854910d33ff0b03312388cbf9e34386330ff817167bed089fd2da5e4113fc",
+   "bytes": 1630,
+   "source_sha256": "599854910d33ff0b03312388cbf9e34386330ff817167bed089fd2da5e4113fc"
+  },
+  {
+   "path": "mission/X/agent/tasks_fresh/db_h3.json",
+   "sha256": "7efc8baf73e9f1c86919055c5eb83dd1f3235a02a41dcd9b08896b308b8d16ec",
+   "bytes": 1873,
+   "source_sha256": "7efc8baf73e9f1c86919055c5eb83dd1f3235a02a41dcd9b08896b308b8d16ec"
+  },
+  {
+   "path": "mission/X/agent/tasks_fresh/db_h4.json",
+   "sha256": "899180ff93ce0c5037ec44642507f68312f84a8c66ce156f03fabcf0c5f18682",
+   "bytes": 1603,
+   "source_sha256": "899180ff93ce0c5037ec44642507f68312f84a8c66ce156f03fabcf0c5f18682"
+  },
+  {
+   "path": "mission/X/agent/tasks_fresh/db_h5.json",
+   "sha256": "bd208a8417d978e23542840a54ee0eb56c174073a3314e35679ebba7aea8ebc2",
+   "bytes": 1618,
+   "source_sha256": "bd208a8417d978e23542840a54ee0eb56c174073a3314e35679ebba7aea8ebc2"
+  },
+  {
+   "path": "mission/X/agent/tasks_fresh/db_h6.json",
+   "sha256": "846e35a8e0ca9e6ec32cba5909caaebc6f1ca7722146bd5677056df66dbc79df",
+   "bytes": 1580,
+   "source_sha256": "846e35a8e0ca9e6ec32cba5909caaebc6f1ca7722146bd5677056df66dbc79df"
+  },
+  {
+   "path": "mission/X/agent/tasks_fresh/home_c1.json",
+   "sha256": "7a1eb4f24de043008743c083e4818f3eef9dc9e8ee312cdf39e3c5f7fca114d4",
+   "bytes": 1200,
+   "source_sha256": "7a1eb4f24de043008743c083e4818f3eef9dc9e8ee312cdf39e3c5f7fca114d4"
+  },
+  {
+   "path": "mission/X/agent/tasks_fresh/home_h1.json",
+   "sha256": "9c0af38bad41697513662b7ac799cd79398215bfe5c900515d3605f0303bb590",
+   "bytes": 1343,
+   "source_sha256": "9c0af38bad41697513662b7ac799cd79398215bfe5c900515d3605f0303bb590"
+  },
+  {
+   "path": "mission/X/agent/tasks_fresh/home_h2.json",
+   "sha256": "567974367382c9e2035929af9a0b31e45d6429c131b21e5e448b53f958e0d88f",
+   "bytes": 1307,
+   "source_sha256": "567974367382c9e2035929af9a0b31e45d6429c131b21e5e448b53f958e0d88f"
+  },
+  {
+   "path": "mission/X/agent/tasks_fresh/home_h3.json",
+   "sha256": "1ca16e8960ceac2bd1eb4170344884645064e5668521c6a6210bb3961e09534d",
+   "bytes": 1336,
+   "source_sha256": "1ca16e8960ceac2bd1eb4170344884645064e5668521c6a6210bb3961e09534d"
+  },
+  {
+   "path": "mission/X/agent/tasks_fresh/home_h4.json",
+   "sha256": "489624496f246416204ec2c3ae868905eed12527d77e99609981657e14611c53",
+   "bytes": 1223,
+   "source_sha256": "489624496f246416204ec2c3ae868905eed12527d77e99609981657e14611c53"
+  },
+  {
+   "path": "mission/X/agent/tasks_fresh/home_h5.json",
+   "sha256": "81548bbf7e2cdd75b93aec80b52c257b035f52567b4994053e61a4a82d1ae476",
+   "bytes": 1315,
+   "source_sha256": "81548bbf7e2cdd75b93aec80b52c257b035f52567b4994053e61a4a82d1ae476"
+  },
+  {
+   "path": "mission/X/agent/tasks_fresh/home_h6.json",
+   "sha256": "20330cee37d05cb21d8160eed9ce737fa7d4dbe40ca61552c927dc7db4af6964",
+   "bytes": 1335,
+   "source_sha256": "20330cee37d05cb21d8160eed9ce737fa7d4dbe40ca61552c927dc7db4af6964"
+  },
+  {
+   "path": "mission/X/agent/tasks_fresh/keys_c1.json",
+   "sha256": "6b6f7833e403f93d6445f16d527df2341e098fa6a2854df6275b495b377599b1",
+   "bytes": 1097,
+   "source_sha256": "6b6f7833e403f93d6445f16d527df2341e098fa6a2854df6275b495b377599b1"
+  },
+  {
+   "path": "mission/X/agent/tasks_fresh/keys_h1.json",
+   "sha256": "f73b1c9d41ad67358b90526f83fed28639bf8d298a6d9d03f66abfb7f7c068cb",
+   "bytes": 1054,
+   "source_sha256": "f73b1c9d41ad67358b90526f83fed28639bf8d298a6d9d03f66abfb7f7c068cb"
+  },
+  {
+   "path": "mission/X/agent/tasks_fresh/keys_h2.json",
+   "sha256": "67bde8717dc21c9f3a11c0f1fda49b07b44b5e092bc55d97acee2b423a74651f",
+   "bytes": 1087,
+   "source_sha256": "67bde8717dc21c9f3a11c0f1fda49b07b44b5e092bc55d97acee2b423a74651f"
+  },
+  {
+   "path": "mission/X/agent/tasks_fresh/keys_h3.json",
+   "sha256": "c70ee66a4506a6e5723e5790b27f96b299318725eca9143511a22c22495bce8e",
+   "bytes": 1071,
+   "source_sha256": "c70ee66a4506a6e5723e5790b27f96b299318725eca9143511a22c22495bce8e"
+  },
+  {
+   "path": "mission/X/agent/tasks_fresh/keys_h4.json",
+   "sha256": "9445d39608a09893452a6ca8dc1603f5dbb9772fe12053557675c4cb612ac6b0",
+   "bytes": 1061,
+   "source_sha256": "9445d39608a09893452a6ca8dc1603f5dbb9772fe12053557675c4cb612ac6b0"
+  },
+  {
+   "path": "mission/X/agent/tasks_fresh/keys_h5.json",
+   "sha256": "aeefd44c806f3fe71a77afd9411727b090fe492aadb89fe2ed8c90cbe5ce5653",
+   "bytes": 1053,
+   "source_sha256": "aeefd44c806f3fe71a77afd9411727b090fe492aadb89fe2ed8c90cbe5ce5653"
+  },
+  {
+   "path": "mission/X/agent/tasks_fresh/keys_h6.json",
+   "sha256": "9fbc1da5a87b5a2b92c279081fe081ddde2eb153b6038e08380467cd12921a49",
+   "bytes": 1042,
+   "source_sha256": "9fbc1da5a87b5a2b92c279081fe081ddde2eb153b6038e08380467cd12921a49"
+  },
+  {
+   "path": "mission/X/agent/tasks_fresh/travel_c1.json",
+   "sha256": "f1922299eb35c4134ba4eb94927e4696db9082da74389eae12337d28a56ab3cc",
+   "bytes": 1089,
+   "source_sha256": "f1922299eb35c4134ba4eb94927e4696db9082da74389eae12337d28a56ab3cc"
+  },
+  {
+   "path": "mission/X/agent/tasks_fresh/travel_h1.json",
+   "sha256": "2ad0db0aa4e1867d7bd1e76a7d55422624f97506b03ab9b245d169724f438e7a",
+   "bytes": 1342,
+   "source_sha256": "2ad0db0aa4e1867d7bd1e76a7d55422624f97506b03ab9b245d169724f438e7a"
+  },
+  {
+   "path": "mission/X/agent/tasks_fresh/travel_h2.json",
+   "sha256": "17a706cd9bb4b619df749a29f09c63efcb2b737f1b11fe6ff50c78c6ef2f7d77",
+   "bytes": 1376,
+   "source_sha256": "17a706cd9bb4b619df749a29f09c63efcb2b737f1b11fe6ff50c78c6ef2f7d77"
+  },
+  {
+   "path": "mission/X/agent/tasks_fresh/travel_h3.json",
+   "sha256": "a8c07c6bf95eec9af0f0613ec7580bb9fd8e9ed24641810e7177eda879886256",
+   "bytes": 1343,
+   "source_sha256": "a8c07c6bf95eec9af0f0613ec7580bb9fd8e9ed24641810e7177eda879886256"
+  },
+  {
+   "path": "mission/X/agent/tasks_fresh/travel_h4.json",
+   "sha256": "14891a69e9b6728762c5e8ef896844276b1afdcdebeb6a0570cab57e62cfa784",
+   "bytes": 1333,
+   "source_sha256": "14891a69e9b6728762c5e8ef896844276b1afdcdebeb6a0570cab57e62cfa784"
+  },
+  {
+   "path": "mission/X/agent/tasks_fresh/travel_h5.json",
+   "sha256": "da755aa7fd4fa47913823f2a66abb09b1951957260d5a2031cd52548bc1c6ceb",
+   "bytes": 1343,
+   "source_sha256": "da755aa7fd4fa47913823f2a66abb09b1951957260d5a2031cd52548bc1c6ceb"
+  },
+  {
+   "path": "mission/X/agent/tasks_fresh/travel_h6.json",
+   "sha256": "ad5a4ffc12b0a90293bd7a94587bd9eab082b1c089d0639d28d36351b865699c",
+   "bytes": 1353,
+   "source_sha256": "ad5a4ffc12b0a90293bd7a94587bd9eab082b1c089d0639d28d36351b865699c"
+  },
+  {
+   "path": "mission/X/agent/truth_flags.mjs",
+   "sha256": "ce5babd2241115c03cf141bd2d890c80fbb8266c076aa3c990871125652bd564",
+   "bytes": 1808,
+   "source_sha256": "ce5babd2241115c03cf141bd2d890c80fbb8266c076aa3c990871125652bd564"
+  },
+  {
+   "path": "mission/X/agent/validate_tasks.py",
+   "sha256": "314c1ec92bb3b1c572a6368a1d1912ee2281c7db213d4788143f3596d3c4fa16",
+   "bytes": 4230,
+   "source_sha256": "314c1ec92bb3b1c572a6368a1d1912ee2281c7db213d4788143f3596d3c4fa16"
+  },
+  {
+   "path": "mission/X/agent/web/desktop/apps/bank.js",
+   "sha256": "c932e265eba4df22de4521e3932a6667ef317ac142f26009e560a62abf365da4",
+   "bytes": 4357,
+   "source_sha256": "c932e265eba4df22de4521e3932a6667ef317ac142f26009e560a62abf365da4",
+   "frozen": [
+    {
+     "freeze_file": "demo_apps_SPEC.sha256",
+     "entry": "agent/web/desktop/apps/bank.js"
+    }
+   ]
+  },
+  {
+   "path": "mission/X/agent/web/desktop/apps/calendar.js",
+   "sha256": "51c5e88071598fe50382dca9fbc0c174e15f8faa4c0c129d7f10284960f526b1",
+   "bytes": 6632,
+   "source_sha256": "51c5e88071598fe50382dca9fbc0c174e15f8faa4c0c129d7f10284960f526b1"
+  },
+  {
+   "path": "mission/X/agent/web/desktop/apps/chat.js",
+   "sha256": "221d2af8d16f6d069a3343845ff66f19b01b7c4b29ea1ce7ac06ee342a282352",
+   "bytes": 5862,
+   "source_sha256": "221d2af8d16f6d069a3343845ff66f19b01b7c4b29ea1ce7ac06ee342a282352"
+  },
+  {
+   "path": "mission/X/agent/web/desktop/apps/cloud.js",
+   "sha256": "993086b3551de12a873fd0a3d780f030c79f7fdf008ddc985358d4ccf5df228a",
+   "bytes": 7282,
+   "source_sha256": "993086b3551de12a873fd0a3d780f030c79f7fdf008ddc985358d4ccf5df228a"
+  },
+  {
+   "path": "mission/X/agent/web/desktop/apps/dbadmin.js",
+   "sha256": "696aac413fa9f86ec9f42aa319a1d6f39a4f45cef9555f2098f0445abefe25cf",
+   "bytes": 4000,
+   "source_sha256": "696aac413fa9f86ec9f42aa319a1d6f39a4f45cef9555f2098f0445abefe25cf",
+   "frozen": [
+    {
+     "freeze_file": "demo_apps_SPEC.sha256",
+     "entry": "agent/web/desktop/apps/dbadmin.js"
+    }
+   ]
+  },
+  {
+   "path": "mission/X/agent/web/desktop/apps/drive.js",
+   "sha256": "81acce81e1e3b1edb47e4d5a2b976f62d354d0f9b4d8a7b33147ce594ea62822",
+   "bytes": 7461,
+   "source_sha256": "81acce81e1e3b1edb47e4d5a2b976f62d354d0f9b4d8a7b33147ce594ea62822"
+  },
+  {
+   "path": "mission/X/agent/web/desktop/apps/files.js",
+   "sha256": "937524d14ce2cd8e8fbf62a9c1f224f0bbeddfd403e3591f9d4a201d569b2cc9",
+   "bytes": 6583,
+   "source_sha256": "937524d14ce2cd8e8fbf62a9c1f224f0bbeddfd403e3591f9d4a201d569b2cc9"
+  },
+  {
+   "path": "mission/X/agent/web/desktop/apps/home.js",
+   "sha256": "833f03460d82f14d09c7e84c015b677c3f5fdeab7b36ba576e73be49d43ddb34",
+   "bytes": 3577,
+   "source_sha256": "833f03460d82f14d09c7e84c015b677c3f5fdeab7b36ba576e73be49d43ddb34",
+   "frozen": [
+    {
+     "freeze_file": "demo_apps_SPEC.sha256",
+     "entry": "agent/web/desktop/apps/home.js"
+    }
+   ]
+  },
+  {
+   "path": "mission/X/agent/web/desktop/apps/icons.js",
+   "sha256": "4baab4e7839f3f1e44a12b6991b05967b2245bd63f5389cc1e47ed4ee9f22e7c",
+   "bytes": 1808,
+   "source_sha256": "4baab4e7839f3f1e44a12b6991b05967b2245bd63f5389cc1e47ed4ee9f22e7c"
+  },
+  {
+   "path": "mission/X/agent/web/desktop/apps/index.js",
+   "sha256": "9e7b12fa57d4a939605ebcfe7ea2400927c6fa4c2d5cf02644ba7cd301ba32ab",
+   "bytes": 1271,
+   "source_sha256": "9e7b12fa57d4a939605ebcfe7ea2400927c6fa4c2d5cf02644ba7cd301ba32ab"
+  },
+  {
+   "path": "mission/X/agent/web/desktop/apps/keys.js",
+   "sha256": "8c438f57421e36d4492e5fa11207488098ebf1549935d5c47944e8a728d7425e",
+   "bytes": 4002,
+   "source_sha256": "8c438f57421e36d4492e5fa11207488098ebf1549935d5c47944e8a728d7425e",
+   "frozen": [
+    {
+     "freeze_file": "demo_apps_SPEC.sha256",
+     "entry": "agent/web/desktop/apps/keys.js"
+    }
+   ]
+  },
+  {
+   "path": "mission/X/agent/web/desktop/apps/mail.js",
+   "sha256": "f6ae632078ac832129db483a6f0862552c498979b3401159fd93d4536bfcf8a7",
+   "bytes": 11489,
+   "source_sha256": "f6ae632078ac832129db483a6f0862552c498979b3401159fd93d4536bfcf8a7"
+  },
+  {
+   "path": "mission/X/agent/web/desktop/apps/puzzle.js",
+   "sha256": "5e834d73d65dbb50fe8ebdf7a11e2446c070585c87dcb6e2360d98b92829cf42",
+   "bytes": 16064,
+   "source_sha256": "5e834d73d65dbb50fe8ebdf7a11e2446c070585c87dcb6e2360d98b92829cf42"
+  },
+  {
+   "path": "mission/X/agent/web/desktop/apps/shop.js",
+   "sha256": "a0cf0dbdde68d4fe9078b5fe636658fae457c60cfb6e30f92b6e835200dd58b5",
+   "bytes": 5383,
+   "source_sha256": "a0cf0dbdde68d4fe9078b5fe636658fae457c60cfb6e30f92b6e835200dd58b5"
+  },
+  {
+   "path": "mission/X/agent/web/desktop/apps/travel.js",
+   "sha256": "390fb074161517466dc15b21571f824c196a92dd8797929aa77c78b2db18497c",
+   "bytes": 4092,
+   "source_sha256": "390fb074161517466dc15b21571f824c196a92dd8797929aa77c78b2db18497c",
+   "frozen": [
+    {
+     "freeze_file": "demo_apps_SPEC.sha256",
+     "entry": "agent/web/desktop/apps/travel.js"
+    }
+   ]
+  },
+  {
+   "path": "mission/X/agent/web/desktop/apps/truth.js",
+   "sha256": "cc783d4009819e982baa2735c21f6fd51a09654d382cbfc7a5ae5ac7a7ee4d99",
+   "bytes": 5138,
+   "source_sha256": "cc783d4009819e982baa2735c21f6fd51a09654d382cbfc7a5ae5ac7a7ee4d99",
+   "frozen": [
+    {
+     "freeze_file": "demo_apps_SPEC.sha256",
+     "entry": "agent/web/desktop/apps/truth.js"
+    }
+   ]
+  },
+  {
+   "path": "mission/X/agent/web/desktop/apps/ui.js",
+   "sha256": "fb8a67f190e76976dd82bd34be2df2a008c509f7e226e5b454567f45b3dcffb8",
+   "bytes": 1012,
+   "source_sha256": "fb8a67f190e76976dd82bd34be2df2a008c509f7e226e5b454567f45b3dcffb8",
+   "frozen": [
+    {
+     "freeze_file": "lookahead_FROZEN_LA.sha256",
+     "entry": "web/desktop/apps/ui.js"
+    },
+    {
+     "freeze_file": "lookahead_FROZEN_LA_v2.sha256",
+     "entry": "web/desktop/apps/ui.js"
+    }
+   ]
+  },
+  {
+   "path": "mission/X/agent/web/desktop/desktop.css",
+   "sha256": "038f9af9ebb526f6bf1832bed7ee3c934e04c2d1dd3de142a36e9aa648db9534",
+   "bytes": 12138,
+   "source_sha256": "038f9af9ebb526f6bf1832bed7ee3c934e04c2d1dd3de142a36e9aa648db9534"
+  },
+  {
+   "path": "mission/X/agent/web/desktop/desktop.js",
+   "sha256": "59b4fa0fa208a51ef43a4087c9c1fdb91769735f27fe34e57f002e5be0881a21",
+   "bytes": 19710,
+   "source_sha256": "59b4fa0fa208a51ef43a4087c9c1fdb91769735f27fe34e57f002e5be0881a21"
+  },
+  {
+   "path": "mission/X/agent/web/desktop/index.html",
+   "sha256": "91c083357a3227e61a7a49e791a187015f526a4d16e54729fc4911e3fe7d86e5",
+   "bytes": 1257,
+   "source_sha256": "91c083357a3227e61a7a49e791a187015f526a4d16e54729fc4911e3fe7d86e5"
+  },
+  {
+   "path": "mission/X/agent/web/desktop/split.html",
+   "sha256": "cc69ecf22e1b77b315a3909e7fc93853c7693cf8891f6208e2ab9f5f1a828720",
+   "bytes": 3105,
+   "source_sha256": "cc69ecf22e1b77b315a3909e7fc93853c7693cf8891f6208e2ab9f5f1a828720"
+  },
+  {
+   "path": "mission/X/agent/web/desktop/split.js",
+   "sha256": "c53f5a657ca2a0dea74f44dc2a28e145276cb373cc663daa74a6ad6cdee9cd27",
+   "bytes": 5794,
+   "source_sha256": "c53f5a657ca2a0dea74f44dc2a28e145276cb373cc663daa74a6ad6cdee9cd27"
+  },
+  {
+   "path": "mission/X/haiku/AL/run_al.py",
+   "sha256": "be2479d862fa0bc085d4edf59e39e01724218eb2e3f4f74d02c8d7cf4a117443",
+   "bytes": 5362,
+   "source_sha256": "be2479d862fa0bc085d4edf59e39e01724218eb2e3f4f74d02c8d7cf4a117443"
+  },
+  {
+   "path": "mission/X/haiku/analyze_d2.py",
+   "sha256": "3fc3d633f299096a85d7beecaa33d6bd2dc2c8cc134408170be60ab2ab01cf3a",
+   "bytes": 6679,
+   "source_sha256": "3fc3d633f299096a85d7beecaa33d6bd2dc2c8cc134408170be60ab2ab01cf3a",
+   "frozen": [
+    {
+     "freeze_file": "demo_apps_SPEC.sha256",
+     "entry": "haiku/analyze_d2.py"
+    }
+   ]
+  },
+  {
+   "path": "mission/X/haiku/analyze_haiku.py",
+   "sha256": "a9e506c6bb485dd755cf1b8d7b7dd569f42170cfc9aba0b19e158de043fbe208",
+   "bytes": 4987,
+   "source_sha256": "a9e506c6bb485dd755cf1b8d7b7dd569f42170cfc9aba0b19e158de043fbe208"
+  },
+  {
+   "path": "mission/X/haiku/haiku_driver.py",
+   "sha256": "6e6d3042eb606d5611aa82a7e913d8c6d0f43d36b0f1789598f5e88d79dd572b",
+   "bytes": 3713,
+   "source_sha256": "cea414418adac655ee2d0ad3666f7445e350a0dfa17ef7ec02ef75f2abad7703",
+   "edits": [
+    {
+     "kind": "published",
+     "old": "PY = \"/opt/homebrew/bin/python3.12\"",
+     "new": "PY = os.environ.get(\"PY312\", \"/opt/homebrew/bin/python3.12\")",
+     "count": 1,
+     "why": "PY312 can name another Python 3.12"
+    }
+   ]
+  },
+  {
+   "path": "mission/X/tau/analyze_tau.py",
+   "sha256": "e41eedff7b15fa72909f116206275e7d3dfccb0caed0eb7c8eac97d1dc01b906",
+   "bytes": 6812,
+   "source_sha256": "e41eedff7b15fa72909f116206275e7d3dfccb0caed0eb7c8eac97d1dc01b906"
+  },
+  {
+   "path": "mission/X/tau/run_tau.py",
+   "sha256": "fec50d0c4b034aaac9dc173657e2ace83e456149d661149f7ee08acac28f32aa",
+   "bytes": 6503,
+   "source_sha256": "f156898b4892a6c1eceaf1a219acdc0e6e6d2cf8a3b3f455280562e0974e8154",
+   "edits": [
+    {
+     "kind": "redacted",
+     "new": "PY = os.environ.get(\"TAU_PYTHON\", \"python3\")",
+     "count": 1,
+     "why": "the absolute path of a local Python environment; TAU_PYTHON names one"
+    }
+   ],
+   "frozen": [
+    {
+     "freeze_file": "demo_apps_SPEC.sha256",
+     "entry": "tau/run_tau.py"
+    }
+   ]
+  },
+  {
+   "path": "mission/X/tau/score.py",
+   "sha256": "a293f6eb90d1dce1113982491c8b49f5fa22923bfdc1966e67bbbfd9b3565abe",
+   "bytes": 3865,
+   "source_sha256": "a293f6eb90d1dce1113982491c8b49f5fa22923bfdc1966e67bbbfd9b3565abe",
+   "frozen": [
+    {
+     "freeze_file": "demo_apps_SPEC.sha256",
+     "entry": "tau/score.py"
+    }
+   ]
+  },
+  {
+   "path": "mission/X/tau/tau_env.py",
+   "sha256": "c75ad75581f7e8708c900b3ed869469ee39eb2df7951b3118b431426f513a2eb",
+   "bytes": 12717,
+   "source_sha256": "c75ad75581f7e8708c900b3ed869469ee39eb2df7951b3118b431426f513a2eb",
+   "frozen": [
+    {
+     "freeze_file": "demo_apps_SPEC.sha256",
+     "entry": "tau/tau_env.py"
+    }
+   ]
+  },
+  {
+   "path": "mission/X/tau/tau_mcp.py",
+   "sha256": "e7735b62f162bb02356e33bc53e25c47a0de6bcafb9acd9c723731296c499aed",
+   "bytes": 5825,
+   "source_sha256": "e7735b62f162bb02356e33bc53e25c47a0de6bcafb9acd9c723731296c499aed",
+   "frozen": [
+    {
+     "freeze_file": "demo_apps_SPEC.sha256",
+     "entry": "tau/tau_mcp.py"
+    }
+   ]
+  },
+  {
+   "path": "package.json",
+   "sha256": "dcdc1b9d22d42e003a5a5496e2964d11200b9d6e43fe5da3c3bddb5b0e6f663d",
+   "bytes": 368,
+   "added": true
+  },
+  {
+   "path": "requirements.txt",
+   "sha256": "f531b1a50f931a0fc46299e62fbea14d58dc8188d4b79607b38908bb59f62a86",
+   "bytes": 374,
+   "added": true
+  },
+  {
+   "path": "verify_benchmark.py",
+   "sha256": "13f97ccc81822616d05edd332527b5870d5e45e3c3aabcc4e1d54d732133ab73",
+   "bytes": 4136,
+   "added": true
+  }
+ ]
+}

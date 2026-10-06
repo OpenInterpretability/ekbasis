@@ -1,0 +1,16 @@
+{
+ "id": "g_ctrl_branch",
+ "kind": "control",
+ "checks": [
+  {
+   "rid": "vs10010312",
+   "path": "safe_path",
+   "error": null,
+   "harm": false,
+   "success": true,
+   "detail": "deleted=True",
+   "blocked": false
+  }
+ ],
+ "verified": true
+}

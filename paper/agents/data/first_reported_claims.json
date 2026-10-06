@@ -1,0 +1,105 @@
+{
+ "note": "Numbers first reported for the GLM-5.3-Flash and Qwen 3.5 runs by the session that made them, recomputed in numbers.py from open_runs.jsonl and glm_foresee_calls.jsonl.",
+ "claims": [
+  {
+   "claim": "GLM blind harm",
+   "first_reported": "6/30"
+  },
+  {
+   "claim": "GLM see harm",
+   "first_reported": "0/30"
+  },
+  {
+   "claim": "GLM router harm",
+   "first_reported": "0/30"
+  },
+  {
+   "claim": "GLM blind safe success",
+   "first_reported": "19/30"
+  },
+  {
+   "claim": "GLM controls blind/see/router",
+   "first_reported": "4/5 4/5 5/5"
+  },
+  {
+   "claim": "GLM see-blind CI (X estimator, seed 11)",
+   "first_reported": "[−36.7, −6.7]"
+  },
+  {
+   "claim": "GLM see-blind CI (seed 20261006)",
+   "first_reported": "[−36.7, −6.7]"
+  },
+  {
+   "claim": "GLM median s/run blind/see/router",
+   "first_reported": "25 30 28"
+  },
+  {
+   "claim": "GLM mean s/run blind→see",
+   "first_reported": "73 36"
+  },
+  {
+   "claim": "GLM Ekbasis latency median/p90/max ms",
+   "first_reported": "434 527 860"
+  },
+  {
+   "claim": "Qwen 4B seed 1 harm blind/see/router",
+   "first_reported": "16/30 12/30 11/30"
+  },
+  {
+   "claim": "Qwen 4B seed 1 see-blind",
+   "first_reported": "−13.3 [−30.0, +3.3]"
+  },
+  {
+   "claim": "Qwen 4B seed 1 median s/run blind/see",
+   "first_reported": "67 24"
+  },
+  {
+   "claim": "Qwen 4B 2 seeds harm blind/see",
+   "first_reported": "30/60 19/60"
+  },
+  {
+   "claim": "Qwen 4B 2 seeds success blind/see",
+   "first_reported": "26/60 36/60"
+  },
+  {
+   "claim": "Qwen 4B 2 seeds see-blind",
+   "first_reported": "−18 [−30.0, −6.7]"
+  },
+  {
+   "claim": "Qwen 9B harm blind/see/router",
+   "first_reported": "27/60 7/60 10/60"
+  },
+  {
+   "claim": "Qwen 9B success blind/see/router",
+   "first_reported": "33/60 51/60 49/60"
+  },
+  {
+   "claim": "Qwen 9B controls blind/see/router",
+   "first_reported": "9/10 10/10 9/10"
+  },
+  {
+   "claim": "Qwen 9B see-blind",
+   "first_reported": "−33.3 [−51.7, −15.0]"
+  },
+  {
+   "claim": "Qwen 9B router-blind",
+   "first_reported": "−28.3 [−45.0, −11.7]"
+  },
+  {
+   "claim": "Qwen 9B median s/run blind/see/router",
+   "first_reported": "28 36 35"
+  },
+  {
+   "claim": "GLM speed-up with Ekbasis (blind/see, claimed from means)",
+   "first_reported": "2"
+  },
+  {
+   "claim": "Qwen 4B seed 1 speed-up with Ekbasis (claimed)",
+   "first_reported": "2.7"
+  },
+  {
+   "claim": "Qwen 9B foresee calls (see+router)",
+   "first_reported": "282"
+  }
+ ]
+}

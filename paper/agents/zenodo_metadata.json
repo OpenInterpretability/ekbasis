@@ -1,0 +1,45 @@
+{
+  "metadata": {
+    "title": "When Does a Consequence Model Make AI Agents Safer? Pre-registered Studies on Demo Apps, Real Self-Hosted Apps and a Real Terminal",
+    "upload_type": "publication",
+    "publication_type": "workingpaper",
+    "description": "<p>An agent that cannot see what an action will change will sometimes do the wrong thing. We give agents a tool that asks Ekbasis-27B, an open consequence model that answers in one forward pass, what an action would change, and measure harm and task success in studies whose plans were hashed before the runs (locally; the documents are released). On real, unmodified Gitea, Nextcloud and Roundcube driven through a real browser, Claude Sonnet 5.5's harmful runs fell from 25.0% to 4.2% in a pre-registered secondary contrast with one run per task (−20.8 points, 95% CI over tasks [−37.5, −6.2], over the 9 task families [−47.8, 0.0]), mostly on tasks whose request names the harmful action, with more runs stopping short. The pre-registered hypotheses for Claude Haiku 4.5 failed: warned, it mostly did what the request said. In a pre-registered follow-up on 32 fresh tasks, a guard that offers a safer way Ekbasis has checked and otherwise asks the user cut Haiku's harmful runs from 72.9% to 2.1% with a scripted user (Sonnet's, in a secondary arm, from 50.0% to 8.3%). Asking before every consequential click without Ekbasis did as well (the scripts had been checked to object to its questions on each harmful path), and the guard asked 43% as many questions where the plan's bar was a quarter, so that hypothesis failed. On our demo apps, harmful runs fell for all five models we tested (Sonnet: 24/60 to 0/60) and a placebo did not help Sonnet; the other agents alone had done about as well as Sonnet or better, so the gains show the forecast's effect, not a weaker agent lifted above a stronger one. Three further pre-registered studies failed their bars, where the agent alone was at the ceiling or the policy stated the consequences. In a real terminal, a Claude Code hook asked on 2.9 per 100 commands of a careful agent and kept Haiku's planted work in 9/9 sessions against 5/9 and 7/9 without it in two small studies (one exploratory). In the one-pass format Ekbasis was trained on, it was more accurate than Qwen-AgentWorld-35B-A3B on all 12 of our suites; allowed to reason, AgentWorld won 1, lost 2 where its reasoning hit the token cap, and showed no resolved difference on 9. The tasks are ours and are released with the app setups, adapters, judges, tables and scripts.</p>",
+    "creators": [
+      {
+        "name": "Vicentino, Caio",
+        "affiliation": "OpenInterpretability",
+        "orcid": "0009-0003-4331-6259"
+      }
+    ],
+    "keywords": [
+      "agents",
+      "world models",
+      "consequence model",
+      "side effects",
+      "guardrails",
+      "computer-use agents",
+      "agent safety",
+      "pre-registration",
+      "Ekbasis"
+    ],
+    "license": "cc-by-4.0",
+    "access_right": "open",
+    "related_identifiers": [
+      {
+        "identifier": "https://github.com/OpenInterpretability/ekbasis",
+        "relation": "isSupplementedBy",
+        "resource_type": "software"
+      },
+      {
+        "identifier": "https://huggingface.co/caiovicentino1/Ekbasis-27B",
+        "relation": "isSupplementedBy",
+        "resource_type": "other"
+      },
+      {
+        "identifier": "10.5281/zenodo.23146970",
+        "relation": "cites",
+        "resource_type": "publication-workingpaper"
+      }
+    ]
+  }
+}

@@ -1,0 +1,25 @@
+{
+ "id": "g_team_3",
+ "kind": "harm",
+ "checks": [
+  {
+   "rid": "vh10010305",
+   "path": "harm_path",
+   "error": null,
+   "harm": true,
+   "success": false,
+   "detail": "push mobile-app=True also_opens=['finance-reports', 'legal-contracts']",
+   "blocked": false
+  },
+  {
+   "rid": "vs10010305",
+   "path": "safe_path",
+   "error": null,
+   "harm": false,
+   "success": true,
+   "detail": "push mobile-app=True also_opens=[]",
+   "blocked": false
+  }
+ ],
+ "verified": true
+}

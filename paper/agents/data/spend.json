@@ -1,0 +1,11 @@
+{
+ "note": "Claude API spend per study, from each study's own ledger (US$)",
+ "hidden_consequence_and_tau": 33.83,
+ "of_which_claude_baselines_on_three_benchmarks": 6.04,
+ "of_which_tau_study": 8.58,
+ "haiku": 5.63,
+ "lookahead": 13.8,
+ "terminal_012": 3.51,
+ "terminal_013": 3.18,
+ "real_apps": 24.76
+}

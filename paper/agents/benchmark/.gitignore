@@ -1,0 +1,20 @@
+node_modules/
+__pycache__/
+*.pyc
+.DS_Store
+# what the runners write
+**/sessions/
+**/results/
+**/logs/
+**/agent_cwd/
+**/episodes/
+**/runs_*.jsonl
+**/spend*.jsonl
+**/foresee_calls*.jsonl
+**/validation*.json
+# generated credentials and the mail server's account files
+mission/RA/apps/.env
+mission/RA/apps/mailconf/postfix-*.cf
+mission/RA/apps/mailconf/dovecot-quotas.cf
+# third-party code fetched at setup (tau-bench)
+mission/X/ext/

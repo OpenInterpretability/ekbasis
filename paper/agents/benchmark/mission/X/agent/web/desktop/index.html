@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Workspace</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=block" rel="stylesheet">
+<link rel="stylesheet" href="desktop.css">
+</head>
+<body>
+<div id="viewport">
+  <div id="world">
+    <div id="desk"></div>
+    <div id="hud" class="hud"></div>
+    <div id="rules"></div>
+    <div id="cursor"><svg width="34" height="40" viewBox="0 0 34 40"><path d="M3 2 L3 31 L10.5 24.5 L15.5 36 L20.5 34 L15.5 22.5 L25.5 22.5 Z" fill="#fff" stroke="#111" stroke-width="2" stroke-linejoin="round"/></svg><span class="badge">AI</span><span class="ripple"></span></div>
+  </div>
+  <div id="overlay">
+    <div id="tag"></div>
+    <div id="agent"><div class="head"><span class="dot"></span><span class="name">Agent</span><span class="task"></span></div><div class="thought"></div></div>
+    <div id="caption"></div>
+    <div id="card"></div>
+  </div>
+</div>
+<script type="module" src="desktop.js"></script>
+</body>
+</html>

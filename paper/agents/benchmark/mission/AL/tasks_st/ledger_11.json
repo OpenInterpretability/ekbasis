@@ -1,0 +1,503 @@
+{
+ "meta": {
+  "id": "ledger_11",
+  "app": "ledger",
+  "kind": "ledger",
+  "task": "Process every instruction in the Ledger app, one at a time. Account balances are not shown; you may check them at most twice. When a bill can be paid from Checking or from Savings, pay it from an account that can cover it, so that no account goes below $0. At the end, report the final balance of each account exactly, to the cent, and submit the report.",
+  "task_short": "Process every instruction in the Ledger app, one at a time. Account balances are not shown; you may check them at most twice. When a bill can be paid from Checking or from Savings, pay it from an account that can cover it, so that no account goes below $0. At the end, report the final balance of each account exactly, to the cent, and submit the report.",
+  "agent": "Claude · computer use",
+  "judge": {
+   "kind": "ledger"
+  },
+  "paths": {
+   "right": [
+    [
+     "click",
+     "ledger.process"
+    ],
+    [
+     "click",
+     "ledger.process"
+    ],
+    [
+     "click",
+     "ledger.process"
+    ],
+    [
+     "click",
+     "ledger.process"
+    ],
+    [
+     "click",
+     "ledger.process"
+    ],
+    [
+     "click",
+     "ledger.process"
+    ],
+    [
+     "click",
+     "ledger.process"
+    ],
+    [
+     "click",
+     "ledger.process"
+    ],
+    [
+     "click",
+     "ledger.pay_savings"
+    ],
+    [
+     "click",
+     "ledger.process"
+    ],
+    [
+     "click",
+     "ledger.process"
+    ],
+    [
+     "click",
+     "ledger.process"
+    ],
+    [
+     "click",
+     "ledger.process"
+    ],
+    [
+     "click",
+     "ledger.process"
+    ],
+    [
+     "click",
+     "ledger.process"
+    ],
+    [
+     "click",
+     "ledger.process"
+    ],
+    [
+     "click",
+     "ledger.pay_checking"
+    ],
+    [
+     "click",
+     "ledger.process"
+    ],
+    [
+     "click",
+     "ledger.process"
+    ],
+    [
+     "click",
+     "ledger.process"
+    ],
+    [
+     "click",
+     "ledger.process"
+    ],
+    [
+     "click",
+     "ledger.process"
+    ],
+    [
+     "click",
+     "ledger.process"
+    ],
+    [
+     "click",
+     "ledger.process"
+    ],
+    [
+     "click",
+     "ledger.pay_checking"
+    ],
+    [
+     "click",
+     "ledger.process"
+    ],
+    [
+     "type",
+     "ledger.r_checking",
+     "112.88"
+    ],
+    [
+     "type",
+     "ledger.r_savings",
+     "334.02"
+    ],
+    [
+     "type",
+     "ledger.r_bills",
+     "354.16"
+    ],
+    [
+     "click",
+     "ledger.submit"
+    ]
+   ],
+   "wrong": [
+    [
+     "click",
+     "ledger.process"
+    ],
+    [
+     "click",
+     "ledger.process"
+    ],
+    [
+     "click",
+     "ledger.process"
+    ],
+    [
+     "click",
+     "ledger.process"
+    ],
+    [
+     "click",
+     "ledger.process"
+    ],
+    [
+     "click",
+     "ledger.process"
+    ],
+    [
+     "click",
+     "ledger.process"
+    ],
+    [
+     "click",
+     "ledger.process"
+    ],
+    [
+     "click",
+     "ledger.pay_checking"
+    ],
+    [
+     "click",
+     "ledger.process"
+    ],
+    [
+     "click",
+     "ledger.process"
+    ],
+    [
+     "click",
+     "ledger.process"
+    ],
+    [
+     "click",
+     "ledger.process"
+    ],
+    [
+     "click",
+     "ledger.process"
+    ],
+    [
+     "click",
+     "ledger.process"
+    ],
+    [
+     "click",
+     "ledger.process"
+    ],
+    [
+     "click",
+     "ledger.pay_savings"
+    ],
+    [
+     "click",
+     "ledger.process"
+    ],
+    [
+     "click",
+     "ledger.process"
+    ],
+    [
+     "click",
+     "ledger.process"
+    ],
+    [
+     "click",
+     "ledger.process"
+    ],
+    [
+     "click",
+     "ledger.process"
+    ],
+    [
+     "click",
+     "ledger.process"
+    ],
+    [
+     "click",
+     "ledger.process"
+    ],
+    [
+     "click",
+     "ledger.pay_savings"
+    ],
+    [
+     "click",
+     "ledger.process"
+    ]
+   ]
+  },
+  "expected_final": {
+   "Checking": 112.88,
+   "Savings": 334.02,
+   "Bills": 354.16
+  },
+  "manual": "",
+  "n_instructions": 26
+ },
+ "world": {
+  "clock": "Oct 5 · 6:00 PM",
+  "dock": [
+   "ledger"
+  ],
+  "open": [
+   "ledger"
+  ],
+  "focus": "ledger",
+  "windows": {
+   "ledger": {
+    "x": 110,
+    "y": 78,
+    "w": 1330,
+    "h": 820
+   }
+  },
+  "apps": {
+   "ledger": {
+    "opening": {
+     "Checking": 1713.69,
+     "Savings": 1873.84,
+     "Bills": 480.34
+    },
+    "balances": {
+     "Checking": 1713.69,
+     "Savings": 1873.84,
+     "Bills": 480.34
+    },
+    "inbox": [
+     {
+      "kind": "transfer",
+      "text": "Transfer $341.59 from Savings to Checking.",
+      "p": {
+       "from": "Savings",
+       "to": "Checking",
+       "amt": 341.59
+      }
+     },
+     {
+      "kind": "deposit",
+      "text": "Salary top-up of $842.08 arrives in Checking.",
+      "p": {
+       "acc": "Checking",
+       "amt": 842.08
+      }
+     },
+     {
+      "kind": "card",
+      "text": "The internet bill of $132.51 is paid from Bills.",
+      "p": {
+       "acc": "Bills",
+       "amt": 132.51
+      }
+     },
+     {
+      "kind": "percent",
+      "text": "Put 15% of Checking into Savings.",
+      "p": {
+       "acc": "Checking",
+       "to": "Savings",
+       "pct": 15
+      }
+     },
+     {
+      "kind": "card",
+      "text": "Card payment of $227.96 at Bookshop, from Checking.",
+      "p": {
+       "acc": "Checking",
+       "amt": 227.96
+      }
+     },
+     {
+      "kind": "deposit",
+      "text": "Salary top-up of $675.08 arrives in Checking.",
+      "p": {
+       "acc": "Checking",
+       "amt": 675.08
+      }
+     },
+     {
+      "kind": "excess",
+      "text": "Move everything above $2,200.00 in Checking to Savings.",
+      "p": {
+       "acc": "Checking",
+       "to": "Savings",
+       "level": 2200.0
+      }
+     },
+     {
+      "kind": "card",
+      "text": "Card payment of $66.24 at Cafe, from Checking.",
+      "p": {
+       "acc": "Checking",
+       "amt": 66.24
+      }
+     },
+     {
+      "kind": "pay",
+      "text": "Pay the tax payment of $2,260.44 from Checking or from Savings.",
+      "p": {
+       "amt": 2260.44,
+       "right": "Savings"
+      }
+     },
+     {
+      "kind": "transfer",
+      "text": "Transfer $2,285.05 from Checking to Savings.",
+      "p": {
+       "from": "Checking",
+       "to": "Savings",
+       "amt": 2285.05
+      }
+     },
+     {
+      "kind": "week",
+      "text": "End of week.",
+      "p": {}
+     },
+     {
+      "kind": "card",
+      "text": "Card payment of $60.92 at Garage, from Checking.",
+      "p": {
+       "acc": "Checking",
+       "amt": 60.92
+      }
+     },
+     {
+      "kind": "card",
+      "text": "Card payment of $50.28 at Bookshop, from Checking.",
+      "p": {
+       "acc": "Checking",
+       "amt": 50.28
+      }
+     },
+     {
+      "kind": "card",
+      "text": "The internet bill of $42.42 is paid from Bills.",
+      "p": {
+       "acc": "Bills",
+       "amt": 42.42
+      }
+     },
+     {
+      "kind": "card",
+      "text": "Card payment of $63.89 at Cafe, from Checking.",
+      "p": {
+       "acc": "Checking",
+       "amt": 63.89
+      }
+     },
+     {
+      "kind": "deposit",
+      "text": "Salary top-up of $140.64 arrives in Savings.",
+      "p": {
+       "acc": "Savings",
+       "amt": 140.64
+      }
+     },
+     {
+      "kind": "pay",
+      "text": "Pay the car repair of $930.95 from Checking or from Savings.",
+      "p": {
+       "amt": 930.95,
+       "right": "Checking"
+      }
+     },
+     {
+      "kind": "deposit",
+      "text": "Client payment of $299.88 arrives in Checking.",
+      "p": {
+       "acc": "Checking",
+       "amt": 299.88
+      }
+     },
+     {
+      "kind": "card",
+      "text": "The phone bill of $40.64 is paid from Bills.",
+      "p": {
+       "acc": "Bills",
+       "amt": 40.64
+      }
+     },
+     {
+      "kind": "percent",
+      "text": "Put 20% of Savings into Bills.",
+      "p": {
+       "acc": "Savings",
+       "to": "Bills",
+       "pct": 20
+      }
+     },
+     {
+      "kind": "week",
+      "text": "End of week.",
+      "p": {}
+     },
+     {
+      "kind": "card",
+      "text": "Card payment of $199.41 at Florist, from Checking.",
+      "p": {
+       "acc": "Checking",
+       "amt": 199.41
+      }
+     },
+     {
+      "kind": "month",
+      "text": "End of month.",
+      "p": {}
+     },
+     {
+      "kind": "transfer",
+      "text": "Transfer $97.80 from Savings to Checking.",
+      "p": {
+       "from": "Savings",
+       "to": "Checking",
+       "amt": 97.8
+      }
+     },
+     {
+      "kind": "pay",
+      "text": "Pay the rent of $1,113.11 from Checking or from Savings.",
+      "p": {
+       "amt": 1113.11,
+       "right": "Checking"
+      }
+     },
+     {
+      "kind": "excess",
+      "text": "Move everything above $2,200.00 in Checking to Savings.",
+      "p": {
+       "acc": "Checking",
+       "to": "Savings",
+       "level": 2200.0
+      }
+     }
+    ],
+    "next": 0,
+    "checks_left": 2,
+    "checks_used": 0,
+    "decisions": [],
+    "overdrafts": [],
+    "report": null,
+    "submitted": false,
+    "shown": null,
+    "last": null,
+    "toast": null
+   }
+  }
+ }
+}
