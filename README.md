@@ -376,6 +376,9 @@ Details: [docs/VERIFY.md](docs/VERIFY.md). Pre-registrations, results and the ov
 
 ## Claude Code and MCP
 
+The agent studies behind this section, on demo apps, on real self-hosted Gitea, Nextcloud and Roundcube, and in a real terminal, are in the paper *When Does a Consequence Model Make AI Agents Safer?*
+([PDF](paper/agents/agents.pdf), [doi:10.5281/zenodo.23197341](https://doi.org/10.5281/zenodo.23197341)), pre-registered, with the hypotheses that failed reported. Its tasks, app setups, adapters and judges are in [paper/agents/benchmark](paper/agents/benchmark), to rerun the studies with your own agent.
+
 - **Claude Code hook** — Claude Code asks you to confirm (or blocks) git commands that may lose uncommitted work, with
   the reason; it stays silent otherwise. Since 0.1.2 it **fails closed**: when it cannot judge a line (the server
   cannot be reached or does not answer within `EKBASIS_HOOK_DEADLINE`, the repository cannot be read, git is pointed at
@@ -582,6 +585,28 @@ the answers the actions change (never-trained worlds: 710 instead of 1,442 promp
 
 More: [docs/PLAYBOOK.md](docs/PLAYBOOK.md) (how to use it day to day) · [docs/REFERENCES.md](docs/REFERENCES.md)
 (credits) · [PREREG_release_eval.md](PREREG_release_eval.md).
+
+## Citation
+
+```bibtex
+@misc{vicentino2026lookwhenunsure,
+  title        = {Look When Unsure, Check When Sure: Consequence Training Makes a World Model's Remaining Errors Confident, Most of All Where It Knows the World Best},
+  author       = {Vicentino, Caio},
+  year         = {2026},
+  publisher    = {Zenodo},
+  doi          = {10.5281/zenodo.23146970},
+  url          = {https://doi.org/10.5281/zenodo.23146970}
+}
+
+@misc{vicentino2026agentssafer,
+  title        = {When Does a Consequence Model Make AI Agents Safer? Pre-registered Studies on Demo Apps, Real Self-Hosted Apps and a Real Terminal},
+  author       = {Vicentino, Caio},
+  year         = {2026},
+  publisher    = {Zenodo},
+  doi          = {10.5281/zenodo.23197341},
+  url          = {https://doi.org/10.5281/zenodo.23197341}
+}
+```
 
 ## Contact
 

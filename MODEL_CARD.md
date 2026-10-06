@@ -71,7 +71,7 @@ model-index:
 
 ![Ekbasis overview: git consequences against Claude and Qwen, the git guard on fresh real repositories, and speed against a reasoning model](https://huggingface.co/caiovicentino1/Ekbasis-27B/resolve/main/assets/ekbasis_launch.png)
 
-**Paper:** [Look When Unsure, Check When Sure](https://doi.org/10.5281/zenodo.23146970) · DOI [10.5281/zenodo.23146970](https://doi.org/10.5281/zenodo.23146970) · **Code:** [github.com/OpenInterpretability/ekbasis](https://github.com/OpenInterpretability/ekbasis) · **Site:** [openinterp.org/ekbasis](https://openinterp.org/ekbasis)
+**Papers:** [Look When Unsure, Check When Sure](https://doi.org/10.5281/zenodo.23146970) · DOI [10.5281/zenodo.23146970](https://doi.org/10.5281/zenodo.23146970) · [When Does a Consequence Model Make AI Agents Safer?](https://doi.org/10.5281/zenodo.23197341) · DOI [10.5281/zenodo.23197341](https://doi.org/10.5281/zenodo.23197341) · **Code:** [github.com/OpenInterpretability/ekbasis](https://github.com/OpenInterpretability/ekbasis) · **Site:** [openinterp.org/ekbasis](https://openinterp.org/ekbasis)
 
 **What happens if I run this?** Given the current state and an action, Ekbasis-27B predicts what the action will do —
 *will this lose work? will it fail? what will X be afterwards?* — as **calibrated, typed answers**, in **one forward
@@ -340,6 +340,12 @@ environment before relying on it.)
 - **Digital twins and IoT:** machine states between sensor reads; read the sensor when unsure.
 - **Finance operations:** positions and margins after a sequence of orders, checked with the broker when unsure.
 
+## With agents
+
+How Ekbasis does inside agents, on demo apps, on real self-hosted Gitea, Nextcloud and Roundcube, and in a real terminal, is in the paper *When Does a Consequence Model Make AI Agents Safer?*
+([PDF](https://github.com/OpenInterpretability/ekbasis/blob/main/paper/agents/agents.pdf),
+[doi:10.5281/zenodo.23197341](https://doi.org/10.5281/zenodo.23197341)). Every study was pre-registered, and the hypotheses that failed are reported with the ones that held. Its tasks, app setups, adapters and judges are released ([paper/agents/benchmark](https://github.com/OpenInterpretability/ekbasis/tree/main/paper/agents/benchmark)) to rerun the studies with your own agent.
+
 ## Limits
 
 ![Where Ekbasis is strong and where it is not, with what to do where it is weak](https://huggingface.co/caiovicentino1/Ekbasis-27B/resolve/main/assets/chart_strengths.png)
@@ -501,5 +507,18 @@ The paper on when an agent should look (V42, the first release candidate, and th
   publisher    = {Zenodo},
   doi          = {10.5281/zenodo.23146970},
   url          = {https://doi.org/10.5281/zenodo.23146970}
+}
+```
+
+The paper on Ekbasis inside agents (demo apps, real self-hosted apps and a real terminal):
+
+```bibtex
+@misc{vicentino2026agentssafer,
+  title        = {When Does a Consequence Model Make AI Agents Safer? Pre-registered Studies on Demo Apps, Real Self-Hosted Apps and a Real Terminal},
+  author       = {Vicentino, Caio},
+  year         = {2026},
+  publisher    = {Zenodo},
+  doi          = {10.5281/zenodo.23197341},
+  url          = {https://doi.org/10.5281/zenodo.23197341}
 }
 ```
