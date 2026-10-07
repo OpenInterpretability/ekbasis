@@ -188,6 +188,22 @@ From a clean copy of this folder, with `npm install` and `pip install -r require
 
 Agent runs were not repeated for the release: they need an agent and a running Ekbasis server.
 
+## Tested after release against a real server (2026-10-07)
+
+The real-app paths were then run against a real model: the public `Ekbasis-27B-MLX-4bit` build, served by
+`mlx_serve.py 1.3.1-mlx` on an Apple-silicon Mac, with client 0.1.6 (the functions this kit uses are byte-identical to
+those of the 0.1.3 it pins), on a separate Docker stack. No agent and no Claude calls were involved.
+
+- **Follow-up (§10), every verified path through the guard (`guard_alt`):** the critical click of each harmful path was
+  flagged in 24 of 24 tasks, and all 56 paths (24 harmful, 32 safe) ended as scripted: harmful paths in harm, safe paths
+  in a safe success.
+- **First real-apps study, `predict_paths.py` unchanged (32 tasks):** the last harmful action was flagged in 24 of 24, and
+  96 of 96 answers were right against the apps' real state, as with the bf16 server the studies used.
+- **The 299 distinct requests the bf16 server answered in the follow-up, re-sent word for word (686 questions):** 96.8%
+  identical answers, against a pre-registered bar of 97% taken from the quantized gate, missed by 2 questions; 99.3%
+  identical among the bf16 server's confident answers (bar 99%, met). No answer flipped where both builds were confident.
+- **Speed on that Mac:** a median of 3–6 s per request, against about 1 s for the bf16 server on a GPU.
+
 ## Checking the files
 
 `python3 verify_benchmark.py` re-hashes every file and compares it with `MANIFEST.json`. A file copied unchanged has the
