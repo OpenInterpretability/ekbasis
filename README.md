@@ -104,7 +104,8 @@ against bf16 on the same evaluation (the gate was pre-registered in `PREREG_quan
 | [Ekbasis-27B-MLX-4bit](https://huggingface.co/caiovicentino1/Ekbasis-27B-MLX-4bit) | 15 GB | Macs with Apple Silicon (32 GB or more recommended) | — |
 
 GPU sizes were tested by limiting vLLM to that much memory on one RTX PRO 6000 and checking that the answers match the
-build at full memory; the MLX build was validated with MLX on a Linux GPU, not on a Mac.
+build at full memory; the MLX build's quality gate ran with MLX on a Linux GPU, and it was then tested on an
+Apple-silicon Mac (its card, "On a Mac: tested").
 
 ## Python
 
@@ -367,7 +368,9 @@ lineage (2.2M rows checked; [report](results/client_0.1.4/firewall/RESULTS_firew
 - **Conformal groups.** They use the evaluation's family labels. With your own family keys, only each domain's "rest"
   threshold applies, and that combination is not what was tested.
 - **One model version.** The reference answers and thresholds belong to this model (w4a5), measured on its bf16 build.
-  With the FP8, INT4 and MLX builds they are untested, and a new model needs a new calibration.
+  With the FP8 and INT4 builds they are untested. On the MLX build, a re-test on fresh items with the thresholds
+  unchanged kept the error among accepted answers at 0.15% (1 of 666; [docs/VERIFY.md](docs/VERIFY.md)). A new model
+  needs a new calibration.
 - **Cost.** One extra request per confident answer for git and shell, two otherwise. `check_steps` costs one request
   per action, plus one.
 
@@ -397,7 +400,9 @@ The agent studies behind this section, on demo apps, on real self-hosted Gitea, 
   Environment: `EKBASIS_URL`, `EKBASIS_LOST_THRESHOLD` (0.2), `EKBASIS_GUARD_MODE` (`ask` or `deny`),
   `EKBASIS_FETCH=1` (fetch first so the state shows the real remote), `EKBASIS_FAIL_OPEN=1` (stay silent when it cannot
   judge), `EKBASIS_HOOK_DEADLINE` (seconds, default 25, for the whole line; keep it below the hook's `timeout`, or
-  Claude Code stops the hook first and the command goes through unchecked), `EKBASIS_SHELL_GUARD=1` (below),
+  Claude Code stops the hook first and the command goes through unchecked; with the MLX build on a Mac, where a
+  preflight check that asks the model can take 30–40 s, use `EKBASIS_HOOK_DEADLINE=60` with a hook `timeout` of 90),
+  `EKBASIS_SHELL_GUARD=1` (below),
   `EKBASIS_SHORTCUTS=0` (always ask the model, as 0.1.2 did).
 
   **Less friction (0.1.3, from a study of a Claude Code agent on real repositories).**

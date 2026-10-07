@@ -142,6 +142,30 @@ domain at 80% or more: rules 90.0, sql 85.2, shell 81.3, git 84.6, totals 85.2. 
 - **Not new families.** A family not in the calibration, including any key that is not the evaluation's label (for
   example `git_family(...)`), is always verified.
 
+## On the MLX 4-bit build (2026-10-07)
+
+The thresholds above were calibrated on the bf16 build. The same check was re-run on the MLX 4-bit build, served by
+`mlx_serve.py` 1.3.1 on an Apple-silicon Mac, with the thresholds unchanged and through client 0.1.6 and its own extra
+requests. It was pre-registered before the first request. It used 1,081 of confirm-3's scenarios (a stratified subset
+fixed in advance: rules 465, sql 154, shell 154, git 154, totals 154), with one of this build's confident answers per
+scenario.
+
+| Rule (α = 2%) | Errors among accepted answers | Verified (raw / at confirm-3's mix) | Confident errors caught | Node above 2% |
+|---|---|---|---|---|
+| **`certified`** (L2), MLX build | **0.15%** (1 of 666; 95% upper bound 0.71%) | 35.2% / 26.7% | 98.9% | none |
+| L1, MLX build | 0.26% (1 of 387) | 62.4% / 43.6% | 98.9% | none |
+| `certified`, bf16 on the same scenarios | 0.73% (5 of 686) | 33.8% / 25.8% | 94.5% | none |
+
+- **The accepted error.** The one accepted error is in a rules family (14 answers accepted there).
+- **Small samples outside rules.** Each other domain had 41–85 accepted answers, none wrong, so its 95% upper bound is
+  3.5–7%. The result rests on the total and on the comparison with bf16 on the same scenarios.
+- **Same answers as bf16.** On the same 2,138 questions the MLX build gave bf16's answer on 97.4% (98.7% where bf16 was
+  confident); 89.6% of its answers were right, against 89.8% for bf16.
+- **What this is.** It checks empirically, on fresh items, that the bf16 certificate carries over to the 4-bit build.
+  It is not a new certificate.
+- **Cost on that Mac.** Each confident answer the certified mode checks costs two extra requests (one for git and
+  shell): about 7 s (median 6.6 s), and about 4 s for git and shell.
+
 ## Overlap with training
 
 The items of the development set (29,029 rows), of the first test (28,723: 19,825 in the five suites + 8,898
