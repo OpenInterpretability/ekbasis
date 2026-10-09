@@ -1,5 +1,15 @@
 # Changelog
 
+## [Unreleased]
+
+### Added
+- `docs/DOGEATING.md`: the guard catching its own operator (a destructive `kill` on the live serving
+  process, flagged retrospectively at 0.94-0.97 confidence, outside the training domains) and the
+  no-exceptions rule that came out of it.
+- `examples/zebra_review/`: the foreseer auditing an animation state machine it was never trained on
+  (the foot-sliding artifact, the stride/ground-speed arithmetic, the missing suspension phase, the
+  neck pump) — six foresee calls, every one useful; the honest record of what it does and does not do.
+
 ## 0.1.6 (2026-10-06): preflight
 
 Preflight for multi-step changes (`ekbasis.preflight`, `ekbasis preflight`, the MCP tool `preflight_command`, the Claude

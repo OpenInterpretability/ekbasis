@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#241733"/>
+      <stop offset="42%" stop-color="#7c4356"/>
+      <stop offset="72%" stop-color="#e0876a"/>
+      <stop offset="100%" stop-color="#f7c46c"/>
+    </linearGradient>
+    <linearGradient id="sunGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffe2a0" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#f4795b" stop-opacity="0.6"/>
+    </linearGradient>
+    <linearGradient id="dustGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#d9a06b" stop-opacity="0"/>
+      <stop offset="40%" stop-color="#d9a06b" stop-opacity="0.55"/>
+      <stop offset="72%" stop-color="#d9a06b" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#d9a06b" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="haze" cx="0.5" cy="1" r="1">
+      <stop offset="0%" stop-color="#f4b860" stop-opacity="0.5"/>
+      <stop offset="65%" stop-color="#f4b860" stop-opacity="0"/>
+    </radialGradient>
+    <g id="acaciaTile">
+      <g transform="translate(180,650) scale(0.72)">
+        <path d="M0,0 C-26,-7 -52,-4 -78,-14 M0,0 C24,-9 50,-5 74,-18 M0,0 C-12,-12 -22,-24 -26,-40 M0,0 C10,-10 22,-21 30,-33" stroke="#2c1f38" stroke-width="8" fill="none" stroke-linecap="round"/>
+        <ellipse cx="-60" cy="-52" rx="58" ry="15" fill="#2c1f38"/>
+        <ellipse cx="36" cy="-58" rx="68" ry="17" fill="#2c1f38"/>
+        <ellipse cx="-10" cy="-76" rx="50" ry="12" fill="#2c1f38" opacity="0.95"/>
+      </g>
+      <g transform="translate(620,658) scale(0.55)">
+        <path d="M0,0 C-24,-6 -48,-3 -72,-12 M0,0 C22,-8 46,-4 68,-16 M0,0 C-11,-11 -20,-22 -24,-36" stroke="#2c1f38" stroke-width="8" fill="none" stroke-linecap="round"/>
+        <ellipse cx="-54" cy="-46" rx="52" ry="13" fill="#2c1f38"/>
+        <ellipse cx="30" cy="-52" rx="60" ry="15" fill="#2c1f38"/>
+      </g>
+      <g transform="translate(1080,646) scale(0.8)">
+        <path d="M0,0 C-28,-8 -58,-4 -84,-16 M0,0 C26,-10 54,-6 80,-20 M0,0 C-13,-13 -24,-26 -29,-42 M0,0 C11,-11 24,-23 32,-36" stroke="#2c1f38" stroke-width="8" fill="none" stroke-linecap="round"/>
+        <ellipse cx="-64" cy="-55" rx="62" ry="16" fill="#2c1f38"/>
+        <ellipse cx="40" cy="-62" rx="72" ry="18" fill="#2c1f38"/>
+        <ellipse cx="-10" cy="-82" rx="54" ry="13" fill="#2c1f38" opacity="0.95"/>
+      </g>
+      <g transform="translate(1500,656) scale(0.62)">
+        <path d="M0,0 C-24,-6 -50,-3 -74,-13 M0,0 C23,-8 48,-5 70,-17 M0,0 C-11,-11 -21,-23 -25,-38" stroke="#2c1f38" stroke-width="8" fill="none" stroke-linecap="round"/>
+        <ellipse cx="-55" cy="-48" rx="54" ry="14" fill="#2c1f38"/>
+        <ellipse cx="33" cy="-54" rx="62" ry="15" fill="#2c1f38"/>
+      </g>
+    </g>
+    <g id="grassTile" fill="#241423">
+      <path d="M0,900 L46,818 L92,900 Z"/><path d="M60,900 L96,842 L134,900 Z"/>
+      <path d="M230,900 L292,802 L354,900 Z"/><path d="M330,900 L376,838 L424,900 Z"/>
+      <path d="M520,900 L596,790 L672,900 Z"/><path d="M650,900 L706,830 L764,900 Z"/>
+      <path d="M860,900 L942,798 L1024,900 Z"/><path d="M1000,900 L1048,836 L1098,900 Z"/>
+      <path d="M1200,900 L1266,806 L1332,900 Z"/><path d="M1360,900 L1404,840 L1450,900 Z"/>
+      <path d="M1540,900 L1590,820 L1640,900 Z"/>
+    </g>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#sky)"/>
+  <circle cx="1170" cy="540" r="140" fill="url(#sunGrad)"/>
+  <circle cx="1170" cy="540" r="196" fill="#f4b860" opacity="0.14">
+    <animate attributeName="r" values="196;208;196" dur="6s" repeatCount="indefinite"/>
+  </circle>
+  <rect y="420" width="1600" height="480" fill="url(#haze)"/>
+
+  <!-- far mountains: world flows LEFT (the zebra runs right) -->
+  <g>
+    <path d="M0,585 L180,508 L360,572 L540,522 L760,580 L980,515 L1200,575 L1400,530 L1600,578 L1600,900 L0,900 Z" fill="#332039" opacity="0.8"/>
+    <path d="M-1600,585 L-1420,508 L-1240,572 L-1060,522 L-840,580 L-620,515 L-400,575 L-200,530 L0,578 L0,900 L-1600,900 Z" fill="#332039" opacity="0.8"/>
+    <animateTransform attributeName="transform" type="translate" from="0 0" to="-1600 0" dur="70s" repeatCount="indefinite"/>
+  </g>
+
+  <g>
+    <use href="#acaciaTile" x="0"/><use href="#acaciaTile" x="1600"/>
+    <animateTransform attributeName="transform" type="translate" from="0 0" to="-1600 0" dur="26s" repeatCount="indefinite"/>
+  </g>
+
+  <rect y="650" width="1600" height="250" fill="#48303f"/>
+  <rect y="650" width="1600" height="24" fill="#382332" opacity="0.9"/>
+  <g stroke="#2f1d2c" stroke-width="5" stroke-linecap="round" opacity="0.55">
+    <line x1="60" y1="710" x2="230" y2="710"/><line x1="420" y1="752" x2="580" y2="752"/>
+    <line x1="760" y1="698" x2="960" y2="698"/><line x1="1080" y1="758" x2="1230" y2="758"/>
+    <line x1="1330" y1="714" x2="1540" y2="714"/>
+    <line x1="1660" y1="710" x2="1830" y2="710"/><line x1="2020" y1="752" x2="2180" y2="752"/>
+    <line x1="2360" y1="698" x2="2560" y2="698"/><line x1="2680" y1="758" x2="2830" y2="758"/>
+    <line x1="2930" y1="714" x2="3140" y2="714"/>
+    <animateTransform attributeName="transform" type="translate" from="0 0" to="-1600 0" dur="1.47s" repeatCount="indefinite"/>
+  </g>
+
+  <!-- dust wake trailing BEHIND (left of) the zebra -->
+  <g>
+    <rect x="0" y="746" width="1600" height="42" fill="url(#dustGrad)">
+      <animate attributeName="y" values="746;740;746" dur="0.55s" repeatCount="indefinite"/>
+    </rect>
+    <ellipse cx="560" cy="764" rx="180" ry="18" fill="#c98d5e" opacity="0.3">
+      <animate attributeName="rx" values="150;230;150" dur="0.55s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.32;0.14;0.32" dur="0.55s" repeatCount="indefinite"/>
+    </ellipse>
+  </g>
+
+  <!-- THE ZEBRA -->
+  <g id="zebra" transform="translate(880,715)">
+    <ellipse cx="-4" cy="102" rx="170" ry="13" fill="#1c1020" opacity="0.32">
+      <animate attributeName="rx" values="170;140;170;155;170" dur="0.55s" repeatCount="indefinite"/>
+    </ellipse>
+
+    <!-- legs: two-segment strokes, brief stance, gallop order LH RH LF RF -->
+    <g stroke-linecap="round" fill="none">
+      <g stroke="#31243a" stroke-width="13">
+        <path d="M-118,4 C-128,20 -136,34 -141,48 C-143,64 -141,80 -137,98"/>
+        <animateTransform attributeName="transform" type="rotate" values="26 -118 4; -12 -118 4; -44 -118 4; -4 -118 4; 26 -118 4" dur="0.55s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.08;0.5;0.78;1" keySplines="0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1"/>
+      </g>
+      <g stroke="#221828" stroke-width="14">
+        <path d="M-104,8 C-116,24 -127,40 -133,56 C-135,72 -133,86 -129,102"/>
+        <animateTransform attributeName="transform" type="rotate" values="-24 -104 8; 24 -104 8; -26 -104 8; 2 -104 8; -24 -104 8" dur="0.55s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.07;0.48;0.76;1" keySplines="0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1"/>
+      </g>
+      <g stroke="#31243a" stroke-width="13">
+        <path d="M100,8 C110,24 119,38 124,54 C126,70 124,86 120,102"/>
+        <animateTransform attributeName="transform" type="rotate" values="-16 100 8; 36 100 8; -46 100 8; -8 100 8; -16 100 8" dur="0.55s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.09;0.52;0.79;1" keySplines="0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1"/>
+      </g>
+      <g stroke="#1c1420" stroke-width="14">
+        <path d="M116,0 C127,16 138,32 144,48 C146,64 144,80 140,96"/>
+        <animateTransform attributeName="transform" type="rotate" values="38 116 0; -18 116 0; -50 116 0; 6 116 0; 38 116 0" dur="0.55s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.08;0.5;0.77;1" keySplines="0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1"/>
+      </g>
+    </g>
+
+    <!-- BODY: proper equine gallop silhouette (facing right) -->
+    <path d="M-158,-30 C-162,-58 -144,-82 -112,-90 C-64,-100 4,-102 58,-96 C96,-92 122,-84 138,-72
+             C150,-64 152,-52 142,-42 C120,-24 44,-14 -36,-12 C-96,-10 -140,-12 -152,-30 Z" fill="#191220"/>
+    <!-- chest to throat -->
+    <path d="M128,-76 C142,-72 152,-62 152,-50 C152,-40 144,-32 132,-30 Z" fill="#191220"/>
+
+    <g id="neckHead">
+    <animateTransform attributeName="transform" type="rotate" values="3 110 -90; 6 110 -90; -2 110 -90; -5 110 -90; 3 110 -90" dur="0.55s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.15;0.32;0.5;1" keySplines="0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1"/>
+    <!-- NECK: crest high at the withers, reaching forward-down -->
+    <path d="M96,-98 C120,-112 148,-122 172,-124 C190,-125 202,-118 204,-108
+             C206,-96 196,-86 178,-80 C154,-72 120,-68 96,-72 Z" fill="#191220"/>
+    <!-- HEAD: horse profile, muzzle down-forward -->
+    <path d="M198,-122 C216,-124 230,-120 238,-112 C246,-104 250,-94 246,-84
+             C243,-77 236,-73 226,-72 C216,-71 208,-74 202,-80
+             C196,-88 192,-100 192,-112 Z" fill="#191220"/>
+    <!-- the muzzle tip -->
+    <path d="M238,-112 C248,-108 252,-100 248,-90 C246,-84 240,-80 232,-79 L226,-80 Z" fill="#0d0910"/>
+    <!-- eye -->
+    <circle cx="216" cy="-106" r="4" fill="#f7c46c"/>
+    <circle cx="217" cy="-106" r="1.6" fill="#191220"/>
+    <!-- ears -->
+    <g><path d="M192,-124 L184,-142 L200,-130 Z" fill="#191220"/>
+    <path d="M204,-124 L208,-144 L218,-128 Z" fill="#191220"/>
+    <animateTransform attributeName="transform" type="rotate" values="0 200 -126; 14 200 -126; 2 200 -126; 12 200 -126; 0 200 -126" dur="0.55s" repeatCount="indefinite"/></g>
+
+    </g>
+    <!-- MANE: crest strokes along the neck top, blown back -->
+    <g stroke-linecap="round" fill="none" opacity="0.92">
+      <path d="M98,-100 C114,-112 138,-120 162,-122" stroke="#f4e9d8" stroke-width="4.5"/>
+      <path d="M92,-92 C108,-102 130,-110 152,-112" stroke="#191220" stroke-width="4.5"/>
+      <path d="M88,-84 C102,-92 122,-98 140,-100" stroke="#f4e9d8" stroke-width="4.5"/>
+      <animateTransform attributeName="transform" type="rotate" values="0 96 -98; -6 96 -98; 0 96 -98; 5 96 -98; 0 96 -98" dur="0.27s" repeatCount="indefinite"/>
+    </g>
+
+    <!-- TAIL -->
+    <g stroke="#191220" stroke-width="3.5" stroke-linecap="round" fill="none">
+      <path d="M-156,-44 C-186,-38 -206,-18 -214,8"/>
+      <ellipse cx="-216" cy="14" rx="7" ry="11" fill="#191220" stroke="none"/>
+      <animateTransform attributeName="transform" type="rotate" values="0 -156 -44; 15 -156 -44; 0 -156 -44; -8 -156 -44; 0 -156 -44" dur="0.55s" repeatCount="indefinite"/>
+    </g>
+
+    <!-- STRIPES: cream, narrow, on the barrel only, following the ribcage -->
+    <g stroke="#f4e9d8" stroke-width="4.5" stroke-linecap="round" opacity="0.9" fill="none">
+      <path d="M-136,-52 C-134,-38 -136,-22 -142,-8"/>
+      <path d="M-112,-66 C-108,-46 -110,-22 -118,0"/>
+      <path d="M-88,-76 C-84,-54 -86,-24 -94,4"/>
+      <path d="M-64,-84 C-60,-60 -62,-24 -70,6"/>
+      <path d="M-40,-90 C-36,-64 -38,-22 -46,10"/>
+      <path d="M-16,-92 C-12,-66 -14,-20 -22,12"/>
+      <path d="M8,-92 C12,-66 10,-18 2,12"/>
+      <path d="M32,-90 C36,-64 34,-16 26,12"/>
+      <path d="M56,-86 C60,-60 58,-12 50,10"/>
+      <path d="M80,-80 C84,-56 82,-8 74,8"/>
+      <path d="M104,-72 C106,-52 104,-6 98,4"/>
+    </g>
+    <!-- rump stripes curving with the haunch -->
+    <g stroke="#f4e9d8" stroke-width="4" stroke-linecap="round" opacity="0.85" fill="none">
+      <path d="M-150,-44 C-144,-36 -140,-26 -140,-14"/>
+      <path d="M-146,-58 C-138,-52 -132,-42 -130,-30"/>
+    </g>
+    <!-- neck stripes -->
+    <g stroke="#f4e9d8" stroke-width="3.5" stroke-linecap="round" opacity="0.8" fill="none">
+      <path d="M108,-94 C112,-86 112,-78 108,-72"/>
+      <path d="M130,-100 C134,-92 134,-84 130,-76"/>
+      <path d="M152,-108 C156,-100 156,-92 152,-84"/>
+    </g>
+    <!-- rim light on the back -->
+    <path d="M-144,-52 C-124,-84 -52,-100 30,-96 C84,-92 118,-84 136,-72" stroke="#ffca7a" stroke-width="3.5" fill="none" opacity="0.5" stroke-linecap="round"/>
+
+    <!-- body bob + pitch -->
+    <animateTransform attributeName="transform" type="translate" values="0 6; 0 -8; 0 5; 0 -9; 0 6" dur="0.55s" repeatCount="indefinite" additive="sum" calcMode="spline" keyTimes="0;0.15;0.32;0.5;1" keySplines="0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1"/>
+    <animateTransform attributeName="transform" type="rotate" values="0 -60 -40; 3 -60 -40; -3 -60 -40; 0 -60 -40" dur="0.55s" repeatCount="indefinite" additive="sum"/>
+  </g>
+
+  <!-- hoof dust: behind the hooves, at the footfalls -->
+  <g fill="#c98d5e">
+    <circle cx="690" cy="800" r="9" opacity="0"><animate attributeName="opacity" values="0;0.7;0" dur="0.55s" begin="0s" repeatCount="indefinite"/><animate attributeName="r" values="4;14;20" dur="0.55s" begin="0s" repeatCount="indefinite"/></circle>
+    <circle cx="718" cy="808" r="9" opacity="0"><animate attributeName="opacity" values="0;0.45;0" dur="0.55s" begin="0.05s" repeatCount="indefinite"/><animate attributeName="r" values="4;13;19" dur="0.55s" begin="0.05s" repeatCount="indefinite"/></circle>
+    <circle cx="852" cy="804" r="9" opacity="0"><animate attributeName="opacity" values="0;0.35;0" dur="0.55s" begin="0.14s" repeatCount="indefinite"/><animate attributeName="r" values="4;14;20" dur="0.55s" begin="0.14s" repeatCount="indefinite"/></circle>
+    <circle cx="884" cy="810" r="9" opacity="0"><animate attributeName="opacity" values="0;0.45;0" dur="0.55s" begin="0.18s" repeatCount="indefinite"/><animate attributeName="r" values="4;13;19" dur="0.55s" begin="0.18s" repeatCount="indefinite"/></circle>
+  </g>
+
+  <g>
+    <use href="#grassTile" x="0"/><use href="#grassTile" x="1600"/>
+    <animateTransform attributeName="transform" type="translate" from="0 0" to="-1600 0" dur="2.9s" repeatCount="indefinite"/>
+  </g>
+
+  <!-- birds flying left with the world -->
+  <g stroke="#241a2e" stroke-width="3.5" fill="none" opacity="0.7">
+    <path d="M320,180 q15,-13 30,0 q15,-13 30,0"/>
+    <path d="M410,140 q11,-9 22,0 q11,-9 22,0"/>
+    <animateTransform attributeName="transform" type="translate" values="0 0; 200 10; 400 2; 600 12; 800 0; 1000 8; 1200 0; 1400 6; 1600 0" dur="26s" repeatCount="indefinite"/>
+  </g>
+</svg>
