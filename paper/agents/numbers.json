@@ -3467,6 +3467,171 @@
    }
   }
  ],
+ "skill_contamination": {
+  "glm": {
+   "runs": "55/105",
+   "by_cond": {
+    "blind": "21/35",
+    "see": "16/35",
+    "router": "18/35"
+   },
+   "blind_harm_loaded": "1/18",
+   "blind_harm_not_loaded": "5/12",
+   "without_loaded_runs": {
+    "see-blind": {
+     "diff": -0.3333,
+     "ci95": [
+      -0.6667,
+      0.0
+     ],
+     "tasks": 9,
+     "str": "−33.3 [−66.7, 0.0]",
+     "pts": "−33.3",
+     "ci": "[−66.7, 0.0]"
+    }
+   },
+   "without_tasks_with_load": {
+    "see-blind": {
+     "diff": -0.3333,
+     "ci95": [
+      -0.6667,
+      0.0
+     ],
+     "tasks": 9,
+     "str": "−33.3 [−66.7, 0.0]",
+     "pts": "−33.3",
+     "ci": "[−66.7, 0.0]"
+    },
+    "router-blind": {
+     "diff": -0.3333,
+     "ci95": [
+      -0.6667,
+      0.0
+     ],
+     "tasks": 9,
+     "str": "−33.3 [−66.7, 0.0]",
+     "pts": "−33.3",
+     "ci": "[−66.7, 0.0]"
+    },
+    "harm": {
+     "blind": "3/9",
+     "see": "0/9"
+    }
+   },
+   "bank_blind": {
+    "loaded": "5/6",
+    "loaded_and_stopped_short": "5/6",
+    "not_loaded_harm": "1/1"
+   }
+  },
+  "qwen9b": {
+   "runs": "8/210",
+   "by_cond": {
+    "blind": "4/70",
+    "see": "2/70",
+    "router": "2/70"
+   },
+   "blind_harm_loaded": "1/3",
+   "blind_harm_not_loaded": "26/57",
+   "without_loaded_runs": {
+    "see-blind": {
+     "diff": -0.3355,
+     "ci95": [
+      -0.5181,
+      -0.1525
+     ],
+     "tasks": 30,
+     "str": "−33.5 [−51.8, −15.3]",
+     "pts": "−33.5",
+     "ci": "[−51.8, −15.3]"
+    }
+   },
+   "without_tasks_with_load": {
+    "see-blind": {
+     "diff": -0.36,
+     "ci95": [
+      -0.56,
+      -0.16
+     ],
+     "tasks": 25,
+     "str": "−36.0 [−56.0, −16.0]",
+     "pts": "−36.0",
+     "ci": "[−56.0, −16.0]"
+    },
+    "router-blind": {
+     "diff": -0.34,
+     "ci95": [
+      -0.52,
+      -0.14
+     ],
+     "tasks": 25,
+     "str": "−34.0 [−52.0, −14.0]",
+     "pts": "−34.0",
+     "ci": "[−52.0, −14.0]"
+    },
+    "harm": {
+     "blind": "25/50",
+     "see": "7/50"
+    }
+   }
+  },
+  "qwen4b": {
+   "runs": "14/210",
+   "by_cond": {
+    "blind": "7/70",
+    "see": "2/70",
+    "router": "5/70"
+   },
+   "blind_harm_loaded": "2/6",
+   "blind_harm_not_loaded": "28/54",
+   "without_loaded_runs": {
+    "see-blind": {
+     "diff": -0.2082,
+     "ci95": [
+      -0.3312,
+      -0.0862
+     ],
+     "tasks": 30,
+     "str": "−20.8 [−33.1, −8.6]",
+     "pts": "−20.8",
+     "ci": "[−33.1, −8.6]"
+    }
+   },
+   "without_tasks_with_load": {
+    "see-blind": {
+     "diff": -0.1364,
+     "ci95": [
+      -0.2727,
+      0.0
+     ],
+     "tasks": 22,
+     "str": "−13.6 [−27.3, 0.0]",
+     "pts": "−13.6",
+     "ci": "[−27.3, 0.0]"
+    },
+    "router-blind": {
+     "diff": -0.1136,
+     "ci95": [
+      -0.2273,
+      0.0
+     ],
+     "tasks": 22,
+     "str": "−11.4 [−22.7, 0.0]",
+     "pts": "−11.4",
+     "ci": "[−22.7, 0.0]"
+    },
+    "harm": {
+     "blind": "22/44",
+     "see": "16/44"
+    }
+   }
+  },
+  "qwen_both_runs": "22/420",
+  "qwen9b_real_apps": {
+   "blind": "10/25",
+   "see": "2/24"
+  }
+ },
  "claims_check": [
   {
    "claim": "GLM blind harm",
