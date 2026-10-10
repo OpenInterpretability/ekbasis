@@ -94,6 +94,10 @@
   remote-tracking ref for the destination means a new branch: nothing to lose.
 - Deleting a remote branch (`push --delete X`, `push origin :X`) whose commits no other ref holds is flagged by the
   hook (and gets a backup-branch route), and `git rebase --onto` counts the commits it drops in `committed_loss`.
+- With facts on, the state names the remote branches that push, branch and rebase commands name (`Remote origin/x last
+  commit: ...` and its file comparison) and the relative revisions of a `rebase --onto` (`HEAD~3 is commit ..., 3
+  commits before HEAD`). Without them the model expected the backup routes for these two cases to fail; with them both
+  passed 3 of 3 and kept the work when run. Other commands keep the previous state.
 - Lost committed work (`git.committed_loss`) now counts a new branch or tag made earlier in the line
   (`git branch keep && git reset --hard HEAD~1` no longer asks).
 - The hook's force-push message no longer suggests `--force-with-lease` alone as the fix: it does not protect commits

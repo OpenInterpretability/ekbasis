@@ -171,8 +171,16 @@ def inspect(repo: str = ".", commands=(), fetch: bool = False, max_branches: int
         if facts and info["pull_config"]:
             remote_line += " (this repository sets " + ", ".join(f"{k}={v}" for k, v in sorted(info["pull_config"].items())) + ")"
     lines.append(remote_line)
+    named = _named_remotes(repo, commands, remote) if facts and commands else []
+    for ref in named:   # other remote branches the commands name (a push or deletion, a backup of one)
+        last = (_git(repo, "log", "-1", "--format=%s", ref)[1].strip() if commit_text == "message"
+                else "commit " + _git(repo, "rev-parse", "--short=7", ref)[1].strip())
+        lines.append(f"Remote {ref} last commit: {last}")
+    revs = _named_revisions(repo, commands) if facts and commands else []
+    if revs:
+        lines.append("Commits the commands name: " + "; ".join(revs))
     parts = []
-    for ref in [b for b in shown if b != branch] + ([remote] if remote else []):
+    for ref in [b for b in shown if b != branch] + ([remote] if remote else []) + named:
         rc, dif = _git(repo, "diff", "--name-only", "HEAD", ref)
         if rc != 0:
             continue
@@ -288,6 +296,41 @@ def inspect(repo: str = ".", commands=(), fetch: bool = False, max_branches: int
     lines.append("Files in the working directory (content): " +
                  (", ".join(f"{f} ({_fingerprint(os.path.join(repo, f))})" for f in files) or "(none)"))
     return RepoView("\n".join(lines), sorted(heads), info)
+
+
+def _named_remotes(repo: str, commands, default: str | None, cap: int = 4) -> list[str]:
+    """Remote-tracking branches other than the default one that push, branch and rebase commands name, as an argument
+    (`origin/x`, a refspec part) or as a push destination (`git push origin --delete x`, `git push origin HEAD:x`).
+    Other commands keep the 0.1.9 state."""
+    out = []
+    for c in commands:
+        sub, args = P.parse_git(c)
+        if sub not in ("push", "branch", "rebase"):
+            continue
+        toks = [t for a in args if not a.startswith("-") for t in a.lstrip("+").split(":") if t]
+        toks += [f"{t['remote']}/{t['dst']}" for t in push_targets(repo, c)] if sub == "push" else []
+        for t in toks:
+            if t != default and t not in out and _git(repo, "rev-parse", "--verify", "--quiet", f"refs/remotes/{t}")[0] == 0:
+                out.append(t)
+    return out[:cap]
+
+
+def _named_revisions(repo: str, commands, cap: int = 4) -> list[str]:
+    """`HEAD~3 is commit 1a2b3c4, 3 commits before HEAD` for relative revisions a `rebase --onto` names: which commits
+    it keeps and drops depends on them, and the state shows only branch tips."""
+    out = []
+    for c in commands:
+        sub, args = P.parse_git(c)
+        if sub != "rebase" or not any(a == "--onto" or a.startswith("--onto=") for a in args):
+            continue
+        for a in [x.split("=", 1)[1] if x.startswith("--onto=") else x for x in args]:
+            if a.startswith("-") or not re.search(r"[~^]", a) or any(o.startswith(a + " ") for o in out):
+                continue
+            rc, sha = _git(repo, "rev-parse", "--verify", "--quiet", "--short=7", a + "^{commit}")
+            if rc == 0 and sha.strip():
+                n = _git(repo, "rev-list", "--count", f"{a}..HEAD")[1].strip()
+                out.append(f"{a} is commit {sha.strip()}, {_plural(int(n or 0), 'commit')} before HEAD")
+    return out[:cap]
 
 
 def _worktrees(repo: str, top: str, cap: int = 4) -> list[str]:

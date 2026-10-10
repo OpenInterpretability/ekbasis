@@ -71,5 +71,21 @@ refspec names (before: origin/HEAD, a false alarm on a new branch).
 | new branch, no upstream, origin/main moved | `git push -f origin topic` | not flagged (was flagged against origin/main before) | – | – | – |
 
 `--force-with-lease` alone on the first scenario's state, for comparison: exit 0, the remote's commit overwritten.
-For the two "none" rows the state does not list remote branches other than the default one, which is a likely reason
-the model expects the backup branch on `origin/gone` to fail; the client says "none passed" there instead of guessing.
+For the two "none" rows the state did not list remote branches other than the default one, nor which commits
+`HEAD~3` and `HEAD~1` are; the client said "none passed" there instead of guessing. The third run adds both.
+
+## Third run: the state names what these commands depend on (3 repetitions, [runs_3.json](runs_3.json))
+
+With facts on, the state now has a `Remote origin/gone last commit: ...` line (and its file comparison) for remote
+branches that push, branch and rebase commands name, and `Commits the commands name: HEAD~3 is commit ..., 3 commits
+before HEAD; ...` for the relative revisions of a `rebase --onto`. Other commands keep the previous state.
+
+| Scenario | Command | Route offered (3/3) | Route p_lost | Route ran, work kept (3/3) |
+|---|---|---|---|---|
+| remote-only branch with 1 commit | `git push origin --delete gone` | `git branch backup/origin-gone origin/gone && git push origin --delete gone` | 0.04% | exit 0; remote branch gone, its commit on backup/origin-gone |
+| 3 unpushed commits | `git rebase --onto HEAD~3 HEAD~1` | `git stash push && git branch backup/main && git rebase --onto HEAD~3 HEAD~1` | 0.1% | exit 0; c3 rebased, c1 and c2 on backup/main |
+| fetched remote commit on main | `git push --force` | `git push --force-with-lease --force-if-includes` | 0.05% | refused (exit 1), remote keeps its commit |
+| new branch, no upstream | `git push -f origin topic` | not flagged | – | – |
+
+Hook time with the route, on these code-flagged lines: 2.6–6.3 s (0.10–0.21 s without, since the original needs no
+model call).

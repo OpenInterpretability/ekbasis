@@ -127,5 +127,27 @@ class TestRebaseOnto(Base):
         self.assertEqual(lost(self.repo, "git rebase --onto main topic~1 topic"), 1)   # b1 was only on topic
 
 
+class TestState(Base):
+    """The state names the remote branches and relative commits these commands depend on (facts only)."""
+
+    def test_named_remote_branches_and_revisions(self):
+        sh("git checkout -qb gone && git commit -q --allow-empty -m only-here && git push -q origin gone", self.repo)
+        sh("git checkout -q main && git branch -D gone", self.repo)
+        for cmds in (["git push origin --delete gone"], ["git push origin :gone"],
+                     ["git branch backup/origin-gone origin/gone", "git push origin --delete gone"]):
+            state, _ = G.repo_state(self.repo, cmds)
+            self.assertIn("Remote origin/gone last commit: commit ", state, cmds)
+            self.assertIn("origin/gone has the same files", state, cmds)
+        for cmds in (["git merge origin/gone"], ["git push origin --delete gone"]):
+            state, _ = G.repo_state(self.repo, cmds, facts=cmds[0].startswith("git merge"))
+            self.assertNotIn("origin/gone", state, cmds)   # other commands, and facts=False, keep the old state
+        for n in (1, 2, 3):
+            sh(f"git commit -q --allow-empty -m c{n}", self.repo)
+        state, _ = G.repo_state(self.repo, ["git rebase --onto HEAD~3 HEAD~1"])
+        self.assertRegex(state, r"Commits the commands name: HEAD~3 is commit \w{7}, 3 commits before HEAD; "
+                                r"HEAD~1 is commit \w{7}, 1 commit before HEAD")
+        self.assertNotIn("Commits the commands name", G.repo_state(self.repo, ["git reset --hard HEAD~1"])[0])
+
+
 if __name__ == "__main__":
     unittest.main()
