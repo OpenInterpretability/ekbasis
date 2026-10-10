@@ -34,10 +34,14 @@ key at [openinterp.org/console](https://openinterp.org/console)) or your own, wi
 - **Claude Code plugin**: the git guard hook, the `ekbasis-guard` skill, the MCP server and the `ekbasis` command on
   the Bash tool's PATH, in one install:
 
+  ```bash
+  claude plugin marketplace add OpenInterpretability/ekbasis --sparse .claude-plugin plugins
+  claude plugin install ekbasis@ekbasis
   ```
-  /plugin marketplace add OpenInterpretability/ekbasis
-  /plugin install ekbasis@ekbasis
-  ```
+
+  or, inside Claude Code, `/plugin marketplace add OpenInterpretability/ekbasis` then `/plugin install
+  ekbasis@ekbasis` (without `--sparse` the marketplace step clones the whole repository, about 86 MB with the results
+  and papers, once; with it, about 1 MB).
 
   The plugin (`plugins/ekbasis/`, about 0.5 MB) runs its own copy of the client, so it needs `python3` (≥ 3.9) and
   `sh` for the hooks and [`uv`](https://docs.astral.sh/uv/) for the MCP server, and nothing from PyPI. Set

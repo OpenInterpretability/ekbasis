@@ -4,7 +4,9 @@
 
 ### Added
 - **Claude Code plugin and marketplace** (`.claude-plugin/marketplace.json`, plugin in `plugins/ekbasis/`, ~0.5 MB):
-  `/plugin marketplace add OpenInterpretability/ekbasis`, then `/plugin install ekbasis@ekbasis`. It bundles the
+  `claude plugin marketplace add OpenInterpretability/ekbasis --sparse .claude-plugin plugins` (about 1 MB; without
+  `--sparse`, or with `/plugin marketplace add`, the whole repository is cloned once), then
+  `claude plugin install ekbasis@ekbasis`. It bundles the
   PreToolUse git guard (matcher Bash), the `ekbasis-guard` skill (from the cookbook), the MCP server and `ekbasis` on
   the Bash tool's PATH. It runs its own copy of the client (`plugins/ekbasis/lib/ekbasis`, kept identical to
   `ekbasis/` by `scripts/sync_plugin.py`; CI and the tests fail when it is not): `python3` and `sh` for the hooks,
