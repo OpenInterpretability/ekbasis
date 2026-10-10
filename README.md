@@ -450,7 +450,8 @@ The agent studies behind this section, on demo apps, on real self-hosted Gitea, 
   Claude Code stops the hook first and the command goes through unchecked; with the MLX build on a Mac, where a
   preflight check that asks the model can take 30–40 s, use `EKBASIS_HOOK_DEADLINE=60` with a hook `timeout` of 90),
   `EKBASIS_SHELL_GUARD=1` (below),
-  `EKBASIS_SHORTCUTS=0` (always ask the model, as 0.1.2 did).
+  `EKBASIS_SHORTCUTS=0` (always ask the model, as 0.1.2 did), `EKBASIS_SAFER=0` (no [safer route](#safer-route) in
+  the warning).
 
   **Less friction (0.1.3, from a study of a Claude Code agent on real repositories).**
   - Read-only git (`status`, `log`, `diff`, `show`, listings of branches, tags, stashes and worktrees, `clean -n`)
@@ -558,7 +559,8 @@ The agent studies behind this section, on demo apps, on real self-hosted Gitea, 
 
 - **MCP server** (`pip install "ekbasis[mcp] @ git+https://github.com/OpenInterpretability/ekbasis"`, Python ≥ 3.10):
   the command `ekbasis-mcp` exposes `check_git_commands`, `predict_consequences` and (since 0.1.6) `preflight_command`
-  to any MCP client. In Claude Code:
+  to any MCP client. When `check_git_commands` finds the commands risky, it also returns `safer`
+  (`{commands, p_lost, keeps}`, or null; [safer route](#safer-route)). In Claude Code:
 
   ```bash
   claude mcp add --scope user ekbasis -e EKBASIS_URL=http://127.0.0.1:8000 -- ekbasis-mcp
@@ -572,6 +574,35 @@ The agent studies behind this section, on demo apps, on real self-hosted Gitea, 
 
   If the client was installed in a virtualenv, use the absolute path of the command (`which ekbasis-mcp`), in
   `.mcp.json` and in other MCP clients' configuration files.
+
+## Safer route
+
+A warning alone often does not make a smaller agent change course: in our studies, Claude Haiku on real apps went on
+after warnings. So when git commands are risky, `git-check`, the Claude Code hook and the MCP tool also give the
+alternative with the same intent that Ekbasis checked and found safe:
+
+```bash
+ekbasis git-check -- "git reset --hard"
+# Ekbasis: RISKY  (lose uncommitted work: 99%)
+#     0% fails  git reset --hard
+#   - may permanently lose uncommitted work (99%)
+# Safer: git stash push && git reset --hard  (lose uncommitted work: 0%)
+#   keeps: the discarded changes stay in a stash (git stash list; git stash pop brings them back)
+```
+
+The alternatives come from rules, not from a language model (the table of intents is in
+[ekbasis/safer.py](ekbasis/safer.py)): `git stash push` before `reset --hard`, `checkout -- <file>`, `restore` and a
+forced switch; `git stash push -u -- <what git clean -n lists>` instead of `clean -f`; `git branch -m N backup/N`
+instead of `branch -D N`; a backup branch before `reset --hard <commit>` drops commits, before `stash drop`, and before
+a force-push over remote commits, with `--force-with-lease`. Each alternative is then checked like the original (the
+same state, the same RISKY threshold, no step likely to fail, and the code checks for lost commits and overwritten
+remote commits). Only one that passes is offered; the lowest chance of losing work wins, then the fewest extra steps.
+When none passes, it says so (`Safer: none (...)`) and suggests nothing. `--json` adds `safer` and `safer_note`.
+
+The alternatives are checked in parallel, one request each, so a search adds about one round trip, and only when the
+commands are risky. `--no-safer` (CLI), `EKBASIS_SAFER=0` (CLI and hook) or `safer=false` (MCP) turn it off. In the
+hook it runs last, in the time the deadline leaves; if it cannot finish, the warning goes out without a route. Measured
+on throwaway repositories against the hosted API: [results/safer_route](results/safer_route/RESULTS.md).
 
 ## Feedback (hosted API)
 

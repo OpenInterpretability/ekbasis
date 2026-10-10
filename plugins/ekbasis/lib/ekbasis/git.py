@@ -532,6 +532,7 @@ def read_only(command: str) -> bool:
     return False
 
 
+BRANCH_NOT_NEW = {"--delete", "--move", "--copy", "--set-upstream-to", "--unset-upstream", "--edit-description"}
 REF_SUBS = {"branch", "checkout", "switch", "reset", "tag", "update-ref", "worktree"}
 
 
@@ -727,10 +728,10 @@ def _simulate_refs(base: str, steps) -> list:
                         for kk, hv in list(heads.items()):
                             if hv == ("branch", "refs/heads/" + old):
                                 heads[kk] = ("branch", "refs/heads/" + new)
-            elif force and pos and not sf & set("dDmMcC"):
-                ref = "refs/heads/" + pos[0]
+            elif pos and not sf & set("dDmMcCu") and not longs & BRANCH_NOT_NEW and not read_only(st["cmd"]):
+                ref = "refs/heads/" + pos[0]   # a new branch (also without -f: a backup branch keeps commits)
                 head_of(st)
-                if ref not in checked_out():
+                if (force or ref not in refs) and ref not in checked_out():
                     sha = resolve(pos[1] if len(pos) > 1 else "HEAD", st)
                     if sha:
                         refs[ref] = sha
@@ -787,7 +788,7 @@ def _simulate_refs(base: str, steps) -> list:
             if "d" in sf or "--delete" in longs:
                 for n in pos:
                     refs.pop("refs/tags/" + n, None)
-            elif ("f" in sf or "--force" in longs) and pos:
+            elif pos and not read_only(st["cmd"]) and ("f" in sf or "--force" in longs or "refs/tags/" + pos[0] not in refs):
                 sha = resolve(pos[1] if len(pos) > 1 else "HEAD", st)
                 if sha:
                     refs["refs/tags/" + pos[0]] = sha

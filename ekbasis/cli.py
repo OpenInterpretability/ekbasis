@@ -1,7 +1,8 @@
 """Command line.
 
   ekbasis git-check [--repo DIR] [--fetch] [--json] [--lost-threshold P] -- "git checkout feature" "git stash pop"
-      What the commands will do before they run.
+      What the commands will do before they run. When they are risky, also the safer route: the alternative with the
+      same intent that Ekbasis checked and found safe (ekbasis.safer), or "none"; --no-safer (or EKBASIS_SAFER=0) skips it.
   ekbasis shell-check [--cwd DIR] [--json] [--lost-threshold P] [--shell bash|zsh] -- "rm -r build/" "sort f > f"
       Prototype: what shell command lines will do to the files of a folder before they run (each argument is one line).
       --show-state prints the exact text the model read.
@@ -34,6 +35,7 @@ import sys
 from . import git as G
 from . import preflight as PF
 from . import prompts as P
+from . import safer as SF
 from . import shell as S
 from .client import VERDICTS, CannotJudge, Ekbasis, EkbasisError, FeedbackRejected
 
@@ -65,6 +67,7 @@ def main(argv=None) -> int:
     g.add_argument("--lost-threshold", type=float, default=0.2)
     g.add_argument("--fail-threshold", type=float, default=0.5)
     g.add_argument("--fail-open", action="store_true", help="exit 0 (with a warning) when it cannot foresee")
+    g.add_argument("--no-safer", action="store_true", help="when risky, do not look for a safer route (one round trip)")
     g.add_argument("commands", nargs="+", help='each command as one argument, e.g. "git checkout main"')
     s = sub.add_parser("shell-check", help="check shell command lines before running them (prototype)")
     s.add_argument("--cwd", default=".", help="the folder the commands would run in")
@@ -202,12 +205,19 @@ def main(argv=None) -> int:
             return CANNOT_JUDGE if v.cannot_judge else OK
         v = G.check(a.commands, repo=a.repo, client=client, fetch=a.fetch, lost_threshold=a.lost_threshold,
                     fail_threshold=a.fail_threshold, fail_closed=not a.fail_open)
+        route = None
+        if v.risky and not a.no_safer and os.environ.get("EKBASIS_SAFER", "1") != "0":
+            route = SF.search(v.commands, repo=a.repo, client=client, lost_threshold=a.lost_threshold,
+                              fail_threshold=a.fail_threshold, fail_closed=not a.fail_open)
         if a.json:
             print(json.dumps({"risky": v.risky, "judged": True, "p_lost": v.p_lost, "p_fail": v.p_fail,
                               "p_in_progress": v.p_in_progress, "branch": v.branch, "reasons": v.reasons,
-                              "commands": v.commands}))
+                              "commands": v.commands, "safer": route.as_json() if route else None,
+                              "safer_note": route.note if route and not route.route else None}))
         else:
             print(v.summary())
+            if route:
+                print(route.summary())
         return RISKY if v.risky else OK
     except CannotJudge as e:
         if a.cmd in ("git-check", "shell-check", "preflight"):

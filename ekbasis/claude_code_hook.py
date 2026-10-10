@@ -48,7 +48,11 @@ line: keep it below the hook's "timeout", or Claude Code stops the hook first an
 EKBASIS_SHORTCUTS (0: always ask the model, as 0.1.2 did), EKBASIS_PREFLIGHT (1: check multi-step changes before they run),
 EKBASIS_PREFLIGHT_REPEAT (1, the default: a warned command passes when it is run again in the same session),
 EKBASIS_GIT_GUARD (0: no git checks, for preflight alone), EKBASIS_PREFLIGHT_COPY (0: never run on a copy),
-EKBASIS_PREFLIGHT_FAIL_CLOSED (1: warn when preflight cannot judge).
+EKBASIS_PREFLIGHT_FAIL_CLOSED (1: warn when preflight cannot judge), EKBASIS_SAFER (0: no safer route).
+
+Safer route: when the hook warns about git commands, it also offers the alternative with the same intent that Ekbasis
+checked and found safe (ekbasis.safer), e.g. `git stash push && git reset --hard`, or says that none passed. It is
+searched last, in the time the deadline leaves; when the search cannot finish, the warning goes out without a route.
 """
 from __future__ import annotations
 
@@ -67,6 +71,7 @@ from . import git as G
 from . import preflight as PF
 from . import prompts as P
 from . import recover as R
+from . import safer as SF
 from . import shell as S
 from .client import CannotJudge, Ekbasis
 
@@ -421,6 +426,29 @@ def _preflight(line: str, cwd: str, session: str | None, client, left) -> str | 
     return v.message() + again
 
 
+def _safer_routes(groups: dict, flagged: set, client, threshold: float, left) -> list:
+    """One sentence per flagged repository: the safer route Ekbasis checked (ekbasis.safer), or that none passed.
+    Searched last, in the time left; a search that cannot finish leaves the warning without a route (never an unchecked
+    one). EKBASIS_SAFER=0 turns it off."""
+    if os.environ.get("EKBASIS_SAFER", "1") == "0":
+        return []
+    out = []
+    for (repo, is_fresh), cmds in groups.items():
+        if is_fresh or (repo not in flagged and not SF.code_problems(cmds, repo)):
+            continue
+        try:
+            s = _with_deadline(lambda: SF.search(cmds, repo=repo, client=client, lost_threshold=threshold), left())
+        except Exception as e:  # noqa: BLE001  (the deadline, or anything else: the warning goes out without a route)
+            print(f"ekbasis hook: no safer route ({e})", file=sys.stderr)
+            continue
+        if s.route:
+            out.append(f"Safer route, checked by Ekbasis: `{s.route.line()}` (lose uncommitted work: "
+                       f"{100 * s.route.p_lost:.0f}%; {'; '.join(s.route.keeps)}).")
+        else:
+            out.append(f"No safer route passed Ekbasis's check ({s.note}).")
+    return out
+
+
 def main() -> int:
     try:
         data = json.load(sys.stdin)
@@ -456,8 +484,10 @@ def main() -> int:
             for loss in G.remote_loss(st["repo"], [st["cmd"]]):
                 found.append(f"Ekbasis (remote work, checked by code): this line force-pushes over {loss['commits']} "
                              f"commit(s) that {loss['ref']} holds and the local branch does not. Push or merge those "
-                             "commits first, or use --force-with-lease.")
+                             f"commits first, or keep them on a branch (git branch backup {loss['ref']}); "
+                             "--force-with-lease does not protect commits that were already fetched.")
         groups: dict = {}
+        flagged = set()   # repositories whose git commands the model found risky
         for st in plan.steps:
             groups.setdefault((st["repo"], st["fresh"] is not None), []).append(st["cmd"])
         for (repo, is_fresh), cmds in groups.items():
@@ -476,6 +506,7 @@ def main() -> int:
                                                fetch=os.environ.get("EKBASIS_FETCH") == "1",
                                                lost_threshold=threshold), left())
             if v.risky:
+                flagged.add(repo)
                 found.append(f"Ekbasis: {'; '.join(v.reasons)}. Commands: {' ; '.join(cmds)}. "
                              "Consider saving the work first (commit, or git stash -u).")
         if os.environ.get("EKBASIS_SHELL_GUARD") == "1" and plan.shell_line.strip() and changes_files(plan.shell_line):
@@ -489,12 +520,13 @@ def main() -> int:
             warn = _preflight(line, cwd, data.get("session_id"), client, left)
             if warn:
                 found.append(warn)
+        routes = _safer_routes(groups, flagged, client, threshold, left) if found else []
     except CannotJudge as e:
         return _cannot_judge(str(e))
     except Exception as e:  # noqa: BLE001  (anything else: cannot judge)
         return _cannot_judge(f"{type(e).__name__}: {e}")
     if found:
-        _decide(" Also: ".join(found))
+        _decide(" Also: ".join(found) + "".join(" " + r for r in routes))
     return 0
 
 
