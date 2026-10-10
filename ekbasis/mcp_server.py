@@ -44,7 +44,7 @@ def predict_consequences(rules: str, state: str, actions: list[str], questions: 
     or {name: {"type": "choice", "instructions": "...?", "criteria": {"label": "description", ...}}}. Returns, per
     question, the answer, its confidence and every option's probability. For long sequences, ask one action at a time
     and carry the state forward."""
-    ans = Ekbasis().ask(world_state(rules, state, actions), questions)
+    ans = Ekbasis(surface="mcp").ask(world_state(rules, state, actions), questions)
     return {k: {"answer": a.value, "confidence": round(a.confidence, 4),
                 "probabilities": {o: round(p, 4) for o, p in a.probabilities.items()}} for k, a in ans.items()}
 

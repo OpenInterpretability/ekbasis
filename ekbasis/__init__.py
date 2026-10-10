@@ -2,9 +2,9 @@
 chain it over long sequences, and guard git commands (and, as a prototype, shell command lines) before they run.
 Standard library only."""
 from ._version import __version__
-from .client import Answer, CannotForesee, CannotJudge, Ekbasis, EkbasisError
+from .client import Answer, CannotForesee, CannotJudge, Ekbasis, EkbasisError, FeedbackRejected, last_request_id
 from .prompts import choice, git_state, number, recap, world_state, yes_no
 from .simulate import Simulation, Threshold, simulate, threshold
 
-__all__ = ["Answer", "CannotForesee", "CannotJudge", "Ekbasis", "EkbasisError", "Simulation", "Threshold", "choice", "git_state", "number", "recap",
+__all__ = ["Answer", "CannotForesee", "CannotJudge", "Ekbasis", "EkbasisError", "FeedbackRejected", "last_request_id", "Simulation", "Threshold", "choice", "git_state", "number", "recap",
            "simulate", "threshold", "world_state", "yes_no"]

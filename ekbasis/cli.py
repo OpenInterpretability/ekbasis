@@ -32,10 +32,11 @@ from . import git as G
 from . import preflight as PF
 from . import prompts as P
 from . import shell as S
-from .client import CannotJudge, Ekbasis, EkbasisError
+from .client import VERDICTS, CannotJudge, Ekbasis, EkbasisError, FeedbackRejected
 
 OK, ERROR, RISKY, CANNOT_JUDGE = 0, 1, 2, 3
 CANNOT_FORESEE = CANNOT_JUDGE  # 0.1.8 wording; same exit code
+FEEDBACK_REJECTED = 4  # `ekbasis feedback` only: the server refused it (unknown id, already sent, rate limit, no key)
 
 
 def _cannot_judge(a, why: str) -> int:
@@ -91,8 +92,38 @@ def main(argv=None) -> int:
     p.add_argument("--recap", action="store_true", help="repeat the rules right before the question")
     p.add_argument("--recap-rule", action="append", default=None, help="repeat only this rule (repeatable)")
     sub.add_parser("health")
+    fb = sub.add_parser("feedback", help="tell the hosted API how an answer turned out (free; helps measure the model)")
+    fb.add_argument("request_id", nargs="?", default=None, help="the X-Ekbasis-Request-Id of the answer (req_...)")
+    fb.add_argument("--last", action="store_true", help="the last answer this machine received")
+    v = fb.add_mutually_exclusive_group(required=True)
+    v.add_argument("--correct", dest="verdict", action="store_const", const="correct")
+    v.add_argument("--wrong", dest="verdict", action="store_const", const="wrong")
+    v.add_argument("--prevented-harm", dest="verdict", action="store_const", const="prevented_harm",
+                   help="it warned and that stopped a real mistake")
+    v.add_argument("--false-alarm", dest="verdict", action="store_const", const="false_alarm",
+                   help="it warned about something that was safe")
+    fb.add_argument("--note", default=None, help="optional, up to 500 characters (never include secrets)")
     a = ap.parse_args(argv)
     client = Ekbasis(url=a.url, timeout=a.timeout)
+    if a.cmd != "feedback" and not getattr(client, "surface", None):
+        client.surface = a.cmd  # X-Ekbasis-Surface: which command made the call (metadata only)
+    if a.cmd == "feedback":
+        if bool(a.request_id) == bool(a.last):
+            print("ekbasis feedback: pass a request id or --last", file=sys.stderr)
+            return ERROR
+        try:
+            r = client.feedback(a.verdict, request_id=a.request_id, note=a.note)
+            print(f"Ekbasis: feedback recorded ({r.get('verdict', a.verdict)} on {r.get('request_id', a.request_id)})")
+            return OK
+        except FeedbackRejected as e:
+            print(f"ekbasis feedback: rejected, {e}", file=sys.stderr)
+            return FEEDBACK_REJECTED
+        except CannotJudge as e:
+            print(f"ekbasis feedback: {e}", file=sys.stderr)
+            return CANNOT_JUDGE
+        except ValueError as e:
+            print(f"ekbasis feedback: {e}", file=sys.stderr)
+            return ERROR
     try:
         if a.cmd == "health":
             print(json.dumps(client.health()))

@@ -442,7 +442,7 @@ def main() -> int:
                 raise CannotJudge(f"the check did not finish within {deadline:g} s")
             return r
 
-        client = Ekbasis(timeout=deadline)
+        client = Ekbasis(timeout=deadline, surface="claude-hook")
         plan = plan_line(line, cwd)
         if plan.why and os.environ.get("EKBASIS_GIT_GUARD", "1") != "0":
             return _cannot_judge("; ".join(plan.why))

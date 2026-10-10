@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.1.9] — 2026-10-10
+
+### Added
+- **`ekbasis feedback`**: tell the hosted API how an answer turned out, so we can measure the model on real use.
+  `ekbasis feedback --last --wrong` (or `--correct`, `--prevented-harm`, `--false-alarm`), or pass the request id;
+  `--note` is optional (up to 500 characters; never put secrets in it). Free, one per request id, kept 30 days.
+  Exit 0 recorded, 4 refused (unknown id, already sent, rate limit, no key), 3 server unreachable, 1 usage error.
+  In Python: `Ekbasis.feedback(verdict, request_id=None, note=None)`, raising `FeedbackRejected` (with `.status`).
+- The client keeps the `X-Ekbasis-Request-Id` of each hosted answer in `client.last_request_id` and in
+  `~/.cache/ekbasis/last_request_id` (only the id and the time, never the question or the answer;
+  `EKBASIS_CACHE_DIR` moves it), so `--last` works across commands and from the Claude Code hook.
+- Calls say where they come from in `X-Ekbasis-Surface` (`git-check`, `shell-check`, `preflight`, `predict`,
+  `claude-hook`, `mcp`; `EKBASIS_SURFACE` or `Ekbasis(surface=...)` to set it), which is metadata only.
+
 ## [0.1.8] — 2026-10-10
 
 ### Changed

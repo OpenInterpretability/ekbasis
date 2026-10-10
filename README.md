@@ -526,6 +526,23 @@ The agent studies behind this section, on demo apps, on real self-hosted Gitea, 
   If the client was installed in a virtualenv, use the absolute path of the command (`which ekbasis-mcp`), in
   `.mcp.json` and in other MCP clients' configuration files.
 
+## Feedback (hosted API)
+
+When an answer turned out right or wrong, say so. It is free, takes one command, and is how we measure the model on
+real use rather than on our own scenarios:
+
+```bash
+ekbasis feedback --last --prevented-harm      # it warned and that stopped a real mistake
+ekbasis feedback --last --false-alarm --note "the folder was a build cache"
+ekbasis feedback req_0123456789abcdef01234567 --correct
+```
+
+Verdicts: `--correct`, `--wrong`, `--prevented-harm`, `--false-alarm`. `--last` is the last answer this machine got
+from the hosted API (the client keeps only its request id, in `~/.cache/ekbasis/last_request_id`). One feedback per
+request id, within 30 days. Exit 0 when recorded, 4 when refused (unknown id, already sent, rate limit, no key), 3 when
+the server cannot be reached. In Python: `client.feedback("wrong", note="...")` after a `client.ask(...)`. Self-hosted
+servers have no feedback endpoint.
+
 ## Read-once
 
 When a request carries several questions about the same state, `client.ask(..., read_once=True)` reads the state once
