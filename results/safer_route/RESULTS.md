@@ -21,7 +21,7 @@ scenarios (27 rows in [runs.json](runs.json)); the table shows repetition 0 and 
 Every offered route (22 of 27 rows) ran with exit 0 and kept the work. No route was offered that had not passed both
 the model and the code checks.
 
-**`--force-with-lease` does not protect fetched commits.** Run alone on the push scenario (a fresh copy, 3/3): exit 0
+**`--force-with-lease` does not protect fetched commits** (the route for force-push changed in the second run below). Run alone on the push scenario (a fresh copy, 3/3): exit 0
 and the remote's commit was overwritten (`origin/main` now ends at the local commit). The lease compares with the
 remote-tracking ref, which already holds that commit. So the safer route counts `--force-with-lease` as a force in
 its code check, and the hook's message no longer suggests it as the fix.
@@ -38,7 +38,8 @@ its code check, and the hook's message no longer suggests it as the fix.
 
 The search costs about one more round trip, only when a line is flagged (rows with code-only findings skip the
 model for the original, so the hook goes from 0.08–0.09 s to 3.7–4.8 s there). The server was slower during this run
-than in a probe earlier the same day (1.3 s for one check, 0.8–1.1 s per candidate). With the default
+than in a probe earlier the same day (1.3 s for one check, 0.8–1.1 s per candidate); it overlapped a benchmark sending
+4 parallel requests to the same API, so these latencies are an upper bound, not the API's usual speed. With the default
 `EKBASIS_HOOK_DEADLINE=25` no search ran out of time; a search that does is dropped and the warning goes out without a
 route.
 
@@ -51,3 +52,24 @@ route.
   succeeds), so no route passes. In both cases the client says "none passed" instead of guessing.
 - `git-check` and the MCP tool look for a route only when the model finds the commands risky; branch deletion and
   force-push are flagged by code in the hook only, so their routes appear in the hook (and via `ekbasis.safer.search`).
+
+## Second run: force-push, remote branch deletion, `rebase --onto` (1 repetition, [runs_2.json](runs_2.json))
+
+After an outside tester's report: `--force-with-lease`, alone or with an expected value read from the same state,
+overwrote a fetched remote commit on a bare remote (unit test `tests/test_remote_rebase_loss.py`), while
+`--force-with-lease --force-if-includes` (git >= 2.30; here git 2.50) refused it and, once the branch was rebased onto
+the remote, went through. The force-push route is now that command; its refusal is the safe outcome, so the model's
+"fails" for that step does not reject it. Also new: deleting a remote branch whose commits no other ref holds, and
+`git rebase --onto` dropping commits, are lost work checked by code; a force-push is checked against the branch its
+refspec names (before: origin/HEAD, a false alarm on a new branch).
+
+| Scenario | Command | Flagged by | Route offered | Route p_lost | Route ran |
+|---|---|---|---|---|---|
+| fetched remote commit on main | `git push --force` | code: overwrites 1 commit | `git push --force-with-lease --force-if-includes` | 0.06% | refused (exit 1), remote still has the commit |
+| remote-only branch with 1 commit | `git push origin --delete gone` | code: deletes 1 commit | none: the model gives `git branch backup/origin-gone origin/gone` 0.99 to fail | – | – |
+| 3 unpushed commits | `git rebase --onto HEAD~3 HEAD~1` | code: drops 2 commits | none: the model gives the rebase 0.85 to fail | – | – |
+| new branch, no upstream, origin/main moved | `git push -f origin topic` | not flagged (was flagged against origin/main before) | – | – | – |
+
+`--force-with-lease` alone on the first scenario's state, for comparison: exit 0, the remote's commit overwritten.
+For the two "none" rows the state does not list remote branches other than the default one, which is a likely reason
+the model expects the backup branch on `origin/gone` to fail; the client says "none passed" there instead of guessing.

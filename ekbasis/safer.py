@@ -23,12 +23,19 @@ Intent of the risky command                        Candidates, in order
                                                     would refuse, so it would not do what was asked)
 - `stash drop [S]`, `stash clear` (discard          `git branch backup/stash-K stash@{K}` first, for each entry
   stash entries)
-- `push --force`/`-f` (replace the remote branch)   `--force-with-lease` instead; with `git branch backup/<remote ref>
-                                                    <remote ref>` first when the remote-tracking ref has commits the
-                                                    local branch does not (--force-with-lease does not protect those:
-                                                    they are already fetched, so the lease matches)
-- any other checkout, switch, merge, pull, rebase,  `git stash push [-u]` first
-  reset or restore
+- `push --force`/`-f`/`+ref` (replace the remote   `git push --force-with-lease --force-if-includes` (git >= 2.30):
+  branch)                                           git refuses while the remote has commits this branch never had,
+                                                    fetched or not; that refusal is the safe outcome, so the model's
+                                                    "fails" for this step does not reject it. Older git: a backup
+                                                    branch on the remote-tracking ref, then --force-with-lease.
+                                                    Never --force-with-lease alone: it compares with the
+                                                    remote-tracking ref, which a fetch already moved, so it overwrites
+                                                    fetched commits; an explicit `=<ref>:<sha>` read from the same
+                                                    state matches too (measured on a bare remote)
+- `push --delete X`, `push origin :X` (delete a     `git branch backup/<remote>-X <remote>/X` first, when X has commits
+  remote branch)                                    no other ref holds
+- any other checkout, switch, merge, pull, rebase,  `git stash push [-u]` first; plus `git branch backup/<branch>`
+  reset or restore                                  when it drops commits no ref holds (`rebase --onto`)
 
 `git clean -n` alone (a dry run) is not offered for `clean -f`: it does not do what was asked, and a dry run followed by
 the same delete loses the same files. Candidates are checked in parallel, one request each (the states differ, so
@@ -58,8 +65,10 @@ KEEP_BACKUP = "the commits stay on branch {}"
 KEEP_BRANCH_D = "git refuses to delete a branch that is not merged"
 KEEP_RENAME = "the branch is renamed to {} instead of deleted, so its commits stay"
 KEEP_STASH_BACKUP = "the stash entries stay on branch {}"
-KEEP_LEASE = "the push fails instead of overwriting remote commits you have not fetched"
+KEEP_IF_INCLUDES = ("rejected if the remote moved: fetch and rebase first (--force-if-includes refuses to overwrite "
+                    "remote commits this branch never had, fetched or not)")
 KEEP_REMOTE = "the remote commits it overwrites stay on branch {}"
+KEEP_REMOTE_DELETE = "the deleted branch's commits stay on branch {}"
 
 
 @dataclass
@@ -67,6 +76,7 @@ class Candidate:
     commands: list                              # the commands to run instead, in order
     keeps: list = field(default_factory=list)   # what each rule keeps, in words
     extra: int = 0                              # steps added to the original
+    may_fail: set = field(default_factory=set)  # commands whose failure is the safe outcome (a refused push)
 
 
 @dataclass
@@ -225,15 +235,29 @@ def _rules(cmd: str, facts: _Facts) -> list:
         names = [facts.name(f"backup/stash-{n}") for n in nums]
         return [Candidate([*(f"git branch {b} stash@{{{n}}}" for b, n in zip(names, nums)), cmd],   # written unquoted
                           [KEEP_STASH_BACKUP.format(", ".join(names))], len(nums))]
-    if sub == "push" and ("f" in sf or "--force" in longs):
-        lease = _join("push", "--force-with-lease", *_without(args, "f", ("--force",)))
-        out = [Candidate([lease], [KEEP_LEASE], 0)]
-        names = [(facts.name("backup/" + l["ref"].replace("/", "-")), l["ref"]) for l in G.remote_loss(facts.repo, [cmd])]
-        if names:
-            out.append(Candidate([*(_join("branch", b, r) for b, r in names), lease],
-                                 [KEEP_REMOTE.format(", ".join(b for b, _ in names)), KEEP_LEASE], len(names)))
-        return out
+    if sub == "push":
+        losses = G.remote_loss(facts.repo, [cmd])
+        names = [(facts.name("backup/" + l["ref"].replace("/", "-")), l["ref"]) for l in losses]
+        backups = [_join("branch", b, r) for b, r in names]
+        kept = ", ".join(b for b, _ in names)
+        if losses and all(l["deleted"] for l in losses):
+            return [Candidate([*backups, cmd], [KEEP_REMOTE_DELETE.format(kept)], len(backups))]
+        targets = G.push_targets(facts.repo, cmd)
+        if not any(t["forced"] for t in targets) or any(t["delete"] for t in targets):
+            return []
+        plain = [a for a in _without(args, "f", ("--force", "--force-if-includes"), stop="o")
+                 if not a.startswith("--force-with-lease")]
+        plain = [a.lstrip("+") if not a.startswith("-") else a for a in plain]
+        if G.git_version(facts.repo) >= (2, 30):
+            safe = _join("push", "--force-with-lease", "--force-if-includes", *plain)
+            return [Candidate([safe], [KEEP_IF_INCLUDES], 0, {safe})]
+        # older git: --force-with-lease alone protects only what was not fetched, so keep the fetched commits first
+        lease = _join("push", "--force-with-lease", *plain)
+        return [Candidate([*backups, lease], [KEEP_REMOTE.format(kept)], len(backups))] if backups else []
     if sub in GENERIC:
+        if facts.branch and G.committed_loss([{"repo": facts.repo, "cmd": cmd, "fresh": None}]):
+            name = facts.name(f"backup/{facts.branch}")   # e.g. rebase --onto dropping commits
+            return [Candidate([stash, _join("branch", name), cmd], [KEEP_STASH, KEEP_BACKUP.format(name)], 2)]
         return [Candidate([stash, cmd], [KEEP_STASH], 1)]
     return []
 
@@ -255,23 +279,16 @@ def candidates(commands, repo: str = ".", limit: int = MAX_CANDIDATES) -> list:
             continue
         seen.add(tuple(cmds))
         keeps = list(dict.fromkeys(k for cand in combo for k in cand.keeps))
-        out.append(Candidate(cmds, keeps, sum(cand.extra for cand in combo)))
+        out.append(Candidate(cmds, keeps, sum(cand.extra for cand in combo), set().union(*(c.may_fail for c in combo))))
         if len(out) == limit:
             break
     return out
 
 
-def _lease_as_force(cmd: str) -> str:
-    sub, args = P.parse_git(cmd)
-    if sub != "push":
-        return cmd
-    return _join("push", *["--force" if a.startswith("--force-with-lease") else a for a in args])
-
-
 def code_problems(commands, repo: str) -> list:
     """What the hook's code checks find in a line: commits no ref would hold, and remote commits a push would
-    overwrite that no earlier `git branch <name> <remote ref>` of the line keeps. --force-with-lease counts as a force
-    here: it only protects commits that were not fetched, and these were."""
+    overwrite or delete that no earlier `git branch <name> <remote ref>` of the line keeps (git.remote_loss:
+    --force-with-lease alone counts as a force, it does not protect commits that were already fetched)."""
     out = [G.describe_loss(l) for l in G.committed_loss([{"repo": repo, "cmd": c, "fresh": None} for c in commands])]
     for k, c in enumerate(commands):
         kept = set()
@@ -280,9 +297,9 @@ def code_problems(commands, repo: str) -> list:
             pos = P._positional(args) if sub == "branch" else []
             if len(pos) == 2 and not P.short_flags(args) & set("dDmMcC"):
                 kept.add(pos[1])
-        for l in G.remote_loss(repo, [_lease_as_force(c)]):
+        for l in G.remote_loss(repo, [c]):
             if l["ref"] not in kept:
-                out.append(f"overwrites {l['commits']} commit(s) that {l['ref']} holds")
+                out.append(f"{'deletes' if l['deleted'] else 'overwrites'} {l['commits']} commit(s) that {l['ref']} holds")
     return out
 
 
@@ -315,7 +332,8 @@ def search(commands, repo: str = ".", client: Ekbasis | None = None, lost_thresh
         if v is None:
             errors.append(err)
             continue
-        if v.risky or any(p >= fail_threshold for p in v.p_fail) or v.p_in_progress >= 0.5 or code_problems(c.commands, repo):
+        fails = [p >= fail_threshold for cmd, p in zip(c.commands, v.p_fail) if cmd not in c.may_fail]
+        if v.risky or any(fails) or v.p_in_progress >= 0.5 or code_problems(c.commands, repo):
             continue
         passed.append((round(v.p_lost, 2), c.extra, i, Route(c.commands, v.p_lost, v.p_fail, c.keeps, c.extra)))
     took = time.monotonic() - t0
