@@ -1,0 +1,3 @@
+# The sdist ships the package, README, LICENSE and NOTICE only: tests need tests/data and the repository
+# (git clone), and results*/, paper/, assets* are records, not code.
+prune tests

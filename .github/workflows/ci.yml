@@ -1,0 +1,81 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: tests (${{ matrix.os }}, Python ${{ matrix.python }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        python: ["3.9", "3.12", "3.13"]
+        include:
+          - os: macos-latest
+            python: "3.12"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: sqlite3 tool (preflight tests)
+        if: runner.os == 'Linux'
+        run: command -v sqlite3 || (sudo apt-get update -qq && sudo apt-get install -y -qq sqlite3)
+      - run: python -m pip install pytest
+      - run: python -m pytest -q tests
+
+  build:
+    name: build and check the distribution
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: the plugin's copy of the package is identical to ekbasis/ (else run scripts/sync_plugin.py)
+        run: python scripts/sync_plugin.py --check
+      - name: the plugin stays small (< 2 MB)
+        run: |
+          kb=$(du -sk plugins/ekbasis | cut -f1); echo "plugins/ekbasis: ${kb} KB"; test "$kb" -lt 2048
+      - run: python -m pip install build twine
+      - run: python -m build
+      - run: python -m twine check --strict dist/*
+      - name: the wheel ships the package only
+        run: |
+          unzip -l dist/*.whl | awk 'NR>3 {print $4}' | grep -v -E '^(ekbasis/|ekbasis-[0-9.]+\.dist-info/|$)' && exit 1 || true
+          tar tzf dist/*.tar.gz | grep -E '/(tests|results|results_v42|paper|assets|assets_src|plugins)/' && exit 1 || true
+      - name: install the wheel in a fresh venv
+        run: |
+          python -m venv /tmp/v && /tmp/v/bin/pip install dist/*.whl
+          cd /tmp && /tmp/v/bin/python -c "import ekbasis; print(ekbasis.__version__)"
+          /tmp/v/bin/ekbasis --help >/dev/null && /tmp/v/bin/ekbasis health --help >/dev/null
+          echo '{}' | /tmp/v/bin/ekbasis-claude-hook
+      - name: versions agree (pyproject, _version.py, plugin.json, server.json)
+        run: |
+          python - <<'PY'
+          import json, re, tomllib
+          v = tomllib.load(open("pyproject.toml", "rb"))["project"]["version"]
+          found = {
+              "ekbasis/_version.py": re.search(r'"(.+)"', open("ekbasis/_version.py").read()).group(1),
+              "plugins/ekbasis/.claude-plugin/plugin.json": json.load(open("plugins/ekbasis/.claude-plugin/plugin.json"))["version"],
+              "server.json": json.load(open("server.json"))["version"],
+              "server.json packages[0]": json.load(open("server.json"))["packages"][0]["version"],
+          }
+          bad = {k: x for k, x in found.items() if x != v}
+          assert not bad, f"pyproject.toml says {v}, but {bad}"
+          name = json.load(open("server.json"))["name"]
+          assert f"mcp-name: {name}" in open("README.md").read(), "README needs the mcp-name marker"
+          print("version", v, "everywhere")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist-ci
+          path: dist/

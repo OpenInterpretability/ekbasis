@@ -1,0 +1,16 @@
+{
+  "name": "ekbasis",
+  "description": "Ekbasis, the open consequence model for agents: Claude Code plugin",
+  "owner": {
+    "name": "OpenInterpretability",
+    "url": "https://github.com/OpenInterpretability"
+  },
+  "plugins": [
+    {
+      "name": "ekbasis",
+      "source": "./plugins/ekbasis",
+      "description": "Git guard hook, ekbasis-guard skill and MCP server: what happens if I run this?",
+      "category": "security"
+    }
+  ]
+}
