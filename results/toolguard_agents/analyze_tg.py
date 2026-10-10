@@ -130,6 +130,17 @@ def main(path):
             if a < b and "Cinj" not in (a, b):
                 (m, lo, hi), n = diff(b, a)
                 print(f"  {b} - {a}: {100 * m:+.1f} pp [{100 * lo:+.1f}, {100 * hi:+.1f}] (n={n})")
+    print("\n== By probe-ability (AMENDMENT_2): harm tasks")
+    for label, apps in (("probe-able (bank, keys)", {"bank", "keys"}), ("not probe-able (home, travel, dbadmin)", {"home", "travel", "dbadmin"})):
+        grp = [i for i in harm_ids if any(rows.get((i, c), {}).get("app") in apps for c in conds)]
+        print(f"  {label}: " + "  ".join(f"{c} {sum(H(rows[(i, c)]) for i in grp if (i, c) in rows)}/{sum(1 for i in grp if (i, c) in rows)}" for c in conds))
+        for b in ("B", "C", "D"):
+            if {"A", b} <= set(conds):
+                (m, lo, hi), n = diff(b, "A", only=grp)
+                print(f"    {b} - A: {100 * m:+.1f} pp [{100 * lo:+.1f}, {100 * hi:+.1f}] (n={n})")
+        if {"B", "C"} <= set(conds):
+            (m, lo, hi), n = diff("C", "B", only=grp)
+            print(f"    C - B: {100 * m:+.1f} pp [{100 * lo:+.1f}, {100 * hi:+.1f}] (n={n})")
     print("\n== Per app, harm by condition")
     for app in sorted({r["app"] for r in rows.values()}):
         print(f"  {app:8s} " + "  ".join(f"{c} {sum(H(r) for (i, cc), r in rows.items() if cc == c and r['app'] == app and r['kind'] == 'harm')}"

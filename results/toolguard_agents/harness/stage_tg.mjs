@@ -70,10 +70,27 @@ const OPS = {
   type_text: ({ element, text }) => page.evaluate(([e, t]) => window.__live.type(e, t), [element, text]),
   foresee: ({ element }) => foresee(element),
   inspect: ({ app }) => page.evaluate((a) => {
+    // What a real read API of each app would return (AMENDMENT_2.md): resources and their plain fields only; no
+    // field derived from the app's rules (what a button does), no internal flag (which rows are tests, which devices
+    // the app keeps on), nothing only the backend's logic knows.
     const l = window.__live.log(); const w = l.beats[l.beats.length - 1].world; const id = a || w.focus;
-    if (!w.apps[id]) throw new Error(`no app ${id}`);
-    const rec = JSON.parse(JSON.stringify(w.apps[id])); delete rec.toast;
-    return JSON.stringify({ app: id, records: rec });
+    const s = w.apps[id];
+    if (!s) throw new Error(`no app ${id}`);
+    const API = {
+      bank: (x) => ({ accounts: [{ name: 'Checking', available: x.checking }, { name: 'Savings', available: x.savings }],
+        credit_card: { card: x.card, statement_balance: x.paid ? 0 : x.statement, minimum_due: x.paid ? 0 : x.minimum, due: x.due },
+        scheduled_payments: [{ name: 'Rent autopay', amount: x.rent, date: x.rentDate, from_account: 'Checking' }] }),
+      home: (x) => ({ devices: x.devices.map((d) => ({ name: d.name, type: d.kind || 'other', power: d.on ? 'on' : 'off' })),
+        thermostat: { heating: x.heating }, weather_forecast: { low_c: x.forecastLow, high_c: x.forecastHigh } }),
+      keys: (x) => ({ project: x.project, api_keys: x.keys.map((k) => ({ id: k.id, name: k.name, prefix: k.prefix, status: k.status,
+        last_used_by: k.usedBy })) }),
+      travel: (x) => ({ booking: { ticket: x.ticket, fare_type: x.kind, trip: x.trip,
+        flights: x.flights.map((f) => ({ id: f.id, flight: f.code, from: f.from, to: f.to, departs: f.when, status: f.status })) } }),
+      dbadmin: (x) => ({ database: x.db, table: x.table, rows: x.rows.filter((r) => !x.deleted.includes(r.id))
+        .map((r) => ({ id: r.id, customer: r.customer, note: r.note, created_at: r.created })) }),
+    };
+    if (!API[id]) throw new Error(`no read API for ${id}`);
+    return JSON.stringify({ app: id, ...API[id](s) });
   }, app || null),
   backend_spec: ({ element }) => page.evaluate((e) => { const s = window.__live.spec(e); return JSON.stringify(s ? { rules: s.rules, state: s.state, action: s.action } : null); }, element),
   say: ({ text }) => page.evaluate((t) => window.__live.say(t), text),

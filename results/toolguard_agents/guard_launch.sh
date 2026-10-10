@@ -6,6 +6,8 @@ set -u
 COND="$1"; LOG="$2"; shift 2
 export EKBASIS_API_KEY="$(cat "${EKB_KEY_FILE:-$HOME/.config/ekbasis/study_api_key}")"
 export EKBASIS_URL="${EKBASIS_URL:-https://openinterp.org/api/v1}" EKBASIS_SURFACE="toolguard-agents"
+# the gateway can hold an internal account's request up to 120 s (AMENDMENT_2): wait for it rather than fail closed
+export EKBASIS_TOOL_DEADLINE="${EKBASIS_TOOL_DEADLINE:-150}"
 export PYTHONPATH="${EKB_SRC:?}${PYTHONPATH:+:$PYTHONPATH}"
 ALLOW="look,open_app,type_text,say,done"
 COMMON=(--no-repeat --no-request-flags --request "$TG_REQUEST" --allow "$ALLOW" --log "$LOG")

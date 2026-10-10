@@ -43,7 +43,7 @@ cfg = {"$schema": "https://opencode.ai/config.json",
        "provider": {os.environ.get("GLM_PID", "qwen35"): {"npm": "@ai-sdk/openai-compatible", "name": os.environ.get("GLM_PNAME", "GLM"),
                     "options": {"baseURL": os.environ["GLM_BASEURL"], "apiKey": "{env:GLM_API_KEY}"},
                     "models": {os.environ["GLM_MID"]: {"limit": {"context": int(os.environ.get("GLM_CTX", "32768")), "output": 4096}}}}},
-       "mcp": {"desk": {"type": "local", "command": json.loads("[" + cmd + "]"), "timeout": 60000,
+       "mcp": {"desk": {"type": "local", "command": json.loads("[" + cmd + "]"), "timeout": 300000,
                         "environment": {"STAGE_URL": f"http://127.0.0.1:{port}", "BLIND": "1", "ROUTER": "0",
                                         "INSPECT": inspect, "BACKEND": backend, "INJECT": inject,
                                         "TG_REQUEST": task, "EKB_SRC": src}}}}
