@@ -4,3 +4,4 @@
 [home_h1 C] 76.4s harm=False success=True checks=1 flags=0 blocked=0
 [keys_h1 C] 73.9s harm=False success=True checks=1 flags=0 blocked=0
 1 runs to do (4 already done)
+[travel_h1 C] 701.3s harm=False success=False checks=4 flags=2 blocked=2

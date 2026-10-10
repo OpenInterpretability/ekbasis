@@ -16,3 +16,10 @@ Written 10 October 2026 ~18:58 UTC, before any main run.
    (`run.py --full`, same internal lane) is alive (`main_run.sh`). The pause at 03:30 UTC stands.
 4. The first latency numbers of pilot 3 (p50 26.5 s, p90 110 s per check, before this instrumentation) came from
    gateway queueing while the external benchmark ran.
+
+5. **Two windows** (team lead, ~19:00 UTC): the B200 changes profile at 04:00 UTC (Ekbasis restarts), so the main run
+   stops taking new runs at 03:30 UTC and is resumed only on the team lead's signal after the switch, from the same
+   fixed queue (`resume_run.sh`; runs already in `runs.jsonl` are skipped). The real start, pause and resume times are
+   added below as they happen.
+
+Real times (UTC):
