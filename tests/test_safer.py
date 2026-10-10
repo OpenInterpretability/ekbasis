@@ -134,24 +134,45 @@ class TestRules(unittest.TestCase):
         self.assertEqual(self.c("git stash drop stash@{0}")[0][0], "git branch backup/stash-0 stash@{0}")
         self.assertEqual(self.c("git stash clear"), [["git branch backup/stash-0 stash@{0}", "git stash clear"]])
 
-    def test_force_push(self):
-        self.assertEqual(self.c("git push --force"), [["git push --force-with-lease"]])
-        # the remote gets a commit the local branch lacks, and it is fetched
+    def theirs(self):
+        """The remote gets a commit the local branch lacks, and it is fetched."""
         other = os.path.join(self.tmp.name, "other")
         sh(f"git clone -q {self.repo}.remote.git {other}", self.tmp.name)
         sh("git config commit.gpgsign false && echo o > o.txt && git add o.txt && git commit -qm theirs && git push -q",
            other)
-        sh("git fetch -q", self.repo)
-        self.assertEqual(self.c("git push -f origin main"),
-                         [["git push --force-with-lease origin main"],
-                          ["git branch backup/origin-main origin/main", "git push --force-with-lease origin main"]])
-        # --force-with-lease alone fails the code check (the remote commits are fetched, so the lease matches)
+        sh("git fetch -q && git commit -q --allow-empty -m mine", self.repo)
+
+    def test_force_push(self):
+        safe = "git push --force-with-lease --force-if-includes"
+        self.assertEqual(self.c("git push --force"), [[safe]])
+        self.theirs()
+        self.assertEqual(self.c("git push -f origin main"), [[safe + " origin main"]])
+        self.assertEqual(self.c("git push origin +main"), [[safe + " origin main"]])
+        self.assertEqual(SF.candidates(["git push -f"], self.repo)[0].may_fail, {safe})
+        # --force-with-lease alone, or with a value read from this state, overwrites the fetched commit: code check fails
+        sha = sh("git rev-parse origin/main", self.repo).strip()
         self.assertTrue(SF.code_problems(["git push --force-with-lease origin main"], self.repo))
+        self.assertTrue(SF.code_problems([f"git push --force-with-lease=main:{sha} origin main"], self.repo))
+        self.assertEqual(SF.code_problems([safe + " origin main"], self.repo), [])
+        # older git: a backup branch, then the lease
+        with mock.patch.object(SF.G, "git_version", lambda repo=".": (2, 29)):
+            self.assertEqual(self.c("git push -f origin main"),
+                             [["git branch backup/origin-main origin/main", "git push --force-with-lease origin main"]])
         self.assertEqual(SF.code_problems(["git branch backup/origin-main origin/main",
                                            "git push --force-with-lease origin main"], self.repo), [])
 
+    def test_remote_branch_delete(self):
+        sh("git push -q origin unmerged && git branch -D unmerged", self.repo)
+        for cmd in ("git push origin --delete unmerged", "git push origin :unmerged", "git push -d origin unmerged"):
+            self.assertEqual(self.c(cmd), [["git branch backup/origin-unmerged origin/unmerged", cmd]], cmd)
+            self.assertTrue(SF.code_problems([cmd], self.repo))
+            self.assertEqual(SF.code_problems(["git branch backup/origin-unmerged origin/unmerged", cmd], self.repo), [])
+
     def test_generic_and_none(self):
         self.assertEqual(self.c("git merge feature"), [["git stash push -u", "git merge feature"]])
+        sh("git commit -q --allow-empty -m c1 && git commit -q --allow-empty -m c2", self.repo)
+        self.assertEqual(self.c("git rebase --onto HEAD~2 HEAD~1"),
+                         [["git stash push -u", "git branch backup/main", "git rebase --onto HEAD~2 HEAD~1"]])
         self.assertEqual(self.c("git commit -am x"), [])
         self.assertEqual(self.c("git -c core.x=1 reset --hard"), [])   # global options: no rule
         # two risky commands: each replaced, at most MAX_CANDIDATES lines
@@ -210,6 +231,21 @@ class TestRoutesKeepTheWork(unittest.TestCase):
         self.run_route("git stash drop")
         self.assertEqual(sh("git rev-parse backup/stash-0", self.repo).strip(), st)
 
+    def test_protected_push_refuses_fetched_commits(self):
+        other = os.path.join(self.tmp.name, "other")
+        sh(f"git clone -q {self.repo}.remote.git {other}", self.tmp.name)
+        sh("git config commit.gpgsign false && echo o > o.txt && git add o.txt && git commit -qm theirs && git push -q",
+           other)
+        sh("git fetch -q && git commit -q --allow-empty -m mine", self.repo)
+        route = SF.candidates(["git push -f"], self.repo)[0].commands
+        with self.assertRaises(subprocess.CalledProcessError):
+            sh(" && ".join(route), self.repo)
+        self.assertEqual(sh(f"git --git-dir={self.repo}.remote.git log -1 --format=%s main", self.repo).strip(), "theirs")
+        # integrated (rebased onto the remote), the same route goes through
+        sh("git stash -q -u && git rebase -q origin/main", self.repo)
+        sh(" && ".join(route), self.repo)
+        self.assertEqual(sh(f"git --git-dir={self.repo}.remote.git log -1 --format=%s main", self.repo).strip(), "mine")
+
 
 class TestSearch(unittest.TestCase):
     def setUp(self):
@@ -239,9 +275,13 @@ class TestSearch(unittest.TestCase):
         self.assertEqual(s.route.extra, 0)
         # a candidate the code checks reject is not offered even when the model passes it
         self.assertEqual(SF.search(["git push --force"], self.repo, client=Fake()).route.commands,
-                         ["git push --force-with-lease"])
+                         ["git push --force-with-lease --force-if-includes"])
         with mock.patch.object(SF, "code_problems", lambda c, r: ["overwrites 1 commit(s) that origin/main holds"]):
             self.assertIsNone(SF.search(["git push --force"], self.repo, client=Fake()).route)
+        # the refused push is the safe outcome: the model's "fails" for that step does not reject the route
+        s = SF.search(["git push --force"], self.repo, client=Fake(fail=lambda c, k: 0.95))
+        self.assertEqual(s.route.commands, ["git push --force-with-lease --force-if-includes"])
+        self.assertIn("rejected if the remote moved: fetch and rebase first", s.route.keeps[0])
 
     def test_none_passes(self):
         s = SF.search(["git reset --hard"], self.repo, client=Fake(lost=lambda c: 0.6))

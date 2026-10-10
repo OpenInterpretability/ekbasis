@@ -593,8 +593,10 @@ ekbasis git-check -- "git reset --hard"
 The alternatives come from rules, not from a language model (the table of intents is in
 [ekbasis/safer.py](ekbasis/safer.py)): `git stash push` before `reset --hard`, `checkout -- <file>`, `restore` and a
 forced switch; `git stash push -u -- <what git clean -n lists>` instead of `clean -f`; `git branch -m N backup/N`
-instead of `branch -D N`; a backup branch before `reset --hard <commit>` drops commits, before `stash drop`, and before
-a force-push over remote commits, with `--force-with-lease`. Each alternative is then checked like the original (the
+instead of `branch -D N`; a backup branch before `reset --hard <commit>` or `rebase --onto` drops commits, before
+`stash drop` and before deleting a remote branch; `git push --force-with-lease --force-if-includes` (git >= 2.30)
+instead of `push --force`, which is rejected if the remote moved (fetch and rebase first). Never `--force-with-lease`
+alone: after a fetch it overwrites the fetched commits (measured). Each alternative is then checked like the original (the
 same state, the same RISKY threshold, no step likely to fail, and the code checks for lost commits and overwritten
 remote commits). Only one that passes is offered; the lowest chance of losing work wins, then the fewest extra steps.
 When none passes, it says so (`Safer: none (...)`) and suggests nothing. `--json` adds `safer` and `safer_note`.

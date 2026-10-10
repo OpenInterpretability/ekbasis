@@ -482,10 +482,16 @@ def main() -> int:
                          "or tag on those commits first if you need them.")
         for st in plan.steps:
             for loss in G.remote_loss(st["repo"], [st["cmd"]]):
+                if loss["deleted"]:
+                    found.append(f"Ekbasis (remote work, checked by code): this line deletes the remote branch "
+                                 f"{loss['ref']}, whose {loss['commits']} commit(s) no other branch, tag or remote "
+                                 f"branch holds. Keep them on a branch first (git branch backup {loss['ref']}).")
+                    continue
                 found.append(f"Ekbasis (remote work, checked by code): this line force-pushes over {loss['commits']} "
-                             f"commit(s) that {loss['ref']} holds and the local branch does not. Push or merge those "
-                             f"commits first, or keep them on a branch (git branch backup {loss['ref']}); "
-                             "--force-with-lease does not protect commits that were already fetched.")
+                             f"commit(s) that {loss['ref']} holds and the pushed commit does not. Integrate them first "
+                             "(git rebase), or push with --force-with-lease --force-if-includes, which refuses while "
+                             "they are not integrated; --force-with-lease alone does not protect commits that were "
+                             "already fetched.")
         groups: dict = {}
         flagged = set()   # repositories whose git commands the model found risky
         for st in plan.steps:

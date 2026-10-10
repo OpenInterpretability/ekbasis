@@ -49,6 +49,15 @@ def stash_has(text, ref="stash@{0}"):
     return lambda r: text in sh(f"git stash show -p '{ref}'", r, check=False)
 
 
+def setup_other(r):
+    """Someone else pushes to main and it is fetched (the old check compared any branch with origin/main)."""
+    other = os.path.join(os.path.dirname(r), "other")
+    sh(f"git clone -q ../origin.git {other}", r)
+    sh("git config commit.gpgsign false && echo theirs > theirs.txt && git add theirs.txt && git commit -qm theirs "
+       "&& git push -q", other)
+    sh("git fetch -q", r)
+
+
 def setup_push(r):
     other = os.path.join(os.path.dirname(r), "other")
     sh(f"git clone -q ../origin.git {other}", r)
@@ -74,9 +83,22 @@ SCENARIOS = [
      or "unmerged-work" in sh("git log -1 --format=%s unmerged", r, False)),
     ("stash drop", "git stash drop", lambda r: sh("echo stashed >> README.md && git stash -q", r),
      lambda r: "stashed" in sh("git diff backup/stash-0^1 backup/stash-0", r, False)),
+    # since the second run: the protected push must be REFUSED, leaving the remote's commit in place
     ("push --force over remote commits", "git push --force", setup_push,
-     lambda r: "theirs" in sh("git log -1 --format=%s backup/origin-main", r, False)
-     and "mine" in sh("git --git-dir=../origin.git log -1 --format=%s main", r, False)),
+     lambda r: "theirs" in sh("git --git-dir=../origin.git log -1 --format=%s main", r, False)),
+    ("push --delete remote-only branch", "git push origin --delete gone",
+     lambda r: sh("git checkout -qb gone && git commit -q --allow-empty -m only-here && git push -q origin gone "
+                  "&& git checkout -q main && git branch -D gone", r),
+     lambda r: "only-here" in sh("git log -1 --format=%s backup/origin-gone", r, False)
+     and "gone" not in sh("git --git-dir=../origin.git branch", r, False)),
+    ("rebase --onto dropping commits", "git rebase --onto HEAD~3 HEAD~1",
+     lambda r: sh("git commit -q --allow-empty -m c1 && git commit -q --allow-empty -m c2 "
+                  "&& git commit -q --allow-empty -m c3", r),
+     lambda r: {"c1", "c2"} <= set(sh("git log --format=%s backup/main", r, False).split())
+     and sh("git log --format=%s -2", r, False).split() == ["c3", "two"]),
+    ("control: push -f new branch, no upstream", "git push -f origin topic",
+     lambda r: sh("git checkout -qb topic && git commit -q --allow-empty -m t && git fetch -q", r) or setup_other(r),
+     lambda r: True),
 ]
 
 
@@ -107,7 +129,8 @@ def one(name, cmd, prep, kept, client):
         v = G.check([cmd], repo=r, client=client)
         t_check = time.monotonic() - t0
         code = SF.code_problems([cmd], r)
-        s = SF.search([cmd], repo=r, client=client)
+        flagged = v.risky or bool(code)
+        s = SF.search([cmd], repo=r, client=client) if flagged else SF.Search(None, 0, "not flagged")
         h_off, _ = hook(cmd, r, False)
         h_on, msg = hook(cmd, r, True)
         row = {"scenario": name, "command": cmd, "p_lost": round(v.p_lost, 4), "model_risky": v.risky,
@@ -119,7 +142,7 @@ def one(name, cmd, prep, kept, client):
                                  stderr=subprocess.STDOUT, text=True)
             row["route_exit"] = out.returncode
             row["work_kept"] = bool(kept(r))
-        if name.startswith("push"):   # --force-with-lease alone, on a fresh copy of the same state
+        if name.startswith("push --force"):   # --force-with-lease alone, on a fresh copy of the same state
             with tempfile.TemporaryDirectory() as root2:
                 r2 = base(os.path.realpath(root2))
                 prep(r2)
@@ -131,8 +154,10 @@ def one(name, cmd, prep, kept, client):
 
 def main():
     reps = int(sys.argv[1]) if len(sys.argv) > 1 else 2
+    only = sys.argv[2:]   # scenario name prefixes (default: all)
     client = Ekbasis(timeout=60, surface="safer-route-study")
-    rows = [dict(one(*sc, client), rep=k) for k in range(reps) for sc in SCENARIOS]
+    rows = [dict(one(*sc, client), rep=k) for k in range(reps) for sc in SCENARIOS
+            if not only or any(sc[0].startswith(o) for o in only)]
     print(json.dumps(rows, indent=1))
 
 

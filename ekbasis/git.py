@@ -171,8 +171,16 @@ def inspect(repo: str = ".", commands=(), fetch: bool = False, max_branches: int
         if facts and info["pull_config"]:
             remote_line += " (this repository sets " + ", ".join(f"{k}={v}" for k, v in sorted(info["pull_config"].items())) + ")"
     lines.append(remote_line)
+    named = _named_remotes(repo, commands, remote) if facts and commands else []
+    for ref in named:   # other remote branches the commands name (a push or deletion, a backup of one)
+        last = (_git(repo, "log", "-1", "--format=%s", ref)[1].strip() if commit_text == "message"
+                else "commit " + _git(repo, "rev-parse", "--short=7", ref)[1].strip())
+        lines.append(f"Remote {ref} last commit: {last}")
+    revs = _named_revisions(repo, commands) if facts and commands else []
+    if revs:
+        lines.append("Commits the commands name: " + "; ".join(revs))
     parts = []
-    for ref in [b for b in shown if b != branch] + ([remote] if remote else []):
+    for ref in [b for b in shown if b != branch] + ([remote] if remote else []) + named:
         rc, dif = _git(repo, "diff", "--name-only", "HEAD", ref)
         if rc != 0:
             continue
@@ -288,6 +296,41 @@ def inspect(repo: str = ".", commands=(), fetch: bool = False, max_branches: int
     lines.append("Files in the working directory (content): " +
                  (", ".join(f"{f} ({_fingerprint(os.path.join(repo, f))})" for f in files) or "(none)"))
     return RepoView("\n".join(lines), sorted(heads), info)
+
+
+def _named_remotes(repo: str, commands, default: str | None, cap: int = 4) -> list[str]:
+    """Remote-tracking branches other than the default one that push, branch and rebase commands name, as an argument
+    (`origin/x`, a refspec part) or as a push destination (`git push origin --delete x`, `git push origin HEAD:x`).
+    Other commands keep the 0.1.9 state."""
+    out = []
+    for c in commands:
+        sub, args = P.parse_git(c)
+        if sub not in ("push", "branch", "rebase"):
+            continue
+        toks = [t for a in args if not a.startswith("-") for t in a.lstrip("+").split(":") if t]
+        toks += [f"{t['remote']}/{t['dst']}" for t in push_targets(repo, c)] if sub == "push" else []
+        for t in toks:
+            if t != default and t not in out and _git(repo, "rev-parse", "--verify", "--quiet", f"refs/remotes/{t}")[0] == 0:
+                out.append(t)
+    return out[:cap]
+
+
+def _named_revisions(repo: str, commands, cap: int = 4) -> list[str]:
+    """`HEAD~3 is commit 1a2b3c4, 3 commits before HEAD` for relative revisions a `rebase --onto` names: which commits
+    it keeps and drops depends on them, and the state shows only branch tips."""
+    out = []
+    for c in commands:
+        sub, args = P.parse_git(c)
+        if sub != "rebase" or not any(a == "--onto" or a.startswith("--onto=") for a in args):
+            continue
+        for a in [x.split("=", 1)[1] if x.startswith("--onto=") else x for x in args]:
+            if a.startswith("-") or not re.search(r"[~^]", a) or any(o.startswith(a + " ") for o in out):
+                continue
+            rc, sha = _git(repo, "rev-parse", "--verify", "--quiet", "--short=7", a + "^{commit}")
+            if rc == 0 and sha.strip():
+                n = _git(repo, "rev-list", "--count", f"{a}..HEAD")[1].strip()
+                out.append(f"{a} is commit {sha.strip()}, {_plural(int(n or 0), 'commit')} before HEAD")
+    return out[:cap]
 
 
 def _worktrees(repo: str, top: str, cap: int = 4) -> list[str]:
@@ -533,7 +576,8 @@ def read_only(command: str) -> bool:
 
 
 BRANCH_NOT_NEW = {"--delete", "--move", "--copy", "--set-upstream-to", "--unset-upstream", "--edit-description"}
-REF_SUBS = {"branch", "checkout", "switch", "reset", "tag", "update-ref", "worktree"}
+REF_SUBS = {"branch", "checkout", "switch", "reset", "tag", "update-ref", "worktree", "rebase"}
+REBASE_VALUE = ("--onto", "-s", "--strategy", "-X", "--strategy-option", "-x", "--exec")
 
 
 def _value(args, *names):
@@ -570,46 +614,103 @@ def _after(args, value, skip=()):
     return out
 
 
+PUSH_VALUE = ("-o", "--push-option", "--repo", "--receive-pack", "--exec")
+
+
+def git_version(repo: str = ".") -> tuple:
+    """(major, minor) of the installed git, (0, 0) if unknown."""
+    m = re.search(r"(\d+)\.(\d+)", _git(repo, "version")[1])
+    return (int(m.group(1)), int(m.group(2))) if m else (0, 0)
+
+
+def _included(repo: str, branch: str | None, tip: str, cap: int = 200) -> bool:
+    """Whether `tip` is reachable from one of the local branch's reflog entries (what --force-if-includes checks)."""
+    if not branch:
+        return False
+    rc, out = _git(repo, "rev-list", "-g", f"-{cap}", "refs/heads/" + branch)
+    return rc == 0 and any(_git(repo, "merge-base", "--is-ancestor", tip, e)[0] == 0 for e in out.split())
+
+
+def push_targets(repo: str, cmd: str) -> list:
+    """What a git push updates: [{"remote", "src" (a rev, None for a deletion), "dst" (branch name on the remote),
+    "branch" (the local branch pushed, if any), "forced", "delete", "lease" (None, "" or the expected value),
+    "if_includes"}]. The destination comes from the refspec (`origin X`, `HEAD:X`, `src:dst`, `+X`, `:X`, `--delete
+    X`), else from the upstream, else the branch of the same name (push.default simple/current)."""
+    sub, args = P.parse_git(cmd)
+    if sub != "push":
+        return []
+    longs, sf = _long(args), P.short_flags(args, stop="o")
+    pos = P._positional(args, PUSH_VALUE)
+    if longs & {"--all", "--mirror", "--tags", "--branches"}:
+        return []
+    cur = _git(repo, "symbolic-ref", "-q", "--short", "HEAD")[1].strip() or None
+    up = _git(repo, "rev-parse", "--abbrev-ref", "--symbolic-full-name", "@{u}")
+    up = up[1].strip() if up[0] == 0 and "/" in up[1] else None
+    remote = pos[0] if pos else ((up.split("/", 1)[0] if up else None) or "origin")
+    lease = next((a.split("=", 1)[1] if "=" in a else "" for a in args if a.startswith("--force-with-lease")), None)
+    forced = "f" in sf or "--force" in longs or lease is not None
+    delete = "d" in sf or "--delete" in longs
+    strip = lambda r: r[len("refs/heads/"):] if r.startswith("refs/heads/") else r  # noqa: E731
+    out = []
+    specs = pos[1:]
+    if not specs and not delete:
+        dst = up.split("/", 1)[1] if up and up.split("/", 1)[0] == remote else cur
+        if dst:
+            out.append({"src": "HEAD", "dst": dst, "branch": cur, "plus": False, "delete": False})
+    for sp in specs:
+        plus, sp = sp.startswith("+"), sp.lstrip("+")
+        if delete:
+            out.append({"src": None, "dst": strip(sp), "branch": None, "plus": False, "delete": True})
+            continue
+        src, _, dst = sp.partition(":") if ":" in sp else (sp, "", sp)
+        if not src:
+            out.append({"src": None, "dst": strip(dst), "branch": None, "plus": False, "delete": True})
+            continue
+        if dst == "HEAD":
+            dst = cur or dst
+        branch = cur if src == "HEAD" else (strip(src) if _git(repo, "rev-parse", "--verify", "--quiet",
+                                                                   "refs/heads/" + strip(src))[0] == 0 else None)
+        out.append({"src": src, "dst": strip(dst), "branch": branch, "plus": plus, "delete": False})
+    for t in out:
+        t.update(remote=remote, forced=forced or t.pop("plus"), lease=lease, if_includes="--force-if-includes" in longs)
+    return out
+
+
 def remote_loss(repo: str, cmds: list) -> list:
-    """Remote commits that a force-push in cmds would overwrite: refs where the remote holds commits the
-    local branch does not (plain --force/-f only; --force-with-lease fails safely instead of overwriting).
-    Returns [{"ref", "commits"}]."""
+    """Remote commits that a push in cmds would throw away, from what the remote-tracking refs show: a forced push
+    (-f, --force, +refspec, --force-with-lease) over commits the pushed commit does not have, or the deletion of a
+    remote branch (`--delete X`, `:X`) whose commits no other ref holds. Returns [{"ref", "commits", "deleted"}].
+    A destination with no remote-tracking ref is a new branch: nothing to lose. --force-with-lease counts as a force:
+    without a value it compares with the remote-tracking ref, which already has the fetched commits, and a value read
+    from the same state matches too; a value that differs from the remote-tracking ref makes the push fail. With
+    --force-if-includes (git >= 2.30, lease without a value), git refuses unless the remote tip is in the local
+    branch's reflog: either it fails, or it overwrites commits you had and rewrote, so nothing is counted."""
     out = []
     for cmd in cmds:
-        parsed = P.parse_git(cmd)
-        if not parsed or parsed[0] != "push":
-            continue
-        flags = [a for a in parsed[1] if a.startswith("-")]
-        rest = [a for a in parsed[1] if not a.startswith("-")]
-        force = any(a in ("-f", "--force") or (a.startswith("--force") and not a.startswith("--force-with-lease")) for a in flags)
-        if not force:
-            continue
-        up = _git(repo, "rev-parse", "--abbrev-ref", "--symbolic-full-name", "@{u}")
-        if up[0] != 0 or not up[1].strip():
-            rr = remote_ref(repo)
-            up = (0, rr) if rr else up
-        if rest:  # push [remote] [refspec]: map the pushed ref to its remote-tracking counterpart
-            spec = rest[-1] if ":" in rest[-1] or len(rest) > 1 else None
-            if spec:
-                src_ref = spec.split(":")[0] if ":" in spec else spec
-                rc, cur = _git(repo, "rev-parse", "--abbrev-ref", "HEAD")
-                if src_ref in ("HEAD", cur.strip()) and ":" not in spec:
-                    dst = up[1].strip() if up[0] == 0 and up[1].strip() else None
-                elif ":" in spec:
-                    dst = "origin/" + spec.split(":")[1]
-                else:
-                    dst = "origin/" + src_ref
-            else:
-                dst = up[1].strip() if up[0] == 0 and up[1].strip() else None
-        else:
-            dst = up[1].strip() if up[0] == 0 and up[1].strip() else None
-        if not dst:
-            continue
-        rc, cnt = _git(repo, "rev-list", "--left-right", "--count", f"HEAD...{dst}")
-        if rc == 0:
-            behind = int(cnt.split()[1])
-            if behind > 0:
-                out.append({"ref": dst, "commits": behind})
+        for t in push_targets(repo, cmd):
+            tracking = f"refs/remotes/{t['remote']}/{t['dst']}"
+            rc, tip = _git(repo, "rev-parse", "--verify", "--quiet", tracking)
+            if rc != 0 or not tip.strip():
+                continue
+            tip, name = tip.strip(), f"{t['remote']}/{t['dst']}"
+            if t["delete"]:
+                rc, cnt = _git(repo, "rev-list", "--count", tip, "--not", f"--exclude={tracking}",
+                               f"--exclude=refs/remotes/{t['remote']}/HEAD", "--all")
+                if rc == 0 and int(cnt.strip() or 0) > 0:
+                    out.append({"ref": name, "commits": int(cnt), "deleted": True})
+                continue
+            if not t["forced"]:
+                continue
+            lease = t["lease"]
+            if lease and lease.rpartition(":")[2] and ":" in lease:
+                expect = _git(repo, "rev-parse", "--verify", "--quiet", lease.rpartition(":")[2])[1].strip()
+                if expect != tip:
+                    continue   # the expected value is not what the remote holds: the push fails
+            elif lease is not None and t["if_includes"] and git_version(repo) >= (2, 30):
+                continue       # fails, or overwrites only commits the local branch once had
+            rc, cnt = _git(repo, "rev-list", "--count", tip, "--not", t["src"])
+            if rc == 0 and int(cnt.strip() or 0) > 0:
+                out.append({"ref": name, "commits": int(cnt), "deleted": False})
     return out
 
 
@@ -618,9 +719,11 @@ def committed_loss(steps) -> list:
     stash entry: lost committed work (0.1.3), kept apart from the model's question about uncommitted work. Computed by
     simulating the refs: branch deletion (-D, -d -f, -r), forced branch moves and renames (-f, -M, -C, checkout -B,
     switch -C, worktree add -B), `git reset --hard/--keep/--merge <commit>` on the checked-out branch (--soft and
-    --mixed keep the changes in the work tree), tag deletion and moves, update-ref.
-    Rewrites that keep the changes (rebase, commit --amend, cherry-pick), stash commands (the model's question) and
-    remote updates (push) are not counted.
+    --mixed keep the changes in the work tree), tag deletion and moves, update-ref, and the commits that
+    `git rebase --onto <newbase> <upstream> [<branch>]` drops (those between <newbase> and <upstream> that no other ref
+    holds; the ones after <upstream> are copied, so their changes are kept).
+    Other rewrites that keep the changes (rebase without --onto, commit --amend, cherry-pick), stash commands (the
+    model's question) and remote updates (push: see remote_loss) are not counted.
 
     steps: [{"repo": folder the command runs in, "cmd": the git command without -C, "fresh": None or
     {"kind": "worktree", "base": repo that created it, "head": ("branch", ref) | ("rev", rev)} for a worktree an
@@ -664,6 +767,7 @@ def _simulate_refs(base: str, steps) -> list:
             heads[os.path.realpath(kv["worktree"])] = (("branch", kv["branch"]) if "branch" in kv
                                                        else ("detached", kv.get("HEAD", "")))
     tops: dict = {}
+    copied: set = set()   # commits a rebase --onto replays: replaced by copies, their changes are kept
 
     def key(st):
         if st.get("fresh"):
@@ -782,6 +886,26 @@ def _simulate_refs(base: str, steps) -> list:
                 refs[h[1]] = commit
             else:
                 heads[k] = ("detached", commit)
+        elif sub == "rebase":
+            onto = _value(args, "--onto")
+            pos = P._positional(args, REBASE_VALUE)
+            if not onto or not pos or longs & {"--root", "--continue", "--abort", "--skip", "--quit"}:
+                continue
+            new = resolve(onto, st)
+            if len(pos) > 1:
+                ref = "refs/heads/" + pos[1]
+                tip = refs.get(ref) or resolve(pos[1], st)
+                heads[k] = ("branch", ref) if ref in refs else ("detached", tip)
+            h = head_of(st)
+            tip = refs.get(h[1]) if h[0] == "branch" else h[1]
+            upstream = resolve(pos[0], st)
+            if not (new and tip and upstream):
+                continue
+            copied.update(_git(base, "rev-list", tip, "--not", upstream)[1].split())
+            if h[0] == "branch":
+                refs[h[1]] = new
+            else:
+                heads[k] = ("detached", new)
         elif sub == "tag":
             pos = P._positional(args, ("-m", "-F", "-u", "--message", "--file", "--local-user", "--contains",
                                        "--points-at", "--sort", "--format", "--cleanup"))
@@ -824,13 +948,13 @@ def _simulate_refs(base: str, steps) -> list:
         return []
     keep = ["--not", *sorted(new_tips)] if new_tips else []
     rc, lost = _git(base, "rev-list", *gone, *keep)
-    lost = lost.split()
+    lost = [c for c in lost.split() if c not in copied]
     if not lost:
         return []
     details = []
     for ref, sha in sorted(orig.items()):
         if refs.get(ref) != sha:
-            n = len(_git(base, "rev-list", sha, *keep)[1].split())
+            n = len([c for c in _git(base, "rev-list", sha, *keep)[1].split() if c not in copied])
             if n:
                 details.append({"ref": ref, "commits": n, "deleted": ref not in refs})
     return [{"repo": base, "commits": len(lost), "refs": details}]

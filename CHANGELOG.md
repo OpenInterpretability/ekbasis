@@ -69,12 +69,13 @@
   `Safer: <commands>  (lose uncommitted work: N%)`, `--json` and the MCP tool `check_git_commands` add `safer`
   (`{commands, p_lost, keeps}` or null) and `safer_note`, and the Claude Code hook adds the route to its message.
   Candidates come from rules (stash before `reset --hard`, `checkout --`, `restore`, a forced switch; stash of what
-  `clean -n` lists; rename instead of `branch -D`; backup branches before dropping commits, stash entries or remote
-  commits; `--force-with-lease`), and each is checked by Ekbasis with the same state builder and threshold and by the
-  code checks; only one that passes is offered, else "none". Off with `--no-safer`, `EKBASIS_SAFER=0`, or MCP
-  `safer=false`. Measured on 9 classic losses x 3 against the hosted API: a route on 22 of 27 rows (none for
-  force-push, sometimes none for `stash drop`), every one ran and kept the work; the search added a median 4.8 s to
-  the hook during that run ([results/safer_route](results/safer_route/RESULTS.md)).
+  `clean -n` lists; rename instead of `branch -D`; backup branches before dropping commits, stash entries or a
+  deleted remote branch; `--force-with-lease --force-if-includes` for a force-push), and each is checked by Ekbasis
+  with the same state builder and threshold and by the code checks; only one that passes is offered, else "none".
+  Off with `--no-safer`, `EKBASIS_SAFER=0`, or MCP `safer=false`. Measured on 9 classic losses x 3 against the hosted
+  API: a route on 22 of 27 rows (none for force-push then, sometimes none for `stash drop`), every one ran and kept
+  the work; the search added a median 4.8 s to the hook during that run, while another benchmark loaded the API
+  ([results/safer_route](results/safer_route/RESULTS.md)).
 - `docs/DOGEATING.md`: the guard catching its own operator (a destructive `kill` on the live serving
   process, flagged retrospectively at 0.94-0.97 confidence, outside the training domains) and the
   no-exceptions rule that came out of it.
@@ -83,10 +84,24 @@
   neck pump) — six foresee calls, every one useful; the honest record of what it does and does not do.
 
 ### Fixed
+- **Force-push and `--force-with-lease`** (from an outside tester's report, confirmed on a bare remote): the safer route
+  for `push --force` is `git push --force-with-lease --force-if-includes` (git >= 2.30), which refuses while the remote
+  has commits the branch never had; `--force-with-lease` alone, or with an expected value read from the same state,
+  overwrote a fetched commit, so `remote_loss` now counts it as a force (an explicit value that differs from the
+  remote-tracking ref counts as safe: the push fails).
+- `remote_loss` checks a push against the branch its refspec names (`origin X`, `HEAD:X`, `src:dst`, `+X`), then the
+  upstream, then the branch of the same name; it used origin/HEAD for a branch without upstream, a false alarm. No
+  remote-tracking ref for the destination means a new branch: nothing to lose.
+- Deleting a remote branch (`push --delete X`, `push origin :X`) whose commits no other ref holds is flagged by the
+  hook (and gets a backup-branch route), and `git rebase --onto` counts the commits it drops in `committed_loss`.
+- With facts on, the state names the remote branches that push, branch and rebase commands name (`Remote origin/x last
+  commit: ...` and its file comparison) and the relative revisions of a `rebase --onto` (`HEAD~3 is commit ..., 3
+  commits before HEAD`). Without them the model expected the backup routes for these two cases to fail; with them both
+  passed 3 of 3 and kept the work when run. Other commands keep the previous state.
 - Lost committed work (`git.committed_loss`) now counts a new branch or tag made earlier in the line
   (`git branch keep && git reset --hard HEAD~1` no longer asks).
-- The hook's force-push message no longer suggests `--force-with-lease` as the fix: it does not protect commits that
-  were already fetched (measured: it overwrote them).
+- The hook's force-push message no longer suggests `--force-with-lease` alone as the fix: it does not protect commits
+  that were already fetched (measured: it overwrote them); it suggests rebasing first or `--force-if-includes`.
 
 ## 0.1.6 (2026-10-06): preflight
 
