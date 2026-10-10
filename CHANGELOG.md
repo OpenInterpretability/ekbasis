@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased]
+## [0.1.10] — 2026-10-10
 
 ### Added
 - **Claude Code plugin and marketplace** (`.claude-plugin/marketplace.json`, plugin in `plugins/ekbasis/`, ~0.5 MB):
@@ -62,7 +62,7 @@
   origin/main holds... or use --force-with-lease". Measured: diverged force-push asks; synced force-push and
   `--force-with-lease` stay silent. Gap found in the cookbook battery (09/10).
 
-## [Unreleased]
+## [0.1.10] — 2026-10-10
 
 ### Added
 - **Safer route** (`ekbasis/safer.py`): when git commands are risky, `git-check` prints

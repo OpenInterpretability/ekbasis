@@ -1,7 +1,7 @@
 {
   "name": "ekbasis",
   "displayName": "Ekbasis",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "Foresee before you act: a git guard hook for the Bash tool, the ekbasis-guard skill and the Ekbasis MCP server (calibrated consequence predictions). Needs EKBASIS_API_KEY or EKBASIS_URL.",
   "author": {
     "name": "Caio Vicentino",
