@@ -3,7 +3,7 @@
   "name": "io.github.OpenInterpretability/ekbasis",
   "title": "Ekbasis",
   "description": "Foresee what git commands and multi-step changes will do, as calibrated probabilities",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "websiteUrl": "https://openinterp.org/ekbasis",
   "repository": {
     "url": "https://github.com/OpenInterpretability/ekbasis",
@@ -14,7 +14,7 @@
       "registryType": "pypi",
       "registryBaseUrl": "https://pypi.org",
       "identifier": "ekbasis",
-      "version": "0.1.10",
+      "version": "0.1.11",
       "runtimeHint": "uvx",
       "runtimeArguments": [
         {"type": "named", "name": "--python", "value": ">=3.10", "description": "the MCP SDK needs Python 3.10 or later"},

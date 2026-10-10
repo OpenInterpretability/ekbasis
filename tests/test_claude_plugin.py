@@ -246,6 +246,15 @@ class Launcher(unittest.TestCase):
         r = run_plugin("hook", self.set_up, self.line, path=self.fake_python3(old))
         self.assertAsks(r, "Python 3.9 or later")
 
+    def test_log_mode_never_blocks_when_the_hook_cannot_run(self):
+        env = dict(self.set_up, EKBASIS_GUARD_MODE="log")
+        r = run_plugin("hook", env, self.line, path=self.fake_python3("exit 1\n"))
+        self.assertEqual((r.returncode, r.stdout), (0, ""))
+        self.assertIn("log mode, not blocking", r.stderr)
+        plugin = self.broken_plugin("raise ImportError('broken on purpose')\n")
+        r = run_plugin("hook", env, self.line, plugin=plugin)
+        self.assertEqual((r.returncode, r.stdout.strip()), (0, ""))
+
     def test_fail_open_is_explicit(self):
         plugin = self.broken_plugin("raise ImportError('broken on purpose')\n")
         r = run_plugin("hook", dict(self.set_up, EKBASIS_FAIL_OPEN="1"), self.line, plugin=plugin)

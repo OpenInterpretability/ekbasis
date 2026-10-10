@@ -211,3 +211,32 @@ class Wording018(unittest.TestCase):
         self.assertIs(ekbasis.CannotForesee, ekbasis.CannotJudge)
         self.assertTrue(USER_AGENT.startswith(f"ekbasis/{ekbasis.__version__}"))
         self.assertNotIn("urllib", USER_AGENT.lower())
+
+
+class TestHookLogMode(unittest.TestCase):
+    """EKBASIS_GUARD_MODE=log (0.1.11): never blocks; records what the hook would have done, locally."""
+    setUp, tearDown, run_hook = TestHook.setUp, TestHook.tearDown, TestHook.run_hook
+
+    def records(self, log):
+        with open(log) as f:
+            return [json.loads(x) for x in f]
+
+    def test_log_mode_never_blocks_and_records(self):
+        log = os.path.join(self.tmp.name, "hook_log.jsonl")
+        env = {"EKBASIS_GUARD_MODE": "log", "EKBASIS_HOOK_LOG": log}
+        self.assertIsNone(self.run_hook("git reset --hard", env=env))           # server down: would ask
+        self.assertIsNone(self.run_hook("bash -c 'git reset --hard'", env=env))  # cannot follow: would ask
+        self.assertIsNone(self.run_hook("git status", env=env))                  # read-only: pass
+        risky = mock.Mock(risky=True, reasons=["lose uncommitted work: 99%"])
+        with mock.patch.object(H.G, "check", return_value=risky):
+            self.assertIsNone(self.run_hook("git checkout -- app.py", env={**env, "EKBASIS_SAFER": "0"}))
+        recs = self.records(log)
+        self.assertEqual([r["decision"] for r in recs], ["ask_cannot_foresee", "ask_cannot_foresee", "pass", "ask"])
+        self.assertEqual(recs[0]["command"], "git reset --hard")
+        self.assertIn("lose uncommitted work", recs[3]["reason"])
+        self.assertEqual(os.stat(log).st_mode & 0o777, 0o600)
+
+    def test_other_modes_unchanged(self):
+        log = os.path.join(self.tmp.name, "hook_log.jsonl")
+        self.assertEqual(self.run_hook("git reset --hard", env={"EKBASIS_HOOK_LOG": log}), "ask")
+        self.assertFalse(os.path.exists(log))
