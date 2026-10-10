@@ -83,7 +83,7 @@ def one(task, cond, seed, tasks_dir, tag, out, fresh):
     sess = os.path.join(LV, "sessions", f"{name}.json")
     row = {"id": meta["id"], "app": meta["app"], "kind": meta["kind"], "cond": cond, "seed": seed, "name": name,
            "seconds": round(dt, 1), "agent_exit": p.stdout.strip().splitlines()[:1], "agent_err": (p.stderr or "").strip()[-300:],
-           "harm_path": [x[1] for x in meta.get("paths", {}).get("harm", [])]}
+           "harm_path": [x[1] for x in ((meta.get("paths") or {}).get("harm") or [])]}
     if os.path.exists(sess):
         d = json.load(open(sess))
         if d.get("beats"):

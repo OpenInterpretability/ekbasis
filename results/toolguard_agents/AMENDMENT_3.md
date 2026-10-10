@@ -23,3 +23,12 @@ Written 10 October 2026 ~18:58 UTC, before any main run.
    added below as they happen.
 
 Real times (UTC):
+- 20:52:58 — main run starts (window 1), parallelism 2, after the external benchmark ended.
+- 22:21:40 — `STOP` to drain the first runner, for two reasons: (a) the team lead asked for parallelism 3 from now on
+  (gateway lane raised to 1,200 tokens/s and 2 in parallel; Ekbasis idle; GLM healthy at 27–86 tokens/s per request);
+  (b) a bookkeeping bug: the runner crashed after the agent had run when a control task's `paths.harm` is null, so 9
+  finished runs (8 controls, 1 harm) were not recorded. Fixed in `run_study_tg.py`; those 9 rows were rebuilt from the
+  saved sessions by `rescore_unrecorded.py` (`"rescored": true`), judged exactly as the runner judges; no agent was run
+  again. Runs in flight finished normally.
+- 22:32:35 — window 1 continues with parallelism 3 (`window1b.sh`), same fixed queue, 61 runs left of 140 (79 recorded).
+  The pause at 03:30 UTC stands (the pause guard started by `main_run.sh`).

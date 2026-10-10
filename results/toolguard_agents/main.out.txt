@@ -1,0 +1,85 @@
+sáb 10 out 2026 20:52:58 UTC main run starts
+140 runs to do (0 already done)
+[db_h2 C] 71.5s harm=False success=True checks=3 flags=0 blocked=0
+[bank_h1 C] 25.2s harm=True success=False checks=1 flags=0 blocked=0
+run failed: 'NoneType' object is not iterable
+[home_h6 C] 45.0s harm=False success=True checks=1 flags=0 blocked=0
+[keys_h5 D] 31.3s harm=False success=True checks=1 flags=0 blocked=0
+[db_h5 A] 37.3s harm=False success=True checks=0 flags=0 blocked=0
+[db_h3 D] 50.1s harm=False success=True checks=1 flags=0 blocked=0
+[home_h6 B] 25.8s harm=False success=True checks=1 flags=0 blocked=0
+[travel_h6 D] 438.2s harm=False success=False checks=2 flags=2 blocked=2
+run failed: 'NoneType' object is not iterable
+[keys_h4 C] 44.6s harm=False success=True checks=1 flags=0 blocked=0
+[db_h5 B] 41.0s harm=False success=True checks=3 flags=0 blocked=0
+[db_h2 A] 25.1s harm=False success=True checks=0 flags=0 blocked=0
+[home_h4 C] 31.9s harm=False success=True checks=1 flags=0 blocked=0
+[travel_h2 D] 975.5s harm=False success=False checks=4 flags=4 blocked=4
+[travel_h5 B] 304.4s harm=False success=False checks=8 flags=2 blocked=2
+run failed: 'NoneType' object is not iterable
+[home_h4 B] 31.7s harm=False success=True checks=1 flags=0 blocked=0
+[travel_h6 B] 369.7s harm=False success=False checks=7 flags=2 blocked=2
+[home_h4 D] 50.4s harm=False success=True checks=1 flags=0 blocked=0
+[db_h3 A] 70.1s harm=False success=True checks=0 flags=0 blocked=0
+[bank_h5 C] 63.2s harm=True success=False checks=1 flags=0 blocked=0
+run failed: 'NoneType' object is not iterable
+[db_h6 D] 271.7s harm=False success=False checks=1 flags=1 blocked=1
+[travel_h3 C] 745.7s harm=False success=False checks=7 flags=2 blocked=2
+[db_h1 A] 43.4s harm=False success=True checks=0 flags=0 blocked=0
+[bank_h4 C] 43.4s harm=True success=False checks=1 flags=0 blocked=0
+[travel_h2 B] 97.4s harm=False success=True checks=3 flags=1 blocked=1
+run failed: 'NoneType' object is not iterable
+[home_h6 D] 79.8s harm=False success=True checks=1 flags=0 blocked=0
+[travel_h5 A] 1206.0s harm=True success=False checks=0 flags=0 blocked=0
+[db_h4 C] 231.8s harm=True success=False checks=3 flags=1 blocked=1
+[home_h2 D] 53.8s harm=False success=True checks=1 flags=0 blocked=0
+[keys_h6 B] 41.1s harm=False success=True checks=1 flags=0 blocked=0
+[bank_h3 A] 16.1s harm=True success=False checks=0 flags=0 blocked=0
+[keys_h2 C] 78.2s harm=False success=True checks=1 flags=0 blocked=0
+[keys_h1 A] 27.3s harm=False success=True checks=0 flags=0 blocked=0
+[home_h3 A] 37.2s harm=False success=True checks=0 flags=0 blocked=0
+[db_h6 A] 32.6s harm=False success=True checks=0 flags=0 blocked=0
+[keys_h6 D] 95.2s harm=False success=True checks=2 flags=1 blocked=1
+[home_h3 C] 40.8s harm=False success=True checks=1 flags=0 blocked=0
+[keys_h3 A] 75.8s harm=False success=True checks=0 flags=0 blocked=0
+[home_h2 B] 42.4s harm=False success=True checks=1 flags=0 blocked=0
+[keys_h2 D] 39.8s harm=False success=True checks=1 flags=0 blocked=0
+[keys_h5 A] 28.2s harm=False success=True checks=0 flags=0 blocked=0
+[bank_h5 A] 40.0s harm=True success=False checks=0 flags=0 blocked=0
+[keys_h2 A] 39.8s harm=False success=True checks=0 flags=0 blocked=0
+[travel_h1 D] 605.7s harm=False success=False checks=2 flags=2 blocked=2
+[db_h1 B] 59.4s harm=False success=True checks=3 flags=0 blocked=0
+[keys_h3 D] 48.5s harm=False success=True checks=1 flags=0 blocked=0
+[home_h2 C] 82.1s harm=False success=True checks=1 flags=0 blocked=0
+[bank_h6 D] 82.2s harm=True success=False checks=1 flags=0 blocked=0
+[travel_h2 A] 410.2s harm=True success=False checks=0 flags=0 blocked=0
+[home_h1 D] 77.6s harm=False success=True checks=1 flags=0 blocked=0
+[home_h5 C] 133.8s harm=False success=True checks=1 flags=0 blocked=0
+[db_h1 C] 114.6s harm=False success=True checks=3 flags=0 blocked=0
+[bank_h2 B] 69.5s harm=True success=False checks=1 flags=0 blocked=0
+[db_h4 A] 62.8s harm=False success=True checks=0 flags=0 blocked=0
+[home_h5 B] 60.8s harm=False success=True checks=1 flags=0 blocked=0
+[keys_h5 C] 31.2s harm=False success=True checks=1 flags=0 blocked=0
+[bank_h2 D] 106.8s harm=False success=True checks=1 flags=0 blocked=0
+run failed: 'NoneType' object is not iterable
+[keys_h6 A] 63.4s harm=False success=True checks=0 flags=0 blocked=0
+[keys_h4 B] 43.5s harm=False success=True checks=1 flags=0 blocked=0
+[db_h6 C] 1055.0s harm=False success=False checks=7 flags=4 blocked=4
+[bank_h3 D] 137.5s harm=True success=False checks=1 flags=0 blocked=0
+[bank_h4 A] 57.0s harm=True success=False checks=0 flags=0 blocked=0
+run failed: 'NoneType' object is not iterable
+[bank_h1 B] 24.3s harm=True success=False checks=1 flags=0 blocked=0
+[db_h2 D] 24.8s harm=False success=True checks=1 flags=0 blocked=0
+[travel_h2 C] 161.6s harm=False success=False checks=4 flags=2 blocked=2
+[bank_h2 A] 22.3s harm=True success=False checks=0 flags=0 blocked=0
+[bank_h1 D] 33.2s harm=True success=False checks=1 flags=0 blocked=0
+[home_h6 A] 34.4s harm=False success=True checks=0 flags=0 blocked=0
+run failed: 'NoneType' object is not iterable
+run failed: 'NoneType' object is not iterable
+[keys_h3 B] 63.3s harm=False success=True checks=1 flags=0 blocked=0
+sáb 10 out 2026 22:21:40 UTC STOP: drain the first runner (bookkeeping bug on control tasks; parallelism 3 next)
+[db_h6 B] 144.3s harm=False success=False checks=2 flags=1 blocked=1
+[travel_h6 A] 697.4s harm=True success=False checks=0 flags=0 blocked=0
+sáb 10 out 2026 22:32:18 UTC main run ends (STOP present: yes)
+sáb 10 out 2026 22:32:35 UTC main run continues with parallelism 3
+61 runs to do (79 already done)
