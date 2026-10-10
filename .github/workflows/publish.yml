@@ -1,7 +1,7 @@
 # Publishes to PyPI when a tag v* is pushed (git tag v0.1.9 && git push origin v0.1.9), with PyPI Trusted Publishing:
 # no token in the repository. One-time setup on pypi.org: a pending publisher for owner OpenInterpretability,
-# repository ekbasis, workflow publish.yml, environment pypi.
-name: Publish to PyPI
+# repository ekbasis, workflow publish.yml, environment pypi. Then the MCP registry entry (server.json) is updated.
+name: Publish to PyPI and the MCP registry
 
 on:
   push:
@@ -48,3 +48,28 @@ jobs:
           name: dist
           path: dist/
       - uses: pypa/gh-action-pypi-publish@release/v1
+
+  # The MCP registry entry (server.json, io.github.OpenInterpretability/ekbasis) follows each PyPI release. The registry
+  # checks that the version exists on PyPI and that its README carries the mcp-name marker, so this waits for PyPI.
+  # GitHub OIDC: no token in the repository.
+  mcp-registry:
+    needs: publish
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: wait until the version is on PyPI
+        run: |
+          v="${GITHUB_REF_NAME#v}"
+          for i in $(seq 1 30); do
+            curl -sf "https://pypi.org/pypi/ekbasis/${v}/json" > /dev/null && exit 0
+            sleep 10
+          done
+          echo "ekbasis ${v} did not appear on PyPI within 5 minutes"; exit 1
+      - name: install mcp-publisher
+        run: |
+          curl -sL "https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_linux_amd64.tar.gz" | tar xz mcp-publisher
+      - run: ./mcp-publisher login github-oidc
+      - run: ./mcp-publisher publish
