@@ -16,6 +16,10 @@ why="python3 failed with exit code $rc (python3 3.9 or later must be on PATH)"
 case "$mode" in
   hook)
     [ -z "$EKBASIS_URL$EKBASIS_API_KEY" ] && exit 0
+    if [ "$EKBASIS_GUARD_MODE" = "log" ]; then
+      echo "ekbasis hook (log mode, not blocking): the hook could not run: $why" >&2
+      exit 0
+    fi
     if [ "$EKBASIS_FAIL_OPEN" = "1" ]; then
       echo "ekbasis hook: cannot foresee ($why); EKBASIS_FAIL_OPEN=1: letting it through" >&2
       exit 0

@@ -41,7 +41,8 @@ is a denial, so the warning says so and the same command in the same session goe
 Install (after `pip install ./ekbasis`), in .claude/settings.json (one project) or ~/.claude/settings.json (all):
   {"hooks": {"PreToolUse": [{"matcher": "Bash",
                              "hooks": [{"type": "command", "command": "ekbasis-claude-hook", "timeout": 30}]}]}}
-env: EKBASIS_URL (server), EKBASIS_LOST_THRESHOLD (0.2), EKBASIS_GUARD_MODE (ask | deny), EKBASIS_FETCH (1: git fetch
+env: EKBASIS_URL (server), EKBASIS_LOST_THRESHOLD (0.2), EKBASIS_GUARD_MODE (ask | deny | log: never block, record what it would do in
+~/.cache/ekbasis/hook_log.jsonl or EKBASIS_HOOK_LOG), EKBASIS_FETCH (1: git fetch
 first so the state shows the real remote; slower), EKBASIS_SHELL_GUARD (1: also check other lines that change files),
 EKBASIS_FAIL_OPEN (1: stay silent when it cannot judge), EKBASIS_HOOK_DEADLINE (seconds, default 25, for the whole
 line: keep it below the hook's "timeout", or Claude Code stops the hook first and the command goes through unchecked),
@@ -323,13 +324,48 @@ def plan_line(command: str, cwd: str) -> Plan:
     return plan
 
 
+_LOG_CTX: dict = {}   # the Bash call being checked, for EKBASIS_GUARD_MODE=log
+
+
+def _log_mode() -> bool:
+    return os.environ.get("EKBASIS_GUARD_MODE") == "log"
+
+
+def _log_path() -> str:
+    if os.environ.get("EKBASIS_HOOK_LOG"):
+        return os.environ["EKBASIS_HOOK_LOG"]
+    base = os.environ.get("EKBASIS_CACHE_DIR") or os.path.join(os.path.expanduser("~"), ".cache", "ekbasis")
+    return os.path.join(base, "hook_log.jsonl")
+
+
+def _shadow(decision: str, reason: str = "") -> None:
+    """EKBASIS_GUARD_MODE=log: never block; append what the hook would have done to a local JSONL file (this machine
+    only; nothing is sent anywhere) so a trial period shows what it would have stopped before it may stop anything."""
+    rec = {"t": round(time.time(), 3), "decision": decision, "reason": reason, **_LOG_CTX}
+    try:
+        path = _log_path()
+        os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
+        fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_APPEND, 0o600)
+        with os.fdopen(fd, "a") as f:
+            f.write(json.dumps(rec) + "\n")
+    except OSError as e:
+        print(f"ekbasis hook (log mode): could not write {_log_path()}: {e}", file=sys.stderr)
+    if decision != "pass":
+        print(f"ekbasis hook (log mode, not blocking): would {decision.replace('_', ' ')}: {reason}", file=sys.stderr)
+
+
 def _decide(reason: str) -> None:
+    if _log_mode():
+        return _shadow("ask", reason)
     mode = "deny" if os.environ.get("EKBASIS_GUARD_MODE") == "deny" else "ask"
     print(json.dumps({"hookSpecificOutput": {"hookEventName": "PreToolUse", "permissionDecision": mode,
                                              "permissionDecisionReason": reason}}))
 
 
 def _cannot_judge(why: str) -> int:
+    if _log_mode():
+        _shadow("ask_cannot_foresee", why)
+        return 0
     if os.environ.get("EKBASIS_FAIL_OPEN") == "1":
         print(f"ekbasis hook: cannot foresee ({why}); EKBASIS_FAIL_OPEN=1: letting it through", file=sys.stderr)
         return 0
@@ -459,6 +495,7 @@ def main() -> int:
             return 0
         line = (data.get("tool_input") or {}).get("command", "")
         cwd = data.get("cwd") or os.getcwd()
+        _LOG_CTX.update(command=line, cwd=cwd, session=data.get("session_id"))
         threshold = float(os.environ.get("EKBASIS_LOST_THRESHOLD", "0.2"))
         deadline = float(os.environ.get("EKBASIS_HOOK_DEADLINE", "25"))
         shortcuts = os.environ.get("EKBASIS_SHORTCUTS", "1") != "0"
@@ -533,6 +570,8 @@ def main() -> int:
         return _cannot_judge(f"{type(e).__name__}: {e}")
     if found:
         _decide(" Also: ".join(found) + "".join(" " + r for r in routes))
+    elif _log_mode():
+        _shadow("pass")
     return 0
 
 

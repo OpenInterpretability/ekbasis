@@ -444,7 +444,10 @@ The agent studies behind this section, on demo apps, on real self-hosted Gitea, 
     "hooks": [{"type": "command", "command": "ekbasis-claude-hook", "timeout": 30}]}]}}
   ```
 
-  Environment: `EKBASIS_URL`, `EKBASIS_LOST_THRESHOLD` (0.2), `EKBASIS_GUARD_MODE` (`ask` or `deny`),
+  Environment: `EKBASIS_URL`, `EKBASIS_LOST_THRESHOLD` (0.2), `EKBASIS_GUARD_MODE` (`ask`, `deny`, or `log`:
+  never block, and append what it would have done (`ask`, `ask_cannot_foresee` or `pass`, with the reason and the
+  command) to `~/.cache/ekbasis/hook_log.jsonl` or `EKBASIS_HOOK_LOG`, on this machine only, to try it for a while and
+  see what it would have stopped before letting it stop anything),
   `EKBASIS_FETCH=1` (fetch first so the state shows the real remote), `EKBASIS_FAIL_OPEN=1` (stay silent when it cannot
   foresee), `EKBASIS_HOOK_DEADLINE` (seconds, default 25, for the whole line; keep it below the hook's `timeout`, or
   Claude Code stops the hook first and the command goes through unchecked; with the MLX build on a Mac, where a

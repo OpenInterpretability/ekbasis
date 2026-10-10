@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.1.11] — 2026-10-10
+
+### Added
+- **Log-only hook mode** (`EKBASIS_GUARD_MODE=log`, from an outside tester's suggestion): the Claude Code hook never
+  blocks; it appends what it would have done (`ask`, `ask_cannot_foresee` or `pass`, the reason, the command and the
+  folder) to `~/.cache/ekbasis/hook_log.jsonl` (or `EKBASIS_HOOK_LOG`, file mode 600, nothing sent anywhere) and says
+  "would ask" on stderr, so a trial period shows what it would have stopped before it may stop anything. In the
+  plugin, a hook that cannot run also lets the command through in this mode, with the reason on stderr.
+
 ## [0.1.10] — 2026-10-10
 
 ### Added
