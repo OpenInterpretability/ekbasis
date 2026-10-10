@@ -61,7 +61,7 @@ def preflight_command(command: str, cwd: str = ".") -> dict:
     v = PF.check_line(command, cwd)
     if v is None:
         return {"multi_step": False}
-    return {"multi_step": True, "risky": v.risky, "cannot_judge": v.cannot_judge, "by": v.by, "first": v.first,
+    return {"multi_step": True, "risky": v.risky, "cannot_judge": v.cannot_judge, "cannot_foresee": v.cannot_judge, "by": v.by, "first": v.first,
             "p_fail": [round(p, 4) for p in v.p_fail], "steps": [s.text for s in v.plan.steps],
             "applied_before": v.applied_before, "runs_after": v.runs_after, "atomic": v.atomic, "error": v.error,
             "reason": v.reason, "note": v.copy_note or None, "message": v.message() if v.risky else None}

@@ -121,7 +121,7 @@ EKBASIS_URL=http://127.0.0.1:8000 ekbasis git-check -- "git reset --hard"
 ```
 
 The client also ships a Claude Code hook (`ekbasis-claude-hook`: asks before git commands that may lose work, and when
-it cannot judge them) and an MCP server (`ekbasis-mcp`). Since client 0.1.3 the hook asks only when something could
+it cannot foresee them) and an MCP server (`ekbasis-mcp`). Since client 0.1.3 the hook asks only when something could
 be lost for good. In fresh Claude Code sessions on real repositories that meant 2.9 asks per 100 commands, against
 10.7 for 0.1.2 on the same commands, with every real loss still caught
 ([results](https://github.com/OpenInterpretability/ekbasis/blob/main/results/client_0.1.3/RESULTS.md)).
@@ -359,7 +359,7 @@ How Ekbasis does inside agents, on demo apps, on real self-hosted Gitea, Nextclo
 - With written rules and time to think, a large reasoning model is more accurate; Ekbasis wins on cost, latency and
   calibrated confidence.
 - A warning layer that can be wrong, not a security boundary: use it with confirmations, backups and least privilege.
-  Command obfuscation is out of scope; since client 0.1.2 the guards fail closed ("cannot judge" is treated as risky).
+  Command obfuscation is out of scope; since client 0.1.2 the guards fail closed ("cannot foresee" is treated as risky).
   Since 0.1.3 the hook skips the model when code shows nothing could be lost for good. "Rebuildable" is decided by
   folder name, so irreplaceable data inside an ignored `build/`, `dist/`, `node_modules/` or cache folder is not
   protected.

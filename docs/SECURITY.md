@@ -23,7 +23,7 @@ Two properties make it suited to sit next to an agent:
 | Agent mistakes and over-eager destructive actions (the most common harm in practice) | **Yes**, in the domains it was trained on (git today) |
 | Prompt injection that leads the agent to run an ordinary-looking destructive command | **Yes**: the command is judged by its consequence, wherever the idea came from |
 | Injected text inside the state the guard reads (commit messages, file or branch names) | **Partly**; measured below, with a default mitigation |
-| An adversary who obfuscates commands (`bash -c`, aliases, variables, scripts) or optimizes against the guard | **No.** Not a security boundary. Since 0.1.2 the obvious forms (`bash -c`, `eval`, aliases, variables in a git command, subshells, `git -C`) are reported as "cannot judge" and need a confirmation, but a script or program that does the damage itself is not seen at all |
+| An adversary who obfuscates commands (`bash -c`, aliases, variables, scripts) or optimizes against the guard | **No.** Not a security boundary. Since 0.1.2 the obvious forms (`bash -c`, `eval`, aliases, variables in a git command, subshells, `git -C`) are reported as "cannot foresee" and need a confirmation, but a script or program that does the damage itself is not seen at all |
 | Data exfiltration, persistence, credential access | **Not yet** (git only); see the roadmap |
 
 ## Measured: can text in the repository steer the guard?
@@ -52,8 +52,8 @@ numbers as evidence, not a guarantee.
 
 ## Fail closed (since 0.1.2)
 
-When the guard cannot judge, it no longer answers "ok". `ekbasis git-check` and `ekbasis shell-check` exit with **3,
-"cannot judge"**, which callers must treat as risky, when the server cannot be reached or does not answer in time
+When the guard cannot foresee, it no longer answers "ok". `ekbasis git-check` and `ekbasis shell-check` exit with **3,
+"cannot foresee"**, which callers must treat as risky, when the server cannot be reached or does not answer in time
 (`--timeout`), when the repository or folder cannot be read, when a git command points git at another repository
 (`-C`, `--git-dir`, `--work-tree`) or uses an alias, and, for the shell guard, when a line has parts it cannot evaluate
 (paths from variables or command substitution, subshells, nested shells such as `bash -c` or `eval`, an unclosed
@@ -109,7 +109,7 @@ Measured on 292 fresh scenarios: no line of any file's content reached a prompt.
 
 - **Command parsing**: the hook reads `&&`, `||`, `;`, `|`, quotes, here-documents, `cd` (anywhere since 0.1.3),
   `pushd`/`popd`, subshells and `git -C`. Since 0.1.2,
-  `bash -c`, `eval`, aliases, subshells, variables in a git command and lines it cannot follow are "cannot judge" (a
+  `bash -c`, `eval`, aliases, subshells, variables in a git command and lines it cannot follow are "cannot foresee" (a
   confirmation) instead of passing unchecked; a script or program that does the damage itself (`python x.py`,
   `make clean`, an npm script) is not seen.
 - **Domain**: git, and shell file commands as a prototype. Other commands get no opinion, which is not approval.
@@ -128,7 +128,7 @@ Measured on 292 fresh scenarios: no line of any file's content reached a prompt.
 
   It asks when commits would be left with no branch, tag, remote-tracking branch or stash entry holding them. Still
   outside: `git push --force` (the remote is not read), a `rebase` that drops commits, and branch names that reach git
-  through `xargs`, which are "cannot judge".
+  through `xargs`, which are "cannot foresee".
 
 ## Recommended stack
 

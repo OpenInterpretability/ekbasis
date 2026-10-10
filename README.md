@@ -85,10 +85,10 @@ readout make it answer with probabilities, not text.
    #   - may permanently lose uncommitted work (99%)
    ```
 
-   Exit code 0 when no risk is found, 2 when the commands may lose uncommitted work, 3 when the guard cannot judge
+   Exit code 0 when no risk is found, 2 when the commands may lose uncommitted work, 3 when the guard cannot foresee
    (the server cannot be reached or does not answer in time, the repository cannot be read, or a command points git at
    another repository or uses an alias): treat 3 as risky. 1 is a usage error. The guard fails closed; `--fail-open`
-   turns "cannot judge" into 0 with a warning. It is a warning layer that can be wrong, not a security boundary: keep
+   turns "cannot foresee" into 0 with a warning. It is a warning layer that can be wrong, not a security boundary: keep
    confirmations, backups and least privilege ([docs/SECURITY.md](docs/SECURITY.md)).
 
 ## Builds
@@ -383,7 +383,7 @@ The agent studies behind this section, on demo apps, on real self-hosted Gitea, 
 ([PDF](paper/agents/agents.pdf), [doi:10.5281/zenodo.23197341](https://doi.org/10.5281/zenodo.23197341)), pre-registered, with the hypotheses that failed reported. Its tasks, app setups, adapters and judges are in [paper/agents/benchmark](paper/agents/benchmark), to rerun the studies with your own agent.
 
 - **Claude Code hook** — Claude Code asks you to confirm (or blocks) git commands that may lose uncommitted work, with
-  the reason; it stays silent otherwise. Since 0.1.2 it **fails closed**: when it cannot judge a line (the server
+  the reason; it stays silent otherwise. Since 0.1.2 it **fails closed**: when it cannot foresee a line (the server
   cannot be reached or does not answer within `EKBASIS_HOOK_DEADLINE`, the repository cannot be read, git is pointed at
   another repository, the line changes folder in a way the hook does not follow, or it has parts the hook cannot
   evaluate: subshells, variables in a git command, nested shells, aliases), Claude Code asks you to confirm and says
@@ -399,7 +399,7 @@ The agent studies behind this section, on demo apps, on real self-hosted Gitea, 
 
   Environment: `EKBASIS_URL`, `EKBASIS_LOST_THRESHOLD` (0.2), `EKBASIS_GUARD_MODE` (`ask` or `deny`),
   `EKBASIS_FETCH=1` (fetch first so the state shows the real remote), `EKBASIS_FAIL_OPEN=1` (stay silent when it cannot
-  judge), `EKBASIS_HOOK_DEADLINE` (seconds, default 25, for the whole line; keep it below the hook's `timeout`, or
+  foresee), `EKBASIS_HOOK_DEADLINE` (seconds, default 25, for the whole line; keep it below the hook's `timeout`, or
   Claude Code stops the hook first and the command goes through unchecked; with the MLX build on a Mac, where a
   preflight check that asks the model can take 30–40 s, use `EKBASIS_HOOK_DEADLINE=60` with a hook `timeout` of 90),
   `EKBASIS_SHELL_GUARD=1` (below),
@@ -408,7 +408,7 @@ The agent studies behind this section, on demo apps, on real self-hosted Gitea, 
   **Less friction (0.1.3, from a study of a Claude Code agent on real repositories).**
   - Read-only git (`status`, `log`, `diff`, `show`, listings of branches, tags, stashes and worktrees, `clean -n`)
     does not ask the model.
-  - `cd DIR` anywhere in the line, `pushd`/`popd`, subshells and `git -C DIR` are followed instead of "cannot judge".
+  - `cd DIR` anywhere in the line, `pushd`/`popd`, subshells and `git -C DIR` are followed instead of "cannot foresee".
     A folder that an earlier `git worktree add` (or `git clone`, `mkdir`) in the same line creates holds no
     uncommitted work. So the safe route for a backport (`git worktree add ../wt release && cd ../wt && git cherry-pick
     X`) passes, while the main repository's `git worktree add` is still judged.
@@ -447,7 +447,7 @@ The agent studies behind this section, on demo apps, on real self-hosted Gitea, 
   (`>` emptying a file it also reads, `;` after a failed `cd`, rsync's trailing slash, `cp -r SRC/.`, a link with a
   trailing slash, xargs and spaces, `tar -x`, commands that refuse and change nothing, `rm -f`, `cp -u`). Same exit
   codes and the same fail-closed rule as `git-check`; a line with variables in its paths, subshells or nested shells is
-  "cannot judge". In the Claude Code hook it is opt-in (`EKBASIS_SHELL_GUARD=1`) for lines that can change files
+  "cannot foresee". In the Claude Code hook it is opt-in (`EKBASIS_SHELL_GUARD=1`) for lines that can change files
   (since 0.1.3 also the shell part of lines with git). Measured on 292 fresh scenarios of 46 command forms it was not designed on (bash on Linux, the truth
   from running them): content lost right 91.4%, 93.2% of the losses flagged with 11.9% false alarms, failures right
   96.2%, against 54.8% for a list of destructive commands (82.0% flagged, 67.9% false alarms). What it misses: see
@@ -481,7 +481,7 @@ The agent studies behind this section, on demo apps, on real self-hosted Gitea, 
   - **Not warned on:** a failing step that only reads (`git status`, `ls`, a `curl` notification) and steps that only
     add (a backup copy, a new folder, CREATE TABLE), on their own; a plan that fails atomically (`sqlite3 -bail` inside
     `BEGIN ... COMMIT`).
-  - **When it cannot judge** (loops, conditionals, functions, other dot-commands, variables it cannot resolve), it says
+  - **When it cannot foresee** (loops, conditionals, functions, other dot-commands, variables it cannot resolve), it says
     nothing: it is an extra check (`--fail-closed` / `EKBASIS_PREFLIGHT_FAIL_CLOSED=1` warns instead).
 
   In the Claude Code hook it is opt-in: `EKBASIS_PREFLIGHT=1`. In headless runs an "ask" is a denial, so the warning
@@ -569,7 +569,7 @@ the answers the actions change (never-trained worlds: 710 instead of 1,442 promp
   0.1.0 and 0.1.1 it flagged 2 of 27 and 4 of 21 scenarios that drop commits). Since 0.1.3 the hook simulates the refs
   for branch and tag deletion, forced branch moves and `git reset --hard <commit>`.
   - Not covered: `git push --force` (the remote's state is not read) and a `rebase` that drops commits.
-  - Branch names passed through `xargs` are "cannot judge".
+  - Branch names passed through `xargs` are "cannot foresee".
 - **The 0.1.3 shortcuts trust folder names and git.**
   - "Rebuildable" is decided by folder name, so irreplaceable data inside an ignored `build/`, `dist/`,
     `node_modules/` or cache folder is not protected.

@@ -181,6 +181,11 @@ class PreflightVerdict:
     requests: int = 0
     copy_note: str = ""          # why the plan did not run on a copy
 
+    @property
+    def cannot_foresee(self) -> bool:
+        """0.1.8 name for cannot_judge (Ekbasis forecasts; it does not judge)."""
+        return self.cannot_judge
+
     def message(self) -> str:
         pl = self.plan
         if self.cannot_judge:
@@ -214,7 +219,7 @@ class PreflightVerdict:
 
     def summary(self) -> str:
         pl = self.plan
-        status = "CANNOT JUDGE" if self.cannot_judge else ("RISKY" if self.risky else ("fails, nothing half done" if
+        status = "CANNOT FORESEE" if self.cannot_judge else ("RISKY" if self.risky else ("fails, nothing half done" if
                  self.first or self.by == "code" else "ok"))
         out = [f"Ekbasis preflight: {status}  ({pl.source}; by {self.by}"
                + (f"; not on a copy: {self.copy_note}" if self.by == "model" and self.copy_note else "")
@@ -1730,7 +1735,7 @@ def check_plan(plan: Plan, client: Ekbasis | None = None, fail_threshold: float 
     n = len(plan.steps)
     if plan.unread:
         return PreflightVerdict(plan, [0.0] * n, 0.0, None, risky=fail_closed, cannot_judge=True,
-                                reasons=["cannot judge: " + "; ".join(plan.unread)])
+                                reasons=["cannot foresee: " + "; ".join(plan.unread)])
     if plan.kind == "sql" and plan.sqlite3_line and not sqlite_cli():
         return PreflightVerdict(plan, [0.0] * n, 0.0, None, by="code", copy_note=(
             "the sqlite3 command-line tool is not installed here, so the line fails before any statement runs and "

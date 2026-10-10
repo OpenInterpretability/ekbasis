@@ -1267,11 +1267,16 @@ class ShellVerdict:
     state: str = ""                     # the exact text the model read
 
     @property
+    def cannot_foresee(self) -> bool:
+        """0.1.8 name for cannot_judge (Ekbasis forecasts; it does not judge)."""
+        return self.cannot_judge
+
+    @property
     def judged(self) -> bool:
         return not self.unread
 
     def summary(self) -> str:
-        status = "RISKY" if self.lost_risky else ("CANNOT JUDGE" if self.cannot_judge else "ok")
+        status = "RISKY" if self.lost_risky else ("CANNOT FORESEE" if self.cannot_judge else "ok")
         out = [f"Ekbasis: {status}  (lose file content: {100 * self.p_lost:.0f}%)"]
         for c, p in zip(self.commands, self.p_fail):
             out.append(f"  {100 * p:3.0f}% fails  {c}")
@@ -1321,7 +1326,7 @@ def check(commands, cwd: str = ".", client: Ekbasis | None = None, lost_threshol
         v.reasons.append(f"may permanently lose file content ({100 * v.p_lost:.0f}%)")
     if v.unread and fail_closed:
         v.cannot_judge = True
-        v.reasons.append("cannot judge every part of the line (" + "; ".join(v.unread) + "): treat it as risky")
+        v.reasons.append("cannot foresee every part of the line (" + "; ".join(v.unread) + "): treat it as risky")
     v.risky = v.lost_risky or v.cannot_judge
     v.reasons += [f"command {k} likely fails: {c}" for k, (c, p) in enumerate(zip(commands, v.p_fail), 1)
                   if p >= fail_threshold]

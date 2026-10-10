@@ -326,9 +326,9 @@ def _decide(reason: str) -> None:
 
 def _cannot_judge(why: str) -> int:
     if os.environ.get("EKBASIS_FAIL_OPEN") == "1":
-        print(f"ekbasis hook: cannot judge ({why}); EKBASIS_FAIL_OPEN=1: letting it through", file=sys.stderr)
+        print(f"ekbasis hook: cannot foresee ({why}); EKBASIS_FAIL_OPEN=1: letting it through", file=sys.stderr)
         return 0
-    _decide(f"Ekbasis could not judge this command ({why}). Confirm it only if you know it is safe.")
+    _decide(f"Ekbasis could not foresee what this command will do ({why}). Confirm it only if you know it is safe.")
     return 0
 
 
@@ -409,13 +409,13 @@ def _preflight(line: str, cwd: str, session: str | None, client, left) -> str | 
         v = _with_deadline(lambda: PF.check_line(line, cwd, client=client, fail_closed=fail_closed, copy=copy), left())
     except CannotJudge as e:
         if not fail_closed:
-            print(f"ekbasis preflight: cannot judge ({e}); saying nothing", file=sys.stderr)
+            print(f"ekbasis preflight: cannot foresee ({e}); saying nothing", file=sys.stderr)
             return None
         _remember(session, key)
         return f"Ekbasis preflight could not check this multi-step change ({e}).{again}"
     if v is None or not v.risky:
         if v is not None and v.cannot_judge:
-            print("ekbasis preflight: cannot judge (" + "; ".join(v.plan.unread) + "); saying nothing", file=sys.stderr)
+            print("ekbasis preflight: cannot foresee (" + "; ".join(v.plan.unread) + "); saying nothing", file=sys.stderr)
         return None
     _remember(session, key)
     return v.message() + again
@@ -483,7 +483,7 @@ def main() -> int:
             v = _with_deadline(lambda: S.check([plan.shell_line], cwd=cwd, client=client, lost_threshold=threshold,
                                                skip=skip), left())
             if v.risky:
-                what = "could not judge every part of the line" if not v.lost_risky else "; ".join(v.reasons)
+                what = "could not foresee every part of the line" if not v.lost_risky else "; ".join(v.reasons)
                 found.append(f"Ekbasis (shell guard): {what}. Line: {line}. Consider keeping a copy of the files first.")
         if os.environ.get("EKBASIS_PREFLIGHT") == "1":
             warn = _preflight(line, cwd, data.get("session_id"), client, left)
