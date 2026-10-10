@@ -20,7 +20,7 @@ from ekbasis.client import Answer, CannotJudge
 
 
 class Fake:
-    """p: {question: probability of yes}; any other question gets `default` (as_asked gets 1 - default)."""
+    """p: {question: probability of yes}; any other question gets `default`."""
 
     def __init__(self, p=None, default=0.01):
         self.p, self.default, self.requests = p or {}, default, []
@@ -29,7 +29,7 @@ class Fake:
         self.requests.append((state, questions))
         out = {}
         for k in questions:
-            p = self.p.get(k, 1 - self.default if k == "as_asked" else self.default)
+            p = self.p.get(k, self.default)
             out[k] = Answer(value=p >= 0.5, confidence=max(p, 1 - p), probabilities={"yes": p, "no": 1 - p}, p_yes=p)
         return out
 
@@ -137,7 +137,9 @@ class TestVerdict(unittest.TestCase):
         self.assertEqual(T.check("mcp__drive__delete_folder", {"folder_id": "f_19"}, DRIVE,
                                  client=Fake({"exposure": 0.3})).verdict, "cannot_foresee")
         self.assertEqual(T.check("mcp__drive__delete_folder", {"folder_id": "f_19"}, DRIVE,
-                                 client=Fake({"as_asked": 0.3})).verdict, "risky")
+                                 client=Fake({"against_request": 0.7})).verdict, "risky")
+        self.assertEqual(T.check("mcp__drive__delete_folder", {"folder_id": "f_19"}, DRIVE,
+                                 client=Fake({"against_request": 0.3})).verdict, "ok")   # no uncertain band
         v = T.check("mcp__drive__delete_folder", {"folder_id": "f_19"}, DRIVE, client=Fake())
         self.assertEqual((v.verdict, v.risky), ("ok", False))
 
@@ -145,10 +147,10 @@ class TestVerdict(unittest.TestCase):
         f = Fake()
         T.check("mcp__drive__delete_folder", {"folder_id": "f_19"}, DRIVE, client=f)
         qs = f.requests[0][1]
-        self.assertEqual(set(qs), set(T.HARMS) | {"as_asked"})
+        self.assertEqual(set(qs), set(T.HARMS) | {"against_request"})
         self.assertTrue(all(q["type"] == "noul" and set(q["criteria"]) == {"true", "false"} for q in qs.values()))
         T.check("mcp__drive__delete_folder", {"folder_id": "f_19"}, DRIVE[1:], client=f)
-        self.assertNotIn("as_asked", f.requests[1][1])   # no user request: not asked
+        self.assertNotIn("against_request", f.requests[1][1])   # no user request: not asked
 
     def test_server_down_raises(self):
         with self.assertRaises(CannotJudge):
@@ -349,9 +351,11 @@ class TestMcpGuard(unittest.TestCase):
         call = {"jsonrpc": "2.0", "id": 3, "method": "tools/call",
                 "params": {"name": "delete_folder", "arguments": {"folder_id": "f_19"}}}
         g.from_client(call)
+        self.wait(to_client, 1)
         g.from_client({**call, "id": 4})
         self.wait(to_client, 2)
         self.assertEqual(to_server, [])
+        self.assertIn("blocked before", to_client[1]["result"]["content"][0]["text"])
 
     def test_warn_mode(self):
         g, to_client, to_server = self.make(Fake({"data_loss": 0.95}), mode="warn")

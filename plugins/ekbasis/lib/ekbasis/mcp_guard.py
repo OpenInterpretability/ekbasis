@@ -1,7 +1,8 @@
 """A guard in front of any MCP server (stdio), standard library only (a prototype in 0.1.10).
 
     ekbasis-mcp-guard [--mode block|warn] [--threshold 0.5] [--no-repeat] [--fail-open] [--no-probe]
-                      [--request TEXT] [--allow a,b] [--probe-only c,d] [--log FILE] -- <server command>
+                      [--request TEXT] [--no-request-flags] [--allow a,b] [--probe-only c,d] [--log FILE]
+                      -- <server command>
 
 Register this command in the MCP client instead of the server's own command. It starts the server and relays every
 message both ways unchanged, and it keeps what it relays as context: the tools' descriptions, annotations and input
@@ -51,12 +52,13 @@ class Guard:
 
     def __init__(self, send_client, send_server, client=None, mode: str = "block", risky_at: float = 0.5,
                  repeat: bool = True, fail_open: bool = False, log=None, probe: bool = True, request: str | None = None,
-                 allow=(), probe_only=(), audit: str | None = None, probe_seconds: float | None = None):
+                 allow=(), probe_only=(), audit: str | None = None, probe_seconds: float | None = None,
+                 request_flags: bool = True):
         self.send_client, self.send_server = send_client, send_server
         self.client = client or Ekbasis(timeout=float(os.environ.get("EKBASIS_TOOL_DEADLINE", "25")), surface="mcp-guard")
         self.mode, self.risky_at, self.repeat, self.fail_open = mode, risky_at, repeat, fail_open
         self.log = log or (lambda m: print(f"ekbasis-mcp-guard: {m}", file=sys.stderr, flush=True))
-        self.probe, self.request = probe, request
+        self.probe, self.request, self.request_flags = probe, request, request_flags
         self.allow, self.probe_only = set(allow), set(probe_only)
         self.audit = audit
         self.probe_seconds = probe_seconds if probe_seconds is not None else \
@@ -115,7 +117,7 @@ class Guard:
 
     def backend_state(self, name: str, args, events) -> str | None:
         """A state written from another source than the session (a subclass may read the app's backend); None: build
-        it from the session."""
+        it from the session; "": the source says the call changes nothing that matters (not asked)."""
         return None
 
     def _call(self, msg: dict) -> None:
@@ -124,6 +126,15 @@ class Guard:
         meta = self.tools.get(name, {})
         key = hashlib.sha256(json.dumps([name, args], sort_keys=True, default=str).encode()).hexdigest()
         warning, row = None, None
+        with self.lock:
+            refused = not self.repeat and key in self.warned
+        if refused:   # blocked before and --no-repeat: blocked again without asking the model
+            self._audit({"t": time.time(), "tool": name, "input": args, "verdict": "repeat", "p": {}, "reasons": [],
+                         "skipped": None, "probes": [], "backend": False, "seconds": 0.0, "usage": None,
+                         "state_chars": 0, "action": "blocked again"})
+            self.send_client({"jsonrpc": "2.0", "id": msg["id"], "result": {"content": [{"type": "text", "text":
+                              "Not called: this exact call was blocked before in this session."}], "isError": True}})
+            return
         if name not in self.allow and not TG.read_only(name, args, meta.get("annotations")):
             t0 = time.monotonic()
             with self.lock:
@@ -133,9 +144,12 @@ class Guard:
                 state = self.backend_state(name, args, events)
                 if state is None and self.probe:
                     probes = self.run_probes(name, args, events)
-                v = TG.check(name, args, events + probes, description=meta.get("description"),
-                             annotations=meta.get("annotations"), client=self.client, risky_at=self.risky_at,
-                             state=state)
+                if state == "":
+                    v = TG.ToolVerdict(tool=name, skipped="the backend says it changes nothing that matters")
+                else:
+                    v = TG.check(name, args, events + probes, description=meta.get("description"),
+                                 annotations=meta.get("annotations"), client=self.client, risky_at=self.risky_at,
+                                 state=state, request_flags=self.request_flags)
             except CannotJudge as e:
                 v = TG.ToolVerdict(tool=name, verdict="cannot_foresee", reasons=[str(e)])
             except Exception as e:  # noqa: BLE001  (anything else: cannot foresee)
@@ -251,6 +265,8 @@ def parser() -> argparse.ArgumentParser:
     ap.add_argument("--fail-open", action="store_true", help="call the tool when Ekbasis cannot foresee")
     ap.add_argument("--no-probe", action="store_true", help="do not call the server's read-only tools before a check")
     ap.add_argument("--request", default=os.environ.get("EKBASIS_GUARD_REQUEST"), help="what the user asked for")
+    ap.add_argument("--no-request-flags", action="store_true",
+                    help="ask whether the call goes against the request, but do not let that answer flag it")
     ap.add_argument("--allow", default=os.environ.get("EKBASIS_GUARD_ALLOW"), help="tools never checked (a,b)")
     ap.add_argument("--probe-only", default=None, help="tools only the probe may call, hidden from the agent (a,b)")
     ap.add_argument("--log", default=os.environ.get("EKBASIS_GUARD_LOG"), help="append one JSON line per check here")
@@ -272,7 +288,8 @@ def main(argv=None, guard_class=Guard) -> int:
         return 1
     guard = guard_class(_writer(sys.stdout), _writer(proc.stdin), mode=a.mode, risky_at=a.threshold,
                         repeat=not a.no_repeat, fail_open=a.fail_open, probe=not a.no_probe, request=a.request,
-                        allow=_names(a.allow), probe_only=_names(a.probe_only), audit=a.log)
+                        allow=_names(a.allow), probe_only=_names(a.probe_only), audit=a.log,
+                        request_flags=not a.no_request_flags)
     t = threading.Thread(target=_pump, args=(proc.stdout, guard.from_server), daemon=True)
     t.start()
     try:
