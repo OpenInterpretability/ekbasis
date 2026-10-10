@@ -95,6 +95,7 @@ class Ekbasis:
         self.surface = surface or os.environ.get("EKBASIS_SURFACE")
         # The hosted API returns an id with every answer (X-Ekbasis-Request-Id), used to send feedback on it.
         self.last_request_id: str | None = None
+        self.last_usage: dict | None = None   # the token counts of the last answer, when the server sends them
 
     def _call(self, path: str, body: dict | None = None) -> dict:
         headers = {"Content-Type": "application/json", "User-Agent": USER_AGENT}
@@ -107,6 +108,8 @@ class Ekbasis:
         try:
             with urllib.request.urlopen(req, timeout=self.timeout) as r:
                 out = json.loads(r.read())
+                if isinstance(out, dict) and isinstance(out.get("usage"), dict):
+                    self.last_usage = out["usage"]
                 rid = r.headers.get("X-Ekbasis-Request-Id")
                 if rid:
                     self.last_request_id = rid

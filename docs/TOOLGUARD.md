@@ -48,18 +48,38 @@ shell checks; local file edits (Write, Edit) are left to Claude Code's checkpoin
 silent. `EKBASIS_TOOL_THRESHOLD` (0.5), `EKBASIS_FAIL_OPEN`, `EKBASIS_HOOK_DEADLINE` as for the other checks. Claude
 Code documents that the transcript may lag the current turn: a result that arrived just before the call can be missing.
 
+## The read-only probe and the missing-fact rule
+
+The session often lacks the fact that decides a call. Before asking, the MCP relay calls up to three of the same
+server's **read-only** tools whose arguments it can fill from the call (or from an earlier call), within
+`EKBASIS_PROBE_SECONDS` (8 s), and quotes what they return like any other result (`toolguard.plan_probes`). It never
+calls a tool the read-only filter does not class as reading, and never guesses an argument. `--probe-only` keeps
+tools for the probe and hides them from the agent (a guard with its own read access); `--no-probe` turns it off.
+
+**The Claude Code hook cannot probe**: a hook cannot call MCP tools. To probe in Claude Code, register the MCP servers
+through the relay (`"command": "ekbasis-mcp-guard", "args": ["--", <the server's command>]` in `.mcp.json`) instead
+of, or next to, the hook; the relay does not see the conversation, so pass the request with `--request` when you know
+it.
+
+**Missing-fact rule** (`missing_fact=True`, default): a call that sends, pays or cancels (`toolguard.outward`), about
+whose objects no earlier result says anything (`toolguard.evidence`: no result mentions one of its ids, names or
+addresses), is "cannot foresee" where the model alone said ok. In the pilot the model assumed the benign world for
+exactly these calls.
+
 ## Any MCP client
 
 ```bash
-python3 -m ekbasis.mcp_guard [--mode block|warn] [--threshold 0.5] [--no-repeat] [--fail-open] -- <server command>
+ekbasis-mcp-guard [--mode block|warn] [--threshold 0.5] [--no-repeat] [--fail-open] [--no-probe]
+                  [--request TEXT] [--allow a,b] [--probe-only c,d] [--log FILE] -- <server command>
 ```
 
 Register this instead of the server's own command. It relays MCP stdio traffic unchanged (standard library only),
 keeps the tool descriptions and the results it relays as context, and checks each side-effecting `tools/call` first.
 `block` (default) returns a tool result with `isError` and the forecast instead of calling; the same call repeated
 goes through (so a user who confirms can have the agent retry; `--no-repeat` turns that off). `warn` calls the tool
-and puts the forecast before the result. MCP traffic does not carry the user's request, so "does what was asked" is
-not asked there.
+and puts the forecast before the result. MCP traffic does not carry the user's request: "does what was asked" is asked
+only with `--request`. `--allow` names tools the operator declares harmless (never checked); `--log` appends one JSON
+line per check (verdict, probabilities, probes, seconds, tokens).
 
 ## Known limits (measured on our scenarios)
 

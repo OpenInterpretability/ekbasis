@@ -174,6 +174,45 @@ TRANSCRIPT = [
 ]
 
 
+class TestProbeAndMissingFact(unittest.TestCase):
+    TOOLS = {"get_thread": {"inputSchema": {"required": ["thread_id"]}},
+             "list_labels": {"inputSchema": {}},
+             "search_messages": {"inputSchema": {"required": ["query"]}},
+             "delete_thread": {"inputSchema": {"required": ["thread_id"]}},
+             "reply_all": {"inputSchema": {"required": ["thread_id", "body"]}}}
+
+    def test_plan(self):
+        plan = T.plan_probes("reply_all", {"thread_id": "th_1", "body": "hi"}, self.TOOLS)
+        self.assertEqual(plan, [("get_thread", {"thread_id": "th_1"}), ("list_labels", {})])   # no query to guess
+
+    def test_plan_from_earlier_call(self):
+        ev = [{"kind": "tool", "name": "search_messages", "input": {"query": "pricing"}, "result": "th_1"}]
+        self.assertIn(("search_messages", {"query": "pricing"}), T.plan_probes("reply_all", {"thread_id": "th_1"},
+                                                                             self.TOOLS, ev))
+
+    def test_outward(self):
+        self.assertTrue(T.outward("mcp__mail__reply_all", {}))
+        self.assertTrue(T.outward("click", {"element": "bank.pay_full"}))
+        self.assertFalse(T.outward("mcp__drive__delete_folder", {"folder_id": "f_1"}))
+
+    def test_missing_fact_rule(self):
+        ev = [{"kind": "user", "text": "Reply to everyone on the pricing thread."}]
+        v = T.check("mcp__mail__reply_all", {"thread_id": "th_884", "body": "hi"}, ev, client=Fake())
+        self.assertEqual(v.verdict, "cannot_foresee")
+        self.assertIn("nothing seen so far", v.reasons[0])
+        ev.append({"kind": "tool", "name": "get_thread", "input": {"thread_id": "th_884"},
+                   "result": "th_884: lena@northwind.com, raj@northwind.com"})
+        self.assertEqual(T.check("mcp__mail__reply_all", {"thread_id": "th_884", "body": "hi"}, ev,
+                                 client=Fake()).verdict, "ok")
+        self.assertEqual(T.check("mcp__mail__reply_all", {"thread_id": "th_884"}, ev[:1], client=Fake(),
+                                 missing_fact=False).verdict, "ok")
+
+    def test_state_override(self):
+        f = Fake()
+        T.check("click", {"element": "bank.pay_full"}, [], client=f, state="Rules: ... About to: pay")
+        self.assertEqual(f.requests[0][0], "Rules: ... About to: pay")
+
+
 class TestTranscript(unittest.TestCase):
     def test_parse(self):
         with tempfile.TemporaryDirectory() as d:
@@ -266,6 +305,7 @@ class TestHook(unittest.TestCase):
 class TestMcpGuard(unittest.TestCase):
     def make(self, client, **kw):
         to_client, to_server = [], []
+        kw.setdefault("probe", False)
         g = MG.Guard(to_client.append, to_server.append, client=client, log=lambda m: None, **kw)
         return g, to_client, to_server
 
@@ -336,6 +376,43 @@ class TestMcpGuard(unittest.TestCase):
                        "params": {"name": "delete_folder", "arguments": {"folder_id": "f_19"}}})
         self.wait(to_server, 1)
         self.assertEqual(to_client, [])
+
+    def test_probe_reads_before_asking(self):
+        """The guard calls the server's read-only tool itself; its answer reaches the state, not the agent."""
+        f = Fake({"data_loss": 0.95})
+        to_client, to_server = [], []
+
+        def server(msg):
+            to_server.append(msg)
+            if str(msg.get("id", "")).startswith("ekbasis-guard-"):
+                threading.Thread(target=g.from_server, args=({"jsonrpc": "2.0", "id": msg["id"], "result": {
+                    "content": [{"type": "text", "text": DRIVE[1]["result"]}]}},)).start()
+
+        audit = os.path.join(tempfile.mkdtemp(), "log.jsonl")
+        g = MG.Guard(to_client.append, server, client=f, log=lambda m: None, request="Delete the Q3 drafts folder",
+                     probe_only=["list_folders"], audit=audit)
+        g.from_client({"jsonrpc": "2.0", "id": 1, "method": "tools/list"})
+        g.from_server({"jsonrpc": "2.0", "id": 1, "result": {"tools": [
+            {"name": "list_folders", "annotations": {"readOnlyHint": True}, "inputSchema": {"type": "object"}},
+            {"name": "send_money", "inputSchema": {"type": "object", "required": ["amount"]}},
+            {"name": "delete_folder", "inputSchema": {"type": "object", "required": ["folder_id"]}}]}})
+        self.assertEqual([t["name"] for t in to_client[0]["result"]["tools"]], ["send_money", "delete_folder"])
+        g.from_client({"jsonrpc": "2.0", "id": 2, "method": "tools/call",
+                       "params": {"name": "delete_folder", "arguments": {"folder_id": "f_19"}}})
+        self.wait(to_client, 2)
+        self.assertEqual([m.get("params", {}).get("name") for m in to_server[1:]], ["list_folders"])  # never send_money
+        self.assertIn("finance@acme.com", f.requests[0][0])
+        self.assertIn("Delete the Q3 drafts folder", f.requests[0][0])
+        row = json.loads(open(audit).read().splitlines()[0])
+        self.assertEqual((row["action"], row["probes"]), ("blocked", ["list_folders"]))
+
+    def test_probe_timeout(self):
+        g, to_client, to_server = self.make(Fake(), probe=True, probe_seconds=0.2)
+        g.tools = {"list_folders": {"annotations": {"readOnlyHint": True}, "inputSchema": {}}}
+        g.from_client({"jsonrpc": "2.0", "id": 3, "method": "tools/call",
+                       "params": {"name": "delete_folder", "arguments": {"folder_id": "f_19"}}})
+        self.wait(to_server, 2)   # the probe (unanswered), then the call itself
+        self.assertEqual(to_server[1]["id"], 3)
 
     def test_stdio_end_to_end(self):
         """The real relay over pipes, with a tiny MCP server and a server of Ekbasis nobody listens on."""
