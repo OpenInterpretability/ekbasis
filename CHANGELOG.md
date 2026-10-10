@@ -26,45 +26,6 @@
   (`io.github.OpenInterpretability/ekbasis`, with the `mcp-name` marker in the README).
 - GitHub Actions: `ci.yml` (tests on Linux with Python 3.9, 3.12 and 3.13 and on macOS; build, `twine check`, wheel
   contents, fresh-venv install, versions in agreement, the plugin's copy in sync and under 2 MB) and `publish.yml` (on a `v*` tag, PyPI Trusted Publishing).
-
-## [0.1.9] — 2026-10-10
-
-### Added
-- **`ekbasis feedback`**: tell the hosted API how an answer turned out, so we can measure the model on real use.
-  `ekbasis feedback --last --wrong` (or `--correct`, `--prevented-harm`, `--false-alarm`), or pass the request id;
-  `--note` is optional (up to 500 characters; never put secrets in it). Free, one per request id, kept 30 days.
-  Exit 0 recorded, 4 refused (unknown id, already sent, rate limit, no key), 3 server unreachable, 1 usage error.
-  In Python: `Ekbasis.feedback(verdict, request_id=None, note=None)`, raising `FeedbackRejected` (with `.status`).
-- The client keeps the `X-Ekbasis-Request-Id` of each hosted answer in `client.last_request_id` and in
-  `~/.cache/ekbasis/last_request_id` (only the id and the time, never the question or the answer;
-  `EKBASIS_CACHE_DIR` moves it), so `--last` works across commands and from the Claude Code hook.
-- Calls say where they come from in `X-Ekbasis-Surface` (`git-check`, `shell-check`, `preflight`, `predict`,
-  `claude-hook`, `mcp`; `EKBASIS_SURFACE` or `Ekbasis(surface=...)` to set it), which is metadata only.
-
-## [0.1.8] — 2026-10-10
-
-### Changed
-- **"cannot foresee" replaces "cannot judge"** in everything a person reads: the CLI (`Ekbasis: CANNOT FORESEE`),
-  the Claude Code hook ("Ekbasis could not foresee what this command will do"), preflight and the shell guard.
-  Ekbasis forecasts; it does not judge. Nothing a program reads changed: exit code 3, the JSON field
-  `cannot_judge`, the `CannotJudge` exception and the verdicts' `cannot_judge` attribute stay, with new
-  equivalents `cannot_foresee` (JSON field and attribute), `CannotForesee` and `CANNOT_FORESEE`.
-- **The client identifies itself** with `User-Agent: ekbasis/<version>` instead of Python's default
-  `Python-urllib/3.x`, which some CDN bot checks block (the hosted API at openinterp.org answered 403 to it).
-- `ekbasis.__version__` now matches the package version (it said 0.1.6 in 0.1.7).
-
-## [0.1.7] — 2026-10-10
-
-### Added
-- `remote_loss()` in `ekbasis/git.py`: the guard now flags `git push --force` / `push -f` lines that would
-  overwrite commits the remote holds and the local branch does not (falls back to `origin/HEAD` when the
-  branch has no upstream). The Claude Code hook asks with the reason: "force-pushes over N commit(s) that
-  origin/main holds... or use --force-with-lease". Measured: diverged force-push asks; synced force-push and
-  `--force-with-lease` stay silent. Gap found in the cookbook battery (09/10).
-
-## [0.1.10] — 2026-10-10
-
-### Added
 - **Safer route** (`ekbasis/safer.py`): when git commands are risky, `git-check` prints
   `Safer: <commands>  (lose uncommitted work: N%)`, `--json` and the MCP tool `check_git_commands` add `safer`
   (`{commands, p_lost, keeps}` or null) and `safer_note`, and the Claude Code hook adds the route to its message.
@@ -102,6 +63,41 @@
   (`git branch keep && git reset --hard HEAD~1` no longer asks).
 - The hook's force-push message no longer suggests `--force-with-lease` alone as the fix: it does not protect commits
   that were already fetched (measured: it overwrote them); it suggests rebasing first or `--force-if-includes`.
+
+## [0.1.9] — 2026-10-10
+
+### Added
+- **`ekbasis feedback`**: tell the hosted API how an answer turned out, so we can measure the model on real use.
+  `ekbasis feedback --last --wrong` (or `--correct`, `--prevented-harm`, `--false-alarm`), or pass the request id;
+  `--note` is optional (up to 500 characters; never put secrets in it). Free, one per request id, kept 30 days.
+  Exit 0 recorded, 4 refused (unknown id, already sent, rate limit, no key), 3 server unreachable, 1 usage error.
+  In Python: `Ekbasis.feedback(verdict, request_id=None, note=None)`, raising `FeedbackRejected` (with `.status`).
+- The client keeps the `X-Ekbasis-Request-Id` of each hosted answer in `client.last_request_id` and in
+  `~/.cache/ekbasis/last_request_id` (only the id and the time, never the question or the answer;
+  `EKBASIS_CACHE_DIR` moves it), so `--last` works across commands and from the Claude Code hook.
+- Calls say where they come from in `X-Ekbasis-Surface` (`git-check`, `shell-check`, `preflight`, `predict`,
+  `claude-hook`, `mcp`; `EKBASIS_SURFACE` or `Ekbasis(surface=...)` to set it), which is metadata only.
+
+## [0.1.8] — 2026-10-10
+
+### Changed
+- **"cannot foresee" replaces "cannot judge"** in everything a person reads: the CLI (`Ekbasis: CANNOT FORESEE`),
+  the Claude Code hook ("Ekbasis could not foresee what this command will do"), preflight and the shell guard.
+  Ekbasis forecasts; it does not judge. Nothing a program reads changed: exit code 3, the JSON field
+  `cannot_judge`, the `CannotJudge` exception and the verdicts' `cannot_judge` attribute stay, with new
+  equivalents `cannot_foresee` (JSON field and attribute), `CannotForesee` and `CANNOT_FORESEE`.
+- **The client identifies itself** with `User-Agent: ekbasis/<version>` instead of Python's default
+  `Python-urllib/3.x`, which some CDN bot checks block (the hosted API at openinterp.org answered 403 to it).
+- `ekbasis.__version__` now matches the package version (it said 0.1.6 in 0.1.7).
+
+## [0.1.7] — 2026-10-10
+
+### Added
+- `remote_loss()` in `ekbasis/git.py`: the guard now flags `git push --force` / `push -f` lines that would
+  overwrite commits the remote holds and the local branch does not (falls back to `origin/HEAD` when the
+  branch has no upstream). The Claude Code hook asks with the reason: "force-pushes over N commit(s) that
+  origin/main holds... or use --force-with-lease". Measured: diverged force-push asks; synced force-push and
+  `--force-with-lease` stay silent. Gap found in the cookbook battery (09/10).
 
 ## 0.1.6 (2026-10-06): preflight
 
