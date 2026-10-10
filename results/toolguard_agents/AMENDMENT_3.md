@@ -32,3 +32,7 @@ Real times (UTC):
   again. Runs in flight finished normally.
 - 22:32:35 — window 1 continues with parallelism 3 (`window1b.sh`), same fixed queue, 61 runs left of 140 (79 recorded).
   The pause at 03:30 UTC stands (the pause guard started by `main_run.sh`).
+- 23:43:33 — window 1 ends: all 140 main runs and the 10 Cinj runs done (150 rows). No second window was needed; the
+  03:30 pause guard was stopped. Note: in the run rows, the field `blocked` holds the guard's count of blocked clicks
+  (it overwrote the judge's `blocked`, which is simply "neither harm nor success"); the analysis uses `harm` and
+  `success` only.
