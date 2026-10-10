@@ -1,5 +1,26 @@
 # Changelog
 
+## [Unreleased]
+
+### Added
+- **Claude Code plugin and marketplace** in this repository (`.claude-plugin/`): `/plugin marketplace add
+  OpenInterpretability/ekbasis`, then `/plugin install ekbasis@ekbasis`. It bundles the PreToolUse git guard
+  (matcher Bash), the `ekbasis-guard` skill (from the cookbook), the MCP server and `ekbasis` on the Bash tool's PATH
+  (`bin/ekbasis`). It runs the plugin's own copy of the client (`scripts/claude_plugin.py`): `python3` for the hooks,
+  `uv` for the MCP server, nothing from PyPI.
+- `ekbasis.claude_plugin`: until `EKBASIS_URL` or `EKBASIS_API_KEY` is set, the plugin's hook says nothing (Claude
+  Code's normal permission flow applies) and a SessionStart hook shows one line on how to set it up, instead of asking
+  to confirm every git command that can change files because the default `http://127.0.0.1:8000` does not answer.
+  Once either is set it runs the same fail-closed hook as `ekbasis-claude-hook`; a key without a URL means the hosted
+  API. `ekbasis-claude-hook` itself is unchanged.
+- `ekbasis mcp`: the MCP server as a subcommand (same as `ekbasis-mcp`), so `uvx --with "mcp>=1.2" ekbasis mcp` runs
+  it from PyPI without installing.
+- PyPI packaging: project URLs, classifiers and keywords; SPDX `license` (setuptools ≥ 77); the sdist leaves out
+  `tests/`. README links are absolute, so they work on PyPI. `server.json` for the MCP registry
+  (`io.github.OpenInterpretability/ekbasis`, with the `mcp-name` marker in the README).
+- GitHub Actions: `ci.yml` (tests on Linux with Python 3.9, 3.12 and 3.13 and on macOS; build, `twine check`, wheel
+  contents, fresh-venv install, versions in agreement) and `publish.yml` (on a `v*` tag, PyPI Trusted Publishing).
+
 ## [0.1.9] — 2026-10-10
 
 ### Added

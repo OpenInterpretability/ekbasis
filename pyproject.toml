@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=68"]
+requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -8,12 +8,38 @@ version = "0.1.9"
 description = "Ekbasis client: what happens if I do this? Typed, calibrated consequence predictions in one pass, chained simulation and a git guard"
 readme = "README.md"
 requires-python = ">=3.9"
-license = {text = "Apache-2.0"}
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
 authors = [{name = "Caio Vicentino"}]
+keywords = ["agents", "ai-safety", "consequence-model", "world-model", "git", "guard", "claude-code", "mcp", "calibration"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Operating System :: MacOS",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Version Control :: Git",
+]
 dependencies = []
 
 [project.optional-dependencies]
 mcp = ["mcp>=1.2"]
+
+[project.urls]
+Homepage = "https://openinterp.org/ekbasis"
+Source = "https://github.com/OpenInterpretability/ekbasis"
+Changelog = "https://github.com/OpenInterpretability/ekbasis/blob/main/CHANGELOG.md"
+Issues = "https://github.com/OpenInterpretability/ekbasis/issues"
+Documentation = "https://openinterp.org/ekbasis/agents.md"
+Cookbook = "https://github.com/OpenInterpretability/ekbasis-cookbook"
 
 [project.scripts]
 ekbasis = "ekbasis.cli:main"

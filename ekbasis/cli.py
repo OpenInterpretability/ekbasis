@@ -20,12 +20,15 @@
       One typed question about the outcome (yes/no when --options is not given). --recap repeats the rules right before
       the question; --recap-rule TEXT (repeatable) repeats only the rules you name.
   ekbasis health
+  ekbasis mcp
+      The MCP server (stdio), as `ekbasis-mcp`: needs the extra, pip install "ekbasis[mcp]" (Python >= 3.10).
 Server: EKBASIS_URL (default http://127.0.0.1:8000) or --url; --timeout SECONDS for each request (default 120).
 """
 from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 
 from . import git as G
@@ -92,6 +95,7 @@ def main(argv=None) -> int:
     p.add_argument("--recap", action="store_true", help="repeat the rules right before the question")
     p.add_argument("--recap-rule", action="append", default=None, help="repeat only this rule (repeatable)")
     sub.add_parser("health")
+    sub.add_parser("mcp", help='run the MCP server on stdio (same as ekbasis-mcp; needs "ekbasis[mcp]")')
     fb = sub.add_parser("feedback", help="tell the hosted API how an answer turned out (free; helps measure the model)")
     fb.add_argument("request_id", nargs="?", default=None, help="the X-Ekbasis-Request-Id of the answer (req_...)")
     fb.add_argument("--last", action="store_true", help="the last answer this machine received")
@@ -104,6 +108,12 @@ def main(argv=None) -> int:
                    help="it warned about something that was safe")
     fb.add_argument("--note", default=None, help="optional, up to 500 characters (never include secrets)")
     a = ap.parse_args(argv)
+    if a.cmd == "mcp":
+        from . import mcp_server
+        if a.url:
+            os.environ["EKBASIS_URL"] = a.url
+        mcp_server.main()
+        return OK
     client = Ekbasis(url=a.url, timeout=a.timeout)
     if a.cmd != "feedback" and not getattr(client, "surface", None):
         client.surface = a.cmd  # X-Ekbasis-Surface: which command made the call (metadata only)

@@ -1,8 +1,8 @@
 # Ekbasis
 
-![Ekbasis overview: git consequences against Claude and Qwen, the git guard on fresh real repositories, and speed against a reasoning model](assets/ekbasis_launch.png)
+![Ekbasis overview: git consequences against Claude and Qwen, the git guard on fresh real repositories, and speed against a reasoning model](https://raw.githubusercontent.com/OpenInterpretability/ekbasis/main/assets/ekbasis_launch.png)
 
-**Papers:** [Look When Unsure, Check When Sure](https://doi.org/10.5281/zenodo.23146970) · DOI [10.5281/zenodo.23146970](https://doi.org/10.5281/zenodo.23146970) · [When Does a Consequence Model Make AI Agents Safer?](https://doi.org/10.5281/zenodo.23197341) · DOI [10.5281/zenodo.23197341](https://doi.org/10.5281/zenodo.23197341) (data, scripts and the benchmark to rerun its studies: [paper/agents](paper/agents)) · **Code:** [github.com/OpenInterpretability/ekbasis](https://github.com/OpenInterpretability/ekbasis) · **Site:** [openinterp.org/ekbasis](https://openinterp.org/ekbasis)
+**Papers:** [Look When Unsure, Check When Sure](https://doi.org/10.5281/zenodo.23146970) · DOI [10.5281/zenodo.23146970](https://doi.org/10.5281/zenodo.23146970) · [When Does a Consequence Model Make AI Agents Safer?](https://doi.org/10.5281/zenodo.23197341) · DOI [10.5281/zenodo.23197341](https://doi.org/10.5281/zenodo.23197341) (data, scripts and the benchmark to rerun its studies: [paper/agents](https://github.com/OpenInterpretability/ekbasis/tree/main/paper/agents)) · **Code:** [github.com/OpenInterpretability/ekbasis](https://github.com/OpenInterpretability/ekbasis) · **Site:** [openinterp.org/ekbasis](https://openinterp.org/ekbasis)
 
 **Ekbasis** (ἔκβασις, *"how an action turns out"*) is an open **consequence model** for agents: given the current
 state and an action, it answers typed questions about what will happen — *will this command lose work? will it fail?
@@ -12,9 +12,47 @@ It is the consequence layer of the Eikos family (Eikos decides; Ekbasis foresees
 **real executions** of git commands in throwaway repositories, so its answers come from what actually happened, not
 from what an agent believes.
 
-> Every number on this page was measured on the exact release weights. [RELEASE_EVAL.md](RELEASE_EVAL.md) has the
+> Every number on this page was measured on the exact release weights. [RELEASE_EVAL.md](https://github.com/OpenInterpretability/ekbasis/blob/main/RELEASE_EVAL.md) has the
 > results, every prediction, how this checkpoint was chosen, which measurements were pre-registered
-> ([PREREG_release_eval.md](PREREG_release_eval.md), [paper/prereg/](paper/prereg/)) and the deviations.
+> ([PREREG_release_eval.md](https://github.com/OpenInterpretability/ekbasis/blob/main/PREREG_release_eval.md), [paper/prereg/](https://github.com/OpenInterpretability/ekbasis/tree/main/paper/prereg/)) and the deviations.
+
+## Install
+
+The client needs a server: the hosted API (`EKBASIS_URL=https://openinterp.org/api/v1` and `EKBASIS_API_KEY=ekb_…`,
+key at [openinterp.org/console](https://openinterp.org/console)) or your own, with the open weights
+([Quick start](#quick-start)).
+
+- **Command line and Python** (standard library only, Python ≥ 3.9): `ekbasis`, `ekbasis-claude-hook`, and
+  `ekbasis-mcp` with the `mcp` extra.
+
+  ```bash
+  pip install ekbasis                       # or without installing: uvx ekbasis health
+  pip install "ekbasis[mcp]"                # with the MCP server (Python >= 3.10)
+  pip install "git+https://github.com/OpenInterpretability/ekbasis"   # from source
+  ```
+
+- **Claude Code plugin**: the git guard hook, the `ekbasis-guard` skill, the MCP server and the `ekbasis` command on
+  the Bash tool's PATH, in one install:
+
+  ```
+  /plugin marketplace add OpenInterpretability/ekbasis
+  /plugin install ekbasis@ekbasis
+  ```
+
+  The plugin runs its own copy of the client, so it needs `python3` (≥ 3.9) for the hook and
+  [`uv`](https://docs.astral.sh/uv/) for the MCP server, and nothing from PyPI. Set `EKBASIS_API_KEY` (a key alone
+  means the hosted API) or `EKBASIS_URL`, in your shell or in the `"env"` block of `~/.claude/settings.json`, and
+  restart Claude Code. Until one of them is set the guard is off and each session starts with one line saying how to
+  set it up; once set, the hook is the same fail-closed hook described in [Claude Code and MCP](#claude-code-and-mcp).
+  If you added `ekbasis-claude-hook` to `settings.json` by hand, remove it, or every line is checked twice.
+
+- **MCP server** for any MCP client (Python ≥ 3.10):
+
+  ```bash
+  uvx --python ">=3.10" --with "mcp>=1.2" ekbasis mcp     # same as ekbasis-mcp from pip install "ekbasis[mcp]"
+  ```
+
+<!-- mcp-name: io.github.OpenInterpretability/ekbasis -->
 
 ## What kind of model is it?
 
@@ -89,7 +127,7 @@ readout make it answer with probabilities, not text.
    (the server cannot be reached or does not answer in time, the repository cannot be read, or a command points git at
    another repository or uses an alias): treat 3 as risky. 1 is a usage error. The guard fails closed; `--fail-open`
    turns "cannot foresee" into 0 with a warning. It is a warning layer that can be wrong, not a security boundary: keep
-   confirmations, backups and least privilege ([docs/SECURITY.md](docs/SECURITY.md)).
+   confirmations, backups and least privilege ([docs/SECURITY.md](https://github.com/OpenInterpretability/ekbasis/blob/main/docs/SECURITY.md)).
 
 ## Builds
 
@@ -161,7 +199,7 @@ print(t.value, t.holds, t.confidence)
 
 ## Look when unsure (predict, observe, correct)
 
-The study behind this section is the paper *Look When Unsure, Check When Sure* ([PDF](paper/look_when_unsure.pdf),
+The study behind this section is the paper *Look When Unsure, Check When Sure* ([PDF](https://github.com/OpenInterpretability/ekbasis/blob/main/paper/look_when_unsure.pdf),
 [doi:10.5281/zenodo.23146970](https://doi.org/10.5281/zenodo.23146970)), every analysis pre-registered and re-run from
 the saved outputs.
 
@@ -217,18 +255,18 @@ confirmed the pattern: 58% of its wrong answers carried a confidence of 0.9 or m
 the families it never saw (30 points apart, 95% interval 24 to 37), while its confidence ranks right above wrong about
 equally well in both (AUROC 0.92 and 0.91). Eikos-27B, the same model before consequence training, was almost never
 confidently wrong (1.9% and 0.5% of its errors): the training made it
-([report](results_v42/confident_errors/REPORT.md)). On the same questions the release gives 48% and 25%, with 2.06
+([report](https://github.com/OpenInterpretability/ekbasis/blob/main/results_v42/confident_errors/REPORT.md)). On the same questions the release gives 48% and 25%, with 2.06
 confident errors per 100 answers in the trained families against V42's 2.79
-([report](results/confident_errors/REPORT.md)): fewer, not gone, which is why the checks stay on by default. Correction (6 October 2026): 5,318 of the 15,008
+([report](https://github.com/OpenInterpretability/ekbasis/blob/main/results/confident_errors/REPORT.md)): fewer, not gone, which is why the checks stay on by default. Correction (6 October 2026): 5,318 of the 15,008
 questions, all in the trained families, turned out to repeat or nearly repeat a training row, because the
 generator's small worlds repeat across seeds. Without them the test still confirms the pattern (50.5% against
 27.8%, 22.7 points apart, 95% interval 12.6 to 32.5), the training still made it, and the release gives 50.0% and
-25.1%, with 1.46 confident errors per 100 answers in the trained families against V42's 1.69 ([audit](results/overlap_audit/README.md)).
+25.1%, with 1.46 confident errors per 100 answers in the trained families against V42's 1.69 ([audit](https://github.com/OpenInterpretability/ekbasis/blob/main/results/overlap_audit/README.md)).
 
 The idea is classic: the predict–update loop of a state estimator (a Kalman filter), with observations triggered by
 the predictor's own uncertainty (event-based state estimation; with learned models, active observing); the checks'
 backoff is the Trickle algorithm's. What Ekbasis adds is a calibrated forecast in one pass, cheap enough to run at
-every action. Prior work: [REFERENCES](docs/REFERENCES.md#looking-when-unsure-prior-work).
+every action. Prior work: [REFERENCES](https://github.com/OpenInterpretability/ekbasis/blob/main/docs/REFERENCES.md#looking-when-unsure-prior-work).
 
 **What it unlocks**
 
@@ -349,11 +387,11 @@ The certificate holds per node, for this model and these generators. It does not
 - families outside the calibration, which are always verified, including any family key other than the evaluation's
   labels.
 
-Details: [docs/VERIFY.md](docs/VERIFY.md).
+Details: [docs/VERIFY.md](https://github.com/OpenInterpretability/ekbasis/blob/main/docs/VERIFY.md).
 
 The items of all three tests share no identical and no near-duplicate item with any training file of this model's
-lineage (2.2M rows checked; [report](results/client_0.1.4/firewall/RESULTS_firewall.md),
-[confirm-3](results/client_0.1.5/firewall/RESULTS_firewall.md)).
+lineage (2.2M rows checked; [report](https://github.com/OpenInterpretability/ekbasis/blob/main/results/client_0.1.4/firewall/RESULTS_firewall.md),
+[confirm-3](https://github.com/OpenInterpretability/ekbasis/blob/main/results/client_0.1.5/firewall/RESULTS_firewall.md)).
 
 **Limits**
 - **What the test used.** Family labels came from the evaluation, with a history of 29,029 evaluation answers. The
@@ -369,18 +407,20 @@ lineage (2.2M rows checked; [report](results/client_0.1.4/firewall/RESULTS_firew
   threshold applies, and that combination is not what was tested.
 - **One model version.** The reference answers and thresholds belong to this model (w4a5), measured on its bf16 build.
   With the FP8 and INT4 builds they are untested. On the MLX build, a re-test on fresh items with the thresholds
-  unchanged kept the error among accepted answers at 0.15% (1 of 666; [docs/VERIFY.md](docs/VERIFY.md)). A new model
+  unchanged kept the error among accepted answers at 0.15% (1 of 666; [docs/VERIFY.md](https://github.com/OpenInterpretability/ekbasis/blob/main/docs/VERIFY.md)). A new model
   needs a new calibration.
 - **Cost.** One extra request per confident answer for git and shell, two otherwise. `check_steps` costs one request
   per action, plus one.
 
-Details: [docs/VERIFY.md](docs/VERIFY.md). Pre-registrations, results and the overlap check:
-[results/client_0.1.4](results/client_0.1.4/RESULTS.md).
+Details: [docs/VERIFY.md](https://github.com/OpenInterpretability/ekbasis/blob/main/docs/VERIFY.md). Pre-registrations, results and the overlap check:
+[results/client_0.1.4](https://github.com/OpenInterpretability/ekbasis/blob/main/results/client_0.1.4/RESULTS.md).
 
 ## Claude Code and MCP
 
 The agent studies behind this section, on demo apps, on real self-hosted Gitea, Nextcloud and Roundcube, and in a real terminal, are in the paper *When Does a Consequence Model Make AI Agents Safer?*
-([PDF](paper/agents/agents.pdf), [doi:10.5281/zenodo.23197341](https://doi.org/10.5281/zenodo.23197341)), pre-registered, with the hypotheses that failed reported. Its tasks, app setups, adapters and judges are in [paper/agents/benchmark](paper/agents/benchmark), to rerun the studies with your own agent.
+([PDF](https://github.com/OpenInterpretability/ekbasis/blob/main/paper/agents/agents.pdf), [doi:10.5281/zenodo.23197341](https://doi.org/10.5281/zenodo.23197341)), pre-registered, with the hypotheses that failed reported. Its tasks, app setups, adapters and judges are in [paper/agents/benchmark](https://github.com/OpenInterpretability/ekbasis/tree/main/paper/agents/benchmark), to rerun the studies with your own agent.
+
+- **Claude Code plugin** — the hook, the skill and the MCP server below in one install: see [Install](#install).
 
 - **Claude Code hook** — Claude Code asks you to confirm (or blocks) git commands that may lose uncommitted work, with
   the reason; it stays silent otherwise. Since 0.1.2 it **fails closed**: when it cannot foresee a line (the server
@@ -430,7 +470,7 @@ The agent studies behind this section, on demo apps, on real self-hosted Gitea, 
     entry holds.
 
   **Measured on fresh Claude Code sessions** on real repositories
-  ([results/client_0.1.3](results/client_0.1.3/RESULTS.md)):
+  ([results/client_0.1.3](https://github.com/OpenInterpretability/ekbasis/blob/main/results/client_0.1.3/RESULTS.md)):
   - With Sonnet 5.5: 2.9 asks per 100 commands, against 10.7 for 0.1.2 on the same commands. The median added per
     command was 0.08 s.
   - With Haiku 4.5, on tasks with a tempting destructive shortcut: 7 of 7 real losses caught, as with 0.1.2.
@@ -490,7 +530,7 @@ The agent studies behind this section, on demo apps, on real self-hosted Gitea, 
   it as `preflight_command`. **Rows go to your Ekbasis server** when the model is asked about SQL (`--no-rows` sends the
   schema, counts and facts instead).
 
-  **Measured** ([results/client_0.1.6](results/client_0.1.6/RESULTS.md); pre-registered, 20 new tasks, Claude Code
+  **Measured** ([results/client_0.1.6](https://github.com/OpenInterpretability/ekbasis/blob/main/results/client_0.1.6/RESULTS.md); pre-registered, 20 new tasks, Claude Code
   agents, **on one Mac**: macOS 26.3, sqlite3 shell 3.51.0):
   - With Claude Haiku 4.5, damage in trap tasks fell from 23/28 to 3/28 sessions and tasks done rose from 17/40 to
     34/40, with no warning on a control.
@@ -552,7 +592,7 @@ the answers the actions change (never-trained worlds: 710 instead of 1,442 promp
 
 ## Limits (read before relying on it)
 
-![Where Ekbasis is strong and where it is not, with what to do where it is weak](assets/chart_strengths.png)
+![Where Ekbasis is strong and where it is not, with what to do where it is weak](https://raw.githubusercontent.com/OpenInterpretability/ekbasis/main/assets/chart_strengths.png)
 
 - **It knows what it was trained on, and it is not git-only.** Trained on git and on rule-based worlds whose rules are
   written in the prompt, it works wherever the state writes down the facts and rules that decide the outcome. Measured
@@ -573,7 +613,7 @@ the answers the actions change (never-trained worlds: 710 instead of 1,442 promp
 - **With written rules and time to think, large reasoning models are more accurate** (100% against 96.7% on short
   checks); Ekbasis wins on cost, latency and calibrated confidence there.
 - **Git cases it still gets wrong** with client 0.1.1 (334 fresh sandbox scenarios over 75 command types, the truth
-  from running git; [results/client_0.1.1](results/client_0.1.1/RESULTS.md)):
+  from running git; [results/client_0.1.1](https://github.com/OpenInterpretability/ekbasis/blob/main/results/client_0.1.1/RESULTS.md)):
   - **An ignored file that a checkout, merge or `reset --hard <ref>` overwrites** because the target has a file at the
     same path: 6 of 6 missed, although the state names the file. Run `git status --ignored` before switching to a
     branch that tracks a path you ignore (an `.env`, for example).
@@ -600,7 +640,7 @@ the answers the actions change (never-trained worlds: 710 instead of 1,442 promp
   - Content counts as recoverable when git holds it in the last commit.
   - A command that could also touch `.git` never skips.
   - `EKBASIS_SHORTCUTS=0` turns the shortcuts off.
-- **The shell guard is a prototype** ([results/client_0.1.2](results/client_0.1.2/RESULTS.md)). On 292 fresh scenarios (46 command forms it was not designed on) it missed 9 of
+- **The shell guard is a prototype** ([results/client_0.1.2](https://github.com/OpenInterpretability/ekbasis/blob/main/results/client_0.1.2/RESULTS.md)). On 292 fresh scenarios (46 command forms it was not designed on) it missed 9 of
   133 content losses, all copies or moves into a folder that replace a same-named file there (`cp -a SRC DEST` when
   DEST/SRC holds one, `cp -t DIR f`, `mv -t DIR a b`), and raised 19 false alarms in 159 safe cases, mostly where the
   outcome depends on content it does not show (`head -n 9 f > f.tmp && mv f.tmp f` on a short file, `perl -pi` with no
@@ -609,11 +649,11 @@ the answers the actions change (never-trained worlds: 710 instead of 1,442 promp
   (`python x.py`, `make`), file permissions or who owns a file.
 - **It is a warning layer that can be wrong, not a security boundary.** It can miss a destructive command and it can
   flag a safe one; text in a repository or a folder can try to steer it; an adversary can hide a command from it. Use it
-  with Claude Code's confirmations, backups and least privilege. See [docs/SECURITY.md](docs/SECURITY.md) for the
+  with Claude Code's confirmations, backups and least privilege. See [docs/SECURITY.md](https://github.com/OpenInterpretability/ekbasis/blob/main/docs/SECURITY.md) for the
   threat model, the measured injection results and the recommended defense-in-depth stack.
 
-More: [docs/PLAYBOOK.md](docs/PLAYBOOK.md) (how to use it day to day) · [docs/REFERENCES.md](docs/REFERENCES.md)
-(credits) · [PREREG_release_eval.md](PREREG_release_eval.md).
+More: [docs/PLAYBOOK.md](https://github.com/OpenInterpretability/ekbasis/blob/main/docs/PLAYBOOK.md) (how to use it day to day) · [docs/REFERENCES.md](https://github.com/OpenInterpretability/ekbasis/blob/main/docs/REFERENCES.md)
+(credits) · [PREREG_release_eval.md](https://github.com/OpenInterpretability/ekbasis/blob/main/PREREG_release_eval.md).
 
 ## Citation
 
@@ -640,7 +680,7 @@ More: [docs/PLAYBOOK.md](docs/PLAYBOOK.md) (how to use it day to day) · [docs/R
 ## Contact
 
 Questions, collaborations and commercial use: caio@openinterp.org. Security problems with the guard: see
-[docs/SECURITY.md](docs/SECURITY.md#reporting-a-problem) (email first, please).
+[docs/SECURITY.md](https://github.com/OpenInterpretability/ekbasis/blob/main/docs/SECURITY.md#reporting-a-problem) (email first, please).
 
 ## Acknowledgments
 

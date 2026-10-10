@@ -1,0 +1,45 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.OpenInterpretability/ekbasis",
+  "title": "Ekbasis",
+  "description": "Foresee what git commands and multi-step changes will do, as calibrated probabilities",
+  "version": "0.1.9",
+  "websiteUrl": "https://openinterp.org/ekbasis",
+  "repository": {
+    "url": "https://github.com/OpenInterpretability/ekbasis",
+    "source": "github"
+  },
+  "packages": [
+    {
+      "registryType": "pypi",
+      "registryBaseUrl": "https://pypi.org",
+      "identifier": "ekbasis",
+      "version": "0.1.9",
+      "runtimeHint": "uvx",
+      "runtimeArguments": [
+        {"type": "named", "name": "--python", "value": ">=3.10", "description": "the MCP SDK needs Python 3.10 or later"},
+        {"type": "named", "name": "--with", "value": "mcp>=1.2", "description": "the ekbasis[mcp] extra"}
+      ],
+      "packageArguments": [
+        {"type": "positional", "value": "mcp", "description": "run the MCP server on stdio"}
+      ],
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "EKBASIS_URL",
+          "description": "Ekbasis server: the hosted API, or your own server (open weights)",
+          "default": "https://openinterp.org/api/v1",
+          "isRequired": false
+        },
+        {
+          "name": "EKBASIS_API_KEY",
+          "description": "Key for the hosted API (ekb_..., from https://openinterp.org/console); not needed for your own server",
+          "isRequired": false,
+          "isSecret": true
+        }
+      ]
+    }
+  ]
+}
