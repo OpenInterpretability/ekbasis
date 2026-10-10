@@ -452,6 +452,11 @@ def main() -> int:
         for loss in G.committed_loss(plan.steps) if plan.steps else []:
             found.append(f"Ekbasis (committed work, checked by code): this line {G.describe_loss(loss)}. Keep a branch "
                          "or tag on those commits first if you need them.")
+        for st in plan.steps:
+            for loss in G.remote_loss(st["repo"], [st["cmd"]]):
+                found.append(f"Ekbasis (remote work, checked by code): this line force-pushes over {loss['commits']} "
+                             f"commit(s) that {loss['ref']} holds and the local branch does not. Push or merge those "
+                             "commits first, or use --force-with-lease.")
         groups: dict = {}
         for st in plan.steps:
             groups.setdefault((st["repo"], st["fresh"] is not None), []).append(st["cmd"])

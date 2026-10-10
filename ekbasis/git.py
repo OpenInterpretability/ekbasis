@@ -569,6 +569,49 @@ def _after(args, value, skip=()):
     return out
 
 
+def remote_loss(repo: str, cmds: list) -> list:
+    """Remote commits that a force-push in cmds would overwrite: refs where the remote holds commits the
+    local branch does not (plain --force/-f only; --force-with-lease fails safely instead of overwriting).
+    Returns [{"ref", "commits"}]."""
+    out = []
+    for cmd in cmds:
+        parsed = P.parse_git(cmd)
+        if not parsed or parsed[0] != "push":
+            continue
+        flags = [a for a in parsed[1] if a.startswith("-")]
+        rest = [a for a in parsed[1] if not a.startswith("-")]
+        force = any(a in ("-f", "--force") or (a.startswith("--force") and not a.startswith("--force-with-lease")) for a in flags)
+        if not force:
+            continue
+        up = _git(repo, "rev-parse", "--abbrev-ref", "--symbolic-full-name", "@{u}")
+        if up[0] != 0 or not up[1].strip():
+            rr = remote_ref(repo)
+            up = (0, rr) if rr else up
+        if rest:  # push [remote] [refspec]: map the pushed ref to its remote-tracking counterpart
+            spec = rest[-1] if ":" in rest[-1] or len(rest) > 1 else None
+            if spec:
+                src_ref = spec.split(":")[0] if ":" in spec else spec
+                rc, cur = _git(repo, "rev-parse", "--abbrev-ref", "HEAD")
+                if src_ref in ("HEAD", cur.strip()) and ":" not in spec:
+                    dst = up[1].strip() if up[0] == 0 and up[1].strip() else None
+                elif ":" in spec:
+                    dst = "origin/" + spec.split(":")[1]
+                else:
+                    dst = "origin/" + src_ref
+            else:
+                dst = up[1].strip() if up[0] == 0 and up[1].strip() else None
+        else:
+            dst = up[1].strip() if up[0] == 0 and up[1].strip() else None
+        if not dst:
+            continue
+        rc, cnt = _git(repo, "rev-list", "--left-right", "--count", f"HEAD...{dst}")
+        if rc == 0:
+            behind = int(cnt.split()[1])
+            if behind > 0:
+                out.append({"ref": dst, "commits": behind})
+    return out
+
+
 def committed_loss(steps) -> list:
     """Commits that a line's git commands would make unreachable from every branch, tag, remote-tracking branch and
     stash entry: lost committed work (0.1.3), kept apart from the model's question about uncommitted work. Computed by
