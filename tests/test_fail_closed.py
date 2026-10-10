@@ -108,7 +108,7 @@ class TestShell(unittest.TestCase):
         self.assertEqual(self.cli("shell-check", "--cwd", os.path.join(self.box, "nope"), "--fail-open", "ls")[0], 0)
         code, out = self.cli("shell-check", "--cwd", self.box, "rm f.txt", url=dead_url())
         self.assertEqual(code, 3)
-        self.assertIn("CANNOT JUDGE", out)
+        self.assertIn("CANNOT FORESEE", out)
         self.assertEqual(self.cli("shell-check", "--cwd", self.box, "--fail-open", "rm f.txt", url=dead_url())[0], 0)
 
 
@@ -200,3 +200,14 @@ class TestHook(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class Wording018(unittest.TestCase):
+    """0.1.8: the wording is "cannot foresee"; the old names stay so integrations keep working."""
+
+    def test_aliases_and_user_agent(self):
+        import ekbasis
+        from ekbasis.client import USER_AGENT
+        self.assertIs(ekbasis.CannotForesee, ekbasis.CannotJudge)
+        self.assertTrue(USER_AGENT.startswith(f"ekbasis/{ekbasis.__version__}"))
+        self.assertNotIn("urllib", USER_AGENT.lower())

@@ -13,8 +13,14 @@ import urllib.request
 from dataclasses import dataclass, field
 
 
+from ._version import __version__
+
+
 class EkbasisError(RuntimeError):
     pass
+
+
+USER_AGENT = f"ekbasis/{__version__} (+https://github.com/OpenInterpretability/ekbasis)"
 
 
 class CannotJudge(EkbasisError):
@@ -49,7 +55,7 @@ class Ekbasis:
         self.timeout = timeout
 
     def _call(self, path: str, body: dict | None = None) -> dict:
-        headers = {"Content-Type": "application/json"}
+        headers = {"Content-Type": "application/json", "User-Agent": USER_AGENT}
         if self.api_key:
             headers["Authorization"] = f"Bearer {self.api_key}"
         data = json.dumps(body).encode() if body is not None else None
@@ -82,3 +88,7 @@ class Ekbasis:
             body["images"] = list(images)
         d = self._call("/v1/systemone", body)
         return {k: Answer.from_api(v) for k, v in d["answers"].items()}
+
+
+# Since 0.1.8 the user-facing wording is "cannot foresee" (Ekbasis forecasts, it does not judge); the old name stays.
+CannotForesee = CannotJudge

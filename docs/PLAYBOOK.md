@@ -153,5 +153,5 @@ consequence.
 - Leave out of the state what decides the outcome.
 - Chain orderings or permutations for long without looking at the real state again.
 - Use it as a security boundary: it is a warning layer that can be wrong. Keep confirmations, backups and least
-  privilege, and treat "cannot judge" (exit code 3, or the hook's confirmation request) as risky: see
+  privilege, and treat "cannot foresee" (exit code 3, or the hook's confirmation request) as risky: see
   [SECURITY.md](SECURITY.md).

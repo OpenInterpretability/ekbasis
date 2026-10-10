@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.1.8] — 2026-10-10
+
+### Changed
+- **"cannot foresee" replaces "cannot judge"** in everything a person reads: the CLI (`Ekbasis: CANNOT FORESEE`),
+  the Claude Code hook ("Ekbasis could not foresee what this command will do"), preflight and the shell guard.
+  Ekbasis forecasts; it does not judge. Nothing a program reads changed: exit code 3, the JSON field
+  `cannot_judge`, the `CannotJudge` exception and the verdicts' `cannot_judge` attribute stay, with new
+  equivalents `cannot_foresee` (JSON field and attribute), `CannotForesee` and `CANNOT_FORESEE`.
+- **The client identifies itself** with `User-Agent: ekbasis/<version>` instead of Python's default
+  `Python-urllib/3.x`, which some CDN bot checks block (the hosted API at openinterp.org answered 403 to it).
+- `ekbasis.__version__` now matches the package version (it said 0.1.6 in 0.1.7).
+
 ## [0.1.7] — 2026-10-10
 
 ### Added
