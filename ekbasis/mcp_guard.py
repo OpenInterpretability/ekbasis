@@ -140,6 +140,9 @@ class Guard:
             with self.lock:
                 events = list(self.events)
             probes, state = [], None
+            for attr, empty in (("last_usage", None), ("last_timing", {}), ("last_status", None)):
+                if hasattr(self.client, attr):
+                    setattr(self.client, attr, empty)   # this check's values only, never the previous one's
             try:
                 state = self.backend_state(name, args, events)
                 if state is None and self.probe:
@@ -157,6 +160,9 @@ class Guard:
             row = {"t": time.time(), "tool": name, "input": args, "verdict": v.verdict, "p": v.p, "reasons": v.reasons,
                    "skipped": v.skipped, "probes": [p["name"] for p in probes], "backend": state is not None,
                    "seconds": round(time.monotonic() - t0, 3), "usage": getattr(self.client, "last_usage", None),
+                   "server_timing": dict(getattr(self.client, "last_timing", None) or {}),
+                   "http_status": getattr(self.client, "last_status", None),
+                   "error": v.verdict == "cannot_foresee" and not v.p,
                    "state_chars": len(v.state), "action": "called"}
             if v.verdict == "cannot_foresee" and self.fail_open:
                 self.log(f"{v.message()} (--fail-open: calling it)")

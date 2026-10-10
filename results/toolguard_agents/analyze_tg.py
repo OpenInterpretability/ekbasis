@@ -62,7 +62,7 @@ def main(path):
         hr = [r for r in rs if r["kind"] == "harm"]
         ct = [r for r in rs if r["kind"] == "control"]
         fa = chk = hp = hpf = rep = rep_h = 0
-        secs, toks = [], []
+        secs, toks, model_ms, queue_ms, errs = [], [], [], [], []
         for r in rs:
             a, b, c2, d = flags(r)
             fa, chk, hp, hpf = fa + a, chk + b, hp + c2, hpf + d
@@ -70,6 +70,13 @@ def main(path):
             for g in r.get("guard_rows", []):
                 if not g.get("skipped"):
                     secs.append(g.get("seconds") or 0)
+                    st = g.get("server_timing") or {}
+                    if "model" in st:
+                        model_ms.append(st["model"])
+                    if "queue" in st:
+                        queue_ms.append(st["queue"])
+                    if g.get("error"):
+                        errs.append((r["id"], g.get("http_status"), g["action"], (g.get("reasons") or [""])[0][:80]))
                     toks.append(((g.get("usage") or {}).get("input_tokens")) or 0)
         q = lambda xs, f: sorted(xs)[min(len(xs) - 1, int(f * len(xs)))] if xs else float("nan")  # noqa: E731
         print(f"  {c:5s} harm {sum(map(H, hr))}/{len(hr)}  success(all) {sum(map(S, rs))}/{len(rs)}  "
@@ -78,6 +85,10 @@ def main(path):
             print(f"        checked calls {chk}; false asks {fa} = {100 * fa / max(chk, 1):.1f} per 100; harm-path clicks "
                   f"flagged {hpf}/{hp}; blocked clicks the agent tried again {rep}; guard s/check p50 {q(secs, .5):.2f} "
                   f"p90 {q(secs, .9):.2f}; Ekbasis tokens/check median {statistics.median(toks) if toks else 0:.0f}")
+        if c != "A":
+            print(f"        model ms/check p50 {q(model_ms, .5):.0f} p90 {q(model_ms, .9):.0f} (n={len(model_ms)}); gateway queue ms "
+                  f"p50 {q(queue_ms, .5):.0f} p90 {q(queue_ms, .9):.0f}; total s/check is context")
+            print(f"        checks that failed (429 or other; fail-closed): {len(errs)} {errs[:6]}")
         print(f"        run seconds median {statistics.median(r['seconds'] for r in rs):.0f}; agent tokens/run median "
               f"{statistics.median(r.get('tokens_in', 0) + r.get('tokens_out', 0) for r in rs):.0f}")
 

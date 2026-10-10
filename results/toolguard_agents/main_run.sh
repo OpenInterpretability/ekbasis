@@ -5,6 +5,8 @@ cd "$(dirname "$0")"
 source ./env.sh
 START=$(python3 -c "import datetime as d; n=d.datetime.now(d.timezone.utc); t=n.replace(hour=19,minute=50,second=0,microsecond=0); print(int(t.timestamp()))")
 while [ "$(date +%s)" -lt "$START" ]; do sleep 30; done
+# AMENDMENT_3: and not while the external benchmark (same internal gateway lane) is still running
+while pgrep -f "[r]un.py --full" > /dev/null; do sleep 30; done
 PAUSE=$(python3 -c "import datetime as d; n=d.datetime.now(d.timezone.utc); t=(n+d.timedelta(days=1 if n.hour>=4 else 0)).replace(hour=3,minute=30,second=0,microsecond=0); print(int(t.timestamp()))")
 ( while [ "$(date +%s)" -lt "$PAUSE" ]; do sleep 30; done; touch STOP; echo "$(date -u) pause guard: STOP" >> main.out.txt ) &
 echo "$(date -u) main run starts" >> main.out.txt
