@@ -350,8 +350,12 @@ How Ekbasis does inside agents, on demo apps, on real self-hosted Gitea, Nextclo
 
 ![Where Ekbasis is strong and where it is not, with what to do where it is weak](https://huggingface.co/caiovicentino1/Ekbasis-27B/resolve/main/assets/chart_strengths.png)
 
-- It knows what it was trained on: rule-based worlds whose rules are written in the prompt, and git. Other domains need
-  their own data.
+- Trained on git and on rule-based worlds whose rules are written in the prompt, it is not git-only: it works wherever
+  the state writes down the facts that decide the outcome. Measured after training: 171 scenarios in 21 domains (money,
+  files and shell, databases, email, calendar, cloud and Kubernetes, docker, CI, identity, network, data and ML
+  pipelines, jobs), 168 of 168 scored right — scenarios written by us
+  ([results](https://github.com/OpenInterpretability/ekbasis-cookbook/blob/main/examples/results.md)). Real states that
+  leave facts out, and things it never saw, do worse (85.8% against 95.8% on never-seen git command types).
 - The state must contain what decides the outcome (the git guard adds it: which files differ, what both sides changed).
 - Errors that never fade (orderings) compound over long chains, and in the worlds it knows its rare errors come with
   confidence: let the simulation look at the real state when it is not sure, with a check now and then

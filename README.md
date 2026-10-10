@@ -537,8 +537,15 @@ the answers the actions change (never-trained worlds: 710 instead of 1,442 promp
 
 ![Where Ekbasis is strong and where it is not, with what to do where it is weak](assets/chart_strengths.png)
 
-- **It knows what it was trained on**: rule-based worlds you describe in the prompt, and git. On command types it never
-  saw, accuracy drops (85.8% against 95.8% on the 240-question git comparison). Other domains need their own data.
+- **It knows what it was trained on, and it is not git-only.** Trained on git and on rule-based worlds whose rules are
+  written in the prompt, it works wherever the state writes down the facts and rules that decide the outcome. Measured
+  after training (cookbook, Oct 2026): 171 scenarios in 21 domains — money, files and shell, databases/SQL, email,
+  calendar, cloud and Kubernetes, cloud storage, docker, deploys and CI pipelines, identity and access, network, data
+  pipelines, ML ops, scheduled jobs, numbers and plans — 168 of 168 scored right
+  ([results](https://github.com/OpenInterpretability/ekbasis-cookbook/blob/main/examples/results.md)); and with agents,
+  less harm on real Gitea, Nextcloud and Roundcube and on a real Kubernetes cluster (see the agent studies). Those
+  scenarios were written by us with the deciding facts in the state; real states that leave facts out do worse, and so
+  do things it never saw (85.8% against 95.8% on git command types never seen in training).
 - **The state must contain what decides the outcome.** The git guard adds it for you (since client 0.1.1 also ignored
   files, linked worktrees, submodules, conflicts resolved by hand and ahead/behind, when a command could touch them);
   in your own uses, include it.
