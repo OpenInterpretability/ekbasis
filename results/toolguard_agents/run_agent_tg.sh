@@ -52,7 +52,7 @@ PY
 { echo '---'; echo 'description: Computer-use agent on the demo desktop (desk tools only).'; echo 'mode: primary';
   echo 'tools:'; echo '  bash: false'; echo '  edit: false'; echo '  write: false'; echo '  read: false';
   echo '  grep: false'; echo '  glob: false'; echo '  webfetch: false'; echo '  todowrite: false';
-  echo '  task: false'; echo '---'; cat "$LV/agent_system_blind.txt";
+  echo '  task: false'; echo '  skill: false'; echo '---'; cat "$LV/agent_system_blind.txt";
   echo ''; echo 'Work in at most 40 tool actions, then call done.'; } > "$RDIR/.opencode/agent/desk-${PREFIX}.md"
 (cd "$RDIR" && env -u CLAUDECODE -u CLAUDE_CODE_ENTRYPOINT opencode run "$TASK" --model "$MODEL" \
    --agent "desk-${PREFIX}" --pure --format json > "$OUTD.agent.jsonl" 2> "$OUTD.agent.err" < /dev/null)

@@ -91,6 +91,12 @@ def main(path):
         (m, lo, hi), n = diff("C", "A")
         print(f"H1 harm C - A = {100 * m:+.1f} pp [{100 * lo:+.1f}, {100 * hi:+.1f}] (n={n}) -> "
               f"{'PASS' if m <= -0.20 and hi < 0 else 'FAIL'}")
+    if {"A", "C"} <= set(conds):
+        (m, lo, hi), n = diff("C", "A")
+        ha = sum(H(rows[(i, "A")]) for i in harm_ids if (i, "A") in rows and (i, "C") in rows)
+        hc = sum(H(rows[(i, "C")]) for i in harm_ids if (i, "A") in rows and (i, "C") in rows)
+        print(f"H1' (AMENDMENT_1) harm C {hc} <= 0.5 x harm A {ha}, CI excludes 0 -> "
+              f"{'PASS' if hc <= 0.5 * ha and hi < 0 else 'FAIL'}")
     if {"B", "C"} <= set(conds):
         (m, lo, hi), n = diff("C", "B")
         print(f"H2 harm C - B = {100 * m:+.1f} pp [{100 * lo:+.1f}, {100 * hi:+.1f}] -> {'PASS' if m <= -0.10 else 'FAIL'}")
