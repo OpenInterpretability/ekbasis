@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.1.7] — 2026-10-10
+
+### Added
+- `remote_loss()` in `ekbasis/git.py`: the guard now flags `git push --force` / `push -f` lines that would
+  overwrite commits the remote holds and the local branch does not (falls back to `origin/HEAD` when the
+  branch has no upstream). The Claude Code hook asks with the reason: "force-pushes over N commit(s) that
+  origin/main holds... or use --force-with-lease". Measured: diverged force-push asks; synced force-push and
+  `--force-with-lease` stay silent. Gap found in the cookbook battery (09/10).
+
 ## [Unreleased]
 
 ### Added
