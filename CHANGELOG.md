@@ -3,23 +3,27 @@
 ## [Unreleased]
 
 ### Added
-- **Claude Code plugin and marketplace** in this repository (`.claude-plugin/`): `/plugin marketplace add
-  OpenInterpretability/ekbasis`, then `/plugin install ekbasis@ekbasis`. It bundles the PreToolUse git guard
-  (matcher Bash), the `ekbasis-guard` skill (from the cookbook), the MCP server and `ekbasis` on the Bash tool's PATH
-  (`bin/ekbasis`). It runs the plugin's own copy of the client (`scripts/claude_plugin.py`): `python3` for the hooks,
-  `uv` for the MCP server, nothing from PyPI.
+- **Claude Code plugin and marketplace** (`.claude-plugin/marketplace.json`, plugin in `plugins/ekbasis/`, ~0.5 MB):
+  `/plugin marketplace add OpenInterpretability/ekbasis`, then `/plugin install ekbasis@ekbasis`. It bundles the
+  PreToolUse git guard (matcher Bash), the `ekbasis-guard` skill (from the cookbook), the MCP server and `ekbasis` on
+  the Bash tool's PATH. It runs its own copy of the client (`plugins/ekbasis/lib/ekbasis`, kept identical to
+  `ekbasis/` by `scripts/sync_plugin.py`; CI and the tests fail when it is not): `python3` and `sh` for the hooks,
+  `uv` for the MCP server, nothing from PyPI, and none of `results*/`, `paper/` or `assets/`.
 - `ekbasis.claude_plugin`: until `EKBASIS_URL` or `EKBASIS_API_KEY` is set, the plugin's hook says nothing (Claude
-  Code's normal permission flow applies) and a SessionStart hook shows one line on how to set it up, instead of asking
-  to confirm every git command that can change files because the default `http://127.0.0.1:8000` does not answer.
-  Once either is set it runs the same fail-closed hook as `ekbasis-claude-hook`; a key without a URL means the hosted
-  API. `ekbasis-claude-hook` itself is unchanged.
+  Code's normal permission flow applies), a SessionStart hook shows one line on how to set it up, and the plugin's
+  `ekbasis` command says it is not set up (exit 3), instead of asking to confirm every git command that can change
+  files because the default `http://127.0.0.1:8000` does not answer. Once either is set it runs the same fail-closed
+  hook as `ekbasis-claude-hook` (a key without a URL means the hosted API), and a hook that cannot run asks with the
+  reason, never a silent pass: `python3` missing or older than 3.9, an import error, any exception or exit, a bad
+  input, no answer within 27 s (`plugins/ekbasis/scripts/run.sh` and `claude_plugin.py`; `EKBASIS_FAIL_OPEN=1` and
+  `EKBASIS_GUARD_MODE=deny` apply as in the hook). `ekbasis-claude-hook` itself is unchanged.
 - `ekbasis mcp`: the MCP server as a subcommand (same as `ekbasis-mcp`), so `uvx --with "mcp>=1.2" ekbasis mcp` runs
   it from PyPI without installing.
 - PyPI packaging: project URLs, classifiers and keywords; SPDX `license` (setuptools ≥ 77); the sdist leaves out
   `tests/`. README links are absolute, so they work on PyPI. `server.json` for the MCP registry
   (`io.github.OpenInterpretability/ekbasis`, with the `mcp-name` marker in the README).
 - GitHub Actions: `ci.yml` (tests on Linux with Python 3.9, 3.12 and 3.13 and on macOS; build, `twine check`, wheel
-  contents, fresh-venv install, versions in agreement) and `publish.yml` (on a `v*` tag, PyPI Trusted Publishing).
+  contents, fresh-venv install, versions in agreement, the plugin's copy in sync and under 2 MB) and `publish.yml` (on a `v*` tag, PyPI Trusted Publishing).
 
 ## [0.1.9] — 2026-10-10
 

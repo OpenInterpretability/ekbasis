@@ -18,8 +18,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3",
-            "args": ["${CLAUDE_PLUGIN_ROOT}/scripts/claude_plugin.py", "session-start"],
+            "command": "sh",
+            "args": ["${CLAUDE_PLUGIN_ROOT}/scripts/run.sh", "session-start"],
             "timeout": 10
           }
         ]
@@ -31,8 +31,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3",
-            "args": ["${CLAUDE_PLUGIN_ROOT}/scripts/claude_plugin.py", "hook"],
+            "command": "sh",
+            "args": ["${CLAUDE_PLUGIN_ROOT}/scripts/run.sh", "hook"],
             "timeout": 30
           }
         ]

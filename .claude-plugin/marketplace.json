@@ -8,7 +8,7 @@
   "plugins": [
     {
       "name": "ekbasis",
-      "source": "./",
+      "source": "./plugins/ekbasis",
       "description": "Git guard hook, ekbasis-guard skill and MCP server: what happens if I run this?",
       "category": "security"
     }

@@ -39,12 +39,15 @@ key at [openinterp.org/console](https://openinterp.org/console)) or your own, wi
   /plugin install ekbasis@ekbasis
   ```
 
-  The plugin runs its own copy of the client, so it needs `python3` (≥ 3.9) for the hook and
-  [`uv`](https://docs.astral.sh/uv/) for the MCP server, and nothing from PyPI. Set `EKBASIS_API_KEY` (a key alone
-  means the hosted API) or `EKBASIS_URL`, in your shell or in the `"env"` block of `~/.claude/settings.json`, and
-  restart Claude Code. Until one of them is set the guard is off and each session starts with one line saying how to
-  set it up; once set, the hook is the same fail-closed hook described in [Claude Code and MCP](#claude-code-and-mcp).
-  If you added `ekbasis-claude-hook` to `settings.json` by hand, remove it, or every line is checked twice.
+  The plugin (`plugins/ekbasis/`, about 0.5 MB) runs its own copy of the client, so it needs `python3` (≥ 3.9) and
+  `sh` for the hooks and [`uv`](https://docs.astral.sh/uv/) for the MCP server, and nothing from PyPI. Set
+  `EKBASIS_API_KEY` (a key alone means the hosted API) or `EKBASIS_URL`, in your shell or in the `"env"` block of
+  `~/.claude/settings.json`, and restart Claude Code. Until one of them is set the guard is off: each session starts
+  with one line saying how to set it up, and `ekbasis` says it is not set up (exit 3). Once set, the hook is the same
+  fail-closed hook described in [Claude Code and MCP](#claude-code-and-mcp), and a hook that cannot run (`python3`
+  missing or older than 3.9, an error in the hook, no answer within 27 s) asks you to confirm, saying why, instead of
+  letting the command through. If you added `ekbasis-claude-hook` to `settings.json` by hand, remove it, or every line
+  is checked twice.
 
 - **MCP server** for any MCP client (Python ≥ 3.10):
 

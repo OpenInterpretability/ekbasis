@@ -33,6 +33,11 @@ Setup: `pip install "git+https://github.com/OpenInterpretability/ekbasis"`, then
 `EKBASIS_URL=https://openinterp.org/api/v1` and `EKBASIS_API_KEY=ekb_…` (key at https://openinterp.org/console), or
 `EKBASIS_URL` pointing at your own server (open weights).
 
+In the Claude Code plugin the `ekbasis` command is already on PATH (no pip needed). If it prints "Ekbasis plugin: not
+set up" (exit 3), Ekbasis cannot foresee anything yet: tell the human, once, to get a key at
+https://openinterp.org/console and set `EKBASIS_API_KEY` (or `EKBASIS_URL` for their own server), then restart Claude
+Code, and treat irreversible actions as unchecked until then. Do not invent a key or a server.
+
 **Git and shell commands — the CLI builds the state for you:**
 
 ```bash
