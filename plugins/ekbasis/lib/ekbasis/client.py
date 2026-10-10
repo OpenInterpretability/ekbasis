@@ -52,6 +52,20 @@ def _remember_request_id(rid: str) -> None:
         pass
 
 
+def server_timing(header: str | None) -> dict:
+    """A Server-Timing header as {name: milliseconds} ("queue;dur=12, model;dur=480" -> {"queue": 12.0, "model": 480.0})."""
+    out = {}
+    for part in (header or "").split(","):
+        bits = [b.strip() for b in part.split(";")]
+        dur = next((b[4:] for b in bits[1:] if b.startswith("dur=")), None)
+        if bits[0] and dur is not None:
+            try:
+                out[bits[0]] = float(dur)
+            except ValueError:
+                pass
+    return out
+
+
 class FeedbackRejected(EkbasisError):
     """The server refused the feedback (unknown or someone else's request id, already sent, rate limit, no key)."""
 
@@ -95,6 +109,9 @@ class Ekbasis:
         self.surface = surface or os.environ.get("EKBASIS_SURFACE")
         # The hosted API returns an id with every answer (X-Ekbasis-Request-Id), used to send feedback on it.
         self.last_request_id: str | None = None
+        self.last_usage: dict | None = None   # the token counts of the last answer, when the server sends them
+        self.last_timing: dict = {}           # Server-Timing of the last answer, {name: ms} (hosted API: queue, model)
+        self.last_status: int | None = None   # HTTP status of the last request
 
     def _call(self, path: str, body: dict | None = None) -> dict:
         headers = {"Content-Type": "application/json", "User-Agent": USER_AGENT}
@@ -107,12 +124,16 @@ class Ekbasis:
         try:
             with urllib.request.urlopen(req, timeout=self.timeout) as r:
                 out = json.loads(r.read())
+                if isinstance(out, dict) and isinstance(out.get("usage"), dict):
+                    self.last_usage = out["usage"]
+                self.last_status, self.last_timing = r.status, server_timing(r.headers.get("Server-Timing"))
                 rid = r.headers.get("X-Ekbasis-Request-Id")
                 if rid:
                     self.last_request_id = rid
                     _remember_request_id(rid)
                 return out
         except urllib.error.HTTPError as e:
+            self.last_status, self.last_timing = e.code, server_timing(e.headers.get("Server-Timing") if e.headers else None)
             raise CannotJudge(f"HTTP {e.code} from {self.url}{path}: {e.read().decode(errors='replace')[:400]}") from None
         except urllib.error.URLError as e:
             if isinstance(e.reason, (socket.timeout, TimeoutError)):
