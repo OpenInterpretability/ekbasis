@@ -65,12 +65,28 @@
 ## [Unreleased]
 
 ### Added
+- **Safer route** (`ekbasis/safer.py`): when git commands are risky, `git-check` prints
+  `Safer: <commands>  (lose uncommitted work: N%)`, `--json` and the MCP tool `check_git_commands` add `safer`
+  (`{commands, p_lost, keeps}` or null) and `safer_note`, and the Claude Code hook adds the route to its message.
+  Candidates come from rules (stash before `reset --hard`, `checkout --`, `restore`, a forced switch; stash of what
+  `clean -n` lists; rename instead of `branch -D`; backup branches before dropping commits, stash entries or remote
+  commits; `--force-with-lease`), and each is checked by Ekbasis with the same state builder and threshold and by the
+  code checks; only one that passes is offered, else "none". Off with `--no-safer`, `EKBASIS_SAFER=0`, or MCP
+  `safer=false`. Measured on 9 classic losses x 3 against the hosted API: a route on 22 of 27 rows (none for
+  force-push, sometimes none for `stash drop`), every one ran and kept the work; the search added a median 4.8 s to
+  the hook during that run ([results/safer_route](results/safer_route/RESULTS.md)).
 - `docs/DOGEATING.md`: the guard catching its own operator (a destructive `kill` on the live serving
   process, flagged retrospectively at 0.94-0.97 confidence, outside the training domains) and the
   no-exceptions rule that came out of it.
 - `examples/zebra_review/`: the foreseer auditing an animation state machine it was never trained on
   (the foot-sliding artifact, the stride/ground-speed arithmetic, the missing suspension phase, the
   neck pump) — six foresee calls, every one useful; the honest record of what it does and does not do.
+
+### Fixed
+- Lost committed work (`git.committed_loss`) now counts a new branch or tag made earlier in the line
+  (`git branch keep && git reset --hard HEAD~1` no longer asks).
+- The hook's force-push message no longer suggests `--force-with-lease` as the fix: it does not protect commits that
+  were already fetched (measured: it overwrote them).
 
 ## 0.1.6 (2026-10-06): preflight
 

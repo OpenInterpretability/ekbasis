@@ -9,6 +9,9 @@ Guidance for AI agents that use Ekbasis or work on this client.
 - Installable skill and measured use cases: https://github.com/OpenInterpretability/ekbasis-cookbook
 - `ekbasis git-check` / `shell-check` exit codes: 0 no risk found · 2 RISKY · 3 CANNOT FORESEE (treat like 2) · 1 usage
   error. With the hosted API set `EKBASIS_URL=https://openinterp.org/api/v1` and `EKBASIS_API_KEY=ekb_…`.
+- When a check is risky, prefer the `Safer:` route it prints (`safer.commands` in `--json` and in the MCP tool): the
+  alternative with the same intent that Ekbasis checked and found safe. No route (`Safer: none`) means none passed;
+  do not invent one, save the work yourself or ask.
 
 ## Working on this repository
 

@@ -3,7 +3,8 @@
 Install: pip install "./ekbasis[mcp]"; register the command `ekbasis-mcp` in your MCP client (server URL from
 EKBASIS_URL). Tools:
 - check_git_commands: before running git commands, the probability that they lose uncommitted work, that each fails,
-  that a merge or rebase is left unfinished, and the branch at the end;
+  that a merge or rebase is left unfinished, and the branch at the end; when risky, the safer route with the same
+  intent that Ekbasis checked;
 - predict_consequences: typed questions about the state after some actions, given the rules and the current state;
 - preflight_command (since 0.1.6): before a multi-step change runs (a sqlite3 run of several statements, a shell
   script, a chain of commands), which step fails first and whether the failure would leave the change half applied.
@@ -20,6 +21,7 @@ except ImportError:
 
 from . import git as G
 from . import preflight as PF
+from . import safer as SF
 from .client import Ekbasis
 from .prompts import world_state
 
@@ -27,14 +29,19 @@ mcp = _Server("ekbasis")
 
 
 @mcp.tool()
-def check_git_commands(commands: list[str], repo: str = ".", fetch: bool = False) -> dict:
+def check_git_commands(commands: list[str], repo: str = ".", fetch: bool = False, safer: bool = True) -> dict:
     """Before running git commands in a repository: what they will do. Returns p_lost (uncommitted work lost for good),
     p_fail per command, p_in_progress (a merge or rebase left unfinished), the predicted branch at the end, and risky
-    (p_lost >= 0.2) with the reasons. Nothing is executed; only read-only git commands describe the repository
-    (and git fetch when fetch is true)."""
-    v = G.check(commands, repo=repo, fetch=fetch)
+    (p_lost >= 0.2) with the reasons. When risky, safer is the alternative with the same intent that Ekbasis checked
+    and found safe ({commands: run them in order, p_lost, keeps: what it keeps recoverable}); prefer running it. It is
+    null when none passed the check (safer_note says why) or when safer is false. Nothing is executed; only read-only
+    git commands describe the repository (and git fetch when fetch is true)."""
+    client = Ekbasis(surface="mcp")
+    v = G.check(commands, repo=repo, fetch=fetch, client=client)
+    route = SF.search(v.commands, repo=repo, client=client) if v.risky and safer else None
     return {"risky": v.risky, "reasons": v.reasons, "p_lost": round(v.p_lost, 4), "p_fail": [round(p, 4) for p in v.p_fail],
-            "p_in_progress": round(v.p_in_progress, 4), "branch": list(v.branch) if v.branch else None}
+            "p_in_progress": round(v.p_in_progress, 4), "branch": list(v.branch) if v.branch else None,
+            "safer": route.as_json() if route else None, "safer_note": route.note if route and not route.route else None}
 
 
 @mcp.tool()
