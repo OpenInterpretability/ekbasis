@@ -54,6 +54,13 @@ EKBASIS_PREFLIGHT_FAIL_CLOSED (1: warn when preflight cannot judge), EKBASIS_SAF
 Safer route: when the hook warns about git commands, it also offers the alternative with the same intent that Ekbasis
 checked and found safe (ekbasis.safer), e.g. `git stash push && git reset --hard`, or says that none passed. It is
 searched last, in the time the deadline leaves; when the search cannot finish, the warning goes out without a route.
+
+Since 0.1.10, opt-in (a prototype): with EKBASIS_TOOL_GUARD=1, a call to any other tool (MCP tools, WebFetch, ...)
+that may change something goes to the tool guard (ekbasis.toolguard): the state is built from the session's transcript
+(`transcript_path`: the user's request and the earlier tool results that mention what the call touches), read-only
+calls and local file edits are not asked about, and a risky or cannot-foresee forecast asks, with the same mode and
+fail-closed rule. Bash keeps the checks above. Give the hook those tools too, e.g. "matcher": "mcp__.*" (or "*").
+EKBASIS_TOOL_THRESHOLD (0.5: a harm this likely is risky; from 0.2 it is "cannot foresee").
 """
 from __future__ import annotations
 
@@ -74,6 +81,7 @@ from . import prompts as P
 from . import recover as R
 from . import safer as SF
 from . import shell as S
+from . import toolguard as TG
 from .client import CannotJudge, Ekbasis
 
 QUIET_REDIRECT = re.compile(r"[0-9&]*>>?\s*/dev/null|[0-9]*>&[0-9-]")
@@ -462,6 +470,30 @@ def _preflight(line: str, cwd: str, session: str | None, client, left) -> str | 
     return v.message() + again
 
 
+def _tool_guard(data: dict) -> int:
+    """0.1.10: any other tool, from what the transcript shows (ekbasis.toolguard). Silent for read-only calls and local
+    file edits; asks when the forecast is risky or cannot foresee."""
+    name, tool_input = str(data.get("tool_name") or ""), data.get("tool_input") or {}
+    if name in TG.LOCAL_EDIT_TOOLS or TG.read_only(name, tool_input):
+        return 0
+    deadline = float(os.environ.get("EKBASIS_HOOK_DEADLINE", "25"))
+    events = []
+    if data.get("transcript_path"):
+        try:
+            events = TG.events_from_transcript(data["transcript_path"], skip_tool_use=data.get("tool_use_id"))
+        except OSError as e:  # the state would hold only the call itself: say so, the check still runs
+            print(f"ekbasis hook: cannot read the transcript ({e})", file=sys.stderr)
+    client = Ekbasis(timeout=deadline, surface="claude-hook-tool")
+    v = _with_deadline(lambda: TG.check(name, tool_input, events, client=client,
+                                        risky_at=float(os.environ.get("EKBASIS_TOOL_THRESHOLD", "0.5"))), deadline)
+    if v.verdict == "cannot_foresee" and os.environ.get("EKBASIS_FAIL_OPEN") == "1":
+        print(f"ekbasis hook: {v.message()}; EKBASIS_FAIL_OPEN=1: letting it through", file=sys.stderr)
+        return 0
+    if v.risky:
+        _decide(v.message())
+    return 0
+
+
 def _safer_routes(groups: dict, flagged: set, client, threshold: float, left) -> list:
     """One sentence per flagged repository: the safer route Ekbasis checked (ekbasis.safer), or that none passed.
     Searched last, in the time left; a search that cannot finish leaves the warning without a route (never an unchecked
@@ -492,7 +524,7 @@ def main() -> int:
         return _cannot_judge(f"could not read the hook input: {e}")
     try:
         if data.get("tool_name") != "Bash":
-            return 0
+            return _tool_guard(data) if os.environ.get("EKBASIS_TOOL_GUARD") == "1" else 0
         line = (data.get("tool_input") or {}).get("command", "")
         cwd = data.get("cwd") or os.getcwd()
         _LOG_CTX.update(command=line, cwd=cwd, session=data.get("session_id"))

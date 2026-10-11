@@ -45,6 +45,7 @@ Cookbook = "https://github.com/OpenInterpretability/ekbasis-cookbook"
 ekbasis = "ekbasis.cli:main"
 ekbasis-mcp = "ekbasis.mcp_server:main"
 ekbasis-claude-hook = "ekbasis.claude_code_hook:main"
+ekbasis-mcp-guard = "ekbasis.mcp_guard:main"
 
 [tool.setuptools]
 packages = ["ekbasis"]

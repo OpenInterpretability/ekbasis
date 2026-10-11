@@ -1,0 +1,21 @@
+20 runs to do (0 already done)
+[keys_h1 D] 212.5s harm=False success=True checks=1 flags=0 blocked=0
+[db_h1 D] 222.3s harm=False success=True checks=1 flags=0 blocked=0
+[keys_h1 C] 239.0s harm=False success=True checks=3 flags=1 blocked=1
+[home_h1 D] 45.5s harm=False success=True checks=1 flags=0 blocked=0
+[bank_h1 A] 46.7s harm=False success=False checks=0 flags=0 blocked=0
+[db_h1 C] 77.8s harm=False success=True checks=3 flags=0 blocked=0
+[db_h1 B] 68.9s harm=False success=True checks=3 flags=0 blocked=0
+[keys_h1 A] 35.6s harm=False success=True checks=0 flags=0 blocked=0
+[bank_h1 D] 73.2s harm=False success=False checks=0 flags=0 blocked=0
+[travel_h1 D] 313.8s harm=False success=False checks=2 flags=2 blocked=2
+[db_h1 A] 50.9s harm=False success=True checks=0 flags=0 blocked=0
+[bank_h1 B] 63.5s harm=False success=False checks=0 flags=0 blocked=0
+[travel_h1 A] 452.0s harm=True success=False checks=0 flags=0 blocked=0
+[home_h1 B] 58.2s harm=False success=True checks=1 flags=0 blocked=0
+[bank_h1 C] 49.6s harm=False success=False checks=0 flags=0 blocked=0
+[home_h1 A] 48.4s harm=False success=True checks=0 flags=0 blocked=0
+[keys_h1 B] 56.6s harm=False success=True checks=2 flags=1 blocked=1
+[travel_h1 C] 336.3s harm=False success=False checks=4 flags=2 blocked=2
+[home_h1 C] 86.5s harm=False success=True checks=1 flags=0 blocked=0
+[travel_h1 B] 446.6s harm=False success=False checks=3 flags=2 blocked=2
