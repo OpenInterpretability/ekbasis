@@ -75,6 +75,76 @@ The exit codes are those of the other checks:
 Only `psql` is used to talk to PostgreSQL: set `EKBASIS_PSQL`, or put `psql` on `PATH`. The client stays standard
 library only.
 
+## Django, Alembic and Rails
+
+These frameworks keep migrations as code (Python or Ruby), so the SQL a migration will run has to come from the
+framework itself, which means **running the pull request's code**. That is far more dangerous than running its SQL. The
+guard runs it only inside a container that it builds for the job, and that it takes off the network before any of the
+project's code runs.
+
+1. **Network.** An internal Docker network is created, with no route out. A scratch PostgreSQL joins it.
+2. **Generator container.** It starts from your image (`--image`), gets the base and head trees as plain files from
+   `git archive` (no `.git`, no credentials), and runs your `--setup` with network: installing dependencies needs it,
+   as in any CI job.
+3. **The cut.** The generator is moved to the internal network. It is checked to have no route out (it cannot resolve
+   a public name), and the guard refuses to go on otherwise. From then on it reaches the scratch PostgreSQL and nothing
+   else. **No secret is ever in its environment**: no API key, no token, only the scratch database's URL. Migrations
+   run as a throwaway role that is not a superuser.
+4. **Base schema.** At the base tree, the framework migrates the scratch database (`manage.py migrate`,
+   `alembic upgrade head`, `bin/rails db:migrate`; `--migrate` overrides it). Then `pg_dump --schema-only` gives the
+   base schema.
+5. **Rendering**, at the head tree:
+   - **Django:** `sqlmigrate` for each new migration. `atomic = False` migrations are checked with autocommit rules.
+   - **Alembic:** offline mode, `upgrade --sql <previous>:<new>` (`--command "flask db"` for Flask-Migrate). The
+     `alembic_version` bookkeeping is dropped.
+   - **Rails (experimental):** Rails has no offline mode, so the new migrations run on the base schema, which has no
+     rows, and the SQL they send is kept. Reads and Rails' bookkeeping are dropped. `disable_ddl_transaction!` means
+     autocommit rules.
+6. **What is not SQL is not guessed.** These are reported as **cannot foresee**, with the reason and "review it by
+   hand":
+   - a Django `RunPython`;
+   - an Alembic migration that reads the database (`op.get_bind()`), which has no offline SQL;
+   - a Rails migration that uses models or loops (`User.find_each`, `update_all`).
+
+   Their SQL still applies to the scratch schema, so the next migration sees it.
+7. **Cleanup.** The containers and the network are removed. The result is a bundle (JSON): the base schema and, per
+   migration, its SQL.
+
+The second half needs the API key and never runs the pull request's code: `migrate-check --bundle` checks the bundle
+the way it checks SQL files.
+
+```bash
+ekbasis migrate-gen --framework django --base origin/main \
+  --setup "pip install -r requirements.txt" --env DB=postgres -o bundle.json     # no API key needed here
+ekbasis migrate-check --bundle bundle.json                                        # EKBASIS_API_KEY, EKBASIS_PG_URL
+```
+
+The generator gets `DATABASE_URL`, `DB_HOST`/`DB_PORT`/`DB_NAME`/`DB_USER`/`DB_PASSWORD`, the `PG*` variables and
+`POSTGRES_*` for the scratch database. Add what your settings read with `--env` (`${EKBASIS_DB_URL}` is replaced by
+the URL). **Never put a secret in `--env` or `--setup`: the pull request's code can read them.**
+
+In the Action:
+
+```yaml
+      - uses: OpenInterpretability/ekbasis/actions/migration-guard@v0.1.13
+        with:
+          api-key: ${{ secrets.EKBASIS_API_KEY }}
+          framework: django                 # or alembic, rails
+          image: python:3.12-slim
+          setup: |
+            apt-get update -qq && apt-get install -y -qq libpq5
+            pip install -r requirements.txt
+          env: |
+            DJANGO_SETTINGS_MODULE=myproject.settings
+```
+
+**Residual risk:**
+- **The setup step runs with network.** It installs the pull request's dependencies, as your test job already does.
+  Keep it to dependency installation.
+- **Container escape.** A bug in the container runtime or the kernel could let code escape the container. The
+  runner's lifetime of one job limits what it could reach.
+- **Forks:** as with SQL, forks get no secrets (see Security below). The render step itself needs none.
+
 ## GitHub Action
 
 ```yaml
@@ -212,7 +282,8 @@ Data, plans and scripts are in the cookbook (`studies/migrations`, sections 7 an
 
 **Limits:**
 - **PostgreSQL only.**
-- **SQL migrations only.** Migrations written in application code (Django, Alembic, Rails, TypeScript) are not read.
+- **Django, Alembic and Rails are rendered, not read.** The result depends on your `--setup` reproducing the project's
+  environment. Rails is experimental. Other code-based migrations (TypeScript ORMs, Go code) are not covered.
 - **The scratch schema is built from the SQL files alone.** Objects created outside them (extensions provided by the
   platform, roles, data migrations in code) are missing, and the verdict notes when earlier migrations did not apply
   cleanly.

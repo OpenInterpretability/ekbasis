@@ -60,7 +60,7 @@ DEFAULT_GLOBS = (
 SKIP = re.compile(r"(down\.sql$|\.(mysql|sqlite3?|cockroach|mssql)\.)", re.I)
 
 TOOL_NAMES = {"prisma": "Prisma Migrate", "diesel": "Diesel", "golang-migrate": "golang-migrate",
-              "generic": "the migration tool"}
+              "generic": "the migration tool", "django": "Django", "alembic": "Alembic", "rails": "Rails"}
 
 RULES_TX = ("A PostgreSQL database used by a running application. The migration file runs as one transaction, as "
             "{tool} runs it: its statements run in order, and if any statement fails (an error or a constraint "
@@ -861,6 +861,70 @@ class VerdictCache:
             os.replace(tmp, self._path(key))
         except OSError:
             pass
+
+
+def check_bundle(bundle: dict, pg_url: str | None = None, stats_url: str | None = None, autocommit: bool = False,
+                 client: Ekbasis | None = None, lost_threshold: float = LOST_THRESHOLD,
+                 fail_threshold: float = FAIL_THRESHOLD, psql: str | None = None) -> GuardVerdict:
+    """Check the migrations of a framework bundle (ekbasis.frameworks.generate): the base schema it carries is loaded
+    into a scratch database as the throwaway role, then each migration's SQL is checked as a SQL file is. A migration
+    with Python or Ruby that is not SQL (RunPython, a model loop), or that could not be rendered, is "cannot
+    foresee", with the reason; its SQL still applies, so the next one sees it."""
+    pg_url = pg_url or os.environ.get("EKBASIS_PG_URL")
+    stats_url = stats_url or os.environ.get("EKBASIS_DB_STATS_URL") or None
+    fw = bundle.get("framework") or "generic"
+    notes = list(bundle.get("notes") or [])
+    migs = sorted(bundle.get("migrations") or [], key=lambda m: (m.get("order", 0), m.get("path", "")))
+    if not migs:
+        return GuardVerdict([], notes)
+    if not pg_url:
+        return GuardVerdict([FileVerdict(m["path"], fw, bool(m.get("transaction", True)), cannot_judge="no scratch "
+                             "PostgreSQL to build the schema (set EKBASIS_PG_URL or --pg-url)") for m in migs], notes)
+    client = client or Ekbasis()
+    stats = None
+    if stats_url:
+        try:
+            stats = read_stats(stats_url, psql)
+        except CannotJudge as e:
+            notes.append(f"statistics replica not read ({redact(str(e), stats_url)}); row counts unknown")
+    out = []
+    try:
+        with Scratch(pg_url, psql) as scratch:
+            # pg_dump's preamble (SET, set_config, CREATE SCHEMA public) errors are harmless; anything else means the
+            # schema may be incomplete
+            err = scratch.db.apply(bundle.get("base_schema") or "", transaction=False)
+            dirty = bool(bundle.get("base_incomplete"))
+            if err and not re.search(r'schema "public" already exists|must be owner of|permission denied to set', err):
+                dirty = True
+                notes.append(f"the base schema did not load cleanly ({err[:160]}); the schema may be incomplete")
+            for m in migs:
+                sql = m.get("sql") or ""
+                tx = bool(m.get("transaction", True)) and not autocommit
+                if m.get("error"):
+                    out.append(FileVerdict(m["path"], fw, tx, cannot_judge="the framework could not render it as SQL "
+                                           f"({m['error']}); review it by hand"))
+                elif m.get("python_ops"):
+                    what = ", ".join(sorted(set(m["python_ops"])))[:200]
+                    kind = "Ruby" if fw == "rails" else "Python"
+                    out.append(FileVerdict(m["path"], fw, tx, statements=len(split_sql(sql)), cannot_judge=(
+                        f"it runs {kind} code that is not SQL ({what}): a data migration the guard cannot foresee; "
+                        "review it by hand")))
+                elif not split_sql(sql):
+                    v = FileVerdict(m["path"], fw, tx, p_lost=0.0, p_fail=0.0,
+                                    lost_threshold=lost_threshold, fail_threshold=fail_threshold)
+                    v.notes.append(m.get("note") or "no SQL statements")
+                    out.append(v)
+                    continue
+                else:
+                    out.append(_check_file(m["path"], fw, sql, scratch, stats, not tx, client, lost_threshold,
+                                           fail_threshold, dirty))
+                if sql.strip():
+                    scratch.db.apply(sql, transaction=tx)        # the next migration sees this one applied
+    except CannotJudge as e:
+        done = {v.path for v in out}
+        out += [FileVerdict(m["path"], fw, True, cannot_judge=redact(str(e), pg_url, stats_url)) for m in migs
+                if m["path"] not in done]
+    return GuardVerdict(out, notes)
 
 
 # ---------------------------------------------------------------- the pull request comment

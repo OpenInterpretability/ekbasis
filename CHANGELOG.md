@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.1.15] — 2026-10-11
+
+### Added
+- **Migration guard for Django, Alembic and Rails** (`ekbasis/frameworks.py`, `ekbasis migrate-gen`, `migrate-check
+  --bundle`, the Action's `framework` input, [docs/MIGRATION_GUARD.md](docs/MIGRATION_GUARD.md)). The framework
+  renders each new migration as SQL: Django `sqlmigrate`, Alembic offline `upgrade --sql` (also `flask db`), and Rails
+  (experimental) by running the new migrations on the base schema with SQL capture.
+  - **Isolation.** The pull request's code runs only inside a generator container. The container gets the trees from
+    `git archive`, runs `--setup` with network, and is then moved to an internal Docker network, checked to have no
+    route out, with no secret in its environment. Migrations run as a throwaway role that is not a superuser.
+  - **Base schema.** The framework migrates the scratch database at the base tree, and `pg_dump --schema-only` gives
+    the schema.
+  - **Code that is not SQL is "cannot foresee"**, with a reason: Django `RunPython`, an Alembic migration that reads
+    the database, a Rails migration that uses models.
+  - **The bundle (JSON)** is checked by `migrate-check --bundle`. The API key is needed only there.
+  - **Tests.** `tests/test_frameworks.py`: offline tests, PostgreSQL tests, and docker tests that render tiny Django
+    and Alembic projects and check the isolation. Rails was smoke-tested locally, not in CI.
+
 ## [0.1.14] — 2026-10-11
 
 ### Fixed

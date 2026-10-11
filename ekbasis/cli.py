@@ -24,7 +24,12 @@
       from a read-only replica's planner statistics (EKBASIS_DB_STATS_URL; aggregates only, never values). A file runs
       as one transaction, as Prisma, Diesel and golang-migrate run it; --autocommit for psql -f semantics. Exit codes:
       0 no risk found; 2 risky; 3 cannot foresee (treat as risky; --fail-open turns it into 0). See
-      docs/MIGRATION_GUARD.md.
+      docs/MIGRATION_GUARD.md. --bundle FILE checks a framework bundle (below) instead of SQL files.
+  ekbasis migrate-gen --framework django|alembic|rails --base REF [--image IMAGE] [--setup CMD] [--workdir DIR]
+                      [--env K=V ...] [--migrate CMD] [--command CMD] [-o bundle.json]
+      Django, Alembic and Rails keep migrations as code: render the new ones as SQL with the framework itself, inside a
+      container with no network and no secrets (needs docker), and write a bundle for migrate-check --bundle. Python or
+      Ruby that is not SQL (RunPython, model loops) is marked; migrate-check answers "cannot foresee" for it.
   ekbasis predict --rules TEXT --state TEXT --action A [--action B ...] --question TEXT [--options a,b,c] [--recap]
       One typed question about the outcome (yes/no when --options is not given). --recap repeats the rules right before
       the question; --recap-rule TEXT (repeatable) repeats only the rules you name.
@@ -117,7 +122,23 @@ def main(argv=None) -> int:
     m.add_argument("--fail-open", action="store_true", help="exit 0 (with a warning) when it cannot foresee")
     m.add_argument("--no-cache", action="store_true", help="always ask the model (default: reuse the answer for the same "
                                                            "migration, schema, client version and rules, 30 days)")
+    m.add_argument("--bundle", default=None, help="a framework bundle from migrate-gen (instead of files or --base)")
     m.add_argument("files", nargs="*", help="migration files to check (instead of --base)")
+    gg = sub.add_parser("migrate-gen", help="render Django/Alembic/Rails migrations as SQL in an isolated container")
+    gg.add_argument("--framework", required=True, choices=["django", "alembic", "rails"])
+    gg.add_argument("--repo", default=".")
+    gg.add_argument("--base", default=None, help="the base ref; the migrations added since are rendered")
+    gg.add_argument("--head", default="HEAD")
+    gg.add_argument("--image", default=None, help="the generator image (default python:3.12-slim, ruby:3.3 for rails)")
+    gg.add_argument("--setup", default=None, help="shell command run in the head tree, WITH network, before the "
+                                                  "network is cut (e.g. pip install -r requirements.txt)")
+    gg.add_argument("--workdir", default=".", help="where manage.py, alembic.ini or the Rails app is, in the repo")
+    gg.add_argument("--env", action="append", default=[], help="K=V for the generator (${EKBASIS_DB_URL} is replaced "
+                                                                "by the scratch database's URL); never put secrets here")
+    gg.add_argument("--migrate", default=None, help="the command that migrates the base (default per framework)")
+    gg.add_argument("--command", default=None, help="Alembic: alembic (default) or 'flask db'")
+    gg.add_argument("-o", "--output", default="-", help="the bundle file (default: stdout)")
+    gg.add_argument("files", nargs="*", help="migration files to render (instead of --base)")
     p = sub.add_parser("predict", help="one question about the outcome of some actions")
     p.add_argument("--rules", required=True)
     p.add_argument("--state", required=True)
@@ -180,12 +201,37 @@ def main(argv=None) -> int:
             print(json.dumps({"answer": ans.value, "confidence": round(ans.confidence, 4),
                               "probabilities": {k: round(v, 4) for k, v in ans.probabilities.items()}}))
             return OK
-        if a.cmd == "migrate-check":
+        if a.cmd == "migrate-gen":
+            from . import frameworks as FW
+            env = dict(x.split("=", 1) for x in a.env if "=" in x)
+            try:
+                b = FW.generate(a.framework, repo=a.repo, base=a.base, head=a.head, paths=a.files or None,
+                                image=a.image, setup=a.setup, workdir=a.workdir, env=env, migrate=a.migrate,
+                                command=a.command)
+            except FW.GenError as e:
+                b = {"framework": a.framework, "migrations": [], "error": str(e), "notes": [str(e)]}
+                print(f"ekbasis migrate-gen: {e}", file=sys.stderr)
+            text = json.dumps(b)
+            if a.output == "-":
+                print(text)
+            else:
+                with open(a.output, "w") as fh:
+                    fh.write(text)
+            return CANNOT_JUDGE if b.get("error") else OK
+        if a.cmd == "migrate-check" and a.bundle:
+            with open(a.bundle) as fh:
+                bundle = json.load(fh)
+            if bundle.get("error"):
+                raise CannotJudge(f"the framework bundle was not generated: {bundle['error']}")
+            v = M.check_bundle(bundle, pg_url=a.pg_url, stats_url=a.stats_url, autocommit=a.autocommit,
+                               client=client, lost_threshold=a.lost_threshold, fail_threshold=a.fail_threshold)
+        elif a.cmd == "migrate-check":
             v = M.check(repo=a.repo, base=a.base, head=a.head, files=a.files or None,
                         globs=tuple(a.glob) if a.glob else M.DEFAULT_GLOBS, pg_url=a.pg_url, stats_url=a.stats_url,
                         autocommit=a.autocommit, client=client, lost_threshold=a.lost_threshold,
                         fail_threshold=a.fail_threshold,
                         cache=M.VerdictCache(off=True) if a.no_cache else None)
+        if a.cmd == "migrate-check":
             if a.json:
                 print(json.dumps(v.as_json(state=a.show_state)))
             else:

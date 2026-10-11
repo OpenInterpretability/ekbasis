@@ -49,10 +49,11 @@ jobs:
           python-version: "3.12"
       - run: command -v psql || (sudo apt-get update -qq && sudo apt-get install -y -qq postgresql-client)
       - run: python -m pip install pytest
-      - name: tests against a real PostgreSQL (the other jobs skip them)
+      - name: tests against a real PostgreSQL and docker (the other jobs skip them)
         env:
           EKBASIS_TEST_PG_URL: postgresql://postgres@127.0.0.1:5432/postgres
-        run: python -m pytest -q tests/test_migrations.py
+          EKBASIS_TEST_DOCKER: "1"
+        run: python -m pytest -q tests/test_migrations.py tests/test_frameworks.py
 
   build:
     name: build and check the distribution
