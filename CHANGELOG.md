@@ -3,6 +3,9 @@
 ## [Unreleased]
 
 ### Changed
+- **`intent_check` flags a third party only when p is strictly above 0.5.** An exact 0.5 (two bf16 logits landing on
+  the same value, about 0.5% of answers) is now "unsure". In two pre-registered replays of published attacks this lost
+  no stopped attack and cut false alarms from 13 to 8 and from 7 to 4.
 - **`intent_check` is beta** (was experimental), as a signal to ask a person. In a pre-registered replay of 1,510
   published successful attacks on eight agents it would have stopped 99.8% of them, with false alarms on 1.7% of 776
   benign runs; a replay is not a live run (see docs/INTENT_CHECK.md). The 3 attacks it did not stop are a benchmark
