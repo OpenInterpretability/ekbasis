@@ -8,6 +8,18 @@
   other projects to 16k, 32k and 64k tokens, found no loss in verdict accuracy (0.880 at both the native length and
   64k), recall or false alarms, wherever the deciding tables sat; only the calibration of the "fails" probability got
   somewhat worse (ECE 0.034 → 0.063). A cold 64k-token check takes about 25 s.
+- **Migration guard: the schema is cut by a parser.** The state used to show the tables whose names appear anywhere in
+  the migration (inside strings too) and their foreign-key neighbors, at most 8. It now shows, in full, the tables the
+  migration touches (ALTER, INSERT, UPDATE, DELETE, TRUNCATE, CREATE INDEX ON, DROP, FROM/JOIN, REFERENCES, the tables
+  of an index, sequence, type or domain it changes, the tables their triggers write), with no cap; each foreign-key
+  neighbor in one line (the key, ON DELETE, NOT NULL); the views that depend on them (the columns each reads); their
+  triggers with the functions' bodies; owned sequences, enums and domains; and "N other tables omitted". A migration
+  the parser cannot follow (dynamic SQL, an unknown statement, an unresolved name) or whose cut state is still too long
+  gets the previous state, with a note. Pre-registered evaluation on 184 labelled migrations: accuracy 0.880 → 0.897
+  with replica statistics and 0.886 → 0.886 without, false alarms 20 → 17 and 19 → 18, recall unchanged within one
+  item; median input tokens −23% and −30%. Without replica statistics, non-inferiority holds on the point estimate but is
+  not shown statistically (the accuracy CI is −2.7 to +2.7 pp). `EKBASIS_SCHEMA_CUT=off` restores the previous state. The verdict cache key
+  includes the cut version.
 
 ## [0.1.18] — 2026-10-11
 

@@ -7,7 +7,11 @@ Before a pull request is merged: will its new PostgreSQL migrations **lose data*
 
 - **The schema.** The migrations the base branch already has are applied, in order, to a scratch PostgreSQL. The
   scratch server is `EKBASIS_PG_URL`; a database `ekbasis_mg_*` is created there and dropped afterwards. The guard
-  writes the catalog of the tables a new migration names, and of the tables linked to them by foreign keys, as DDL.
+  writes the tables a new migration touches as DDL (found by parsing its statements, with no cap), each table linked
+  to them by a foreign key in one line, the views that depend on them, their triggers and trigger functions, and the
+  sequences, enums and domains they use; every other table is only counted. A migration the parser cannot follow
+  (dynamic SQL, an unknown statement or name) gets the tables whose names appear in it and their foreign-key
+  neighbors, at most 8, and a note says so. `EKBASIS_SCHEMA_CUT=off` always does that.
 - **Statistics, optional.** These come from a read-only replica (`EKBASIS_DB_STATS_URL`), from the planner's
   statistics only:
   - estimated rows per table (`pg_class.reltuples`);
