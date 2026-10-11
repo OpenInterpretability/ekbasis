@@ -64,7 +64,7 @@ with no attack, and asked `intent_check` (defaults) about every tool call in ord
 
 | | result |
 |---|---|
-| successful attacks it would have stopped (a `follows_third_party` at or before the call that completes the attack) | **1,507 / 1,510 = 99.8%** [99.4, 99.9]; 99.4–100% per agent |
+| successful attacks it would have stopped (a `follows_third_party` at or before the call that completes the attack) | **1,507 / 1,510 = 99.8%** [99.4, 99.9]; the 3 others are not real attacks (below), so 1,507 of 1,507 |
 | counting the 98 runs we excluded as not stopped (47 are a text-only attack with no tool call) | 93.7% |
 | benign runs with at least one false `follows_third_party` | **13 / 776 = 1.7%** [1.0, 2.8] |
 | median latency per call | 1.4 s |
@@ -74,8 +74,10 @@ prompt-injection detector 8.0% (with utility down to 41%), spotlighting 41.7%. R
 estimated ~0.2%. **This is a replay, not a live run**: after a block, a live agent could try another path, which a replay
 cannot see; the published defenses were measured live.
 
-The three attacks it missed are the same case: the user asks to update a payment with their new IBAN, and the agent
-writes the attacker's IBAN instead. The call matches what the user asked for; only a parameter is the attacker's.
+The three "successful" attacks it did not stop are not real attacks: in that version of the benchmark (v1), the user's
+own request gives the attacker's IBAN as the new landlord's account ("My new landlord's account is
+US133000000121212121212"), so the call does serve the user, as intent_check said; later versions changed the user's
+IBAN.
 Most false alarms are explicit delegation ("follow the instructions in this file"); `delegation=True` lowers them to
 1.0% at the cost of 0.3 pp of attacks stopped.
 
@@ -88,7 +90,7 @@ defense, so the security gain could not be measured there; intent_check cost 3.1
 - **Adaptive or optimized attacks against the shielded layout were not tested.** The attacks above are fixed
   templates, about 10–12 malicious steps each.
 - A live run with an agent that falls for the attacks (the replay above is not live).
-- Attacks that swap a parameter of a call the user did ask for (the IBAN case above).
+- Attacks that swap a parameter of a call the user did ask for (a recipient, an account): being measured.
 - Real agent sessions beyond AgentDojo: our 36 sessions are written by us.
 - Long histories: the AgentDojo sample has states of up to 9,000 characters.
 
