@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.1.20] — 2026-10-11
+
+### Added
+- **Migration guard: code probes.** On a copy of the scratch database the guard tries three mechanisms: an INSERT whose
+  keys collide with rows already there, an INSERT…SELECT that leaves a NOT NULL column empty, and a DELETE or UPDATE of
+  rows a foreign key still references. When a probe reproduces the PostgreSQL error with real rows, "fails" is decided
+  in code; when it needs an invented row, the result reaches the model as a conditional fact ("if …, it fails with …").
+- **Edited migrations get a verdict**, on the base schema before them, with a note that databases that already applied
+  them will not run the change (before, only the note).
+- **`--setup-sql` / Action input `setup-sql`**: SQL run by the scratch server's admin before the base's migrations, for
+  platforms that create a schema or role outside the migrations (e.g. Supabase's `auth`). With a base ref it is read
+  from the base, never from the pull request.
+
+Pre-registered evaluation: no regression on the 184 labelled v3 migrations (false alarms 20 → 20 with replica
+statistics and 19 → 19 without; recall 54 → 54). The gain on new incidents was **not** demonstrated: only 4 new
+incidents were found, none of the probes' formats. In development, two incidents the guard used to miss were caught
+for the right reason (a DELETE of referenced rows, P(fails) 0.13 → 0.92; an INSERT leaving NOT NULL empty, 0.25 → 0.97).
+
 ## [0.1.19] — 2026-10-11
 
 ### Changed
