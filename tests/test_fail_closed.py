@@ -70,7 +70,7 @@ class TestClient(unittest.TestCase):
         threading.Thread(target=srv.serve_forever, daemon=True).start()
         try:
             with self.assertRaises(CannotJudge) as cm:
-                Ekbasis(url=f"http://127.0.0.1:{srv.server_address[1]}", timeout=0.3).ask("s", {})
+                Ekbasis(url=f"http://127.0.0.1:{srv.server_address[1]}", timeout=0.3).ask("s", {"q": {"type": "noul", "instructions": "q?"}})
             self.assertIn("did not answer within", str(cm.exception))
         finally:
             srv.shutdown()

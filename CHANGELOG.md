@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.1.17] — 2026-10-11
+
+### Fixed
+- **A malformed question is refused before it is sent.** The server reads a question's text only from `instructions`;
+  a question written as `{"type": "noul", "question": "..."}` was silently answered as if it asked nothing, with one
+  same probability whatever it said. `Ekbasis.ask` now raises `ValueError` for a question with no `instructions`
+  (naming the field it found instead), an unknown type, or an empty question set. Found when a study's first pass gave
+  the same answer to every question.
+
 ## [0.1.16] — 2026-10-11
 
 ### Fixed
