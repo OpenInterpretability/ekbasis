@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased]
+## [0.1.19] — 2026-10-11
 
 ### Changed
 - **Migration guard: states up to 200,000 characters (~64k tokens) are read** (was 60,000, which was about 15–19k
