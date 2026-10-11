@@ -51,6 +51,13 @@ EKBASIS_PREFLIGHT_REPEAT (1, the default: a warned command passes when it is run
 EKBASIS_GIT_GUARD (0: no git checks, for preflight alone), EKBASIS_PREFLIGHT_COPY (0: never run on a copy),
 EKBASIS_PREFLIGHT_FAIL_CLOSED (1: warn when preflight cannot judge), EKBASIS_SAFER (0: no safer route).
 
+Experimental, opt-in: EKBASIS_INTENT_CHECK=1 runs ekbasis.intent_check on calls to MCP tools (names matching
+EKBASIS_INTENT_TOOLS, a regular expression, default ^mcp__; give the hook those tools too, e.g. "matcher": "mcp__.*").
+The action is the call only (tool name and arguments); the context is the user's last request and the tool results
+already seen in the session's transcript (transcript_path), quoted as untrusted data. When the call may follow
+instructions found in that content (follows_third_party), Claude Code asks you to confirm, saying from which tools'
+output; it never blocks on this alone (EKBASIS_GUARD_MODE=deny does not apply). docs/INTENT_CHECK.md.
+
 Safer route: when the hook warns about git commands, it also offers the alternative with the same intent that Ekbasis
 checked and found safe (ekbasis.safer), e.g. `git stash push && git reset --hard`, or says that none passed. It is
 searched last, in the time the deadline leaves; when the search cannot finish, the warning goes out without a route.
@@ -74,6 +81,8 @@ from . import prompts as P
 from . import recover as R
 from . import safer as SF
 from . import shell as S
+from . import intent as INTENT
+from . import transcript as TR
 from .client import CannotJudge, Ekbasis
 
 QUIET_REDIRECT = re.compile(r"[0-9&]*>>?\s*/dev/null|[0-9]*>&[0-9-]")
@@ -485,6 +494,35 @@ def _safer_routes(groups: dict, flagged: set, client, threshold: float, left) ->
     return out
 
 
+def _intent(data: dict) -> int:
+    """EKBASIS_INTENT_CHECK=1: does this MCP call serve the user's request, or instructions found in tool output?"""
+    name, args = str(data.get("tool_name") or ""), data.get("tool_input") or {}
+    _LOG_CTX.update(tool=name, session=data.get("session_id"))
+    try:
+        events = TR.events(data["transcript_path"], skip_tool_use=data.get("tool_use_id")) if data.get("transcript_path") else []
+    except OSError as e:
+        return _cannot_judge(f"cannot read the session transcript: {e}")
+    users = [e["text"] for e in events if e["kind"] == "user"]
+    tools = [e for e in events if e["kind"] == "tool"]
+    if not users or not tools:
+        return 0   # no request to compare with, or no tool output that could carry someone else's instructions
+    deadline = float(os.environ.get("EKBASIS_HOOK_DEADLINE", "25"))
+    client = Ekbasis(timeout=deadline, surface="claude-hook-intent")
+    v = _with_deadline(lambda: INTENT.intent_check(users[-1], tools, {"name": name, "input": args}, client=client),
+                       deadline)
+    if v.verdict != "follows_third_party":
+        return 0
+    seen = ", ".join(dict.fromkeys(e["name"] for e in tools[-5:]))
+    reason = (f"Ekbasis (intent check, experimental): this call may follow instructions found in tool output ({seen}) "
+              f"rather than your request ({100 * v.p:.0f}%). Confirm it only if you asked for it.")
+    if _log_mode():
+        _shadow("ask", reason)
+        return 0
+    print(json.dumps({"hookSpecificOutput": {"hookEventName": "PreToolUse", "permissionDecision": "ask",
+                                             "permissionDecisionReason": reason}}))
+    return 0
+
+
 def main() -> int:
     try:
         data = json.load(sys.stdin)
@@ -492,6 +530,9 @@ def main() -> int:
         return _cannot_judge(f"could not read the hook input: {e}")
     try:
         if data.get("tool_name") != "Bash":
+            if os.environ.get("EKBASIS_INTENT_CHECK") == "1" and \
+                    re.search(os.environ.get("EKBASIS_INTENT_TOOLS", "^mcp__"), str(data.get("tool_name") or "")):
+                return _intent(data)
             return 0
         line = (data.get("tool_input") or {}).get("command", "")
         cwd = data.get("cwd") or os.getcwd()
