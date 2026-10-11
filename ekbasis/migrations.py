@@ -386,7 +386,7 @@ SELECT json_build_object(
   WHERE c.relkind IN ('r', 'p') AND NOT c.relispartition
     AND n.nspname NOT IN ('pg_catalog', 'information_schema') AND n.nspname NOT LIKE 'pg_%'), '[]'::json),
  'enums', COALESCE((SELECT json_object_agg(t.typname, (SELECT json_agg(e.enumlabel ORDER BY e.enumsortorder)
-            FROM pg_enum e WHERE e.enumtypid = t.oid))
+            FROM pg_enum e WHERE e.enumtypid = t.oid) ORDER BY t.typname)
    FROM pg_type t JOIN pg_namespace n ON n.oid = t.typnamespace
    WHERE t.typtype = 'e' AND n.nspname NOT IN ('pg_catalog', 'information_schema')), '{}'::json))
 """
