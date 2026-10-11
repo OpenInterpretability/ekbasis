@@ -174,6 +174,17 @@ transactional rule, and planner statistics in place of sample rows.
   right to block the merge (it fails), but the reason it gives (loss) is wrong.
 - **Calibration of the loss probability:** ECE 0.180, not within 0.10.
 
+So the verdict and its reason are decided in code. A file is risky if P(fails) ≥ 0.5, or P(lost) ≥ 0.5, or it fails
+on the base's schema. The reason says "fails" first. A third pre-registered evaluation ran this exact code
+(`b18bb43`) on **184 migrations the study never drew**, with the scratch schema built as the non-superuser role:
+- **Verdict accuracy** (risky vs ok, against "fails or loses data"): **0.875** [0.826, 0.924]. Regex rules (R3 or
+  the failure rule) reach 0.696.
+- **Recall on risky migrations:** 0.946 (53 of 56).
+- **Reason** ("fails" vs "loses"), on risky migrations it flags: right on **92.5%** (49 of 53).
+- **False alarms on benign migrations:** **15.6%** (20 of 128). The rules raise 43.0%.
+
+Every target was met. Data, plans and scripts are in the cookbook (`studies/migrations`, sections 7 and 8).
+
 **Limits:**
 - **PostgreSQL only.**
 - **SQL migrations only.** Migrations written in application code (Django, Alembic, Rails, TypeScript) are not read.

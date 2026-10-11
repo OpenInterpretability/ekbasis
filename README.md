@@ -625,8 +625,9 @@ code. A GitHub Action posts one comment per pull request and can fail the check:
     api-key: ${{ secrets.EKBASIS_API_KEY }}
 ```
 
-The questions come from a pre-registered study on 582 real migrations executed on seeded databases (loss: AUROC 0.948,
-F1 0.836 against 0.785 for a copy-aware regex; failure: AUROC 0.963). Details, exit codes and limits:
+Measured in pre-registered evaluations on real migrations executed on seeded databases. On 184 migrations held out
+from the study, the guard's verdict was right 87.5% of the time against 69.6% for regex rules, its reason ("fails"
+vs "loses") was right 92.5% of the time, and false alarms on benign migrations were 15.6% against 43.0%. Details, exit codes and limits:
 [docs/MIGRATION_GUARD.md](https://github.com/OpenInterpretability/ekbasis/blob/main/docs/MIGRATION_GUARD.md).
 
 ## Feedback (hosted API)
