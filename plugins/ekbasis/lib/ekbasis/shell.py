@@ -37,6 +37,17 @@ from .client import CannotJudge, Ekbasis
 
 SHELL_LOST = P.yes_no("Do these commands permanently lose any file content: content that was in some file before (a file "
                       "inside an archive counts) and afterwards is in no file at all?")
+# Opt-in variant (EKBASIS_SHELL_LOST=intent), for A/B: the literal question also says yes to the change a command is
+# meant to make (an in-place edit replaces the old content, which is then in no file), the most common false alarm in
+# an external test. This one leaves out the intended change. Not the default until it is measured.
+SHELL_LOST_INTENT = P.yes_no("Apart from the change these commands are meant to make, do they permanently lose any other "
+                             "file content: content that was in some file before (a file inside an archive counts) and "
+                             "afterwards is in no file at all, without the commands being meant to remove or replace it?")
+
+
+def shell_lost_question() -> dict:
+    """The loss question in use: SHELL_LOST, or SHELL_LOST_INTENT with EKBASIS_SHELL_LOST=intent."""
+    return SHELL_LOST_INTENT if os.environ.get("EKBASIS_SHELL_LOST", "").strip().lower() == "intent" else SHELL_LOST
 
 
 def shell_fails(k: int) -> dict:
@@ -1315,7 +1326,7 @@ def check(commands, cwd: str = ".", client: Ekbasis | None = None, lost_threshol
             return ShellVerdict(commands=commands, p_lost=0.0, p_fail=[0.0] * len(commands), reasons=[why_skip])
     view = inspect(commands, cwd, shell=shell, salt=salt, where=where)
     prompt = shell_prompt(view, notes=notes)
-    qs = {"lost": SHELL_LOST}
+    qs = {"lost": shell_lost_question()}
     qs.update({f"fails_{k}": shell_fails(k) for k in range(1, len(commands) + 1)})
     ans = client.ask(prompt, qs)
     v = ShellVerdict(commands=commands, p_lost=ans["lost"].p_yes,

@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.18] — 2026-10-11
+
+### Added
+- **Opt-in loss question that leaves out the intended change** (`EKBASIS_SHELL_LOST=intent`), for A/B tests of the shell
+  and Claude Code guards. The default question asks whether content "afterwards is in no file at all", which is also true
+  of the change a command is meant to make (an in-place edit replaces the old content); in an external test this was the
+  most common remaining false alarm. The default is unchanged until the variant is measured.
+
 ## [0.1.17] — 2026-10-11
 
 ### Fixed

@@ -1690,7 +1690,7 @@ def _model_shell(plan: Plan, client, rows: bool, numbers: bool, where: str | Non
     texts = [s.text for s in plan.steps]
     view = S.inspect(texts, plan.cwd, shell=plan.shell, where=where)
     prompt = _shell_prompt(view, plan, fact_lines)
-    qs = {"lost": S.SHELL_LOST, **{f"f{k}": S.shell_fails(k) for k in range(1, n + 1)}}
+    qs = {"lost": S.shell_lost_question(), **{f"f{k}": S.shell_fails(k) for k in range(1, n + 1)}}
     ans = client.ask(prompt, qs)
     req = 1
     p = [ans[f"f{k}"].p_yes for k in range(1, n + 1)]
