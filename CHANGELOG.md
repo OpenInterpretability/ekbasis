@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased]
+## [0.1.21] — 2026-10-11
 
 ### Added
 - **Migration guard, framework adapters: a throwaway Redis for projects that need it.**
