@@ -200,11 +200,13 @@ class TestCheck(unittest.TestCase):
         with redirect_stdout(io.StringIO()):
             self.assertEqual(cli.main(["migrate-check", "--repo", self.root, "--base", "nope"]), cli.CANNOT_JUDGE)
 
-    def test_edited_migration_is_noted(self):
+    def test_edited_migration_gets_a_verdict(self):
         prisma_repo(self.root, {"prisma/migrations/001_init/migration.sql": 'CREATE TABLE "User" (id int);\n'})
         v = M.check(self.root, base="main", pg_url="postgresql://unused/x", client=Fake())
-        self.assertEqual(v.files, [])
-        self.assertIn("edits migrations that already exist", v.notes[0])
+        (f,) = v.files
+        self.assertTrue(f.edited)
+        self.assertIn("databases that already applied it will not run the change", " ".join(f.notes))
+        self.assertTrue(f.cannot_judge)                     # no scratch server here: fail closed, never silent
 
 
 class TestComment(unittest.TestCase):

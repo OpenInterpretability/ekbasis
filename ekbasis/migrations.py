@@ -41,6 +41,7 @@ from dataclasses import dataclass, field
 from . import prompts as P
 from ._version import __version__
 from .client import CannotJudge, Ekbasis, _cache_dir
+from .probes import probe_facts
 
 LOST_THRESHOLD = 0.5
 FAIL_THRESHOLD = 0.5
@@ -363,8 +364,10 @@ class Scratch:
     languages, `pg_read_file` and the like fail with "permission denied" instead of running on the server; such a
     migration is reported as "cannot foresee", never run with more privileges."""
 
-    def __init__(self, admin_url: str, psql: str | None = None):
+    def __init__(self, admin_url: str, psql: str | None = None, setup: str | None = None):
         self.admin = Pg(admin_url, psql or scratch_psql())
+        self.setup = setup or None          # setup SQL, run by the admin connection before any migration (setup-sql)
+        self.setup_hash = hashlib.sha256(setup.encode()).hexdigest() if setup else None
         tag = secrets.token_hex(5)
         self.name = "ekbasis_mg_" + tag
         self.role = "ekbasis_mg_" + tag
@@ -383,6 +386,16 @@ class Scratch:
             self.__exit__()
             raise CannotJudge(f"cannot create a scratch database: {redact(err, self.password).strip()[:300]}")
         self.db = Pg(self._url(self.name), self.admin.psql)
+        if self.setup:
+            # The setup SQL is trusted (it comes from the base branch, never from the pull request) and runs with the
+            # admin connection's privileges in the throwaway database: schemas, extensions, roles the migrations need.
+            # :guard_role names the role the migrations run as, for GRANTs.
+            admin_db = Pg(with_db(self.admin.url, self.name), self.admin.psql)
+            rc, _, err = admin_db.run(["-v", "ON_ERROR_STOP=1", "-v", f"guard_role={self.role}", "-f", "-"],
+                                      stdin=self.setup)
+            if rc != 0:
+                self.__exit__()
+                raise CannotJudge(f"the setup SQL failed: {redact(err, self.password).strip()[:300]}")
         return self
 
     def clone(self) -> "Pg":
@@ -1270,6 +1283,8 @@ class FileVerdict:
     fail_threshold: float = FAIL_THRESHOLD
     cached: bool = False                # the answers came from the verdict cache (no model call)
     code_not_foreseen: str | None = None  # framework migrations, on-code=warn: code that is not SQL (not blocking)
+    decided: str | None = None          # a failure on existing data decided in code (probes: replica statistics)
+    edited: bool = False                # the pull request edits this migration, which the base already has
 
     @property
     def kind(self) -> str:
@@ -1298,6 +1313,9 @@ class FileVerdict:
             return (f"fails on the base branch's schema before touching any data: {self.schema_error} (an error in "
                     "the pull request itself, e.g. it depends on a migration missing from the base, or a typo)")
         lose = self.p_lost is not None and self.p_lost >= self.lost_threshold
+        if k == "fails" and self.decided:
+            return f"fails on existing data: {self.decided}" + ("; nothing in the file would be applied"
+                                                                if self.transaction else "")
         if k == "fails":
             if self.transaction:
                 out = f"may fail on existing data ({self.p_fail:.0%}); nothing in the file would be applied"
@@ -1313,7 +1331,8 @@ class FileVerdict:
              "risky": self.risky, "p_lost": self.p_lost, "p_fail": self.p_fail, "p_half": self.p_half,
              "schema_error": self.schema_error, "cannot_judge": self.cannot_judge, "cannot_foresee": self.cannot_judge,
              "reason": self.reason, "kind": self.kind, "notes": self.notes, "tables": self.shown,
-             "cached": self.cached, "code_not_foreseen": self.code_not_foreseen}
+             "cached": self.cached, "code_not_foreseen": self.code_not_foreseen, "decided": self.decided,
+             "edited": self.edited}
         if state:
             d["state"] = self.state
         return d
@@ -1374,13 +1393,19 @@ def check(repo: str = ".", base: str | None = None, head: str = "HEAD", files: l
           globs=DEFAULT_GLOBS, pg_url: str | None = None, stats_url: str | None = None, autocommit: bool = False,
           client: Ekbasis | None = None, lost_threshold: float = LOST_THRESHOLD,
           fail_threshold: float = FAIL_THRESHOLD, psql: str | None = None,
-          cache: VerdictCache | None = None) -> GuardVerdict:
+          cache: VerdictCache | None = None, setup_sql: str | None = None) -> GuardVerdict:
     """Check the new migrations of a change. With base: the files added between the merge base and head (the base's
-    own migrations build the schema). With files: those files, and the schema is built from the files that sort before
-    them in the same folder of the working tree."""
+    own migrations build the schema), and the migrations the change edits (their new content on the schema of the
+    migrations before them). With files: those files, and the schema is built from the files that sort before them in
+    the same folder of the working tree.
+
+    setup_sql: path of a SQL file run by the admin connection before the base's migrations (a schema, a role or an
+    extension the platform creates outside the migrations). With base it is read from the BASE ref, never from the
+    pull request's head, because it runs with privileges; with files, from the working tree."""
     pg_url = pg_url or os.environ.get("EKBASIS_PG_URL")
     stats_url = stats_url or os.environ.get("EKBASIS_DB_STATS_URL") or None
     notes = []
+    edited = []
     if files:
         new = [f.replace("\\", "/") for f in files]
         src_new = src_base = Source(repo, None)
@@ -1389,17 +1414,20 @@ def check(repo: str = ".", base: str | None = None, head: str = "HEAD", files: l
             raise ValueError("give --base REF or the migration files")
         added, modified = changed_files(repo, base, head)
         new = [f for f in added if is_migration(f, globs)]
-        edited = [f for f in modified if is_migration(f, globs)]
-        if edited:
-            notes.append("edits migrations that already exist on the base (" + ", ".join(edited[:5]) + "): a database "
-                         "that already applied them will not run the change, and tools that checksum migrations "
-                         "(Prisma, golang-migrate's dirty flag) may refuse to deploy")
+        edited = sorted(f for f in modified if is_migration(f, globs))
         src_new, src_base = Source(repo, head), Source(repo, base)
-    if not new:
+    setup = None
+    if setup_sql:
+        try:
+            setup = src_base.read(setup_sql.replace("\\", "/").removeprefix("./") if src_base.ref else setup_sql)
+        except (CannotJudge, OSError) as e:
+            return GuardVerdict([FileVerdict(f, tool_of(f), not autocommit, cannot_judge=f"the setup SQL {setup_sql} "
+                                 f"cannot be read from the base ({e})") for f in new + edited], notes)
+    if not new and not edited:
         return GuardVerdict([], notes)
     if not pg_url:
         return GuardVerdict([FileVerdict(f, tool_of(f), not autocommit, cannot_judge="no scratch PostgreSQL to build "
-                             "the schema (set EKBASIS_PG_URL or --pg-url)") for f in new], notes)
+                             "the schema (set EKBASIS_PG_URL or --pg-url)") for f in new + edited], notes)
     client = client or Ekbasis()
     cache = cache or VerdictCache()
     stats = None
@@ -1416,7 +1444,7 @@ def check(repo: str = ".", base: str | None = None, head: str = "HEAD", files: l
         fs.sort()
         tool = tool_of(fs[0])
         try:
-            scratch = Scratch(pg_url, psql)
+            scratch = Scratch(pg_url, psql, setup)
             with scratch:
                 # the schema: every migration of this folder on the base that sorts before the first new file
                 prior = [p for p in (src_base.list(folder)) if is_migration(p, globs) and tool_of(p) == tool
@@ -1441,7 +1469,36 @@ def check(repo: str = ".", base: str | None = None, head: str = "HEAD", files: l
             for f in fs:
                 if not any(v.path == f for v in out):
                     out.append(FileVerdict(f, tool, not autocommit, cannot_judge=redact(str(e), pg_url, stats_url)))
+    for f in edited:
+        out.append(_check_edited(f, src_base, src_new, globs, pg_url, psql, setup, stats, autocommit, client,
+                                 lost_threshold, fail_threshold, cache, stats_url))
     return GuardVerdict(out, notes)
+
+
+EDIT_NOTE = ("this pull request edits a migration the base already has: databases that already applied it will not run "
+             "the change (and tools that checksum migrations, such as Prisma or golang-migrate's dirty flag, may refuse "
+             "to deploy); the verdict is for the new content on a database that has not applied it yet")
+
+
+def _check_edited(path, src_base, src_new, globs, pg_url, psql, setup, stats, autocommit, client, lt, ft, cache,
+                  stats_url) -> FileVerdict:
+    """An edited migration: its new content checked on the schema of the base's migrations that sort before it."""
+    folder, tool = set_dir(path), tool_of(path)
+    try:
+        with Scratch(pg_url, psql, setup) as scratch:
+            prior = [p for p in src_base.list(folder) if is_migration(p, globs) and tool_of(p) == tool
+                     and set_dir(p) == folder and p < path]
+            dirty = False
+            for p in prior:
+                if scratch.db.apply(src_base.read(p), transaction=True) and \
+                        scratch.db.apply(src_base.read(p), transaction=False):
+                    dirty = True
+            v = _check_file(path, tool, src_new.read(path), scratch, stats, autocommit, client, lt, ft, dirty, cache)
+    except CannotJudge as e:
+        v = FileVerdict(path, tool, not autocommit, cannot_judge=redact(str(e), pg_url, stats_url))
+    v.edited = True
+    v.notes.append(EDIT_NOTE)
+    return v
 
 
 def _check_file(path, tool, text, scratch, stats, autocommit, client, lt, ft, base_dirty, cache=None) -> FileVerdict:
@@ -1476,14 +1533,22 @@ def _check_file(path, tool, text, scratch, stats, autocommit, client, lt, ft, ba
     facts = []
     if v.schema_error:
         facts.append(f"Run on this schema with no rows, the migration fails: {v.schema_error}.")
+    decided = None
+    if not v.schema_error:          # the probes report only data errors (23502/23503/23505), so an incomplete base
+        pfacts, decided = probe_facts(scratch, catalog, stmts, stats, tx, outside_bodies)
+        facts += pfacts
     v.state, v.shown = build_state(catalog, stmts, stats, tool, tx, facts, notes=v.notes)
+    if decided:                     # decided in code from the replica's statistics (probes)
+        v.decided, v.p_lost, v.p_fail, v.risky = decided, 0.0, 1.0, True
+        return v
     if len(v.state) > MAX_CHARS:
         v.cannot_judge = f"the migration and its schema are too long to read ({len(v.state):,} characters)"
         return v
     qs = {"lost": Q_LOST, "fails": Q_FAILS}
     if not tx:
         qs["half"] = Q_HALF
-    key = VerdictCache.key(text, catalog, tx, stats is not None, v.state, qs, getattr(client, "url", ""))
+    key = VerdictCache.key(text + (f"\n-- setup {scratch.setup_hash}" if getattr(scratch, "setup_hash", None) else ""),
+                           catalog, tx, stats is not None, v.state, qs, getattr(client, "url", ""))
     probs = cache.get(key) if cache else None
     if probs is not None and set(probs) == set(qs):
         v.cached = True
