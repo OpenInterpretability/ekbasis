@@ -26,6 +26,7 @@ Only `psql` is used to talk to PostgreSQL (the client stays standard library onl
 from __future__ import annotations
 
 import fnmatch
+import hashlib
 import json
 import os
 import re
@@ -33,12 +34,13 @@ import secrets
 import shutil
 import subprocess
 import tempfile
+import time
 import urllib.parse
 from dataclasses import dataclass, field
 
 from . import prompts as P
 from ._version import __version__
-from .client import CannotJudge, Ekbasis
+from .client import CannotJudge, Ekbasis, _cache_dir
 
 LOST_THRESHOLD = 0.5
 FAIL_THRESHOLD = 0.5
@@ -46,6 +48,7 @@ MAX_TABLES = 8
 MAX_CHARS = 60000           # the hosted API reads up to 32k tokens; a bigger state is "cannot foresee"
 PSQL_TIMEOUT = 120
 MARKER = "<!-- ekbasis-migration-guard -->"
+VERDICT_TTL_S = 30 * 86400  # a cached verdict is reused for this long
 
 DEFAULT_GLOBS = (
     "*migrations/*/migration.sql",      # Prisma
@@ -530,6 +533,7 @@ class FileVerdict:
     shown: list = field(default_factory=list)
     lost_threshold: float = LOST_THRESHOLD
     fail_threshold: float = FAIL_THRESHOLD
+    cached: bool = False                # the answers came from the verdict cache (no model call)
 
     @property
     def kind(self) -> str:
@@ -568,7 +572,8 @@ class FileVerdict:
         d = {"path": self.path, "tool": self.tool, "transaction": self.transaction, "statements": self.statements,
              "risky": self.risky, "p_lost": self.p_lost, "p_fail": self.p_fail, "p_half": self.p_half,
              "schema_error": self.schema_error, "cannot_judge": self.cannot_judge, "cannot_foresee": self.cannot_judge,
-             "reason": self.reason, "kind": self.kind, "notes": self.notes, "tables": self.shown}
+             "reason": self.reason, "kind": self.kind, "notes": self.notes, "tables": self.shown,
+             "cached": self.cached}
         if state:
             d["state"] = self.state
         return d
@@ -618,7 +623,8 @@ def _transaction_for(tool: str, stmts: list, autocommit: bool, notes: list) -> b
 def check(repo: str = ".", base: str | None = None, head: str = "HEAD", files: list | None = None,
           globs=DEFAULT_GLOBS, pg_url: str | None = None, stats_url: str | None = None, autocommit: bool = False,
           client: Ekbasis | None = None, lost_threshold: float = LOST_THRESHOLD,
-          fail_threshold: float = FAIL_THRESHOLD, psql: str | None = None) -> GuardVerdict:
+          fail_threshold: float = FAIL_THRESHOLD, psql: str | None = None,
+          cache: VerdictCache | None = None) -> GuardVerdict:
     """Check the new migrations of a change. With base: the files added between the merge base and head (the base's
     own migrations build the schema). With files: those files, and the schema is built from the files that sort before
     them in the same folder of the working tree."""
@@ -645,6 +651,7 @@ def check(repo: str = ".", base: str | None = None, head: str = "HEAD", files: l
         return GuardVerdict([FileVerdict(f, tool_of(f), not autocommit, cannot_judge="no scratch PostgreSQL to build "
                              "the schema (set EKBASIS_PG_URL or --pg-url)") for f in new], notes)
     client = client or Ekbasis()
+    cache = cache or VerdictCache()
     stats = None
     if stats_url:
         try:
@@ -678,7 +685,7 @@ def check(repo: str = ".", base: str | None = None, head: str = "HEAD", files: l
                                  ("; the guard runs migrations without superuser privileges" if priv else ""))
                 for f in fs:
                     out.append(_check_file(f, tool, src_new.read(f), scratch, stats, autocommit, client,
-                                           lost_threshold, fail_threshold, bool(base_err)))
+                                           lost_threshold, fail_threshold, bool(base_err), cache))
                     scratch.db.apply(src_new.read(f), transaction=True)   # the next file sees this one applied
         except CannotJudge as e:
             for f in fs:
@@ -687,7 +694,7 @@ def check(repo: str = ".", base: str | None = None, head: str = "HEAD", files: l
     return GuardVerdict(out, notes)
 
 
-def _check_file(path, tool, text, scratch, stats, autocommit, client, lt, ft, base_dirty) -> FileVerdict:
+def _check_file(path, tool, text, scratch, stats, autocommit, client, lt, ft, base_dirty, cache=None) -> FileVerdict:
     stmts = split_sql(text)
     fnotes = []
     tx = _transaction_for(tool, stmts, autocommit, fnotes)
@@ -726,13 +733,98 @@ def _check_file(path, tool, text, scratch, stats, autocommit, client, lt, ft, ba
     qs = {"lost": Q_LOST, "fails": Q_FAILS}
     if not tx:
         qs["half"] = Q_HALF
-    ans = client.ask(v.state, qs)
-    v.p_lost, v.p_fail = ans["lost"].p_yes, ans["fails"].p_yes
-    v.p_half = ans["half"].p_yes if "half" in ans else None
+    key = VerdictCache.key(text, catalog, tx, stats is not None, v.state, qs, getattr(client, "url", ""))
+    probs = cache.get(key) if cache else None
+    if probs is not None and set(probs) == set(qs):
+        v.cached = True
+        v.notes.append("same migration, schema and rules as an earlier check: its answer was reused (no model call)")
+    else:
+        ans = client.ask(v.state, qs)
+        probs = {k: ans[k].p_yes for k in qs}
+        if cache:
+            cache.put(key, probs)
+    v.p_lost, v.p_fail = probs["lost"], probs["fails"]
+    v.p_half = probs.get("half")
     if v.schema_error:
         v.p_fail = 1.0
     v.risky = bool(v.schema_error) or v.p_lost >= lt or v.p_fail >= ft
     return v
+
+
+# ---------------------------------------------------------------- verdict cache
+
+class VerdictCache:
+    """The model's answers for a migration, reused when nothing they depend on changed: no model call, no quota.
+
+    The key is sha256 over the migration file's text, a hash of the whole scratch schema it runs on, the client
+    version, the transaction mode, whether replica statistics were used, the exact state and questions the model would
+    read (so new statistics values miss too), and the server URL. Any change to one of them is a miss. Only the
+    probabilities are kept (the verdict is decided again with the current thresholds), one JSON file per key, for
+    VERDICT_TTL_S (30 days).
+
+    Where: EKBASIS_VERDICT_CACHE (a folder; "off" disables it), else <EKBASIS_CACHE_DIR or ~/.cache/ekbasis>/verdicts.
+    Best effort: a cache that cannot be read or written is a miss, never an error."""
+
+    def __init__(self, folder=None, now=time.time, off: bool = False):
+        env = os.environ.get("EKBASIS_VERDICT_CACHE", "")
+        self.off = off or (folder is None and env.strip().lower() in ("off", "0", "false", "no"))
+        self.dir = folder or (env if env and not self.off else str(_cache_dir() / "verdicts"))
+        self.now = now
+
+    @staticmethod
+    def schema_hash(catalog) -> str:
+        """The whole scratch schema, without the table oids (they differ in every scratch database): foreign keys
+        point to the referenced table's name instead."""
+        catalog = catalog or {}
+        names = {t.get("oid"): f'{t.get("schema")}.{t.get("name")}' for t in catalog.get("tables") or []}
+        tables = []
+        for t in catalog.get("tables") or []:
+            t = {k: v for k, v in t.items() if k != "oid"}
+            t["cons"] = [dict(c, ref=names.get(c.get("ref"), None) if c.get("ref") else None)
+                         for c in (t.get("cons") or [])]
+            tables.append(t)
+        norm = {"tables": tables, "enums": catalog.get("enums") or {}}
+        return hashlib.sha256(json.dumps(norm, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+
+    @staticmethod
+    def key(text: str, catalog, transaction: bool, stats: bool, state: str, questions: dict, url: str) -> str:
+        schema = VerdictCache.schema_hash(catalog)
+        parts = {"v": __version__, "file": hashlib.sha256(text.encode()).hexdigest(), "schema": schema,
+                 "tx": bool(transaction), "stats": bool(stats), "url": (url or "").rstrip("/"),
+                 "state": hashlib.sha256(state.encode()).hexdigest(),
+                 "q": hashlib.sha256(json.dumps(questions, sort_keys=True).encode()).hexdigest()}
+        return hashlib.sha256(json.dumps(parts, sort_keys=True).encode()).hexdigest()
+
+    def _path(self, key: str) -> str:
+        return os.path.join(self.dir, f"{key}.json")
+
+    def get(self, key: str) -> dict | None:
+        if self.off:
+            return None
+        try:
+            with open(self._path(key)) as fh:
+                d = json.load(fh)
+            if self.now() - float(d["t"]) > VERDICT_TTL_S:
+                os.remove(self._path(key))
+                return None
+            p = d["p"]
+            if not all(isinstance(x, (int, float)) and 0 <= x <= 1 for x in p.values()):
+                return None
+            return p
+        except (OSError, ValueError, KeyError, TypeError, AttributeError):
+            return None
+
+    def put(self, key: str, probs: dict) -> None:
+        if self.off:
+            return
+        try:
+            os.makedirs(self.dir, exist_ok=True)
+            tmp = self._path(key) + f".{secrets.token_hex(4)}.tmp"
+            with open(tmp, "w") as fh:
+                json.dump({"t": int(self.now()), "p": probs}, fh)
+            os.replace(tmp, self._path(key))
+        except OSError:
+            pass
 
 
 # ---------------------------------------------------------------- the pull request comment

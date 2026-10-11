@@ -115,6 +115,8 @@ def main(argv=None) -> int:
     m.add_argument("--json", action="store_true")
     m.add_argument("--show-state", action="store_true", help="print the exact text the model read")
     m.add_argument("--fail-open", action="store_true", help="exit 0 (with a warning) when it cannot foresee")
+    m.add_argument("--no-cache", action="store_true", help="always ask the model (default: reuse the answer for the same "
+                                                           "migration, schema, client version and rules, 30 days)")
     m.add_argument("files", nargs="*", help="migration files to check (instead of --base)")
     p = sub.add_parser("predict", help="one question about the outcome of some actions")
     p.add_argument("--rules", required=True)
@@ -182,7 +184,8 @@ def main(argv=None) -> int:
             v = M.check(repo=a.repo, base=a.base, head=a.head, files=a.files or None,
                         globs=tuple(a.glob) if a.glob else M.DEFAULT_GLOBS, pg_url=a.pg_url, stats_url=a.stats_url,
                         autocommit=a.autocommit, client=client, lost_threshold=a.lost_threshold,
-                        fail_threshold=a.fail_threshold)
+                        fail_threshold=a.fail_threshold,
+                        cache=M.VerdictCache(off=True) if a.no_cache else None)
             if a.json:
                 print(json.dumps(v.as_json(state=a.show_state)))
             else:

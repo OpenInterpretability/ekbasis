@@ -42,6 +42,11 @@ inputs:
   github-token:
     description: Token used to write the comment (needs pull-requests write).
     default: ${{ github.token }}
+  verdict-cache:
+    description: >-
+      true: reuse the model's answer for a migration already checked with the same file, base schema, client version,
+      transaction mode and statistics (30 days, in the Actions cache): no model call, no tokens. false: always ask.
+    default: "true"
 
 outputs:
   verdict:
@@ -86,6 +91,16 @@ runs:
         if [ "$(git rev-parse --is-shallow-repository)" = "true" ]; then git fetch --quiet --no-tags --unshallow origin; fi
         git fetch --quiet --no-tags origin "+refs/heads/$BASE:refs/remotes/origin/$BASE"
 
+    # The verdict cache (ekbasis.migrations.VerdictCache) holds only probabilities, keyed by sha256 of everything the
+    # answer depends on. Each run restores the newest copy and saves a new one; entries expire after 30 days.
+    - name: Restore the verdict cache
+      if: ${{ inputs.verdict-cache == 'true' }}
+      uses: actions/cache/restore@v4
+      with:
+        path: ${{ runner.temp }}/ekbasis-verdicts
+        key: ekbasis-verdicts-${{ github.run_id }}-${{ github.run_attempt }}
+        restore-keys: ekbasis-verdicts-
+
     - name: Foresee the new migrations
       id: check
       shell: bash
@@ -95,6 +110,7 @@ runs:
         EKBASIS_PG_URL: postgresql://postgres@127.0.0.1:5432/postgres
         EKBASIS_DB_STATS_URL: ${{ inputs.db-stats-url }}
         EKBASIS_SURFACE: migration-guard-action
+        EKBASIS_VERDICT_CACHE: ${{ inputs.verdict-cache == 'true' && format('{0}/ekbasis-verdicts', runner.temp) || 'off' }}
         BASE: ${{ inputs.base-ref || github.base_ref }}
         PATHS: ${{ inputs.paths }}
         LOST: ${{ inputs.lost-threshold }}
@@ -105,13 +121,25 @@ runs:
         args=(migrate-check --base "origin/$BASE" --json --lost-threshold "$LOST" --fail-threshold "$FAIL")
         while IFS= read -r g; do [ -n "$g" ] && args+=(--glob "$g"); done <<< "$PATHS"
         [ "$AUTOCOMMIT" = "true" ] && args+=(--autocommit)
+        mark="$RUNNER_TEMP/ekbasis-cache-mark"; touch "$mark"
         set +e; ekbasis "${args[@]}" > "$out"; rc=$?; set -e
+        new=0
+        [ -d "$EKBASIS_VERDICT_CACHE" ] && new=$(find "$EKBASIS_VERDICT_CACHE" -name '*.json' -newer "$mark" | wc -l)
+        echo "new-verdicts=$((new))" >> "$GITHUB_OUTPUT"   # saved only when this run added answers
         case "$rc" in 0) v=ok;; 2) v=risky;; *) v=cannot-foresee;; esac
         echo "verdict=$v" >> "$GITHUB_OUTPUT"
         echo "result=$out" >> "$GITHUB_OUTPUT"
         python -m ekbasis.migrations comment "$out" > "$RUNNER_TEMP/ekbasis-comment.md"
         grep -v '^<!--' "$RUNNER_TEMP/ekbasis-comment.md" >> "$GITHUB_STEP_SUMMARY"
         echo "Ekbasis migration guard: $v"
+
+    - name: Save the verdict cache
+      if: ${{ always() && inputs.verdict-cache == 'true' && steps.check.outputs.new-verdicts > 0 }}
+      continue-on-error: true
+      uses: actions/cache/save@v4
+      with:
+        path: ${{ runner.temp }}/ekbasis-verdicts
+        key: ekbasis-verdicts-${{ github.run_id }}-${{ github.run_attempt }}
 
     - name: Comment on the pull request
       if: ${{ (inputs.mode == 'comment' || inputs.mode == 'both') && github.event.pull_request.number }}

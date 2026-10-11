@@ -12,12 +12,15 @@ import shutil
 import subprocess
 import tempfile
 import unittest
+import unittest.mock
 from contextlib import redirect_stdout
 
 from ekbasis import cli
 from ekbasis import migrations as M
 from ekbasis.client import Answer
 
+# The other tests count model calls: the verdict cache stays off unless a test gives it a folder (TestVerdictCache).
+os.environ["EKBASIS_VERDICT_CACHE"] = "off"
 PG = os.environ.get("EKBASIS_TEST_PG_URL")
 NEEDS_PG = unittest.skipUnless(PG and M.psql_bin(), "needs EKBASIS_TEST_PG_URL and psql")
 
@@ -249,6 +252,76 @@ class TestComment(unittest.TestCase):
         self.assertEqual(M.redact("password s3cret rejected", url), "password *** rejected")
 
 
+class TestVerdictCache(unittest.TestCase):
+    """The verdict cache (no model call, no quota for a check already answered): what invalidates it, TTL, damage."""
+
+    def setUp(self):
+        self.dir = tempfile.mkdtemp()
+        self.t = [1_000_000.0]
+        self.cache = M.VerdictCache(folder=self.dir, now=lambda: self.t[0])
+        self.args = dict(text='ALTER TABLE "User" DROP COLUMN email;\n', catalog=CATALOG, transaction=True,
+                         stats=False, state="STATE", questions={"lost": M.Q_LOST, "fails": M.Q_FAILS},
+                         url="https://openinterp.org/api/v1")
+
+    def tearDown(self):
+        shutil.rmtree(self.dir, ignore_errors=True)
+
+    def test_any_input_change_is_a_miss(self):
+        k = M.VerdictCache.key(**self.args)
+        self.assertEqual(k, M.VerdictCache.key(**dict(self.args, url="https://openinterp.org/api/v1/")))
+        cat2 = json.loads(json.dumps(CATALOG))
+        cat2["tables"][0]["cols"][1]["notnull"] = True                         # one schema detail
+        changes = [
+            dict(text='ALTER TABLE "User" DROP COLUMN nick;\n'),               # one line of the file
+            dict(text=self.args["text"] + "\n"),                               # even whitespace
+            dict(catalog=cat2),
+            dict(transaction=False),
+            dict(stats=True),
+            dict(state="STATE with new statistics"),
+            dict(questions={"lost": M.Q_LOST, "fails": M.Q_FAILS, "half": M.Q_HALF}),
+            dict(url="https://ekbasis.internal.example.com"),
+        ]
+        keys = {M.VerdictCache.key(**dict(self.args, **c)) for c in changes}
+        # the same schema in another scratch database (other oids) is the same key
+        moved = json.loads(json.dumps(CATALOG))
+        for t in moved["tables"]:
+            t["oid"] += 1000
+            for c in t["cons"]:
+                c["ref"] = c["ref"] + 1000 if c["ref"] else 0
+        self.assertEqual(M.VerdictCache.key(**dict(self.args, catalog=moved)), k)
+        self.assertEqual(len(keys), len(changes))
+        self.assertNotIn(k, keys)
+        with unittest.mock.patch.object(M, "__version__", "9.9.9"):            # a new client version
+            self.assertNotEqual(M.VerdictCache.key(**self.args), k)
+
+    def test_put_get_ttl_and_damage(self):
+        k = M.VerdictCache.key(**self.args)
+        self.assertIsNone(self.cache.get(k))
+        self.cache.put(k, {"lost": 0.9, "fails": 0.1})
+        self.assertEqual(self.cache.get(k), {"lost": 0.9, "fails": 0.1})
+        self.t[0] += M.VERDICT_TTL_S - 1
+        self.assertIsNotNone(self.cache.get(k))
+        self.t[0] += 2                                                          # past 30 days: gone
+        self.assertIsNone(self.cache.get(k))
+        self.assertFalse(os.path.exists(os.path.join(self.dir, f"{k}.json")))
+        for bad in ("not json", '{"t": 1000000, "p": {"lost": 7}}', '{"p": {}}'):
+            with open(os.path.join(self.dir, f"{k}.json"), "w") as f:
+                f.write(bad)
+            self.assertIsNone(self.cache.get(k), bad)
+
+    def test_off(self):
+        off = M.VerdictCache(off=True)
+        off.put("k", {"lost": 0.1})
+        self.assertIsNone(off.get("k"))
+        self.assertTrue(M.VerdictCache().off)                                  # EKBASIS_VERDICT_CACHE=off (above)
+
+    def test_unwritable_folder_is_a_miss_not_an_error(self):
+        c = M.VerdictCache(folder=os.path.join(self.dir, "file"))
+        open(os.path.join(self.dir, "file"), "w").close()
+        c.put("k", {"lost": 0.1})
+        self.assertIsNone(c.get("k"))
+
+
 @NEEDS_PG
 class TestPostgres(unittest.TestCase):
     def setUp(self):
@@ -279,6 +352,37 @@ class TestPostgres(unittest.TestCase):
         self.assertEqual(b.kind, "schema")
         self.assertEqual((b.p_lost, b.p_fail), (0.0, 1.0))
         self.assertEqual(self.scratch_dbs(), before)                  # scratch databases dropped
+
+    def test_verdict_cache_end_to_end(self):
+        cache = M.VerdictCache(folder=os.path.join(self.root, ".verdicts"))
+        prisma_repo(self.root, {"prisma/migrations/002_drop/migration.sql": 'ALTER TABLE "User" DROP COLUMN nick;\n'})
+        fake = Fake(lost=0.93, fails=0.05)
+        first = M.check(self.root, base="main", pg_url=PG, client=fake, cache=cache)
+        again = M.check(self.root, base="main", pg_url=PG, client=fake, cache=cache)
+        self.assertEqual(len(fake.requests), 1)                                # the second check made no call
+        self.assertFalse(first.files[0].cached)
+        self.assertTrue(again.files[0].cached)
+        self.assertEqual((again.files[0].p_lost, again.files[0].risky), (0.93, True))
+        self.assertIn("reused", " ".join(again.files[0].notes))
+        # thresholds are applied again on the cached answer
+        lax = M.check(self.root, base="main", pg_url=PG, client=fake, cache=cache, lost_threshold=0.95)
+        self.assertEqual((len(fake.requests), lax.files[0].risky), (1, False))
+        # one line of the migration changes: asked again
+        write(self.root, "prisma/migrations/002_drop/migration.sql", 'ALTER TABLE "User" DROP COLUMN email;\n')
+        git(self.root, "commit", "-qam", "edit")
+        M.check(self.root, base="main", pg_url=PG, client=fake, cache=cache)
+        self.assertEqual(len(fake.requests), 2)
+        # the base's schema changes (same migration file): asked again
+        git(self.root, "checkout", "-q", "main")
+        write(self.root, "prisma/migrations/001_init/migration.sql",
+              'CREATE TABLE "User" (id serial PRIMARY KEY, email text NOT NULL, nick text, age int);\n')
+        git(self.root, "commit", "-qam", "base schema")
+        git(self.root, "checkout", "-q", "feature")
+        M.check(self.root, base="main", pg_url=PG, client=fake, cache=cache)
+        self.assertEqual(len(fake.requests), 3)
+        # the transaction mode changes: asked again
+        M.check(self.root, base="main", pg_url=PG, client=fake, cache=cache, autocommit=True)
+        self.assertEqual(len(fake.requests), 4)
 
     def test_statistics_never_values(self):
         stats_db = "ekbasis_test_stats"
