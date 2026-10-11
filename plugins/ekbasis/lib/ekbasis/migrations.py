@@ -614,7 +614,7 @@ def _named_state(catalog: dict, stmts: list, stats: dict | None, tool: str, tran
     return P.world_state(rules, "\n".join(parts), stmts), [disp(t) for t in shown]
 
 
-# ---------------------------------------------------------------- the schema cut (0.1.18)
+# ---------------------------------------------------------------- the schema cut (0.1.19)
 #
 # The state shows only the part of the schema a migration reaches. In full: the tables it touches (ALTER, INSERT, UPDATE,
 # DELETE, TRUNCATE, CREATE INDEX ON, DROP, FROM/JOIN of its queries, REFERENCES, LIKE, PARTITION OF, the tables using a
