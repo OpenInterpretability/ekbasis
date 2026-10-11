@@ -97,6 +97,27 @@ class Answer:
         return cls(value=value, confidence=float(a["confidence"]), probabilities=dict(a.get("probabilities") or {}))
 
 
+QUESTION_TYPES = ("noul", "choice", "score")
+
+
+def _check_questions(questions) -> None:
+    """Refuse a malformed question before sending it. The server reads the question from `instructions` and ignores any
+    other field, so a question in `question` (or with no text) would get one same answer whatever it asked."""
+    if not isinstance(questions, dict) or not questions:
+        raise ValueError("questions must be a non-empty dict: {name: {\"type\": \"noul\", \"instructions\": \"...?\"}}")
+    for name, q in questions.items():
+        if not isinstance(q, dict):
+            raise ValueError(f"question {name!r} must be a dict with \"type\" and \"instructions\"")
+        if q.get("type") not in QUESTION_TYPES:
+            raise ValueError(f"question {name!r}: type must be one of {', '.join(QUESTION_TYPES)}, not {q.get('type')!r}")
+        text = q.get("instructions")
+        if not isinstance(text, str) or not text.strip():
+            hint = next((k for k in ("question", "prompt", "text", "query") if k in q), None)
+            raise ValueError(f"question {name!r} has no \"instructions\"" +
+                             (f" (it has {hint!r}: the server ignores that field; put the question in \"instructions\")"
+                              if hint else ""))
+
+
 class Ekbasis:
     """client = Ekbasis(); client.ask(state, {"name": question, ...}) -> {"name": Answer, ...}"""
 
@@ -151,6 +172,7 @@ class Ekbasis:
     def ask(self, state: str, questions: dict, read_once: bool = False, images=None) -> dict:
         """Every question about the same state, answered in one request (the server batches them; read_once=True reads
         the state once for all of them, on models trained for it). images: data URIs or base64 strings (vLLM backend)."""
+        _check_questions(questions)
         body = {"state": state, "questions": questions}
         if read_once:
             body["read_once"] = True
