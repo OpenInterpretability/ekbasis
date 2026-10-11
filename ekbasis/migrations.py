@@ -426,7 +426,47 @@ SELECT json_build_object(
  'enums', COALESCE((SELECT json_object_agg(t.typname, (SELECT json_agg(e.enumlabel ORDER BY e.enumsortorder)
             FROM pg_enum e WHERE e.enumtypid = t.oid) ORDER BY t.typname)
    FROM pg_type t JOIN pg_namespace n ON n.oid = t.typnamespace
-   WHERE t.typtype = 'e' AND n.nspname NOT IN ('pg_catalog', 'information_schema')), '{}'::json))
+   WHERE t.typtype = 'e' AND n.nspname NOT IN ('pg_catalog', 'information_schema')), '{}'::json),
+ 'views', COALESCE((SELECT json_agg(json_build_object('oid', c.oid, 'schema', n.nspname, 'name', c.relname,
+    'kind', c.relkind, 'def', pg_get_viewdef(c.oid),
+    'deps', (SELECT json_agg(DISTINCT jsonb_build_array(d.refobjid::text, a.attname)) FROM pg_rewrite r
+             JOIN pg_depend d ON d.objid = r.oid AND d.classid = 'pg_rewrite'::regclass
+               AND d.refclassid = 'pg_class'::regclass AND d.refobjid <> c.oid
+             LEFT JOIN pg_attribute a ON a.attrelid = d.refobjid AND a.attnum = d.refobjsubid AND d.refobjsubid > 0
+             WHERE r.ev_class = c.oid)) ORDER BY n.nspname, c.relname)
+  FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace
+  WHERE c.relkind IN ('v', 'm') AND n.nspname NOT IN ('pg_catalog', 'information_schema')
+    AND n.nspname NOT LIKE 'pg_%'), '[]'::json),
+ 'triggers', COALESCE((SELECT json_agg(json_build_object('table', g.tgrelid, 'name', g.tgname,
+    'def', pg_get_triggerdef(g.oid), 'func', g.tgfoid) ORDER BY g.tgrelid, g.tgname)
+  FROM pg_trigger g JOIN pg_class c ON c.oid = g.tgrelid JOIN pg_namespace n ON n.oid = c.relnamespace
+  WHERE NOT g.tgisinternal AND n.nspname NOT IN ('pg_catalog', 'information_schema')
+    AND n.nspname NOT LIKE 'pg_%'), '[]'::json),
+ 'functions', COALESCE((SELECT json_object_agg(p.oid, json_build_object('schema', n.nspname, 'name', p.proname,
+    'lang', l.lanname, 'def', pg_get_functiondef(p.oid)))
+  FROM pg_proc p JOIN pg_namespace n ON n.oid = p.pronamespace JOIN pg_language l ON l.oid = p.prolang
+  WHERE p.oid IN (SELECT tgfoid FROM pg_trigger WHERE NOT tgisinternal)), '{}'::json),
+ 'sequences', COALESCE((SELECT json_agg(json_build_object('schema', n.nspname, 'name', s.relname,
+    'table', d.refobjid, 'col', a.attname) ORDER BY n.nspname, s.relname)
+  FROM pg_class s JOIN pg_namespace n ON n.oid = s.relnamespace
+  LEFT JOIN pg_depend d ON d.objid = s.oid AND d.classid = 'pg_class'::regclass
+    AND d.refclassid = 'pg_class'::regclass AND d.deptype IN ('a', 'i')
+  LEFT JOIN pg_attribute a ON a.attrelid = d.refobjid AND a.attnum = d.refobjsubid
+  WHERE s.relkind = 'S' AND n.nspname NOT IN ('pg_catalog', 'information_schema')
+    AND n.nspname NOT LIKE 'pg_%'), '[]'::json),
+ 'domains', COALESCE((SELECT json_object_agg(t.typname, format_type(t.typbasetype, t.typtypmod)
+    || CASE WHEN t.typnotnull THEN ' NOT NULL' ELSE '' END
+    || COALESCE((SELECT ' ' || string_agg(pg_get_constraintdef(k.oid), ' ' ORDER BY k.conname)
+                 FROM pg_constraint k WHERE k.contypid = t.oid), ''))
+  FROM pg_type t JOIN pg_namespace n ON n.oid = t.typnamespace
+  WHERE t.typtype = 'd' AND n.nspname NOT IN ('pg_catalog', 'information_schema')), '{}'::json),
+ 'relations', COALESCE((SELECT json_agg(json_build_array(n.nspname, c.relname, c.relkind,
+    CASE WHEN c.relkind IN ('i', 'I') THEN (SELECT i.indrelid FROM pg_index i WHERE i.indexrelid = c.oid)
+         WHEN c.relispartition THEN (SELECT h.inhparent FROM pg_inherits h WHERE h.inhrelid = c.oid)
+         ELSE c.oid END))
+  FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace
+  WHERE n.nspname NOT IN ('pg_catalog', 'information_schema') AND n.nspname NOT LIKE 'pg_%'
+    AND c.relkind NOT IN ('t', 'c')), '[]'::json))
 """
 
 STATS = r"""
@@ -511,8 +551,34 @@ def table_facts(t: dict, stats: dict | None) -> str:
 
 
 def build_state(catalog: dict, stmts: list, stats: dict | None, tool: str, transaction: bool,
-                facts: list | None = None) -> tuple[str, list]:
-    """(the prompt in the world layout, the tables shown). facts: lines decided in code (shown before the rows)."""
+                facts: list | None = None, notes: list | None = None, prune: bool | None = None) -> tuple[str, list]:
+    """(the prompt in the world layout, the tables shown). facts: lines decided in code (shown before the rows).
+
+    prune (default PRUNE): only the part of the schema the migration reaches (see schema_cut). When the cut cannot be
+    made safely, the state is the one of 0.1.17 (the tables the migration names and their foreign-key neighbors, at
+    most MAX_TABLES), and a line saying why goes to notes."""
+    if prune is None:
+        prune = PRUNE
+    if prune:
+        try:
+            cut = schema_cut(catalog, stmts)
+            if isinstance(cut, Cut):
+                out = _cut_state(catalog, cut, stmts, stats, tool, transaction, facts)
+                if len(out[0]) <= MAX_CHARS:
+                    return out
+                cut = f"the cut schema is too long, {len(out[0]):,} characters"
+        except Exception as e:      # a catalog or statement the cut did not expect: never fail the check over it
+            cut = f"the cut failed ({type(e).__name__})"
+
+        if notes is not None:
+            notes.append(f"schema not cut ({cut}): the state shows the tables the migration names and their foreign-key "
+                         f"neighbors, at most {MAX_TABLES}")
+    return _named_state(catalog, stmts, stats, tool, transaction, facts)
+
+
+def _named_state(catalog: dict, stmts: list, stats: dict | None, tool: str, transaction: bool,
+                 facts: list | None = None) -> tuple[str, list]:
+    """The state of 0.1.17: the tables whose names appear in the migration, and their foreign-key neighbors."""
     tables = catalog.get("tables") or []
     byoid = {t["oid"]: t for t in tables}
     text = "\n".join(stmts)
@@ -546,6 +612,641 @@ def build_state(catalog: dict, stmts: list, stats: dict | None, tool: str, trans
         parts += ["", "Facts: " + " ".join(facts)]
     rules = RULES_TX.format(tool=TOOL_NAMES.get(tool, TOOL_NAMES["generic"])) if transaction else RULES_AUTO
     return P.world_state(rules, "\n".join(parts), stmts), [disp(t) for t in shown]
+
+
+# ---------------------------------------------------------------- the schema cut (0.1.18)
+#
+# The state shows only the part of the schema a migration reaches. In full: the tables it touches (ALTER, INSERT, UPDATE,
+# DELETE, TRUNCATE, CREATE INDEX ON, DROP, FROM/JOIN of its queries, REFERENCES, LIKE, PARTITION OF, the tables using a
+# type or domain it alters or drops, the table of an index or sequence it alters or drops, the tables their triggers
+# write). In one line each: the tables linked to those by a foreign key (one step, both ways: the key, and NOT NULL on
+# its columns), the views that depend on them (pg_depend, transitively: the columns each one reads). Also their
+# triggers with the functions' bodies (up to EXTRA_CHARS), the sequences they own, and the enums and domains of the
+# columns shown. Every other table is counted in one line. A migration the parser cannot follow (dynamic SQL, a
+# statement it does not know, a name it cannot resolve, a function body it cannot read) is not cut, and neither is one
+# whose cut state is still longer than MAX_CHARS: the state is then the one of 0.1.17.
+
+PRUNE = os.environ.get("EKBASIS_SCHEMA_CUT", "on").strip().lower() not in ("off", "0", "false", "no")
+CUT_VERSION = 1             # part of the verdict cache key
+EXTRA_CHARS = 20000         # trigger functions' bodies up to this; beyond it, their size only
+
+TOKEN = re.compile(r'"(?:[^"]|"")*"|[A-Za-z_][A-Za-z0-9_$]*|\$\$|::|[0-9]+(?:\.[0-9]+)?|\S')
+SERIAL = re.compile(r"\b(?:SMALL|BIG)?SERIAL[248]?\b|\bAS\s+IDENTITY\b", re.I)   # a sequence made implicitly
+TRANSITION = re.compile(r"\b(?:NEW|OLD)\s+TABLE\s+AS\s+(\"(?:[^\"]|\"\")*\"|\w+)", re.I)
+SEQ_CALL = re.compile(r"\b(?:nextval|setval|currval)\s*\(\s*'([^']+)'", re.I)
+SERIAL_SEQ = re.compile(r"\bpg_get_serial_sequence\s*\(\s*'([^']+)'", re.I)
+NOT_ALIAS = {
+    "WHERE", "JOIN", "INNER", "LEFT", "RIGHT", "FULL", "CROSS", "NATURAL", "ON", "USING", "GROUP", "ORDER", "LIMIT",
+    "OFFSET", "UNION", "EXCEPT", "INTERSECT", "RETURNING", "SET", "WINDOW", "HAVING", "FOR", "WHEN", "THEN", "LOOP",
+    "INTO", "VALUES", "SELECT", "AND", "OR", "AS", "WITH", "FETCH", "TABLESAMPLE", "DO", "ELSE", "END", "IF", "LATERAL",
+    "OUTER", "DEFAULT", "NOT", "IS", "IN", "BY", "FROM", "ONLY", "CASE", "EXISTS", "BETWEEN", "LIKE", "ILIKE",
+    "UPDATE", "DELETE", "INSERT", "ALTER", "DROP", "CREATE", "MERGE", "TRUNCATE", "BEGIN", "COMMIT", "CONFLICT",
+    "OVERRIDING", "EXCEPTION", "RAISE", "RETURN", "PERFORM", "STRICT", "NOTHING", "ELSIF", "NULL"}
+# a FROM inside these calls is not a table: extract(epoch FROM x), substring(s FROM 2), trim(both FROM s), ...
+FROM_CALLS = {"EXTRACT", "SUBSTRING", "TRIM", "OVERLAY", "POSITION", "SUBSTR", "NORMALIZE"}
+# a statement can start a table position at these: UPDATE / INSERT / DELETE / MERGE as statements, not as a word
+STMT_START = {None, ";", "(", ")", "AS", "THEN", "ELSE", "LOOP", "BEGIN", "DECLARE"}   # ")": after a CTE
+NO_REFS = {  # statements that reach no table
+    ("SET",), ("RESET",), ("BEGIN",), ("COMMIT",), ("END",), ("START",), ("SAVEPOINT",), ("RELEASE",), ("ROLLBACK",),
+    ("CREATE", "EXTENSION"), ("CREATE", "SCHEMA"), ("CREATE", "ROLE"), ("CREATE", "USER"), ("CREATE", "COLLATION"),
+    ("ALTER", "SCHEMA"), ("ALTER", "ROLE"), ("ALTER", "USER"), ("ALTER", "DEFAULT"), ("ALTER", "DATABASE"),
+    ("ALTER", "EXTENSION"), ("DROP", "ROLE"), ("DROP", "USER"), ("ALTER", "FUNCTION"), ("ALTER", "PROCEDURE"),
+    ("COMMENT", "ON"), ("NOTIFY",), ("LISTEN",), ("DISCARD",), ("CHECKPOINT",)}
+
+
+@dataclass
+class Cut:
+    touched: list           # table oids, in the order the migration reaches them
+    views: list = field(default_factory=list)        # view oids reached directly (FROM a view, ALTER VIEW, ...)
+    seqs: list = field(default_factory=list)         # (schema, name) of sequences it names
+
+
+def _norm(tok: str) -> str:
+    return tok[1:-1].replace('""', '"') if tok.startswith('"') else tok.lower()
+
+
+def _is_ident(tok) -> bool:
+    return bool(tok) and (tok[0] == '"' or tok[0].isalpha() or tok[0] == "_")
+
+
+class _Toks:
+    def __init__(self, text: str):
+        self.t = TOKEN.findall(text)
+        self.u = [x.upper() if not x.startswith('"') else x for x in self.t]
+
+    def name(self, i: int) -> tuple:
+        """(parts, next index) of the possibly qualified name at i, or (None, i)."""
+        if i >= len(self.t) or not _is_ident(self.t[i]):
+            return None, i
+        parts = [_norm(self.t[i])]
+        i += 1
+        while i + 1 < len(self.t) and self.t[i] == "." and _is_ident(self.t[i + 1]):
+            parts.append(_norm(self.t[i + 1]))
+            i += 2
+        return tuple(parts), i
+
+    def skip(self, i: int, *words) -> int:
+        while i < len(self.t) and self.u[i] in words:
+            i += 1
+        return i
+
+    def skip_if_exists(self, i: int) -> int:
+        if self.u[i:i + 2] == ["IF", "EXISTS"]:
+            return i + 2
+        if self.u[i:i + 3] == ["IF", "NOT", "EXISTS"]:
+            return i + 3
+        return i
+
+
+class _Unresolved(Exception):
+    pass
+
+
+class _Index:
+    """Names of the catalog: relations by (schema, name), and what each one is."""
+
+    def __init__(self, catalog: dict):
+        self.tables = {str(t["oid"]): t for t in catalog.get("tables") or []}
+        self.views = {str(v["oid"]): v for v in catalog.get("views") or []}
+        self.rel = {}
+        for schema, name, kind, target in catalog.get("relations") or []:
+            self.rel[(schema, name)] = (kind, str(target) if target is not None else None)
+        for v in self.views.values():
+            self.rel[(v["schema"], v["name"])] = (v["kind"], str(v["oid"]))
+        self.types = {**{e: "enum" for e in catalog.get("enums") or {}},
+                      **{d: "domain" for d in catalog.get("domains") or {}}}
+
+    def lookup(self, parts: tuple):
+        if len(parts) >= 2:
+            return self.rel.get(parts[-2:]) and (parts[-2], parts[-1])
+        if ("public", parts[0]) in self.rel:
+            return ("public", parts[0])
+        hits = [k for k in self.rel if k[1] == parts[0]]
+        return hits[0] if len(hits) == 1 else None
+
+
+def _scan(code: str, ix: "_Index", out: "_Reach", head: tuple = ()):
+    """Table positions anywhere in a statement or a function body: FROM/JOIN lists, INSERT/MERGE INTO, UPDATE and DELETE
+    as statements, TRUNCATE, REFERENCES; and the names a CTE or the statement itself creates (not resolved)."""
+    k = _Toks(code)
+    t, u = k.t, k.u
+    stack = []                  # for each open parenthesis, the word before it
+    for i, w in enumerate(u):
+        prev = u[i - 1] if i else None
+        if w == "(":
+            stack.append(prev)
+            continue
+        if w == ")":
+            if stack:
+                stack.pop()
+            continue
+        if _is_ident(t[i]) and i + 2 < len(t) and u[i + 1] == "AS" and u[i + 2] in ("(", "MATERIALIZED", "NOT"):
+            out.local.add(_norm(t[i]))                          # WITH name AS (...)
+        if (w == "CONSTRAINT" or (w == "TO" and "RENAME" in u[:i])) and i + 1 < len(t) and _is_ident(t[i + 1]):
+            out.local.add(_norm(t[i + 1]))                      # a constraint's index, a new name
+        if w == "FROM":
+            if prev in ("DISTINCT",) or (stack and stack[-1] in FROM_CALLS) or head[:1] == ("REVOKE",):
+                continue
+            out.from_list(k, i + 1)
+        elif w == "JOIN":
+            out.from_list(k, i + 1, one=True)
+        elif w in ("INSERT", "MERGE") and i + 1 < len(u) and u[i + 1] == "INTO" and prev in STMT_START:
+            out.ref(k, k.skip(i + 2, "ONLY"))
+        elif w == "UPDATE" and prev in STMT_START and i + 1 < len(u) and u[i + 1] != "SET":
+            out.ref(k, k.skip(i + 1, "ONLY"))
+        elif w == "TRUNCATE" and prev in STMT_START:
+            out.ref_list(k, k.skip(i + 1, "TABLE", "ONLY"))
+        elif w == "REFERENCES":
+            out.ref(k, i + 1)
+        elif w == "EXECUTE" and head == ("BODY",) and (i + 1 >= len(u) or u[i + 1] not in ("FUNCTION", "PROCEDURE")):
+            raise _Unresolved("dynamic SQL (EXECUTE)")
+
+
+class _Reach:
+    def __init__(self, ix: _Index):
+        self.ix = ix
+        self.names = []         # (parts, kind wanted) to resolve after the whole migration is read
+        self.local = set()      # names the migration itself creates (tables, views, CTEs, aliases are not here)
+        self.types = []         # type names it alters or drops
+        self.seqs = []
+
+    def ref(self, k: _Toks, i: int, kind: str = "rel"):
+        """kind "opt": under IF EXISTS, a name that does not exist is a no-op, not an unresolved name."""
+        if [w for w in k.u[max(0, i - 3):i] if w not in ("ONLY", "CONCURRENTLY")][-2:] == ["IF", "EXISTS"]:
+            kind = "opt"
+        parts, j = k.name(i)
+        if parts:
+            self.names.append((parts, kind))
+        return j
+
+    def ref_list(self, k: _Toks, i: int, kind: str = "rel"):
+        if k.u[max(0, i - 2):i] == ["IF", "EXISTS"]:
+            kind = "opt"
+        while True:
+            i = k.skip(i, "ONLY")
+            j = self.ref(k, i, kind)
+            if j == i:
+                return
+            i = j + (1 if j < len(k.t) and k.t[j] == "*" else 0)
+            if i < len(k.t) and k.t[i] == ",":
+                i += 1
+                continue
+            return
+
+    def from_list(self, k: _Toks, i: int, one: bool = False):
+        while i < len(k.t):
+            i = k.skip(i, "ONLY", "LATERAL")
+            if i >= len(k.t) or k.t[i] == "(":
+                return                              # a subquery: its own FROM is scanned where it is
+            parts, j = k.name(i)
+            if not parts:
+                return
+            if j < len(k.t) and k.t[j] == "(":
+                return                              # a function: generate_series(...), unnest(...)
+            self.names.append((parts, "rel"))
+            i = j
+            if i < len(k.t) and k.u[i] == "AS":
+                i += 1
+            if i < len(k.t) and _is_ident(k.t[i]) and k.u[i] not in NOT_ALIAS:
+                i += 1
+            if one or i >= len(k.t) or k.t[i] != ",":
+                return
+            i += 1
+
+    def create(self, k: _Toks, i: int):
+        parts, j = k.name(i)
+        if parts:
+            self.local.add(parts[-1])
+        return j
+
+
+def _body_lang(stmt: str) -> str:
+    m = re.search(r"\bLANGUAGE\s+'?\"?([A-Za-z0-9_]+)", outside_bodies(stmt), re.I)
+    return m.group(1).lower() if m else "sql"
+
+
+def _bodies(stmt: str) -> list:
+    out, i = [], 0
+    while True:
+        m = DOLLAR.search(stmt, i)
+        if not m:
+            return out
+        j = stmt.find(m.group(0), m.end())
+        if j < 0:
+            return out
+        out.append(stmt[m.end():j])
+        i = j + len(m.group(0))
+
+
+def _clean_body(body: str) -> str:
+    """A function or DO body as the scanner reads it: comments removed, strings and nested dollar bodies emptied."""
+    return " ; ".join(outside_bodies(s) for s in split_sql(body))
+
+
+def _function_body(stmt: str, ix: _Index, r: _Reach, what: str):
+    lang = _body_lang(stmt)
+    if lang in ("c", "internal"):
+        return
+    if lang not in ("sql", "plpgsql"):
+        raise _Unresolved(f"{what} in language {lang}")
+    bodies = _bodies(stmt)
+    if not bodies and re.search(r"\bAS\s*'", stmt, re.I):
+        raise _Unresolved(f"{what} with a quoted body")
+    for b in bodies:
+        _scan(_clean_body(b), ix, r, ("BODY",))
+
+
+def _statement(stmt: str, ix: _Index, r: _Reach):
+    """What one statement reaches; raises _Unresolved when it cannot be followed."""
+    code = outside_bodies(stmt)
+    k = _Toks(code)
+    u = k.u
+    if not u:
+        return
+    head = tuple(w for w in u[:4] if w not in ("OR", "REPLACE", "UNIQUE", "TEMP", "TEMPORARY", "UNLOGGED", "CONSTRAINT",
+                                                 "GLOBAL", "LOCAL"))
+    r.local |= {_norm(x) for x in TRANSITION.findall(code)}    # REFERENCING NEW TABLE AS x
+    for m in SEQ_CALL.finditer(stmt):
+        r.seqs.append(tuple(_norm(p) for p in m.group(1).split(".")))
+    for m in SERIAL_SEQ.finditer(stmt):
+        r.names.append((tuple(_norm(p) for p in m.group(1).split(".")), "rel"))
+    h1, h2 = head[:1], head[:2]
+    if h1 == ("DO",):
+        if not _bodies(stmt):
+            raise _Unresolved("a DO block with a quoted body")
+        _function_body(stmt, ix, r, "a DO block")
+        return
+    if h2 in (("CREATE", "FUNCTION"), ("CREATE", "PROCEDURE")):
+        _function_body(stmt, ix, r, "a function")
+        return
+    if h1 in (("EXECUTE",), ("CALL",), ("PREPARE",), ("COPY",), ("IMPORT",), ("SECURITY",)):
+        raise _Unresolved(f"{h1[0]} statement")
+    if h2 in NO_REFS or h1 in NO_REFS:
+        if h2 == ("COMMENT", "ON"):
+            return _comment(k, r)
+        return
+    _scan(code, ix, r, head)
+    if h2 == ("ALTER", "TABLE"):
+        i = k.skip_if_exists(u.index("TABLE") + 1)
+        if u[i:i + 3] == ["ALL", "IN", "TABLESPACE"]:
+            raise _Unresolved("ALTER TABLE ALL IN TABLESPACE")
+        j = r.ref(k, k.skip(i, "ONLY"))
+        for n in range(j, len(u) - 1):
+            if u[n] == "RENAME" and u[n + 1] == "TO":
+                r.create(k, n + 2)
+            if u[n] in ("ATTACH", "DETACH") and u[n + 1] == "PARTITION":
+                r.ref(k, n + 2)
+        return
+    if h2 in (("ALTER", "INDEX"), ("ALTER", "SEQUENCE"), ("ALTER", "VIEW"), ("ALTER", "MATERIALIZED"),
+              ("REFRESH", "MATERIALIZED")):
+        i = u.index(h2[1]) + (2 if h2[1] == "MATERIALIZED" else 1)
+        i = k.skip(k.skip_if_exists(k.skip(i, "CONCURRENTLY")), "ONLY")
+        if u[i:i + 3] == ["ALL", "IN", "TABLESPACE"]:
+            raise _Unresolved("ALTER ... ALL IN TABLESPACE")
+        j = r.ref(k, i)
+        for n in range(j, len(u) - 1):
+            if u[n] == "RENAME" and u[n + 1] == "TO":
+                r.create(k, n + 2)
+            if u[n] == "OWNED" and u[n + 1] == "BY" and u[n + 2:n + 3] != ["NONE"]:
+                parts, _ = k.name(n + 2)
+                if parts and len(parts) >= 2:
+                    r.names.append((parts[:-1], "rel"))
+        return
+    if h2 in (("ALTER", "TYPE"), ("ALTER", "DOMAIN")):
+        parts, _ = k.name(2)
+        if parts:
+            r.types.append(parts[-1])
+        return
+    if h1 == ("CREATE",):
+        return _create(k, r, head)
+    if h1 == ("DROP",):
+        return _drop(k, r, head)
+    if h1 in (("GRANT",), ("REVOKE",)):
+        n = u.index("ON") if "ON" in u else -1
+        if n >= 0 and n + 1 < len(u):
+            if u[n + 1] in ("SEQUENCE", "FUNCTION", "PROCEDURE", "ROUTINE", "SCHEMA", "DATABASE", "TYPE", "DOMAIN",
+                            "LANGUAGE", "TABLESPACE", "FOREIGN", "LARGE", "ALL"):
+                return
+            r.ref_list(k, k.skip(n + 1, "TABLE"))
+        return
+    if h1 in (("LOCK",), ("ANALYZE",), ("VACUUM",), ("CLUSTER",)):
+        i = 1
+        if i < len(u) and u[i] == "(":
+            i = u.index(")") + 1 if ")" in u else len(u)
+        i = k.skip(i, "TABLE", "ONLY", "VERBOSE", "FULL", "FREEZE", "ANALYZE")
+        if i < len(u):
+            r.ref_list(k, i)
+        return
+    if h1 == ("REINDEX",):
+        n = k.skip(1, "CONCURRENTLY")
+        if n < len(u) and u[n] in ("TABLE", "INDEX"):
+            r.ref(k, k.skip(n + 1, "CONCURRENTLY"))
+            return
+        if n < len(u) and u[n] in ("SCHEMA", "DATABASE", "SYSTEM"):
+            return
+        raise _Unresolved("REINDEX form")
+    if h1 in (("SELECT",), ("WITH",), ("INSERT",), ("UPDATE",), ("DELETE",), ("TRUNCATE",), ("MERGE",), ("VALUES",),
+              ("TABLE",)):
+        if h1 == ("TABLE",):
+            r.ref(k, 1)
+        return
+    raise _Unresolved(f"statement {' '.join(head[:2])} ...")
+
+
+def _comment(k: _Toks, r: _Reach):
+    u = k.u
+    obj = u[2] if len(u) > 2 else ""
+    if obj in ("TABLE", "VIEW", "INDEX", "SEQUENCE"):
+        r.ref(k, 3)
+    elif obj == "COLUMN":
+        parts, _ = k.name(3)
+        if parts and len(parts) >= 2:
+            r.names.append((parts[:-1], "rel"))
+    elif obj in ("CONSTRAINT", "TRIGGER", "POLICY", "RULE") and "ON" in u[3:]:
+        r.ref(k, u.index("ON", 3) + 1)
+
+
+def _create(k: _Toks, r: _Reach, head: tuple):
+    u = k.u
+    what = head[1] if len(head) > 1 else ""
+    if what == "TABLE":
+        i = k.skip_if_exists(u.index("TABLE") + 1)
+        r.create(k, i)
+        for n, w in enumerate(u):
+            if w in ("LIKE", "INHERITS") or (w == "PARTITION" and n + 1 < len(u) and u[n + 1] == "OF"):
+                r.ref(k, n + 2 if w == "PARTITION" else n + 1 + (1 if n + 1 < len(u) and u[n + 1] == "(" else 0))
+        return
+    if what in ("VIEW", "MATERIALIZED", "SEQUENCE", "TYPE", "DOMAIN", "INDEX", "TRIGGER", "POLICY", "AGGREGATE", "CAST",
+                "OPERATOR"):
+        if what in ("VIEW", "MATERIALIZED", "SEQUENCE", "TYPE", "DOMAIN"):
+            i = u.index("VIEW" if what == "MATERIALIZED" else what) + 1
+            r.create(k, k.skip_if_exists(i))
+            if what == "SEQUENCE" and "OWNED" in u:
+                parts, _ = k.name(u.index("OWNED") + 2)
+                if parts and len(parts) >= 2:
+                    r.names.append((parts[:-1], "rel"))
+            return
+        if what in ("INDEX", "TRIGGER", "POLICY"):
+            if "ON" not in u:
+                raise _Unresolved(f"CREATE {what} without ON")
+            n = u.index("ON")
+            if what == "TRIGGER":       # BEFORE UPDATE OF a, b ON t: the ON after the events
+                n = max(i for i, w in enumerate(u) if w == "ON" and i < (u.index("EXECUTE") if "EXECUTE" in u else len(u)))
+            r.ref(k, k.skip(n + 1, "ONLY"))
+            return
+        return
+    if what == "RULE":
+        raise _Unresolved("CREATE RULE")
+    raise _Unresolved(f"CREATE {what}")
+
+
+def _drop(k: _Toks, r: _Reach, head: tuple):
+    u = k.u
+    what = head[1] if len(head) > 1 else ""
+    if what in ("TABLE", "VIEW", "SEQUENCE", "INDEX", "MATERIALIZED", "FOREIGN"):
+        i = u.index("VIEW" if what == "MATERIALIZED" else "TABLE" if what == "FOREIGN" else what) + 1
+        r.ref_list(k, k.skip_if_exists(k.skip(i, "CONCURRENTLY")))
+        return
+    if what in ("TYPE", "DOMAIN"):
+        i = k.skip_if_exists(u.index(what) + 1)
+        while i < len(u):
+            parts, j = k.name(i)
+            if not parts:
+                break
+            r.types.append(parts[-1])
+            i = j + 1 if j < len(u) and k.t[j] == "," else len(u)
+        return
+    if what in ("TRIGGER", "POLICY", "RULE"):
+        if "ON" in u:
+            r.ref(k, u.index("ON") + 1)
+        return
+    if what in ("FUNCTION", "PROCEDURE", "ROUTINE"):
+        if "CASCADE" in u:
+            raise _Unresolved(f"DROP {what} ... CASCADE")
+        return
+    if what in ("EXTENSION", "SCHEMA", "OWNED"):
+        if "CASCADE" in u or what == "OWNED":
+            raise _Unresolved(f"DROP {what} ... CASCADE")
+        return
+    if what in ("ROLE", "USER", "CAST", "COLLATION", "AGGREGATE", "OPERATOR"):
+        return
+    raise _Unresolved(f"DROP {what}")
+
+
+def _builtin(parts: tuple) -> bool:
+    """The system catalogs (a DO block's `FROM pg_type WHERE typname = ...`) and the trigger records."""
+    if len(parts) >= 2:
+        return parts[-2] in ("pg_catalog", "information_schema")
+    return parts[0].startswith("pg_") or parts[0] in ("new", "old", "excluded")
+
+
+def schema_cut(catalog: dict, stmts: list):
+    """The tables a migration reaches (a Cut), or why it cannot be cut (a string)."""
+    if not catalog or "relations" not in catalog or "views" not in catalog:
+        return "the catalog has no dependency information"
+    ix = _Index(catalog)
+    r = _Reach(ix)
+    try:
+        for s in stmts:
+            _statement(s, ix, r)
+    except _Unresolved as e:
+        return str(e)
+    except (ValueError, IndexError) as e:       # a statement shaped in a way the parser did not expect
+        return f"a statement the parser cannot follow ({type(e).__name__})"
+    touched, views, seqs, unresolved = [], [], [], []
+
+    def add(lst, x):
+        if x not in lst:
+            lst.append(x)
+
+    serial = any(SERIAL.search(outside_bodies(s)) for s in stmts)
+    for parts, kind in r.names:
+        key = ix.lookup(parts)
+        if not key:
+            if parts[-1] in r.local or _builtin(parts) or kind == "opt" or (serial and parts[-1].endswith("_seq")):
+                continue
+            unresolved.append(".".join(parts))
+            continue
+        kind, target = ix.rel[key]
+        if kind in ("r", "p", "i", "I"):
+            if target in ix.tables:
+                add(touched, target)
+            elif target in ix.views:        # an index on a materialized view
+                add(views, target)
+        elif kind in ("v", "m"):
+            add(views, target)
+        elif kind == "S":
+            add(seqs, key)
+        else:
+            unresolved.append(".".join(parts) + f" (relation kind {kind})")
+    for parts in r.seqs:
+        key = ix.lookup(parts)
+        if key and ix.rel[key][0] == "S":
+            add(seqs, key)
+        elif parts[-1] not in r.local and not serial:
+            unresolved.append(".".join(parts) + " (sequence)")
+    for name in r.types:
+        if name not in ix.types and name not in r.local:
+            continue                        # a type this migration creates, or not a user type (DROP TYPE IF EXISTS)
+        for oid, t in ix.tables.items():
+            if any((c.get("typname") or "").lstrip("_") == name for c in t["cols"] or []):
+                add(touched, oid)
+    owners = {(s["schema"], s["name"]): str(s["table"]) for s in catalog.get("sequences") or [] if s.get("table")}
+    for key in seqs:
+        if owners.get(key) in ix.tables:
+            add(touched, owners[key])
+    if unresolved:
+        return "names it cannot resolve: " + ", ".join(sorted(set(unresolved))[:5])
+    # trigger functions of the touched tables run with the migration: what they reach is reached too
+    funcs = catalog.get("functions") or {}
+    seen = set()
+    while True:
+        more = []
+        for g in catalog.get("triggers") or []:
+            if str(g["table"]) in touched and str(g["func"]) not in seen:
+                seen.add(str(g["func"]))
+                f = funcs.get(str(g["func"]))
+                if not f:
+                    return f"trigger {g['name']}: its function is not in the catalog"
+                fr = _Reach(ix)
+                fr.local |= {_norm(x) for x in TRANSITION.findall(g["def"])}
+                try:
+                    _function_body(f["def"], ix, fr, f"trigger function {f['name']}")
+                except _Unresolved as e:
+                    return str(e)
+                for parts, _ in fr.names:
+                    key = ix.lookup(parts)
+                    if not key:
+                        if parts[-1] in fr.local or _builtin(parts):
+                            continue
+                        return f"trigger function {f['name']} reaches a name it cannot resolve: {'.'.join(parts)}"
+                    kind, target = ix.rel[key]
+                    if kind in ("r", "p") and target in ix.tables and target not in touched:
+                        more.append(target)
+        if not more:
+            break
+        for x in more:
+            add(touched, x)
+    return Cut(touched, views, seqs)
+
+
+def _fk_line(t: dict, k: dict) -> str:
+    return f"{disp(t)}: CONSTRAINT {k['name']} {k['def']}"
+
+
+def _link(t: dict, keep: set) -> str:
+    """A neighbor in one line: its foreign keys to the touched tables (with NOT NULL on their columns), or that the
+    touched tables reference it."""
+    notnull = {c["name"] for c in t["cols"] or [] if c["notnull"]}
+    fks = []
+    for k in t["cons"] or []:
+        if k["type"] == "f" and str(k["ref"]) in keep:
+            m = re.match(r"FOREIGN KEY \(([^)]*)\)", k["def"])
+            cols = [c.strip().strip('"') for c in m.group(1).split(",")] if m else []
+            nn = [c for c in cols if c in notnull]
+            fks.append(k["def"] + (f" ({', '.join(nn)} NOT NULL)" if nn else ""))
+    return disp(t) + (": " + ", ".join(fks) if fks else " (referenced by them)")
+
+
+def _cut_state(catalog: dict, cut: Cut, stmts: list, stats: dict | None, tool: str, transaction: bool,
+               facts: list | None) -> tuple[str, list]:
+    tables = catalog.get("tables") or []
+    byoid = {str(t["oid"]): t for t in tables}
+    touched = [byoid[o] for o in cut.touched if o in byoid]
+    keep = set(cut.touched)
+    neighbors = []
+    for t in tables:                          # one foreign-key step, both ways; outgoing first
+        if str(t["oid"]) in keep:
+            for k in t["cons"] or []:
+                ref = str(k["ref"])
+                if k["type"] == "f" and ref in byoid and ref not in keep and byoid[ref] not in neighbors:
+                    neighbors.append(byoid[ref])
+    for t in tables:
+        if str(t["oid"]) not in keep and t not in neighbors and any(
+                k["type"] == "f" and str(k["ref"]) in keep for k in t["cons"] or []):
+            neighbors.append(t)
+    # the trigger functions run with the migration: their bodies, up to a budget
+    trig = [g for g in catalog.get("triggers") or [] if str(g["table"]) in keep]
+    funcs = catalog.get("functions") or {}
+    budget = EXTRA_CHARS
+    bodies = {}
+    for g in trig:
+        f = funcs.get(str(g["func"]))
+        if f and str(g["func"]) not in bodies:
+            d = f["def"].strip()
+            bodies[str(g["func"])] = d if len(d) <= budget else None
+            budget -= len(d) if len(d) <= budget else 0
+    shown = touched
+    allkept = {str(t["oid"]) for t in touched + neighbors}
+    # views that depend on the touched tables, and views on those views: what each one reads
+    views = {str(v["oid"]): v for v in catalog.get("views") or []}
+    names = {**{o: disp(t) for o, t in byoid.items()}, **{o: disp(v) for o, v in views.items()}}
+    vkeep = [o for o in cut.views if o in views]
+    grow = True
+    while grow:
+        grow = False
+        for o, v in views.items():
+            if o not in vkeep and any(str(d[0]) in keep or str(d[0]) in vkeep for d in v.get("deps") or []):
+                vkeep.append(o)
+                grow = True
+    seqs = [q for q in catalog.get("sequences") or [] if str(q.get("table")) in keep
+            or (q["schema"], q["name"]) in cut.seqs]
+    used = {(c.get("typname") or "").lstrip("_") for t in shown for c in t["cols"] or []}
+    text = "\n".join(stmts)
+
+    def named(e):
+        return re.search(r"(?<![\w$])\"?" + re.escape(e) + r"\"?(?![\w$])", text)
+
+    enums = [f"{e}: " + ", ".join("'" + x + "'" for x in labels) for e, labels in (catalog.get("enums") or {}).items()
+             if e in used or named(e)]
+    domains = [f"{d}: {defn}" for d, defn in (catalog.get("domains") or {}).items() if d in used or named(d)]
+
+    parts = ["Schema (the tables the migration touches, the tables linked to them by foreign keys, and what depends on "
+             "them):"]
+    parts += [ddl(t) for t in shown] or ["(none of the tables it touches exists yet)"]
+    if neighbors:
+        parts.append("Tables linked to them by a foreign key (their other columns not shown): " +
+                     "; ".join(_link(t, keep) for t in neighbors))
+    if vkeep:
+        def reads(v):
+            by = {}
+            for o, col in v.get("deps") or []:
+                by.setdefault(str(o), []).append(col)
+            return ", ".join(names.get(o, "?") + (f"({', '.join(sorted(c for c in cs if c))})" if any(cs) else "")
+                             for o, cs in by.items())
+        parts.append("Views that depend on them: " + "; ".join(
+            f"{'materialized view ' if views[o]['kind'] == 'm' else ''}{names[o]} reads {reads(views[o])}"
+            for o in vkeep))
+    if trig:
+        parts.append("Triggers on them:")
+        done = set()
+        for g in trig:
+            parts.append(g["def"] + ";")
+            fo = str(g["func"])
+            if fo not in done and fo in bodies:
+                done.add(fo)
+                parts.append(bodies[fo] if bodies[fo] else
+                             f"(the body of {funcs[fo]['name']}() is not shown: {len(funcs[fo]['def']):,} characters)")
+    if seqs:
+        parts.append("Sequences: " + "; ".join(
+            (q["name"] if q["schema"] == "public" else f"{q['schema']}.{q['name']}") +
+            (f" (owned by {disp(byoid[str(q['table'])])}.{q['col']})" if str(q.get("table")) in byoid else "")
+            for q in seqs))
+    if enums:
+        parts.append("Enum types: " + "; ".join(enums))
+    if domains:
+        parts.append("Domains: " + "; ".join(domains))
+    parts += ["", "Rows:"] + [table_facts(t, stats) for t in shown + neighbors]
+    omitted = len([t for t in tables if str(t["oid"]) not in allkept])
+    lines = []
+    if omitted:
+        lines.append(f"{omitted} other table{'s' if omitted != 1 else ''} omitted: not touched by this migration and not "
+                     "linked to it by a foreign key.")
+    lines += facts or []
+    if lines:
+        parts += ["", "Facts: " + " ".join(lines)]
+    rules = RULES_TX.format(tool=TOOL_NAMES.get(tool, TOOL_NAMES["generic"])) if transaction else RULES_AUTO
+    return P.world_state(rules, "\n".join(parts), stmts), [disp(t) for t in shown + neighbors]
 
 
 # ---------------------------------------------------------------- the check
@@ -775,7 +1476,7 @@ def _check_file(path, tool, text, scratch, stats, autocommit, client, lt, ft, ba
     facts = []
     if v.schema_error:
         facts.append(f"Run on this schema with no rows, the migration fails: {v.schema_error}.")
-    v.state, v.shown = build_state(catalog, stmts, stats, tool, tx, facts)
+    v.state, v.shown = build_state(catalog, stmts, stats, tool, tx, facts, notes=v.notes)
     if len(v.state) > MAX_CHARS:
         v.cannot_judge = f"the migration and its schema are too long to read ({len(v.state):,} characters)"
         return v
@@ -832,13 +1533,23 @@ class VerdictCache:
             t["cons"] = [dict(c, ref=names.get(c.get("ref"), None) if c.get("ref") else None)
                          for c in (t.get("cons") or [])]
             tables.append(t)
-        norm = {"tables": tables, "enums": catalog.get("enums") or {}}
+        norm = {"tables": tables, "enums": catalog.get("enums") or {},
+                # what the schema cut can show besides the tables, without oids
+                "views": sorted([v.get("schema"), v.get("name"), v.get("kind"), v.get("def") or ""]
+                                for v in catalog.get("views") or []),
+                "triggers": sorted([names.get(g.get("table")) or "", g.get("def") or ""] for g in catalog.get("triggers") or []),
+                "functions": sorted(f.get("def") or "" for f in (catalog.get("functions") or {}).values()),
+                "sequences": sorted([q.get("schema"), q.get("name"), names.get(q.get("table")) or "", q.get("col") or ""]
+                                    for q in catalog.get("sequences") or []),
+                "domains": catalog.get("domains") or {},
+                "relations": sorted([r[0], r[1], r[2]] for r in catalog.get("relations") or [])}
         return hashlib.sha256(json.dumps(norm, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
 
     @staticmethod
     def key(text: str, catalog, transaction: bool, stats: bool, state: str, questions: dict, url: str) -> str:
         schema = VerdictCache.schema_hash(catalog)
-        parts = {"v": __version__, "file": hashlib.sha256(text.encode()).hexdigest(), "schema": schema,
+        parts = {"v": __version__, "cut": CUT_VERSION if PRUNE else 0,
+                 "file": hashlib.sha256(text.encode()).hexdigest(), "schema": schema,
                  "tx": bool(transaction), "stats": bool(stats), "url": (url or "").rstrip("/"),
                  "state": hashlib.sha256(state.encode()).hexdigest(),
                  "q": hashlib.sha256(json.dumps(questions, sort_keys=True).encode()).hexdigest()}

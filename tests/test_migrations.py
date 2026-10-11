@@ -468,3 +468,219 @@ class TestPostgres(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+def _col(name, typ="integer", typname="int4", notnull=False, default=None):
+    return {"name": name, "type": typ, "notnull": notnull, "default": default, "generated": False, "typname": typname}
+
+
+# 0.1.18: a catalog with what the schema cut reads (views, triggers, functions, sequences, domains, relations)
+CUT_CATALOG = {
+    "tables": [
+        {"oid": "1", "schema": "public", "name": "User", "cols": [
+            _col("id", default="nextval('\"User_id_seq\"'::regclass)", notnull=True), _col("email", "text", "text"),
+            _col("role", '"Role"', "Role"), _col("age", "pos", "pos")],
+         "cons": [{"name": "User_pkey", "type": "p", "ref": "0", "def": "PRIMARY KEY (id)"}], "idx": None},
+        {"oid": "2", "schema": "public", "name": "Post", "cols": [_col("id"), _col("authorId", notnull=True)],
+         "cons": [{"name": "Post_authorId_fkey", "type": "f", "ref": "1",
+                   "def": 'FOREIGN KEY ("authorId") REFERENCES "User"(id) ON DELETE CASCADE'}],
+         "idx": ['CREATE INDEX "Post_authorId_idx" ON public."Post" USING btree ("authorId")']},
+        {"oid": "3", "schema": "public", "name": "audit", "cols": [_col("what", "text", "text")], "cons": [],
+         "idx": None},
+        {"oid": "4", "schema": "public", "name": "Team", "cols": [_col("id")], "cons": [], "idx": None},
+        {"oid": "5", "schema": "billing", "name": "invoice", "cols": [_col("id")], "cons": [], "idx": None},
+        {"oid": "6", "schema": "public", "name": "unrelated", "cols": [_col("x")], "cons": [], "idx": None}],
+    "enums": {"Role": ["ADMIN", "MEMBER"], "Color": ["RED"]},
+    "views": [{"oid": "10", "schema": "public", "name": "user_emails", "kind": "v",
+               "def": ' SELECT id, email FROM "User";', "deps": [["1", "email"], ["1", "id"]]},
+              {"oid": "11", "schema": "public", "name": "emails_2", "kind": "v",
+               "def": " SELECT email FROM user_emails;", "deps": [["10", "email"]]},
+              {"oid": "12", "schema": "public", "name": "teams", "kind": "v", "def": ' SELECT id FROM "Team";',
+               "deps": [["4", "id"]]}],
+    "triggers": [{"table": "1", "name": "user_audit", "func": "20",
+                  "def": 'CREATE TRIGGER user_audit AFTER UPDATE ON public."User" FOR EACH ROW EXECUTE FUNCTION '
+                         'log_user()'}],
+    "functions": {"20": {"schema": "public", "name": "log_user", "lang": "plpgsql",
+                         "def": "CREATE OR REPLACE FUNCTION public.log_user()\n RETURNS trigger\n LANGUAGE plpgsql\n"
+                                "AS $function$ BEGIN INSERT INTO audit VALUES (NEW.email); RETURN NEW; END "
+                                "$function$\n"}},
+    "sequences": [{"schema": "public", "name": "User_id_seq", "table": "1", "col": "id"},
+                  {"schema": "public", "name": "free_seq", "table": None, "col": None}],
+    "domains": {"pos": "integer CHECK ((VALUE > 0))"},
+    "relations": [["public", "User", "r", "1"], ["public", "Post", "r", "2"], ["public", "audit", "r", "3"],
+                  ["public", "Team", "r", "4"], ["billing", "invoice", "r", "5"], ["public", "unrelated", "r", "6"],
+                  ["public", "Post_authorId_idx", "i", "2"], ["public", "User_pkey", "i", "1"],
+                  ["public", "User_id_seq", "S", "1"], ["public", "free_seq", "S", None],
+                  ["public", "user_emails", "v", "10"], ["public", "emails_2", "v", "11"],
+                  ["public", "teams", "v", "12"]]}
+
+
+class TestSchemaCut(unittest.TestCase):
+    def touched(self, *stmts):
+        cut = M.schema_cut(CUT_CATALOG, list(stmts))
+        self.assertIsInstance(cut, M.Cut, cut)
+        byoid = {t["oid"]: M.disp(t) for t in CUT_CATALOG["tables"]}
+        return [byoid[o] for o in cut.touched]
+
+    def test_what_a_statement_touches(self):
+        self.assertEqual(self.touched('ALTER TABLE "User" DROP COLUMN email'), ["User", "audit"])   # + its trigger's
+        self.assertEqual(self.touched('ALTER TABLE ONLY public."Post" ADD COLUMN x int'), ["Post"])
+        self.assertEqual(self.touched("ALTER TABLE IF EXISTS billing.invoice ADD y int"), ["billing.invoice"])
+        self.assertEqual(self.touched('CREATE UNIQUE INDEX CONCURRENTLY IF NOT EXISTS i ON "Team" (id)'), ["Team"])
+        self.assertEqual(self.touched('DROP INDEX "Post_authorId_idx"'), ["Post"])              # the index's table
+        self.assertEqual(self.touched("DROP TABLE IF EXISTS audit, unrelated CASCADE"), ["audit", "unrelated"])
+        self.assertEqual(self.touched('TRUNCATE TABLE ONLY "Team"'), ["Team"])
+        self.assertEqual(self.touched('DELETE FROM "Post" WHERE id IN (SELECT id FROM "Team")'), ["Post", "Team"])
+        self.assertEqual(self.touched('UPDATE "Post" p SET id = t.id FROM "Team" t WHERE p.id = t.id'),
+                         ["Post", "Team"])
+        self.assertEqual(self.touched('INSERT INTO audit (what) SELECT email FROM "User" u JOIN "Post" p ON '
+                                      'p."authorId" = u.id'), ["audit", "User", "Post"])
+        self.assertEqual(self.touched('CREATE TABLE "Membership" (team int REFERENCES "Team"(id))'), ["Team"])
+        self.assertEqual(self.touched('ALTER TYPE "Role" ADD VALUE \'OWNER\''), ["User", "audit"])  # its columns
+        self.assertEqual(self.touched("ALTER DOMAIN pos ADD CHECK (VALUE < 200)"), ["User", "audit"])
+        self.assertEqual(self.touched("SELECT setval('\"User_id_seq\"', 10)"), ["User", "audit"])  # sequence owner
+        self.assertEqual(self.touched("SELECT extract(epoch FROM now())", "SELECT substring('ab' FROM 1)"), [])
+        self.assertEqual(self.touched('WITH gone AS (DELETE FROM "Team" RETURNING id) INSERT INTO audit SELECT '
+                                      "id::text FROM gone"), ["Team", "audit"])
+        self.assertEqual(self.touched('INSERT INTO "Team" (id) VALUES (1) ON CONFLICT (id) DO UPDATE SET id = 2'),
+                         ["Team"])
+        self.assertEqual(self.touched('ALTER TABLE "Team" RENAME TO "Squad"', 'ALTER TABLE "Squad" ADD z int'),
+                         ["Team"])
+        self.assertEqual(self.touched("CREATE TRIGGER t AFTER INSERT ON audit REFERENCING NEW TABLE AS fresh FOR EACH "
+                                      "STATEMENT EXECUTE FUNCTION f()",
+                                      "CREATE FUNCTION f() RETURNS trigger LANGUAGE sql AS $$ SELECT 1 FROM fresh $$"),
+                         ["audit"])
+        self.assertEqual(self.touched("CREATE TYPE mood AS ENUM ('a')", "CREATE EXTENSION IF NOT EXISTS citext",
+                                      "DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'x') THEN "
+                                      "CREATE TYPE x AS ENUM ('a'); END IF; END $$"), [])
+
+    def test_state_keeps_what_the_migration_reaches(self):
+        notes = []
+        st, shown = M.build_state(CUT_CATALOG, ['ALTER TABLE "User" DROP COLUMN email'], None, "prisma", True,
+                                  notes=notes)
+        self.assertEqual(notes, [])
+        self.assertEqual(shown, ["User", "audit", "Post"])         # touched, its trigger's table, then FK neighbor
+        self.assertIn("Views that depend on them: user_emails reads User(email, id); emails_2 reads user_emails(email)",
+                      st)                                         # and a view on that view
+        self.assertNotIn("teams", st)                             # a view on a table it does not reach
+        self.assertIn("CREATE TRIGGER user_audit", st)
+        self.assertIn("INSERT INTO audit VALUES (NEW.email)", st)  # the trigger's function
+        self.assertIn("Sequences: User_id_seq (owned by User.id)", st)
+        self.assertIn("Enum types: Role: 'ADMIN', 'MEMBER'", st)
+        self.assertNotIn("Color", st)
+        self.assertIn("Domains: pos: integer CHECK ((VALUE > 0))", st)
+        self.assertIn("Facts: 3 other tables omitted: not touched by this migration and not linked to it by a "
+                      "foreign key.", st)
+        self.assertNotIn("Other tables", st)
+        self.assertNotIn("unrelated", st)
+
+    def test_cannot_cut_falls_back_to_the_named_tables(self):
+        cases = {
+            "DO $$ BEGIN EXECUTE 'DROP TABLE ' || 'audit'; END $$": "dynamic SQL",
+            "CREATE FUNCTION f() RETURNS void LANGUAGE plpgsql AS $$ BEGIN EXECUTE format('x'); END $$": "dynamic SQL",
+            "CREATE FUNCTION f() RETURNS int LANGUAGE plpython3u AS $$ return 1 $$": "language plpython3u",
+            "COPY audit FROM STDIN": "COPY statement",
+            "ALTER TABLE ghost ADD c int": "cannot resolve: ghost",
+            "CREATE RULE r AS ON INSERT TO audit DO INSTEAD NOTHING": "CREATE RULE",
+            "DROP SCHEMA billing CASCADE": "DROP SCHEMA",
+        }
+        for sql, why in cases.items():
+            notes = []
+            st, shown = M.build_state(CUT_CATALOG, [sql], None, "prisma", True, notes=notes)
+            self.assertIn(why, notes[0], sql)
+            self.assertTrue(notes[0].startswith("schema not cut"), sql)
+            self.assertEqual((st, shown), M._named_state(CUT_CATALOG, [sql], None, "prisma", True), sql)
+        # a trigger function the parser cannot follow: not cut either
+        cat = json.loads(json.dumps(CUT_CATALOG))
+        cat["functions"]["20"]["def"] = cat["functions"]["20"]["def"].replace("INSERT INTO audit VALUES (NEW.email)",
+                                                                              "EXECUTE 'INSERT INTO ' || TG_ARGV[0]")
+        self.assertIn("dynamic SQL", M.schema_cut(cat, ['UPDATE "User" SET email = NULL']))
+        # a catalog without dependency information (an older scratch query): not cut
+        self.assertEqual(M.schema_cut(CATALOG, ["ALTER TABLE users DROP COLUMN email"]),
+                         "the catalog has no dependency information")
+        # cut switched off
+        notes = []
+        self.assertEqual(M.build_state(CUT_CATALOG, ['ALTER TABLE "Team" ADD y int'], None, "prisma", True,
+                                       notes=notes, prune=False),
+                         M._named_state(CUT_CATALOG, ['ALTER TABLE "Team" ADD y int'], None, "prisma", True))
+        self.assertEqual(notes, [])
+
+    def test_neighbors_are_one_line_each(self):
+        st, shown = M.build_state(CUT_CATALOG, ['ALTER TABLE "User" ADD z int'], None, "prisma", True)
+        self.assertIn('Tables linked to them by a foreign key (their other columns not shown): Post: FOREIGN KEY '
+                      '("authorId") REFERENCES "User"(id) ON DELETE CASCADE (authorId NOT NULL)', st)
+        self.assertNotIn('CREATE TABLE Post', st)
+        self.assertIn("Post: holds production data (row count unknown)", st)
+        st, _ = M.build_state(CUT_CATALOG, ['ALTER TABLE "Post" ADD z int'], None, "prisma", True)
+        self.assertIn("(their other columns not shown): User (referenced by them)", st)
+        cat = json.loads(json.dumps(CUT_CATALOG))
+        wide = [_col(f"column_{i}", "character varying(255)", "varchar") for i in range(600)]
+        for n in range(30):
+            cat["tables"].append({"oid": str(100 + n), "schema": "public", "name": f"child{n}", "idx": None,
+                                  "cols": [_col("user_id")] + wide,
+                                  "cons": [{"name": f"child{n}_fk", "type": "f", "ref": "1",
+                                            "def": 'FOREIGN KEY (user_id) REFERENCES "User"(id)'}]})
+            cat["relations"].append(["public", f"child{n}", "r", str(100 + n)])
+        st, shown = M.build_state(cat, ['ALTER TABLE "User" ADD z int'], None, "prisma", True)
+        self.assertLess(len(st), 10000)                               # 30 wide neighbors, one line each
+        self.assertTrue('child29: FOREIGN KEY (user_id) REFERENCES "User"(id)' in st)
+        # touched tables too long for the cut: the state of before the cut, with a note
+        stmts = [f"ALTER TABLE child{n} ADD q int" for n in range(30)]
+        notes = []
+        st, _ = M.build_state(cat, stmts, None, "prisma", True, notes=notes)
+        self.assertIn("the cut schema is too long", notes[0])
+        self.assertEqual(st, M._named_state(cat, stmts, None, "prisma", True)[0])
+
+    def test_cache_key_has_the_cut_version(self):
+        args = dict(text="ALTER TABLE t ADD c int;", catalog=CUT_CATALOG, transaction=True, stats=False, state="S",
+                    questions={"lost": M.Q_LOST}, url="u")
+        k = M.VerdictCache.key(**args)
+        with unittest.mock.patch.object(M, "CUT_VERSION", M.CUT_VERSION + 1):
+            self.assertNotEqual(M.VerdictCache.key(**args), k)
+        with unittest.mock.patch.object(M, "PRUNE", False):
+            self.assertNotEqual(M.VerdictCache.key(**args), k)
+        cat = json.loads(json.dumps(CUT_CATALOG))
+        cat["views"][0]["def"] = " SELECT id FROM \"User\";"               # only a view changed
+        self.assertNotEqual(M.VerdictCache.key(**dict(args, catalog=cat)), k)
+
+
+@NEEDS_PG
+class TestSchemaCutPostgres(unittest.TestCase):
+    def setUp(self):
+        self.root = tempfile.mkdtemp()
+
+    def tearDown(self):
+        shutil.rmtree(self.root, ignore_errors=True)
+
+    def test_cut_from_the_real_catalog(self):
+        write(self.root, "db/migrations/0001_init.up.sql",
+              "CREATE TYPE mood AS ENUM ('ok', 'sad');\nCREATE DOMAIN pos AS integer CHECK (VALUE > 0);\n"
+              "CREATE TABLE users (id serial PRIMARY KEY, email text, m mood, age pos);\n"
+              "CREATE TABLE posts (id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY, "
+              "user_id int REFERENCES users(id) ON DELETE CASCADE);\n"
+              "CREATE TABLE audit (what text);\nCREATE TABLE far (x int);\nCREATE TABLE far2 (y int);\n"
+              "CREATE FUNCTION log_user() RETURNS trigger LANGUAGE plpgsql AS $$ BEGIN INSERT INTO audit "
+              "VALUES (NEW.email); RETURN NEW; END $$;\n"
+              "CREATE TRIGGER user_audit AFTER UPDATE ON users FOR EACH ROW EXECUTE FUNCTION log_user();\n"
+              "CREATE VIEW user_emails AS SELECT id, email FROM users;\n")
+        write(self.root, "db/migrations/0002_drop.up.sql", "ALTER TABLE users DROP COLUMN email CASCADE;\n")
+        write(self.root, "db/migrations/0003_dyn.up.sql",
+              "DO $$ BEGIN EXECUTE 'ALTER TABLE far ADD z int'; END $$;\n")
+        fake = Fake()
+        v = M.check(self.root, files=["db/migrations/0002_drop.up.sql"], pg_url=PG, client=fake)
+        st = v.files[0].state
+        self.assertEqual(v.files[0].shown, ["users", "audit", "posts"])
+        self.assertIn('posts: FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE', st)
+        self.assertIn("Views that depend on them: user_emails reads users(email, id)", st)
+        self.assertIn("CREATE TRIGGER user_audit AFTER UPDATE ON public.users", st)
+        self.assertIn("INSERT INTO audit", st)
+        self.assertIn("Sequences: users_id_seq (owned by users.id)", st)
+        self.assertIn("Enum types: mood: 'ok', 'sad'", st)
+        self.assertIn("Domains: pos: integer CHECK ((VALUE > 0))", st)
+        self.assertIn("2 other tables omitted", st)
+        self.assertNotIn("far", st.split("Actions, in order:")[0])
+        self.assertEqual(v.files[0].notes, [])
+        # dynamic SQL: the state of before the cut, and a note
+        v = M.check(self.root, files=["db/migrations/0003_dyn.up.sql"], pg_url=PG, client=fake)
+        self.assertIn("schema not cut (dynamic SQL (EXECUTE))", " ".join(v.files[0].notes))
+        self.assertIn("Other tables:", v.files[0].state)
