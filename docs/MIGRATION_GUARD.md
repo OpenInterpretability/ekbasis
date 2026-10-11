@@ -128,12 +128,19 @@ from what happened.
 - **Loss:** on the migrations that look destructive, AUROC 0.948 and F1 0.836. A copy-aware regex gets F1 0.785.
 - **Failure:** AUROC 0.963 and F1 0.692; the regex gets 0.397.
 - **Calibration of the loss probability:** failed its pre-registered bar (ECE 0.142 against 0.10).
-- **Main weakness:** under autocommit rules, when a migration failed, the model still tended to predict that its
-  destructive statement ran (27 of 61 false alarms on loss). That is why the guard writes the transactional rule by
-  default.
+- **Main weakness:** when a migration fails, the model still tends to predict that its destructive statement ran.
+  Under the study's autocommit rules, 27 of its 61 false alarms on loss came from that.
 
-The effect of that change, and of the product's state (statistics instead of rows), is measured in a second
-pre-registered evaluation. See the cookbook and `CHANGELOG.md`.
+A second pre-registered evaluation (same 582 migrations, re-executed) measured this guard's own state: the
+transactional rule, and planner statistics in place of sample rows.
+- **Loss** (stratum A): AUROC 0.921 against 0.931 for the study's state. That is non-inferior (difference −0.010
+  [−0.021, +0.002]). F1 is 0.803 against 0.768 for the copy-aware regex.
+- **Failure:** AUROC 0.945. F1 is 0.637 against 0.397 for the rule, and recall is lower without sample rows.
+- **The weakness is not fixed.** The transactional rule did **not** remove the false alarms. Of 45 destructive-looking
+  migrations that fail and therefore lose nothing, 35 are still flagged for loss (36 with the study's state). The
+  model reads the rule but does not compose "fails" with "nothing is applied". A risky verdict on such a file is still
+  right to block the merge (it fails), but the reason it gives (loss) is wrong.
+- **Calibration of the loss probability:** ECE 0.180, not within 0.10.
 
 **Limits:**
 - **PostgreSQL only.**
