@@ -194,7 +194,12 @@ def alembic_main(paths: list, root: str, command: str) -> None:
                     rec["error"] = ("offline rendering failed (a migration that reads the database, e.g. with "
                                     "op.get_bind(), cannot be written as SQL): " + " | ".join(tail))[:500]
                 else:
-                    lines = [l for l in p.stdout.splitlines() if not re.search(r"\balembic_version\b", l)]
+                    lines = p.stdout.splitlines()
+                    # some apps print to stdout before alembic's output (Superset: "Loaded your LOCAL configuration")
+                    start = next((i for i, l in enumerate(lines) if l.strip() == "BEGIN;"), None)
+                    if start is None:
+                        start = next((i for i, l in enumerate(lines) if l.startswith("-- Running upgrade")), 0)
+                    lines = [l for l in lines[start:] if not re.search(r"\balembic_version\b", l)]
                     rec["sql"], rec["transaction"] = _strip_tx("\n".join(lines))
             except (OSError, subprocess.TimeoutExpired) as e:
                 rec["error"] = f"{type(e).__name__}: {e}"[:500]
