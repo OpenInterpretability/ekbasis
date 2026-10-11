@@ -628,8 +628,8 @@ code. A GitHub Action posts one comment per pull request and can fail the check:
 A migration already checked with the same file, base schema, client version and rules is not sent again: its answer
 is reused from a 30-day verdict cache (no model call, no tokens).
 
-Alembic (supported) and Django (experimental: it missed 6 of 34 risky migrations in its pre-registered evaluation)
-migrations are rendered as SQL by the framework itself, inside a container with no network and no secrets (opt-in:
+Alembic and Rails (supported) and Django (experimental: it missed 6 of 34 risky migrations in its pre-registered
+evaluation) migrations are rendered as SQL by the framework itself, inside a container with no network and no secrets (opt-in:
 `framework:` in the Action, `ekbasis migrate-gen`). Measured in pre-registered evaluations on real
 migrations executed on seeded databases. On 184 migrations held out
 from the study, the guard's verdict was right 87.5% of the time against 69.6% for regex rules, its reason ("fails"

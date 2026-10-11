@@ -40,10 +40,10 @@ inputs:
     description: Optional read-only replica URL, from a secret. Only planner statistics are read (row estimates, NULL fractions, distinct counts), never values.
     default: ""
   framework:
-    description: "sql (default: SQL migration files), django or alembic. For django and alembic the framework renders the SQL, running the pull request's code only inside a container with no network and no secrets."
+    description: "sql (default: SQL migration files), django, alembic or rails. For django, alembic and rails the framework renders the SQL, running the pull request's code only inside a container with no network and no secrets."
     default: sql
   image:
-    description: Generator image for django/alembic (default python:3.12-slim).
+    description: Generator image for django/alembic/rails (default python:3.12-slim, ruby:3.3 for rails).
     default: ""
   setup:
     description: "Shell command run in the generator, in the head tree, WITH network, before the network is cut (e.g. pip install -r requirements.txt)."
@@ -131,7 +131,7 @@ runs:
         key: ekbasis-verdicts-${{ github.run_id }}-${{ github.run_attempt }}
         restore-keys: ekbasis-verdicts-
 
-    # Django/Alembic: the pull request's code runs only here, inside a container that loses its network after the
+    # Django/Alembic/Rails: the pull request's code runs only here, inside a container that loses its network after the
     # setup, with no secret in its environment (the API key is not in this step).
     - name: Render the framework's migrations (isolated)
       if: ${{ inputs.framework != 'sql' }}

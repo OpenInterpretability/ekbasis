@@ -3,6 +3,7 @@ wrapper, Alembic revisions read without importing the file, Ruby beyond the Rail
 (EKBASIS_TEST_PG_URL): a bundle is checked like SQL files, and Python that is not SQL is "cannot foresee". With docker
 (EKBASIS_TEST_DOCKER=1, and network for the setup step): tiny Django and Alembic projects (tests/data/frameworks) are
 rendered inside the isolated generator, which has no route out once the setup is done."""
+import inspect
 import io
 import json
 import os
@@ -99,12 +100,15 @@ class TestOffline(unittest.TestCase):
         finally:
             shutil.rmtree(d)
 
-    def test_rails_is_off_by_default(self):
+    def test_rails_needs_no_env(self):
+        # 0.1.19: Rails passed its pre-registered evaluation (v7) and is no longer behind EKBASIS_EXPERIMENTAL_RAILS
         env = dict(os.environ)
         os.environ.pop("EKBASIS_EXPERIMENTAL_RAILS", None)
         try:
-            with self.assertRaises(ValueError):
-                FW.generate("rails", repo=".", paths=["db/migrate/1_x.rb"])
+            with self.assertRaises(SystemExit) as e, redirect_stdout(io.StringIO()):
+                cli.main(["migrate-gen", "--framework", "rails", "--help"])
+            self.assertEqual(e.exception.code, 0)
+            self.assertNotIn("EKBASIS_EXPERIMENTAL_RAILS", inspect.getsource(FW.generate))
         finally:
             os.environ.clear()
             os.environ.update(env)

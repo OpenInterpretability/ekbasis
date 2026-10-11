@@ -50,6 +50,14 @@ Before a pull request is merged: will its new PostgreSQL migrations **lose data*
   A failure is decided in code only from the replica's statistics: a `DELETE` of every row of a table whose
   referencing table holds non-NULL references, and `SET NOT NULL` on a column the replica shows NULLs in that nothing
   earlier in the file fills.
+- **"Fails" when the rows cannot matter** (0.1.21). If the migration ran on the schema alone without error and every
+  statement can fail only because of the schema, existing rows cannot make it fail either, and P(fails) is set to 0
+  (the model's answer is kept as `p_fail_model`, and the file gets a note). That covers drops, renames, new tables
+  and their indexes, plain (non-unique, column-list) indexes, nullable or defaulted new columns, dropping a default or
+  NOT NULL, constraints on a table the same migration created, and a foreign key or unique constraint on columns it
+  just added as nullable. It does not cover UPDATE/INSERT/DELETE, SET NOT NULL, type changes, constraints or unique,
+  partial or expression indexes on existing rows, or generated columns. Before, the model
+  sometimes said "may fail" for a drop that could only lose data.
 - **The questions** are the ones of the pre-registered study the guard comes from:
   - data lost (a value stored before is in no table afterwards);
   - a statement fails;
@@ -111,13 +119,14 @@ The exit codes are those of the other checks:
 Only `psql` is used to talk to PostgreSQL: set `EKBASIS_PSQL`, or put `psql` on `PATH`. The client stays standard
 library only.
 
-## Alembic (supported) and Django (experimental), opt-in
+## Alembic and Rails (supported) and Django (experimental), opt-in
 
-**Status.** Alembic is supported with `on-code: warn`: it met every pre-registered target. **Django is experimental.**
+**Status.** Alembic and Rails are supported with `on-code: warn`: each met every pre-registered target. **Django is
+experimental.**
 It missed the pre-registered recall target (28 of 34 risky migrations caught, lower bound 0.665 against 0.85). The
 migrations it let through failed on values out of range for a narrower column and on a foreign key violated by copied
 rows. When `framework: django` is used, the comment and the CLI output say so: "Django support is experimental: in its
-evaluation it missed 6 of 34 risky migrations." Both stay opt-in (`framework:`); the default is plain SQL.
+evaluation it missed 6 of 34 risky migrations." All three stay opt-in (`framework:`); the default is plain SQL.
 
 These frameworks keep migrations as code (Python), so the SQL a migration will run has to come from the
 framework itself, which means **running the pull request's code**. That is far more dangerous than running its SQL. The
@@ -139,6 +148,10 @@ project's code runs.
    - **Django:** `sqlmigrate` for each new migration. `atomic = False` migrations are checked with autocommit rules.
    - **Alembic:** offline mode, `upgrade --sql <previous>:<new>` (`--command "flask db"` for Flask-Migrate). The
      `alembic_version` bookkeeping is dropped.
+   - **Rails:** Rails has no offline mode. Each new migration runs on the base schema, which has no rows, and the SQL
+     it sends is kept; reads and Rails' bookkeeping (`schema_migrations`, `ar_internal_metadata`) are dropped.
+     Ruby beyond the schema DSL (models, `find_each`, `update_all` on classes, loops) does nothing without rows, so it
+     is listed as code not foreseen.
 6. **What is not SQL is not guessed.** A Django `RunPython`, or an Alembic migration that reads the database
    (`op.get_bind()`) and so has no offline SQL, is listed as **code not foreseen**: "contains code the guard cannot
    foresee: review it by hand". It is never shown as "ok".
@@ -226,6 +239,29 @@ paperless-ngx, MLflow 3.1 and Superset 4.1) measured the default.
 - **Much of the risk is in data-migration code.** About half the risky Django migrations and two thirds of the Alembic
   ones contain code the guard does not foresee. The comment lists them for a person; it does not check them.
 - **Both adapters stay opt-in** (`framework:`).
+
+**Rails.** Two pre-registered evaluations, each migration run by Rails itself (`ctx.run(:up)`, callbacks and Ruby
+included) on a seeded database.
+
+| On the migrations the guard answers | v6: Mastodon, Maybe (140) | v7: Redmine, OpenProject, Consul Democracy (307) |
+|---|---|---|
+| Verdict accuracy (rules) | 0.886 (0.607) | **0.896** (0.730) |
+| Recall on risky migrations | 0.976 (40/41) | 1.000 (119/119) |
+| Reason right, on risky migrations flagged | 0.825 (33/40) | **0.992** (118/119) |
+| False alarms on benign migrations (rules) | 0.152 (0.525) | 0.170 (0.441) |
+| Code not foreseen: listed for review by hand | 16.7% of all migrations | 10.5% |
+| Recall over all risky migrations, review-by-hand counted as missed | 0.800 | 0.902 |
+
+- **v6 missed the reason target** (0.825 against 0.85). In 5 cases it said "may fail" for migrations that only lost
+  data: drops and renames that had already run on the base schema, where no row can make them fail. Since 0.1.21 that
+  is decided in code ("fails" when the rows cannot matter, under "What it reads"), and the generator has a Redis (the
+  other 2 misses).
+- **v7 met every target**, on new projects, with the code of 0.1.20 (schema cut, code probes) plus this rule; the
+  probes decided 2 of the 4 failures. Accuracy 0.896 [0.860, 0.928], +0.166 over the rules; false alarms 0.170
+  [0.123, 0.230], close to the 0.20 target. Its caveats: Consul Democracy holds 108 of the 119 risky migrations, most
+  of them column drops, and only 4 risky migrations failed rather than lost data, so the "fails" side is barely
+  tested. Most false alarms (28 of 32) are OpenProject data migrations; 10 of them rewrite duplicate names before
+  adding a unique index, and the synthetic rows had no duplicates, so nothing was overwritten.
 
 
 
@@ -377,6 +413,12 @@ on the base's schema. The reason says "fails" first. A third pre-registered eval
 - **Reason** ("fails" vs "loses"), on risky migrations it flags: right on **92.5%** (49 of 53).
 - **False alarms on benign migrations:** **15.6%** (20 of 128). The rules raise 43.0%.
 
+The 0.1.21 rule ("fails" when the rows cannot matter) was checked for non-inferiority on the same 184 migrations,
+with answers obtained again and the 0.1.20 code and the new code applied to the same answers (their states checked
+byte for byte identical): accuracy 0.897 → 0.902, false alarms 17 → 16, recall 54 → 54 of 56, reason right 48 → 48
+of 54. One verdict changed, a plain index built concurrently
+on an existing table, from "fails" to "ok", which was right.
+
 Every target was met. Not every subset is good:
 - **Destructive-looking migrations** (stratum A, 84): accuracy is **0.786**, against 0.679 for the rules. That is
   where the decisions are hard.
@@ -391,15 +433,9 @@ Data, plans and scripts are in the cookbook (`studies/migrations`, sections 7 an
 - **PostgreSQL only.**
 - **Django and Alembic are rendered, not read.** The result depends on your `--setup` reproducing the project's
   environment. Other code-based migrations (TypeScript ORMs, Go code) are not covered.
-- **Rails stays experimental and off** (`EKBASIS_EXPERIMENTAL_RAILS=1`). In its pre-registered evaluation (168 real
-  migrations from Mastodon and Maybe, run by Rails on seeded databases), it missed one target:
-  - **Passed.** On the 140 migrations it answers, verdict accuracy was 0.886 against 0.607 for regex rules on the
-    rendered SQL. Recall was 0.976 (40/41), and false alarms on benign migrations were 15.2% against 52.5%.
-  - **Missed.** The reason was right on 33 of 40 risky migrations (0.825, lower bound 0.680, against 0.85). In 5 of
-    those, it said "may fail" for migrations that only lost data. The other 2 needed Redis, which the isolated
-    generator does not have, so it could not foresee them.
-  - **Not foreseen.** 16.7% of the migrations contain Ruby the guard does not foresee (model code, loops). Counting
-    those as missed, recall over all risky migrations is 0.800.
+- **Rails runs each migration on an empty schema to render it.** Ruby that loops over rows sends no SQL there; it is
+  listed as code not foreseen only when the pattern is recognised. In the v7 evaluation, 10.5% of the migrations were
+  listed for review by hand.
 - **The scratch schema is built from the SQL files alone.** Objects created outside them (extensions provided by the
   platform, roles, data migrations in code) are missing, and the verdict notes when earlier migrations did not apply
   cleanly.

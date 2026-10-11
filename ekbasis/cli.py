@@ -133,8 +133,7 @@ def main(argv=None) -> int:
                         "and does not fail the check (warn, default), or fails closed as cannot foresee (block)")
     m.add_argument("files", nargs="*", help="migration files to check (instead of --base)")
     gg = sub.add_parser("migrate-gen", help="render Django/Alembic/Rails migrations as SQL in an isolated container")
-    gg.add_argument("--framework", required=True, choices=["django", "alembic"] + (
-        ["rails"] if os.environ.get("EKBASIS_EXPERIMENTAL_RAILS") == "1" else []))
+    gg.add_argument("--framework", required=True, choices=["django", "alembic", "rails"])
     gg.add_argument("--repo", default=".")
     gg.add_argument("--base", default=None, help="the base ref; the migrations added since are rendered")
     gg.add_argument("--head", default="HEAD")

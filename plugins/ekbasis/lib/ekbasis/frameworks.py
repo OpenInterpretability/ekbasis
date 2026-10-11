@@ -1,5 +1,5 @@
-"""Migration guard for frameworks that keep migrations as code (0.1.13): Django, Alembic (and Flask-Migrate), Rails
-(experimental). Their migrations are Python or Ruby, so the SQL a migration will run must be produced by the framework
+"""Migration guard for frameworks that keep migrations as code (0.1.13): Django (experimental), Alembic (and Flask-Migrate),
+Rails. Their migrations are Python or Ruby, so the SQL a migration will run must be produced by the framework
 itself, which means running the pull request's code. That happens only inside a container this module starts:
 
 1. `docker network create --internal`: a network with no route out. A scratch PostgreSQL joins it.
@@ -207,7 +207,7 @@ def alembic_main(paths: list, root: str, command: str) -> None:
     print(JSON_MARK + json.dumps(out))
 
 
-# Rails (experimental): run the pending migrations on the base schema (no rows) and keep the SQL they send. Statements
+# Rails: run the pending migrations on the base schema (no rows) and keep the SQL they send. Statements
 # that only read, and Rails' own bookkeeping, are dropped. A migration whose Ruby goes beyond the schema DSL (models,
 # loops, find_each/update_all on classes) is reported: with no rows it does nothing here, so its effect on data cannot
 # be foreseen.
@@ -344,8 +344,6 @@ def generate(framework: str, repo: str = ".", base: str | None = None, head: str
     framework's migrations added between the merge base of base and head)."""
     if framework not in FRAMEWORKS:
         raise ValueError(f"framework must be one of {', '.join(FRAMEWORKS)}")
-    if framework == "rails" and os.environ.get("EKBASIS_EXPERIMENTAL_RAILS") != "1":
-        raise ValueError("rails is experimental and not evaluated: set EKBASIS_EXPERIMENTAL_RAILS=1 to try it")
     log = log or (lambda m: print(m, file=sys.stderr))
     edited = []
     if paths is None:
