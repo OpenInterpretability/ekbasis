@@ -876,6 +876,7 @@ class VerdictCache:
 
 
 ON_CODE = ("warn", "block")
+DJANGO_NOTE = "Django support is experimental: in its evaluation it missed 6 of 34 risky migrations."
 OFFLINE_FAIL = "offline rendering failed"
 
 
@@ -897,6 +898,8 @@ def check_bundle(bundle: dict, pg_url: str | None = None, stats_url: str | None 
     stats_url = stats_url or os.environ.get("EKBASIS_DB_STATS_URL") or None
     fw = bundle.get("framework") or "generic"
     notes = list(bundle.get("notes") or [])
+    if fw == "django":
+        notes.insert(0, DJANGO_NOTE)
     migs = sorted(bundle.get("migrations") or [], key=lambda m: (m.get("order", 0), m.get("path", "")))
     if not migs:
         return GuardVerdict([], notes)

@@ -75,7 +75,13 @@ The exit codes are those of the other checks:
 Only `psql` is used to talk to PostgreSQL: set `EKBASIS_PSQL`, or put `psql` on `PATH`. The client stays standard
 library only.
 
-## Django and Alembic (opt-in)
+## Alembic (supported) and Django (experimental), opt-in
+
+**Status.** Alembic is supported with `on-code: warn`: it met every pre-registered target. **Django is experimental.**
+It missed the pre-registered recall target (28 of 34 risky migrations caught, lower bound 0.665 against 0.85). The
+migrations it let through failed on values out of range for a narrower column and on a foreign key violated by copied
+rows. When `framework: django` is used, the comment and the CLI output say so: "Django support is experimental: in its
+evaluation it missed 6 of 34 risky migrations." Both stay opt-in (`framework:`); the default is plain SQL.
 
 These frameworks keep migrations as code (Python), so the SQL a migration will run has to come from the
 framework itself, which means **running the pull request's code**. That is far more dangerous than running its SQL. The
@@ -169,12 +175,13 @@ paperless-ngx, MLflow 3.1 and Superset 4.1) measured the default.
 | Code not foreseen: listed for review by hand | 23.7% of all migrations | 44.5% |
 | Recall over all risky migrations, review-by-hand counted as missed | 0.483 | 0.310 |
 
-- **Alembic met every pre-registered target. Django missed one:** recall 0.824 against 0.85. The 6 misses are
+- **Alembic met every pre-registered target, and is supported. Django missed one, so it is experimental:** recall
+  0.824 against 0.85. The 6 misses are
   failures and one loss. Most of the failures come from values the synthetic test data put in (a number out of range
   for a narrower column, a foreign key the copied rows violate).
 - **Much of the risk is in data-migration code.** About half the risky Django migrations and two thirds of the Alembic
   ones contain code the guard does not foresee. The comment lists them for a person; it does not check them.
-- **The framework adapters stay opt-in** (`framework:`).
+- **Both adapters stay opt-in** (`framework:`).
 
 
 

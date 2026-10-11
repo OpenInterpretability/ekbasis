@@ -116,6 +116,8 @@ class TestBundle(unittest.TestCase):
         self.assertTrue(v.code_not_foreseen)
         body = M.comment(v.as_json())
         self.assertIn("| code not foreseen |", body)
+        self.assertIn(M.DJANGO_NOTE, body)                       # Django is experimental: said in the comment
+        self.assertIn(M.DJANGO_NOTE, v.summary())                # and in the CLI output
 
     def test_check_bundle_block(self):
         bundle = self.bundle()

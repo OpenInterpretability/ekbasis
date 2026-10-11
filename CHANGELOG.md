@@ -3,7 +3,7 @@
 ## [0.1.15] — 2026-10-11
 
 ### Added
-- **Migration guard for Django and Alembic, opt-in** (`ekbasis/frameworks.py`, `ekbasis migrate-gen`, `migrate-check
+- **Migration guard for Alembic (supported) and Django (experimental), opt-in** (`ekbasis/frameworks.py`, `ekbasis migrate-gen`, `migrate-check
   --bundle`, the Action's `framework` input, [docs/MIGRATION_GUARD.md](docs/MIGRATION_GUARD.md)). The framework
   renders each new migration as SQL: Django `sqlmigrate`, Alembic offline `upgrade --sql` (also `flask db`).
   - **Isolation.** The pull request's code runs only inside a generator container. The container gets the trees from
@@ -26,7 +26,9 @@
     migrations), which is why the default is now `warn`.
   - **Measured with `warn`** (pre-registered, 571 migrations from 5 new projects). On the migrations it answers,
     accuracy is 0.955 for Django and 0.986 for Alembic (rules: 0.826 and 0.773), with false alarms of 2.4% and 1.6%.
-    Recall is 0.824 for Django (target 0.85, missed) and 1.000 for Alembic. 24% of Django and 45% of Alembic migrations
+    Recall is 1.000 for Alembic. For Django it is 0.824 (28/34, lower bound 0.665): the 0.85 target was missed, so
+    Django is **experimental** and the comment and CLI output say so. The misses were failures on values out of range
+    for a narrower column, a foreign key violated by copied rows, and one overwritten value. 24% of Django and 45% of Alembic migrations
     contain code listed for review by hand. Details are in docs/MIGRATION_GUARD.md.
 
 ## [0.1.14] — 2026-10-11
