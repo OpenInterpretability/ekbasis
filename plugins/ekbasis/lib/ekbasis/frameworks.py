@@ -73,6 +73,16 @@ def django_main() -> None:
     from django.core.management import call_command
     from django.db.migrations.loader import MigrationLoader
 
+    from django.db import DEFAULT_DB_ALIAS, connections
+    from django.db.migrations.executor import MigrationExecutor
+
+    _ex = []
+
+    def executor():
+        if not _ex:
+            _ex.append(MigrationExecutor(connections[DEFAULT_DB_ALIAS]))
+        return _ex[0]
+
     paths = json.loads(os.environ["EKBASIS_PATHS"])
     root = os.path.realpath(os.environ["EKBASIS_ROOT"])
     loader = MigrationLoader(None, ignore_no_migrations=True)
@@ -107,7 +117,16 @@ def django_main() -> None:
         buf, err = io.StringIO(), None
         try:
             with contextlib.redirect_stdout(io.StringIO()):
-                call_command("sqlmigrate", app, name, stdout=buf, no_color=True)
+                if (app, name) in executor().loader.graph.nodes:
+                    # what sqlmigrate does, with the loader `migrate` uses: squashed migrations replace the ones they
+                    # squash (sqlmigrate's own loader does not, and breaks once the squashed files are deleted)
+                    ex = executor()
+                    node = ex.loader.graph.nodes[(app, name)]
+                    stmts = ex.loader.collect_sql([(node, False)])
+                    wrap = node.atomic and ex.connection.features.can_rollback_ddl
+                    buf.write(("BEGIN;\n" if wrap else "") + "\n".join(stmts) + ("\nCOMMIT;\n" if wrap else "\n"))
+                else:
+                    call_command("sqlmigrate", app, name, stdout=buf, no_color=True)
         except Exception as e:  # noqa: BLE001 - any failure is reported, never raised
             err = f"{type(e).__name__}: {e}"[:500]
         raw = buf.getvalue()
