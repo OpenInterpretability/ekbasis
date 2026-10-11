@@ -337,7 +337,7 @@ SELECT json_build_object(
              WHERE a.attrelid = c.oid AND a.attnum > 0 AND NOT a.attisdropped),
     'cons', (SELECT json_agg(json_build_object('name', k.conname, 'type', k.contype, 'ref', k.confrelid,
               'def', pg_get_constraintdef(k.oid)) ORDER BY k.conname) FROM pg_constraint k WHERE k.conrelid = c.oid),
-    'idx', (SELECT json_agg(pg_get_indexdef(i.indexrelid) ORDER BY 1) FROM pg_index i
+    'idx', (SELECT json_agg(pg_get_indexdef(i.indexrelid) ORDER BY pg_get_indexdef(i.indexrelid)) FROM pg_index i
             WHERE i.indrelid = c.oid AND NOT i.indisprimary
               AND NOT EXISTS (SELECT 1 FROM pg_constraint k WHERE k.conindid = i.indexrelid))
   ) ORDER BY n.nspname, c.relname)
