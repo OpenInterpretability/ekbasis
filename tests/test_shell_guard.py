@@ -204,3 +204,17 @@ class TestVerdictAndCli(Base):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestLostQuestionVariant(unittest.TestCase):
+    """EKBASIS_SHELL_LOST=intent swaps in the question that leaves out the intended change; default unchanged."""
+
+    def test_default_and_opt_in(self):
+        from ekbasis import shell as S
+        with unittest.mock.patch.dict(os.environ, {}, clear=False):
+            os.environ.pop("EKBASIS_SHELL_LOST", None)
+            self.assertIs(S.shell_lost_question(), S.SHELL_LOST)
+        with unittest.mock.patch.dict(os.environ, {"EKBASIS_SHELL_LOST": "intent"}):
+            q = S.shell_lost_question()
+            self.assertIs(q, S.SHELL_LOST_INTENT)
+            self.assertIn("meant to make", q["instructions"])
