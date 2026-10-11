@@ -625,6 +625,9 @@ code. A GitHub Action posts one comment per pull request and can fail the check:
     api-key: ${{ secrets.EKBASIS_API_KEY }}
 ```
 
+A migration already checked with the same file, base schema, client version and rules is not sent again: its answer
+is reused from a 30-day verdict cache (no model call, no tokens).
+
 Measured in pre-registered evaluations on real migrations executed on seeded databases. On 184 migrations held out
 from the study, the guard's verdict was right 87.5% of the time against 69.6% for regex rules, its reason ("fails"
 vs "loses") was right 92.5% of the time, and false alarms on benign migrations were 15.6% against 43.0%. Details, exit codes and limits:

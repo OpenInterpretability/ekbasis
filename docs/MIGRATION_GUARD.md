@@ -98,6 +98,20 @@ jobs:
           # fail-on: risky      # risky | never
 ```
 
+**Verdict cache.** A migration already checked is not sent to the model again. The answer is reused, with no model
+call and no tokens billed, when all of these are the same: the migration file's text (byte for byte), the whole
+scratch schema built from the base branch, the client version, the transaction mode, whether replica statistics were
+used, the exact text the model would read (so new statistics values are a miss too), and the server URL. The key is
+sha256 over all of them. Only the probabilities are stored, never the SQL or the schema, and the verdict is decided
+again with the current thresholds. Entries expire after 30 days.
+- The Action keeps it in the GitHub Actions cache (`verdict-cache: true`, the default): each push to a pull request
+  reuses the answers of the previous push, and a pull request can read the caches of its base branch. GitHub scopes a
+  pull request's caches to that pull request, so one pull request cannot write answers another one reads.
+- On your machine, `migrate-check` keeps it in `~/.cache/ekbasis/verdicts` (or `$EKBASIS_CACHE_DIR/verdicts`).
+  `EKBASIS_VERDICT_CACHE=<folder>` moves it, `EKBASIS_VERDICT_CACHE=off` or `--no-cache` turns it off.
+- A reused answer is marked: the file gets the note "its answer was reused (no model call)" in the comment and
+  `"cached": true` in `--json`.
+
 The Action:
 1. installs the client at the Action's own version;
 2. starts `postgres:16` on the runner;

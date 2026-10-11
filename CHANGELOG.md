@@ -1,5 +1,15 @@
 # Changelog
 
+## [Unreleased]
+
+### Added
+- **Migration guard: verdict cache.** The model's answer for a migration is reused, with no call and no tokens, when
+  the migration file, the whole base schema, the client version, the transaction mode, the use of replica statistics,
+  the exact state and questions and the server URL are all the same (sha256 key; 30 days; probabilities only, the
+  verdict is decided again with the current thresholds). The Action keeps it in the Actions cache
+  (`verdict-cache: true` by default); the CLI in `~/.cache/ekbasis/verdicts` (`EKBASIS_VERDICT_CACHE`, `--no-cache`).
+  Reused answers are marked in the comment and with `"cached": true` in `--json`.
+
 ## [0.1.12] — 2026-10-11
 
 ### Added
