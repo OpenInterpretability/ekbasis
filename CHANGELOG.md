@@ -1,5 +1,48 @@
 # Changelog
 
+## [0.1.12] — 2026-10-11
+
+### Added
+- **Intent check, experimental** (`ekbasis.intent_check`, [docs/INTENT_CHECK.md](docs/INTENT_CHECK.md), PRs #11 and
+  #12): before an agent's next tool call runs, whether it serves the user's request or carries out instructions that
+  came from content the agent read (indirect prompt injection). By default the input is the call only
+  (`agent_text=False`). Tool output is quoted line by line as untrusted data (`shield=True`; every kind of line break
+  is quoted). It fails closed. Experimental API: it may change without a major version. Measured results and limits
+  are in the doc and in `results/intent_check`.
+- **Migration guard** (`ekbasis/migrations.py`, `ekbasis migrate-check`, the GitHub Action
+  `actions/migration-guard`, [docs/MIGRATION_GUARD.md](docs/MIGRATION_GUARD.md)): before a pull request is merged,
+  whether its new PostgreSQL migrations lose data or fail.
+  - **Schema.** The base branch's migrations are applied to a scratch PostgreSQL (`EKBASIS_PG_URL`); the database is
+    created and dropped by the guard.
+  - **Statistics (optional).** They come from a read-only replica (`EKBASIS_DB_STATS_URL`), planner statistics only:
+    row estimates, NULL fractions and distinct counts. Never a value.
+  - **Transactional rule.** One transaction per file, as Prisma, Diesel and golang-migrate run it. `--autocommit`
+    gives `psql -f` semantics, which are also used for files that cannot run in a transaction.
+  - **Decided in code.** A migration that fails on the schema alone is decided in code, with PostgreSQL's error.
+  - **Questions.** They are the frozen questions of the pre-registered migrations study (cookbook `studies/migrations`),
+    with SQL comments removed.
+  - **Exit codes and output.** 0 / 2 / 3 as in the other checks (cannot foresee is risky; `--fail-open`). `--json`
+    and `--show-state` are available.
+  - **The Action.** It installs the client at its own version, starts `postgres:16` on the runner, writes a single pull
+    request comment and updates it on each push, and fails the check on risky or cannot foresee (`fail-on: risky`).
+    The comment carries paths, probabilities and reasons, never data values or secrets.
+  - **Untrusted SQL runs without privileges.** The pull request's SQL (and the base's) runs as a throwaway role made
+    for each check: not a superuser, no CREATEDB, CREATEROLE, REPLICATION or BYPASSRLS, owner of its throwaway
+    database only. The admin connection only creates and drops the database and the role. Migrations that need more
+    (`COPY ... TO PROGRAM`, `pg_read_file`, untrusted languages, `CREATE ROLE`) fail with "permission denied" and are
+    reported as cannot foresee. In the Action, the scratch PostgreSQL runs on an internal Docker network (no route
+    out), reached with `docker exec` (`EKBASIS_SCRATCH_PSQL`).
+  - **Reasons decided in code.** If a failure is foreseen in a transactional file: "may fail on existing data (X%);
+    nothing in the file would be applied" (plus "if it ran, it would also lose data (Y%)"). Otherwise: "may lose
+    existing data (Y%)". A migration that fails on the base's schema is reported as an error in the pull request itself
+    (for example, a migration it depends on is missing from the base). `--json` adds `kind`.
+  - **The comment treats paths and errors as untrusted.** They are cut, HTML and markdown are escaped, and @mentions
+    and links are broken. A migration that needs a superuser is marked "review this one by hand". The "About" link
+    points at the release tag's documentation.
+  - **Talking to PostgreSQL.** Only `psql` is used (`EKBASIS_PSQL`), so the client stays standard library only.
+  - **Tests.** `tests/test_migrations.py` runs offline with a fake model. Its PostgreSQL tests run in the new CI job
+    `migration guard (PostgreSQL 16)`, with a service container, and are skipped elsewhere.
+
 ## [0.1.11] — 2026-10-10
 
 ### Added

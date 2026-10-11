@@ -609,6 +609,27 @@ commands are risky. `--no-safer` (CLI), `EKBASIS_SAFER=0` (CLI and hook) or `saf
 hook it runs last, in the time the deadline leaves; if it cannot finish, the warning goes out without a route. Measured
 on throwaway repositories against the hosted API: [results/safer_route](results/safer_route/RESULTS.md).
 
+## Migration guard (pull requests)
+
+Before a pull request is merged: will its new PostgreSQL migrations lose data or fail? `ekbasis migrate-check` builds
+the schema by applying the base branch's migrations to a scratch PostgreSQL, adds row and NULL statistics from a
+read-only replica if you give one (planner statistics only, never values), and writes the rule your tool follows (one
+transaction per file for Prisma, Diesel and golang-migrate). A migration that fails on the schema alone is decided in
+code. A GitHub Action posts one comment per pull request and can fail the check:
+
+```yaml
+- uses: actions/checkout@v4
+  with: {fetch-depth: 0}
+- uses: OpenInterpretability/ekbasis/actions/migration-guard@main
+  with:
+    api-key: ${{ secrets.EKBASIS_API_KEY }}
+```
+
+Measured in pre-registered evaluations on real migrations executed on seeded databases. On 184 migrations held out
+from the study, the guard's verdict was right 87.5% of the time against 69.6% for regex rules, its reason ("fails"
+vs "loses") was right 92.5% of the time, and false alarms on benign migrations were 15.6% against 43.0%. Details, exit codes and limits:
+[docs/MIGRATION_GUARD.md](https://github.com/OpenInterpretability/ekbasis/blob/main/docs/MIGRATION_GUARD.md).
+
 ## Feedback (hosted API)
 
 When an answer turned out right or wrong, say so. It is free, takes one command, and is how we measure the model on
