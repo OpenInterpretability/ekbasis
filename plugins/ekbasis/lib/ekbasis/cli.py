@@ -224,8 +224,13 @@ def main(argv=None) -> int:
                     fh.write(text)
             return CANNOT_JUDGE if b.get("error") else OK
         if a.cmd == "migrate-check" and a.bundle:
-            with open(a.bundle) as fh:
-                bundle = json.load(fh)
+            try:
+                with open(a.bundle) as fh:
+                    bundle = json.load(fh)
+                if not isinstance(bundle, dict):
+                    raise ValueError("not a JSON object")
+            except (OSError, ValueError) as e:  # no bundle (migrate-gen crashed or did not run), or not JSON
+                raise CannotJudge(f"the framework bundle could not be read ({type(e).__name__}: {e})") from None
             if bundle.get("error"):
                 raise CannotJudge(f"the framework bundle was not generated: {bundle['error']}")
             v = M.check_bundle(bundle, pg_url=a.pg_url, stats_url=a.stats_url, autocommit=a.autocommit,

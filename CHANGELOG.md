@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.16] — 2026-10-11
+
+### Fixed
+- **Migration guard:** `migrate-check --bundle` with a bundle that does not exist, or that is not JSON (for example
+  when `migrate-gen` crashed before writing it), ended with a Python traceback (`FileNotFoundError`) and the Action
+  posted no comment. It now answers "cannot foresee" (exit 3, `--json` with `cannot_foresee`), so the check fails
+  closed and the comment says why.
+
 ## [0.1.15] — 2026-10-11
 
 ### Added

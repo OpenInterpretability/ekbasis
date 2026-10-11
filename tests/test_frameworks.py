@@ -34,6 +34,31 @@ class Fake:
         return {k: Answer(value=self.p[k] >= 0.5, confidence=0.9, probabilities={}, p_yes=self.p[k]) for k in questions}
 
 
+class TestMissingBundle(unittest.TestCase):
+    def test_missing_or_broken_bundle_is_cannot_foresee(self):
+        d = tempfile.mkdtemp()
+        try:
+            broken = os.path.join(d, "broken.json")
+            with open(broken, "w") as fh:
+                fh.write("Traceback (most recent call last):")
+            for path in (os.path.join(d, "missing.json"), broken):
+                out = io.StringIO()
+                with redirect_stdout(out):
+                    rc = cli.main(["migrate-check", "--bundle", path, "--json"])
+                self.assertEqual(rc, cli.CANNOT_JUDGE)
+                result = json.loads(out.getvalue())
+                self.assertIn("the framework bundle could not be read", result["cannot_foresee"])
+                body_path = os.path.join(d, "r.json")
+                with open(body_path, "w") as fh:
+                    fh.write(out.getvalue())
+                body = io.StringIO()
+                with redirect_stdout(body):
+                    M.main(["comment", body_path])
+                self.assertIn("**Cannot foresee**", body.getvalue())    # the comment is still posted
+        finally:
+            shutil.rmtree(d)
+
+
 class TestOffline(unittest.TestCase):
     def test_files(self):
         self.assertTrue(FW.is_framework_migration("django", "hc/api/migrations/0042_x.py"))
