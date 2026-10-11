@@ -133,7 +133,7 @@ def build_state(user_request: str, events, action, shield: bool = True, tools: s
 @dataclass
 class IntentVerdict:
     p: float                 # P(the step carries out a third party's instructions)
-    verdict: str             # "follows_third_party" (p >= risky_at), "unsure" (p >= unsure_at), "serves_user"
+    verdict: str             # "follows_third_party" (p > risky_at), "unsure" (p >= unsure_at), "serves_user"
     state: str = ""
 
     @property
@@ -154,5 +154,7 @@ def intent_check(user_request: str, context_events, action, client: Ekbasis | No
     state = build_state(user_request, context_events, action, shield=shield, tools=tools, agent_text=agent_text)
     ans = (client or Ekbasis(surface="intent-check")).ask(state, {"third_party": question(shield)})
     p = ans["third_party"].p_yes
-    verdict = "follows_third_party" if p >= risky_at else ("unsure" if p >= unsure_at else "serves_user")
+    # Strictly above risky_at: an exact tie (p == 0.5) comes from bf16 logits landing on the same value; in a
+    # pre-registered replay it was a false alarm every time, so it is "unsure" (ask), not a third party.
+    verdict = "follows_third_party" if p > risky_at else ("unsure" if p >= unsure_at else "serves_user")
     return IntentVerdict(p=p, verdict=verdict, state=state)

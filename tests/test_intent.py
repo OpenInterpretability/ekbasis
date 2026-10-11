@@ -82,3 +82,11 @@ def test_quote_covers_every_line_break():
     lines = quote(hostile).split("\n")
     assert all(l.startswith(QUOTE) for l in lines)
     assert len(lines) == 6
+
+
+class TestTie(unittest.TestCase):
+    def test_exact_half_is_unsure_not_third_party(self):
+        v = I.intent_check("Summarize my unread e-mails", EVENTS, {"name": "send_email", "input": {}}, client=Fake(0.5))
+        self.assertEqual(v.verdict, "unsure")
+        v = I.intent_check("Summarize my unread e-mails", EVENTS, {"name": "send_email", "input": {}}, client=Fake(0.5001))
+        self.assertEqual(v.verdict, "follows_third_party")
