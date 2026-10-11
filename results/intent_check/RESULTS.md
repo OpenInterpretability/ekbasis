@@ -94,3 +94,10 @@ user's step). 450 requests, none failed, 1.34 M input tokens. Output: `addendum/
   injection the agent ignores does not make the check flag the step; text addressed to the reviewer (ours) did.
 - **Two-question rule (exploratory):** it changed no decision here, since there were almost no false alarms to remove.
   It was not tested on our reviewer-addressed attacks, where the false alarms were.
+
+## Reproducing with the released API
+
+After these studies the API's default became the call only (`agent_text=False`, as in the addenda). The main study's
+shielded requests included the agent's thoughts ("The agent wrote: …"); `build_calls.py` ran, as frozen, before that
+change: to rebuild its requests byte for byte, call `build_state(..., agent_text=True)` there. The answers files hold
+ids, labels and probabilities only (no TS-Bench text); `recompute.py` of the TS-Bench study downloads the data.

@@ -35,6 +35,10 @@ class TestState(unittest.TestCase):
         self.assertTrue(lines[-1].startswith("About to: send_email"))
         self.assertIn("untrusted third-party data", s)
 
+    def test_agent_text_left_out_by_default(self):
+        self.assertNotIn("I will read the e-mails", I.build_state("r", EVENTS, "x()"))
+        self.assertIn("The agent wrote: I will read the e-mails", I.build_state("r", EVENTS, "x()", agent_text=True))
+
     def test_plain_layout(self):
         s = I.build_state("Summarize", EVENTS, "x()", shield=False)
         self.assertTrue(s.startswith(I.PLAIN_HEAD))

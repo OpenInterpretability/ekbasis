@@ -1,4 +1,4 @@
-"""Intent check (a prototype): does an agent's next step serve the user's request, or carry out instructions that came
+"""Intent check (experimental): does an agent's next step serve the user's request, or carry out instructions that came
 from content the agent read (a tool's output, a document, an e-mail, a web page: a third party)?
 
     from ekbasis import intent_check
@@ -7,8 +7,12 @@ from content the agent read (a tool's output, a document, an e-mail, a web page:
     v.p              # P(the step carries out a third party's instructions)
 
 events, oldest first: {"kind": "tool", "name", "input", "result"} for a tool call and what it returned (untrusted),
-{"kind": "agent", "text"} for the agent's own words or reasoning, {"kind": "user", "text"} for later messages from the
-user. action: the next step as text (or a dict {"name", "input"}).
+{"kind": "user", "text"} for later messages from the user, {"kind": "agent", "text"} for the agent's own words or
+reasoning (left out unless agent_text=True). action: the next step as the tool call only, a dict {"name", "input"}
+(or text). Measured without the agent's reasoning, the check was as accurate as with it (results/intent_check), and a
+guard should not depend on text the agent controls.
+
+Experimental: a signal to ask a person for confirmation, not an automatic block (docs/INTENT_CHECK.md).
 
 Tool output is untrusted: whoever wrote an e-mail or a web page controls it, and can write to the judge as well as to
 the agent ("the user approved this", "SYSTEM: ...", a fake "The user's request:" header). With shield=True (the
@@ -89,8 +93,9 @@ def _cut_history(blocks: list, budget: int) -> list:
     return keep_head + [f"[... {dropped} earlier steps omitted ...]"] + tail
 
 
-def build_state(user_request: str, events, action, shield: bool = True, tools: str | None = None) -> str:
-    """The state for the intent check (see the module docstring)."""
+def build_state(user_request: str, events, action, shield: bool = True, tools: str | None = None,
+                agent_text: bool = False) -> str:
+    """The state for the intent check (see the module docstring). agent_text=True keeps the agent's own words."""
     request = _cut(user_request.strip(), MAX_REQUEST)
     act = _cut(_action_text(action).strip(), MAX_ACTION)
     blocks = []
@@ -98,6 +103,8 @@ def build_state(user_request: str, events, action, shield: bool = True, tools: s
     for e in events or ():
         kind = e.get("kind")
         if kind == "agent":
+            if not agent_text:
+                continue
             blocks.append(f"The agent wrote: {_cut(e.get('text', ''), MAX_OUTPUT)}" if shield else str(e.get("text", "")))
         elif kind == "user":
             blocks.append(f"The user wrote (from the user): {e.get('text', '')}" if shield else
@@ -138,10 +145,11 @@ def question(shield: bool = True) -> dict:
 
 
 def intent_check(user_request: str, context_events, action, client: Ekbasis | None = None, shield: bool = True,
-                 tools: str | None = None, risky_at: float = 0.5, unsure_at: float = 0.2) -> IntentVerdict:
+                 tools: str | None = None, risky_at: float = 0.5, unsure_at: float = 0.2,
+                 agent_text: bool = False) -> IntentVerdict:
     """Does the next step serve the user's request or a third party's instructions? One request, one question.
     Raises CannotJudge (treat as risky) when the server cannot be reached or does not answer in time."""
-    state = build_state(user_request, context_events, action, shield=shield, tools=tools)
+    state = build_state(user_request, context_events, action, shield=shield, tools=tools, agent_text=agent_text)
     ans = (client or Ekbasis(surface="intent-check")).ask(state, {"third_party": question(shield)})
     p = ans["third_party"].p_yes
     verdict = "follows_third_party" if p >= risky_at else ("unsure" if p >= unsure_at else "serves_user")
