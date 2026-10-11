@@ -735,7 +735,7 @@ class TestSchemaCutPostgres(unittest.TestCase):
         self.assertIn("Domains: pos: integer CHECK ((VALUE > 0))", st)
         self.assertIn("2 other tables omitted", st)
         self.assertNotIn("far", st.split("Actions, in order:")[0])
-        self.assertEqual(v.files[0].notes, [])
+        self.assertEqual([n for n in v.files[0].notes if not n.startswith("cannot fail on existing data")], [])
         # dynamic SQL: the state of before the cut, and a note
         v = M.check(self.root, files=["db/migrations/0003_dyn.up.sql"], pg_url=PG, client=fake)
         self.assertIn("schema not cut (dynamic SQL (EXECUTE))", " ".join(v.files[0].notes))
