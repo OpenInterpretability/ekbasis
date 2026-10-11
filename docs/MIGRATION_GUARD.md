@@ -163,6 +163,14 @@ The generator gets `DATABASE_URL`, `DB_HOST`/`DB_PORT`/`DB_NAME`/`DB_USER`/`DB_P
 `POSTGRES_*` for the scratch database. Add what your settings read with `--env` (`${EKBASIS_DB_URL}` is replaced by
 the URL). **Never put a secret in `--env` or `--setup`: the pull request's code can read them.**
 
+**Redis.** Some projects need a Redis just to boot (Sidekiq, Action Cable, a cache store). With `--redis auto` (the
+default; Action input `redis: auto|on|off`) the guard starts one when the project uses it: a `redis`, `sidekiq` or
+similar gem in the `Gemfile`, or `redis`/`celery`/`rq` in `requirements.txt` or `pyproject.toml` (at the root or in
+the working directory). `on` always starts it, `off` never does. It is isolated like the scratch PostgreSQL: a
+throwaway `redis:7-alpine` with no password and nothing in it, on the same internal network with no route out, no
+port published on the host, and removed with the rest at the end. The generator gets `REDIS_URL`, `REDIS_HOST` and
+`REDIS_PORT`, and the bundle records whether it was started (`services.redis`).
+
 In the Action:
 
 ```yaml
