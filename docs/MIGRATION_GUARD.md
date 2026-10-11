@@ -155,8 +155,28 @@ Neither framework met every pre-registered target. Alembic passed accuracy and r
 - **On the migrations it answers** (298 of 390), the guard is right 95.0% of the time, its reason is right 95.0% of
   the time, and it raises false alarms on 4.3% of benign migrations.
 - **That is why the default became `on-code: warn`.** With `block`, 29% false alarms on Django make the check unusable.
-  The warning stays visible, so nothing is hidden; it just does not fail the check. That default is being measured in
-  a second pre-registered evaluation on new projects. Until it passes, the framework adapters stay opt-in.
+  The warning stays visible, so nothing is hidden; it just does not fail the check.
+
+**With `on-code: warn`, on new projects.** A second pre-registered evaluation (571 migrations from saleor, babybuddy,
+paperless-ngx, MLflow 3.1 and Superset 4.1) measured the default.
+
+| On the migrations the guard answers | Django (242) | Alembic (141) |
+|---|---|---|
+| Verdict accuracy (rules) | **0.955** (0.826) | **0.986** (0.773) |
+| Recall on risky migrations | 0.824 (28/34) | 1.000 (13/13) |
+| Reason right, on risky migrations flagged | 1.000 | 1.000 |
+| False alarms on benign migrations (rules) | 0.024 (0.202) | 0.016 (0.250) |
+| Code not foreseen: listed for review by hand | 23.7% of all migrations | 44.5% |
+| Recall over all risky migrations, review-by-hand counted as missed | 0.483 | 0.310 |
+
+- **Alembic met every pre-registered target. Django missed one:** recall 0.824 against 0.85. The 6 misses are
+  failures and one loss. Most of the failures come from values the synthetic test data put in (a number out of range
+  for a narrower column, a foreign key the copied rows violate).
+- **Much of the risk is in data-migration code.** About half the risky Django migrations and two thirds of the Alembic
+  ones contain code the guard does not foresee. The comment lists them for a person; it does not check them.
+- **The framework adapters stay opt-in** (`framework:`).
+
+
 
 **Residual risk:**
 - **The setup step runs with network.** It installs the pull request's dependencies, as your test job already does.

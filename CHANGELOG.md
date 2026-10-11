@@ -23,8 +23,11 @@
   - **Measured with `block`** (pre-registered, 390 real migrations from 5 projects, labels by running each one with
     its framework). Verdict accuracy is 0.762 for Django and 0.884 for Alembic; rules on the rendered SQL get 0.762 and
     0.768. Neither framework met every target. Most of the gap was code counted as "cannot foresee" (31% of the Django
-    migrations), which is why the default is now `warn`. On the migrations it answers, accuracy is 0.950. The `warn`
-    default is being evaluated on new projects; details are in docs/MIGRATION_GUARD.md.
+    migrations), which is why the default is now `warn`.
+  - **Measured with `warn`** (pre-registered, 571 migrations from 5 new projects). On the migrations it answers,
+    accuracy is 0.955 for Django and 0.986 for Alembic (rules: 0.826 and 0.773), with false alarms of 2.4% and 1.6%.
+    Recall is 0.824 for Django (target 0.85, missed) and 1.000 for Alembic. 24% of Django and 45% of Alembic migrations
+    contain code listed for review by hand. Details are in docs/MIGRATION_GUARD.md.
 
 ## [0.1.14] — 2026-10-11
 
