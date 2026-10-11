@@ -1,5 +1,36 @@
 # Changelog
 
+## [0.1.15] — 2026-10-11
+
+### Added
+- **Migration guard for Alembic (supported) and Django (experimental), opt-in** (`ekbasis/frameworks.py`, `ekbasis migrate-gen`, `migrate-check
+  --bundle`, the Action's `framework` input, [docs/MIGRATION_GUARD.md](docs/MIGRATION_GUARD.md)). The framework
+  renders each new migration as SQL: Django `sqlmigrate`, Alembic offline `upgrade --sql` (also `flask db`).
+  - **Isolation.** The pull request's code runs only inside a generator container. The container gets the trees from
+    `git archive`, runs `--setup` with network, and is then moved to an internal Docker network, checked to have no
+    route out, with no secret in its environment. Migrations run as a throwaway role that is not a superuser.
+  - **Base schema.** The framework migrates the scratch database at the base tree, and `pg_dump --schema-only` gives
+    the schema.
+  - **Code that is not SQL** (Django `RunPython`, an Alembic migration that reads the database) is listed as "code not
+    foreseen: review it by hand", never as "ok".
+    - `--on-code warn` (default, the Action's `on-code`): it does not fail the check, and the verdict is
+      `code-not-foreseen`.
+    - `--on-code block`: it is "cannot foresee" and fails closed.
+  - **The bundle (JSON)** is checked by `migrate-check --bundle`, with the verdict cache. The API key is needed only
+    there.
+  - **Tests.** `tests/test_frameworks.py`: offline tests, PostgreSQL tests, and docker tests that render tiny Django
+    and Alembic projects and check the isolation.
+  - **Measured with `block`** (pre-registered, 390 real migrations from 5 projects, labels by running each one with
+    its framework). Verdict accuracy is 0.762 for Django and 0.884 for Alembic; rules on the rendered SQL get 0.762 and
+    0.768. Neither framework met every target. Most of the gap was code counted as "cannot foresee" (31% of the Django
+    migrations), which is why the default is now `warn`.
+  - **Measured with `warn`** (pre-registered, 571 migrations from 5 new projects). On the migrations it answers,
+    accuracy is 0.955 for Django and 0.986 for Alembic (rules: 0.826 and 0.773), with false alarms of 2.4% and 1.6%.
+    Recall is 1.000 for Alembic. For Django it is 0.824 (28/34, lower bound 0.665): the 0.85 target was missed, so
+    Django is **experimental** and the comment and CLI output say so. The misses were failures on values out of range
+    for a narrower column, a foreign key violated by copied rows, and one overwritten value. 24% of Django and 45% of Alembic migrations
+    contain code listed for review by hand. Details are in docs/MIGRATION_GUARD.md.
+
 ## [0.1.14] — 2026-10-11
 
 ### Fixed
