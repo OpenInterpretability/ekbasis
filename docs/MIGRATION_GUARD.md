@@ -325,6 +325,21 @@ path).
 
 ## How well it works
 
+**Probes, edited migrations and setup SQL (pre-registered evaluation, 2026-10-11).**
+- **No regression on the 184 held-out migrations.** False alarms on the 128 benign ones stay at 20/128 with a replica
+  and 19/128 without one. Recall on the 56 risky ones stays at 54/56. On these migrations the probes changed the state
+  of 5 files (2 failures decided in code from the replica's NULL fractions, both correct) and no verdict.
+- **The gain on new real incidents was NOT demonstrated.** The test set had 4 incidents from 11 repositories never used
+  before, and none of them had the shape the probes cover. The check was underpowered and showed no change.
+- **What the mechanism looks like, as an illustration and not as evidence:** on two incidents from the development set,
+  the probe's fact turned a miss into a hit.
+  - A `DELETE` of rows still referenced by a foreign key went from P(fails) 0.13 to 0.92.
+  - An `INSERT ... SELECT` that omits a NOT NULL column went from P(fails) 0.25 to 0.97.
+- **Edited migrations and the setup SQL** are covered by unit and end-to-end tests. One of them runs against
+  supabase/auth's real migrations, which need the `auth` schema and the `supabase_auth_admin` role: without the setup
+  SQL every check is "cannot foresee"; with it the base applies cleanly.
+
+
 The guard's questions come from a pre-registered study on 582 real migrations from 12 open-source projects. The study
 is in the cookbook under `studies/migrations`. Each migration was executed on a seeded database, and the labels come
 from what happened.
