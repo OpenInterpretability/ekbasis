@@ -1,5 +1,14 @@
 # Changelog
 
+## [Unreleased]
+
+### Changed
+- **Migration guard: states up to 200,000 characters (~64k tokens) are read** (was 60,000, which was about 15–19k
+  tokens, not the 32k its comment assumed). A pre-registered test on 184 new migrations, padded with real tables from
+  other projects to 16k, 32k and 64k tokens, found no loss in verdict accuracy (0.880 at both the native length and
+  64k), recall or false alarms, wherever the deciding tables sat; only the calibration of the "fails" probability got
+  somewhat worse (ECE 0.034 → 0.063). A cold 64k-token check takes about 25 s.
+
 ## [0.1.18] — 2026-10-11
 
 ### Added
