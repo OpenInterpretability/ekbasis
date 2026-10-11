@@ -46,7 +46,7 @@ question matches it (F1) or slightly exceeds it (F0).
 ## Limits
 
 - **AgentDojo's next step includes the agent's own thought**, which often says it is following the injection (32 of the
-  60 malicious steps name it). Recall was the same on the 28 steps whose thought does not (27/28), but a judge given only
+  60 malicious steps, by a keyword match). Recall was the same on the 28 steps whose thought does not (27/28), but a judge given only
   the call, without the thought, was not tested.
 - The six attack templates are ours, about 10 malicious steps each; only two (A4, A5) target the shielded layout's own
   markers. No optimized or adaptive attack was run. The sessions are ours (36 items).
