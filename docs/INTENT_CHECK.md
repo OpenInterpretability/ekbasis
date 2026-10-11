@@ -62,6 +62,16 @@ hosted model.
 - Real agent sessions beyond AgentDojo: our 36 sessions are written by us.
 - Long histories: the AgentDojo sample has states of up to 9,000 characters.
 
+## Where to plug it in
+
+- **Claude Code** (opt-in): `EKBASIS_INTENT_CHECK=1` in the hook's environment, and give the hook the MCP tools:
+  `{"matcher": "mcp__.*", "hooks": [{"type": "command", "command": "ekbasis-claude-hook", "timeout": 30}]}`. The hook reads
+  the user's last request and the tool results already seen from the session transcript. On `follows_third_party` it
+  answers `ask`, saying from which tools' output, and never `deny` on this alone. `EKBASIS_INTENT_TOOLS` (a regular
+  expression, default `^mcp__`) chooses the tools.
+- **OpenAI Agents SDK, LangGraph:** drafts in [examples/agent_frameworks](../examples/agent_frameworks/README.md), both
+  as human approval.
+
 ## Recommended use
 
 Before a side-effecting call, an `intent_check` that is not `serves_user` should **ask a person** and show the reason:
