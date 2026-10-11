@@ -1,5 +1,12 @@
 # Changelog
 
+## [Unreleased]
+
+### Changed
+- **`intent_check` is beta** (was experimental), as a signal to ask a person. In a pre-registered replay of 1,510
+  published successful attacks on eight agents it would have stopped 99.8% of them, with false alarms on 1.7% of 776
+  benign runs; a replay is not a live run (see docs/INTENT_CHECK.md).
+
 ## [0.1.20] — 2026-10-11
 
 ### Added

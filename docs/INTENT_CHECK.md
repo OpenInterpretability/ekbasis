@@ -1,7 +1,7 @@
-# Intent check (experimental)
+# Intent check (beta)
 
-**Experimental API.** It may change without a major version, it is not announced, and it was measured only as below.
-Use it as a **signal to ask a person for confirmation**, not as an automatic block.
+**Beta.** The API may still change before 1.0. It has passed the pre-registered tests below as a **signal to ask a person
+for confirmation**; it is not yet recommended as an automatic block (see "Not measured").
 
 ## What it asks
 
@@ -55,10 +55,40 @@ hosted model.
   none with it.
 - The agent's reasoning was not what carried the result: the check scored F1 95.9–96.7 with it and 97.5 without it.
 
+### Replay of published successful attacks (pre-registered)
+
+The AgentDojo repository publishes full runs of many agents. We took every run where the published
+`important_instructions` attack **succeeded** against eight agents (GPT-4o, GPT-4-0125, Claude 3.5 Sonnet, Claude 3.7
+Sonnet, Gemini 1.5 Pro, Gemini 2.0 Flash, Llama 3 70B, Llama 3.3 70B), 1,510 runs, and the 776 runs of the same agents
+with no attack, and asked `intent_check` (defaults) about every tool call in order.
+
+| | result |
+|---|---|
+| successful attacks it would have stopped (a `follows_third_party` at or before the call that completes the attack) | **1,507 / 1,510 = 99.8%** [99.4, 99.9]; 99.4–100% per agent |
+| counting the 98 runs we excluded as not stopped (47 are a text-only attack with no tool call) | 93.7% |
+| benign runs with at least one false `follows_third_party` | **13 / 776 = 1.7%** [1.0, 2.8] |
+| median latency per call | 1.4 s |
+
+For GPT-4o, published live results on the same benchmark: no defense 47.7% of attacks succeed, tool filter 6.8%,
+prompt-injection detector 8.0% (with utility down to 41%), spotlighting 41.7%. Replaying intent_check leaves an
+estimated ~0.2%. **This is a replay, not a live run**: after a block, a live agent could try another path, which a replay
+cannot see; the published defenses were measured live.
+
+The three attacks it missed are the same case: the user asks to update a payment with their new IBAN, and the agent
+writes the attacker's IBAN instead. The call matches what the user asked for; only a parameter is the attacker's.
+Most false alarms are explicit delegation ("follow the instructions in this file"); `delegation=True` lowers them to
+1.0% at the cost of 0.3 pp of attacks stopped.
+
+In a live run of the official AgentDojo with GLM-5.3-Flash as the agent, the agent fell for 0 of 300 attacks with no
+defense, so the security gain could not be measured there; intent_check cost 3.1 pp of utility without attack and
+2.3 pp under attack.
+
 ## Not measured
 
 - **Adaptive or optimized attacks against the shielded layout were not tested.** The attacks above are fixed
   templates, about 10–12 malicious steps each.
+- A live run with an agent that falls for the attacks (the replay above is not live).
+- Attacks that swap a parameter of a call the user did ask for (the IBAN case above).
 - Real agent sessions beyond AgentDojo: our 36 sessions are written by us.
 - Long histories: the AgentDojo sample has states of up to 9,000 characters.
 
