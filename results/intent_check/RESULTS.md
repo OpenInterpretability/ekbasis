@@ -100,4 +100,4 @@ user's step). 450 requests, none failed, 1.34 M input tokens. Output: `addendum/
 After these studies the API's default became the call only (`agent_text=False`, as in the addenda). The main study's
 shielded requests included the agent's thoughts ("The agent wrote: …"); `build_calls.py` ran, as frozen, before that
 change: to rebuild its requests byte for byte, call `build_state(..., agent_text=True)` there. The answers files hold
-ids, labels and probabilities only (no TS-Bench text); `recompute.py` of the TS-Bench study downloads the data.
+ids, labels and probabilities only (no TS-Bench text); the TS-Bench study's `recompute.py` (ekbasis-cookbook, studies/tsbench) downloads the data.
