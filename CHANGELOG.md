@@ -2,7 +2,39 @@
 
 ## [Unreleased]
 
+### Added
+- **Migration guard, framework adapters: a throwaway Redis for projects that need it.**
+  - `migrate-gen --redis auto|on|off`; the Action's input is `redis`, default `auto`. `auto` turns it on when the
+    Gemfile or the Python requirements depend on redis, sidekiq, resque, kredis, celery, rq or django-redis.
+  - The Redis runs on the generator's internal network: no route out, no published port, nothing else on that
+    network. It is removed at the end. The generator gets `REDIS_URL`, `REDIS_HOST` and `REDIS_PORT`, and still has no
+    route out (checked).
+
+### Fixed
+- **Rails renderer:** zero-padded migration versions (`001_create_users.rb`, as in Redmine) rendered nothing, because
+  the file's version was compared as text with Rails' integer version. They are now compared as integers.
+
 ### Changed
+- **Rails is supported, opt-in** (`framework: rails`; no more `EKBASIS_EXPERIMENTAL_RAILS`). In a pre-registered
+  evaluation on new projects (Redmine, OpenProject, Consul Democracy; 307 migrations it answers, each run by Rails on
+  a seeded database) it met every target: verdict accuracy 0.896 against 0.730 for rules, recall 1.000 (119/119),
+  reason right 0.992 (118/119), false alarms 17.0% (upper bound 23.0%) against 44.1%. Caveat: Consul Democracy holds 108 of the 119 risky
+  migrations, and only 4 of them failed rather than lost data. [docs/MIGRATION_GUARD.md](docs/MIGRATION_GUARD.md).
+- **Migration guard: "fails" is decided in code when the rows cannot make the migration fail.**
+  - **The rule.** The migration has already run on the schema alone (the probe). If every statement can fail only
+    because of the schema, existing data cannot make it fail, and P(fails) is set to 0. The model's answer is kept as
+    `p_fail_model`, and the file gets a note.
+  - **Statements that qualify:** drops, renames, new tables and their indexes, plain (non-unique, column-list)
+    indexes, nullable or defaulted new columns, dropping a default or NOT NULL, a
+    constraint or unique index on a table created by the same migration, a foreign key or unique constraint on columns
+    it just added as nullable, and the catalog-only `DO` block Rails writes for `create_enum`.
+  - **Statements that do not:** UPDATE/INSERT/DELETE, SET NOT NULL, type changes, constraints on existing rows, unique
+    or expression indexes on existing tables, and generated columns.
+  - **The reason this was needed.** In the Rails evaluation, 5 migrations that only dropped data were reported as
+    "may fail". This affects every framework and plain SQL. Pre-registered non-inferiority check on the 184 SQL
+    migrations of the v3 evaluation, with 0.1.20 (main) and this code applied to the same fresh answers, the states
+    checked byte for byte identical: accuracy 0.897 → 0.902, false alarms 17 → 16, recall 54 → 54, reason right
+    48 → 48 (passes).
 - **`intent_check` flags a third party only when p is strictly above 0.5.** An exact 0.5 (two bf16 logits landing on
   the same value, about 0.5% of answers) is now "unsure". In two pre-registered replays of published attacks this lost
   no stopped attack and cut false alarms from 13 to 8 and from 7 to 4.

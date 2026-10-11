@@ -134,6 +134,43 @@ class TestText(unittest.TestCase):
         self.assertEqual(M.goose_up("ALTER TABLE t ADD c int;"), "ALTER TABLE t ADD c int;")
 
 
+class TestSchemaOnly(unittest.TestCase):
+    """0.1.20: "fails" decided in code when no statement can fail because of the rows (the migration already ran on
+    the schema): drops, renames, new tables and their indexes, nullable or defaulted new columns, constraints on new
+    tables or on columns that are NULL in every row."""
+
+    def test_statements(self):
+        yes = ['DROP TABLE "currencies"', 'DROP TABLE IF EXISTS "transfers" CASCADE',
+               'ALTER TABLE "a" DROP COLUMN "name"', 'ALTER TABLE t RENAME COLUMN a TO b',
+               "ALTER TABLE \"a\" ADD \"s\" account_status DEFAULT 'ok' NOT NULL", 'ALTER TABLE "a" ADD "x" integer',
+               'CREATE INDEX "i" ON "t" ("a")', 'ALTER TABLE t ALTER COLUMN c DROP NOT NULL']
+        no = ['ALTER TABLE "a" ADD "x" integer NOT NULL', "ALTER TABLE t ALTER COLUMN c SET NOT NULL",
+              "ALTER TABLE t ALTER COLUMN c TYPE bigint", "ALTER TABLE t ADD CONSTRAINT f FOREIGN KEY (a) REFERENCES b(id)",
+              'CREATE UNIQUE INDEX "i" ON "t" ("a")', "CREATE INDEX i ON t (lower(a))", "CREATE INDEX i ON t (a) WHERE b > 0",
+              "CREATE TABLE x AS SELECT * FROM y", "UPDATE t SET a = 1", "DELETE FROM t",
+              "ALTER TABLE t ADD COLUMN g int GENERATED ALWAYS AS (a + 1) STORED",
+              "ALTER TABLE t DROP COLUMN a, ADD COLUMN b int NOT NULL"]
+        for x in yes:
+            self.assertTrue(M.schema_only(x), x)
+        for x in no:
+            self.assertFalse(M.schema_only(x), x)
+
+    def test_plans(self):
+        self.assertTrue(M.schema_only_plan(['CREATE TABLE "p" ("id" uuid NOT NULL PRIMARY KEY, "f" uuid NOT NULL)',
+                                            'CREATE UNIQUE INDEX "u" ON "p" ("f")',
+                                            'ALTER TABLE "p" ADD CONSTRAINT "fk" FOREIGN KEY ("f") REFERENCES "fam" ("id")']))
+        self.assertTrue(M.schema_only_plan(['ALTER TABLE "accounts" ADD "pa_id" uuid',
+                                            'ALTER TABLE "accounts" ADD CONSTRAINT "fk" FOREIGN KEY ("pa_id") REFERENCES "pa" ("id")']))
+        self.assertTrue(M.schema_only_plan(["DO $$\nBEGIN\n IF NOT EXISTS (SELECT 1 FROM pg_type t WHERE t.typname = 's')"
+                                            " THEN\n CREATE TYPE \"s\" AS ENUM ('ok', 'error');\n END IF;\nEND\n$$",
+                                            'ALTER TABLE "accounts" DROP COLUMN "status"']))
+        self.assertFalse(M.schema_only_plan(['ALTER TABLE "accounts" ADD CONSTRAINT "fk" FOREIGN KEY ("old_id") '
+                                             'REFERENCES "pa" ("id")']))                  # existing rows are checked
+        self.assertFalse(M.schema_only_plan(['CREATE TABLE "t" ("a" int)', 'CREATE UNIQUE INDEX "u" ON "t" ("a")',
+                                             'INSERT INTO t SELECT a FROM old']))
+        self.assertFalse(M.schema_only_plan([]))
+
+
 class TestState(unittest.TestCase):
     def test_transactional_rules_and_no_stats(self):
         st, shown = M.build_state(CATALOG, ['ALTER TABLE users DROP COLUMN email'], None, "prisma", True)
@@ -457,6 +494,23 @@ class TestPostgres(unittest.TestCase):
     def scratch_roles(self):
         return M.Pg(PG).json("SELECT COALESCE(json_agg(rolname), '[]') FROM pg_roles WHERE rolname LIKE 'ekbasis_mg_%'")
 
+    def test_fails_decided_by_schema(self):
+        write(self.root, "db/migrations/0001_init.up.sql", "CREATE TABLE t (a int, b text);\n")
+        write(self.root, "db/migrations/0002_drop.up.sql", "ALTER TABLE t DROP COLUMN b;\n")
+        write(self.root, "db/migrations/0003_fill.up.sql", "UPDATE t SET a = a + 1;\n")
+        fake = Fake(lost=0.95, fails=0.8)
+        v = M.check(self.root, files=["db/migrations/0002_drop.up.sql"], pg_url=PG, client=fake,
+                    cache=M.VerdictCache(off=True))
+        f = v.files[0]
+        self.assertTrue(f.fail_by_schema)
+        self.assertEqual((f.p_fail, f.p_fail_model), (0.0, 0.8))
+        self.assertEqual(f.kind, "loses")                   # the reason is the loss, not a failure
+        self.assertIn("cannot fail on existing data", " ".join(f.notes))
+        v = M.check(self.root, files=["db/migrations/0003_fill.up.sql"], pg_url=PG, client=fake,
+                    cache=M.VerdictCache(off=True))
+        self.assertFalse(v.files[0].fail_by_schema)         # an UPDATE can fail on the rows: the model decides
+        self.assertEqual(v.files[0].kind, "fails")
+
     def test_files_mode_autocommit(self):
         write(self.root, "db/migrations/0001_init.up.sql", "CREATE TABLE t (a int, b text);\n")
         write(self.root, "db/migrations/0002_drop.up.sql", "ALTER TABLE t DROP COLUMN b;\nALTER TABLE t ADD c int;\n")
@@ -681,7 +735,7 @@ class TestSchemaCutPostgres(unittest.TestCase):
         self.assertIn("Domains: pos: integer CHECK ((VALUE > 0))", st)
         self.assertIn("2 other tables omitted", st)
         self.assertNotIn("far", st.split("Actions, in order:")[0])
-        self.assertEqual(v.files[0].notes, [])
+        self.assertEqual([n for n in v.files[0].notes if not n.startswith("cannot fail on existing data")], [])
         # dynamic SQL: the state of before the cut, and a note
         v = M.check(self.root, files=["db/migrations/0003_dyn.up.sql"], pg_url=PG, client=fake)
         self.assertIn("schema not cut (dynamic SQL (EXECUTE))", " ".join(v.files[0].notes))
