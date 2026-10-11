@@ -17,7 +17,10 @@ never calls a tool that is not classed as read-only, and gives the probe at most
 all. --probe-only names tools kept for the probe: they are removed from the tool list the agent sees.
 
 The MCP traffic does not carry the user's request; --request (or EKBASIS_GUARD_REQUEST) gives it, so the guard can
-also ask whether the call does what was asked.
+also ask whether the call does what was asked. With --intent-check (experimental, docs/INTENT_CHECK.md) it also runs
+ekbasis.intent_check on the call alone, with the tool results it relayed as quoted context: a call that may follow
+instructions found in them is refused once with the reason, and goes through if made again (the agent's way to ask
+its user; keep the default repeat). --intent-only runs that check without the harm questions.
 
 - mode block (the default): a risky or cannot-foresee call is not sent to the server; the agent gets a tool result
   with isError and the forecast, so it can tell the user. The same call (same tool, same arguments) made again in the
@@ -41,6 +44,7 @@ import sys
 import threading
 import time
 
+from . import intent as INTENT
 from . import toolguard as TG
 from .client import CannotJudge, Ekbasis
 
@@ -53,12 +57,13 @@ class Guard:
     def __init__(self, send_client, send_server, client=None, mode: str = "block", risky_at: float = 0.5,
                  repeat: bool = True, fail_open: bool = False, log=None, probe: bool = True, request: str | None = None,
                  allow=(), probe_only=(), audit: str | None = None, probe_seconds: float | None = None,
-                 request_flags: bool = True):
+                 request_flags: bool = True, intent: bool = False, harm: bool = True):
         self.send_client, self.send_server = send_client, send_server
         self.client = client or Ekbasis(timeout=float(os.environ.get("EKBASIS_TOOL_DEADLINE", "25")), surface="mcp-guard")
         self.mode, self.risky_at, self.repeat, self.fail_open = mode, risky_at, repeat, fail_open
         self.log = log or (lambda m: print(f"ekbasis-mcp-guard: {m}", file=sys.stderr, flush=True))
         self.probe, self.request, self.request_flags = probe, request, request_flags
+        self.intent, self.harm = intent, harm
         self.allow, self.probe_only = set(allow), set(probe_only)
         self.audit = audit
         self.probe_seconds = probe_seconds if probe_seconds is not None else \
@@ -149,6 +154,8 @@ class Guard:
                     probes = self.run_probes(name, args, events)
                 if state == "":
                     v = TG.ToolVerdict(tool=name, skipped="the backend says it changes nothing that matters")
+                elif not self.harm:
+                    v = TG.ToolVerdict(tool=name, skipped="harm questions off (--intent-only)")
                 else:
                     v = TG.check(name, args, events + probes, description=meta.get("description"),
                                  annotations=meta.get("annotations"), client=self.client, risky_at=self.risky_at,
@@ -157,6 +164,8 @@ class Guard:
                 v = TG.ToolVerdict(tool=name, verdict="cannot_foresee", reasons=[str(e)])
             except Exception as e:  # noqa: BLE001  (anything else: cannot foresee)
                 v = TG.ToolVerdict(tool=name, verdict="cannot_foresee", reasons=[f"{type(e).__name__}: {e}"])
+            if self.intent and not v.risky:
+                v = self._intent(name, args, events, v)
             row = {"t": time.time(), "tool": name, "input": args, "verdict": v.verdict, "p": v.p, "reasons": v.reasons,
                    "skipped": v.skipped, "probes": [p["name"] for p in probes], "backend": state is not None,
                    "seconds": round(time.monotonic() - t0, 3), "usage": getattr(self.client, "last_usage", None),
@@ -188,6 +197,24 @@ class Guard:
         with self.lock:
             self.pending[msg["id"]] = ("call", event, warning)
         self.send_server(msg)
+
+    def _intent(self, name: str, args, events, v):
+        """--intent-check: does the call serve the request (--request) or instructions found in tool output? A call
+        that may follow them is flagged like a risky one (block mode: refused once, with the reason; the same call
+        made again goes through, so a user who confirms can have the agent call it again)."""
+        tools = [e for e in events if e.get("kind") == "tool"]
+        if not self.request or not tools:
+            return v
+        try:
+            iv = INTENT.intent_check(self.request, tools, {"name": name, "input": args}, client=self.client)
+        except CannotJudge as e:
+            return TG.ToolVerdict(tool=name, verdict="cannot_foresee", p=dict(v.p), reasons=[str(e)])
+        p = {**v.p, "intent_third_party": iv.p}
+        if iv.verdict != "follows_third_party":
+            return TG.ToolVerdict(tool=name, verdict=v.verdict, p=p, reasons=v.reasons, skipped=v.skipped)
+        seen = ", ".join(dict.fromkeys(e["name"] for e in tools[-5:]))
+        return TG.ToolVerdict(tool=name, verdict="risky", p=p, reasons=[
+            f"may follow instructions found in tool output ({seen}) rather than the user's request ({100 * iv.p:.0f}%)"])
 
     def _audit(self, row: dict) -> None:
         if not self.audit:
@@ -273,6 +300,9 @@ def parser() -> argparse.ArgumentParser:
     ap.add_argument("--request", default=os.environ.get("EKBASIS_GUARD_REQUEST"), help="what the user asked for")
     ap.add_argument("--no-request-flags", action="store_true",
                     help="ask whether the call goes against the request, but do not let that answer flag it")
+    ap.add_argument("--intent-check", action="store_true",
+                    help="also ask whether the call follows instructions found in tool output (needs --request)")
+    ap.add_argument("--intent-only", action="store_true", help="the intent check alone, without the harm questions")
     ap.add_argument("--allow", default=os.environ.get("EKBASIS_GUARD_ALLOW"), help="tools never checked (a,b)")
     ap.add_argument("--probe-only", default=None, help="tools only the probe may call, hidden from the agent (a,b)")
     ap.add_argument("--log", default=os.environ.get("EKBASIS_GUARD_LOG"), help="append one JSON line per check here")
@@ -295,7 +325,8 @@ def main(argv=None, guard_class=Guard) -> int:
     guard = guard_class(_writer(sys.stdout), _writer(proc.stdin), mode=a.mode, risky_at=a.threshold,
                         repeat=not a.no_repeat, fail_open=a.fail_open, probe=not a.no_probe, request=a.request,
                         allow=_names(a.allow), probe_only=_names(a.probe_only), audit=a.log,
-                        request_flags=not a.no_request_flags)
+                        request_flags=not a.no_request_flags, intent=a.intent_check or a.intent_only,
+                        harm=not a.intent_only)
     t = threading.Thread(target=_pump, args=(proc.stdout, guard.from_server), daemon=True)
     t.start()
     try:
