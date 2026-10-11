@@ -103,8 +103,8 @@ project's code runs.
    - **`on-code: warn` (default):** it does not fail the check. The Action's `verdict` output is `code-not-foreseen`.
    - **`on-code: block`:** it is "cannot foresee" and fails the check, as before.
 
-   The SQL around it is still checked, and it still applies to the scratch schema, so the next migration sees it. A
-   file the framework could not render for another reason (not loaded, a crash) is always "cannot foresee".
+   Its SQL is not sent to the model, but it is applied to the scratch schema, so the next migration sees it. A file
+   the framework could not render for another reason (not loaded, a crash) is always "cannot foresee".
 7. **Cleanup.** The containers and the network are removed. The result is a bundle (JSON): the base schema and, per
    migration, its SQL.
 
