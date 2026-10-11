@@ -1,5 +1,14 @@
 # Changelog
 
+## [Unreleased]
+
+### Fixed
+- **Migration guard:** a `BEGIN` inside a function body (`$$ ... BEGIN ... END $$`) or in a string no longer switches the
+  file to autocommit rules; only `BEGIN`/`COMMIT` statements of their own count. Found by a backtest on real incidents,
+  where two PL/pgSQL migrations were judged with the wrong transaction rule.
+- **Migration guard: goose files.** Only the `-- +goose Up` sections are run (the Down section was run too), and
+  `-- +goose NO TRANSACTION` is read as autocommit.
+
 ## [0.1.13] — 2026-10-11
 
 ### Added
