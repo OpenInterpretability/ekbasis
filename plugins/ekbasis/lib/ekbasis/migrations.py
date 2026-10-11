@@ -1283,13 +1283,10 @@ class FileVerdict:
     fail_threshold: float = FAIL_THRESHOLD
     cached: bool = False                # the answers came from the verdict cache (no model call)
     code_not_foreseen: str | None = None  # framework migrations, on-code=warn: code that is not SQL (not blocking)
-<<<<<<< HEAD
     decided: str | None = None          # a failure on existing data decided in code (probes: replica statistics)
     edited: bool = False                # the pull request edits this migration, which the base already has
-=======
     fail_by_schema: bool = False        # "fails" decided in code: schema-only statements that ran on the schema
     p_fail_model: float | None = None   # the model's P(fails) before that decision
->>>>>>> c80b48c (Migration guard: throwaway Redis on the generator's internal network (--redis auto|on|off); 'fails' decided in code when no statement can fail on the rows (0.1.18))
 
     @property
     def kind(self) -> str:
@@ -1336,13 +1333,9 @@ class FileVerdict:
              "risky": self.risky, "p_lost": self.p_lost, "p_fail": self.p_fail, "p_half": self.p_half,
              "schema_error": self.schema_error, "cannot_judge": self.cannot_judge, "cannot_foresee": self.cannot_judge,
              "reason": self.reason, "kind": self.kind, "notes": self.notes, "tables": self.shown,
-<<<<<<< HEAD
              "cached": self.cached, "code_not_foreseen": self.code_not_foreseen, "decided": self.decided,
-             "edited": self.edited}
-=======
-             "cached": self.cached, "code_not_foreseen": self.code_not_foreseen,
-             "fail_by_schema": self.fail_by_schema, "p_fail_model": self.p_fail_model}
->>>>>>> c80b48c (Migration guard: throwaway Redis on the generator's internal network (--redis auto|on|off); 'fails' decided in code when no statement can fail on the rows (0.1.18))
+             "edited": self.edited, "fail_by_schema": self.fail_by_schema,
+             "p_fail_model": self.p_fail_model}
         if state:
             d["state"] = self.state
         return d
@@ -1485,7 +1478,6 @@ def check(repo: str = ".", base: str | None = None, head: str = "HEAD", files: l
     return GuardVerdict(out, notes)
 
 
-<<<<<<< HEAD
 EDIT_NOTE = ("this pull request edits a migration the base already has: databases that already applied it will not run "
              "the change (and tools that checksum migrations, such as Prisma or golang-migrate's dirty flag, may refuse "
              "to deploy); the verdict is for the new content on a database that has not applied it yet")
@@ -1510,7 +1502,8 @@ def _check_edited(path, src_base, src_new, globs, pg_url, psql, setup, stats, au
     v.edited = True
     v.notes.append(EDIT_NOTE)
     return v
-=======
+
+
 # Statements whose success depends on the schema alone, never on the rows (PostgreSQL). If a migration made only of
 # these runs on the schema, data cannot make it fail. Conservative: anything not listed (UPDATE, ADD CONSTRAINT, SET
 # NOT NULL, a type change, a unique or expression index, a generated column, a DO block...) can depend on the data.
@@ -1618,7 +1611,6 @@ def schema_only_plan(stmts: list) -> bool:
         if not schema_only(raw):
             return False
     return bool(stmts)
->>>>>>> c80b48c (Migration guard: throwaway Redis on the generator's internal network (--redis auto|on|off); 'fails' decided in code when no statement can fail on the rows (0.1.18))
 
 
 def _check_file(path, tool, text, scratch, stats, autocommit, client, lt, ft, base_dirty, cache=None) -> FileVerdict:
