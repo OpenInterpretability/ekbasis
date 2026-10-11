@@ -155,7 +155,40 @@ def split_sql(text: str) -> list:
 
 # Statements that cannot run inside a transaction block, or a file that manages its own transaction. (ALTER TYPE ... ADD
 # VALUE runs inside a transaction since PostgreSQL 12; only using the new value in the same transaction fails.)
-NO_TX = re.compile(r"\b(CONCURRENTLY|VACUUM|ALTER\s+SYSTEM)\b|^\s*(BEGIN|COMMIT|START\s+TRANSACTION)\b", re.I | re.M)
+# BEGIN/COMMIT count only as a statement of their own, and nothing inside a dollar-quoted body or a string counts
+# (a PL/pgSQL body starts with BEGIN).
+NO_TX = re.compile(r"\b(CONCURRENTLY|VACUUM|ALTER\s+SYSTEM)\b|\A\s*(BEGIN|COMMIT|END|START\s+TRANSACTION)\b", re.I)
+GOOSE_MARK = re.compile(r"^[ \t]*--[ \t]*\+goose[ \t]+(Up|Down)\b.*$", re.I | re.M)
+GOOSE_NO_TX = re.compile(r"^[ \t]*--[ \t]*\+goose[ \t]+NO[ \t]+TRANSACTION\b", re.I | re.M)
+
+
+def outside_bodies(stmt: str) -> str:
+    """The statement with dollar-quoted bodies and string literals replaced by empty ones."""
+    out, i = [], 0
+    while True:
+        m = DOLLAR.search(stmt, i)
+        if not m:
+            out.append(stmt[i:])
+            break
+        j = stmt.find(m.group(0), m.end())
+        out.append(stmt[i:m.start()] + " $$ ")
+        if j < 0:
+            break
+        i = j + len(m.group(0))
+    return re.sub(r"'(?:[^']|'')*'", "''", "".join(out))
+
+
+def goose_up(text: str) -> str:
+    """For a goose file (-- +goose Up / Down), only what runs on the way up: the header and the Up sections. Other
+    files are returned as they are."""
+    marks = list(GOOSE_MARK.finditer(text))
+    if not marks:
+        return text
+    out = [text[:marks[0].start()]]
+    for k, m in enumerate(marks):
+        if m.group(1).lower() == "up":
+            out.append(text[m.start():marks[k + 1].start() if k + 1 < len(marks) else len(text)])
+    return "".join(out)
 
 
 # ---------------------------------------------------------------- finding the migrations
@@ -210,11 +243,11 @@ class Source:
     def read(self, path: str) -> str:
         if self.ref is None:
             with open(os.path.join(self.repo, path), encoding="utf-8", errors="replace") as f:
-                return f.read()
+                return goose_up(f.read())
         rc, out = _git(self.repo, "show", f"{self.ref}:{path}")
         if rc != 0:
             raise CannotJudge(f"cannot read {path} at {self.ref}")
-        return out
+        return goose_up(out)
 
 
 def changed_files(repo: str, base: str, head: str = "HEAD") -> tuple[list, list]:
@@ -609,10 +642,13 @@ class GuardVerdict:
                 "files": [f.as_json(state) for f in self.files], "notes": self.notes}
 
 
-def _transaction_for(tool: str, stmts: list, autocommit: bool, notes: list) -> bool:
+def _transaction_for(tool: str, stmts: list, autocommit: bool, notes: list, text: str = "") -> bool:
     if autocommit:
         return False
-    hit = next((s for s in stmts if NO_TX.search(s)), None)
+    if GOOSE_NO_TX.search(text):
+        notes.append("goose NO TRANSACTION: checked with autocommit rules")
+        return False
+    hit = next((s for s in stmts if NO_TX.search(outside_bodies(s))), None)
     if hit:
         notes.append("contains a statement that cannot run inside a transaction or manages its own transaction "
                      f"({hit.split()[0].upper()} ...): checked with autocommit rules")
@@ -697,7 +733,7 @@ def check(repo: str = ".", base: str | None = None, head: str = "HEAD", files: l
 def _check_file(path, tool, text, scratch, stats, autocommit, client, lt, ft, base_dirty, cache=None) -> FileVerdict:
     stmts = split_sql(text)
     fnotes = []
-    tx = _transaction_for(tool, stmts, autocommit, fnotes)
+    tx = _transaction_for(tool, stmts, autocommit, fnotes, text)
     v = FileVerdict(path, tool, tx, statements=len(stmts), notes=fnotes, lost_threshold=lt, fail_threshold=ft)
     if not stmts:
         v.p_lost = v.p_fail = 0.0

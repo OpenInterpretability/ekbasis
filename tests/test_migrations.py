@@ -110,6 +110,29 @@ class TestText(unittest.TestCase):
         self.assertFalse(M._transaction_for("golang-migrate", ["CREATE INDEX CONCURRENTLY i ON t(c)"], False, notes))
         self.assertIn("autocommit", notes[-1])
 
+    def test_begin_inside_a_body_is_not_a_transaction(self):
+        notes = []
+        fn = M.split_sql("CREATE FUNCTION f() RETURNS trigger AS $$\nBEGIN\n  RETURN NEW;\nEND;\n$$ LANGUAGE plpgsql;\n"
+                         "ALTER TABLE t ADD COLUMN note text DEFAULT 'BEGIN';")
+        self.assertTrue(M._transaction_for("generic", fn, False, notes))
+        self.assertEqual(notes, [])
+        self.assertFalse(M._transaction_for("generic", M.split_sql("BEGIN;\nALTER TABLE t DROP c;\nCOMMIT;"), False, notes))
+        self.assertFalse(M._transaction_for("generic", ["CREATE INDEX CONCURRENTLY i ON t(c)"], False, notes))
+
+    def test_goose_up_only_and_no_transaction(self):
+        text = ("-- +goose NO TRANSACTION\n-- +goose Up\n-- +goose StatementBegin\nCREATE INDEX CONCURRENTLY i ON t(c);\n"
+                "-- +goose StatementEnd\n\n-- +goose Down\nDROP TABLE t;\n")
+        up = M.goose_up(text)
+        self.assertIn("CONCURRENTLY", up)
+        self.assertNotIn("DROP TABLE", up)
+        notes = []
+        self.assertFalse(M._transaction_for("generic", M.split_sql(up), False, notes, up))
+        self.assertIn("goose NO TRANSACTION", notes[-1])
+        plain = "-- +goose Up\nALTER TABLE t ADD c int;\n-- +goose Down\nALTER TABLE t DROP c;\n"
+        self.assertEqual(M.split_sql(M.goose_up(plain)), ["ALTER TABLE t ADD c int"])
+        self.assertTrue(M._transaction_for("generic", M.split_sql(M.goose_up(plain)), False, [], M.goose_up(plain)))
+        self.assertEqual(M.goose_up("ALTER TABLE t ADD c int;"), "ALTER TABLE t ADD c int;")
+
 
 class TestState(unittest.TestCase):
     def test_transactional_rules_and_no_stats(self):
