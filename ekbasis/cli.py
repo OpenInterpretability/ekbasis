@@ -17,7 +17,7 @@
       3 cannot foresee, with --fail-closed. It runs the plan on a copy when it can (local files and SQLite; shell steps
       only inside the macOS sandbox, SQL where the sqlite3 tool is installed; --no-copy asks the model instead). --sql
       DB FILE checks a SQL file as `sqlite3 DB < FILE` would run it; --show-state prints what the model read.
-  ekbasis migrate-check [--base REF] [--head REF] [--glob G] [--pg-url URL] [--stats-url URL] [--autocommit] [--json]
+  ekbasis migrate-check [--base REF] [--head REF] [--glob G] [--pg-url URL] [--stats-url URL] [--setup-sql PATH] [--autocommit] [--json]
                         [FILE ...]
       Before a pull request is merged: will its new PostgreSQL migrations lose data or fail? The schema is built by
       applying the base's migrations to a scratch database (EKBASIS_PG_URL); optional row counts and NULL fractions come
@@ -116,6 +116,10 @@ def main(argv=None) -> int:
                                                       "EKBASIS_DB_STATS_URL)")
     m.add_argument("--autocommit", action="store_true", help="statements commit one by one (psql -f), not one "
                                                              "transaction per file")
+    m.add_argument("--setup-sql", default=None, metavar="PATH",
+                   help="SQL run by the scratch server's admin connection before the base's migrations (a schema, role "
+                        "or extension the platform creates outside the migrations; :guard_role names the role the "
+                        "migrations run as). With --base it is read from the BASE ref, never from the pull request")
     m.add_argument("--lost-threshold", type=float, default=M.LOST_THRESHOLD)
     m.add_argument("--fail-threshold", type=float, default=M.FAIL_THRESHOLD)
     m.add_argument("--json", action="store_true")
@@ -241,7 +245,7 @@ def main(argv=None) -> int:
                         globs=tuple(a.glob) if a.glob else M.DEFAULT_GLOBS, pg_url=a.pg_url, stats_url=a.stats_url,
                         autocommit=a.autocommit, client=client, lost_threshold=a.lost_threshold,
                         fail_threshold=a.fail_threshold,
-                        cache=M.VerdictCache(off=True) if a.no_cache else None)
+                        cache=M.VerdictCache(off=True) if a.no_cache else None, setup_sql=a.setup_sql)
         if a.cmd == "migrate-check":
             if a.json:
                 print(json.dumps(v.as_json(state=a.show_state)))

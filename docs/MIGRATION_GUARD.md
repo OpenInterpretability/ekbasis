@@ -35,6 +35,21 @@ Before a pull request is merged: will its new PostgreSQL migrations **lose data*
 - **A fact decided in code.** Each new migration is first run on the schema alone, with no rows. If it fails there
   (a missing column, a typo, a wrong type), it fails in production too. That decides the verdict, with PostgreSQL's
   error, and in a transactional file the model is not asked.
+- **Probes, in code, on copies of the scratch** (never on the replica). A migration that passes on the base schema can
+  still fail on rows production has. The guard runs it on copies of the scratch and reports PostgreSQL's own error:
+  - *key collision*: an `INSERT` without `ON CONFLICT` into a table that has a unique key is run twice; the second
+    run's error is what happens when the key already exists;
+  - *missing or present source rows*: the tables the migration reads are emptied on a copy (when earlier migrations
+    inserted rows there) or get one made-up row (when they are empty); a NOT NULL error is what happens then;
+  - *rows still referenced*: before a `DELETE` (or a key update) on a table a foreign key references with `NO ACTION`
+    or `RESTRICT`, a made-up row of the referencing table is added on a copy; a foreign key error shows the mechanism.
+    Without one, the foreign key itself is stated.
+
+  Made-up rows have fixed values (`ekbasis_probe_*`) the guard chooses; nothing is read from production. They are
+  hypothetical, so their results are facts for the model, worded as a condition ("if ..., action K fails with: ...").
+  A failure is decided in code only from the replica's statistics: a `DELETE` of every row of a table whose
+  referencing table holds non-NULL references, and `SET NOT NULL` on a column the replica shows NULLs in that nothing
+  earlier in the file fills.
 - **The questions** are the ones of the pre-registered study the guard comes from:
   - data lost (a value stored before is in no table afterwards);
   - a statement fails;
@@ -50,8 +65,23 @@ Which files are migrations? By default:
 - `*migrations/*.sql` and `*migrate/*.sql`.
 
 `down.sql` files and files for other databases (`.mysql.`, `.sqlite.`) are skipped. Use `--glob` to set your own.
-When a pull request edits a migration that already exists on the base, the guard adds a note: a database that already
-applied it will not run the change.
+When a pull request **edits** a migration that already exists on the base, the guard checks the new content on the
+schema of the base's migrations that come before it, and the verdict says that databases that already applied it will
+not run the change: the verdict is for a database that has not applied it yet (a new environment, CI, a self-hosted
+install). Tools that checksum migrations (Prisma, golang-migrate's dirty flag) may also refuse to deploy.
+
+**Setup SQL** (`--setup-sql PATH`, `setup-sql:` in the Action). Some platforms create schemas, roles or extensions
+outside the migrations (Supabase's `auth` schema and `supabase_auth_admin` role, `pg_stat_statements`). Without them
+the base's migrations do not apply and every check is "cannot foresee". The setup SQL runs with the scratch server's
+admin connection in the throwaway database, before the base's migrations; `:guard_role` names the role the migrations
+run as (for example `GRANT ALL ON SCHEMA auth TO :"guard_role";`).
+- **Security.** With `--base` the file is read from the **base** ref (`git show <base>:PATH`), never from the pull
+  request's head, because it runs with privileges: a pull request that changes it takes effect only once merged. With
+  migration files and no `--base`, it is read from the working tree. **Do not use that mode with `--setup-sql` in CI
+  for pull requests from forks**: the working tree is the pull request's, so it would control SQL run as the scratch
+  admin. The Action always passes `--base`.
+- Roles it creates stay on the scratch server (the Action's is a throwaway container); write it so it can run twice
+  (`CREATE SCHEMA IF NOT EXISTS`, `DO $$ ... IF NOT EXISTS (SELECT FROM pg_roles ...) $$`).
 
 ## Command line
 
@@ -74,7 +104,9 @@ The exit codes are those of the other checks:
 - `path`, `tool`, `transaction`;
 - `p_lost`, `p_fail`, `p_half`;
 - `schema_error`, `risky`, `cannot_foresee` (also as `cannot_judge`);
-- `reason`, `notes`, `tables`.
+- `reason`, `notes`, `tables`;
+- `decided` (a failure decided in code from the replica's statistics) and `edited` (the pull request edits this
+  migration).
 
 Only `psql` is used to talk to PostgreSQL: set `EKBASIS_PSQL`, or put `psql` on `PATH`. The client stays standard
 library only.
@@ -218,6 +250,7 @@ jobs:
         with:
           api-key: ${{ secrets.EKBASIS_API_KEY }}
           # db-stats-url: ${{ secrets.READ_REPLICA_URL }}   # optional: planner statistics only
+          # setup-sql: db/guard-setup.sql   # optional: read from the base branch, run as the scratch admin
           # mode: both          # comment | check | both
           # fail-on: risky      # risky | never
 ```

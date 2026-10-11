@@ -33,6 +33,9 @@ inputs:
   fail-on:
     description: "risky (fail on risky and on cannot foresee) or never."
     default: risky
+  setup-sql:
+    description: "Path of a SQL file run before the base's migrations by the scratch server's admin (superuser) connection: schemas, roles or extensions your platform creates outside the migrations (e.g. Supabase's auth schema). :guard_role names the role the migrations run as. SECURITY: read from the BASE branch (git show <base>:<path>), never from the pull request, because it runs with privileges; a pull request that changes it takes effect only after it is merged."
+    default: ""
   db-stats-url:
     description: Optional read-only replica URL, from a secret. Only planner statistics are read (row estimates, NULL fractions, distinct counts), never values.
     default: ""
@@ -165,6 +168,7 @@ runs:
         AUTOCOMMIT: ${{ inputs.autocommit }}
         FRAMEWORK: ${{ inputs.framework }}
         ON_CODE: ${{ inputs.on-code }}
+        SETUP_SQL: ${{ inputs.setup-sql }}
       run: |
         out="$RUNNER_TEMP/ekbasis-migrations.json"
         args=(migrate-check --json --lost-threshold "$LOST" --fail-threshold "$FAIL")
@@ -175,6 +179,7 @@ runs:
           args+=(--bundle "$RUNNER_TEMP/ekbasis-bundle.json" --on-code "$ON_CODE")
         fi
         [ "$AUTOCOMMIT" = "true" ] && args+=(--autocommit)
+        [ -n "$SETUP_SQL" ] && args+=(--setup-sql "$SETUP_SQL")   # read by the CLI from origin/$BASE, not the head
         mark="$RUNNER_TEMP/ekbasis-cache-mark"; touch "$mark"
         set +e; ekbasis "${args[@]}" > "$out"; rc=$?; set -e
         new=0
