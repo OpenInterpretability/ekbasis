@@ -37,8 +37,9 @@ otherwise asks the user cut Haiku's harmful runs from 72.9\% to 2.1\% with a scr
 arm, from 50.0\% to 8.3\%). Asking before every consequential click without Ekbasis did as well (the scripts had been
 checked to object to its questions on each harmful path), and the guard asked 43\% as many questions where the plan's
 bar was a quarter, so that hypothesis failed. On our demo apps, harmful runs fell for all five models we tested (Sonnet:
-24/60 to 0/60) and a placebo did not help Sonnet; the other agents alone had done about as well as Sonnet or better, so
-the gains show the forecast's effect, not a weaker agent lifted above a stronger one. Three further pre-registered
+24/60 to 0/60) and a placebo did not help Sonnet; Haiku and Qwen 9B alone had done about as well as Sonnet, so the
+gains show the forecast's effect, not a weaker agent lifted above a stronger one (GLM's runs alone are not comparable:
+see the erratum). Three further pre-registered
 studies failed their bars, where the agent alone was at the ceiling or the policy stated the consequences. In a real
 terminal, a Claude Code hook asked on 2.9 per 100 commands of a careful agent and kept Haiku's planted work in 9/9
 sessions against 5/9 and 7/9 without it in two small studies (one exploratory). In the one-pass format Ekbasis was
@@ -46,6 +47,14 @@ trained on, it was more accurate than Qwen-AgentWorld-35B-A3B on all 12 of our s
 won 1, lost 2 where its reasoning hit the token cap, and showed no resolved difference on 9. The tasks are ours and are
 released with the app setups, adapters, judges, tables and scripts.
 \end{abstract}
+
+\paragraph{Erratum (v2, 10 October 2026).} In the GLM-5.3-Flash and Qwen 3.5 runs, the agent harness (opencode) also
+loaded a \texttt{computer-use} skill from the operator's user directory. It was not part of the study, and it tells the
+agent never to move money. In five of GLM's six bank runs without Ekbasis the agent loaded it and stopped before paying.
+GLM's low harm alone and its stopped-short runs came from this skill, so v1's claims that GLM alone was the most cautious
+agent and did less harm than Sonnet alone are withdrawn. Every harm difference with Ekbasis keeps its sign without the
+affected runs, although for GLM and Qwen 4B the interval now reaches zero (Section~\ref{sec:recomp}). The Claude runs could not load skills. Changed in v2: the abstract, the
+introduction, Section~\ref{sec:agents}, a new paragraph in Section~\ref{sec:recomp}, the limitations and the conclusion.
 
 \section{Introduction}\label{sec:intro}
 A strong language model usually reasons well about what an action does when the screen shows it. It cannot reason about
@@ -76,9 +85,9 @@ trained on real agent trajectories (35B parameters, 3B active per token), on the
 
 The main results are these. With the consequence model in the loop, Claude Sonnet did less harm where the consequence was
 hidden: clearly on our demo apps, and on real apps in a secondary contrast carried by three task families. Haiku, GLM
-and Qwen 9B with it did less harm than Sonnet alone on our demo apps (Qwen 4B did not resolve), where alone they did about
-as well as Sonnet or, for GLM, better, so this shows the effect of the forecast, not a weaker agent lifted above a
-stronger one. On real apps Claude Haiku mostly did what the request said even when warned; a guard that offers a safer
+and Qwen 9B with it did less harm than Sonnet alone on our demo apps (Qwen 4B did not resolve), where alone Haiku and
+Qwen 9B did about as well as Sonnet (GLM's runs alone are not comparable; see the erratum), so this shows the effect of
+the forecast, not a weaker agent lifted above a stronger one. On real apps Claude Haiku mostly did what the request said even when warned; a guard that offers a safer
 way checked by Ekbasis and asks the user when there is none cut its harmful runs on fresh tasks to 2.1\%, with a
 simulated user (and Sonnet's, in a secondary arm, from 50.0\% to 8.3\%), and asking the user every time, without Ekbasis, did as well with more questions; the simulated user's
 scripts had been checked to object to that condition's question on every harmful path. Three further studies failed their bars: two where the agent alone was at the ceiling, and $\tau$-bench, whose
@@ -286,8 +295,9 @@ were made later by a separate session with the same stage, tasks and judge, and 
 
 Every interval in Table~\ref{tab:agents} is below zero (Figure~\ref{fig:agents}). The relative cut was smaller for the two
 Qwen models: 100.0\% for Sonnet, Haiku with thinking off and GLM, 91.7\% for Haiku with default thinking, 74.1\% for Qwen
-9B and 36.7\% for Qwen 4B. GLM alone was the most cautious agent (6/30 harmful runs) and the one that most often stopped
-short (5/30 runs, none with Ekbasis). These intervals resample tasks. Resampling the five apps instead (\explo), every
+9B and 36.7\% for Qwen 4B. GLM alone did harm in 6/30 runs and stopped short in 5/30 (none with Ekbasis); those five
+runs stopped because of a skill its harness loaded by mistake (Section~\ref{sec:recomp}), so GLM's runs alone are not
+comparable with the other agents'. These intervals resample tasks. Resampling the five apps instead (\explo), every
 interval reaches zero (Sonnet $[-80.0, 0.0]$, Haiku with thinking off $[-80.0, 0.0]$, GLM $[-53.3, 0.0]$, Qwen 9B
 $[-75.0, 3.3]$, Qwen 4B $[-36.7, 0.0]$): alone, the Claude agents and GLM did harm only in bank and travel. In dbadmin,
 where Ekbasis was confidently wrong, harm rose with it (Qwen 9B from 2/12 to 4/12, Qwen 4B from 4/12 to 5/12, Haiku with
@@ -297,8 +307,8 @@ default thinking from 0/6 to 1/6).
 Ekbasis did $-40.0$ $[-56.7, -23.3]$ points of harm and $+40.0$ $[23.3, 56.7]$ of safe success; GLM with Ekbasis the same;
 Qwen 9B with Ekbasis $-28.3$ $[-48.3, -8.3]$ and $+25.0$ $[5.0, 45.0]$; Qwen 4B with Ekbasis $-8.3$ $[-21.7, 6.7]$ and
 $0.0$ $[-15.0, 13.3]$, which does not resolve. Alone, the agents did not differ much from Sonnet on these tasks: Haiku had
-exactly Sonnet's harmful runs, task by task, GLM did less harm ($-20.0$ $[-36.7, -6.7]$) and Qwen 9B slightly more
-($+5.0$ $[0.0, 10.0]$). These comparisons mostly restate the effect of the forecast on the bank and travel tasks, where
+exactly Sonnet's harmful runs, task by task, and Qwen 9B slightly more ($+5.0$ $[0.0, 10.0]$). v1 also reported that GLM
+alone did less harm than Sonnet ($-20.0$ $[-36.7, -6.7]$); that comparison is withdrawn (Section~\ref{sec:recomp}). These comparisons mostly restate the effect of the forecast on the bank and travel tasks, where
 the agents did harm alone; they do not show a weaker agent lifted above a stronger one. GLM and Qwen also ran in another
 harness. On real apps the corresponding comparison failed (Section~\ref{sec:realapps}); in the follow-up there, Haiku
 asking the user through Ekbasis did less harm than Sonnet alone, in an exploratory contrast with a scripted user
@@ -325,6 +335,22 @@ runs that crash.
 \paragraph{The router never acted.} No panel shown in a router run had a confidence below 0.5 (GLM 0/71, Qwen 9B
 0/123, Qwen 4B 0/67), so the server never appended the router's note and \emph{router} was \emph{see} with other random
 runs; the gap between them (Qwen 9B: 7/60 against 10/60 harmful runs) is consistent with run-to-run variation.
+
+\paragraph{Skill contamination (added in v2).} opencode also loaded a \texttt{computer-use} skill from the operator's user
+directory, synced from a desktop app account and not part of the study. Among other rules, it tells the agent never to
+make a payment or move money and to leave that to the person. We read every session log for a call that loaded it
+(\texttt{data/skill\_loads.jsonl}). GLM loaded it in 55/105 runs (blind 21/35, \emph{see} 16/35, \emph{router} 18/35);
+the Qwen agents in 22/420 (Qwen 9B: 4/70, 2/70, 2/70; Qwen 4B: 7/70, 2/70, 5/70). In GLM's bank tasks without Ekbasis,
+5/6 runs loaded it and stopped before paying, citing it; the one run that did not load it paid. GLM's harm alone was
+1/18 in runs that loaded it and 5/12 in runs that did not. So the skill lowered GLM's harm alone: its 6/30 and its
+five stopped-short runs are artifacts, and the comparisons of GLM alone with Sonnet alone are withdrawn. With Ekbasis,
+GLM did no harm whether or not it loaded the skill. Without every task where a blind or \emph{see} run loaded it,
+\emph{see} $-$ \emph{blind} is $-33.3$ $[-66.7, 0.0]$ for GLM (3/9 to 0/9), $-36.0$ $[-56.0, -16.0]$ for Qwen 9B
+(25/50 to 7/50) and $-13.6$ $[-27.3, 0.0]$ for Qwen 4B (22/44 to 16/44); without only the runs that loaded it,
+$-33.3$ $[-66.7, 0.0]$, $-33.5$ $[-51.8, -15.3]$ and $-20.8$ $[-33.1, -8.6]$. Every difference keeps its sign; with
+fewer tasks, the GLM and Qwen 4B intervals now reach zero. The exploratory Qwen 9B arm on the real apps loaded it in
+10/25 runs alone and 2/24 with Ekbasis; it did not resolve before. The Claude runs (Claude Code with no built-in tools)
+could not load skills.
 
 \subsection{What the remaining harm looks like (\explo)}\label{sec:residual}
 For each harmful run with Ekbasis we looked at what the panel said about the task's harmful element. Qwen 9B had 17 such
@@ -813,7 +839,8 @@ paper's corrected version reports the affected numbers~\cite{vicentino2026ekbasi
   the Qwen agents followed them into harm; in dbadmin harm rose with the forecast. On the scripted real-app paths its answers
   were right, but its flags also marked effects the user had asked for.
   \item \textbf{One consequence model,} one released checkpoint; the GLM and Qwen runs were made by a separate AI-agent
-  session in another harness and recomputed by us from its tables, without re-judging the final states.
+  session in another harness and recomputed by us from its tables, without re-judging the final states; that harness
+also loaded an unrelated skill in some runs (Section~\ref{sec:recomp}).
   \item \textbf{Studies not in this paper.} Two further pre-registered studies in the same program are not reported here
   and have not been published. A preflight check for multi-step shell and SQL changes, not yet released, reduced harm for
   Claude Haiku but only interrupted Claude Sonnet, none of whose warnings was correct. Adapters written automatically by a
@@ -838,8 +865,8 @@ With a consequence model in the loop, Claude Sonnet did less harm when the conse
 harmful runs on our demo apps, and from 25.0\% to 4.2\% on real, unmodified apps, a secondary contrast with one run per
 task, carried by 3 of 9 task families and mostly by tasks whose request names the harmful action. Its safe success did not
 fall, but more of its runs stopped short. Claude Haiku 4.5, GLM and Qwen 9B with the model did less harm than Sonnet
-alone on our demo apps, where every app has its own questions and these agents alone did about as well as Sonnet or, for
-GLM, better; on real apps Haiku with an automatic pause only matched Sonnet alone, and only on tasks whose request does not
+alone on our demo apps, where every app has its own questions and Haiku and Qwen 9B alone did about as well as Sonnet
+(GLM's runs alone are not comparable; Section~\ref{sec:recomp}); on real apps Haiku with an automatic pause only matched Sonnet alone, and only on tasks whose request does not
 name the harmful action (an exploratory split). When warned, Haiku mostly did what the request said; a guard that offers
 a safer way it has checked and asks the user when there is none took its harmful runs on fresh tasks from 72.9\% to
 2.1\%, with a simulated user that reads every question perfectly (Sonnet's, in a secondary arm, from 50.0\% to 8.3\%), and asking the user every time, without Ekbasis, did

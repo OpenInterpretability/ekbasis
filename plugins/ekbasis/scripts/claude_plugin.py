@@ -25,6 +25,9 @@ def configured():
 
 def cannot_run(why):
     """The hook's own fail-closed answer, for a hook that could not run (EKBASIS_FAIL_OPEN=1: let it through, on stderr)."""
+    if os.environ.get("EKBASIS_GUARD_MODE") == "log":
+        sys.stderr.write("ekbasis hook (log mode, not blocking): the hook could not run: {0}\n".format(why))
+        return ""
     if os.environ.get("EKBASIS_FAIL_OPEN") == "1":
         sys.stderr.write("ekbasis hook: cannot foresee ({0}); EKBASIS_FAIL_OPEN=1: letting it through\n".format(why))
         return ""

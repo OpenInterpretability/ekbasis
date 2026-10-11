@@ -1,6 +1,58 @@
 # Changelog
 
-## [Unreleased]
+## [0.1.12] — 2026-10-11
+
+### Added
+- **Intent check, experimental** (`ekbasis.intent_check`, [docs/INTENT_CHECK.md](docs/INTENT_CHECK.md), PRs #11 and
+  #12): before an agent's next tool call runs, whether it serves the user's request or carries out instructions that
+  came from content the agent read (indirect prompt injection). By default the input is the call only
+  (`agent_text=False`). Tool output is quoted line by line as untrusted data (`shield=True`; every kind of line break
+  is quoted). It fails closed. Experimental API: it may change without a major version. Measured results and limits
+  are in the doc and in `results/intent_check`.
+- **Migration guard** (`ekbasis/migrations.py`, `ekbasis migrate-check`, the GitHub Action
+  `actions/migration-guard`, [docs/MIGRATION_GUARD.md](docs/MIGRATION_GUARD.md)): before a pull request is merged,
+  whether its new PostgreSQL migrations lose data or fail.
+  - **Schema.** The base branch's migrations are applied to a scratch PostgreSQL (`EKBASIS_PG_URL`); the database is
+    created and dropped by the guard.
+  - **Statistics (optional).** They come from a read-only replica (`EKBASIS_DB_STATS_URL`), planner statistics only:
+    row estimates, NULL fractions and distinct counts. Never a value.
+  - **Transactional rule.** One transaction per file, as Prisma, Diesel and golang-migrate run it. `--autocommit`
+    gives `psql -f` semantics, which are also used for files that cannot run in a transaction.
+  - **Decided in code.** A migration that fails on the schema alone is decided in code, with PostgreSQL's error.
+  - **Questions.** They are the frozen questions of the pre-registered migrations study (cookbook `studies/migrations`),
+    with SQL comments removed.
+  - **Exit codes and output.** 0 / 2 / 3 as in the other checks (cannot foresee is risky; `--fail-open`). `--json`
+    and `--show-state` are available.
+  - **The Action.** It installs the client at its own version, starts `postgres:16` on the runner, writes a single pull
+    request comment and updates it on each push, and fails the check on risky or cannot foresee (`fail-on: risky`).
+    The comment carries paths, probabilities and reasons, never data values or secrets.
+  - **Untrusted SQL runs without privileges.** The pull request's SQL (and the base's) runs as a throwaway role made
+    for each check: not a superuser, no CREATEDB, CREATEROLE, REPLICATION or BYPASSRLS, owner of its throwaway
+    database only. The admin connection only creates and drops the database and the role. Migrations that need more
+    (`COPY ... TO PROGRAM`, `pg_read_file`, untrusted languages, `CREATE ROLE`) fail with "permission denied" and are
+    reported as cannot foresee. In the Action, the scratch PostgreSQL runs on an internal Docker network (no route
+    out), reached with `docker exec` (`EKBASIS_SCRATCH_PSQL`).
+  - **Reasons decided in code.** If a failure is foreseen in a transactional file: "may fail on existing data (X%);
+    nothing in the file would be applied" (plus "if it ran, it would also lose data (Y%)"). Otherwise: "may lose
+    existing data (Y%)". A migration that fails on the base's schema is reported as an error in the pull request itself
+    (for example, a migration it depends on is missing from the base). `--json` adds `kind`.
+  - **The comment treats paths and errors as untrusted.** They are cut, HTML and markdown are escaped, and @mentions
+    and links are broken. A migration that needs a superuser is marked "review this one by hand". The "About" link
+    points at the release tag's documentation.
+  - **Talking to PostgreSQL.** Only `psql` is used (`EKBASIS_PSQL`), so the client stays standard library only.
+  - **Tests.** `tests/test_migrations.py` runs offline with a fake model. Its PostgreSQL tests run in the new CI job
+    `migration guard (PostgreSQL 16)`, with a service container, and are skipped elsewhere.
+
+## [0.1.11] — 2026-10-10
+
+### Added
+- **Log-only hook mode** (`EKBASIS_GUARD_MODE=log`, from an outside tester's suggestion): the Claude Code hook never
+  blocks; it appends what it would have done (`ask`, `ask_cannot_foresee` or `pass`, the reason, the command and the
+  folder) to `~/.cache/ekbasis/hook_log.jsonl` (or `EKBASIS_HOOK_LOG`, file mode 600, nothing sent anywhere) and says
+  "would ask" on stderr, so a trial period shows what it would have stopped before it may stop anything. In the
+  plugin, a hook that cannot run also lets the command through in this mode, with the reason on stderr.
+
+## [0.1.10] — 2026-10-10
 
 ### Added
 - **Claude Code plugin and marketplace** (`.claude-plugin/marketplace.json`, plugin in `plugins/ekbasis/`, ~0.5 MB):
@@ -26,6 +78,43 @@
   (`io.github.OpenInterpretability/ekbasis`, with the `mcp-name` marker in the README).
 - GitHub Actions: `ci.yml` (tests on Linux with Python 3.9, 3.12 and 3.13 and on macOS; build, `twine check`, wheel
   contents, fresh-venv install, versions in agreement, the plugin's copy in sync and under 2 MB) and `publish.yml` (on a `v*` tag, PyPI Trusted Publishing).
+- **Safer route** (`ekbasis/safer.py`): when git commands are risky, `git-check` prints
+  `Safer: <commands>  (lose uncommitted work: N%)`, `--json` and the MCP tool `check_git_commands` add `safer`
+  (`{commands, p_lost, keeps}` or null) and `safer_note`, and the Claude Code hook adds the route to its message.
+  Candidates come from rules (stash before `reset --hard`, `checkout --`, `restore`, a forced switch; stash of what
+  `clean -n` lists; rename instead of `branch -D`; backup branches before dropping commits, stash entries or a
+  deleted remote branch; `--force-with-lease --force-if-includes` for a force-push), and each is checked by Ekbasis
+  with the same state builder and threshold and by the code checks; only one that passes is offered, else "none".
+  Off with `--no-safer`, `EKBASIS_SAFER=0`, or MCP `safer=false`. Measured on 9 classic losses x 3 against the hosted
+  API: a route on 22 of 27 rows (none for force-push then, sometimes none for `stash drop`), every one ran and kept
+  the work; the search added a median 4.8 s to the hook during that run, while another benchmark loaded the API
+  ([results/safer_route](results/safer_route/RESULTS.md)).
+- `docs/DOGEATING.md`: the guard catching its own operator (a destructive `kill` on the live serving
+  process, flagged retrospectively at 0.94-0.97 confidence, outside the training domains) and the
+  no-exceptions rule that came out of it.
+- `examples/zebra_review/`: the foreseer auditing an animation state machine it was never trained on
+  (the foot-sliding artifact, the stride/ground-speed arithmetic, the missing suspension phase, the
+  neck pump) — six foresee calls, every one useful; the honest record of what it does and does not do.
+
+### Fixed
+- **Force-push and `--force-with-lease`** (from an outside tester's report, confirmed on a bare remote): the safer route
+  for `push --force` is `git push --force-with-lease --force-if-includes` (git >= 2.30), which refuses while the remote
+  has commits the branch never had; `--force-with-lease` alone, or with an expected value read from the same state,
+  overwrote a fetched commit, so `remote_loss` now counts it as a force (an explicit value that differs from the
+  remote-tracking ref counts as safe: the push fails).
+- `remote_loss` checks a push against the branch its refspec names (`origin X`, `HEAD:X`, `src:dst`, `+X`), then the
+  upstream, then the branch of the same name; it used origin/HEAD for a branch without upstream, a false alarm. No
+  remote-tracking ref for the destination means a new branch: nothing to lose.
+- Deleting a remote branch (`push --delete X`, `push origin :X`) whose commits no other ref holds is flagged by the
+  hook (and gets a backup-branch route), and `git rebase --onto` counts the commits it drops in `committed_loss`.
+- With facts on, the state names the remote branches that push, branch and rebase commands name (`Remote origin/x last
+  commit: ...` and its file comparison) and the relative revisions of a `rebase --onto` (`HEAD~3 is commit ..., 3
+  commits before HEAD`). Without them the model expected the backup routes for these two cases to fail; with them both
+  passed 3 of 3 and kept the work when run. Other commands keep the previous state.
+- Lost committed work (`git.committed_loss`) now counts a new branch or tag made earlier in the line
+  (`git branch keep && git reset --hard HEAD~1` no longer asks).
+- The hook's force-push message no longer suggests `--force-with-lease` alone as the fix: it does not protect commits
+  that were already fetched (measured: it overwrote them); it suggests rebasing first or `--force-if-includes`.
 
 ## [0.1.9] — 2026-10-10
 
@@ -61,16 +150,6 @@
   branch has no upstream). The Claude Code hook asks with the reason: "force-pushes over N commit(s) that
   origin/main holds... or use --force-with-lease". Measured: diverged force-push asks; synced force-push and
   `--force-with-lease` stay silent. Gap found in the cookbook battery (09/10).
-
-## [Unreleased]
-
-### Added
-- `docs/DOGEATING.md`: the guard catching its own operator (a destructive `kill` on the live serving
-  process, flagged retrospectively at 0.94-0.97 confidence, outside the training domains) and the
-  no-exceptions rule that came out of it.
-- `examples/zebra_review/`: the foreseer auditing an animation state machine it was never trained on
-  (the foot-sliding artifact, the stride/ground-speed arithmetic, the missing suspension phase, the
-  neck pump) — six foresee calls, every one useful; the honest record of what it does and does not do.
 
 ## 0.1.6 (2026-10-06): preflight
 

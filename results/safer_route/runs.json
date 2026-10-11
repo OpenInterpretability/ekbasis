@@ -1,0 +1,598 @@
+[
+ {
+  "scenario": "reset --hard",
+  "command": "git reset --hard",
+  "p_lost": 0.989,
+  "model_risky": true,
+  "code": [],
+  "check_s": 6.52,
+  "search_s": 5.2,
+  "tried": 1,
+  "route": [
+   "git stash push",
+   "git reset --hard"
+  ],
+  "route_p_lost": 0.0026,
+  "note": "",
+  "hook_s_off": 4.49,
+  "hook_s_on": 9.34,
+  "hook_message": "Ekbasis: may permanently lose uncommitted work (99%). Commands: git reset --hard. Consider saving the work first (commit, or git stash -u). Safer route, checked by Ekbasis: `git stash push && git reset --hard` (lose uncommitted work: 0%; the discarded changes stay in a stash (git stash list; git stash pop brings them back)).",
+  "route_exit": 0,
+  "work_kept": true,
+  "rep": 0
+ },
+ {
+  "scenario": "reset --hard HEAD~1 (unpushed commit)",
+  "command": "git reset --hard HEAD~1",
+  "p_lost": 0.9883,
+  "model_risky": true,
+  "code": [
+   "moves branch main (1 commit that no other branch, tag or remote holds)"
+  ],
+  "check_s": 3.34,
+  "search_s": 5.16,
+  "tried": 1,
+  "route": [
+   "git stash push",
+   "git branch backup/main",
+   "git reset --hard HEAD~1"
+  ],
+  "route_p_lost": 0.0036,
+  "note": "",
+  "hook_s_off": 5.0,
+  "hook_s_on": 7.75,
+  "hook_message": "Ekbasis (committed work, checked by code): this line moves branch main (1 commit that no other branch, tag or remote holds). Keep a branch or tag on those commits first if you need them. Also: Ekbasis: may permanently lose uncommitted work (99%). Commands: git reset --hard 'HEAD~1'. Consider saving the work first (commit, or git stash -u). Safer route, checked by Ekbasis: `git stash push && git branch backup/main && git reset --hard 'HEAD~1'` (lose uncommitted work: 0%; the discarded changes stay in a stash (git stash list; git stash pop brings them back); the commits stay on branch backup/main).",
+  "route_exit": 0,
+  "work_kept": true,
+  "rep": 0
+ },
+ {
+  "scenario": "checkout -- file",
+  "command": "git checkout -- app.py",
+  "p_lost": 0.9883,
+  "model_risky": true,
+  "code": [],
+  "check_s": 4.14,
+  "search_s": 4.34,
+  "tried": 1,
+  "route": [
+   "git stash push -- app.py",
+   "git checkout -- app.py"
+  ],
+  "route_p_lost": 0.0081,
+  "note": "",
+  "hook_s_off": 4.14,
+  "hook_s_on": 13.2,
+  "hook_message": "Ekbasis: may permanently lose uncommitted work (99%). Commands: git checkout -- app.py. Consider saving the work first (commit, or git stash -u). Safer route, checked by Ekbasis: `git stash push -- app.py && git checkout -- app.py` (lose uncommitted work: 1%; the discarded changes stay in a stash (git stash list; git stash pop brings them back)).",
+  "route_exit": 0,
+  "work_kept": true,
+  "rep": 0
+ },
+ {
+  "scenario": "restore file",
+  "command": "git restore app.py",
+  "p_lost": 0.9876,
+  "model_risky": true,
+  "code": [],
+  "check_s": 6.76,
+  "search_s": 5.51,
+  "tried": 1,
+  "route": [
+   "git stash push -- app.py",
+   "git restore app.py"
+  ],
+  "route_p_lost": 0.0276,
+  "note": "",
+  "hook_s_off": 4.61,
+  "hook_s_on": 9.83,
+  "hook_message": "Ekbasis: may permanently lose uncommitted work (99%). Commands: git restore app.py. Consider saving the work first (commit, or git stash -u). Safer route, checked by Ekbasis: `git stash push -- app.py && git restore app.py` (lose uncommitted work: 3%; the discarded changes stay in a stash (git stash list; git stash pop brings them back)).",
+  "route_exit": 0,
+  "work_kept": true,
+  "rep": 0
+ },
+ {
+  "scenario": "checkout -f branch",
+  "command": "git checkout -f feature",
+  "p_lost": 0.989,
+  "model_risky": true,
+  "code": [],
+  "check_s": 2.66,
+  "search_s": 5.01,
+  "tried": 2,
+  "route": [
+   "git stash push",
+   "git checkout feature"
+  ],
+  "route_p_lost": 0.0028,
+  "note": "",
+  "hook_s_off": 2.44,
+  "hook_s_on": 9.07,
+  "hook_message": "Ekbasis: may permanently lose uncommitted work (99%). Commands: git checkout -f feature. Consider saving the work first (commit, or git stash -u). Safer route, checked by Ekbasis: `git stash push && git checkout feature` (lose uncommitted work: 0%; the discarded changes stay in a stash (git stash list; git stash pop brings them back)).",
+  "route_exit": 0,
+  "work_kept": true,
+  "rep": 0
+ },
+ {
+  "scenario": "clean -fd",
+  "command": "git clean -fd",
+  "p_lost": 0.9883,
+  "model_risky": true,
+  "code": [],
+  "check_s": 5.21,
+  "search_s": 5.08,
+  "tried": 1,
+  "route": [
+   "git stash push -u -- notes.txt scratch/"
+  ],
+  "route_p_lost": 0.0034,
+  "note": "",
+  "hook_s_off": 4.07,
+  "hook_s_on": 7.2,
+  "hook_message": "Ekbasis: may permanently lose uncommitted work (99%). Commands: git clean -fd. Consider saving the work first (commit, or git stash -u). Safer route, checked by Ekbasis: `git stash push -u -- notes.txt scratch/` (lose uncommitted work: 0%; the discarded changes stay in a stash (git stash list; git stash pop brings them back)).",
+  "route_exit": 0,
+  "work_kept": true,
+  "rep": 0
+ },
+ {
+  "scenario": "branch -D unmerged",
+  "command": "git branch -D unmerged",
+  "p_lost": 0.0004,
+  "model_risky": false,
+  "code": [
+   "deletes branch unmerged (1 commit that no other branch, tag or remote holds)"
+  ],
+  "check_s": 4.25,
+  "search_s": 2.49,
+  "tried": 1,
+  "route": [
+   "git branch -m unmerged backup/unmerged"
+  ],
+  "route_p_lost": 0.0004,
+  "note": "",
+  "hook_s_off": 0.09,
+  "hook_s_on": 3.69,
+  "hook_message": "Ekbasis (committed work, checked by code): this line deletes branch unmerged (1 commit that no other branch, tag or remote holds). Keep a branch or tag on those commits first if you need them. Safer route, checked by Ekbasis: `git branch -m unmerged backup/unmerged` (lose uncommitted work: 0%; the branch is renamed to backup/unmerged instead of deleted, so its commits stay).",
+  "route_exit": 0,
+  "work_kept": true,
+  "rep": 0
+ },
+ {
+  "scenario": "stash drop",
+  "command": "git stash drop",
+  "p_lost": 0.9868,
+  "model_risky": true,
+  "code": [],
+  "check_s": 5.04,
+  "search_s": 2.78,
+  "tried": 1,
+  "route": null,
+  "route_p_lost": null,
+  "note": "1 alternative checked, none passed",
+  "hook_s_off": 5.39,
+  "hook_s_on": 13.31,
+  "hook_message": "Ekbasis: may permanently lose uncommitted work (99%). Commands: git stash drop. Consider saving the work first (commit, or git stash -u). No safer route passed Ekbasis's check (1 alternative checked, none passed).",
+  "rep": 0
+ },
+ {
+  "scenario": "push --force over remote commits",
+  "command": "git push --force",
+  "p_lost": 0.0004,
+  "model_risky": false,
+  "code": [
+   "overwrites 1 commit(s) that origin/main holds"
+  ],
+  "check_s": 2.75,
+  "search_s": 3.12,
+  "tried": 2,
+  "route": null,
+  "route_p_lost": null,
+  "note": "2 alternatives checked, none passed",
+  "hook_s_off": 0.09,
+  "hook_s_on": 4.75,
+  "hook_message": "Ekbasis (remote work, checked by code): this line force-pushes over 1 commit(s) that origin/main holds and the local branch does not. Push or merge those commits first, or use --force-with-lease. No safer route passed Ekbasis's check (2 alternatives checked, none passed).",
+  "lease_alone": {
+   "exit": 0,
+   "remote_main": "mine"
+  },
+  "rep": 0
+ },
+ {
+  "scenario": "reset --hard",
+  "command": "git reset --hard",
+  "p_lost": 0.9897,
+  "model_risky": true,
+  "code": [],
+  "check_s": 2.84,
+  "search_s": 4.96,
+  "tried": 1,
+  "route": [
+   "git stash push",
+   "git reset --hard"
+  ],
+  "route_p_lost": 0.0026,
+  "note": "",
+  "hook_s_off": 3.6,
+  "hook_s_on": 8.2,
+  "hook_message": "Ekbasis: may permanently lose uncommitted work (99%). Commands: git reset --hard. Consider saving the work first (commit, or git stash -u). Safer route, checked by Ekbasis: `git stash push && git reset --hard` (lose uncommitted work: 0%; the discarded changes stay in a stash (git stash list; git stash pop brings them back)).",
+  "route_exit": 0,
+  "work_kept": true,
+  "rep": 1
+ },
+ {
+  "scenario": "reset --hard HEAD~1 (unpushed commit)",
+  "command": "git reset --hard HEAD~1",
+  "p_lost": 0.989,
+  "model_risky": true,
+  "code": [
+   "moves branch main (1 commit that no other branch, tag or remote holds)"
+  ],
+  "check_s": 4.71,
+  "search_s": 5.08,
+  "tried": 1,
+  "route": [
+   "git stash push",
+   "git branch backup/main",
+   "git reset --hard HEAD~1"
+  ],
+  "route_p_lost": 0.0034,
+  "note": "",
+  "hook_s_off": 3.15,
+  "hook_s_on": 7.75,
+  "hook_message": "Ekbasis (committed work, checked by code): this line moves branch main (1 commit that no other branch, tag or remote holds). Keep a branch or tag on those commits first if you need them. Also: Ekbasis: may permanently lose uncommitted work (99%). Commands: git reset --hard 'HEAD~1'. Consider saving the work first (commit, or git stash -u). Safer route, checked by Ekbasis: `git stash push && git branch backup/main && git reset --hard 'HEAD~1'` (lose uncommitted work: 0%; the discarded changes stay in a stash (git stash list; git stash pop brings them back); the commits stay on branch backup/main).",
+  "route_exit": 0,
+  "work_kept": true,
+  "rep": 1
+ },
+ {
+  "scenario": "checkout -- file",
+  "command": "git checkout -- app.py",
+  "p_lost": 0.9883,
+  "model_risky": true,
+  "code": [],
+  "check_s": 3.66,
+  "search_s": 4.21,
+  "tried": 1,
+  "route": [
+   "git stash push -- app.py",
+   "git checkout -- app.py"
+  ],
+  "route_p_lost": 0.0076,
+  "note": "",
+  "hook_s_off": 6.51,
+  "hook_s_on": 12.79,
+  "hook_message": "Ekbasis: may permanently lose uncommitted work (99%). Commands: git checkout -- app.py. Consider saving the work first (commit, or git stash -u). Safer route, checked by Ekbasis: `git stash push -- app.py && git checkout -- app.py` (lose uncommitted work: 1%; the discarded changes stay in a stash (git stash list; git stash pop brings them back)).",
+  "route_exit": 0,
+  "work_kept": true,
+  "rep": 1
+ },
+ {
+  "scenario": "restore file",
+  "command": "git restore app.py",
+  "p_lost": 0.9883,
+  "model_risky": true,
+  "code": [],
+  "check_s": 6.22,
+  "search_s": 7.8,
+  "tried": 1,
+  "route": [
+   "git stash push -- app.py",
+   "git restore app.py"
+  ],
+  "route_p_lost": 0.0276,
+  "note": "",
+  "hook_s_off": 6.33,
+  "hook_s_on": 10.08,
+  "hook_message": "Ekbasis: may permanently lose uncommitted work (99%). Commands: git restore app.py. Consider saving the work first (commit, or git stash -u). Safer route, checked by Ekbasis: `git stash push -- app.py && git restore app.py` (lose uncommitted work: 3%; the discarded changes stay in a stash (git stash list; git stash pop brings them back)).",
+  "route_exit": 0,
+  "work_kept": true,
+  "rep": 1
+ },
+ {
+  "scenario": "checkout -f branch",
+  "command": "git checkout -f feature",
+  "p_lost": 0.989,
+  "model_risky": true,
+  "code": [],
+  "check_s": 3.06,
+  "search_s": 2.91,
+  "tried": 2,
+  "route": [
+   "git stash push",
+   "git checkout feature"
+  ],
+  "route_p_lost": 0.0028,
+  "note": "",
+  "hook_s_off": 3.61,
+  "hook_s_on": 10.06,
+  "hook_message": "Ekbasis: may permanently lose uncommitted work (99%). Commands: git checkout -f feature. Consider saving the work first (commit, or git stash -u). Safer route, checked by Ekbasis: `git stash push && git checkout feature` (lose uncommitted work: 0%; the discarded changes stay in a stash (git stash list; git stash pop brings them back)).",
+  "route_exit": 0,
+  "work_kept": true,
+  "rep": 1
+ },
+ {
+  "scenario": "clean -fd",
+  "command": "git clean -fd",
+  "p_lost": 0.9868,
+  "model_risky": true,
+  "code": [],
+  "check_s": 2.62,
+  "search_s": 2.53,
+  "tried": 1,
+  "route": [
+   "git stash push -u -- notes.txt scratch/"
+  ],
+  "route_p_lost": 0.0038,
+  "note": "",
+  "hook_s_off": 3.55,
+  "hook_s_on": 8.39,
+  "hook_message": "Ekbasis: may permanently lose uncommitted work (99%). Commands: git clean -fd. Consider saving the work first (commit, or git stash -u). Safer route, checked by Ekbasis: `git stash push -u -- notes.txt scratch/` (lose uncommitted work: 0%; the discarded changes stay in a stash (git stash list; git stash pop brings them back)).",
+  "route_exit": 0,
+  "work_kept": true,
+  "rep": 1
+ },
+ {
+  "scenario": "branch -D unmerged",
+  "command": "git branch -D unmerged",
+  "p_lost": 0.0004,
+  "model_risky": false,
+  "code": [
+   "deletes branch unmerged (1 commit that no other branch, tag or remote holds)"
+  ],
+  "check_s": 3.06,
+  "search_s": 4.01,
+  "tried": 1,
+  "route": [
+   "git branch -m unmerged backup/unmerged"
+  ],
+  "route_p_lost": 0.0004,
+  "note": "",
+  "hook_s_off": 0.09,
+  "hook_s_on": 3.69,
+  "hook_message": "Ekbasis (committed work, checked by code): this line deletes branch unmerged (1 commit that no other branch, tag or remote holds). Keep a branch or tag on those commits first if you need them. Safer route, checked by Ekbasis: `git branch -m unmerged backup/unmerged` (lose uncommitted work: 0%; the branch is renamed to backup/unmerged instead of deleted, so its commits stay).",
+  "route_exit": 0,
+  "work_kept": true,
+  "rep": 1
+ },
+ {
+  "scenario": "stash drop",
+  "command": "git stash drop",
+  "p_lost": 0.9876,
+  "model_risky": true,
+  "code": [],
+  "check_s": 5.06,
+  "search_s": 3.47,
+  "tried": 1,
+  "route": [
+   "git branch backup/stash-0 stash@{0}",
+   "git stash drop"
+  ],
+  "route_p_lost": 0.1645,
+  "note": "",
+  "hook_s_off": 5.57,
+  "hook_s_on": 4.77,
+  "hook_message": "Ekbasis: may permanently lose uncommitted work (99%). Commands: git stash drop. Consider saving the work first (commit, or git stash -u). Safer route, checked by Ekbasis: `git branch backup/stash-0 stash@{0} && git stash drop` (lose uncommitted work: 19%; the stash entries stay on branch backup/stash-0).",
+  "route_exit": 0,
+  "work_kept": true,
+  "rep": 1
+ },
+ {
+  "scenario": "push --force over remote commits",
+  "command": "git push --force",
+  "p_lost": 0.0004,
+  "model_risky": false,
+  "code": [
+   "overwrites 1 commit(s) that origin/main holds"
+  ],
+  "check_s": 2.97,
+  "search_s": 3.61,
+  "tried": 2,
+  "route": null,
+  "route_p_lost": null,
+  "note": "2 alternatives checked, none passed",
+  "hook_s_off": 0.08,
+  "hook_s_on": 4.41,
+  "hook_message": "Ekbasis (remote work, checked by code): this line force-pushes over 1 commit(s) that origin/main holds and the local branch does not. Push or merge those commits first, or use --force-with-lease. No safer route passed Ekbasis's check (2 alternatives checked, none passed).",
+  "lease_alone": {
+   "exit": 0,
+   "remote_main": "mine"
+  },
+  "rep": 1
+ },
+ {
+  "scenario": "reset --hard",
+  "command": "git reset --hard",
+  "p_lost": 0.989,
+  "model_risky": true,
+  "code": [],
+  "check_s": 2.66,
+  "search_s": 5.33,
+  "tried": 1,
+  "route": [
+   "git stash push",
+   "git reset --hard"
+  ],
+  "route_p_lost": 0.0026,
+  "note": "",
+  "hook_s_off": 2.15,
+  "hook_s_on": 6.19,
+  "hook_message": "Ekbasis: may permanently lose uncommitted work (99%). Commands: git reset --hard. Consider saving the work first (commit, or git stash -u). Safer route, checked by Ekbasis: `git stash push && git reset --hard` (lose uncommitted work: 0%; the discarded changes stay in a stash (git stash list; git stash pop brings them back)).",
+  "route_exit": 0,
+  "work_kept": true,
+  "rep": 2
+ },
+ {
+  "scenario": "reset --hard HEAD~1 (unpushed commit)",
+  "command": "git reset --hard HEAD~1",
+  "p_lost": 0.9883,
+  "model_risky": true,
+  "code": [
+   "moves branch main (1 commit that no other branch, tag or remote holds)"
+  ],
+  "check_s": 3.1,
+  "search_s": 4.91,
+  "tried": 1,
+  "route": [
+   "git stash push",
+   "git branch backup/main",
+   "git reset --hard HEAD~1"
+  ],
+  "route_p_lost": 0.0034,
+  "note": "",
+  "hook_s_off": 3.31,
+  "hook_s_on": 8.28,
+  "hook_message": "Ekbasis (committed work, checked by code): this line moves branch main (1 commit that no other branch, tag or remote holds). Keep a branch or tag on those commits first if you need them. Also: Ekbasis: may permanently lose uncommitted work (99%). Commands: git reset --hard 'HEAD~1'. Consider saving the work first (commit, or git stash -u). Safer route, checked by Ekbasis: `git stash push && git branch backup/main && git reset --hard 'HEAD~1'` (lose uncommitted work: 0%; the discarded changes stay in a stash (git stash list; git stash pop brings them back); the commits stay on branch backup/main).",
+  "route_exit": 0,
+  "work_kept": true,
+  "rep": 2
+ },
+ {
+  "scenario": "checkout -- file",
+  "command": "git checkout -- app.py",
+  "p_lost": 0.9883,
+  "model_risky": true,
+  "code": [],
+  "check_s": 4.68,
+  "search_s": 8.83,
+  "tried": 1,
+  "route": [
+   "git stash push -- app.py",
+   "git checkout -- app.py"
+  ],
+  "route_p_lost": 0.0081,
+  "note": "",
+  "hook_s_off": 3.41,
+  "hook_s_on": 9.71,
+  "hook_message": "Ekbasis: may permanently lose uncommitted work (99%). Commands: git checkout -- app.py. Consider saving the work first (commit, or git stash -u). Safer route, checked by Ekbasis: `git stash push -- app.py && git checkout -- app.py` (lose uncommitted work: 1%; the discarded changes stay in a stash (git stash list; git stash pop brings them back)).",
+  "route_exit": 0,
+  "work_kept": true,
+  "rep": 2
+ },
+ {
+  "scenario": "restore file",
+  "command": "git restore app.py",
+  "p_lost": 0.9876,
+  "model_risky": true,
+  "code": [],
+  "check_s": 5.78,
+  "search_s": 4.43,
+  "tried": 1,
+  "route": [
+   "git stash push -- app.py",
+   "git restore app.py"
+  ],
+  "route_p_lost": 0.0276,
+  "note": "",
+  "hook_s_off": 4.3,
+  "hook_s_on": 9.32,
+  "hook_message": "Ekbasis: may permanently lose uncommitted work (99%). Commands: git restore app.py. Consider saving the work first (commit, or git stash -u). Safer route, checked by Ekbasis: `git stash push -- app.py && git restore app.py` (lose uncommitted work: 3%; the discarded changes stay in a stash (git stash list; git stash pop brings them back)).",
+  "route_exit": 0,
+  "work_kept": true,
+  "rep": 2
+ },
+ {
+  "scenario": "checkout -f branch",
+  "command": "git checkout -f feature",
+  "p_lost": 0.989,
+  "model_risky": true,
+  "code": [],
+  "check_s": 7.93,
+  "search_s": 7.81,
+  "tried": 2,
+  "route": [
+   "git stash push",
+   "git checkout feature"
+  ],
+  "route_p_lost": 0.0028,
+  "note": "",
+  "hook_s_off": 5.55,
+  "hook_s_on": 14.29,
+  "hook_message": "Ekbasis: may permanently lose uncommitted work (99%). Commands: git checkout -f feature. Consider saving the work first (commit, or git stash -u). Safer route, checked by Ekbasis: `git stash push && git checkout feature` (lose uncommitted work: 0%; the discarded changes stay in a stash (git stash list; git stash pop brings them back)).",
+  "route_exit": 0,
+  "work_kept": true,
+  "rep": 2
+ },
+ {
+  "scenario": "clean -fd",
+  "command": "git clean -fd",
+  "p_lost": 0.9876,
+  "model_risky": true,
+  "code": [],
+  "check_s": 4.65,
+  "search_s": 6.45,
+  "tried": 1,
+  "route": [
+   "git stash push -u -- notes.txt scratch/"
+  ],
+  "route_p_lost": 0.0032,
+  "note": "",
+  "hook_s_off": 7.37,
+  "hook_s_on": 11.46,
+  "hook_message": "Ekbasis: may permanently lose uncommitted work (99%). Commands: git clean -fd. Consider saving the work first (commit, or git stash -u). Safer route, checked by Ekbasis: `git stash push -u -- notes.txt scratch/` (lose uncommitted work: 0%; the discarded changes stay in a stash (git stash list; git stash pop brings them back)).",
+  "route_exit": 0,
+  "work_kept": true,
+  "rep": 2
+ },
+ {
+  "scenario": "branch -D unmerged",
+  "command": "git branch -D unmerged",
+  "p_lost": 0.0004,
+  "model_risky": false,
+  "code": [
+   "deletes branch unmerged (1 commit that no other branch, tag or remote holds)"
+  ],
+  "check_s": 5.52,
+  "search_s": 3.52,
+  "tried": 1,
+  "route": [
+   "git branch -m unmerged backup/unmerged"
+  ],
+  "route_p_lost": 0.0004,
+  "note": "",
+  "hook_s_off": 0.09,
+  "hook_s_on": 4.75,
+  "hook_message": "Ekbasis (committed work, checked by code): this line deletes branch unmerged (1 commit that no other branch, tag or remote holds). Keep a branch or tag on those commits first if you need them. Safer route, checked by Ekbasis: `git branch -m unmerged backup/unmerged` (lose uncommitted work: 0%; the branch is renamed to backup/unmerged instead of deleted, so its commits stay).",
+  "route_exit": 0,
+  "work_kept": true,
+  "rep": 2
+ },
+ {
+  "scenario": "stash drop",
+  "command": "git stash drop",
+  "p_lost": 0.9876,
+  "model_risky": true,
+  "code": [],
+  "check_s": 2.47,
+  "search_s": 3.89,
+  "tried": 1,
+  "route": null,
+  "route_p_lost": null,
+  "note": "1 alternative checked, none passed",
+  "hook_s_off": 2.69,
+  "hook_s_on": 8.08,
+  "hook_message": "Ekbasis: may permanently lose uncommitted work (99%). Commands: git stash drop. Consider saving the work first (commit, or git stash -u). No safer route passed Ekbasis's check (1 alternative checked, none passed).",
+  "rep": 2
+ },
+ {
+  "scenario": "push --force over remote commits",
+  "command": "git push --force",
+  "p_lost": 0.0004,
+  "model_risky": false,
+  "code": [
+   "overwrites 1 commit(s) that origin/main holds"
+  ],
+  "check_s": 6.15,
+  "search_s": 8.35,
+  "tried": 2,
+  "route": null,
+  "route_p_lost": null,
+  "note": "2 alternatives checked, none passed",
+  "hook_s_off": 0.09,
+  "hook_s_on": 7.08,
+  "hook_message": "Ekbasis (remote work, checked by code): this line force-pushes over 1 commit(s) that origin/main holds and the local branch does not. Push or merge those commits first, or use --force-with-lease. No safer route passed Ekbasis's check (2 alternatives checked, none passed).",
+  "lease_alone": {
+   "exit": 0,
+   "remote_main": "mine"
+  },
+  "rep": 2
+ }
+]

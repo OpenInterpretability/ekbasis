@@ -1,7 +1,8 @@
 """Command line.
 
   ekbasis git-check [--repo DIR] [--fetch] [--json] [--lost-threshold P] -- "git checkout feature" "git stash pop"
-      What the commands will do before they run.
+      What the commands will do before they run. When they are risky, also the safer route: the alternative with the
+      same intent that Ekbasis checked and found safe (ekbasis.safer), or "none"; --no-safer (or EKBASIS_SAFER=0) skips it.
   ekbasis shell-check [--cwd DIR] [--json] [--lost-threshold P] [--shell bash|zsh] -- "rm -r build/" "sort f > f"
       Prototype: what shell command lines will do to the files of a folder before they run (each argument is one line).
       --show-state prints the exact text the model read.
@@ -16,6 +17,14 @@
       3 cannot foresee, with --fail-closed. It runs the plan on a copy when it can (local files and SQLite; shell steps
       only inside the macOS sandbox, SQL where the sqlite3 tool is installed; --no-copy asks the model instead). --sql
       DB FILE checks a SQL file as `sqlite3 DB < FILE` would run it; --show-state prints what the model read.
+  ekbasis migrate-check [--base REF] [--head REF] [--glob G] [--pg-url URL] [--stats-url URL] [--autocommit] [--json]
+                        [FILE ...]
+      Before a pull request is merged: will its new PostgreSQL migrations lose data or fail? The schema is built by
+      applying the base's migrations to a scratch database (EKBASIS_PG_URL); optional row counts and NULL fractions come
+      from a read-only replica's planner statistics (EKBASIS_DB_STATS_URL; aggregates only, never values). A file runs
+      as one transaction, as Prisma, Diesel and golang-migrate run it; --autocommit for psql -f semantics. Exit codes:
+      0 no risk found; 2 risky; 3 cannot foresee (treat as risky; --fail-open turns it into 0). See
+      docs/MIGRATION_GUARD.md.
   ekbasis predict --rules TEXT --state TEXT --action A [--action B ...] --question TEXT [--options a,b,c] [--recap]
       One typed question about the outcome (yes/no when --options is not given). --recap repeats the rules right before
       the question; --recap-rule TEXT (repeatable) repeats only the rules you name.
@@ -32,8 +41,10 @@ import os
 import sys
 
 from . import git as G
+from . import migrations as M
 from . import preflight as PF
 from . import prompts as P
+from . import safer as SF
 from . import shell as S
 from .client import VERDICTS, CannotJudge, Ekbasis, EkbasisError, FeedbackRejected
 
@@ -65,6 +76,7 @@ def main(argv=None) -> int:
     g.add_argument("--lost-threshold", type=float, default=0.2)
     g.add_argument("--fail-threshold", type=float, default=0.5)
     g.add_argument("--fail-open", action="store_true", help="exit 0 (with a warning) when it cannot foresee")
+    g.add_argument("--no-safer", action="store_true", help="when risky, do not look for a safer route (one round trip)")
     g.add_argument("commands", nargs="+", help='each command as one argument, e.g. "git checkout main"')
     s = sub.add_parser("shell-check", help="check shell command lines before running them (prototype)")
     s.add_argument("--cwd", default=".", help="the folder the commands would run in")
@@ -86,6 +98,24 @@ def main(argv=None) -> int:
     f.add_argument("--fail-closed", action="store_true", help="treat \"cannot foresee\" as risky (exit 3)")
     f.add_argument("--no-copy", action="store_true", help="never run the plan on a copy; ask the model")
     f.add_argument("line", nargs="*", help='the command line, e.g. "bash scripts/migrate.sh"')
+    m = sub.add_parser("migrate-check", help="check new PostgreSQL migrations before a merge (data loss, failure)")
+    m.add_argument("--repo", default=".")
+    m.add_argument("--base", default=None, help="the base ref (e.g. origin/main): check the migrations added since")
+    m.add_argument("--head", default="HEAD")
+    m.add_argument("--glob", action="append", default=None,
+                   help="which files are migrations (fnmatch on the path, repeatable; default: Prisma, Diesel, "
+                        "*.up.sql and *migrations/*.sql)")
+    m.add_argument("--pg-url", default=None, help="scratch PostgreSQL server (default: EKBASIS_PG_URL)")
+    m.add_argument("--stats-url", default=None, help="read-only replica for planner statistics (default: "
+                                                      "EKBASIS_DB_STATS_URL)")
+    m.add_argument("--autocommit", action="store_true", help="statements commit one by one (psql -f), not one "
+                                                             "transaction per file")
+    m.add_argument("--lost-threshold", type=float, default=M.LOST_THRESHOLD)
+    m.add_argument("--fail-threshold", type=float, default=M.FAIL_THRESHOLD)
+    m.add_argument("--json", action="store_true")
+    m.add_argument("--show-state", action="store_true", help="print the exact text the model read")
+    m.add_argument("--fail-open", action="store_true", help="exit 0 (with a warning) when it cannot foresee")
+    m.add_argument("files", nargs="*", help="migration files to check (instead of --base)")
     p = sub.add_parser("predict", help="one question about the outcome of some actions")
     p.add_argument("--rules", required=True)
     p.add_argument("--state", required=True)
@@ -148,6 +178,26 @@ def main(argv=None) -> int:
             print(json.dumps({"answer": ans.value, "confidence": round(ans.confidence, 4),
                               "probabilities": {k: round(v, 4) for k, v in ans.probabilities.items()}}))
             return OK
+        if a.cmd == "migrate-check":
+            v = M.check(repo=a.repo, base=a.base, head=a.head, files=a.files or None,
+                        globs=tuple(a.glob) if a.glob else M.DEFAULT_GLOBS, pg_url=a.pg_url, stats_url=a.stats_url,
+                        autocommit=a.autocommit, client=client, lost_threshold=a.lost_threshold,
+                        fail_threshold=a.fail_threshold)
+            if a.json:
+                print(json.dumps(v.as_json(state=a.show_state)))
+            else:
+                print(v.summary())
+                if a.show_state:
+                    for f in v.files:
+                        print(f"\n--- what the model read for {f.path} ---\n{f.state}")
+            if v.risky:
+                return RISKY
+            if v.cannot_judge:
+                if a.fail_open:
+                    print("ekbasis: cannot foresee every migration; --fail-open: not treated as risky", file=sys.stderr)
+                    return OK
+                return CANNOT_JUDGE
+            return OK
         if a.cmd == "preflight":
             kw = {"fail_threshold": a.fail_threshold, "rows": not a.no_rows, "fail_closed": a.fail_closed,
                   "copy": not a.no_copy}
@@ -202,15 +252,22 @@ def main(argv=None) -> int:
             return CANNOT_JUDGE if v.cannot_judge else OK
         v = G.check(a.commands, repo=a.repo, client=client, fetch=a.fetch, lost_threshold=a.lost_threshold,
                     fail_threshold=a.fail_threshold, fail_closed=not a.fail_open)
+        route = None
+        if v.risky and not a.no_safer and os.environ.get("EKBASIS_SAFER", "1") != "0":
+            route = SF.search(v.commands, repo=a.repo, client=client, lost_threshold=a.lost_threshold,
+                              fail_threshold=a.fail_threshold, fail_closed=not a.fail_open)
         if a.json:
             print(json.dumps({"risky": v.risky, "judged": True, "p_lost": v.p_lost, "p_fail": v.p_fail,
                               "p_in_progress": v.p_in_progress, "branch": v.branch, "reasons": v.reasons,
-                              "commands": v.commands}))
+                              "commands": v.commands, "safer": route.as_json() if route else None,
+                              "safer_note": route.note if route and not route.route else None}))
         else:
             print(v.summary())
+            if route:
+                print(route.summary())
         return RISKY if v.risky else OK
     except CannotJudge as e:
-        if a.cmd in ("git-check", "shell-check", "preflight"):
+        if a.cmd in ("git-check", "shell-check", "preflight", "migrate-check"):
             return _cannot_judge(a, str(e))
         print(f"ekbasis: {e}", file=sys.stderr)
         return ERROR

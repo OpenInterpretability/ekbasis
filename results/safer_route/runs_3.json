@@ -1,0 +1,281 @@
+[
+ {
+  "scenario": "push --force over remote commits",
+  "command": "git push --force",
+  "p_lost": 0.0004,
+  "model_risky": false,
+  "code": [
+   "overwrites 1 commit(s) that origin/main holds"
+  ],
+  "check_s": 3.24,
+  "search_s": 3.21,
+  "tried": 1,
+  "route": [
+   "git push --force-with-lease --force-if-includes"
+  ],
+  "route_p_lost": 0.0005,
+  "note": "",
+  "hook_s_off": 0.12,
+  "hook_s_on": 3.24,
+  "hook_message": "Ekbasis (remote work, checked by code): this line force-pushes over 1 commit(s) that origin/main holds and the pushed commit does not. Integrate them first (git rebase), or push with --force-with-lease --force-if-includes, which refuses while they are not integrated; --force-with-lease alone does not protect commits that were already fetched. Safer route, checked by Ekbasis: `git push --force-with-lease --force-if-includes` (lose uncommitted work: 0%; rejected if the remote moved: fetch and rebase first (--force-if-includes refuses to overwrite remote commits this branch never had, fetched or not)).",
+  "route_exit": 1,
+  "work_kept": true,
+  "lease_alone": {
+   "exit": 0,
+   "remote_main": "mine"
+  },
+  "rep": 0
+ },
+ {
+  "scenario": "push --delete remote-only branch",
+  "command": "git push origin --delete gone",
+  "p_lost": 0.0003,
+  "model_risky": false,
+  "code": [
+   "deletes 1 commit(s) that origin/gone holds"
+  ],
+  "check_s": 5.58,
+  "search_s": 4.27,
+  "tried": 1,
+  "route": [
+   "git branch backup/origin-gone origin/gone",
+   "git push origin --delete gone"
+  ],
+  "route_p_lost": 0.0004,
+  "note": "",
+  "hook_s_off": 0.11,
+  "hook_s_on": 6.25,
+  "hook_message": "Ekbasis (remote work, checked by code): this line deletes the remote branch origin/gone, whose 1 commit(s) no other branch, tag or remote branch holds. Keep them on a branch first (git branch backup origin/gone). Safer route, checked by Ekbasis: `git branch backup/origin-gone origin/gone && git push origin --delete gone` (lose uncommitted work: 0%; the deleted branch's commits stay on branch backup/origin-gone).",
+  "route_exit": 0,
+  "work_kept": true,
+  "rep": 0
+ },
+ {
+  "scenario": "rebase --onto dropping commits",
+  "command": "git rebase --onto HEAD~3 HEAD~1",
+  "p_lost": 0.0007,
+  "model_risky": false,
+  "code": [
+   "moves branch main (2 commits that no other branch, tag or remote holds)"
+  ],
+  "check_s": 3.86,
+  "search_s": 6.02,
+  "tried": 1,
+  "route": [
+   "git stash push",
+   "git branch backup/main",
+   "git rebase --onto HEAD~3 HEAD~1"
+  ],
+  "route_p_lost": 0.001,
+  "note": "",
+  "hook_s_off": 0.14,
+  "hook_s_on": 5.84,
+  "hook_message": "Ekbasis (committed work, checked by code): this line moves branch main (2 commits that no other branch, tag or remote holds). Keep a branch or tag on those commits first if you need them. No safer route passed Ekbasis's check (1 alternative checked, none passed).",
+  "route_exit": 0,
+  "work_kept": true,
+  "rep": 0
+ },
+ {
+  "scenario": "control: push -f new branch, no upstream",
+  "command": "git push -f origin topic",
+  "p_lost": 0.0003,
+  "model_risky": false,
+  "code": [],
+  "check_s": 4.33,
+  "search_s": 0.0,
+  "tried": 0,
+  "route": null,
+  "route_p_lost": null,
+  "note": "not flagged",
+  "hook_s_off": 0.1,
+  "hook_s_on": 0.09,
+  "hook_message": null,
+  "rep": 0
+ },
+ {
+  "scenario": "push --force over remote commits",
+  "command": "git push --force",
+  "p_lost": 0.0004,
+  "model_risky": false,
+  "code": [
+   "overwrites 1 commit(s) that origin/main holds"
+  ],
+  "check_s": 3.16,
+  "search_s": 3.28,
+  "tried": 1,
+  "route": [
+   "git push --force-with-lease --force-if-includes"
+  ],
+  "route_p_lost": 0.0005,
+  "note": "",
+  "hook_s_off": 0.15,
+  "hook_s_on": 3.69,
+  "hook_message": "Ekbasis (remote work, checked by code): this line force-pushes over 1 commit(s) that origin/main holds and the pushed commit does not. Integrate them first (git rebase), or push with --force-with-lease --force-if-includes, which refuses while they are not integrated; --force-with-lease alone does not protect commits that were already fetched. Safer route, checked by Ekbasis: `git push --force-with-lease --force-if-includes` (lose uncommitted work: 0%; rejected if the remote moved: fetch and rebase first (--force-if-includes refuses to overwrite remote commits this branch never had, fetched or not)).",
+  "route_exit": 1,
+  "work_kept": true,
+  "lease_alone": {
+   "exit": 0,
+   "remote_main": "mine"
+  },
+  "rep": 1
+ },
+ {
+  "scenario": "push --delete remote-only branch",
+  "command": "git push origin --delete gone",
+  "p_lost": 0.0004,
+  "model_risky": false,
+  "code": [
+   "deletes 1 commit(s) that origin/gone holds"
+  ],
+  "check_s": 2.43,
+  "search_s": 4.27,
+  "tried": 1,
+  "route": [
+   "git branch backup/origin-gone origin/gone",
+   "git push origin --delete gone"
+  ],
+  "route_p_lost": 0.0004,
+  "note": "",
+  "hook_s_off": 0.11,
+  "hook_s_on": 4.62,
+  "hook_message": "Ekbasis (remote work, checked by code): this line deletes the remote branch origin/gone, whose 1 commit(s) no other branch, tag or remote branch holds. Keep them on a branch first (git branch backup origin/gone). Safer route, checked by Ekbasis: `git branch backup/origin-gone origin/gone && git push origin --delete gone` (lose uncommitted work: 0%; the deleted branch's commits stay on branch backup/origin-gone).",
+  "route_exit": 0,
+  "work_kept": true,
+  "rep": 1
+ },
+ {
+  "scenario": "rebase --onto dropping commits",
+  "command": "git rebase --onto HEAD~3 HEAD~1",
+  "p_lost": 0.0008,
+  "model_risky": false,
+  "code": [
+   "moves branch main (2 commits that no other branch, tag or remote holds)"
+  ],
+  "check_s": 4.17,
+  "search_s": 6.11,
+  "tried": 1,
+  "route": [
+   "git stash push",
+   "git branch backup/main",
+   "git rebase --onto HEAD~3 HEAD~1"
+  ],
+  "route_p_lost": 0.001,
+  "note": "",
+  "hook_s_off": 0.15,
+  "hook_s_on": 4.81,
+  "hook_message": "Ekbasis (committed work, checked by code): this line moves branch main (2 commits that no other branch, tag or remote holds). Keep a branch or tag on those commits first if you need them. No safer route passed Ekbasis's check (1 alternative checked, none passed).",
+  "route_exit": 0,
+  "work_kept": true,
+  "rep": 1
+ },
+ {
+  "scenario": "control: push -f new branch, no upstream",
+  "command": "git push -f origin topic",
+  "p_lost": 0.0003,
+  "model_risky": false,
+  "code": [],
+  "check_s": 5.13,
+  "search_s": 0.0,
+  "tried": 0,
+  "route": null,
+  "route_p_lost": null,
+  "note": "not flagged",
+  "hook_s_off": 0.12,
+  "hook_s_on": 0.1,
+  "hook_message": null,
+  "rep": 1
+ },
+ {
+  "scenario": "push --force over remote commits",
+  "command": "git push --force",
+  "p_lost": 0.0004,
+  "model_risky": false,
+  "code": [
+   "overwrites 1 commit(s) that origin/main holds"
+  ],
+  "check_s": 3.72,
+  "search_s": 3.75,
+  "tried": 1,
+  "route": [
+   "git push --force-with-lease --force-if-includes"
+  ],
+  "route_p_lost": 0.0005,
+  "note": "",
+  "hook_s_off": 0.21,
+  "hook_s_on": 2.6,
+  "hook_message": "Ekbasis (remote work, checked by code): this line force-pushes over 1 commit(s) that origin/main holds and the pushed commit does not. Integrate them first (git rebase), or push with --force-with-lease --force-if-includes, which refuses while they are not integrated; --force-with-lease alone does not protect commits that were already fetched. Safer route, checked by Ekbasis: `git push --force-with-lease --force-if-includes` (lose uncommitted work: 0%; rejected if the remote moved: fetch and rebase first (--force-if-includes refuses to overwrite remote commits this branch never had, fetched or not)).",
+  "route_exit": 1,
+  "work_kept": true,
+  "lease_alone": {
+   "exit": 0,
+   "remote_main": "mine"
+  },
+  "rep": 2
+ },
+ {
+  "scenario": "push --delete remote-only branch",
+  "command": "git push origin --delete gone",
+  "p_lost": 0.0003,
+  "model_risky": false,
+  "code": [
+   "deletes 1 commit(s) that origin/gone holds"
+  ],
+  "check_s": 3.71,
+  "search_s": 4.71,
+  "tried": 1,
+  "route": [
+   "git branch backup/origin-gone origin/gone",
+   "git push origin --delete gone"
+  ],
+  "route_p_lost": 0.0004,
+  "note": "",
+  "hook_s_off": 0.1,
+  "hook_s_on": 4.1,
+  "hook_message": "Ekbasis (remote work, checked by code): this line deletes the remote branch origin/gone, whose 1 commit(s) no other branch, tag or remote branch holds. Keep them on a branch first (git branch backup origin/gone). Safer route, checked by Ekbasis: `git branch backup/origin-gone origin/gone && git push origin --delete gone` (lose uncommitted work: 0%; the deleted branch's commits stay on branch backup/origin-gone).",
+  "route_exit": 0,
+  "work_kept": true,
+  "rep": 2
+ },
+ {
+  "scenario": "rebase --onto dropping commits",
+  "command": "git rebase --onto HEAD~3 HEAD~1",
+  "p_lost": 0.0007,
+  "model_risky": false,
+  "code": [
+   "moves branch main (2 commits that no other branch, tag or remote holds)"
+  ],
+  "check_s": 4.65,
+  "search_s": 4.51,
+  "tried": 1,
+  "route": [
+   "git stash push",
+   "git branch backup/main",
+   "git rebase --onto HEAD~3 HEAD~1"
+  ],
+  "route_p_lost": 0.001,
+  "note": "",
+  "hook_s_off": 0.15,
+  "hook_s_on": 5.84,
+  "hook_message": "Ekbasis (committed work, checked by code): this line moves branch main (2 commits that no other branch, tag or remote holds). Keep a branch or tag on those commits first if you need them. No safer route passed Ekbasis's check (1 alternative checked, none passed).",
+  "route_exit": 0,
+  "work_kept": true,
+  "rep": 2
+ },
+ {
+  "scenario": "control: push -f new branch, no upstream",
+  "command": "git push -f origin topic",
+  "p_lost": 0.0003,
+  "model_risky": false,
+  "code": [],
+  "check_s": 3.36,
+  "search_s": 0.0,
+  "tried": 0,
+  "route": null,
+  "route_p_lost": null,
+  "note": "not flagged",
+  "hook_s_off": 0.12,
+  "hook_s_on": 0.11,
+  "hook_message": null,
+  "rep": 2
+ }
+]

@@ -327,7 +327,43 @@ def demo_apps(N):
     N["agents_table"] = [{"agent": a, "runs_per_task": k, "alone": cell(rows, "blind"), "with": cell(rows, "see")} for a, k, rows in
                          (("Claude Sonnet 5.5", 2, fresh), ("Claude Haiku 4.5 (default thinking)", 1, hdef), ("Claude Haiku 4.5 (thinking off)", 1, hno),
                           ("GLM-5.3-Flash", 1, glm), ("Qwen 3.5 9B", 2, q9), ("Qwen 3.5 4B", 2, q4))]
+    skill_contamination(N, O)
     claims_check(N)
+
+
+def skill_contamination(N, O):
+    """Erratum v2: opencode also loaded a computer-use skill from the operator's user directory in some GLM and Qwen runs
+    (data/skill_loads.jsonl, one row per run, read from the session logs). Loads per arm, the GLM bank runs, and the
+    contrasts without the runs that loaded it and without every task where a blind or see run loaded it."""
+    L = {(r["agent"], r["task"], r["cond"], r["rep"]): r["skill_loaded"] for r in jl("skill_loads.jsonl") if r["set"] == "fresh_demo"}
+    rows = [dict(r, skill=L[(r["agent"], r["task"], r["cond"], r["rep"])]) for r in O]
+    out = {}
+    for name, agent in (("glm", "glm53flash"), ("qwen9b", "qwen35_9b"), ("qwen4b", "qwen35_4b")):
+        a = [r for r in rows if r["agent"] == agent]
+        harm = [r for r in a if r["kind"] == "harm"]
+        hit = {r["task"] for r in a if r["skill"] and r["cond"] in ("blind", "see")}
+        clean = [r for r in harm if not r["skill"]]
+        no_task = [r for r in harm if r["task"] not in hit]
+        out[name] = {"runs": frac(sum(r["skill"] for r in a), len(a)),
+                     "by_cond": {c: frac(sum(r["skill"] for r in a if r["cond"] == c), sum(r["cond"] == c for r in a)) for c in ("blind", "see", "router")},
+                     "blind_harm_loaded": frac(sum(r["harm"] for r in harm if r["cond"] == "blind" and r["skill"]),
+                                               sum(1 for r in harm if r["cond"] == "blind" and r["skill"])),
+                     "blind_harm_not_loaded": frac(sum(r["harm"] for r in harm if r["cond"] == "blind" and not r["skill"]),
+                                                   sum(1 for r in harm if r["cond"] == "blind" and not r["skill"])),
+                     "without_loaded_runs": {"see-blind": boot_task(clean, "harm", "see", "blind")},
+                     "without_tasks_with_load": {"see-blind": boot_task(no_task, "harm", "see", "blind"),
+                                                 "router-blind": boot_task(no_task, "harm", "router", "blind"),
+                                                 "harm": {c: count(no_task, c, "harm", "harm")["str"] for c in ("blind", "see")}}}
+    bank = [r for r in rows if r["agent"] == "glm53flash" and r["app"] == "bank" and r["kind"] == "harm" and r["cond"] == "blind"]
+    out["glm"]["bank_blind"] = {"loaded": frac(sum(r["skill"] for r in bank), len(bank)),
+                                "loaded_and_stopped_short": frac(sum(r["skill"] and not r["harm"] and not r["success"] for r in bank), len(bank)),
+                                "not_loaded_harm": frac(sum(r["harm"] for r in bank if not r["skill"]), sum(not r["skill"] for r in bank))}
+    out["qwen_both_runs"] = frac(sum(r["skill"] for r in rows if r["agent"] != "glm53flash"),
+                                 sum(r["agent"] != "glm53flash" for r in rows))
+    S = {r["run"]: r["skill_loaded"] for r in jl("skill_loads.jsonl") if r["set"] == "real_apps"}
+    ra = [r for r in jl("ra_runs.jsonl") if r["agent"] == "qwen9b" and not r["excluded"]]
+    out["qwen9b_real_apps"] = {c: frac(sum(bool(S[r["run"]]) for r in ra if r["cond"] == c), sum(r["cond"] == c for r in ra)) for c in ("blind", "see")}
+    N["skill_contamination"] = out
 
 
 def claims_check(N):

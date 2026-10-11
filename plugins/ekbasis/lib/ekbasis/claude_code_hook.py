@@ -41,14 +41,19 @@ is a denial, so the warning says so and the same command in the same session goe
 Install (after `pip install ./ekbasis`), in .claude/settings.json (one project) or ~/.claude/settings.json (all):
   {"hooks": {"PreToolUse": [{"matcher": "Bash",
                              "hooks": [{"type": "command", "command": "ekbasis-claude-hook", "timeout": 30}]}]}}
-env: EKBASIS_URL (server), EKBASIS_LOST_THRESHOLD (0.2), EKBASIS_GUARD_MODE (ask | deny), EKBASIS_FETCH (1: git fetch
+env: EKBASIS_URL (server), EKBASIS_LOST_THRESHOLD (0.2), EKBASIS_GUARD_MODE (ask | deny | log: never block, record what it would do in
+~/.cache/ekbasis/hook_log.jsonl or EKBASIS_HOOK_LOG), EKBASIS_FETCH (1: git fetch
 first so the state shows the real remote; slower), EKBASIS_SHELL_GUARD (1: also check other lines that change files),
 EKBASIS_FAIL_OPEN (1: stay silent when it cannot judge), EKBASIS_HOOK_DEADLINE (seconds, default 25, for the whole
 line: keep it below the hook's "timeout", or Claude Code stops the hook first and the command goes through unchecked),
 EKBASIS_SHORTCUTS (0: always ask the model, as 0.1.2 did), EKBASIS_PREFLIGHT (1: check multi-step changes before they run),
 EKBASIS_PREFLIGHT_REPEAT (1, the default: a warned command passes when it is run again in the same session),
 EKBASIS_GIT_GUARD (0: no git checks, for preflight alone), EKBASIS_PREFLIGHT_COPY (0: never run on a copy),
-EKBASIS_PREFLIGHT_FAIL_CLOSED (1: warn when preflight cannot judge).
+EKBASIS_PREFLIGHT_FAIL_CLOSED (1: warn when preflight cannot judge), EKBASIS_SAFER (0: no safer route).
+
+Safer route: when the hook warns about git commands, it also offers the alternative with the same intent that Ekbasis
+checked and found safe (ekbasis.safer), e.g. `git stash push && git reset --hard`, or says that none passed. It is
+searched last, in the time the deadline leaves; when the search cannot finish, the warning goes out without a route.
 
 Since 0.1.10, opt-in (a prototype): with EKBASIS_TOOL_GUARD=1, a call to any other tool (MCP tools, WebFetch, ...)
 that may change something goes to the tool guard (ekbasis.toolguard): the state is built from the session's transcript
@@ -74,6 +79,7 @@ from . import git as G
 from . import preflight as PF
 from . import prompts as P
 from . import recover as R
+from . import safer as SF
 from . import shell as S
 from . import toolguard as TG
 from .client import CannotJudge, Ekbasis
@@ -326,13 +332,48 @@ def plan_line(command: str, cwd: str) -> Plan:
     return plan
 
 
+_LOG_CTX: dict = {}   # the Bash call being checked, for EKBASIS_GUARD_MODE=log
+
+
+def _log_mode() -> bool:
+    return os.environ.get("EKBASIS_GUARD_MODE") == "log"
+
+
+def _log_path() -> str:
+    if os.environ.get("EKBASIS_HOOK_LOG"):
+        return os.environ["EKBASIS_HOOK_LOG"]
+    base = os.environ.get("EKBASIS_CACHE_DIR") or os.path.join(os.path.expanduser("~"), ".cache", "ekbasis")
+    return os.path.join(base, "hook_log.jsonl")
+
+
+def _shadow(decision: str, reason: str = "") -> None:
+    """EKBASIS_GUARD_MODE=log: never block; append what the hook would have done to a local JSONL file (this machine
+    only; nothing is sent anywhere) so a trial period shows what it would have stopped before it may stop anything."""
+    rec = {"t": round(time.time(), 3), "decision": decision, "reason": reason, **_LOG_CTX}
+    try:
+        path = _log_path()
+        os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
+        fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_APPEND, 0o600)
+        with os.fdopen(fd, "a") as f:
+            f.write(json.dumps(rec) + "\n")
+    except OSError as e:
+        print(f"ekbasis hook (log mode): could not write {_log_path()}: {e}", file=sys.stderr)
+    if decision != "pass":
+        print(f"ekbasis hook (log mode, not blocking): would {decision.replace('_', ' ')}: {reason}", file=sys.stderr)
+
+
 def _decide(reason: str) -> None:
+    if _log_mode():
+        return _shadow("ask", reason)
     mode = "deny" if os.environ.get("EKBASIS_GUARD_MODE") == "deny" else "ask"
     print(json.dumps({"hookSpecificOutput": {"hookEventName": "PreToolUse", "permissionDecision": mode,
                                              "permissionDecisionReason": reason}}))
 
 
 def _cannot_judge(why: str) -> int:
+    if _log_mode():
+        _shadow("ask_cannot_foresee", why)
+        return 0
     if os.environ.get("EKBASIS_FAIL_OPEN") == "1":
         print(f"ekbasis hook: cannot foresee ({why}); EKBASIS_FAIL_OPEN=1: letting it through", file=sys.stderr)
         return 0
@@ -453,6 +494,29 @@ def _tool_guard(data: dict) -> int:
     return 0
 
 
+def _safer_routes(groups: dict, flagged: set, client, threshold: float, left) -> list:
+    """One sentence per flagged repository: the safer route Ekbasis checked (ekbasis.safer), or that none passed.
+    Searched last, in the time left; a search that cannot finish leaves the warning without a route (never an unchecked
+    one). EKBASIS_SAFER=0 turns it off."""
+    if os.environ.get("EKBASIS_SAFER", "1") == "0":
+        return []
+    out = []
+    for (repo, is_fresh), cmds in groups.items():
+        if is_fresh or (repo not in flagged and not SF.code_problems(cmds, repo)):
+            continue
+        try:
+            s = _with_deadline(lambda: SF.search(cmds, repo=repo, client=client, lost_threshold=threshold), left())
+        except Exception as e:  # noqa: BLE001  (the deadline, or anything else: the warning goes out without a route)
+            print(f"ekbasis hook: no safer route ({e})", file=sys.stderr)
+            continue
+        if s.route:
+            out.append(f"Safer route, checked by Ekbasis: `{s.route.line()}` (lose uncommitted work: "
+                       f"{100 * s.route.p_lost:.0f}%; {'; '.join(s.route.keeps)}).")
+        else:
+            out.append(f"No safer route passed Ekbasis's check ({s.note}).")
+    return out
+
+
 def main() -> int:
     try:
         data = json.load(sys.stdin)
@@ -463,6 +527,7 @@ def main() -> int:
             return _tool_guard(data) if os.environ.get("EKBASIS_TOOL_GUARD") == "1" else 0
         line = (data.get("tool_input") or {}).get("command", "")
         cwd = data.get("cwd") or os.getcwd()
+        _LOG_CTX.update(command=line, cwd=cwd, session=data.get("session_id"))
         threshold = float(os.environ.get("EKBASIS_LOST_THRESHOLD", "0.2"))
         deadline = float(os.environ.get("EKBASIS_HOOK_DEADLINE", "25"))
         shortcuts = os.environ.get("EKBASIS_SHORTCUTS", "1") != "0"
@@ -486,10 +551,18 @@ def main() -> int:
                          "or tag on those commits first if you need them.")
         for st in plan.steps:
             for loss in G.remote_loss(st["repo"], [st["cmd"]]):
+                if loss["deleted"]:
+                    found.append(f"Ekbasis (remote work, checked by code): this line deletes the remote branch "
+                                 f"{loss['ref']}, whose {loss['commits']} commit(s) no other branch, tag or remote "
+                                 f"branch holds. Keep them on a branch first (git branch backup {loss['ref']}).")
+                    continue
                 found.append(f"Ekbasis (remote work, checked by code): this line force-pushes over {loss['commits']} "
-                             f"commit(s) that {loss['ref']} holds and the local branch does not. Push or merge those "
-                             "commits first, or use --force-with-lease.")
+                             f"commit(s) that {loss['ref']} holds and the pushed commit does not. Integrate them first "
+                             "(git rebase), or push with --force-with-lease --force-if-includes, which refuses while "
+                             "they are not integrated; --force-with-lease alone does not protect commits that were "
+                             "already fetched.")
         groups: dict = {}
+        flagged = set()   # repositories whose git commands the model found risky
         for st in plan.steps:
             groups.setdefault((st["repo"], st["fresh"] is not None), []).append(st["cmd"])
         for (repo, is_fresh), cmds in groups.items():
@@ -508,6 +581,7 @@ def main() -> int:
                                                fetch=os.environ.get("EKBASIS_FETCH") == "1",
                                                lost_threshold=threshold), left())
             if v.risky:
+                flagged.add(repo)
                 found.append(f"Ekbasis: {'; '.join(v.reasons)}. Commands: {' ; '.join(cmds)}. "
                              "Consider saving the work first (commit, or git stash -u).")
         if os.environ.get("EKBASIS_SHELL_GUARD") == "1" and plan.shell_line.strip() and changes_files(plan.shell_line):
@@ -521,12 +595,15 @@ def main() -> int:
             warn = _preflight(line, cwd, data.get("session_id"), client, left)
             if warn:
                 found.append(warn)
+        routes = _safer_routes(groups, flagged, client, threshold, left) if found else []
     except CannotJudge as e:
         return _cannot_judge(str(e))
     except Exception as e:  # noqa: BLE001  (anything else: cannot judge)
         return _cannot_judge(f"{type(e).__name__}: {e}")
     if found:
-        _decide(" Also: ".join(found))
+        _decide(" Also: ".join(found) + "".join(" " + r for r in routes))
+    elif _log_mode():
+        _shadow("pass")
     return 0
 
 
