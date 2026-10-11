@@ -214,7 +214,7 @@ def alembic_main(paths: list, root: str, command: str) -> None:
 RAILS_SCRIPT = r'''
 require "json"
 paths = JSON.parse(ENV.fetch("EKBASIS_PATHS"))
-versions = paths.map { |p| File.basename(p)[/\A(\d+)_/, 1] }
+versions = paths.map { |p| File.basename(p)[/\A(\d+)_/, 1].to_i }   # integers: "007_x.rb" is version 7
 sqls = Hash.new { |h, k| h[k] = [] }
 current = nil
 ActiveSupport::Notifications.subscribe("sql.active_record") do |*, payload|
@@ -225,8 +225,8 @@ ActiveSupport::Notifications.subscribe("sql.active_record") do |*, payload|
 end
 ctx = ActiveRecord::Base.connection_pool.migration_context
 out = []
-ctx.migrations.select { |m| versions.include?(m.version.to_s) }.sort_by(&:version).each do |m|
-  path = paths.find { |p| File.basename(p).start_with?("#{m.version}_") }
+ctx.migrations.select { |m| versions.include?(m.version.to_i) }.sort_by(&:version).each do |m|
+  path = paths.find { |p| File.basename(p)[/\A(\d+)_/, 1].to_i == m.version.to_i }
   current = m.version
   rec = { "path" => path, "name" => m.name, "transaction" => !m.disable_ddl_transaction, "python_ops" => [], "order" => m.version.to_i, "error" => nil }
   begin

@@ -109,6 +109,11 @@ class TestOffline(unittest.TestCase):
             os.environ.clear()
             os.environ.update(env)
 
+    def test_rails_versions_are_integers(self):
+        # Redmine's migrations are 001_x.rb ... 329_y.rb: Rails' version is 1, not "001"
+        self.assertIn("[/\\A(\\d+)_/, 1].to_i }", FW.RAILS_SCRIPT)
+        self.assertIn("versions.include?(m.version.to_i)", FW.RAILS_SCRIPT)
+
     def test_rails_ruby_ops(self):
         dsl = "class X < ActiveRecord::Migration[7.1]\n  def change\n    remove_column :users, :email, :string\n  end\nend\n"
         self.assertEqual(FW.rails_ruby_ops(dsl), [])

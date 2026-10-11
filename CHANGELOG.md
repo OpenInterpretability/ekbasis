@@ -10,6 +10,10 @@
     network. It is removed at the end. The generator gets `REDIS_URL`, `REDIS_HOST` and `REDIS_PORT`, and still has no
     route out (checked).
 
+### Fixed
+- **Rails renderer:** zero-padded migration versions (`001_create_users.rb`, as in Redmine) rendered nothing, because
+  the file's version was compared as text with Rails' integer version. They are now compared as integers.
+
 ### Changed
 - **Migration guard: "fails" is decided in code when the rows cannot make the migration fail.**
   - **The rule.** The migration has already run on the schema alone (the probe). If every statement can fail only
