@@ -62,13 +62,20 @@ runs:
       shell: bash
       run: python -m pip install --quiet --disable-pip-version-check "${{ github.action_path }}/../.."
 
-    - name: Start a scratch PostgreSQL
+    # The pull request's SQL runs here, as a throwaway role that is not a superuser (ekbasis.migrations.Scratch), in a
+    # container on an internal Docker network: no route out, no published port. The guard reaches it with
+    # `docker exec ... psql` (EKBASIS_SCRATCH_PSQL).
+    - name: Start a scratch PostgreSQL (no network)
       shell: bash
       env:
         IMAGE: ${{ inputs.postgres-image }}
       run: |
-        docker run -d --rm --name ekbasis-mg-pg -e POSTGRES_HOST_AUTH_METHOD=trust -p 127.0.0.1:55432:5432 "$IMAGE" >/dev/null
+        docker network create --internal ekbasis-mg-net >/dev/null
+        docker run -d --rm --name ekbasis-mg-pg --network ekbasis-mg-net -e POSTGRES_HOST_AUTH_METHOD=trust "$IMAGE" >/dev/null
         for i in $(seq 1 60); do docker exec ekbasis-mg-pg pg_isready -U postgres -q && break; sleep 1; done
+        w="$RUNNER_TEMP/ekbasis-scratch-psql"
+        printf '#!/bin/sh\nexec docker exec -i ekbasis-mg-pg psql "$@"\n' > "$w" && chmod +x "$w"
+        echo "EKBASIS_SCRATCH_PSQL=$w" >> "$GITHUB_ENV"
         command -v psql >/dev/null || (sudo apt-get update -qq && sudo apt-get install -y -qq postgresql-client >/dev/null)
 
     - name: Fetch the base branch
@@ -85,7 +92,7 @@ runs:
       env:
         EKBASIS_API_KEY: ${{ inputs.api-key }}
         EKBASIS_URL: ${{ inputs.api-url }}
-        EKBASIS_PG_URL: postgresql://postgres@127.0.0.1:55432/postgres
+        EKBASIS_PG_URL: postgresql://postgres@127.0.0.1:5432/postgres
         EKBASIS_DB_STATS_URL: ${{ inputs.db-stats-url }}
         EKBASIS_SURFACE: migration-guard-action
         BASE: ${{ inputs.base-ref || github.base_ref }}
@@ -108,6 +115,7 @@ runs:
 
     - name: Comment on the pull request
       if: ${{ (inputs.mode == 'comment' || inputs.mode == 'both') && github.event.pull_request.number }}
+      continue-on-error: true       # a fork's token cannot comment; the job summary still has the result
       shell: bash
       env:
         GH_TOKEN: ${{ inputs.github-token }}
@@ -126,7 +134,9 @@ runs:
     - name: Stop the scratch PostgreSQL
       if: always()
       shell: bash
-      run: docker stop ekbasis-mg-pg >/dev/null 2>&1 || true
+      run: |
+        docker stop ekbasis-mg-pg >/dev/null 2>&1 || true
+        docker network rm ekbasis-mg-net >/dev/null 2>&1 || true
 
     - name: Fail the check
       if: ${{ (inputs.mode == 'check' || inputs.mode == 'both') && inputs.fail-on == 'risky' && steps.check.outputs.verdict != 'ok' }}

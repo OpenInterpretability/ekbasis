@@ -20,6 +20,18 @@
   - **The Action.** It installs the client at its own version, starts `postgres:16` on the runner, writes a single pull
     request comment and updates it on each push, and fails the check on risky or cannot foresee (`fail-on: risky`).
     The comment carries paths, probabilities and reasons, never data values or secrets.
+  - **Untrusted SQL runs without privileges.** The pull request's SQL (and the base's) runs as a throwaway role made
+    for each check: not a superuser, no CREATEDB, CREATEROLE, REPLICATION or BYPASSRLS, owner of its throwaway
+    database only. The admin connection only creates and drops the database and the role. Migrations that need more
+    (`COPY ... TO PROGRAM`, `pg_read_file`, untrusted languages, `CREATE ROLE`) fail with "permission denied" and are
+    reported as cannot foresee. In the Action, the scratch PostgreSQL runs on an internal Docker network (no route
+    out), reached with `docker exec` (`EKBASIS_SCRATCH_PSQL`).
+  - **Reasons decided in code.** If a failure is foreseen in a transactional file: "may fail on existing data (X%);
+    nothing in the file would be applied" (plus "if it ran, it would also lose data (Y%)"). Otherwise: "may lose
+    existing data (Y%)". A migration that fails on the base's schema is reported as an error in the pull request itself
+    (for example, a migration it depends on is missing from the base). `--json` adds `kind`.
+  - **The comment treats paths and errors as untrusted.** They are cut, HTML and markdown are escaped, and @mentions
+    and links are broken.
   - **Talking to PostgreSQL.** Only `psql` is used (`EKBASIS_PSQL`), so the client stays standard library only.
   - **Tests.** `tests/test_migrations.py` runs offline with a fake model. Its PostgreSQL tests run in the new CI job
     `migration guard (PostgreSQL 16)`, with a service container, and are skipped elsewhere.

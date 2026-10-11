@@ -106,19 +106,51 @@ The Action:
 5. writes a single pull request comment and updates it on each push. If the pull request has no migration and no
    comment yet, it writes nothing.
 
-The comment has one line per migration: its verdict and the reason, such as "may lose existing data (97%)" or "fails
-even on an empty database: column "x" does not exist".
+The comment has one line per migration: its verdict and the reason. The reason is decided in code from the two answers:
+- "may fail on existing data (80%); nothing in the file would be applied", plus "; if it ran, it would also lose data
+  (90%)" when loss is also likely;
+- "may lose existing data (97%)" when no failure is foreseen;
+- "fails on the base branch's schema before touching any data: column "x" does not exist (an error in the pull request
+  itself, e.g. it depends on a migration missing from the base, or a typo)".
 
 With `mode: check` or `both` and `fail-on: risky`, the job fails when a migration is risky or cannot be foreseen. That
 fail-closed behavior is the same as the rest of the client, so the job can be a required status check. The result
 also goes to the job summary and to the outputs `verdict` (`ok`, `risky`, `cannot-foresee`) and `result` (the JSON
 path).
 
+**Security.**
+- **Trigger on `pull_request`, never on `pull_request_target`** with a checkout of the pull request's code. Under
+  `pull_request_target`, untrusted code runs with the base repository's secrets and a write token.
+- **Pull requests from forks get no secrets.** The API key is empty there, so the guard ends in "cannot foresee" and,
+  with `fail-on: risky`, fails the check. The fork's read-only token cannot comment either; that step only warns, and
+  the result is in the job summary. Choose one:
+  - set `fail-on: never` for forks:
+    `fail-on: ${{ github.event.pull_request.head.repo.full_name == github.repository && 'risky' || 'never' }}`;
+  - or run the job only for branches of the repository itself:
+    `if: github.event.pull_request.head.repo.full_name == github.repository`.
+- **Minimal permissions.** The workflow needs `contents: read` and `pull-requests: write`, nothing else.
+- **The pull request's SQL is untrusted, and it runs.** The guard runs it as a throwaway role made for each check: not
+  a superuser, no CREATEDB, CREATEROLE, REPLICATION or BYPASSRLS, owner of its throwaway database only. The Action
+  runs that PostgreSQL in a container on an internal Docker network, with no route out and no published port, reached
+  with `docker exec`.
+  - `COPY ... TO/FROM PROGRAM`, `pg_read_file`, `lo_import`, untrusted languages (`plpython3u`, `plperlu`),
+    `CREATE ROLE` and other statements that need privileges fail with "permission denied".
+  - The guard then reports **cannot foresee**, with the reason. It never runs a migration with more privileges.
+  - Trusted extensions (`pgcrypto`, `uuid-ossp`, `citext`, `pg_trgm`, `hstore`...) can be created by the database
+    owner, so they still work.
+
+  Residual risk: a bug in PostgreSQL itself that lets an ordinary role escape. The container's lack of network and
+  the runner's lifetime of one job limit what that could reach.
+- **On your own machine**, point `EKBASIS_PG_URL` at a scratch server, never at a database that matters. The guard
+  needs a role there that can create databases and roles, which it drops afterwards.
+
 **What it never sends or prints:**
 - **Data values:** none are read.
 - **Secrets:** the API key and the replica URL travel only as environment variables. The replica's URL and password
   are removed from any error the guard prints.
-- **What the comment shows:** file paths, probabilities, reasons and PostgreSQL error messages about the schema.
+- **What the comment shows:** file paths, probabilities, reasons and PostgreSQL error messages about the schema. Paths
+  and errors come from the pull request, so they are untrusted: they are cut to a few hundred characters, HTML and
+  markdown are escaped, and @mentions and links are broken with a zero-width space.
 
 ## How well it works
 

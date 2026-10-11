@@ -236,9 +236,19 @@ def psql_bin() -> str | None:
     return os.environ.get("EKBASIS_PSQL") or shutil.which("psql")
 
 
-def with_db(url: str, db: str) -> str:
+def scratch_psql() -> str | None:
+    """psql for the scratch server: EKBASIS_SCRATCH_PSQL (the Action points it at `docker exec` into a container with
+    no network), else the same psql as everything else."""
+    return os.environ.get("EKBASIS_SCRATCH_PSQL") or psql_bin()
+
+
+def with_db(url: str, db: str, user: str | None = None, password: str | None = None) -> str:
     u = urllib.parse.urlsplit(url)
-    return urllib.parse.urlunsplit((u.scheme, u.netloc, "/" + db, u.query, u.fragment))
+    netloc = u.netloc
+    if user:
+        host = netloc.rsplit("@", 1)[-1]
+        netloc = urllib.parse.quote(user) + (":" + urllib.parse.quote(password) if password else "") + "@" + host
+    return urllib.parse.urlunsplit((u.scheme, netloc, "/" + db, u.query, u.fragment))
 
 
 def redact(text: str, *urls) -> str:
@@ -255,6 +265,7 @@ class Pg:
     def __init__(self, url: str, psql: str | None = None):
         self.url = url
         self.psql = psql or psql_bin()
+        self.last_sqlstate = None
         if not self.psql:
             raise CannotJudge("psql is not installed (set EKBASIS_PSQL or put psql on PATH)")
 
@@ -277,44 +288,72 @@ class Pg:
         return json.loads(out) if out else None
 
     def apply(self, sql: str, transaction: bool = True) -> str | None:
-        """Run a migration file; the first error (None when it ran). transaction: one transaction, stop at the error."""
-        args = ["-v", "ON_ERROR_STOP=1", "--single-transaction"] if transaction else []
+        """Run a migration file; the first error (None when it ran), its SQLSTATE in last_sqlstate. transaction: one
+        transaction, stop at the error."""
+        args = ["-v", "VERBOSITY=verbose"] + (["-v", "ON_ERROR_STOP=1", "--single-transaction"] if transaction else [])
         rc, _, err = self.run(args + ["-f", "-"], stdin=sql)
+        code, msg = _first_error(err)
+        self.last_sqlstate = code
         if transaction:
-            return None if rc == 0 else (_first_error(err) or f"psql exit {rc}")
-        e = _first_error(err)
-        return e
+            return None if rc == 0 else (msg or f"psql exit {rc}")
+        return msg
 
 
-def _first_error(err: str) -> str | None:
+def _first_error(err: str) -> tuple:
     for line in err.splitlines():
-        m = re.search(r"ERROR:\s*(.*)", line)
+        m = re.search(r"ERROR:\s*(?:([0-9A-Z]{5}):\s*)?(.*)", line)
         if m:
-            return m.group(1).strip()[:300]
-    return None
+            return m.group(1), m.group(2).strip()[:300]
+    return None, None
+
+
+# Errors that mean the migration needs privileges the guard never grants: it is not run as a superuser.
+PRIVILEGE = re.compile(r"permission denied|must be (superuser|owner|a member)|only superusers?|privileges of "
+                       r"pg_(execute_server_program|read_server_files|write_server_files)", re.I)
+
+
+def needs_privilege(sqlstate: str | None, msg: str | None) -> bool:
+    return sqlstate in ("42501",) or bool(msg and PRIVILEGE.search(msg))
 
 
 class Scratch:
-    """A throwaway database on the scratch server: created on enter, dropped on exit."""
+    """A throwaway database on the scratch server, created on enter and dropped on exit with its role.
+
+    The migrations (the base's and the pull request's) run as a role made for this check alone: LOGIN, not a superuser,
+    no CREATEDB, CREATEROLE, REPLICATION or BYPASSRLS, owner of the throwaway database and nothing else. The admin
+    connection (EKBASIS_PG_URL) only creates and drops the database and the role. So `COPY ... TO PROGRAM`, untrusted
+    languages, `pg_read_file` and the like fail with "permission denied" instead of running on the server; such a
+    migration is reported as "cannot foresee", never run with more privileges."""
 
     def __init__(self, admin_url: str, psql: str | None = None):
-        self.admin = Pg(admin_url, psql)
-        self.name = "ekbasis_mg_" + secrets.token_hex(5)
+        self.admin = Pg(admin_url, psql or scratch_psql())
+        tag = secrets.token_hex(5)
+        self.name = "ekbasis_mg_" + tag
+        self.role = "ekbasis_mg_" + tag
+        self.password = secrets.token_hex(16)
         self.db = None
 
+    def _url(self, db: str) -> str:
+        return with_db(self.admin.url, db, self.role, self.password)
+
     def __enter__(self):
-        rc, _, err = self.admin.run(["-v", "ON_ERROR_STOP=1", "-c", f'CREATE DATABASE "{self.name}"'])
+        rc, _, err = self.admin.run(["-v", "ON_ERROR_STOP=1",
+                                     "-c", f'CREATE ROLE "{self.role}" LOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE '
+                                           f"NOREPLICATION NOBYPASSRLS PASSWORD '{self.password}'",
+                                     "-c", f'CREATE DATABASE "{self.name}" OWNER "{self.role}"'])
         if rc != 0:
-            raise CannotJudge(f"cannot create a scratch database: {err.strip()[:300]}")
-        self.db = Pg(with_db(self.admin.url, self.name), self.admin.psql)
+            self.__exit__()
+            raise CannotJudge(f"cannot create a scratch database: {redact(err, self.password).strip()[:300]}")
+        self.db = Pg(self._url(self.name), self.admin.psql)
         return self
 
     def clone(self) -> "Pg":
         name = self.name + "_" + secrets.token_hex(3)
-        rc, _, err = self.admin.run(["-v", "ON_ERROR_STOP=1", "-c", f'CREATE DATABASE "{name}" TEMPLATE "{self.name}"'])
+        rc, _, err = self.admin.run(["-v", "ON_ERROR_STOP=1", "-c",
+                                     f'CREATE DATABASE "{name}" TEMPLATE "{self.name}" OWNER "{self.role}"'])
         if rc != 0:
             raise CannotJudge(f"cannot copy the scratch database: {err.strip()[:300]}")
-        return Pg(with_db(self.admin.url, name), self.admin.psql)
+        return Pg(self._url(name), self.admin.psql)
 
     def drop(self, pg: "Pg"):
         name = urllib.parse.urlsplit(pg.url).path.lstrip("/")
@@ -323,6 +362,8 @@ class Scratch:
     def __exit__(self, *exc):
         if self.db:
             self.drop(self.db)
+        self.admin.run(["-c", f'DROP DATABASE IF EXISTS "{self.name}" WITH (FORCE)',
+                        "-c", f'DROP ROLE IF EXISTS "{self.role}"'])
 
 
 CATALOG = r"""
@@ -490,26 +531,43 @@ class FileVerdict:
     fail_threshold: float = FAIL_THRESHOLD
 
     @property
-    def reason(self) -> str:
+    def kind(self) -> str:
+        """Why it is risky, decided in code from the two answers (0.1.12): cannot_foresee, schema (fails on the base's
+        schema before any data: the pull request's own error), fails (may fail on existing data), loses, or ok."""
         if self.cannot_judge:
-            return f"cannot foresee: {self.cannot_judge}"
+            return "cannot_foresee"
         if self.schema_error:
-            return f"fails even on an empty database: {self.schema_error}"
-        out = []
-        if self.p_lost is not None and self.p_lost >= self.lost_threshold:
-            out.append(f"may lose existing data ({self.p_lost:.0%})")
+            return "schema"
         if self.p_fail is not None and self.p_fail >= self.fail_threshold:
-            out.append(f"may fail on existing data ({self.p_fail:.0%})" +
-                       ("; nothing in the file would be applied" if self.transaction else ""))
-        if not out:
-            out.append(f"no data loss or failure foreseen (lose {self.p_lost:.0%}, fail {self.p_fail:.0%})")
-        return "; ".join(out)
+            return "fails"
+        if self.p_lost is not None and self.p_lost >= self.lost_threshold:
+            return "loses"
+        return "ok"
+
+    @property
+    def reason(self) -> str:
+        k = self.kind
+        if k == "cannot_foresee":
+            return f"cannot foresee: {self.cannot_judge}"
+        if k == "schema":
+            return (f"fails on the base branch's schema before touching any data: {self.schema_error} (an error in "
+                    "the pull request itself, e.g. it depends on a migration missing from the base, or a typo)")
+        lose = self.p_lost is not None and self.p_lost >= self.lost_threshold
+        if k == "fails":
+            if self.transaction:
+                out = f"may fail on existing data ({self.p_fail:.0%}); nothing in the file would be applied"
+                return out + (f"; if it ran, it would also lose data ({self.p_lost:.0%})" if lose else "")
+            out = f"may fail on existing data ({self.p_fail:.0%}); the statements that do not fail stay applied"
+            return out + (f"; may lose existing data ({self.p_lost:.0%})" if lose else "")
+        if k == "loses":
+            return f"may lose existing data ({self.p_lost:.0%})"
+        return f"no data loss or failure foreseen (lose {self.p_lost:.0%}, fail {self.p_fail:.0%})"
 
     def as_json(self, state: bool = False) -> dict:
         d = {"path": self.path, "tool": self.tool, "transaction": self.transaction, "statements": self.statements,
              "risky": self.risky, "p_lost": self.p_lost, "p_fail": self.p_fail, "p_half": self.p_half,
              "schema_error": self.schema_error, "cannot_judge": self.cannot_judge, "cannot_foresee": self.cannot_judge,
-             "reason": self.reason, "notes": self.notes, "tables": self.shown}
+             "reason": self.reason, "kind": self.kind, "notes": self.notes, "tables": self.shown}
         if state:
             d["state"] = self.state
         return d
@@ -605,16 +663,18 @@ def check(repo: str = ".", base: str | None = None, head: str = "HEAD", files: l
                 # the schema: every migration of this folder on the base that sorts before the first new file
                 prior = [p for p in (src_base.list(folder)) if is_migration(p, globs) and tool_of(p) == tool
                          and set_dir(p) == folder and p not in fs and (files is None or p < fs[0])]
-                base_err = []
+                base_err, priv = [], False
                 for p in prior:
                     e = scratch.db.apply(src_base.read(p), transaction=True)
                     if e:
                         e2 = scratch.db.apply(src_base.read(p), transaction=False)
                         if e2:
                             base_err.append(f"{p}: {e2}")
+                            priv = priv or needs_privilege(scratch.db.last_sqlstate, e2)
                 if base_err:
                     notes.append(f"{len(base_err)} earlier migration(s) in {folder} did not apply cleanly on the "
-                                 f"scratch server (first: {base_err[0][:160]}); the schema may be incomplete")
+                                 f"scratch server (first: {base_err[0][:160]}); the schema may be incomplete" +
+                                 ("; the guard runs migrations without superuser privileges" if priv else ""))
                 for f in fs:
                     out.append(_check_file(f, tool, src_new.read(f), scratch, stats, autocommit, client,
                                            lost_threshold, fail_threshold, bool(base_err)))
@@ -638,8 +698,14 @@ def _check_file(path, tool, text, scratch, stats, autocommit, client, lt, ft, ba
     probe = scratch.clone()
     try:
         v.schema_error = probe.apply(text, transaction=tx)
+        sqlstate = probe.last_sqlstate
     finally:
         scratch.drop(probe)
+    if v.schema_error and needs_privilege(sqlstate, v.schema_error):
+        v.cannot_judge = ("it needs privileges the guard never grants (migrations run as a role that is not a superuser, "
+                          f"so it was not run): {v.schema_error}")
+        v.schema_error = None
+        return v
     if v.schema_error and base_dirty:
         v.cannot_judge = f"it fails on the scratch schema, which may be incomplete ({v.schema_error})"
         v.schema_error = None
@@ -669,6 +735,25 @@ def _check_file(path, tool, text, scratch, stats, autocommit, client, lt, ft, ba
 
 # ---------------------------------------------------------------- the pull request comment
 
+ZW = "\u200b"   # zero-width space: breaks @mentions and autolinks without changing what a reader sees
+MD_SPECIAL = re.compile(r"([\\`*_{}\[\]()#!|~>])")
+
+
+def md_safe(text, limit: int = 300) -> str:
+    """Untrusted text (a path or an error from the pull request) made inert in a GitHub comment: cut to `limit`
+    characters, HTML-escaped, markdown characters escaped, @mentions and links broken, on one line."""
+    t = " ".join(str(text or "").split())
+    if len(t) > limit:
+        t = t[:limit - 1] + "…"
+    t = t.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+    t = MD_SPECIAL.sub(r"\\\1", t)
+    t = re.sub(r"@(?=\w)", "@" + ZW, t)
+    t = re.sub(r"(?i)\b(https?|ftp|file)(:)(?=//)|\b(javascript|data|mailto)(:)(?=\S)",
+               lambda m: (m.group(1) or m.group(3)) + ZW + (m.group(2) or m.group(4)), t)
+    t = re.sub(r"(?i)\bwww\.", "www" + ZW + ".", t)
+    return t
+
+
 def comment(result: dict) -> str:
     """Markdown for the PR comment (one comment, updated in place: it starts with MARKER). Paths, probabilities and
     reasons only: the guard never reads data values, and nothing here comes from the environment."""
@@ -686,15 +771,16 @@ def comment(result: dict) -> str:
         lines += ["| Migration | Verdict | Why |", "|---|---|---|"]
         for f in files:
             tag = "cannot foresee" if f.get("cannot_judge") else "**risky**" if f.get("risky") else "ok"
-            why = (f.get("reason") or "").replace("|", "\\|").replace("\n", " ")
+            why = md_safe(f.get("reason"), 400)
             mode = "one transaction" if f.get("transaction") else "autocommit"
-            lines.append(f"| `{f['path']}` ({f.get('tool')}, {mode}) | {tag} | {why} |")
+            tool = f.get("tool") if f.get("tool") in TOOL_NAMES else "generic"
+            lines.append(f"| {md_safe(f.get('path'), 200)} ({tool}, {mode}) | {tag} | {why} |")
         lines.append("")
-    for n in result.get("notes") or []:
-        lines.append(f"- {n}")
+    for n in (result.get("notes") or [])[:10]:
+        lines.append(f"- {md_safe(n, 400)}")
     for f in files:
-        for n in f.get("notes") or []:
-            lines.append(f"- `{f['path']}`: {n}")
+        for n in (f.get("notes") or [])[:5]:
+            lines.append(f"- {md_safe(f.get('path'), 200)}: {md_safe(n, 400)}")
     lines += ["", "<sub>Ekbasis foresees from the schema (built from the base branch's migrations) and, when configured, "
               "aggregate statistics of a read-only replica; it never reads data values. [About](https://github.com/OpenInterpretability/ekbasis/blob/main/docs/"
               "MIGRATION_GUARD.md)</sub>"]

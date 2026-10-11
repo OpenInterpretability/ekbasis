@@ -6,6 +6,7 @@ from the base's migrations, a migration that fails on the schema alone (decided 
 read from an analyzed database without any value reaching the state, and the scratch databases dropped."""
 import io
 import json
+import re
 import os
 import shutil
 import subprocess
@@ -188,10 +189,43 @@ class TestComment(unittest.TestCase):
         body = M.comment(M.GuardVerdict([f1, f2], ["a note"]).as_json())
         self.assertTrue(body.startswith(M.MARKER))
         self.assertIn("**Risky:**", body)
-        self.assertIn("| `prisma/migrations/2/migration.sql` (prisma, one transaction) | **risky** | may lose existing "
-                      "data (97%) |", body)
-        self.assertIn("| `db/m/3.up.sql` (golang-migrate, autocommit) | ok | no data loss or failure foreseen", body)
+        self.assertIn("| prisma/migrations/2/migration.sql (prisma, one transaction) | **risky** | may lose existing "
+                      "data \\(97%\\) |", body)
+        self.assertIn("| db/m/3.up.sql (golang-migrate, autocommit) | ok | no data loss or failure foreseen", body)
         self.assertIn("- a note", body)
+
+    def test_reasons_are_decided_in_code(self):
+        def v(pl, pf, tx=True, **kw):
+            return M.FileVerdict("m.sql", "prisma", tx, p_lost=pl, p_fail=pf, **kw)
+        self.assertEqual(v(0.9, 0.8).kind, "fails")
+        self.assertEqual(v(0.9, 0.8).reason, "may fail on existing data (80%); nothing in the file would be applied; "
+                                             "if it ran, it would also lose data (90%)")
+        self.assertEqual(v(0.1, 0.8).reason, "may fail on existing data (80%); nothing in the file would be applied")
+        self.assertIn("the statements that do not fail stay applied; may lose existing data (90%)",
+                      v(0.9, 0.8, tx=False).reason)
+        self.assertEqual(v(0.9, 0.1).reason, "may lose existing data (90%)")
+        self.assertEqual(v(0.1, 0.1).kind, "ok")
+        s = v(0.0, 1.0, schema_error='column "replay_enabled" does not exist')
+        self.assertEqual(s.kind, "schema")
+        self.assertIn("an error in the pull request itself", s.reason)
+        self.assertIn("missing from the base", s.reason)
+
+    def test_untrusted_text_is_inert(self):
+        evil_path = "db/migrations/@octocat [x](https://evil.example) <img src=x onerror=1> `|` @org/team.up.sql"
+        f = M.FileVerdict(evil_path, "golang-migrate", True, p_lost=0.0, p_fail=1.0, risky=True,
+                          schema_error="relation \"@admins\" does not exist; see https://evil.example/" + "x" * 600)
+        body = M.comment(M.GuardVerdict([f], ["@here www.evil.example"]).as_json())
+        body = body.rsplit("\n", 1)[0]                    # the footer is ours (it has the docs link)
+        self.assertNotIn("<img", body)
+        self.assertNotIn("](", body)
+        self.assertNotIn("https://", body)
+        self.assertNotIn("www.evil", body)
+        for mention in ("@octocat", "@org", "@admins", "@here"):
+            self.assertNotIn(mention, body)
+        row = next(l for l in body.splitlines() if l.startswith("| db/"))
+        self.assertEqual(len(re.findall(r"(?<!\\)\|", row)), 4)   # 3 cells: a | in the input does not add one
+        self.assertLess(len(row), 900)                     # messages are cut
+        self.assertEqual(M.md_safe("a" * 50, 10), "a" * 9 + "…")
 
     def test_comment_from_cli_output(self):
         d = tempfile.mkdtemp()
@@ -240,6 +274,7 @@ class TestPostgres(unittest.TestCase):
         self.assertEqual(len(fake.requests), 1)                       # 003 decided in code, no model call
         self.assertTrue(b.risky)
         self.assertIn('column "nope" of relation "User" does not exist', b.reason)
+        self.assertEqual(b.kind, "schema")
         self.assertEqual((b.p_lost, b.p_fail), (0.0, 1.0))
         self.assertEqual(self.scratch_dbs(), before)                  # scratch databases dropped
 
@@ -265,6 +300,29 @@ class TestPostgres(unittest.TestCase):
             self.assertIn("nothing in the file would be applied", v.files[0].reason)
         finally:
             admin.run(["-c", f'DROP DATABASE IF EXISTS "{stats_db}" WITH (FORCE)'])
+
+    def test_malicious_migration_is_not_run_with_privileges(self):
+        marker = os.path.join(tempfile.gettempdir(), "ekbasis_pwned_" + os.urandom(4).hex())
+        write(self.root, "db/migrations/0001_init.up.sql", "CREATE TABLE t (a int);\n")
+        write(self.root, "db/migrations/0002_evil.up.sql",
+              f"COPY (SELECT 1) TO PROGRAM 'touch {marker}';\nCREATE TABLE u (b int);\n")
+        write(self.root, "db/migrations/0003_evil.up.sql", "SELECT pg_read_file('/etc/passwd');\n")
+        before = self.scratch_roles()
+        fake = Fake()
+        for f in ("db/migrations/0002_evil.up.sql", "db/migrations/0003_evil.up.sql"):
+            v = M.check(self.root, files=[f], pg_url=PG, client=fake)
+            self.assertTrue(v.cannot_judge, f)
+            self.assertIn("not a superuser", v.files[0].reason)
+        self.assertFalse(os.path.exists(marker))
+        self.assertEqual(fake.requests, [])                  # never sent to the model
+        self.assertEqual(self.scratch_roles(), before)        # the throwaway roles are dropped
+        out = io.StringIO()
+        with redirect_stdout(out):
+            rc = cli.main(["migrate-check", "--repo", self.root, "--pg-url", PG, "db/migrations/0002_evil.up.sql"])
+        self.assertEqual(rc, cli.CANNOT_JUDGE)
+
+    def scratch_roles(self):
+        return M.Pg(PG).json("SELECT COALESCE(json_agg(rolname), '[]') FROM pg_roles WHERE rolname LIKE 'ekbasis_mg_%'")
 
     def test_files_mode_autocommit(self):
         write(self.root, "db/migrations/0001_init.up.sql", "CREATE TABLE t (a int, b text);\n")
