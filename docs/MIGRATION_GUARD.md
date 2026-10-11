@@ -138,6 +138,26 @@ In the Action:
             DJANGO_SETTINGS_MODULE=myproject.settings
 ```
 
+**How well it works.** This was measured in a pre-registered evaluation of 390 real migrations from healthchecks,
+NetBox, Wagtail (Django), Airflow 2.10 and Prefect 3.4 (Alembic). Each migration was run by its own framework,
+RunPython included, on a seeded database; labels come from what happened.
+
+| | Django (235) | Alembic (155) |
+|---|---|---|
+| Verdict accuracy (rules on the rendered SQL) | 0.762 (0.762) | **0.884** (0.768) |
+| Recall on risky migrations | 0.942 | 0.960 |
+| Reason right, on risky migrations flagged | 0.490 | 0.583 |
+| False alarms on benign migrations | 0.290 | 0.131 |
+| Cannot foresee (Python that is not SQL) | 30.6% | 12.9% |
+
+Neither framework met every pre-registered target. Alembic passed accuracy and recall; Django passed recall only.
+- **Almost all of the gap is the "cannot foresee" policy.** RunPython and migrations that do not render count as risky
+  with no reason, and most of them were benign.
+- **On the migrations it answers** (298 of 390), the guard is right 95.0% of the time, its reason is right 95.0% of
+  the time, and it raises false alarms on 4.3% of benign migrations.
+- **What a team gets today, with Django:** a reliable check of the schema SQL. Every data migration in Python is flagged
+  for a person to review. With Alembic, it is better than regex rules.
+
 **Residual risk:**
 - **The setup step runs with network.** It installs the pull request's dependencies, as your test job already does.
   Keep it to dependency installation.

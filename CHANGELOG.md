@@ -17,6 +17,10 @@
   - **The bundle (JSON)** is checked by `migrate-check --bundle`. The API key is needed only there.
   - **Tests.** `tests/test_frameworks.py`: offline tests, PostgreSQL tests, and docker tests that render tiny Django
     and Alembic projects and check the isolation. Rails was smoke-tested locally, not in CI.
+  - **Measured** (pre-registered, 390 real migrations from 5 projects, labels by running each one with its framework).
+    Verdict accuracy is 0.762 for Django and 0.884 for Alembic; rules on the rendered SQL get 0.762 and 0.768. Neither
+    framework met every target. Most of the gap is that Python which is not SQL counts as "cannot foresee" (31% of the
+    Django migrations). On the migrations it answers, accuracy is 0.950. Details are in docs/MIGRATION_GUARD.md.
 
 ## [0.1.14] — 2026-10-11
 
