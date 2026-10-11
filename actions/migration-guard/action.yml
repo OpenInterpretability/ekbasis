@@ -1,0 +1,138 @@
+name: Ekbasis migration guard
+description: Before a pull request is merged, foresee whether its PostgreSQL migrations lose data or fail.
+author: OpenInterpretability
+branding:
+  icon: shield
+  color: blue
+
+inputs:
+  api-key:
+    description: Ekbasis API key (ekb_...). Pass it from a secret.
+    required: true
+  api-url:
+    description: Ekbasis server.
+    default: https://openinterp.org/api/v1
+  base-ref:
+    description: The branch the pull request merges into (default, the pull request's base).
+    default: ""
+  paths:
+    description: Which files are migrations, one fnmatch glob per line (default, Prisma, Diesel, *.up.sql and *migrations/*.sql).
+    default: ""
+  lost-threshold:
+    description: Risky when P(data lost) reaches this.
+    default: "0.5"
+  fail-threshold:
+    description: Risky when P(a statement fails) reaches this.
+    default: "0.5"
+  autocommit:
+    description: "true: statements commit one by one (psql -f). Default: one transaction per file, as Prisma, Diesel and golang-migrate run it."
+    default: "false"
+  mode:
+    description: "comment (one PR comment, updated on each push), check (the job fails when risky), or both."
+    default: both
+  fail-on:
+    description: "risky (fail on risky and on cannot foresee) or never."
+    default: risky
+  db-stats-url:
+    description: Optional read-only replica URL, from a secret. Only planner statistics are read (row estimates, NULL fractions, distinct counts), never values.
+    default: ""
+  postgres-image:
+    description: The scratch PostgreSQL the schema is built in.
+    default: postgres:16
+  github-token:
+    description: Token used to write the comment (needs pull-requests write).
+    default: ${{ github.token }}
+
+outputs:
+  verdict:
+    description: ok, risky or cannot-foresee.
+    value: ${{ steps.check.outputs.verdict }}
+  result:
+    description: Path of the JSON result.
+    value: ${{ steps.check.outputs.result }}
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-python@v5
+      with:
+        python-version: "3.12"
+
+    - name: Install the Ekbasis client (this action's version)
+      shell: bash
+      run: python -m pip install --quiet --disable-pip-version-check "${{ github.action_path }}/../.."
+
+    - name: Start a scratch PostgreSQL
+      shell: bash
+      env:
+        IMAGE: ${{ inputs.postgres-image }}
+      run: |
+        docker run -d --rm --name ekbasis-mg-pg -e POSTGRES_HOST_AUTH_METHOD=trust -p 127.0.0.1:55432:5432 "$IMAGE" >/dev/null
+        for i in $(seq 1 60); do docker exec ekbasis-mg-pg pg_isready -U postgres -q && break; sleep 1; done
+        command -v psql >/dev/null || (sudo apt-get update -qq && sudo apt-get install -y -qq postgresql-client >/dev/null)
+
+    - name: Fetch the base branch
+      shell: bash
+      env:
+        BASE: ${{ inputs.base-ref || github.base_ref }}
+      run: |
+        if [ "$(git rev-parse --is-shallow-repository)" = "true" ]; then git fetch --quiet --no-tags --unshallow origin; fi
+        git fetch --quiet --no-tags origin "+refs/heads/$BASE:refs/remotes/origin/$BASE"
+
+    - name: Foresee the new migrations
+      id: check
+      shell: bash
+      env:
+        EKBASIS_API_KEY: ${{ inputs.api-key }}
+        EKBASIS_URL: ${{ inputs.api-url }}
+        EKBASIS_PG_URL: postgresql://postgres@127.0.0.1:55432/postgres
+        EKBASIS_DB_STATS_URL: ${{ inputs.db-stats-url }}
+        EKBASIS_SURFACE: migration-guard-action
+        BASE: ${{ inputs.base-ref || github.base_ref }}
+        PATHS: ${{ inputs.paths }}
+        LOST: ${{ inputs.lost-threshold }}
+        FAIL: ${{ inputs.fail-threshold }}
+        AUTOCOMMIT: ${{ inputs.autocommit }}
+      run: |
+        out="$RUNNER_TEMP/ekbasis-migrations.json"
+        args=(migrate-check --base "origin/$BASE" --json --lost-threshold "$LOST" --fail-threshold "$FAIL")
+        while IFS= read -r g; do [ -n "$g" ] && args+=(--glob "$g"); done <<< "$PATHS"
+        [ "$AUTOCOMMIT" = "true" ] && args+=(--autocommit)
+        set +e; ekbasis "${args[@]}" > "$out"; rc=$?; set -e
+        case "$rc" in 0) v=ok;; 2) v=risky;; *) v=cannot-foresee;; esac
+        echo "verdict=$v" >> "$GITHUB_OUTPUT"
+        echo "result=$out" >> "$GITHUB_OUTPUT"
+        python -m ekbasis.migrations comment "$out" > "$RUNNER_TEMP/ekbasis-comment.md"
+        grep -v '^<!--' "$RUNNER_TEMP/ekbasis-comment.md" >> "$GITHUB_STEP_SUMMARY"
+        echo "Ekbasis migration guard: $v"
+
+    - name: Comment on the pull request
+      if: ${{ (inputs.mode == 'comment' || inputs.mode == 'both') && github.event.pull_request.number }}
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.github-token }}
+        REPO: ${{ github.repository }}
+        PR: ${{ github.event.pull_request.number }}
+      run: |
+        body="$RUNNER_TEMP/ekbasis-comment.md"
+        id=$(gh api "repos/$REPO/issues/$PR/comments" --paginate \
+             --jq '.[] | select(.body | startswith("<!-- ekbasis-migration-guard -->")) | .id' | head -n 1)
+        if [ -n "$id" ]; then
+          gh api -X PATCH "repos/$REPO/issues/comments/$id" -F "body=@$body" >/dev/null
+        elif ! grep -q "No new migration files" "$body"; then
+          gh api "repos/$REPO/issues/$PR/comments" -F "body=@$body" >/dev/null
+        fi
+
+    - name: Stop the scratch PostgreSQL
+      if: always()
+      shell: bash
+      run: docker stop ekbasis-mg-pg >/dev/null 2>&1 || true
+
+    - name: Fail the check
+      if: ${{ (inputs.mode == 'check' || inputs.mode == 'both') && inputs.fail-on == 'risky' && steps.check.outputs.verdict != 'ok' }}
+      shell: bash
+      env:
+        VERDICT: ${{ steps.check.outputs.verdict }}
+      run: |
+        echo "::error title=Ekbasis migration guard::$VERDICT (see the job summary or the pull request comment)"
+        exit 1

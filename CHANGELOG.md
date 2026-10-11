@@ -1,5 +1,29 @@
 # Changelog
 
+## [0.1.12] — 2026-10-11
+
+### Added
+- **Migration guard** (`ekbasis/migrations.py`, `ekbasis migrate-check`, the GitHub Action
+  `actions/migration-guard`, [docs/MIGRATION_GUARD.md](docs/MIGRATION_GUARD.md)): before a pull request is merged,
+  whether its new PostgreSQL migrations lose data or fail.
+  - **Schema.** The base branch's migrations are applied to a scratch PostgreSQL (`EKBASIS_PG_URL`); the database is
+    created and dropped by the guard.
+  - **Statistics (optional).** They come from a read-only replica (`EKBASIS_DB_STATS_URL`), planner statistics only:
+    row estimates, NULL fractions and distinct counts. Never a value.
+  - **Transactional rule.** One transaction per file, as Prisma, Diesel and golang-migrate run it. `--autocommit`
+    gives `psql -f` semantics, which are also used for files that cannot run in a transaction.
+  - **Decided in code.** A migration that fails on the schema alone is decided in code, with PostgreSQL's error.
+  - **Questions.** They are the frozen questions of the pre-registered migrations study (cookbook `studies/migrations`),
+    with SQL comments removed.
+  - **Exit codes and output.** 0 / 2 / 3 as in the other checks (cannot foresee is risky; `--fail-open`). `--json`
+    and `--show-state` are available.
+  - **The Action.** It installs the client at its own version, starts `postgres:16` on the runner, writes a single pull
+    request comment and updates it on each push, and fails the check on risky or cannot foresee (`fail-on: risky`).
+    The comment carries paths, probabilities and reasons, never data values or secrets.
+  - **Talking to PostgreSQL.** Only `psql` is used (`EKBASIS_PSQL`), so the client stays standard library only.
+  - **Tests.** `tests/test_migrations.py` runs offline with a fake model. Its PostgreSQL tests run in the new CI job
+    `migration guard (PostgreSQL 16)`, with a service container, and are skipped elsewhere.
+
 ## [0.1.11] — 2026-10-10
 
 ### Added
