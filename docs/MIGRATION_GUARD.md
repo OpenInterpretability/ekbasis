@@ -24,8 +24,7 @@ Before a pull request is merged: will its new PostgreSQL migrations **lose data*
 
   The guard writes this rule into the state. `--autocommit` (`autocommit: true` in the Action) switches to `psql -f`
   semantics, where each statement commits on its own and the next one runs after a failure. Files with `CONCURRENTLY`,
-  `ALTER TYPE ... ADD VALUE`, `VACUUM`, or their own `BEGIN`/`COMMIT` are checked with autocommit rules, and the
-  verdict says so.
+  `VACUUM`, `ALTER SYSTEM`, or their own `BEGIN`/`COMMIT` are checked with autocommit rules, and the verdict says so.
 - **A fact decided in code.** Each new migration is first run on the schema alone, with no rows. If it fails there
   (a missing column, a typo, a wrong type), it fails in production too. That decides the verdict, with PostgreSQL's
   error, and in a transactional file the model is not asked.

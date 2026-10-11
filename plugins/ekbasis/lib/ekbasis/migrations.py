@@ -149,8 +149,9 @@ def split_sql(text: str) -> list:
     return [re.sub(r"\n\s*\n+", "\n", s) for s in out]
 
 
-NO_TX = re.compile(r"\b(CONCURRENTLY|ALTER\s+TYPE\s+\S+\s+ADD\s+VALUE|VACUUM)\b|^\s*(BEGIN|COMMIT|START\s+TRANSACTION)\b",
-                   re.I | re.M)
+# Statements that cannot run inside a transaction block, or a file that manages its own transaction. (ALTER TYPE ... ADD
+# VALUE runs inside a transaction since PostgreSQL 12; only using the new value in the same transaction fails.)
+NO_TX = re.compile(r"\b(CONCURRENTLY|VACUUM|ALTER\s+SYSTEM)\b|^\s*(BEGIN|COMMIT|START\s+TRANSACTION)\b", re.I | re.M)
 
 
 # ---------------------------------------------------------------- finding the migrations
