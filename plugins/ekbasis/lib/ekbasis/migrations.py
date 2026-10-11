@@ -45,7 +45,8 @@ from .client import CannotJudge, Ekbasis, _cache_dir
 LOST_THRESHOLD = 0.5
 FAIL_THRESHOLD = 0.5
 MAX_TABLES = 8
-MAX_CHARS = 60000           # the hosted API reads up to 32k tokens; a bigger state is "cannot foresee"
+MAX_CHARS = 200000          # ~64k tokens (q99 0.31 token/char): the length up to which a pre-registered test found
+                            # no loss in verdict accuracy (11 Oct 2026); above it, "cannot foresee"
 PSQL_TIMEOUT = 120
 MARKER = "<!-- ekbasis-migration-guard -->"
 VERDICT_TTL_S = 30 * 86400  # a cached verdict is reused for this long
