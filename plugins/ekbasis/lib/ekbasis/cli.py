@@ -146,6 +146,9 @@ def main(argv=None) -> int:
                                                                 "by the scratch database's URL); never put secrets here")
     gg.add_argument("--migrate", default=None, help="the command that migrates the base (default per framework)")
     gg.add_argument("--command", default=None, help="Alembic: alembic (default) or 'flask db'")
+    gg.add_argument("--redis", choices=["auto", "on", "off"], default="auto",
+                    help="a throwaway Redis on the generator's internal network (auto: when the Gemfile or Python "
+                         "requirements depend on redis, sidekiq, celery...)")
     gg.add_argument("-o", "--output", default="-", help="the bundle file (default: stdout)")
     gg.add_argument("files", nargs="*", help="migration files to render (instead of --base)")
     p = sub.add_parser("predict", help="one question about the outcome of some actions")
@@ -216,7 +219,7 @@ def main(argv=None) -> int:
             try:
                 b = FW.generate(a.framework, repo=a.repo, base=a.base, head=a.head, paths=a.files or None,
                                 image=a.image, setup=a.setup, workdir=a.workdir, env=env, migrate=a.migrate,
-                                command=a.command)
+                                command=a.command, redis=a.redis)
             except FW.GenError as e:
                 b = {"framework": a.framework, "migrations": [], "error": str(e), "notes": [str(e)]}
                 print(f"ekbasis migrate-gen: {e}", file=sys.stderr)

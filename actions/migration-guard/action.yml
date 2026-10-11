@@ -60,6 +60,9 @@ inputs:
   alembic-command:
     description: alembic (default) or flask db.
     default: ""
+  redis:
+    description: "django/alembic/rails: a throwaway Redis on the generator's internal network (no route out, no published port), for projects whose migrations use it. auto (default: when the Gemfile or Python requirements depend on redis, sidekiq, celery...), on, or off."
+    default: auto
   on-code:
     description: "django/alembic: a migration with code that is not SQL (RunPython, no offline SQL) is listed as 'code not foreseen, review by hand' and does not fail the check (warn, default), or fails closed (block)."
     default: warn
@@ -142,12 +145,14 @@ runs:
         GEN_ENV: ${{ inputs.env }}
         MIGRATE: ${{ inputs.migrate-command }}
         ACOMMAND: ${{ inputs.alembic-command }}
+        REDIS: ${{ inputs.redis }}
       run: |
         args=(migrate-gen --framework "$FRAMEWORK" --base "origin/$BASE" --workdir "$WORKDIR" -o "$RUNNER_TEMP/ekbasis-bundle.json")
         [ -n "$IMAGE" ] && args+=(--image "$IMAGE")
         [ -n "$SETUP" ] && args+=(--setup "$SETUP")
         [ -n "$MIGRATE" ] && args+=(--migrate "$MIGRATE")
         [ -n "$ACOMMAND" ] && args+=(--command "$ACOMMAND")
+        [ -n "$REDIS" ] && args+=(--redis "$REDIS")
         while IFS= read -r kv; do [ -n "$kv" ] && args+=(--env "$kv"); done <<< "$GEN_ENV"
         ekbasis "${args[@]}" || true
 

@@ -2,7 +2,26 @@
 
 ## [Unreleased]
 
+### Added
+- **Migration guard, framework adapters: a throwaway Redis for projects that need it.**
+  - `migrate-gen --redis auto|on|off`; the Action's input is `redis`, default `auto`. `auto` turns it on when the
+    Gemfile or the Python requirements depend on redis, sidekiq, resque, kredis, celery, rq or django-redis.
+  - The Redis runs on the generator's internal network: no route out, no published port, nothing else on that
+    network. It is removed at the end. The generator gets `REDIS_URL`, `REDIS_HOST` and `REDIS_PORT`, and still has no
+    route out (checked).
+
 ### Changed
+- **Migration guard: "fails" is decided in code when the rows cannot make the migration fail.**
+  - **The rule.** The migration has already run on the schema alone (the probe). If every statement can fail only
+    because of the schema, existing data cannot make it fail, and P(fails) is set to 0. The model's answer is kept as
+    `p_fail_model`, and the file gets a note.
+  - **Statements that qualify:** drops, renames, new tables and their indexes, nullable or defaulted new columns, a
+    constraint or unique index on a table created by the same migration, a foreign key or unique constraint on columns
+    it just added as nullable, and the catalog-only `DO` block Rails writes for `create_enum`.
+  - **Statements that do not:** UPDATE/INSERT/DELETE, SET NOT NULL, type changes, constraints on existing rows, unique
+    or expression indexes on existing tables, and generated columns.
+  - **The reason this was needed.** In the Rails evaluation, 5 migrations that only dropped data were reported as
+    "may fail". This affects every framework and plain SQL; a pre-registered non-inferiority check covers it.
 - **`intent_check` flags a third party only when p is strictly above 0.5.** An exact 0.5 (two bf16 logits landing on
   the same value, about 0.5% of answers) is now "unsure". In two pre-registered replays of published attacks this lost
   no stopped attack and cut false alarms from 13 to 8 and from 7 to 4.

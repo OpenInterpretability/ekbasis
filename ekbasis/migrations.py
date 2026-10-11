@@ -1285,6 +1285,8 @@ class FileVerdict:
     code_not_foreseen: str | None = None  # framework migrations, on-code=warn: code that is not SQL (not blocking)
     decided: str | None = None          # a failure on existing data decided in code (probes: replica statistics)
     edited: bool = False                # the pull request edits this migration, which the base already has
+    fail_by_schema: bool = False        # "fails" decided in code: schema-only statements that ran on the schema
+    p_fail_model: float | None = None   # the model's P(fails) before that decision
 
     @property
     def kind(self) -> str:
@@ -1332,7 +1334,8 @@ class FileVerdict:
              "schema_error": self.schema_error, "cannot_judge": self.cannot_judge, "cannot_foresee": self.cannot_judge,
              "reason": self.reason, "kind": self.kind, "notes": self.notes, "tables": self.shown,
              "cached": self.cached, "code_not_foreseen": self.code_not_foreseen, "decided": self.decided,
-             "edited": self.edited}
+             "edited": self.edited, "fail_by_schema": self.fail_by_schema,
+             "p_fail_model": self.p_fail_model}
         if state:
             d["state"] = self.state
         return d
@@ -1501,6 +1504,115 @@ def _check_edited(path, src_base, src_new, globs, pg_url, psql, setup, stats, au
     return v
 
 
+# Statements whose success depends on the schema alone, never on the rows (PostgreSQL). If a migration made only of
+# these runs on the schema, data cannot make it fail. Conservative: anything not listed (UPDATE, ADD CONSTRAINT, SET
+# NOT NULL, a type change, a unique or expression index, a generated column, a DO block...) can depend on the data.
+_SO = [
+    r"DROP\s+(TABLE|VIEW|MATERIALIZED\s+VIEW|INDEX|SEQUENCE|TYPE|FUNCTION|PROCEDURE|TRIGGER|SCHEMA|DOMAIN)\b",
+    r"CREATE\s+(TABLE|SEQUENCE|TYPE|SCHEMA|DOMAIN)\b(?!.*\bAS\s*\()(?!.*\bAS\s+SELECT\b)(?!.*\bGENERATED\b)",
+    r"CREATE\s+(OR\s+REPLACE\s+)?(VIEW|FUNCTION|PROCEDURE|TRIGGER)\b",
+    r"CREATE\s+INDEX\s+(CONCURRENTLY\s+)?(IF\s+NOT\s+EXISTS\s+)?(\"?\w+\"?\s+)?ON\s+[\w.\"]+\s*(USING\s+\w+\s*)?"
+    r"\(\s*\"?\w+\"?(\s*,\s*\"?\w+\"?)*\s*\)\s*$",
+    r"COMMENT\s+ON\b", r"GRANT\b", r"REVOKE\b",
+    r"ALTER\s+(INDEX|SEQUENCE|VIEW)\b.*\bRENAME\b",
+]
+_SO_ALTER = [   # one ALTER TABLE action each
+    r"DROP\s+(COLUMN\s+)?(IF\s+EXISTS\s+)?\"?\w+\"?(\s+(CASCADE|RESTRICT))?",
+    r"DROP\s+CONSTRAINT\b.*", r"RENAME\b.*",
+    r"ALTER\s+(COLUMN\s+)?\"?\w+\"?\s+(SET\s+DEFAULT\b.*|DROP\s+DEFAULT|DROP\s+NOT\s+NULL)",
+    r"ADD\s+(COLUMN\s+)?(IF\s+NOT\s+EXISTS\s+)?\"?\w+\"?\s+[\w\s(),.\"\[\]]+?"
+    r"(?<!NOT NULL)$",                                                        # nullable, no default needed
+    r"ADD\s+(COLUMN\s+)?(IF\s+NOT\s+EXISTS\s+)?\"?\w+\"?\s+.*\bDEFAULT\b.*",   # with a default (NULL or not)
+]
+
+
+def _split_alter_actions(rest: str) -> list:
+    out, depth, cur = [], 0, []
+    for ch in rest:
+        if ch == "(":
+            depth += 1
+        elif ch == ")":
+            depth -= 1
+        if ch == "," and depth == 0:
+            out.append("".join(cur).strip())
+            cur = []
+        else:
+            cur.append(ch)
+    out.append("".join(cur).strip())
+    return [x for x in out if x]
+
+
+def schema_only(stmt: str) -> bool:
+    """True when this statement can fail only because of the schema (never because of the rows)."""
+    s = " ".join(outside_bodies(stmt).split())
+    if re.search(r"\b(GENERATED|NOT\s+VALID|USING\s*\(|WHERE)\b", s, re.I) and not re.match(r"(DROP|COMMENT|GRANT|REVOKE)\b", s, re.I):
+        return False
+    if any(re.match(p, s, re.I | re.S) for p in _SO):
+        return True
+    m = re.match(r"ALTER\s+TABLE\s+(IF\s+EXISTS\s+)?(ONLY\s+)?[\w.\"]+\s+(.*)$", s, re.I | re.S)
+    if m:
+        acts = _split_alter_actions(m.group(3))
+        return bool(acts) and all(any(re.fullmatch(p, a, re.I | re.S) for p in _SO_ALTER) and
+                                  not re.search(r"\bTYPE\b|\bUSING\b|\bGENERATED\b", a, re.I) and
+                                  not (re.match(r"ADD\b", a, re.I) and re.search(r"NOT\s+NULL", a, re.I) and
+                                       not re.search(r"\bDEFAULT\b", a, re.I)) and
+                                  not re.search(r"\b(PRIMARY\s+KEY|UNIQUE|REFERENCES|CHECK)\b", a, re.I)
+                                  for a in acts)
+    return False
+
+
+_IDENT = r'"?([A-Za-z_][\w$]*)"?'
+_CATALOG_DO = re.compile(r"^DO\s+\$(\w*)\$\s*BEGIN\s+IF\s+NOT\s+EXISTS\s*\(\s*SELECT\s+1\s+FROM\s+pg_\w+.*?\)\s*THEN\s+"
+                         r"CREATE\s+TYPE\s+[^;]+;\s*END\s+IF;\s*END\s*\$\1\$$", re.I | re.S)
+
+
+def _table(name: str) -> str:
+    return name.split(".")[-1].strip('"').lower()
+
+
+def schema_only_plan(stmts: list) -> bool:
+    """True when no statement of the migration can fail because of the rows: each is schema_only(), or it only touches
+    rows that cannot exist yet. A table created earlier in the migration is empty, so an index (unique or not) or a
+    constraint on it is checked against no row; a column added earlier as nullable with no default is NULL in every
+    row, so a foreign key or unique constraint on it holds for every row. A DO block that only creates an enum type if
+    the catalog lacks it (what Rails writes for create_enum) reads no table row."""
+    created, null_cols = set(), set()
+    for raw in stmts:
+        s = " ".join(raw.split())
+        m = re.match(r"CREATE\s+TABLE\s+(IF\s+NOT\s+EXISTS\s+)?([\w.\"]+)", s, re.I)
+        if m and schema_only(raw):
+            created.add(_table(m.group(2)))
+            continue
+        if _CATALOG_DO.match(raw.strip()):
+            continue
+        m = re.match(r"CREATE\s+(UNIQUE\s+)?INDEX\s+(CONCURRENTLY\s+)?(IF\s+NOT\s+EXISTS\s+)?(\S+\s+)?ON\s+(ONLY\s+)?([\w.\"]+)",
+                     s, re.I)
+        if m and _table(m.group(6)) in created:
+            continue
+        m = re.match(r"ALTER\s+TABLE\s+(IF\s+EXISTS\s+)?(ONLY\s+)?([\w.\"]+)\s+(.*)$", s, re.I)
+        if m:
+            t, acts, ok = _table(m.group(3)), _split_alter_actions(m.group(4)), True
+            for a in acts:
+                if t in created and re.match(r"ADD\s+CONSTRAINT\b", a, re.I):
+                    continue                                          # on an empty table
+                fk = re.match(r"ADD\s+(CONSTRAINT\s+\S+\s+)?(FOREIGN\s+KEY|UNIQUE)\s*\(([^)]*)\)", a, re.I)
+                if fk and all((t, c.strip().strip('"').lower()) in null_cols for c in fk.group(3).split(",")):
+                    continue                                          # every row has NULL there
+                if schema_only(f"ALTER TABLE {m.group(3)} {a}"):
+                    am = re.match(r"ADD\s+(COLUMN\s+)?(IF\s+NOT\s+EXISTS\s+)?" + _IDENT + r"\s+(.*)$", a, re.I)
+                    if am and not re.search(r"\b(DEFAULT|NOT\s+NULL)\b", am.group(4), re.I):
+                        null_cols.add((t, am.group(3).lower()))
+                    continue
+                ok = False
+                break
+            if ok:
+                continue
+            return False
+        if not schema_only(raw):
+            return False
+    return bool(stmts)
+
+
 def _check_file(path, tool, text, scratch, stats, autocommit, client, lt, ft, base_dirty, cache=None) -> FileVerdict:
     stmts = split_sql(text)
     fnotes = []
@@ -1562,6 +1674,12 @@ def _check_file(path, tool, text, scratch, stats, autocommit, client, lt, ft, ba
     v.p_half = probs.get("half")
     if v.schema_error:
         v.p_fail = 1.0
+    elif schema_only_plan(stmts):
+        # Decided in code: every statement's success depends on the schema alone, and the migration just ran on the
+        # schema (the probe above). Data cannot make it fail; only what the schema copy lacks or a lock timeout can.
+        v.p_fail_model, v.p_fail, v.fail_by_schema = v.p_fail, 0.0, True
+        v.notes.append("cannot fail on existing data: every statement depends on the schema alone, and it ran on the "
+                       "base schema")
     v.risky = bool(v.schema_error) or v.p_lost >= lt or v.p_fail >= ft
     return v
 

@@ -80,6 +80,25 @@ class TestOffline(unittest.TestCase):
         self.assertEqual(FW.alembic_revisions('revision = "m"\ndown_revision = ("a1", "b2")\n'), ("m", "a1", True))
         self.assertEqual(FW.alembic_revisions('revision = "a1"\ndown_revision = None\n'), ("a1", None, False))
 
+    def test_uses_redis(self):
+        d = tempfile.mkdtemp()
+        try:
+            git(d, "init", "-q", "-b", "main")
+            with open(os.path.join(d, "Gemfile"), "w") as fh:
+                fh.write("source 'https://rubygems.org'\ngem 'rails'\ngem \"sidekiq\", '~> 7'\n")
+            os.makedirs(os.path.join(d, "api"))
+            with open(os.path.join(d, "api", "requirements.txt"), "w") as fh:
+                fh.write("django>=4\ncelery==5.4\n")
+            git(d, "add", "-A")
+            git(d, "commit", "-qm", "x")
+            self.assertEqual(FW.uses_redis(d, "HEAD"), (True, "Gemfile depends on sidekiq"))
+            os.remove(os.path.join(d, "Gemfile"))
+            git(d, "commit", "-qam", "y")
+            self.assertEqual(FW.uses_redis(d, "HEAD")[0], False)
+            self.assertEqual(FW.uses_redis(d, "HEAD", "api"), (True, "api/requirements.txt depends on celery"))
+        finally:
+            shutil.rmtree(d)
+
     def test_rails_is_off_by_default(self):
         env = dict(os.environ)
         os.environ.pop("EKBASIS_EXPERIMENTAL_RAILS", None)
@@ -224,6 +243,7 @@ class TestGenerate(unittest.TestCase):
         b = FW.generate("django", repo=self.root, base="main", setup='pip install -q "django>=4.2" "psycopg[binary]"',
                         log=lambda m: None)
         self.assertEqual(b["isolation"], "no route out")
+        self.assertEqual(b["services"]["redis"], "off")          # auto: the fixture has no Redis dependency
         self.assertIn("CREATE TABLE public.shop_customer", b["base_schema"])
         m2, m3 = b["migrations"]
         self.assertEqual(m2["path"], "shop/migrations/0002_remove_email.py")
@@ -234,6 +254,16 @@ class TestGenerate(unittest.TestCase):
             v = M.check_bundle(b, pg_url=PG, client=Fake(lost=0.9), cache=M.VerdictCache(off=True))
             self.assertTrue(v.files[0].risky)
             self.assertEqual(v.files[1].kind, "code_not_foreseen")
+
+    def test_redis_on_the_internal_network(self):
+        self.repo("django", {"0002_remove_email.py": "shop/migrations/0002_remove_email.py"})
+        b = FW.generate("django", repo=self.root, base="main", redis="on",
+                        setup='pip install -q "django>=4.2" "psycopg[binary]"', log=lambda m: None)
+        self.assertEqual(b["isolation"], "no route out")          # still no route out
+        self.assertEqual(b["services"]["redis"], "reachable")      # but the Redis on the same network is there
+        self.assertIn('DROP COLUMN "email"', b["migrations"][0]["sql"])
+        names = subprocess.run(["docker", "ps", "-a", "--format", "{{.Names}}"], capture_output=True, text=True).stdout
+        self.assertNotIn("ekbasis-mg-redis-", names)                # removed at the end
 
     def test_alembic(self):
         self.repo("alembic", {"b2_drop_email.py": "migrations/versions/b2_drop_email.py",

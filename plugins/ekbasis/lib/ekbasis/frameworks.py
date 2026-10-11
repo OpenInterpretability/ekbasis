@@ -308,6 +308,27 @@ def _client_tar() -> bytes:
     return buf.getvalue()
 
 
+REDIS_MODES = ("auto", "on", "off")
+REDIS_IMAGE = "redis:7-alpine"
+REDIS_GEM = re.compile(r"""^\s*gem\s+['"](redis|redis-client|sidekiq|resque|kredis|redis-namespace|hiredis)['"]""", re.M)
+REDIS_PY = re.compile(r"""(?im)^\s*["']?(redis|celery|rq|django-redis|django-rq|hiredis)\b""")
+
+
+def uses_redis(repo: str, ref: str = "HEAD", workdir: str = ".") -> tuple:
+    """(whether the project depends on Redis, why): a Gemfile with redis, sidekiq, resque or kredis, or Python
+    requirements / pyproject with redis, celery, rq or django-redis."""
+    dirs = [""] + ([workdir.strip("/") + "/"] if workdir.strip("/.") else [])
+    for d, (name, pat) in ((d, x) for d in dirs for x in (("Gemfile", REDIS_GEM), ("requirements.txt", REDIS_PY),
+                                                           ("pyproject.toml", REDIS_PY))):
+        path = d + name
+        rc, text = _read_ref(repo, ref, path)
+        if rc == 0:
+            m = pat.search(text)
+            if m:
+                return True, f"{path} depends on {m.group(1)}"
+    return False, "no Redis dependency found"
+
+
 def discover(framework: str, repo: str, base: str, head: str = "HEAD", globs=None) -> tuple:
     from . import migrations as M
     added, modified = M.changed_files(repo, base, head)
@@ -318,7 +339,7 @@ def discover(framework: str, repo: str, base: str, head: str = "HEAD", globs=Non
 def generate(framework: str, repo: str = ".", base: str | None = None, head: str = "HEAD", paths: list | None = None,
              image: str | None = None, setup: str | None = None, workdir: str = ".", env: dict | None = None,
              migrate: str | None = None, command: str | None = None, pg_image: str = PG_IMAGE,
-             log=None) -> dict:
+             log=None, redis: str = "auto") -> dict:
     """The bundle for the new migrations of a change (see the module doc). paths: the files to render (default: the
     framework's migrations added between the merge base of base and head)."""
     if framework not in FRAMEWORKS:
@@ -338,8 +359,12 @@ def generate(framework: str, repo: str = ".", base: str | None = None, head: str
     if not paths:
         return bundle
     image = image or ("ruby:3.3" if framework == "rails" else "python:3.12-slim")
+    if redis not in REDIS_MODES:
+        raise ValueError(f"redis must be one of {', '.join(REDIS_MODES)}")
+    want_redis, why = (redis == "on", "--redis on") if redis != "auto" else uses_redis(repo, head, workdir)
     tag = secrets.token_hex(4)
     net, pg, gen = f"ekbasis-mg-net-{tag}", f"ekbasis-mg-pg-{tag}", f"ekbasis-mg-gen-{tag}"
+    rds = f"ekbasis-mg-redis-{tag}"
     role, pw, db = f"ekbasis_mg_{tag}", secrets.token_hex(16), f"ekbasis_mg_{tag}"
     started = []
     try:
@@ -347,6 +372,14 @@ def generate(framework: str, repo: str = ".", base: str | None = None, head: str
         started.append(("network", net))
         _docker("run", "-d", "--rm", "--name", pg, "--network", net, "-e", "POSTGRES_HOST_AUTH_METHOD=trust", pg_image)
         started.append(("container", pg))
+        bundle["services"] = {"redis": "off", "redis_reason": why}
+        if want_redis:
+            # a throwaway Redis on the same internal network: no published port, no password needed (nothing else can
+            # reach it), removed with everything else
+            _docker("run", "-d", "--rm", "--name", rds, "--network", net, REDIS_IMAGE, "redis-server", "--save", "",
+                    "--appendonly", "no")
+            started.append(("container", rds))
+            bundle["services"]["redis"] = "on"
         _docker("run", "-d", "--rm", "--name", gen, "--entrypoint", "sleep", image, "infinity")
         started.append(("container", gen))
         log(f"generator {image}: copying the base and head trees")
@@ -374,6 +407,10 @@ def generate(framework: str, repo: str = ".", base: str | None = None, head: str
         if bundle["isolation"] != "no route out":
             raise GenError("the generator container still reaches the network after it was moved to the internal "
                            "network; refusing to run the pull request's code")
+        if want_redis:
+            seen = _docker("exec", gen, "sh", "-c", f"getent hosts {rds} >/dev/null 2>&1 && echo yes || echo no",
+                           check=False)
+            bundle["services"]["redis"] = "reachable" if b"yes" in seen.stdout else "not reachable"
         for _ in range(60):
             if _docker("exec", pg, "pg_isready", "-U", "postgres", "-q", check=False).returncode == 0:
                 break
@@ -388,6 +425,8 @@ def generate(framework: str, repo: str = ".", base: str | None = None, head: str
                  "PGPASSWORD": pw, "POSTGRES_HOST": pg, "POSTGRES_PORT": "5432", "POSTGRES_DB": db,
                  "POSTGRES_USER": role, "POSTGRES_PASSWORD": pw, "EKBASIS_DB_URL": url,
                  "PYTHONPATH": "/opt/ekbasis_client", "RAILS_ENV": "development", "PYTHONDONTWRITEBYTECODE": "1"}
+        if want_redis:
+            dbenv.update({"REDIS_URL": f"redis://{rds}:6379/0", "REDIS_HOST": rds, "REDIS_PORT": "6379"})
         for k, v in (env or {}).items():
             dbenv[k] = v.replace("${EKBASIS_DB_URL}", url)
         eargs = [x for k, v in dbenv.items() for x in ("-e", f"{k}={v}")]
