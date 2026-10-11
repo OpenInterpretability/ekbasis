@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased]
+## [0.1.14] — 2026-10-11
 
 ### Fixed
 - **Migration guard:** a `BEGIN` inside a function body (`$$ ... BEGIN ... END $$`) or in a string no longer switches the
