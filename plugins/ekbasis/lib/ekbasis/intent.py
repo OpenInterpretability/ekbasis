@@ -78,7 +78,9 @@ def _action_text(action) -> str:
 
 def quote(text: str) -> str:
     """Every line of untrusted text, prefixed so that it cannot start a line of the state itself."""
-    return "\n".join(QUOTE + line for line in str(text).split("\n"))
+    # splitlines, not split("\n"): \r, \v, \f, \x1c-\x1e, \x85, \u2028 and \u2029 also end a line for a reader, and
+    # untrusted text could use them to start an unquoted line.
+    return "\n".join(QUOTE + line for line in (str(text).splitlines() or [""]))
 
 
 def _cut_history(blocks: list, budget: int) -> list:
