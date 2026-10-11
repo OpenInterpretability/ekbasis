@@ -75,6 +75,96 @@ The exit codes are those of the other checks:
 Only `psql` is used to talk to PostgreSQL: set `EKBASIS_PSQL`, or put `psql` on `PATH`. The client stays standard
 library only.
 
+## Django and Alembic (opt-in)
+
+These frameworks keep migrations as code (Python), so the SQL a migration will run has to come from the
+framework itself, which means **running the pull request's code**. That is far more dangerous than running its SQL. The
+guard runs it only inside a container that it builds for the job, and that it takes off the network before any of the
+project's code runs.
+
+1. **Network.** An internal Docker network is created, with no route out. A scratch PostgreSQL joins it.
+2. **Generator container.** It starts from your image (`--image`), gets the base and head trees as plain files from
+   `git archive` (no `.git`, no credentials), and runs your `--setup` with network: installing dependencies needs it,
+   as in any CI job.
+3. **The cut.** The generator is moved to the internal network. It is checked to have no route out (it cannot resolve
+   a public name), and the guard refuses to go on otherwise. From then on it reaches the scratch PostgreSQL and nothing
+   else. **No secret is ever in its environment**: no API key, no token, only the scratch database's URL. Migrations
+   run as a throwaway role that is not a superuser.
+4. **Base schema.** At the base tree, the framework migrates the scratch database (`manage.py migrate`,
+   `alembic upgrade head`; `--migrate` overrides it). Then `pg_dump --schema-only` gives the
+   base schema.
+5. **Rendering**, at the head tree:
+   - **Django:** `sqlmigrate` for each new migration. `atomic = False` migrations are checked with autocommit rules.
+   - **Alembic:** offline mode, `upgrade --sql <previous>:<new>` (`--command "flask db"` for Flask-Migrate). The
+     `alembic_version` bookkeeping is dropped.
+6. **What is not SQL is not guessed.** A Django `RunPython`, or an Alembic migration that reads the database
+   (`op.get_bind()`) and so has no offline SQL, is listed as **code not foreseen**: "contains code the guard cannot
+   foresee: review it by hand". It is never shown as "ok".
+   - **`on-code: warn` (default):** it does not fail the check. The Action's `verdict` output is `code-not-foreseen`.
+   - **`on-code: block`:** it is "cannot foresee" and fails the check, as before.
+
+   Its SQL is not sent to the model, but it is applied to the scratch schema, so the next migration sees it. A file
+   the framework could not render for another reason (not loaded, a crash) is always "cannot foresee".
+7. **Cleanup.** The containers and the network are removed. The result is a bundle (JSON): the base schema and, per
+   migration, its SQL.
+
+The second half needs the API key and never runs the pull request's code: `migrate-check --bundle` checks the bundle
+the way it checks SQL files.
+
+```bash
+ekbasis migrate-gen --framework django --base origin/main \
+  --setup "pip install -r requirements.txt" --env DB=postgres -o bundle.json     # no API key needed here
+ekbasis migrate-check --bundle bundle.json                                        # EKBASIS_API_KEY, EKBASIS_PG_URL
+```
+
+The generator gets `DATABASE_URL`, `DB_HOST`/`DB_PORT`/`DB_NAME`/`DB_USER`/`DB_PASSWORD`, the `PG*` variables and
+`POSTGRES_*` for the scratch database. Add what your settings read with `--env` (`${EKBASIS_DB_URL}` is replaced by
+the URL). **Never put a secret in `--env` or `--setup`: the pull request's code can read them.**
+
+In the Action:
+
+```yaml
+      - uses: OpenInterpretability/ekbasis/actions/migration-guard@v0.1.13
+        with:
+          api-key: ${{ secrets.EKBASIS_API_KEY }}
+          framework: django                 # or alembic
+          # on-code: warn                   # warn (default) or block
+          image: python:3.12-slim
+          setup: |
+            apt-get update -qq && apt-get install -y -qq libpq5
+            pip install -r requirements.txt
+          env: |
+            DJANGO_SETTINGS_MODULE=myproject.settings
+```
+
+**How well it works.** This was first measured, with `on-code: block`, in a pre-registered evaluation of 390 real migrations from healthchecks,
+NetBox, Wagtail (Django), Airflow 2.10 and Prefect 3.4 (Alembic). Each migration was run by its own framework,
+RunPython included, on a seeded database; labels come from what happened.
+
+| | Django (235) | Alembic (155) |
+|---|---|---|
+| Verdict accuracy (rules on the rendered SQL) | 0.762 (0.762) | **0.884** (0.768) |
+| Recall on risky migrations | 0.942 | 0.960 |
+| Reason right, on risky migrations flagged | 0.490 | 0.583 |
+| False alarms on benign migrations | 0.290 | 0.131 |
+| Code not foreseen (counted as risky under `block`) | 30.6% | 12.9% |
+
+Neither framework met every pre-registered target. Alembic passed accuracy and recall; Django passed recall only.
+- **Almost all of the gap is the "cannot foresee" policy.** RunPython and migrations that do not render count as risky
+  with no reason, and most of them were benign.
+- **On the migrations it answers** (298 of 390), the guard is right 95.0% of the time, its reason is right 95.0% of
+  the time, and it raises false alarms on 4.3% of benign migrations.
+- **That is why the default became `on-code: warn`.** With `block`, 29% false alarms on Django make the check unusable.
+  The warning stays visible, so nothing is hidden; it just does not fail the check. That default is being measured in
+  a second pre-registered evaluation on new projects. Until it passes, the framework adapters stay opt-in.
+
+**Residual risk:**
+- **The setup step runs with network.** It installs the pull request's dependencies, as your test job already does.
+  Keep it to dependency installation.
+- **Container escape.** A bug in the container runtime or the kernel could let code escape the container. The
+  runner's lifetime of one job limits what it could reach.
+- **Forks:** as with SQL, forks get no secrets (see Security below). The render step itself needs none.
+
 ## GitHub Action
 
 ```yaml
@@ -212,7 +302,8 @@ Data, plans and scripts are in the cookbook (`studies/migrations`, sections 7 an
 
 **Limits:**
 - **PostgreSQL only.**
-- **SQL migrations only.** Migrations written in application code (Django, Alembic, Rails, TypeScript) are not read.
+- **Django and Alembic are rendered, not read.** The result depends on your `--setup` reproducing the project's
+  environment. Other code-based migrations (Rails, TypeScript ORMs, Go code) are not covered.
 - **The scratch schema is built from the SQL files alone.** Objects created outside them (extensions provided by the
   platform, roles, data migrations in code) are missing, and the verdict notes when earlier migrations did not apply
   cleanly.
