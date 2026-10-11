@@ -55,6 +55,16 @@ class TestOffline(unittest.TestCase):
         self.assertEqual(FW.alembic_revisions('revision = "m"\ndown_revision = ("a1", "b2")\n'), ("m", "a1", True))
         self.assertEqual(FW.alembic_revisions('revision = "a1"\ndown_revision = None\n'), ("a1", None, False))
 
+    def test_rails_is_off_by_default(self):
+        env = dict(os.environ)
+        os.environ.pop("EKBASIS_EXPERIMENTAL_RAILS", None)
+        try:
+            with self.assertRaises(ValueError):
+                FW.generate("rails", repo=".", paths=["db/migrate/1_x.rb"])
+        finally:
+            os.environ.clear()
+            os.environ.update(env)
+
     def test_rails_ruby_ops(self):
         dsl = "class X < ActiveRecord::Migration[7.1]\n  def change\n    remove_column :users, :email, :string\n  end\nend\n"
         self.assertEqual(FW.rails_ruby_ops(dsl), [])
@@ -80,21 +90,61 @@ class TestBundle(unittest.TestCase):
             {"path": "shop/migrations/0003_fill_names.py", "name": "shop.0003", "order": 2, "transaction": True,
              "python_ops": ["RunPython"], "error": None, "sql": ""},
             {"path": "shop/migrations/0004_bad.py", "name": "shop.0004", "order": 3, "transaction": True,
-             "python_ops": [], "error": "ImportError: no module named x", "sql": ""}]}
+             "python_ops": [], "error": "ImportError: no module named x", "sql": ""},
+            {"path": "versions/c3_read.py", "name": "c3", "order": 4, "transaction": True, "python_ops": [],
+             "error": "offline rendering failed (a migration that reads the database ...): x", "sql": ""}]}
 
-    def test_check_bundle(self):
+    def test_check_bundle_warn(self):
         fake = Fake(lost=0.95)
-        v = M.check_bundle(self.bundle(), pg_url=PG, client=fake)
-        a, b, c = v.files
+        v = M.check_bundle(self.bundle(), pg_url=PG, client=fake, cache=M.VerdictCache(off=True))
+        a, b, c, d = v.files
         self.assertTrue(a.risky)
         self.assertIn("email character varying(200)", a.state)      # the base schema came from the bundle
         self.assertIn("as Django runs it", a.state)                   # the framework's rule
         self.assertEqual(len(fake.requests), 1)
-        self.assertEqual(b.kind, "cannot_foresee")
-        self.assertIn("runs Python code that is not SQL (RunPython)", b.reason)
+        # code that is not SQL: listed for review by hand, not risky, never "ok"
+        self.assertEqual(b.kind, "code_not_foreseen")
+        self.assertFalse(b.risky)
+        self.assertIsNone(b.cannot_judge)
+        self.assertIn("contains code the guard cannot foresee (Python that is not SQL: RunPython)", b.reason)
         self.assertIn("review it by hand", b.reason)
+        self.assertEqual(d.kind, "code_not_foreseen")
+        self.assertIn("no offline SQL", d.reason)
+        # a file the framework could not render for another reason still fails closed
         self.assertEqual(c.kind, "cannot_foresee")
         self.assertIn("could not render it as SQL", c.reason)
+        self.assertTrue(v.code_not_foreseen)
+        body = M.comment(v.as_json())
+        self.assertIn("| code not foreseen |", body)
+
+    def test_check_bundle_block(self):
+        bundle = self.bundle()
+        bundle["migrations"] = [m for m in bundle["migrations"] if m["name"] != "shop.0004"]
+        v = M.check_bundle(bundle, pg_url=PG, client=Fake(lost=0.0), on_code="block", cache=M.VerdictCache(off=True))
+        a, b, d = v.files
+        self.assertEqual(b.kind, "cannot_foresee")
+        self.assertIn("review it by hand", b.reason)
+        self.assertEqual(d.kind, "cannot_foresee")
+        self.assertTrue(v.cannot_judge)
+
+    def test_warn_only_does_not_fail_the_check(self):
+        bundle = self.bundle()
+        bundle["migrations"] = [m for m in bundle["migrations"] if m["name"] == "shop.0003"]
+        d = tempfile.mkdtemp()
+        try:
+            p = os.path.join(d, "b.json")
+            with open(p, "w") as fh:
+                json.dump(bundle, fh)
+            out = io.StringIO()
+            with redirect_stdout(out):
+                rc = cli.main(["migrate-check", "--bundle", p, "--pg-url", PG, "--json"])
+            self.assertEqual(rc, cli.OK)
+            self.assertTrue(json.loads(out.getvalue())["code_not_foreseen"])
+            with redirect_stdout(io.StringIO()):
+                self.assertEqual(cli.main(["migrate-check", "--bundle", p, "--pg-url", PG, "--on-code", "block"]),
+                                 cli.CANNOT_JUDGE)
+        finally:
+            shutil.rmtree(d)
 
     def test_cli_bundle(self):
         d = tempfile.mkdtemp()
@@ -154,9 +204,9 @@ class TestGenerate(unittest.TestCase):
         self.assertTrue(m2["transaction"])
         self.assertEqual(m3["python_ops"], ["RunPython"])
         if PG and M.psql_bin():
-            v = M.check_bundle(b, pg_url=PG, client=Fake(lost=0.9))
+            v = M.check_bundle(b, pg_url=PG, client=Fake(lost=0.9), cache=M.VerdictCache(off=True))
             self.assertTrue(v.files[0].risky)
-            self.assertEqual(v.files[1].kind, "cannot_foresee")
+            self.assertEqual(v.files[1].kind, "code_not_foreseen")
 
     def test_alembic(self):
         self.repo("alembic", {"b2_drop_email.py": "migrations/versions/b2_drop_email.py",

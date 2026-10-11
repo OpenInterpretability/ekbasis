@@ -567,6 +567,7 @@ class FileVerdict:
     lost_threshold: float = LOST_THRESHOLD
     fail_threshold: float = FAIL_THRESHOLD
     cached: bool = False                # the answers came from the verdict cache (no model call)
+    code_not_foreseen: str | None = None  # framework migrations, on-code=warn: code that is not SQL (not blocking)
 
     @property
     def kind(self) -> str:
@@ -574,6 +575,8 @@ class FileVerdict:
         schema before any data: the pull request's own error), fails (may fail on existing data), loses, or ok."""
         if self.cannot_judge:
             return "cannot_foresee"
+        if self.code_not_foreseen:
+            return "code_not_foreseen"
         if self.schema_error:
             return "schema"
         if self.p_fail is not None and self.p_fail >= self.fail_threshold:
@@ -587,6 +590,8 @@ class FileVerdict:
         k = self.kind
         if k == "cannot_foresee":
             return self.cannot_judge
+        if k == "code_not_foreseen":
+            return f"contains code the guard cannot foresee ({self.code_not_foreseen}): review it by hand"
         if k == "schema":
             return (f"fails on the base branch's schema before touching any data: {self.schema_error} (an error in "
                     "the pull request itself, e.g. it depends on a migration missing from the base, or a typo)")
@@ -606,7 +611,7 @@ class FileVerdict:
              "risky": self.risky, "p_lost": self.p_lost, "p_fail": self.p_fail, "p_half": self.p_half,
              "schema_error": self.schema_error, "cannot_judge": self.cannot_judge, "cannot_foresee": self.cannot_judge,
              "reason": self.reason, "kind": self.kind, "notes": self.notes, "tables": self.shown,
-             "cached": self.cached}
+             "cached": self.cached, "code_not_foreseen": self.code_not_foreseen}
         if state:
             d["state"] = self.state
         return d
@@ -625,13 +630,19 @@ class GuardVerdict:
     def cannot_judge(self) -> bool:
         return any(f.cannot_judge for f in self.files)
 
+    @property
+    def code_not_foreseen(self) -> bool:
+        return any(f.code_not_foreseen for f in self.files)
+
     def summary(self) -> str:
         if not self.files:
             return "Ekbasis migration guard: no new migration files" + ("\n  " + "\n  ".join(self.notes) if self.notes else "")
-        head = ("RISKY" if self.risky else "CANNOT FORESEE" if self.cannot_judge else "no risk found")
+        head = ("RISKY" if self.risky else "CANNOT FORESEE" if self.cannot_judge else
+                "no risk found in the SQL; code to review by hand" if self.code_not_foreseen else "no risk found")
         lines = [f"Ekbasis migration guard: {head}"]
         for f in self.files:
-            tag = "CANNOT FORESEE" if f.cannot_judge else "RISKY" if f.risky else "ok"
+            tag = ("CANNOT FORESEE" if f.cannot_judge else "RISKY" if f.risky else
+                   "REVIEW BY HAND" if f.code_not_foreseen else "ok")
             lines.append(f"  {tag:<14} {f.path}: {f.reason}")
             lines += [f"                 note: {n}" for n in f.notes]
         lines += [f"  note: {n}" for n in self.notes]
@@ -639,6 +650,7 @@ class GuardVerdict:
 
     def as_json(self, state: bool = False) -> dict:
         return {"risky": self.risky, "cannot_judge": self.cannot_judge, "cannot_foresee": self.cannot_judge,
+                "code_not_foreseen": self.code_not_foreseen,
                 "files": [f.as_json(state) for f in self.files], "notes": self.notes}
 
 
@@ -863,13 +875,24 @@ class VerdictCache:
             pass
 
 
+ON_CODE = ("warn", "block")
+OFFLINE_FAIL = "offline rendering failed"
+
+
 def check_bundle(bundle: dict, pg_url: str | None = None, stats_url: str | None = None, autocommit: bool = False,
                  client: Ekbasis | None = None, lost_threshold: float = LOST_THRESHOLD,
-                 fail_threshold: float = FAIL_THRESHOLD, psql: str | None = None) -> GuardVerdict:
+                 fail_threshold: float = FAIL_THRESHOLD, psql: str | None = None, on_code: str = "warn",
+                 cache: VerdictCache | None = None) -> GuardVerdict:
     """Check the migrations of a framework bundle (ekbasis.frameworks.generate): the base schema it carries is loaded
-    into a scratch database as the throwaway role, then each migration's SQL is checked as a SQL file is. A migration
-    with Python or Ruby that is not SQL (RunPython, a model loop), or that could not be rendered, is "cannot
-    foresee", with the reason; its SQL still applies, so the next one sees it."""
+    into a scratch database as the throwaway role, then each migration's SQL is checked as a SQL file is.
+
+    Code that is not SQL (Django RunPython, an Alembic migration that has no offline SQL because it reads the database)
+    cannot be foreseen. on_code="warn" (default): the file is listed as "code_not_foreseen", review it by hand, and it
+    does not fail the check (it is never "ok"); on_code="block": it is "cannot foresee", which fails closed. A file the
+    framework could not render for another reason (not loaded, a crash) is always "cannot foresee". The file's SQL
+    still applies to the scratch schema, so the next one sees it."""
+    if on_code not in ON_CODE:
+        raise ValueError(f"on_code must be one of {', '.join(ON_CODE)}")
     pg_url = pg_url or os.environ.get("EKBASIS_PG_URL")
     stats_url = stats_url or os.environ.get("EKBASIS_DB_STATS_URL") or None
     fw = bundle.get("framework") or "generic"
@@ -900,14 +923,21 @@ def check_bundle(bundle: dict, pg_url: str | None = None, stats_url: str | None 
             for m in migs:
                 sql = m.get("sql") or ""
                 tx = bool(m.get("transaction", True)) and not autocommit
-                if m.get("error"):
+                code = None
+                if m.get("error") and str(m["error"]).startswith(OFFLINE_FAIL):
+                    code = "it reads the database, so it has no offline SQL"
+                elif m.get("python_ops") and not m.get("error"):
+                    what = ", ".join(sorted(set(m["python_ops"])))[:200]
+                    code = f"{'Ruby' if fw == 'rails' else 'Python'} that is not SQL: {what}"
+                if code and on_code == "warn":
+                    out.append(FileVerdict(m["path"], fw, tx, statements=len(split_sql(sql)), code_not_foreseen=code,
+                                           lost_threshold=lost_threshold, fail_threshold=fail_threshold))
+                elif m.get("error"):
                     out.append(FileVerdict(m["path"], fw, tx, cannot_judge="the framework could not render it as SQL "
                                            f"({m['error']}); review it by hand"))
-                elif m.get("python_ops"):
-                    what = ", ".join(sorted(set(m["python_ops"])))[:200]
-                    kind = "Ruby" if fw == "rails" else "Python"
+                elif code:
                     out.append(FileVerdict(m["path"], fw, tx, statements=len(split_sql(sql)), cannot_judge=(
-                        f"it runs {kind} code that is not SQL ({what}): a data migration the guard cannot foresee; "
+                        f"it runs code that is not SQL ({code}): a data migration the guard cannot foresee; "
                         "review it by hand")))
                 elif not split_sql(sql):
                     v = FileVerdict(m["path"], fw, tx, p_lost=0.0, p_fail=0.0,
@@ -917,7 +947,7 @@ def check_bundle(bundle: dict, pg_url: str | None = None, stats_url: str | None 
                     continue
                 else:
                     out.append(_check_file(m["path"], fw, sql, scratch, stats, not tx, client, lost_threshold,
-                                           fail_threshold, dirty))
+                                           fail_threshold, dirty, cache or VerdictCache()))
                 if sql.strip():
                     scratch.db.apply(sql, transaction=tx)        # the next migration sees this one applied
     except CannotJudge as e:
@@ -956,6 +986,9 @@ def comment(result: dict) -> str:
         head = "**Risky:** at least one migration may lose data or fail on the existing database."
     elif result.get("cannot_judge"):
         head = "**Cannot foresee** the migrations of this pull request: treat them as risky and check them yourself."
+    elif result.get("code_not_foreseen"):
+        head = ("No data loss or failure foreseen in the SQL. **Review by hand:** at least one migration contains code "
+                "the guard cannot foresee.")
     elif not files:
         head = "No new migration files in this pull request."
     else:
@@ -964,7 +997,8 @@ def comment(result: dict) -> str:
     if files:
         lines += ["| Migration | Verdict | Why |", "|---|---|---|"]
         for f in files:
-            tag = "cannot foresee" if f.get("cannot_judge") else "**risky**" if f.get("risky") else "ok"
+            tag = ("cannot foresee" if f.get("cannot_judge") else "**risky**" if f.get("risky") else
+                   "code not foreseen" if f.get("code_not_foreseen") else "ok")
             why = md_safe(f.get("reason"), 400)
             mode = "one transaction" if f.get("transaction") else "autocommit"
             tool = f.get("tool") if f.get("tool") in TOOL_NAMES else "generic"

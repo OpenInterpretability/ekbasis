@@ -299,6 +299,8 @@ def generate(framework: str, repo: str = ".", base: str | None = None, head: str
     framework's migrations added between the merge base of base and head)."""
     if framework not in FRAMEWORKS:
         raise ValueError(f"framework must be one of {', '.join(FRAMEWORKS)}")
+    if framework == "rails" and os.environ.get("EKBASIS_EXPERIMENTAL_RAILS") != "1":
+        raise ValueError("rails is experimental and not evaluated: set EKBASIS_EXPERIMENTAL_RAILS=1 to try it")
     log = log or (lambda m: print(m, file=sys.stderr))
     edited = []
     if paths is None:

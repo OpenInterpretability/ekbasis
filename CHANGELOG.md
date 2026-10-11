@@ -3,24 +3,28 @@
 ## [0.1.15] — 2026-10-11
 
 ### Added
-- **Migration guard for Django, Alembic and Rails** (`ekbasis/frameworks.py`, `ekbasis migrate-gen`, `migrate-check
+- **Migration guard for Django and Alembic, opt-in** (`ekbasis/frameworks.py`, `ekbasis migrate-gen`, `migrate-check
   --bundle`, the Action's `framework` input, [docs/MIGRATION_GUARD.md](docs/MIGRATION_GUARD.md)). The framework
-  renders each new migration as SQL: Django `sqlmigrate`, Alembic offline `upgrade --sql` (also `flask db`), and Rails
-  (experimental) by running the new migrations on the base schema with SQL capture.
+  renders each new migration as SQL: Django `sqlmigrate`, Alembic offline `upgrade --sql` (also `flask db`).
   - **Isolation.** The pull request's code runs only inside a generator container. The container gets the trees from
     `git archive`, runs `--setup` with network, and is then moved to an internal Docker network, checked to have no
     route out, with no secret in its environment. Migrations run as a throwaway role that is not a superuser.
   - **Base schema.** The framework migrates the scratch database at the base tree, and `pg_dump --schema-only` gives
     the schema.
-  - **Code that is not SQL is "cannot foresee"**, with a reason: Django `RunPython`, an Alembic migration that reads
-    the database, a Rails migration that uses models.
-  - **The bundle (JSON)** is checked by `migrate-check --bundle`. The API key is needed only there.
+  - **Code that is not SQL** (Django `RunPython`, an Alembic migration that reads the database) is listed as "code not
+    foreseen: review it by hand", never as "ok".
+    - `--on-code warn` (default, the Action's `on-code`): it does not fail the check, and the verdict is
+      `code-not-foreseen`.
+    - `--on-code block`: it is "cannot foresee" and fails closed.
+  - **The bundle (JSON)** is checked by `migrate-check --bundle`, with the verdict cache. The API key is needed only
+    there.
   - **Tests.** `tests/test_frameworks.py`: offline tests, PostgreSQL tests, and docker tests that render tiny Django
-    and Alembic projects and check the isolation. Rails was smoke-tested locally, not in CI.
-  - **Measured** (pre-registered, 390 real migrations from 5 projects, labels by running each one with its framework).
-    Verdict accuracy is 0.762 for Django and 0.884 for Alembic; rules on the rendered SQL get 0.762 and 0.768. Neither
-    framework met every target. Most of the gap is that Python which is not SQL counts as "cannot foresee" (31% of the
-    Django migrations). On the migrations it answers, accuracy is 0.950. Details are in docs/MIGRATION_GUARD.md.
+    and Alembic projects and check the isolation.
+  - **Measured with `block`** (pre-registered, 390 real migrations from 5 projects, labels by running each one with
+    its framework). Verdict accuracy is 0.762 for Django and 0.884 for Alembic; rules on the rendered SQL get 0.762 and
+    0.768. Neither framework met every target. Most of the gap was code counted as "cannot foresee" (31% of the Django
+    migrations), which is why the default is now `warn`. On the migrations it answers, accuracy is 0.950. The `warn`
+    default is being evaluated on new projects; details are in docs/MIGRATION_GUARD.md.
 
 ## [0.1.14] — 2026-10-11
 

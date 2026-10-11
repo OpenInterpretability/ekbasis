@@ -75,9 +75,9 @@ The exit codes are those of the other checks:
 Only `psql` is used to talk to PostgreSQL: set `EKBASIS_PSQL`, or put `psql` on `PATH`. The client stays standard
 library only.
 
-## Django, Alembic and Rails
+## Django and Alembic (opt-in)
 
-These frameworks keep migrations as code (Python or Ruby), so the SQL a migration will run has to come from the
+These frameworks keep migrations as code (Python), so the SQL a migration will run has to come from the
 framework itself, which means **running the pull request's code**. That is far more dangerous than running its SQL. The
 guard runs it only inside a container that it builds for the job, and that it takes off the network before any of the
 project's code runs.
@@ -91,22 +91,20 @@ project's code runs.
    else. **No secret is ever in its environment**: no API key, no token, only the scratch database's URL. Migrations
    run as a throwaway role that is not a superuser.
 4. **Base schema.** At the base tree, the framework migrates the scratch database (`manage.py migrate`,
-   `alembic upgrade head`, `bin/rails db:migrate`; `--migrate` overrides it). Then `pg_dump --schema-only` gives the
+   `alembic upgrade head`; `--migrate` overrides it). Then `pg_dump --schema-only` gives the
    base schema.
 5. **Rendering**, at the head tree:
    - **Django:** `sqlmigrate` for each new migration. `atomic = False` migrations are checked with autocommit rules.
    - **Alembic:** offline mode, `upgrade --sql <previous>:<new>` (`--command "flask db"` for Flask-Migrate). The
      `alembic_version` bookkeeping is dropped.
-   - **Rails (experimental):** Rails has no offline mode, so the new migrations run on the base schema, which has no
-     rows, and the SQL they send is kept. Reads and Rails' bookkeeping are dropped. `disable_ddl_transaction!` means
-     autocommit rules.
-6. **What is not SQL is not guessed.** These are reported as **cannot foresee**, with the reason and "review it by
-   hand":
-   - a Django `RunPython`;
-   - an Alembic migration that reads the database (`op.get_bind()`), which has no offline SQL;
-   - a Rails migration that uses models or loops (`User.find_each`, `update_all`).
+6. **What is not SQL is not guessed.** A Django `RunPython`, or an Alembic migration that reads the database
+   (`op.get_bind()`) and so has no offline SQL, is listed as **code not foreseen**: "contains code the guard cannot
+   foresee: review it by hand". It is never shown as "ok".
+   - **`on-code: warn` (default):** it does not fail the check. The Action's `verdict` output is `code-not-foreseen`.
+   - **`on-code: block`:** it is "cannot foresee" and fails the check, as before.
 
-   Their SQL still applies to the scratch schema, so the next migration sees it.
+   The SQL around it is still checked, and it still applies to the scratch schema, so the next migration sees it. A
+   file the framework could not render for another reason (not loaded, a crash) is always "cannot foresee".
 7. **Cleanup.** The containers and the network are removed. The result is a bundle (JSON): the base schema and, per
    migration, its SQL.
 
@@ -129,7 +127,8 @@ In the Action:
       - uses: OpenInterpretability/ekbasis/actions/migration-guard@v0.1.13
         with:
           api-key: ${{ secrets.EKBASIS_API_KEY }}
-          framework: django                 # or alembic, rails
+          framework: django                 # or alembic
+          # on-code: warn                   # warn (default) or block
           image: python:3.12-slim
           setup: |
             apt-get update -qq && apt-get install -y -qq libpq5
@@ -138,7 +137,7 @@ In the Action:
             DJANGO_SETTINGS_MODULE=myproject.settings
 ```
 
-**How well it works.** This was measured in a pre-registered evaluation of 390 real migrations from healthchecks,
+**How well it works.** This was first measured, with `on-code: block`, in a pre-registered evaluation of 390 real migrations from healthchecks,
 NetBox, Wagtail (Django), Airflow 2.10 and Prefect 3.4 (Alembic). Each migration was run by its own framework,
 RunPython included, on a seeded database; labels come from what happened.
 
@@ -148,15 +147,16 @@ RunPython included, on a seeded database; labels come from what happened.
 | Recall on risky migrations | 0.942 | 0.960 |
 | Reason right, on risky migrations flagged | 0.490 | 0.583 |
 | False alarms on benign migrations | 0.290 | 0.131 |
-| Cannot foresee (Python that is not SQL) | 30.6% | 12.9% |
+| Code not foreseen (counted as risky under `block`) | 30.6% | 12.9% |
 
 Neither framework met every pre-registered target. Alembic passed accuracy and recall; Django passed recall only.
 - **Almost all of the gap is the "cannot foresee" policy.** RunPython and migrations that do not render count as risky
   with no reason, and most of them were benign.
 - **On the migrations it answers** (298 of 390), the guard is right 95.0% of the time, its reason is right 95.0% of
   the time, and it raises false alarms on 4.3% of benign migrations.
-- **What a team gets today, with Django:** a reliable check of the schema SQL. Every data migration in Python is flagged
-  for a person to review. With Alembic, it is better than regex rules.
+- **That is why the default became `on-code: warn`.** With `block`, 29% false alarms on Django make the check unusable.
+  The warning stays visible, so nothing is hidden; it just does not fail the check. That default is being measured in
+  a second pre-registered evaluation on new projects. Until it passes, the framework adapters stay opt-in.
 
 **Residual risk:**
 - **The setup step runs with network.** It installs the pull request's dependencies, as your test job already does.
@@ -302,8 +302,8 @@ Data, plans and scripts are in the cookbook (`studies/migrations`, sections 7 an
 
 **Limits:**
 - **PostgreSQL only.**
-- **Django, Alembic and Rails are rendered, not read.** The result depends on your `--setup` reproducing the project's
-  environment. Rails is experimental. Other code-based migrations (TypeScript ORMs, Go code) are not covered.
+- **Django and Alembic are rendered, not read.** The result depends on your `--setup` reproducing the project's
+  environment. Other code-based migrations (Rails, TypeScript ORMs, Go code) are not covered.
 - **The scratch schema is built from the SQL files alone.** Objects created outside them (extensions provided by the
   platform, roles, data migrations in code) are missing, and the verdict notes when earlier migrations did not apply
   cleanly.
