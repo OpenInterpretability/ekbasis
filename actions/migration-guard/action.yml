@@ -7,8 +7,11 @@ branding:
 
 inputs:
   api-key:
-    description: Ekbasis API key (ekb_...). Pass it from a secret.
-    required: true
+    description: >-
+      Ekbasis API key (ekb_...), from a secret. Leave it empty in a public repository whose workflow has
+      `permissions: id-token: write`: the GitHub OIDC token is sent instead (free tier, no secret).
+    required: false
+    default: ""
   api-url:
     description: Ekbasis server.
     default: https://openinterp.org/api/v1
@@ -90,7 +93,7 @@ runs:
       id: check
       shell: bash
       env:
-        EKBASIS_API_KEY: ${{ inputs.api-key }}
+        API_KEY: ${{ inputs.api-key }}
         EKBASIS_URL: ${{ inputs.api-url }}
         EKBASIS_PG_URL: postgresql://postgres@127.0.0.1:5432/postgres
         EKBASIS_DB_STATS_URL: ${{ inputs.db-stats-url }}
@@ -101,6 +104,20 @@ runs:
         FAIL: ${{ inputs.fail-threshold }}
         AUTOCOMMIT: ${{ inputs.autocommit }}
       run: |
+        # No API key: a public repository uses its GitHub OIDC token instead (free tier; hosted API only, the token is
+        # bound to the audience openinterp.org and lives a few minutes). Without one the server answers 401 and the
+        # verdict is "cannot foresee", as before.
+        if [ -z "$API_KEY" ]; then
+          if API_KEY=$(python "$GITHUB_ACTION_PATH/github_oidc.py" --api-url "$EKBASIS_URL"); then
+            echo "::add-mask::$API_KEY"
+            echo "No api-key: using this repository's GitHub OIDC token (free tier for public repositories)."
+          else
+            API_KEY=""
+            echo "::warning title=Ekbasis migration guard::no api-key and no OIDC token (public repositories: add permissions: id-token: write; otherwise pass api-key)"
+          fi
+        fi
+        export EKBASIS_API_KEY="$API_KEY"
+        unset API_KEY
         out="$RUNNER_TEMP/ekbasis-migrations.json"
         args=(migrate-check --base "origin/$BASE" --json --lost-threshold "$LOST" --fail-threshold "$FAIL")
         while IFS= read -r g; do [ -n "$g" ] && args+=(--glob "$g"); done <<< "$PATHS"

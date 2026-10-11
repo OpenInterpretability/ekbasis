@@ -98,6 +98,27 @@ jobs:
           # fail-on: risky      # risky | never
 ```
 
+**Free for public repositories (no API key, no secret).** Give the workflow `id-token: write` and leave `api-key`
+out. The Action then requests the job's GitHub OIDC token for the audience `openinterp.org` and sends it instead of a
+key. The hosted API verifies GitHub's signature and reads the repository from the token:
+
+```yaml
+permissions:
+  contents: read
+  pull-requests: write          # the comment
+  id-token: write               # the free tier: the repository's OIDC token instead of a key
+...
+      - uses: OpenInterpretability/migration-guard@v1   # no api-key
+```
+
+- Only public repositories created at least 7 days ago qualify; a private or internal repository needs a key.
+- Quota: 2,000 migrations per repository per month, at most 200 a day, within a global monthly budget for the
+  program. Past it the API answers 429 and the verdict is "cannot foresee", as with no key; `fail-on: risky` then fails
+  the check. An `api-key`, when given, always wins.
+- The token is requested only when `api-url` is the hosted API (`https://openinterp.org`), is masked in the logs, and
+  lives a few minutes. It never goes to a self-hosted server.
+- Pull requests from forks get no OIDC token (as they get no secrets): see Security below.
+
 The Action:
 1. installs the client at the Action's own version;
 2. starts `postgres:16` on the runner;
@@ -121,14 +142,16 @@ path).
 **Security.**
 - **Trigger on `pull_request`, never on `pull_request_target`** with a checkout of the pull request's code. Under
   `pull_request_target`, untrusted code runs with the base repository's secrets and a write token.
-- **Pull requests from forks get no secrets.** The API key is empty there, so the guard ends in "cannot foresee" and,
+- **Pull requests from forks get no secrets** and no OIDC token. The API key is empty there, so the guard ends in "cannot foresee" and,
   with `fail-on: risky`, fails the check. The fork's read-only token cannot comment either; that step only warns, and
   the result is in the job summary. Choose one:
   - set `fail-on: never` for forks:
     `fail-on: ${{ github.event.pull_request.head.repo.full_name == github.repository && 'risky' || 'never' }}`;
   - or run the job only for branches of the repository itself:
     `if: github.event.pull_request.head.repo.full_name == github.repository`.
-- **Minimal permissions.** The workflow needs `contents: read` and `pull-requests: write`, nothing else.
+- **Minimal permissions.** The workflow needs `contents: read` and `pull-requests: write`, plus `id-token: write` for
+  the free tier, nothing else. `id-token: write` lets the job prove which repository it runs in; it grants no access to
+  the repository.
 - **The pull request's SQL is untrusted, and it runs.** The guard runs it as a throwaway role made for each check: not
   a superuser, no CREATEDB, CREATEROLE, REPLICATION or BYPASSRLS, owner of its throwaway database only. The Action
   runs that PostgreSQL in a container on an internal Docker network, with no route out and no published port, reached

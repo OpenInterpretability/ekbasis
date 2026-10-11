@@ -1,5 +1,14 @@
 # Changelog
 
+## [Unreleased]
+
+### Added
+- **Migration guard: free for public repositories, with no key.** When `api-key` is empty and the workflow grants
+  `permissions: id-token: write`, the Action sends the job's GitHub OIDC token (audience `openinterp.org`) instead of a
+  key (`actions/migration-guard/github_oidc.py`). It is requested only for the hosted API, masked in the logs, and
+  never sent to another server. The hosted API checks the signature and that the repository is public and at least
+  7 days old; quota 2,000 migrations per repository per month (200 a day). `api-key` is no longer required.
+
 ## [0.1.12] — 2026-10-11
 
 ### Added

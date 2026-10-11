@@ -622,7 +622,7 @@ code. A GitHub Action posts one comment per pull request and can fail the check:
   with: {fetch-depth: 0}
 - uses: OpenInterpretability/ekbasis/actions/migration-guard@main
   with:
-    api-key: ${{ secrets.EKBASIS_API_KEY }}
+    api-key: ${{ secrets.EKBASIS_API_KEY }}   # public repositories: omit it and grant id-token: write (free)
 ```
 
 Measured in pre-registered evaluations on real migrations executed on seeded databases. On 184 migrations held out
