@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased]
+## [0.1.13] — 2026-10-11
 
 ### Added
 - **Migration guard: verdict cache.** The model's answer for a migration is reused, with no call and no tokens, when

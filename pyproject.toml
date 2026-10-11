@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ekbasis"
-version = "0.1.12"
+version = "0.1.13"
 description = "Ekbasis client: what happens if I do this? Typed, calibrated consequence predictions in one pass, chained simulation and a git guard"
 readme = "README.md"
 requires-python = ">=3.9"
