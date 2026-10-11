@@ -193,6 +193,8 @@ class TestComment(unittest.TestCase):
                       "data \\(97%\\) |", body)
         self.assertIn("| db/m/3.up.sql (golang-migrate, autocommit) | ok | no data loss or failure foreseen", body)
         self.assertIn("- a note", body)
+        from ekbasis import __version__
+        self.assertIn(f"/blob/v{__version__}/docs/MIGRATION_GUARD.md", body)
 
     def test_reasons_are_decided_in_code(self):
         def v(pl, pf, tx=True, **kw):
@@ -313,6 +315,8 @@ class TestPostgres(unittest.TestCase):
             v = M.check(self.root, files=[f], pg_url=PG, client=fake)
             self.assertTrue(v.cannot_judge, f)
             self.assertIn("not a superuser", v.files[0].reason)
+            self.assertIn("review this one by hand", v.files[0].reason)
+            self.assertFalse(v.files[0].reason.startswith("cannot foresee"))   # the verdict column says it already
         self.assertFalse(os.path.exists(marker))
         self.assertEqual(fake.requests, [])                  # never sent to the model
         self.assertEqual(self.scratch_roles(), before)        # the throwaway roles are dropped

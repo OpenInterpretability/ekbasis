@@ -183,7 +183,15 @@ on the base's schema. The reason says "fails" first. A third pre-registered eval
 - **Reason** ("fails" vs "loses"), on risky migrations it flags: right on **92.5%** (49 of 53).
 - **False alarms on benign migrations:** **15.6%** (20 of 128). The rules raise 43.0%.
 
-Every target was met. Data, plans and scripts are in the cookbook (`studies/migrations`, sections 7 and 8).
+Every target was met. Not every subset is good:
+- **Destructive-looking migrations** (stratum A, 84): accuracy is **0.786**, against 0.679 for the rules. That is
+  where the decisions are hard.
+- **Benign-looking migrations** (37): the rules never fire, and the guard raised 2 false alarms.
+- **The study's other bars are still missed.** The loss probability alone is not calibrated (ECE 0.18), and the model
+  does not compose "fails" with "nothing is applied" by itself. The code does that.
+
+The labels come from synthetic rows (NULLs at 25%, random foreign-key pairs). Real data may fail or lose differently.
+Data, plans and scripts are in the cookbook (`studies/migrations`, sections 7 and 8).
 
 **Limits:**
 - **PostgreSQL only.**

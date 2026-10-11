@@ -37,6 +37,7 @@ import urllib.parse
 from dataclasses import dataclass, field
 
 from . import prompts as P
+from ._version import __version__
 from .client import CannotJudge, Ekbasis
 
 LOST_THRESHOLD = 0.5
@@ -548,7 +549,7 @@ class FileVerdict:
     def reason(self) -> str:
         k = self.kind
         if k == "cannot_foresee":
-            return f"cannot foresee: {self.cannot_judge}"
+            return self.cannot_judge
         if k == "schema":
             return (f"fails on the base branch's schema before touching any data: {self.schema_error} (an error in "
                     "the pull request itself, e.g. it depends on a migration missing from the base, or a typo)")
@@ -703,7 +704,8 @@ def _check_file(path, tool, text, scratch, stats, autocommit, client, lt, ft, ba
         scratch.drop(probe)
     if v.schema_error and needs_privilege(sqlstate, v.schema_error):
         v.cannot_judge = ("it needs privileges the guard never grants (migrations run as a role that is not a superuser, "
-                          f"so it was not run): {v.schema_error}")
+                          f"so it was not run): {v.schema_error}. Migrations that need a superuser are not run by the "
+                          "guard: review this one by hand")
         v.schema_error = None
         return v
     if v.schema_error and base_dirty:
@@ -782,8 +784,8 @@ def comment(result: dict) -> str:
         for n in (f.get("notes") or [])[:5]:
             lines.append(f"- {md_safe(f.get('path'), 200)}: {md_safe(n, 400)}")
     lines += ["", "<sub>Ekbasis foresees from the schema (built from the base branch's migrations) and, when configured, "
-              "aggregate statistics of a read-only replica; it never reads data values. [About](https://github.com/OpenInterpretability/ekbasis/blob/main/docs/"
-              "MIGRATION_GUARD.md)</sub>"]
+              "aggregate statistics of a read-only replica; it never reads data values. [About](https://github.com/"
+              f"OpenInterpretability/ekbasis/blob/v{__version__}/docs/MIGRATION_GUARD.md)</sub>"]
     return "\n".join(lines)
 
 
