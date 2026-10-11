@@ -330,7 +330,16 @@ Data, plans and scripts are in the cookbook (`studies/migrations`, sections 7 an
 **Limits:**
 - **PostgreSQL only.**
 - **Django and Alembic are rendered, not read.** The result depends on your `--setup` reproducing the project's
-  environment. Other code-based migrations (Rails, TypeScript ORMs, Go code) are not covered.
+  environment. Other code-based migrations (TypeScript ORMs, Go code) are not covered.
+- **Rails stays experimental and off** (`EKBASIS_EXPERIMENTAL_RAILS=1`). In its pre-registered evaluation (168 real
+  migrations from Mastodon and Maybe, run by Rails on seeded databases), it missed one target:
+  - **Passed.** On the 140 migrations it answers, verdict accuracy was 0.886 against 0.607 for regex rules on the
+    rendered SQL. Recall was 0.976 (40/41), and false alarms on benign migrations were 15.2% against 52.5%.
+  - **Missed.** The reason was right on 33 of 40 risky migrations (0.825, lower bound 0.680, against 0.85). In 5 of
+    those, it said "may fail" for migrations that only lost data. The other 2 needed Redis, which the isolated
+    generator does not have, so it could not foresee them.
+  - **Not foreseen.** 16.7% of the migrations contain Ruby the guard does not foresee (model code, loops). Counting
+    those as missed, recall over all risky migrations is 0.800.
 - **The scratch schema is built from the SQL files alone.** Objects created outside them (extensions provided by the
   platform, roles, data migrations in code) are missing, and the verdict notes when earlier migrations did not apply
   cleanly.
