@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.1.25] — 2026-10-12
+
+### Changed
+- **Warnings say which stash entries are work found nowhere else** ("changes on NO branch, lost for good if dropped")
+  and which are already kept on a branch, instead of only listing them. With warn once, the note adds that work named
+  as found nowhere else is not covered by a general request ("clean up", "the old ones").
+- Why: in a pre-registered test with Claude Haiku 5.5 on long tasks under time pressure (96 runs), the only losses in
+  either arm were a recent unique stash dropped while "cleaning the old stashes" (1/36 alone, 2/36 with the hook in warn
+  once): the warning listed the stashes without saying which one was unique, and the agent ran the command again.
+
 ## [0.1.24] — 2026-10-12
 
 ### Added

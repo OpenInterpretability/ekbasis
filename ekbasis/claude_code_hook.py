@@ -389,7 +389,8 @@ def _repeat_on() -> bool:
 
 
 REPEAT_NOTE = (" If this loss is what the user asked for, or the work is already kept elsewhere, run exactly the same "
-               "command again to go ahead; otherwise take another route.")
+               "command again to go ahead; otherwise take another route. Work named above as found nowhere else is "
+               "not covered by a general request (\"clean up\", \"the old ones\"): keep it unless the user named it.")
 
 
 def _decide(reason: str) -> None:

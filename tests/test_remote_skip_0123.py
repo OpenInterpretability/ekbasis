@@ -94,3 +94,19 @@ class TestOverwrites(unittest.TestCase):
         git(d, "add", "cfg/a.yaml")
         git(d, "commit", "-q", "-m", "a")
         self.assertEqual(over("cp ex/a.yaml cfg/"), [])   # committed and unchanged: recoverable
+
+
+class TestAtStakeStash(unittest.TestCase):
+    def test_unique_stash_is_named(self):
+        r = tempfile.mkdtemp()
+        git(r, "init", "-q", "-b", "main")
+        commit(r, "a", "1\n", "a")
+        open(os.path.join(r, "a"), "w").write("merged\n")
+        git(r, "stash", "push", "-q", "-m", "old")
+        git(r, "stash", "apply", "-q")
+        git(r, "commit", "-qam", "merged")
+        open(os.path.join(r, "a"), "w").write("unique\n")
+        git(r, "stash", "push", "-q", "-m", "wip")
+        s = G.at_stake(r, ["git stash clear"])
+        self.assertIn('NO branch, lost for good if dropped: stash@{0} "On main: wip"', s)
+        self.assertIn("stash@{1} (already on branch main)", s)
