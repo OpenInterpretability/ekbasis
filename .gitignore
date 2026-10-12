@@ -2,3 +2,6 @@ build/
 *.egg-info/
 __pycache__/
 dist/
+
+scorecard/items/
+scorecard/history.jsonl

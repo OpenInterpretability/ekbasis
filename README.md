@@ -302,6 +302,45 @@ environment before relying on it.)
 - **Digital twins and IoT:** machine states between sensor reads; read the sensor when unsure.
 - **Finance operations:** positions and margins after a sequence of orders, checked with the broker when unsure.
 
+## Check a plan before it runs (`check_plan`, since 0.1.26)
+
+An agent often runs several actions at once: a script, a pipeline, a batch of tool calls. `check_plan` forecasts every
+prefix of the plan from the state as it is now and says how far it is safe to go: the whole plan, when every prefix is
+forecast harmless with confidence; otherwise the steps before the first prefix that is flagged or uncertain, which run
+first, so the next check reads the real state (look when unsure, for a batch).
+
+```python
+from ekbasis import Ekbasis, yes_no, check_plan
+
+rules = ("World: a team's services on a cluster. 'scale X to N' sets how many pods X runs; a service with 0 pods is down. "
+         "'delete claim C' deletes a storage claim; if its volume's reclaim policy is Delete, the volume and its data are "
+         "erased, if it is Retain the data stays. 'set reclaim of C to Retain' changes that claim's volume policy. "
+         "'annotate X' only adds a note and changes nothing else.")
+state = ("Services: web (3 pods, serving users), worker (2 pods). Claims: uploads (used by web, reclaim policy Delete, "
+         "holds customers' files), cache (reclaim policy Delete, rebuildable).")
+harm = {"data": yes_no("Do these actions permanently erase data that is not rebuildable?"),
+        "down": yes_no("After these actions, is web down?")}
+
+pc = check_plan(Ekbasis(), rules, state,
+                ["annotate web", "scale worker to 1", "delete claim cache", "delete claim uploads", "annotate worker"], harm)
+print(pc.summary())
+# run steps 1-3 now (predicted safe); it flags data step 4: check it on the state as it is after them
+```
+
+The same plan with `"set reclaim of uploads to Retain"` before the deletion comes back `ok` (all 5 steps harmless,
+confidence ≥ 0.995). Recorded on the hosted API: 4 and 5 requests, 3.7 and 4.4 seconds.
+
+- **The loop on a real system**: `run_plan(client, rules, actions, harm, observe=read_state, execute=run)` checks,
+  runs the safe prefix, reads the real state, checks the rest, and stops before a step that is still flagged on the
+  real state.
+- **Harm questions** are yes/no questions whose "yes" is the harm (`yes_no`); put every consequence you care about in
+  one request (they are answered together).
+- **Cost and time**: one request per prefix checked, each reading the state and the prefix (~0.9 s on the hosted API;
+  tokens grow with the plan). `max_steps` caps a long plan; the steps past it count as unchecked.
+- **Check in code as well where the answer must be exact** (a running total crossing a limit, a command that fails):
+  confident errors exist, and confidence alone does not catch them (`ekbasis.verify`, `threshold`).
+- For shell scripts and SQL there is `ekbasis preflight` (runs the plan on a copy when it can); for git, the hook.
+
 ## Check when sure (`ekbasis.verify`, since 0.1.4)
 
 Looking when unsure covers the answers below 0.9 confidence. What remains are the **confident errors**: answers with
