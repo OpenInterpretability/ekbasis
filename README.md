@@ -725,6 +725,13 @@ the answers the actions change (never-trained worlds: 710 instead of 1,442 promp
 More: [docs/PLAYBOOK.md](https://github.com/OpenInterpretability/ekbasis/blob/main/docs/PLAYBOOK.md) (how to use it day to day) · [docs/REFERENCES.md](https://github.com/OpenInterpretability/ekbasis/blob/main/docs/REFERENCES.md)
 (credits) · [PREREG_release_eval.md](https://github.com/OpenInterpretability/ekbasis/blob/main/PREREG_release_eval.md).
 
+## Training
+
+The code that trained Ekbasis-27B is in [`training/`](training/): the trainer (cross-entropy on the answer letter plus a
+JEPA-style hindsight term), the six stages of the lineage with their exact recipes, and the interpolation that is the
+release. The training rows are the `lineage` config of
+[ekbasis-data](https://huggingface.co/datasets/caiovicentino1/ekbasis-data).
+
 ## Citation
 
 ```bibtex
