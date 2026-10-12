@@ -49,6 +49,22 @@ class TestCheck(unittest.TestCase):
             check_plan(Scripted({}), "r", "s", ["a"], {"x": {"type": "choice", "instructions": "?", "criteria": {}}})
 
 
+class TestParallel(unittest.TestCase):
+    def test_same_answer_as_sequential(self):
+        plan = ["a", "b", "c", "drop", "d", "e", "f"]
+        seq = check_plan(Scripted({"drop": 0.97}), "r", "s", plan, HARM, parallel=1)
+        par = check_plan(Scripted({"drop": 0.97}), "r", "s", plan, HARM, parallel=4)
+        self.assertEqual((seq.safe, seq.step, seq.reason), (par.safe, par.step, par.reason))
+        self.assertEqual(seq.requests, 4)
+        self.assertEqual(par.requests, 4)       # the first wave (steps 1-4) holds the stop
+        self.assertEqual([p["step"] for p in par.prefixes], [1, 2, 3, 4])
+
+    def test_extra_requests_bounded(self):
+        par = check_plan(Scripted({"b": 0.97}), "r", "s", ["a", "b", "c", "d", "e"], HARM, parallel=4)
+        self.assertEqual((par.safe, par.step), (1, 2))
+        self.assertLessEqual(par.requests, 4)
+
+
 class TestRun(unittest.TestCase):
     def test_runs_safe_prefix_then_stops_at_flag(self):
         ran = []
