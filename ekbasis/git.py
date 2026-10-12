@@ -831,9 +831,17 @@ def at_stake(repo: str, cmds, limit: int = 8) -> str:
             parts.append("uncommitted here: " + ", ".join(names[:limit])
                          + (f" and {len(names) - limit} more" if len(names) > limit else ""))
     if any(P.parse_git(c)[0] == "stash" for c in cmds):
-        rc, out = _git(repo, "stash", "list", "--format=%gd (%gs)")
-        if rc == 0 and out.strip():
-            parts.append("stash: " + "; ".join(out.splitlines()[:limit]))
+        # 0.1.25: say which entries are work found nowhere else; a list alone let an agent drop all of them
+        heads = [l.strip() for l in _git(repo, "for-each-ref", "--format=%(refname:short)", "refs/heads")[1].splitlines()]
+        held = stash_held(repo, heads, max_entries=limit)
+        if held:
+            unique = [f"{ref} \"{msg}\"" for ref, msg, b in held if not b]
+            kept = [f"{ref} (already on branch {b})" for ref, msg, b in held if b]
+            if unique:
+                parts.append("stash entries whose changes are on NO branch, lost for good if dropped: "
+                             + "; ".join(unique))
+            if kept:
+                parts.append("stash entries already kept on a branch: " + "; ".join(kept))
     return "; ".join(parts)
 
 
