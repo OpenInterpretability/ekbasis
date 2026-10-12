@@ -1,5 +1,41 @@
 # Changelog
 
+## [0.1.23] — 2026-10-12
+
+### Fixed
+- **Security: commands after shell reserved words were not checked.** In a line like
+  `for b in x y; do git branch -D $b; done`, `if c; then git reset --hard; fi` or `! git reset --hard`, the command
+  after `do`, `then`, `else`, `elif`, `if`, `while`, `until` or `!` was read as a command named after the keyword, so
+  the git guard never saw it (and the shell guard read it wrongly). Both guards now skip these words.
+
+### Added (decided by code, no model call)
+- **Stash facts.** For `git stash drop/clear/pop`, the state says, for each entry, whether a local branch already has
+  every file it changes exactly as the entry has it. Old stashes whose work was merged are no longer "lost work"; a
+  stash that is on no branch still is.
+- **`git rebase --skip`** that drops a commit no other branch, tag or remote branch holds is flagged (committed work).
+- **Remote work this clone never fetched** (`git ls-remote`, read-only, 10 s): a forced push (not
+  `--force-with-lease`) over a remote tip that is not a commit here, and `push --mirror` over remote branches with no
+  local branch, are flagged. `EKBASIS_REMOTE_CHECK=0` turns it off.
+- **Shell guard: `cp`/`mv` that overwrite** a file with different content that is not in git as it is now (untracked,
+  changed, or ignored and not rebuildable) are risky, whatever the model says. `-n`, `-i` and `-u` are not.
+- Git note for `git add` on a file with a conflict (it loses nothing).
+
+### Changed
+- Fewer "cannot foresee": a read-only git command with a variable (`git stash show "stash@{$i}"` in a loop,
+  `git -C $d status`) and a read-only shell command with a path in a variable (`cat "$f"`, `cmp "$f" ...`) no longer
+  make the guards give up. A variable where `log/show/diff` could take `--output` still does.
+- `shell-check` uses the hook's shortcut by default: when everything the lines could change is committed in git or
+  ignored and rebuildable, the model is not asked (`--no-shortcuts` restores 0.1.22).
+- Measured on a development replay of 90 Claude Haiku 5.5 runs (413 calls; each call checked before it ran and then
+  run, a checker saying whether that call lost protected work): dangerous calls stopped 20/26 → 24/26, harmless calls
+  blocked 57/387 → 35/387, and no harmless call newly blocked.
+
+### Experimental
+- The user's request (`git-check/shell-check --request`, hook `EKBASIS_REQUEST=1`, which reads the last message typed
+  in the Claude Code transcript): the state shows it and the loss question leaves out what was asked for. Off by
+  default: in the same replay it changed almost no decision, and asking with the request inside the question cleared
+  a requested loss but also a unique stash the user had not asked to drop.
+
 ## [0.1.22] — 2026-10-12
 
 ### Changed

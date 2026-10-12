@@ -182,6 +182,53 @@ def write_touched(view, cwd: str, shell: str | None = None):
     return dict(rd.touched), list(rd.unread)
 
 
+def overwrites(view, cwd: str, shell: str | None = None) -> list:
+    """0.1.23, decided by code: files that a plain `cp` or `mv` of the lines would overwrite with different content
+    and that are not recoverable (outside git, or changed, untracked, or ignored and not rebuildable). Only file
+    sources whose names the guard can read; -n/--no-clobber, -i and -u (update) are skipped, and so are copies into a
+    folder the source is a part of. Returns [(destination relative to cwd, source relative to cwd)]."""
+    from . import shell as S
+    found = []
+
+    class _Over(S._Reader):
+        def read_command(self, name, argv, base, k=0):
+            if name in ("cp", "mv") and None not in argv:
+                found.append((name, list(argv), base))
+            return super().read_command(name, argv, base, k)
+
+    root = os.path.realpath(cwd)
+    rd = _Over(root, shell or view.info.get("shell") or S.default_shell(), S._key(b"recover"), 200)
+    for k, ps in enumerate(view.parsed, 1):
+        rd.read_line(k, ps)
+    out = []
+    for name, argv, base in found:
+        pos, opts, vals = S.split_args(name, argv)
+        if opts & {"n", "i", "u", "--no-clobber", "--interactive", "--update"}:
+            continue
+        target = next((v for o, v, _ in vals if o in ("t", "--target-directory")), None)
+        srcs, dest = (pos, target) if target else (pos[:-1], pos[-1] if pos else None)
+        if not srcs or dest is None:
+            continue
+        dfull = os.path.normpath(os.path.join(base, dest))
+        for src in srcs:
+            sfull = os.path.normpath(os.path.join(base, src))
+            if not os.path.isfile(sfull) or os.path.islink(sfull):
+                continue
+            dst = os.path.join(dfull, os.path.basename(sfull)) if os.path.isdir(dfull) else dfull
+            if not os.path.isfile(dst) or os.path.islink(dst) or os.path.samefile(sfull, dst):
+                continue
+            with open(sfull, "rb") as a, open(dst, "rb") as b:
+                if a.read() == b.read():
+                    continue
+            top = toplevel(dst)
+            if top:
+                e = _entries(top, [os.path.relpath(os.path.realpath(dst), os.path.realpath(top))])
+                if e is not None and _clean(e):
+                    continue  # committed and unchanged, or ignored and rebuildable
+            out.append((os.path.relpath(dst, root), os.path.relpath(sfull, root)))
+    return out
+
+
 def touched_recoverable(view, cwd: str) -> str | None:
     """For the shell guard (shell.check's skip): a reason when every path the lines could change is recoverable, so
     nothing could be lost for good. None (the model decides) when a line runs xargs (its targets come from input), when

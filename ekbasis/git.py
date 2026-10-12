@@ -128,6 +128,41 @@ class RepoView:
     info: dict = field(default_factory=dict)   # what the notes need: see prompts.git_notes
 
 
+def stash_held(repo: str, branches, max_entries: int = 8) -> list:
+    """0.1.23, for commands that drop stash entries: for each entry (up to max_entries), (ref, message, branch or None),
+    the branch being a local branch that already has every file the entry changes (tracked and untracked) exactly as
+    the entry has it, or None when no branch does. An entry whose files cannot be read counts as held by no branch."""
+    _, out = _git(repo, "stash", "list", "--format=%gd|%gs")
+    rows = [l.split("|", 1) for l in out.splitlines() if "|" in l][:max_entries]
+    res = []
+    for ref, msg in rows:
+        files = {}
+        ok = True
+        for base, tip in ((f"{ref}^1", ref), (None, f"{ref}^3")):
+            if base is None:
+                if _git(repo, "rev-parse", "-q", "--verify", f"{ref}^3")[0] != 0:
+                    continue
+                rc, o = _git(repo, "ls-tree", "-r", "--name-only", tip)
+                names = [(n, "A") for n in o.splitlines() if n]
+            else:
+                rc, o = _git(repo, "diff", "--name-status", "--no-renames", base, tip)
+                names = [(l.split("\t", 1)[1], l[0]) for l in o.splitlines() if "\t" in l]
+            if rc != 0:
+                ok = False
+                break
+            for n, st in names:
+                files[n] = None if st == "D" else _git(repo, "rev-parse", f"{tip}:{n}")[1].strip()
+        held = None
+        if ok and files:
+            for b in branches:
+                if all((_git(repo, "rev-parse", "-q", "--verify", f"refs/heads/{b}:{n}")[1].strip() or None) == want
+                       for n, want in files.items()):
+                    held = b
+                    break
+        res.append((ref, msg.strip(), held))
+    return res
+
+
 def inspect(repo: str = ".", commands=(), fetch: bool = False, max_branches: int = 12, max_files: int = 8,
             max_status: int = 25, commit_text: str = "hash", facts: bool = True) -> RepoView:
     """The repository's state in the training layout (plus the facts, when facts=True), the local branch names and
@@ -245,6 +280,7 @@ def inspect(repo: str = ".", commands=(), fetch: bool = False, max_branches: int
     for l in status:
         extra = ""
         if facts and l[:2] in UNMERGED:
+            info["unmerged"] = True
             m = _has_markers(os.path.join(top, l[3:]))
             if m is True:
                 extra = "; conflict markers still in the file"
@@ -266,7 +302,15 @@ def inspect(repo: str = ".", commands=(), fetch: bool = False, max_branches: int
         lines.append("git status: nothing to commit, working tree clean" + (f"; {ign}" if ign else ""))
     _, out = _git(repo, "stash", "list")
     info["stash_count"] = len([l for l in out.splitlines() if l.strip()])
-    lines.append(f"Stash entries: {info['stash_count']}")
+    stash_line = f"Stash entries: {info['stash_count']}"
+    if facts and info["stash_count"] and any(s == "stash" and a[:1] and a[0] in ("drop", "clear", "pop")
+                                             for s, a in parsed):
+        held = stash_held(repo, list(heads))
+        parts = [f"{ref} \"{msg}\": " + (f"its changes are already on branch {b}" if b else
+                                          "its changes are on no branch") for ref, msg, b in held]
+        stash_line += " (" + "; ".join(parts) + (f"; and {info['stash_count'] - len(held)} more"
+                                                 if info["stash_count"] > len(held) else "") + ")"
+    lines.append(stash_line)
 
     if facts:
         wts = _worktrees(repo, top)
@@ -467,7 +511,7 @@ def other_repo(command: str) -> bool:
 
 def check(commands, repo: str = ".", client: Ekbasis | None = None, fetch: bool = False, lost_threshold: float = 0.2,
           fail_threshold: float = 0.5, commit_text: str = "hash", facts: bool = True, notes: bool = True,
-          notes_at: str | None = None, fail_closed: bool = True) -> Verdict:
+          notes_at: str | None = None, fail_closed: bool = True, request: str | None = None) -> Verdict:
     """What these git commands will do, before they run: lost work, failures, unfinished merge/rebase, final branch.
     facts / notes: see the module docstring (facts=False, notes=False reproduce client 0.1.0).
 
@@ -475,7 +519,7 @@ def check(commands, repo: str = ".", client: Ekbasis | None = None, fetch: bool 
     --git-dir, --work-tree) or uses a git alias, or if the server cannot be reached or does not answer in time, it
     raises CannotJudge,
     which callers treat as risky. fail_closed=False checks such commands against `repo` as 0.1.1 did (server errors
-    still raise)."""
+    still raise). request (0.1.23): what the user asked for; the state shows it and the loss question leaves it out."""
     commands = [c.strip() for c in commands]
     if not commands or any(not c for c in commands):
         raise ValueError("empty command: pass each command as one non-empty string")
@@ -493,11 +537,12 @@ def check(commands, repo: str = ".", client: Ekbasis | None = None, fetch: bool 
             raise CannotJudge("a command uses a git alias the guard does not expand: " + ", ".join(aliases))
     client = client or Ekbasis()
     view = inspect(repo, commands, fetch=fetch, commit_text=commit_text, facts=facts)
-    qs = {"lost": P.GIT_LOST, "in_progress": P.GIT_IN_PROGRESS}
+    qs = {"lost": P.GIT_LOST_REQUEST if P.request_text(request) else P.GIT_LOST, "in_progress": P.GIT_IN_PROGRESS}
     qs.update({f"fails_{k}": P.git_fails(k) for k in range(1, len(commands) + 1)})
     if len(view.branches) >= 2:
         qs["branch"] = P.git_branch(view.branches)
     prompt = P.git_state(view.state, commands, notes=P.git_notes(commands, view.info) if notes else None, notes_at=notes_at)
+    prompt = P.with_request(prompt, request)
     ans = client.ask(prompt, qs)
     v = Verdict(commands=commands, p_lost=ans["lost"].p_yes, p_fail=[ans[f"fails_{k}"].p_yes for k in range(1, len(commands) + 1)],
                 p_in_progress=ans["in_progress"].p_yes, state=prompt,
@@ -712,6 +757,80 @@ def remote_loss(repo: str, cmds: list) -> list:
             if rc == 0 and int(cnt.strip() or 0) > 0:
                 out.append({"ref": name, "commits": int(cnt), "deleted": False})
     return out
+
+
+def remote_unseen(repo: str, cmds: list, timeout: float = 10) -> list:
+    """0.1.23: remote work a push would throw away that this clone has never fetched, read from the remote itself
+    (git ls-remote, read-only): a forced push (-f, --force, +refspec; not --force-with-lease, which refuses when the
+    remote moved) over a remote tip that is not a commit here, and `push --mirror` over remote branches that have no
+    local branch of the same name (the mirror deletes them). Returns [{"ref", "deleted"}]. A remote that cannot be
+    read in `timeout` seconds adds nothing (remote_loss still reads the remote-tracking refs)."""
+    out, seen = [], {}
+
+    def heads(remote):
+        if remote not in seen:
+            try:
+                p = subprocess.run(["git", "ls-remote", "--heads", remote], cwd=repo, env=dict(os.environ, **ENV),
+                                   stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True, errors="replace",
+                                   timeout=timeout)
+                ok = p.returncode == 0
+            except (subprocess.TimeoutExpired, OSError):
+                ok = False
+            seen[remote] = dict(reversed(l.split("\t", 1)) for l in p.stdout.splitlines() if "\t" in l) if ok else None
+        return seen[remote]
+
+    for cmd in cmds:
+        sub, args = P.parse_git(cmd)
+        if sub != "push":
+            continue
+        if "--mirror" in args:
+            pos = P._positional(args, PUSH_VALUE)
+            remote = pos[0] if pos else "origin"
+            h = heads(remote)
+            if h:
+                local = {l.strip() for l in _git(repo, "for-each-ref", "--format=%(refname)", "refs/heads")[1].splitlines()}
+                out += [{"ref": f"{remote}/{r[len('refs/heads/'):]}", "deleted": True} for r in sorted(h)
+                        if r not in local]
+            continue
+        for t in push_targets(repo, cmd):
+            if t["delete"] or not t["forced"] or t["lease"] is not None:
+                continue
+            h = heads(t["remote"])
+            tip = (h or {}).get("refs/heads/" + t["dst"])
+            if tip and _git(repo, "cat-file", "-e", tip + "^{commit}")[0] != 0:
+                out.append({"ref": f"{t['remote']}/{t['dst']}", "deleted": False})
+    return out
+
+
+def skip_loss(repo: str, cmd: str) -> dict | None:
+    """0.1.23: `git rebase --skip` (or cherry-pick/revert --skip) drops the commit that stopped. When no branch, tag or
+    remote-tracking branch other than the one being rebased holds it, it is lost once the rebase ends (only the reflog
+    keeps it). Returns {"commit", "subject"} then, else None."""
+    sub, args = P.parse_git(cmd)
+    if sub not in ("rebase", "cherry-pick", "revert") or "--skip" not in args:
+        return None
+    head = {"rebase": "REBASE_HEAD", "cherry-pick": "CHERRY_PICK_HEAD", "revert": "REVERT_HEAD"}[sub]
+    rc, sha = _git(repo, "rev-parse", "--verify", "--quiet", head)
+    if rc != 0 or not sha.strip():
+        return None
+    sha = sha.strip()
+    exclude = []
+    if sub == "rebase":
+        gd = _git(repo, "rev-parse", "--path-format=absolute", "--git-dir")[1].strip()
+        for d in ("rebase-merge", "rebase-apply"):
+            try:
+                exclude.append(open(os.path.join(gd, d, "head-name")).read().strip())
+            except OSError:
+                pass
+        if not exclude:
+            return None
+    else:
+        return None  # cherry-pick/revert --skip leave the original commit where it was
+    rc, refs = _git(repo, "for-each-ref", "--contains", sha, "--format=%(refname)", "refs/heads", "refs/tags",
+                    "refs/remotes")
+    if rc != 0 or [r for r in refs.split() if r not in exclude]:
+        return None
+    return {"commit": sha[:10], "subject": _git(repo, "log", "-1", "--format=%s", sha)[1].strip()}
 
 
 def committed_loss(steps) -> list:
