@@ -802,6 +802,41 @@ def remote_unseen(repo: str, cmds: list, timeout: float = 10) -> list:
     return out
 
 
+def at_stake(repo: str, cmds, limit: int = 8) -> str:
+    """0.1.24: what is at stake, in one sentence, for a warning: for `git clean` the paths git's own dry run (-n, same
+    options) would remove; otherwise the uncommitted paths of the repository (changed, staged, untracked; ignored ones
+    only for clean -x/-X), and the stash entries for stash commands. Empty when there is nothing to name."""
+    parts = []
+    for c in cmds:
+        sub, args = P.parse_git(c)
+        if sub == "clean" and not any(a in ("-i", "--interactive") for a in args):
+            dry = []
+            for a in args:
+                if a in ("-f", "--force"):
+                    continue
+                if a.startswith("-") and not a.startswith("--"):
+                    a = "-" + a[1:].replace("f", "")
+                    if a == "-":
+                        continue
+                dry.append(a)
+            rc, out = _git(repo, "clean", "-n", *dry)
+            names = [l[len("Would remove "):] for l in out.splitlines() if l.startswith("Would remove ")]
+            if rc == 0 and names:
+                parts.append("git clean would remove " + ", ".join(names[:limit])
+                             + (f" and {len(names) - limit} more" if len(names) > limit else ""))
+    if not parts:
+        rc, out = _git(repo, "status", "--porcelain=v1", "--untracked-files=all")
+        names = [l[3:] for l in out.splitlines() if len(l) > 3]
+        if rc == 0 and names:
+            parts.append("uncommitted here: " + ", ".join(names[:limit])
+                         + (f" and {len(names) - limit} more" if len(names) > limit else ""))
+    if any(P.parse_git(c)[0] == "stash" for c in cmds):
+        rc, out = _git(repo, "stash", "list", "--format=%gd (%gs)")
+        if rc == 0 and out.strip():
+            parts.append("stash: " + "; ".join(out.splitlines()[:limit]))
+    return "; ".join(parts)
+
+
 def skip_loss(repo: str, cmd: str) -> dict | None:
     """0.1.23: `git rebase --skip` (or cherry-pick/revert --skip) drops the commit that stopped. When no branch, tag or
     remote-tracking branch other than the one being rebased holds it, it is lost once the rebase ends (only the reflog

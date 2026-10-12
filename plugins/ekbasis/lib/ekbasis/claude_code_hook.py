@@ -381,6 +381,16 @@ def _shadow(decision: str, reason: str = "") -> None:
         print(f"ekbasis hook (log mode, not blocking): would {decision.replace('_', ' ')}: {reason}", file=sys.stderr)
 
 
+def _repeat_on() -> bool:
+    """EKBASIS_GUARD_REPEAT=1 (0.1.24, opt-in): warn once. A line the guard warned about in this session goes through
+    when it is run again unchanged, in the same folder: the agent (or the person) has read the facts and decides."""
+    return os.environ.get("EKBASIS_GUARD_REPEAT") == "1"
+
+
+REPEAT_NOTE = (" If this loss is what the user asked for, or the work is already kept elsewhere, run exactly the same "
+               "command again to go ahead; otherwise take another route.")
+
+
 def _decide(reason: str) -> None:
     if _log_mode():
         return _shadow("ask", reason)
@@ -389,14 +399,19 @@ def _decide(reason: str) -> None:
                                              "permissionDecisionReason": reason}}))
 
 
-def _cannot_judge(why: str) -> int:
+def _cannot_judge(why: str, session: str | None = None, rkey: str | None = None) -> int:
     if _log_mode():
         _shadow("ask_cannot_foresee", why)
         return 0
     if os.environ.get("EKBASIS_FAIL_OPEN") == "1":
         print(f"ekbasis hook: cannot foresee ({why}); EKBASIS_FAIL_OPEN=1: letting it through", file=sys.stderr)
         return 0
-    _decide(f"Ekbasis could not foresee what this command will do ({why}). Confirm it only if you know it is safe.")
+    again = ""
+    if _repeat_on() and session and rkey:
+        _remember(session, rkey)
+        again = " Run exactly the same command again to go ahead if you have checked it."
+    _decide(f"Ekbasis could not foresee what this command will do ({why}). Confirm it only if you know it is safe."
+            + again)
     return 0
 
 
@@ -434,6 +449,17 @@ def _preflight_key(line: str, cwd: str) -> str:
     except Exception:  # noqa: BLE001 — the line alone is the key then
         pass
     return hashlib.sha256(f"{os.path.realpath(cwd)}\0{line}\0{content}".encode()).hexdigest()[:32]
+
+
+def _seen_any(session: str | None, key: str) -> bool:
+    """Whether this session already recorded the key (no env switch; _seen adds preflight's own)."""
+    if not session:
+        return False
+    try:
+        with open(_seen_path(session)) as fh:
+            return key in json.load(fh)
+    except (OSError, ValueError):
+        return False
 
 
 def _seen(session: str | None, key: str) -> bool:
@@ -554,6 +580,12 @@ def main() -> int:
         line = (data.get("tool_input") or {}).get("command", "")
         cwd = data.get("cwd") or os.getcwd()
         _LOG_CTX.update(command=line, cwd=cwd, session=data.get("session_id"))
+        session = data.get("session_id")
+        rkey = "guard:" + hashlib.sha256(f"{os.path.realpath(cwd)}\0{line}".encode()).hexdigest()[:32]
+        if _repeat_on() and session and _seen_any(session, rkey):
+            if _log_mode():
+                _shadow("pass_repeat")
+            return 0
         threshold = float(os.environ.get("EKBASIS_LOST_THRESHOLD", "0.2"))
         deadline = float(os.environ.get("EKBASIS_HOOK_DEADLINE", "25"))
         shortcuts = os.environ.get("EKBASIS_SHORTCUTS", "1") != "0"
@@ -569,7 +601,7 @@ def main() -> int:
         request = user_request(data.get("transcript_path")) if os.environ.get("EKBASIS_REQUEST") == "1" else None
         plan = plan_line(line, cwd)
         if plan.why and os.environ.get("EKBASIS_GIT_GUARD", "1") != "0":
-            return _cannot_judge("; ".join(plan.why))
+            return _cannot_judge("; ".join(plan.why), session, rkey)
         found = []
         if os.environ.get("EKBASIS_GIT_GUARD", "1") == "0":
             plan.steps = []   # preflight only: no git checks
@@ -616,7 +648,7 @@ def main() -> int:
             if problem:
                 if "not a git repository" in problem.lower():
                     continue  # outside a repository the git commands fail or create one: nothing uncommitted to lose
-                return _cannot_judge(f"cannot read a git repository at {repo}: {problem}")
+                return _cannot_judge(f"cannot read a git repository at {repo}: {problem}", session, rkey)
             if shortcuts and R.no_uncommitted_work(repo):
                 continue
             v = _with_deadline(lambda: G.check(cmds, repo=repo, client=client,
@@ -624,26 +656,50 @@ def main() -> int:
                                                lost_threshold=threshold, request=request), left())
             if v.risky:
                 flagged.add(repo)
+                stake = G.at_stake(repo, cmds)
                 found.append(f"Ekbasis: {'; '.join(v.reasons)}. Commands: {' ; '.join(cmds)}. "
-                             "Consider saving the work first (commit, or git stash -u).")
+                             + (f"At stake ({stake}). " if stake else "")
+                             + "Consider saving the work first (commit, or git stash -u).")
         if os.environ.get("EKBASIS_SHELL_GUARD") == "1" and plan.shell_line.strip() and changes_files(plan.shell_line):
             skip = (lambda view: R.touched_recoverable(view, cwd)) if shortcuts else None
             v = _with_deadline(lambda: S.check([plan.shell_line], cwd=cwd, client=client, lost_threshold=threshold,
                                                skip=skip, request=request), left())
             if v.risky:
                 what = "could not foresee every part of the line" if not v.lost_risky else "; ".join(v.reasons)
-                found.append(f"Ekbasis (shell guard): {what}. Line: {line}. Consider keeping a copy of the files first.")
+                stake = ""
+                try:  # 0.1.24: name what the line could change, so whoever reads the warning can decide
+                    touched, _ = R.write_touched(S.inspect([plan.shell_line], cwd), cwd)
+                    names = []
+                    for t, how in sorted(touched.items()):
+                        full = os.path.join(cwd, t)
+                        if how == "tree" and os.path.isdir(full) and not os.path.islink(full):
+                            for dp, dns, fns in os.walk(full):
+                                dns[:] = [x for x in dns if x != ".git"]
+                                names += [os.path.relpath(os.path.join(dp, f), cwd) for f in sorted(fns)]
+                                if len(names) > 50:
+                                    break
+                        elif os.path.lexists(full):
+                            names.append(t)
+                    if names:
+                        stake = (" It changes or removes: " + ", ".join(names[:8])
+                                 + (f" and {len(names) - 8} more" if len(names) > 8 else "") + ".")
+                except Exception:  # noqa: BLE001 — the warning goes out without the list
+                    pass
+                found.append(f"Ekbasis (shell guard): {what}. Line: {line}.{stake} Consider keeping a copy of the "
+                             "files first.")
         if os.environ.get("EKBASIS_PREFLIGHT") == "1":
             warn = _preflight(line, cwd, data.get("session_id"), client, left)
             if warn:
                 found.append(warn)
         routes = _safer_routes(groups, flagged, client, threshold, left, request) if found else []
     except CannotJudge as e:
-        return _cannot_judge(str(e))
+        return _cannot_judge(str(e), session, rkey)
     except Exception as e:  # noqa: BLE001  (anything else: cannot judge)
-        return _cannot_judge(f"{type(e).__name__}: {e}")
+        return _cannot_judge(f"{type(e).__name__}: {e}", session, rkey)
     if found:
-        _decide(" Also: ".join(found) + "".join(" " + r for r in routes))
+        if _repeat_on() and session:
+            _remember(session, rkey)
+        _decide(" Also: ".join(found) + "".join(" " + r for r in routes) + (REPEAT_NOTE if _repeat_on() and session else ""))
     elif _log_mode():
         _shadow("pass")
     return 0
