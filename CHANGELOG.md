@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.1.24] — 2026-10-12
+
+### Added
+- **Hook: warn once** (`EKBASIS_GUARD_REPEAT=1`, opt-in; meant for agents running without a person, with
+  `EKBASIS_GUARD_MODE=deny`). The first attempt is blocked with the facts; the exact same command, in the same session
+  and folder, goes through when run again: the agent has read what is at stake and decides, as a person does when
+  Claude Code asks.
+- **Warnings name what is at stake**: the paths `git clean` would remove (git's own dry run), the uncommitted paths of
+  the repository, the stash entries, and the files a shell line changes or removes.
+- Pre-registered held-out test with Claude Haiku 5.5 (20 new tasks, 160 runs): with a hard block (0.1.23) the guard
+  cost 9 of 56 tasks; with warn once, 48/56 against 45/56 alone, controls 24/24 in both, and none of the 17 repeated
+  commands caused harm. Neither arm lost work on these tasks, so no safety difference could be measured.
+
 ## [0.1.23] — 2026-10-12
 
 ### Fixed
