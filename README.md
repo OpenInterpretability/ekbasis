@@ -335,8 +335,10 @@ confidence ≥ 0.995). Recorded on the hosted API: 4 and 5 requests, 3.7 and 4.4
   real state.
 - **Harm questions** are yes/no questions whose "yes" is the harm (`yes_no`); put every consequence you care about in
   one request (they are answered together).
-- **Cost and time**: one request per prefix checked, each reading the state and the prefix (~0.9 s on the hosted API;
-  tokens grow with the plan). `max_steps` caps a long plan; the steps past it count as unchecked.
+- **Cost and time**: one request per prefix checked, each reading the state and the prefix (tokens grow with the plan).
+  The prefixes are independent, so `check_plan` asks up to `parallel` of them at once (default 4, since 0.1.27; the
+  answer is the same as one by one). Measured on the hosted API, a 10-step plan: 10.3 s one by one, 3.6 s with
+  `parallel=4`, 2.5 s with `parallel=10`. `max_steps` caps a long plan; the steps past it count as unchecked.
 - **Check in code as well where the answer must be exact** (a running total crossing a limit, a command that fails):
   confident errors exist, and confidence alone does not catch them (`ekbasis.verify`, `threshold`).
 - For shell scripts and SQL there is `ekbasis preflight` (runs the plan on a copy when it can); for git, the hook.

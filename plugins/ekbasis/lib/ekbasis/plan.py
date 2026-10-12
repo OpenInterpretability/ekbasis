@@ -24,6 +24,7 @@ must be exact (a limit crossed by a running total, a failing command), check in 
 catch confident errors (see the paper Look When Unsure, Check When Sure, and ekbasis.verify)."""
 from __future__ import annotations
 
+import concurrent.futures as cf
 from dataclasses import dataclass, field
 
 from .client import Ekbasis
@@ -52,9 +53,13 @@ class PlanCheck:
 
 
 def check_plan(client: Ekbasis, rules: str, state: str, actions, harm: dict, look_below: float = LOOK_BELOW,
-               harm_at: float = HARM_AT, max_steps: int | None = None, notes=None) -> PlanCheck:
+               harm_at: float = HARM_AT, max_steps: int | None = None, notes=None, parallel: int = 4) -> PlanCheck:
     """Forecast every prefix of `actions` (strings) from `state` (text) under `rules`; stop at the first prefix with a
-    harm answered yes at >= harm_at, or with any harm question's confidence below look_below."""
+    harm answered yes at >= harm_at, or with any harm question's confidence below look_below.
+
+    parallel (0.1.27): prefixes are independent (each is forecast from `state`), so up to `parallel` of them are asked
+    at once, in waves; the answer is the same as asking them one by one, and a wave past the stopping step costs at
+    most parallel - 1 extra requests. parallel=1 asks them in order."""
     actions = list(actions)
     if not actions:
         return PlanCheck(ok=True, safe=0)
@@ -63,17 +68,25 @@ def check_plan(client: Ekbasis, rules: str, state: str, actions, harm: dict, loo
             raise ValueError(f"harm question {k!r} must be a yes/no question (ekbasis.yes_no) whose yes is the harm")
     n = min(len(actions), max_steps) if max_steps else len(actions)
     pc = PlanCheck(ok=False, safe=0)
-    for i in range(1, n + 1):
-        ans = client.ask(world_state(rules, state, actions[:i], notes=notes), harm)
-        pc.requests += 1
-        p = {k: float(a.p_yes) for k, a in ans.items()}
-        conf = min(max(x, 1 - x) for x in p.values())
-        pc.prefixes.append({"step": i, "p_yes": p, "confidence": round(conf, 4)})
-        flags = [k for k, x in p.items() if x >= harm_at]
-        if flags or conf < look_below:
-            pc.safe, pc.step = i - 1, i
-            pc.reason, pc.flags = ("flagged", flags) if flags else ("unsure", [])
-            return pc
+
+    def ask(i):
+        return client.ask(world_state(rules, state, actions[:i], notes=notes), harm)
+
+    width = max(1, int(parallel))
+    with cf.ThreadPoolExecutor(width) as ex:
+        for start in range(1, n + 1, width):
+            wave = list(range(start, min(n, start + width - 1) + 1))
+            answers = list(ex.map(ask, wave)) if len(wave) > 1 else [ask(wave[0])]
+            pc.requests += len(wave)
+            for i, ans in zip(wave, answers):
+                p = {k: float(a.p_yes) for k, a in ans.items()}
+                conf = min(max(x, 1 - x) for x in p.values())
+                pc.prefixes.append({"step": i, "p_yes": p, "confidence": round(conf, 4)})
+                flags = [k for k, x in p.items() if x >= harm_at]
+                if flags or conf < look_below:
+                    pc.safe, pc.step = i - 1, i
+                    pc.reason, pc.flags = ("flagged", flags) if flags else ("unsure", [])
+                    return pc
     pc.safe = n
     pc.ok = n == len(actions)
     if not pc.ok:   # max_steps reached: the rest was not checked
@@ -90,7 +103,7 @@ class PlanRun:
 
 
 def run_plan(client: Ekbasis, rules: str, actions, harm: dict, observe, execute, look_below: float = LOOK_BELOW,
-             harm_at: float = HARM_AT, max_steps: int | None = None) -> PlanRun:
+             harm_at: float = HARM_AT, max_steps: int | None = None, parallel: int = 4) -> PlanRun:
     """Run a plan with look when unsure: check, run the safe prefix with execute(list_of_actions), read the real state
     with observe() -> text, check the rest from it. Stops (without running the step) when a step is still flagged on
     the state as it is right before it; a step that is only uncertain on the real state is checked once more alone and
@@ -99,7 +112,7 @@ def run_plan(client: Ekbasis, rules: str, actions, harm: dict, observe, execute,
     while done < len(actions):
         state = observe()
         out.looks += 1
-        pc = check_plan(client, rules, state, actions[done:], harm, look_below, harm_at, max_steps)
+        pc = check_plan(client, rules, state, actions[done:], harm, look_below, harm_at, max_steps, parallel=parallel)
         out.checks.append(pc)
         if pc.ok:
             execute(actions[done:])

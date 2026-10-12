@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.27] — 2026-10-12
+
+### Changed
+- **`check_plan` asks the prefixes in parallel** (`parallel=4` by default; `parallel=1` for one by one). Each prefix is
+  forecast from the same state, so the answer is the same; a wave past the stopping step costs at most `parallel - 1`
+  extra requests. Measured on the hosted API, a 10-step plan: 10.3 s → 3.6 s (2.5 s with `parallel=10`). `run_plan`
+  passes it through.
+
 ## [0.1.26] — 2026-10-12
 
 ### Added
