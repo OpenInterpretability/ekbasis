@@ -51,7 +51,8 @@ EKBASIS_PREFLIGHT_REPEAT (1, the default: a warned command passes when it is run
 EKBASIS_GIT_GUARD (0: no git checks, for preflight alone), EKBASIS_PREFLIGHT_COPY (0: never run on a copy),
 EKBASIS_PREFLIGHT_FAIL_CLOSED (1: warn when preflight cannot judge), EKBASIS_SAFER (0: no safer route),
 EKBASIS_REMOTE_CHECK (0: do not read the remote with git ls-remote before forced or mirror pushes; 0.1.23),
-EKBASIS_REQUEST (1: experimental, give the guards the last message the user typed; 0.1.23).
+EKBASIS_REQUEST (1: experimental, give the guards the last message the user typed; 0.1.23),
+EKBASIS_GUARD_REPEAT (1: warn once, the same command run again goes through; 0.1.24).
 
 Safer route: when the hook warns about git commands, it also offers the alternative with the same intent that Ekbasis
 checked and found safe (ekbasis.safer), e.g. `git stash push && git reset --hard`, or says that none passed. It is
