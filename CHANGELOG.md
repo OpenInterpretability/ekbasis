@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.1.22] — 2026-10-12
+
+### Changed
+- **Migration guard: a rule decides, the model reviews** (`--policy rule`, the new default; Action input `policy`). A
+  rule written from the PostgreSQL documentation (`ekbasis/migration_rule.py`), over the same facts the model reads,
+  decides whether a migration fails the check. When it finds no risk and the model does, the migration is marked
+  `review` (comment and `--json`), without failing the check. `--policy model` keeps the 0.1.21 behavior. The verdict
+  cache key includes the policy.
+- Why: in pre-registered tests the rule matched or beat the model on the same facts. With realistic seed data
+  (duplicates, sentinels, orphan rows), on 307 Rails migrations the rule's false alarms were 4.4% against the
+  model's 7.5%, and rule-decides-model-reviews scored accuracy 0.967 with recall 98.6% counting reviews.
+- The rule in the product gives the same verdict and reason as the frozen rule of the study on every checked item
+  (184 v3 migrations, both regimes; 300 Rails v7 migrations).
+
 ## [0.1.21] — 2026-10-11
 
 ### Added

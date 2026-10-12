@@ -63,6 +63,12 @@ inputs:
   redis:
     description: "django/alembic/rails: a throwaway Redis on the generator's internal network (no route out, no published port), for projects whose migrations use it. auto (default: when the Gemfile or Python requirements depend on redis, sidekiq, celery...), on, or off."
     default: auto
+  policy:
+    description: >-
+      rule (default): a rule written from the PostgreSQL documentation, over the same facts the model reads, decides
+      whether the check fails; when it finds nothing and the model's second opinion does, the migration is marked
+      "review" (in the comment and the JSON) without failing the check. model: the model decides (the 0.1.21 behavior).
+    default: rule
   on-code:
     description: "django/alembic: a migration with code that is not SQL (RunPython, no offline SQL) is listed as 'code not foreseen, review by hand' and does not fail the check (warn, default), or fails closed (block)."
     default: warn
@@ -80,7 +86,7 @@ inputs:
 
 outputs:
   verdict:
-    description: ok, risky, cannot-foresee, or code-not-foreseen (a migration with code to review by hand; does not fail the check).
+    description: ok, risky, cannot-foresee, code-not-foreseen (a migration with code to review by hand), or review (the rule found no risk, the model's second opinion asks for a review). The last two do not fail the check.
     value: ${{ steps.check.outputs.verdict }}
   result:
     description: Path of the JSON result.
@@ -173,10 +179,11 @@ runs:
         AUTOCOMMIT: ${{ inputs.autocommit }}
         FRAMEWORK: ${{ inputs.framework }}
         ON_CODE: ${{ inputs.on-code }}
+        POLICY: ${{ inputs.policy }}
         SETUP_SQL: ${{ inputs.setup-sql }}
       run: |
         out="$RUNNER_TEMP/ekbasis-migrations.json"
-        args=(migrate-check --json --lost-threshold "$LOST" --fail-threshold "$FAIL")
+        args=(migrate-check --json --lost-threshold "$LOST" --fail-threshold "$FAIL" --policy "${POLICY:-rule}")
         if [ "$FRAMEWORK" = "sql" ]; then
           args+=(--base "origin/$BASE")
           while IFS= read -r g; do [ -n "$g" ] && args+=(--glob "$g"); done <<< "$PATHS"
@@ -193,6 +200,8 @@ runs:
         case "$rc" in 0) v=ok;; 2) v=risky;; *) v=cannot-foresee;; esac
         if [ "$v" = ok ] && python -c 'import json,sys; sys.exit(0 if json.loads(open(sys.argv[1]).read().splitlines()[-1]).get("code_not_foreseen") else 1)' "$out" 2>/dev/null; then
           v=code-not-foreseen     # listed for review by hand; does not fail the check (on-code: warn)
+        elif [ "$v" = ok ] && python -c 'import json,sys; sys.exit(0 if json.loads(open(sys.argv[1]).read().splitlines()[-1]).get("review") else 1)' "$out" 2>/dev/null; then
+          v=review                # policy rule: the model's second opinion asks for a review; does not fail the check
         fi
         echo "verdict=$v" >> "$GITHUB_OUTPUT"
         echo "result=$out" >> "$GITHUB_OUTPUT"

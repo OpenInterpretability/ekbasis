@@ -17,14 +17,16 @@
       3 cannot foresee, with --fail-closed. It runs the plan on a copy when it can (local files and SQLite; shell steps
       only inside the macOS sandbox, SQL where the sqlite3 tool is installed; --no-copy asks the model instead). --sql
       DB FILE checks a SQL file as `sqlite3 DB < FILE` would run it; --show-state prints what the model read.
-  ekbasis migrate-check [--base REF] [--head REF] [--glob G] [--pg-url URL] [--stats-url URL] [--setup-sql PATH] [--autocommit] [--json]
-                        [FILE ...]
+  ekbasis migrate-check [--base REF] [--head REF] [--glob G] [--pg-url URL] [--stats-url URL] [--setup-sql PATH] [--autocommit]
+                        [--policy rule|model] [--json] [FILE ...]
       Before a pull request is merged: will its new PostgreSQL migrations lose data or fail? The schema is built by
       applying the base's migrations to a scratch database (EKBASIS_PG_URL); optional row counts and NULL fractions come
       from a read-only replica's planner statistics (EKBASIS_DB_STATS_URL; aggregates only, never values). A file runs
       as one transaction, as Prisma, Diesel and golang-migrate run it; --autocommit for psql -f semantics. Exit codes:
-      0 no risk found; 2 risky; 3 cannot foresee (treat as risky; --fail-open turns it into 0). See
-      docs/MIGRATION_GUARD.md. --bundle FILE checks a framework bundle (below) instead of SQL files.
+      0 no risk found; 2 risky; 3 cannot foresee (treat as risky; --fail-open turns it into 0). --policy rule (default):
+      a rule written from the PostgreSQL documentation decides, and the model only asks for a review (exit 0);
+      --policy model: the model decides (0.1.21). See docs/MIGRATION_GUARD.md. --bundle FILE checks a framework bundle
+      (below) instead of SQL files.
   ekbasis migrate-gen --framework django|alembic --base REF [--image IMAGE] [--setup CMD] [--workdir DIR]
                       [--env K=V ...] [--migrate CMD] [--command CMD] [-o bundle.json]
       Django and Alembic keep migrations as code: render the new ones as SQL with the framework itself, inside a
@@ -127,6 +129,10 @@ def main(argv=None) -> int:
     m.add_argument("--fail-open", action="store_true", help="exit 0 (with a warning) when it cannot foresee")
     m.add_argument("--no-cache", action="store_true", help="always ask the model (default: reuse the answer for the same "
                                                            "migration, schema, client version and rules, 30 days)")
+    m.add_argument("--policy", choices=list(M.POLICIES), default=M.DEFAULT_POLICY,
+                   help="rule (default): the rule written from the PostgreSQL documentation decides whether the check "
+                        "fails, and the model's second opinion can only ask for a review; model: the model decides "
+                        "(the 0.1.21 behavior)")
     m.add_argument("--bundle", default=None, help="a framework bundle from migrate-gen (instead of files or --base)")
     m.add_argument("--on-code", choices=list(M.ON_CODE), default="warn",
                    help="bundle only: code that is not SQL (RunPython, no offline SQL) is listed for review by hand "
@@ -241,13 +247,15 @@ def main(argv=None) -> int:
                 raise CannotJudge(f"the framework bundle was not generated: {bundle['error']}")
             v = M.check_bundle(bundle, pg_url=a.pg_url, stats_url=a.stats_url, autocommit=a.autocommit,
                                client=client, lost_threshold=a.lost_threshold, fail_threshold=a.fail_threshold,
-                               on_code=a.on_code, cache=M.VerdictCache(off=True) if a.no_cache else None)
+                               on_code=a.on_code, cache=M.VerdictCache(off=True) if a.no_cache else None,
+                               policy=a.policy)
         elif a.cmd == "migrate-check":
             v = M.check(repo=a.repo, base=a.base, head=a.head, files=a.files or None,
                         globs=tuple(a.glob) if a.glob else M.DEFAULT_GLOBS, pg_url=a.pg_url, stats_url=a.stats_url,
                         autocommit=a.autocommit, client=client, lost_threshold=a.lost_threshold,
                         fail_threshold=a.fail_threshold,
-                        cache=M.VerdictCache(off=True) if a.no_cache else None, setup_sql=a.setup_sql)
+                        cache=M.VerdictCache(off=True) if a.no_cache else None, setup_sql=a.setup_sql,
+                        policy=a.policy)
         if a.cmd == "migrate-check":
             if a.json:
                 print(json.dumps(v.as_json(state=a.show_state)))

@@ -3,6 +3,19 @@
 Before a pull request is merged: will its new PostgreSQL migrations **lose data** or **fail** on the existing database?
 `ekbasis migrate-check` answers from facts, and a GitHub Action posts the answer on the pull request.
 
+## Who decides (0.1.22)
+
+By default (`--policy rule`, Action input `policy: rule`) **a rule written from the PostgreSQL documentation decides**
+whether a migration fails the check, over exactly the facts described below. Ekbasis reads the same facts and gives a
+**second opinion**: when the rule finds no risk and the model does, the migration is marked **review** in the comment
+and in the JSON, without failing the check. `--policy model` restores the 0.1.21 behavior (the model decides).
+
+Why: in pre-registered tests, a rule written from the documentation over the same facts matched or beat the model.
+On data seeded the way real databases look (duplicates, sentinel values, orphan rows), on 307 Rails migrations it was
+more accurate (false alarms 4.4% against 7.5%), and the rule-decides-model-reviews policy had the best accuracy
+(0.967) with recall 98.6% counting reviews. The value of the guard is in the facts it builds; the model stays as a
+second opinion. Studies: [migrations-rich-rule](https://github.com/OpenInterpretability/ekbasis-cookbook/tree/main/studies/migrations-rich-rule).
+
 ## What it reads
 
 - **The schema.** The migrations the base branch already has are applied, in order, to a scratch PostgreSQL. The

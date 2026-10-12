@@ -45,6 +45,10 @@ from .probes import probe_facts
 
 LOST_THRESHOLD = 0.5
 FAIL_THRESHOLD = 0.5
+POLICIES = ("rule", "model")
+# rule (default, 0.1.22): the rule written from the PostgreSQL documentation (ekbasis.migration_rule) decides whether a
+# file fails the check; the model is a second opinion that can only ask for a review. model: the 0.1.21 behavior.
+DEFAULT_POLICY = "rule"
 MAX_TABLES = 8
 MAX_CHARS = 200000          # ~64k tokens (q99 0.31 token/char): the length up to which a pre-registered test found
                             # no loss in verdict accuracy (11 Oct 2026); above it, "cannot foresee"
@@ -1287,6 +1291,10 @@ class FileVerdict:
     edited: bool = False                # the pull request edits this migration, which the base already has
     fail_by_schema: bool = False        # "fails" decided in code: schema-only statements that ran on the schema
     p_fail_model: float | None = None   # the model's P(fails) before that decision
+    policy: str = "model"               # who decided the verdict: "rule" (migration_rule) or "model"
+    rule_kind: str | None = None        # policy rule: the rule's verdict, fails / loses / ok
+    rule_why: list = field(default_factory=list)
+    review: bool = False                # policy rule: the rule says ok, the model says risky; does not fail the check
 
     @property
     def kind(self) -> str:
@@ -1298,6 +1306,10 @@ class FileVerdict:
             return "code_not_foreseen"
         if self.schema_error:
             return "schema"
+        if self.rule_kind is not None:      # policy rule: the rule decides; the model can only ask for a review
+            if self.rule_kind != "ok":
+                return self.rule_kind
+            return "review" if self.review else "ok"
         if self.p_fail is not None and self.p_fail >= self.fail_threshold:
             return "fails"
         if self.p_lost is not None and self.p_lost >= self.lost_threshold:
@@ -1314,6 +1326,19 @@ class FileVerdict:
         if k == "schema":
             return (f"fails on the base branch's schema before touching any data: {self.schema_error} (an error in "
                     "the pull request itself, e.g. it depends on a migration missing from the base, or a typo)")
+        if self.rule_kind is not None:
+            model = f"the model's second opinion: lose {self.p_lost:.0%}, fail {self.p_fail:.0%}"
+            why = "; ".join(self.rule_why[:3]) + (f" (and {len(self.rule_why) - 3} more)" if len(self.rule_why) > 3
+                                                  else "")
+            if k == "fails":
+                return (f"may fail on existing data: {why}" + ("; nothing in the file would be applied" if
+                        self.transaction else "; the statements that do not fail stay applied") + f" ({model})")
+            if k == "loses":
+                return f"may lose existing data: {why} ({model})"
+            if k == "review":
+                return ("review suggested: the rule foresees no data loss or failure, but the model's second opinion "
+                        f"does (lose {self.p_lost:.0%}, fail {self.p_fail:.0%}); this does not fail the check")
+            return f"no data loss or failure foreseen by the rule ({model})"
         lose = self.p_lost is not None and self.p_lost >= self.lost_threshold
         if k == "fails" and self.decided:
             return f"fails on existing data: {self.decided}" + ("; nothing in the file would be applied"
@@ -1335,7 +1360,8 @@ class FileVerdict:
              "reason": self.reason, "kind": self.kind, "notes": self.notes, "tables": self.shown,
              "cached": self.cached, "code_not_foreseen": self.code_not_foreseen, "decided": self.decided,
              "edited": self.edited, "fail_by_schema": self.fail_by_schema,
-             "p_fail_model": self.p_fail_model}
+             "p_fail_model": self.p_fail_model, "policy": self.policy, "rule_kind": self.rule_kind,
+             "rule_why": self.rule_why, "review": self.review}
         if state:
             d["state"] = self.state
         return d
@@ -1358,15 +1384,20 @@ class GuardVerdict:
     def code_not_foreseen(self) -> bool:
         return any(f.code_not_foreseen for f in self.files)
 
+    @property
+    def review(self) -> bool:
+        return any(f.review for f in self.files)
+
     def summary(self) -> str:
         if not self.files:
             return "Ekbasis migration guard: no new migration files" + ("\n  " + "\n  ".join(self.notes) if self.notes else "")
         head = ("RISKY" if self.risky else "CANNOT FORESEE" if self.cannot_judge else
-                "no risk found in the SQL; code to review by hand" if self.code_not_foreseen else "no risk found")
+                "no risk found in the SQL; code to review by hand" if self.code_not_foreseen else
+                "no risk found by the rule; review suggested" if self.review else "no risk found")
         lines = [f"Ekbasis migration guard: {head}"]
         for f in self.files:
             tag = ("CANNOT FORESEE" if f.cannot_judge else "RISKY" if f.risky else
-                   "REVIEW BY HAND" if f.code_not_foreseen else "ok")
+                   "REVIEW BY HAND" if f.code_not_foreseen else "REVIEW" if f.review else "ok")
             lines.append(f"  {tag:<14} {f.path}: {f.reason}")
             lines += [f"                 note: {n}" for n in f.notes]
         lines += [f"  note: {n}" for n in self.notes]
@@ -1374,7 +1405,7 @@ class GuardVerdict:
 
     def as_json(self, state: bool = False) -> dict:
         return {"risky": self.risky, "cannot_judge": self.cannot_judge, "cannot_foresee": self.cannot_judge,
-                "code_not_foreseen": self.code_not_foreseen,
+                "code_not_foreseen": self.code_not_foreseen, "review": self.review,
                 "files": [f.as_json(state) for f in self.files], "notes": self.notes}
 
 
@@ -1396,7 +1427,8 @@ def check(repo: str = ".", base: str | None = None, head: str = "HEAD", files: l
           globs=DEFAULT_GLOBS, pg_url: str | None = None, stats_url: str | None = None, autocommit: bool = False,
           client: Ekbasis | None = None, lost_threshold: float = LOST_THRESHOLD,
           fail_threshold: float = FAIL_THRESHOLD, psql: str | None = None,
-          cache: VerdictCache | None = None, setup_sql: str | None = None) -> GuardVerdict:
+          cache: VerdictCache | None = None, setup_sql: str | None = None,
+          policy: str = DEFAULT_POLICY) -> GuardVerdict:
     """Check the new migrations of a change. With base: the files added between the merge base and head (the base's
     own migrations build the schema), and the migrations the change edits (their new content on the schema of the
     migrations before them). With files: those files, and the schema is built from the files that sort before them in
@@ -1404,7 +1436,11 @@ def check(repo: str = ".", base: str | None = None, head: str = "HEAD", files: l
 
     setup_sql: path of a SQL file run by the admin connection before the base's migrations (a schema, a role or an
     extension the platform creates outside the migrations). With base it is read from the BASE ref, never from the
-    pull request's head, because it runs with privileges; with files, from the working tree."""
+    pull request's head, because it runs with privileges; with files, from the working tree.
+
+    policy: "rule" (default) or "model"; see DEFAULT_POLICY."""
+    if policy not in POLICIES:
+        raise ValueError(f"policy must be one of {', '.join(POLICIES)}")
     pg_url = pg_url or os.environ.get("EKBASIS_PG_URL")
     stats_url = stats_url or os.environ.get("EKBASIS_DB_STATS_URL") or None
     notes = []
@@ -1466,7 +1502,7 @@ def check(repo: str = ".", base: str | None = None, head: str = "HEAD", files: l
                                  ("; the guard runs migrations without superuser privileges" if priv else ""))
                 for f in fs:
                     out.append(_check_file(f, tool, src_new.read(f), scratch, stats, autocommit, client,
-                                           lost_threshold, fail_threshold, bool(base_err), cache))
+                                           lost_threshold, fail_threshold, bool(base_err), cache, policy))
                     scratch.db.apply(src_new.read(f), transaction=True)   # the next file sees this one applied
         except CannotJudge as e:
             for f in fs:
@@ -1474,7 +1510,7 @@ def check(repo: str = ".", base: str | None = None, head: str = "HEAD", files: l
                     out.append(FileVerdict(f, tool, not autocommit, cannot_judge=redact(str(e), pg_url, stats_url)))
     for f in edited:
         out.append(_check_edited(f, src_base, src_new, globs, pg_url, psql, setup, stats, autocommit, client,
-                                 lost_threshold, fail_threshold, cache, stats_url))
+                                 lost_threshold, fail_threshold, cache, stats_url, policy))
     return GuardVerdict(out, notes)
 
 
@@ -1484,7 +1520,7 @@ EDIT_NOTE = ("this pull request edits a migration the base already has: database
 
 
 def _check_edited(path, src_base, src_new, globs, pg_url, psql, setup, stats, autocommit, client, lt, ft, cache,
-                  stats_url) -> FileVerdict:
+                  stats_url, policy=DEFAULT_POLICY) -> FileVerdict:
     """An edited migration: its new content checked on the schema of the base's migrations that sort before it."""
     folder, tool = set_dir(path), tool_of(path)
     try:
@@ -1496,7 +1532,8 @@ def _check_edited(path, src_base, src_new, globs, pg_url, psql, setup, stats, au
                 if scratch.db.apply(src_base.read(p), transaction=True) and \
                         scratch.db.apply(src_base.read(p), transaction=False):
                     dirty = True
-            v = _check_file(path, tool, src_new.read(path), scratch, stats, autocommit, client, lt, ft, dirty, cache)
+            v = _check_file(path, tool, src_new.read(path), scratch, stats, autocommit, client, lt, ft, dirty, cache,
+                            policy)
     except CannotJudge as e:
         v = FileVerdict(path, tool, not autocommit, cannot_judge=redact(str(e), pg_url, stats_url))
     v.edited = True
@@ -1613,7 +1650,8 @@ def schema_only_plan(stmts: list) -> bool:
     return bool(stmts)
 
 
-def _check_file(path, tool, text, scratch, stats, autocommit, client, lt, ft, base_dirty, cache=None) -> FileVerdict:
+def _check_file(path, tool, text, scratch, stats, autocommit, client, lt, ft, base_dirty, cache=None,
+                policy=DEFAULT_POLICY) -> FileVerdict:
     stmts = split_sql(text)
     fnotes = []
     tx = _transaction_for(tool, stmts, autocommit, fnotes, text)
@@ -1645,7 +1683,7 @@ def _check_file(path, tool, text, scratch, stats, autocommit, client, lt, ft, ba
     facts = []
     if v.schema_error:
         facts.append(f"Run on this schema with no rows, the migration fails: {v.schema_error}.")
-    decided = None
+    decided, pfacts = None, []
     if not v.schema_error:          # the probes report only data errors (23502/23503/23505), so an incomplete base
         pfacts, decided = probe_facts(scratch, catalog, stmts, stats, tx, outside_bodies)
         facts += pfacts
@@ -1660,7 +1698,7 @@ def _check_file(path, tool, text, scratch, stats, autocommit, client, lt, ft, ba
     if not tx:
         qs["half"] = Q_HALF
     key = VerdictCache.key(text + (f"\n-- setup {scratch.setup_hash}" if getattr(scratch, "setup_hash", None) else ""),
-                           catalog, tx, stats is not None, v.state, qs, getattr(client, "url", ""))
+                           catalog, tx, stats is not None, v.state, qs, getattr(client, "url", ""), policy)
     probs = cache.get(key) if cache else None
     if probs is not None and set(probs) == set(qs):
         v.cached = True
@@ -1681,7 +1719,24 @@ def _check_file(path, tool, text, scratch, stats, autocommit, client, lt, ft, ba
         v.notes.append("cannot fail on existing data: every statement depends on the schema alone, and it ran on the "
                        "base schema")
     v.risky = bool(v.schema_error) or v.p_lost >= lt or v.p_fail >= ft
+    if policy == "rule":
+        _apply_rule(v, catalog, stmts, stats, tx, pfacts, tool)
     return v
+
+
+def _apply_rule(v: FileVerdict, catalog, stmts, stats, tx, pfacts, tool):
+    """Policy rule: the rule decides whether the file fails the check, from the same facts the model read; when the
+    rule says ok and the model says risky, the file is a review (it does not fail the check)."""
+    from .migration_rule import decide, facts_from
+    try:
+        kind, why = decide(facts_from(catalog, stmts, stats, tx, v.schema_error, pfacts, tool))
+    except Exception as e:  # noqa: BLE001  a statement the rule's parser did not expect: say so, keep the model's verdict
+        v.notes.append(f"the rule could not read this migration ({type(e).__name__}); the model's verdict is used")
+        return
+    model_risky = v.risky
+    v.policy, v.rule_kind, v.rule_why = "rule", kind, list(why)
+    v.risky = bool(v.schema_error) or kind != "ok"
+    v.review = not v.risky and model_risky
 
 
 # ---------------------------------------------------------------- verdict cache
@@ -1729,9 +1784,10 @@ class VerdictCache:
         return hashlib.sha256(json.dumps(norm, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
 
     @staticmethod
-    def key(text: str, catalog, transaction: bool, stats: bool, state: str, questions: dict, url: str) -> str:
+    def key(text: str, catalog, transaction: bool, stats: bool, state: str, questions: dict, url: str,
+            policy: str = DEFAULT_POLICY) -> str:
         schema = VerdictCache.schema_hash(catalog)
-        parts = {"v": __version__, "cut": CUT_VERSION if PRUNE else 0,
+        parts = {"v": __version__, "cut": CUT_VERSION if PRUNE else 0, "policy": policy,
                  "file": hashlib.sha256(text.encode()).hexdigest(), "schema": schema,
                  "tx": bool(transaction), "stats": bool(stats), "url": (url or "").rstrip("/"),
                  "state": hashlib.sha256(state.encode()).hexdigest(),
@@ -1778,7 +1834,7 @@ OFFLINE_FAIL = "offline rendering failed"
 def check_bundle(bundle: dict, pg_url: str | None = None, stats_url: str | None = None, autocommit: bool = False,
                  client: Ekbasis | None = None, lost_threshold: float = LOST_THRESHOLD,
                  fail_threshold: float = FAIL_THRESHOLD, psql: str | None = None, on_code: str = "warn",
-                 cache: VerdictCache | None = None) -> GuardVerdict:
+                 cache: VerdictCache | None = None, policy: str = DEFAULT_POLICY) -> GuardVerdict:
     """Check the migrations of a framework bundle (ekbasis.frameworks.generate): the base schema it carries is loaded
     into a scratch database as the throwaway role, then each migration's SQL is checked as a SQL file is.
 
@@ -1789,6 +1845,8 @@ def check_bundle(bundle: dict, pg_url: str | None = None, stats_url: str | None 
     still applies to the scratch schema, so the next one sees it."""
     if on_code not in ON_CODE:
         raise ValueError(f"on_code must be one of {', '.join(ON_CODE)}")
+    if policy not in POLICIES:
+        raise ValueError(f"policy must be one of {', '.join(POLICIES)}")
     pg_url = pg_url or os.environ.get("EKBASIS_PG_URL")
     stats_url = stats_url or os.environ.get("EKBASIS_DB_STATS_URL") or None
     fw = bundle.get("framework") or "generic"
@@ -1845,7 +1903,7 @@ def check_bundle(bundle: dict, pg_url: str | None = None, stats_url: str | None 
                     continue
                 else:
                     out.append(_check_file(m["path"], fw, sql, scratch, stats, not tx, client, lost_threshold,
-                                           fail_threshold, dirty, cache or VerdictCache()))
+                                           fail_threshold, dirty, cache or VerdictCache(), policy))
                 if sql.strip():
                     scratch.db.apply(sql, transaction=tx)        # the next migration sees this one applied
     except CannotJudge as e:
@@ -1887,6 +1945,9 @@ def comment(result: dict) -> str:
     elif result.get("code_not_foreseen"):
         head = ("No data loss or failure foreseen in the SQL. **Review by hand:** at least one migration contains code "
                 "the guard cannot foresee.")
+    elif result.get("review"):
+        head = ("No data loss or failure foreseen by the rule. **Review suggested:** for at least one migration the "
+                "model's second opinion disagrees; this does not fail the check.")
     elif not files:
         head = "No new migration files in this pull request."
     else:
@@ -1896,7 +1957,7 @@ def comment(result: dict) -> str:
         lines += ["| Migration | Verdict | Why |", "|---|---|---|"]
         for f in files:
             tag = ("cannot foresee" if f.get("cannot_judge") else "**risky**" if f.get("risky") else
-                   "code not foreseen" if f.get("code_not_foreseen") else "ok")
+                   "code not foreseen" if f.get("code_not_foreseen") else "review" if f.get("review") else "ok")
             why = md_safe(f.get("reason"), 400)
             mode = "one transaction" if f.get("transaction") else "autocommit"
             tool = f.get("tool") if f.get("tool") in TOOL_NAMES else "generic"

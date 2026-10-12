@@ -427,13 +427,16 @@ class TestPostgres(unittest.TestCase):
         self.assertEqual((again.files[0].p_lost, again.files[0].risky), (0.93, True))
         self.assertIn("reused", " ".join(again.files[0].notes))
         # thresholds are applied again on the cached answer
+        # thresholds are the model's: under policy model they decide (the rule still says "loses" under policy rule)
+        lax = M.check(self.root, base="main", pg_url=PG, client=fake, cache=cache, lost_threshold=0.95, policy="model")
+        self.assertEqual((len(fake.requests), lax.files[0].risky), (2, False))      # the policy is part of the key
         lax = M.check(self.root, base="main", pg_url=PG, client=fake, cache=cache, lost_threshold=0.95)
-        self.assertEqual((len(fake.requests), lax.files[0].risky), (1, False))
+        self.assertEqual((len(fake.requests), lax.files[0].risky, lax.files[0].kind), (2, True, "loses"))
         # one line of the migration changes: asked again
         write(self.root, "prisma/migrations/002_drop/migration.sql", 'ALTER TABLE "User" DROP COLUMN email;\n')
         git(self.root, "commit", "-qam", "edit")
         M.check(self.root, base="main", pg_url=PG, client=fake, cache=cache)
-        self.assertEqual(len(fake.requests), 2)
+        self.assertEqual(len(fake.requests), 3)
         # the base's schema changes (same migration file): asked again
         git(self.root, "checkout", "-q", "main")
         write(self.root, "prisma/migrations/001_init/migration.sql",
@@ -441,10 +444,10 @@ class TestPostgres(unittest.TestCase):
         git(self.root, "commit", "-qam", "base schema")
         git(self.root, "checkout", "-q", "feature")
         M.check(self.root, base="main", pg_url=PG, client=fake, cache=cache)
-        self.assertEqual(len(fake.requests), 3)
+        self.assertEqual(len(fake.requests), 4)
         # the transaction mode changes: asked again
         M.check(self.root, base="main", pg_url=PG, client=fake, cache=cache, autocommit=True)
-        self.assertEqual(len(fake.requests), 4)
+        self.assertEqual(len(fake.requests), 5)
 
     def test_statistics_never_values(self):
         stats_db = "ekbasis_test_stats"
@@ -500,14 +503,14 @@ class TestPostgres(unittest.TestCase):
         write(self.root, "db/migrations/0003_fill.up.sql", "UPDATE t SET a = a + 1;\n")
         fake = Fake(lost=0.95, fails=0.8)
         v = M.check(self.root, files=["db/migrations/0002_drop.up.sql"], pg_url=PG, client=fake,
-                    cache=M.VerdictCache(off=True))
+                    cache=M.VerdictCache(off=True), policy="model")
         f = v.files[0]
         self.assertTrue(f.fail_by_schema)
         self.assertEqual((f.p_fail, f.p_fail_model), (0.0, 0.8))
         self.assertEqual(f.kind, "loses")                   # the reason is the loss, not a failure
         self.assertIn("cannot fail on existing data", " ".join(f.notes))
         v = M.check(self.root, files=["db/migrations/0003_fill.up.sql"], pg_url=PG, client=fake,
-                    cache=M.VerdictCache(off=True))
+                    cache=M.VerdictCache(off=True), policy="model")
         self.assertFalse(v.files[0].fail_by_schema)         # an UPDATE can fail on the rows: the model decides
         self.assertEqual(v.files[0].kind, "fails")
 
