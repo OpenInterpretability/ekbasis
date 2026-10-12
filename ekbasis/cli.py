@@ -52,6 +52,7 @@ from . import git as G
 from . import migrations as M
 from . import preflight as PF
 from . import prompts as P
+from . import recover as R
 from . import safer as SF
 from . import shell as S
 from .client import VERDICTS, CannotJudge, Ekbasis, EkbasisError, FeedbackRejected
@@ -85,6 +86,8 @@ def main(argv=None) -> int:
     g.add_argument("--fail-threshold", type=float, default=0.5)
     g.add_argument("--fail-open", action="store_true", help="exit 0 (with a warning) when it cannot foresee")
     g.add_argument("--no-safer", action="store_true", help="when risky, do not look for a safer route (one round trip)")
+    g.add_argument("--request", default=None, help="experimental (0.1.23): what the user asked for, in their "
+                   "words; the loss question leaves it out")
     g.add_argument("commands", nargs="+", help='each command as one argument, e.g. "git checkout main"')
     s = sub.add_parser("shell-check", help="check shell command lines before running them (prototype)")
     s.add_argument("--cwd", default=".", help="the folder the commands would run in")
@@ -95,6 +98,9 @@ def main(argv=None) -> int:
     s.add_argument("--no-notes", action="store_true", help="leave out the shell rules (for comparisons)")
     s.add_argument("--show-state", action="store_true", help="print the exact text the model read")
     s.add_argument("--fail-open", action="store_true", help="exit 0 (with a warning) when it cannot foresee")
+    s.add_argument("--request", default=None, help="experimental (0.1.23): what the user asked for, in their words")
+    s.add_argument("--no-shortcuts", action="store_true", help="ask the model even when everything the lines could "
+                   "change is in git or ignored and rebuildable (the hook's shortcut; on by default since 0.1.23)")
     s.add_argument("commands", nargs="+", help='each command line as one argument, e.g. "rm -r build/"')
     f = sub.add_parser("preflight", help="check a multi-step change (migration, script, chain) before it runs")
     f.add_argument("--cwd", default=".", help="the folder the line would run in")
@@ -309,8 +315,10 @@ def main(argv=None) -> int:
                 return CANNOT_JUDGE
             return RISKY if v.risky else OK
         if a.cmd == "shell-check":
+            skip = None if a.no_shortcuts else (lambda view: R.touched_recoverable(view, a.cwd))
             v = S.check(a.commands, cwd=a.cwd, client=client, lost_threshold=a.lost_threshold,
-                        fail_threshold=a.fail_threshold, notes=not a.no_notes, shell=a.shell, fail_closed=not a.fail_open)
+                        fail_threshold=a.fail_threshold, notes=not a.no_notes, shell=a.shell, fail_closed=not a.fail_open,
+                        skip=skip, request=a.request)
             if a.json:
                 print(json.dumps({"risky": v.risky, "judged": v.judged, "cannot_judge": v.cannot_judge, "cannot_foresee": v.cannot_judge,
                                   "p_lost": v.p_lost, "p_fail": v.p_fail, "reasons": v.reasons, "unread": v.unread,
@@ -325,11 +333,11 @@ def main(argv=None) -> int:
                 print("ekbasis: cannot foresee every part of the line; --fail-open: not treated as risky", file=sys.stderr)
             return CANNOT_JUDGE if v.cannot_judge else OK
         v = G.check(a.commands, repo=a.repo, client=client, fetch=a.fetch, lost_threshold=a.lost_threshold,
-                    fail_threshold=a.fail_threshold, fail_closed=not a.fail_open)
+                    fail_threshold=a.fail_threshold, fail_closed=not a.fail_open, request=a.request)
         route = None
         if v.risky and not a.no_safer and os.environ.get("EKBASIS_SAFER", "1") != "0":
             route = SF.search(v.commands, repo=a.repo, client=client, lost_threshold=a.lost_threshold,
-                              fail_threshold=a.fail_threshold, fail_closed=not a.fail_open)
+                              fail_threshold=a.fail_threshold, fail_closed=not a.fail_open, request=a.request)
         if a.json:
             print(json.dumps({"risky": v.risky, "judged": True, "p_lost": v.p_lost, "p_fail": v.p_fail,
                               "p_in_progress": v.p_in_progress, "branch": v.branch, "reasons": v.reasons,

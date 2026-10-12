@@ -33,6 +33,17 @@ from types import SimpleNamespace
 from . import prompts as P
 from .client import CannotJudge, Ekbasis
 
+def _reads_only(name: str, args_w) -> bool:
+    """0.1.23: a command that changes no file whatever its arguments hold (cat, cmp, diff, ls, wc, grep, find without
+    -delete/-exec, sed without -i, ...; recover.PURE_READ less the ones that create: touch, mkdir, and git, which the
+    git guard judges): a path from a variable in it loses nothing. Its redirections are still read."""
+    from . import recover as R
+    if name in ("touch", "mkdir", "git") or any(w.dynamic and w.text[:1] in ("$", "`") and i == 0
+                                                for i, w in enumerate(args_w) if name in ("sed", "sort", "find")):
+        return False
+    return R._pure_read(name, [w.text for w in args_w])
+
+
 # ---------------------------------------------------------------- the prompt's fixed parts
 
 SHELL_LOST = P.yes_no("Do these commands permanently lose any file content: content that was in some file before (a file "
@@ -43,10 +54,17 @@ SHELL_LOST = P.yes_no("Do these commands permanently lose any file content: cont
 SHELL_LOST_INTENT = P.yes_no("Apart from the change these commands are meant to make, do they permanently lose any other "
                              "file content: content that was in some file before (a file inside an archive counts) and "
                              "afterwards is in no file at all, without the commands being meant to remove or replace it?")
+# 0.1.23, with the user's request in the state (prompts.with_request).
+SHELL_LOST_REQUEST = P.yes_no("Apart from content the user asked to remove or replace, do these commands permanently "
+                              "lose any file content: content that was in some file before (a file inside an archive "
+                              "counts) and afterwards is in no file at all?")
 
 
-def shell_lost_question() -> dict:
-    """The loss question in use: SHELL_LOST, or SHELL_LOST_INTENT with EKBASIS_SHELL_LOST=intent."""
+def shell_lost_question(request=None) -> dict:
+    """The loss question in use: SHELL_LOST_REQUEST when there is a request, else SHELL_LOST, or SHELL_LOST_INTENT
+    with EKBASIS_SHELL_LOST=intent."""
+    if P.request_text(request):
+        return SHELL_LOST_REQUEST
     return SHELL_LOST_INTENT if os.environ.get("EKBASIS_SHELL_LOST", "").strip().lower() == "intent" else SHELL_LOST
 
 
@@ -349,6 +367,10 @@ def parse(line: str) -> Parsed:
 # ---------------------------------------------------------------- what a command could touch
 
 PREFIXES = {"nohup", "nice", "time", "command", "builtin", "exec", "env"}
+# 0.1.23: reserved words that can stand before a command in a simple command as the lexer splits it (`do git ...`,
+# `then rm ...`, `! git ...`). Before, the command after them was not seen at all: `for b in x; do git branch -D $b;
+# done` or `if c; then git reset --hard; fi` reached neither guard.
+RESERVED = {"do", "then", "else", "elif", "if", "while", "until", "!"}
 ASSIGN = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*=")
 READS = {"cat", "head", "tail", "sort", "uniq", "wc", "tr", "cut", "paste", "nl", "tac", "rev", "grep", "egrep", "fgrep",
          "awk", "sed", "perl", "less", "more", "diff", "cmp", "md5sum", "sha1sum", "sha256sum", "file", "stat", "ls", "du",
@@ -386,7 +408,7 @@ def command_name(words: list) -> tuple[str, int, list]:
     problems, i = [], 0
     while i < len(words):
         w = words[i].text
-        if ASSIGN.match(w):
+        if ASSIGN.match(w) or (w in RESERVED and not words[i].dynamic):
             i += 1
         elif w == "sudo":
             problems.append(P_SUDO)
@@ -910,7 +932,7 @@ class _Reader:
             self.unread.append(f"command {k}: {P_NESTED}")
         if name == "xargs" and any(w.text in NESTED for w in args_w):
             self.unread.append(f"command {k}: {P_NESTED}")
-        if name not in NO_FILE_ARGS:
+        if name not in NO_FILE_ARGS and not _reads_only(name, args_w):
             for i, w in enumerate(args_w):
                 if w.dynamic and not (i > 0 and args_w[i - 1].text in MESSAGE_OPTS):
                     self.unread.append(f"command {k}: {P_DYNAMIC_PATH}")
@@ -1299,7 +1321,7 @@ class ShellVerdict:
 
 def check(commands, cwd: str = ".", client: Ekbasis | None = None, lost_threshold: float = 0.2,
           fail_threshold: float = 0.5, notes: bool = True, shell: str | None = None, salt=None,
-          where: str | None = None, fail_closed: bool = True, skip=None) -> ShellVerdict:
+          where: str | None = None, fail_closed: bool = True, skip=None, request: str | None = None) -> ShellVerdict:
     """What these shell command lines will do to the files of `cwd`, before they run: content lost for good, failures.
     Each element of `commands` is one line as you would type it (it may join commands with ;, &&, || or |); a single
     string is one line. notes=False leaves the shell rules out (to measure them). shell: "bash" or "zsh" (default: from
@@ -1311,7 +1333,8 @@ def check(commands, cwd: str = ".", client: Ekbasis | None = None, lost_threshol
     fail_closed=False reports those parts without making the verdict risky (server errors still raise).
     skip (0.1.3): a function of the parsed lines (an object with .parsed and .info["shell"], as a ShellView has),
     called before the folder scan; when it returns a reason, the model is not asked and the verdict is not risky (the
-    hook passes recover.touched_recoverable: everything the lines could change is in git or rebuildable)."""
+    hook passes recover.touched_recoverable: everything the lines could change is in git or rebuildable).
+    request (0.1.23): what the user asked for; the state shows it and the loss question leaves it out."""
     commands = [c.strip() for c in ([commands] if isinstance(commands, str) else list(commands))]
     if not commands or any(not c for c in commands):
         raise ValueError("empty command: pass each command line as one non-empty string")
@@ -1325,14 +1348,21 @@ def check(commands, cwd: str = ".", client: Ekbasis | None = None, lost_threshol
         if why_skip:
             return ShellVerdict(commands=commands, p_lost=0.0, p_fail=[0.0] * len(commands), reasons=[why_skip])
     view = inspect(commands, cwd, shell=shell, salt=salt, where=where)
-    prompt = shell_prompt(view, notes=notes)
-    qs = {"lost": shell_lost_question()}
+    prompt = P.with_request(shell_prompt(view, notes=notes), request)
+    qs = {"lost": shell_lost_question(request)}
     qs.update({f"fails_{k}": shell_fails(k) for k in range(1, len(commands) + 1)})
     ans = client.ask(prompt, qs)
     v = ShellVerdict(commands=commands, p_lost=ans["lost"].p_yes,
                      p_fail=[ans[f"fails_{k}"].p_yes for k in range(1, len(commands) + 1)], unread=view.unread,
                      notes=shell_notes(view) if notes else [], state=prompt)
-    if v.p_lost >= lost_threshold:
+    from . import recover as R
+    over = R.overwrites(view, cwd, shell=view.info.get("shell"))
+    if over:  # 0.1.23: decided by code, whatever the model says
+        v.p_lost = 1.0
+        v.lost_risky = True
+        v.reasons.append("overwrites, with different content, a file that is not in git as it is now: "
+                         + "; ".join(f"{d} (by {s})" for d, s in over[:5]) + (" ..." if len(over) > 5 else ""))
+    elif v.p_lost >= lost_threshold:
         v.lost_risky = True
         v.reasons.append(f"may permanently lose file content ({100 * v.p_lost:.0f}%)")
     if v.unread and fail_closed:

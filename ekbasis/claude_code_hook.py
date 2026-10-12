@@ -49,7 +49,9 @@ line: keep it below the hook's "timeout", or Claude Code stops the hook first an
 EKBASIS_SHORTCUTS (0: always ask the model, as 0.1.2 did), EKBASIS_PREFLIGHT (1: check multi-step changes before they run),
 EKBASIS_PREFLIGHT_REPEAT (1, the default: a warned command passes when it is run again in the same session),
 EKBASIS_GIT_GUARD (0: no git checks, for preflight alone), EKBASIS_PREFLIGHT_COPY (0: never run on a copy),
-EKBASIS_PREFLIGHT_FAIL_CLOSED (1: warn when preflight cannot judge), EKBASIS_SAFER (0: no safer route).
+EKBASIS_PREFLIGHT_FAIL_CLOSED (1: warn when preflight cannot judge), EKBASIS_SAFER (0: no safer route),
+EKBASIS_REMOTE_CHECK (0: do not read the remote with git ls-remote before forced or mirror pushes; 0.1.23),
+EKBASIS_REQUEST (1: experimental, give the guards the last message the user typed; 0.1.23).
 
 Safer route: when the hook warns about git commands, it also offers the alternative with the same intent that Ekbasis
 checked and found safe (ekbasis.safer), e.g. `git stash push && git reset --hard`, or says that none passed. It is
@@ -188,6 +190,29 @@ def _without(line: str, simples) -> str:
     return line
 
 
+def _read_only_whatever(args) -> bool:
+    """0.1.23: a git command with a variable or substitution that only reads whatever the variable holds: its
+    subcommand is a literal read-only one (status, log, show, diff, stash list/show, rev-parse, ...), no variable stands
+    where an option could go in a command that has a writing option (log/show/diff --output), and git is not pointed at
+    another repository with --git-dir/--work-tree. A variable -C folder is fine: reading changes nothing anywhere."""
+    texts = [w.text for w in args]
+    i = 0
+    while i < len(args) and texts[i].startswith("-"):
+        if texts[i].split("=", 1)[0] in ("--git-dir", "--work-tree"):
+            return False
+        i += 2 if texts[i] in ("-C", "-c") else 1
+    if i >= len(args) or args[i].dynamic:
+        return False
+    rest = args[i:]
+    cmd = shlex.join(["git"] + [w.text for w in rest])
+    if not G.read_only(cmd):
+        return False
+    sub, _ = P.parse_git(cmd)
+    if sub in G.OUTPUT_SUBS and any(w.dynamic and w.text[:1] in ("$", "`") for w in rest[1:]):
+        return False  # the variable could hold --output=FILE
+    return True
+
+
 def plan_line(command: str, cwd: str) -> Plan:
     """0.1.3: the git commands of a line with the folder each runs in (following cd, pushd/popd, subshells and git -C),
     the folders the line itself creates (git worktree add, git clone, mkdir), the line for the shell guard, and why
@@ -263,6 +288,8 @@ def plan_line(command: str, cwd: str) -> Plan:
         if any(GIT_ENV.match(w.text) for w in sc.words[:k0]):
             plan.why.append("a GIT_DIR-like variable points git elsewhere")
         if any(w.dynamic and not (i > 0 and args[i - 1].text in S.MESSAGE_OPTS) for i, w in enumerate(args)):
+            if _read_only_whatever(args):
+                continue  # 0.1.23: it only reads, whatever the variable holds (git stash show "stash@{$i}" in a loop)
             plan.why.append("a git command has a variable or substitution the hook does not evaluate")
         texts = [w.text for w in args]
         repo, i, keep = cur, 0, []
@@ -462,7 +489,7 @@ def _preflight(line: str, cwd: str, session: str | None, client, left) -> str | 
     return v.message() + again
 
 
-def _safer_routes(groups: dict, flagged: set, client, threshold: float, left) -> list:
+def _safer_routes(groups: dict, flagged: set, client, threshold: float, left, request=None) -> list:
     """One sentence per flagged repository: the safer route Ekbasis checked (ekbasis.safer), or that none passed.
     Searched last, in the time left; a search that cannot finish leaves the warning without a route (never an unchecked
     one). EKBASIS_SAFER=0 turns it off."""
@@ -473,7 +500,8 @@ def _safer_routes(groups: dict, flagged: set, client, threshold: float, left) ->
         if is_fresh or (repo not in flagged and not SF.code_problems(cmds, repo)):
             continue
         try:
-            s = _with_deadline(lambda: SF.search(cmds, repo=repo, client=client, lost_threshold=threshold), left())
+            s = _with_deadline(lambda: SF.search(cmds, repo=repo, client=client, lost_threshold=threshold,
+                                                  request=request), left())
         except Exception as e:  # noqa: BLE001  (the deadline, or anything else: the warning goes out without a route)
             print(f"ekbasis hook: no safer route ({e})", file=sys.stderr)
             continue
@@ -483,6 +511,36 @@ def _safer_routes(groups: dict, flagged: set, client, threshold: float, left) ->
         else:
             out.append(f"No safer route passed Ekbasis's check ({s.note}).")
     return out
+
+
+def user_request(transcript_path: str | None) -> str | None:
+    """The user's last typed message in the Claude Code transcript (a JSONL file): what the guard's loss question
+    leaves out (0.1.23). Tool results, which Claude Code also records as user turns, are skipped. None when the file
+    cannot be read or has no such message."""
+    if not transcript_path:
+        return None
+    last = None
+    try:
+        with open(transcript_path, encoding="utf-8", errors="replace") as fh:
+            for raw in fh:
+                try:
+                    ev = json.loads(raw)
+                except ValueError:
+                    continue
+                if not isinstance(ev, dict) or ev.get("type") != "user" or ev.get("isMeta"):
+                    continue
+                c = (ev.get("message") or {}).get("content")
+                if isinstance(c, str):
+                    text = c
+                elif isinstance(c, list):
+                    text = " ".join(x.get("text", "") for x in c if isinstance(x, dict) and x.get("type") == "text")
+                else:
+                    text = ""
+                if text.strip():
+                    last = text
+    except OSError:
+        return None
+    return last
 
 
 def main() -> int:
@@ -508,6 +566,7 @@ def main() -> int:
             return r
 
         client = Ekbasis(timeout=deadline, surface="claude-hook")
+        request = user_request(data.get("transcript_path")) if os.environ.get("EKBASIS_REQUEST") == "1" else None
         plan = plan_line(line, cwd)
         if plan.why and os.environ.get("EKBASIS_GIT_GUARD", "1") != "0":
             return _cannot_judge("; ".join(plan.why))
@@ -529,6 +588,21 @@ def main() -> int:
                              "(git rebase), or push with --force-with-lease --force-if-includes, which refuses while "
                              "they are not integrated; --force-with-lease alone does not protect commits that were "
                              "already fetched.")
+        for st in plan.steps:
+            sk = G.skip_loss(st["repo"], st["cmd"])
+            if sk:
+                found.append(f"Ekbasis (committed work, checked by code): `{st['cmd']}` drops commit {sk['commit']} "
+                             f"(\"{sk['subject']}\"), which no other branch, tag or remote branch holds: after the "
+                             "rebase it is only in the reflog. Resolve the conflict and continue instead, or keep a "
+                             f"branch on it first (git branch keep {sk['commit']}).")
+        if os.environ.get("EKBASIS_REMOTE_CHECK", "1") != "0":
+            for st in plan.steps:
+                for loss in G.remote_unseen(st["repo"], [st["cmd"]], timeout=min(10.0, left())):
+                    found.append(f"Ekbasis (remote work, read from the remote): this line "
+                                 + (f"deletes the remote branch {loss['ref']}, which has no local branch here"
+                                    if loss["deleted"] else
+                                    f"force-pushes over commits on {loss['ref']} that this clone has never fetched")
+                                 + ". Fetch and look at them first (git fetch, then git log for that branch).")
         groups: dict = {}
         flagged = set()   # repositories whose git commands the model found risky
         for st in plan.steps:
@@ -547,7 +621,7 @@ def main() -> int:
                 continue
             v = _with_deadline(lambda: G.check(cmds, repo=repo, client=client,
                                                fetch=os.environ.get("EKBASIS_FETCH") == "1",
-                                               lost_threshold=threshold), left())
+                                               lost_threshold=threshold, request=request), left())
             if v.risky:
                 flagged.add(repo)
                 found.append(f"Ekbasis: {'; '.join(v.reasons)}. Commands: {' ; '.join(cmds)}. "
@@ -555,7 +629,7 @@ def main() -> int:
         if os.environ.get("EKBASIS_SHELL_GUARD") == "1" and plan.shell_line.strip() and changes_files(plan.shell_line):
             skip = (lambda view: R.touched_recoverable(view, cwd)) if shortcuts else None
             v = _with_deadline(lambda: S.check([plan.shell_line], cwd=cwd, client=client, lost_threshold=threshold,
-                                               skip=skip), left())
+                                               skip=skip, request=request), left())
             if v.risky:
                 what = "could not foresee every part of the line" if not v.lost_risky else "; ".join(v.reasons)
                 found.append(f"Ekbasis (shell guard): {what}. Line: {line}. Consider keeping a copy of the files first.")
@@ -563,7 +637,7 @@ def main() -> int:
             warn = _preflight(line, cwd, data.get("session_id"), client, left)
             if warn:
                 found.append(warn)
-        routes = _safer_routes(groups, flagged, client, threshold, left) if found else []
+        routes = _safer_routes(groups, flagged, client, threshold, left, request) if found else []
     except CannotJudge as e:
         return _cannot_judge(str(e))
     except Exception as e:  # noqa: BLE001  (anything else: cannot judge)
