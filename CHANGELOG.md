@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.1.26] — 2026-10-12
+
+### Added
+- **`check_plan` and `run_plan`: check a batch of actions before it runs** (a script, a pipeline, several tool calls).
+  Ekbasis forecasts every prefix of the plan from the state as it is now; the plan runs whole only when every prefix is
+  forecast harmless with confidence ≥ 0.9; otherwise it is split before the first flagged or uncertain step, which is
+  then checked on the real state (look when unsure, for a batch). `run_plan` runs that loop with your `observe` and
+  `execute`. README: "Check a plan before it runs".
+- **The API scorecard** (`scorecard/`): quality (accuracy, confident errors, Brier, ECE), time (p50/p90/p99 and the
+  server's auth/queue/model split), cost (tokens and US$ per 1,000 checks), failures and chains, on fixed held-out items,
+  for any endpoint. Every change to the model, server or client is compared with the runs before it.
+
 ## [0.1.25] — 2026-10-12
 
 ### Changed
