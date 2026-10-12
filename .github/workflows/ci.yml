@@ -32,6 +32,23 @@ jobs:
       - run: python -m pip install pytest
       - run: python -m pytest -q tests
 
+  sdk-typescript:
+    name: TypeScript SDK (Node ${{ matrix.node }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: ["18", "22"]
+    defaults:
+      run:
+        working-directory: sdk/typescript
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - run: npm install --no-audit --no-fund
+      - run: npm test
+
   migration-guard:
     name: migration guard (PostgreSQL 16)
     runs-on: ubuntu-latest

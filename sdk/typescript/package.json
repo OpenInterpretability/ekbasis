@@ -1,0 +1,17 @@
+{
+  "name": "ekbasis",
+  "version": "0.1.0",
+  "description": "TypeScript client for Ekbasis: ask what an action will do before it runs (typed, calibrated answers in one pass), and check a plan before running it.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": { ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" } },
+  "files": ["dist", "README.md", "LICENSE"],
+  "engines": { "node": ">=18" },
+  "scripts": { "build": "tsc -p tsconfig.json", "test": "npm run build && node --test test/*.test.mjs" },
+  "repository": { "type": "git", "url": "git+https://github.com/OpenInterpretability/ekbasis.git", "directory": "sdk/typescript" },
+  "homepage": "https://openinterp.org/ekbasis",
+  "keywords": ["ekbasis", "world-model", "agents", "ai-safety", "guard", "consequence-prediction"],
+  "devDependencies": { "typescript": "5.6.3" }
+}
