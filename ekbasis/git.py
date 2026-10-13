@@ -198,6 +198,9 @@ def inspect(repo: str = ".", commands=(), fetch: bool = False, max_branches: int
             pos = "up to date with it" if a == b == 0 else f"{_plural(a, 'commit')} ahead of it and {b} behind"
             remote_line += (f" (the current branch is {pos})" if up == remote
                             else f" (the current branch tracks {up}: {_plural(a, 'commit')} ahead, {b} behind)")
+    if "rebase" in subs:   # 0.1.30: whether a rebase stashes uncommitted changes itself (prompts.NOTE_REBASE_DIRTY)
+        rc, v = _git(repo, "config", "--get", "rebase.autoStash")
+        info["rebase_autostash"] = rc == 0 and v.strip().lower() in ("true", "yes", "on", "1")
     if "pull" in subs:
         for k in ("pull.rebase", "pull.ff"):
             rc, v = _git(repo, "config", "--get", k)

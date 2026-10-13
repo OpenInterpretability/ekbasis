@@ -116,7 +116,7 @@ TRAINED = ["echo x >> app.py", "rm app.py", "mv app.py b.py", "cp app.py b.py", 
            "git push -f origin feature", "git fetch origin", "git merge --ff-only feature", "git merge --squash feature",
            "git revert --no-commit HEAD", "git clean -n", "git commit --allow-empty -m x",
            "git restore --staged --worktree app.py", "git checkout HEAD -- app.py", "git reset --merge",
-           "git rebase feature", "git restore --source=HEAD~1 app.py"]
+           "git restore --source=HEAD~1 app.py"]   # 0.1.30: "git rebase feature" left: rebase is a held-out kind (gitbox3 HELD)
 
 
 def test_no_note_for_trained_command_forms():
@@ -136,7 +136,7 @@ def test_notes_for_the_forms_git_wild_found():
             "git switch HEAD~1": P.NOTE_DETACH_SWITCH, "git checkout v1.0": P.NOTE_DETACH_CHECKOUT,
             "git switch --orphan x": P.NOTE_ORPHAN, "git mv -f a.py b.py": P.NOTE_MV, "git worktree remove ../wt": P.NOTE_WORKTREE,
             "git submodule update --force": P.NOTE_SUBMODULE, "git pull": P.NOTE_PULL, "git stash drop stash@{2}": P.NOTE_STASH_REF,
-            "git sparse-checkout set src": P.NOTE_SPARSE}
+            "git sparse-checkout set src": P.NOTE_SPARSE, "git rebase feature": P.NOTE_REBASE_DIRTY}
     for c, n in want.items():
         assert n in P.git_notes([c], info), c
     assert P.git_notes(["git switch --detach HEAD~1"], info) == []
@@ -152,3 +152,11 @@ if __name__ == "__main__":
         if name.startswith("test_"):
             fn()
     print("ok")
+
+
+def test_rebase_note_only_where_rebase_would_refuse():
+    assert P.git_notes(["git rebase main"]) == [P.NOTE_REBASE_DIRTY]
+    for c in ("git rebase --autostash main", "git rebase --continue", "git rebase --quit", "git rebase --edit-todo"):
+        assert P.NOTE_REBASE_DIRTY not in P.git_notes([c]), c
+    assert P.git_notes(["git rebase --abort"]) == [P.NOTE_ABORT]
+    assert P.git_notes(["git rebase main"], {"rebase_autostash": True}) == []

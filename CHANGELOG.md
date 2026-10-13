@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.1.30] — 2026-10-13
+
+### Added
+- **A git rule for `git rebase` with uncommitted changes.** git refuses to start a rebase (it fails and changes nothing,
+  even when already up to date) when tracked files have uncommitted changes, staged or not, unless `--autostash` or
+  `rebase.autoStash`; the model, which never saw rebase in training, answered with confidence that it would succeed. The
+  client now states the rule for these commands (`NOTE_REBASE_DIRTY`, not added with `--autostash`, `--continue`,
+  `--quit`, `--edit-todo`, or when the repository sets `rebase.autoStash`). Measured before release on 1,598 new
+  held-out git items (fresh seeds), with vs without the rule: on "does the rebase fail?" confident errors 30.0 → 5.4 per
+  100 (−82%, 95% CI of the difference [−33, −16]), accuracy 63.8% → 94.6%; the other 1,468 questions of the same items
+  95.9% → 96.0%; real losses flagged unchanged (94.7%). Pre-registered; rebase is a held-out command kind, so no prompt
+  of a trained command form changes.
+
 ## TypeScript SDK 0.2.2 — 2026-10-13
 
 ### Fixed
