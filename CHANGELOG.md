@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.1.32] — 2026-10-13
+
+### Added
+- **`git rebase` over uncommitted changes, decided by code** (check when sure; the safe form of 0.1.30's rule). When the
+  first command is `git rebase` (no `--autostash`, `--abort`, `--skip`, `--continue`, `--quit`, `--edit-todo`) and
+  `rebase.autoStash` is not set, the guard reads the real `git status`: tracked files with uncommitted changes, staged or
+  not, mean git refuses to start the rebase and changes nothing, so that command's failure is set to 1.0 with the reason.
+  The prompt the model reads is unchanged, so no other answer moves (lost work, other commands). One way only: a clean
+  tree is left to the model (a rebase can still stop on a conflict). Checked against the held-out guard set's answers,
+  without the API: of 886 items whose first command is a rebase, the 657 with tracked changes all fail (rule right 657 of
+  657, where the model was right on 406 with 213 confident errors); first-command "does it fail?" accuracy 68.3% → 96.6%.
+
 ## [0.1.31] — 2026-10-13
 
 ### Removed
