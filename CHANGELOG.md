@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.1.31] — 2026-10-13
+
+### Removed
+- **The rebase rule of 0.1.30 is no longer added to the prompt.** Its confirmation on the held-out guard set (3,322 items
+  with a rebase) kept the gain it was made for (confident errors on "does the rebase fail?" 36.9 → 9.3 per 100) but
+  showed what the 1,598 new items had not: its "fails and changes nothing" spread to the other commands of a line. Real
+  losses flagged at 0.2 fell 93.5% → 91.8% (7 losses no longer flagged, 2 newly flagged, of 292), and accuracy on the
+  other questions fell 93.1% → 91.5%. Flagging lost work is the guard's first job, so the rule is off until a version
+  that does not move it. If you run 0.1.30 with the git guard, upgrade.
+
 ## [0.1.30] — 2026-10-13
 
 ### Added
