@@ -584,7 +584,8 @@ The agent studies behind this section, on demo apps, on real self-hosted Gitea, 
   **Failures from git itself (since 0.1.33, `git-check --copy` or `EKBASIS_GIT_COPY=1`):** the git commands run, in
   order, on a copy of the repository (hooks off, local commands only, the real repository untouched), and each
   command's failure comes from its exit code instead of the forecast; 1,064 of 1,064 agreed with real runs on new
-  scenarios. Off by default: on Linux without reflinks a large repository costs a copy.
+  scenarios; since 0.1.34 lost work too (277 of 277 decisions agreed). Off by default: on Linux without reflinks a large
+  repository costs a copy.
   **Chain mode (since 0.1.29, `EKBASIS_CHAIN=1` with the shell guard):** when a flagged line has several commands joined
   by `;`, `&&` or new lines, the hook finds the first command whose prefix is risky (the prefixes are checked in
   parallel) and adds to the warning which commands before it are predicted safe and how to split the line: run those
