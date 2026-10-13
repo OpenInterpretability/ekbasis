@@ -137,3 +137,15 @@ class TestLostOnCopy(unittest.TestCase):
         self.assertFalse(w.risky)
         r = G.check(["git reset --hard"], repo=d, client=Fake(), simulate=True, request="discard my changes")
         self.assertEqual(r.p_lost, 0.02)   # lost, but asked for: the model, which reads the request, decides
+
+
+class TestHookOnlyGit(unittest.TestCase):
+    def test_a_line_of_git_commands_counts_as_only_git(self):
+        import re
+        from ekbasis import claude_code_hook as H
+        src = open(H.__file__).read()
+        self.assertIn('only_git = not re.sub(r"\\btrue\\b|&&|\\|\\||;|\\s", "", plan.shell_line)', src)
+        only = lambda shell_line: not re.sub(r"\btrue\b|&&|\|\||;|\s", "", shell_line)   # noqa: E731
+        self.assertTrue(only("true"))
+        self.assertTrue(only("true && true ; true"))
+        self.assertFalse(only("echo x > a.txt && true"))

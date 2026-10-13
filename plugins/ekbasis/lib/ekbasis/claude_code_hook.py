@@ -675,11 +675,14 @@ def main() -> int:
                 return _cannot_judge(f"cannot read a git repository at {repo}: {problem}", session, rkey)
             if shortcuts and R.no_uncommitted_work(repo):
                 continue
-            only_git = not plan.shell_line.strip()   # 0.1.33: run on a copy only when nothing else in the line writes
+            # run on a copy only when nothing else in the line writes: the shell part has every git command replaced by
+            # `true`, so a line of git commands only leaves `true`s and separators (0.1.37: 0.1.33-0.1.36 saw "true" as
+            # other commands and never ran the copy from the hook)
+            only_git = not re.sub(r"\btrue\b|&&|\|\||;|\s", "", plan.shell_line)
             v = _with_deadline(lambda: G.check(cmds, repo=repo, client=client,
                                                fetch=os.environ.get("EKBASIS_FETCH") == "1",
                                                lost_threshold=threshold, request=request,
-                                               simulate=os.environ.get("EKBASIS_GIT_COPY") == "1" and only_git), left())
+                                               simulate=None if only_git else False), left())
             if v.risky:
                 flagged.add(repo)
                 stake = G.at_stake(repo, cmds)
@@ -712,7 +715,7 @@ def main() -> int:
                 except Exception:  # noqa: BLE001 — the warning goes out without the list
                     pass
                 split = ""
-                if os.environ.get("EKBASIS_CHAIN") == "1" and v.lost_risky:
+                if os.environ.get("EKBASIS_CHAIN", "1") != "0" and v.lost_risky:   # 0.1.37: on by default
                     split = _chain_split(plan.shell_line, cwd, client, threshold, request, left)
                 found.append(f"Ekbasis (shell guard): {what}. Line: {line}.{stake}{split} Consider keeping a copy of "
                              "the files first.")
