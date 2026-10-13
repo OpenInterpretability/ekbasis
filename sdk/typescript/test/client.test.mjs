@@ -14,7 +14,7 @@ function scripted(byAction, log = []) {
     const answers = {};
     for (const k of Object.keys(body.questions)) answers[k] = noul(byAction[last] ?? 0.01);
     return new Response(JSON.stringify({ answers, usage: { input_tokens: 100 } }),
-      { status: 200, headers: { "server-timing": "auth;dur=3, model;dur=410", "X-Ekbasis-Request-Id": "r1" } });
+      { status: 200, headers: { "server-timing": "auth;dur=3, model;dur=410", "X-Ekbasis-Request-Id": "r1", "X-Ekbasis-Model": "ekbasis-27b-int4-v1.3" } });
   };
 }
 const harm = { data: yesNo("Do these actions permanently delete data the user did not ask to delete?") };
@@ -39,6 +39,7 @@ test("ask sends Bearer auth and parses answers, usage and server-timing", async 
   assert.equal(ek.lastUsage.inputTokens, 100);
   assert.equal(ek.lastUsage.serverTiming.model, 410);
   assert.equal(ek.lastUsage.requestId, "r1");
+  assert.equal(ek.lastUsage.model, "ekbasis-27b-int4-v1.3");
 });
 
 test("a question without instructions is refused before sending, with a hint", async () => {

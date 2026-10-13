@@ -1,6 +1,6 @@
 {
   "name": "ekbasis",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "TypeScript client for Ekbasis: ask what an action will do before it runs (typed, calibrated answers in one pass), and check a plan before running it.",
   "license": "Apache-2.0",
   "type": "module",
