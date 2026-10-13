@@ -190,26 +190,97 @@ def _lost(cwd, env, before) -> list:
     return sorted(lost)
 
 
-def run_on_copy(repo: str, commands) -> dict | None:
+AUTO_BUDGET = 8.0          # seconds for the whole run when it is on by default (0.1.37): past it, the model decides
+AUTO_MAX_BYTES = 128 << 20  # without clonefile or reflinks, larger work trees are not copied by default
+
+
+AUTO_MAX_FILES = 20000      # entries in the work tree (ignored folders such as node_modules included)
+
+
+def _few_files(top: str, limit: int = AUTO_MAX_FILES, seconds: float = 1.0) -> bool:
+    """Whether the work tree has at most `limit` entries, counted for at most `seconds` (a clone copies every file, and
+    a tree with a large node_modules takes longer to copy and remove than the whole check may)."""
+    n, t0 = 0, time.time()
+    for _root, dirs, files in os.walk(top):
+        n += len(dirs) + len(files)
+        if n > limit or time.time() - t0 > seconds:
+            return False
+    return True
+
+
+def _remove_later(path: str) -> None:
+    """Remove a copy without waiting for it (a large tree takes seconds to delete)."""
+    try:
+        subprocess.Popen(["rm", "-rf", path], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, start_new_session=True)
+    except Exception:  # noqa: BLE001
+        shutil.rmtree(path, ignore_errors=True)
+
+
+def _cheap_to_copy(top: str) -> bool:
+    """On by default only where a copy is cheap: macOS (APFS clonefile), or a work tree under AUTO_MAX_BYTES
+    (a reflink is tried first anyway, and a full copy of a small tree takes well under a second)."""
+    import platform
+    return _few_files(top) and (platform.system() == "Darwin" or _small(top))
+
+
+def _copy(top: str, copy_tree):
+    """(work folder, copy path) or (None, None). A clone (clonefile, reflink) only works within one file system, so:
+    the system's temporary folder first; then a hidden folder next to the repository, on its own disk (repositories on
+    an external drive); then, for a small work tree, a plain copy. The caller removes the work folder."""
+    tries = [tempfile.gettempdir()]
+    parent = os.path.dirname(top)
+    if os.access(parent, os.W_OK):
+        tries.append(parent)
+    for base in tries:
+        work = tempfile.mkdtemp(prefix=".ekbasis-sim-", dir=base)
+        dst = os.path.join(work, "repo")
+        try:
+            copy_tree(top, dst)
+            return work, dst
+        except Exception:  # noqa: BLE001 — another file system, or too big without clones
+            shutil.rmtree(work, ignore_errors=True)
+    if _small(top):
+        work = tempfile.mkdtemp(prefix=".ekbasis-sim-")
+        dst = os.path.join(work, "repo")
+        try:
+            subprocess.run(["cp", "-R", "-p", top, dst], check=True, capture_output=True, timeout=TIME_LIMIT)
+            return work, dst
+        except Exception:  # noqa: BLE001
+            shutil.rmtree(work, ignore_errors=True)
+    return None, None
+
+
+def _small(top: str) -> bool:
+    try:
+        r = subprocess.run(["du", "-sk", top], capture_output=True, text=True, timeout=3)
+        return r.returncode == 0 and int(r.stdout.split()[0]) * 1024 <= AUTO_MAX_BYTES
+    except Exception:  # noqa: BLE001
+        return False
+
+
+def run_on_copy(repo: str, commands, budget: float | None = None) -> dict | None:
     """{"exit": [code per command run], "stderr": [first line per command], "ran": n, "stopped": why or None, "lost":
     [paths whose uncommitted content survives nowhere] or None (not every command ran, or too many files)}, or None
     when the repository cannot be copied safely. commands: git command lines, as the user wrote them."""
     from .preflight import _copy_tree   # the copy that preflight uses (clonefile / reflink / capped)
+    t0 = time.time()
     top = _toplevel(repo)
     if not top or not os.path.isdir(os.path.join(top, ".git")):
         return None   # not a work tree, or .git is a file (linked worktree, submodule)
+    if budget is not None and not _cheap_to_copy(top):
+        return None
+    over = lambda: budget is not None and time.time() - t0 > budget   # noqa: E731
     rel = os.path.relpath(os.path.realpath(repo), os.path.realpath(top))
-    work = tempfile.mkdtemp(prefix="ekbasis-git-")
-    dst = os.path.join(work, "repo")
+    work, dst = _copy(top, _copy_tree)
+    if not work:
+        return None
     out = {"exit": [], "stderr": [], "ran": 0, "stopped": None, "lost": None}
     try:
-        try:
-            _copy_tree(top, dst)
-        except Exception:  # noqa: BLE001 — too big, no clonefile or reflink: leave it to the model
-            return None
         cwd = os.path.normpath(os.path.join(dst, rel))
         env = {**os.environ, **ENV}
         start = time.time()
+        if over():
+            return None
         before = _uncommitted(cwd, env)   # taken on the copy, before any command
         # a copy has new file times and inodes: refresh the index's stat cache, or git sees every file as possibly
         # modified ("Entry ... not uptodate") where the real repository would not (contents are unchanged)
@@ -220,6 +291,8 @@ def run_on_copy(repo: str, commands) -> dict | None:
             if sub is None or sub not in LOCAL_SUBS:
                 out["stopped"] = f"`git {sub or '?'}` is not run on a copy"
                 break
+            if over():
+                return None   # on by default: never slower than the budget; the model decides
             left = TIME_LIMIT - (time.time() - start)
             if left <= 0:
                 out["stopped"] = "time limit"
@@ -236,7 +309,9 @@ def run_on_copy(repo: str, commands) -> dict | None:
             out["ran"] += 1
         # lost work, only when every command ran here and the work tree was small enough to compare
         if out["ran"] == len(list(commands)) and before is not None:
-            out["lost"] = _lost(cwd, env, before)
+            out["lost"] = None if over() else _lost(cwd, env, before)
+        if over():
+            return None
         return out
     finally:
-        shutil.rmtree(work, ignore_errors=True)
+        _remove_later(work)

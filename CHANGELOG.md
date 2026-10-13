@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.1.37] — 2026-10-13
+
+### Changed
+- **The run on a copy is on by default** (the git guard, `git-check` and the Claude Code hook), where it is cheap: the
+  whole run must fit in 8 s, or the model decides as before; a work tree of more than 20,000 entries (a large
+  node_modules) or, without clones, more than 128 MB is left to the model without trying. `EKBASIS_GIT_COPY=0` turns it
+  off, `=1` (or `git-check --copy`) forces it without the time limit. Measured on real repositories: 0.9-3 s, exact; a
+  repository with a large node_modules goes to the model in under a second.
+- **Clones across disks:** a clone only works within one file system, so a repository on an external drive is now
+  copied next to itself (a hidden folder, removed afterwards, in the background) instead of failing to the model.
+- **Chain mode advice is on by default** with the shell guard (`EKBASIS_CHAIN=0` turns it off); it never changes a
+  decision. The shell guard itself stays opt-in (`EKBASIS_SHELL_GUARD=1`): in a real terminal it asked 10.6 times per 100
+  calls, most without a reason, and a guard that asks too often teaches people to click through.
+
+### Fixed
+- The Claude Code hook never ran the copy (0.1.33-0.1.36, with `EKBASIS_GIT_COPY=1`): it took the `true` that replaces
+  each git command in the line's shell part for another command. A line of git commands only now runs on the copy.
+
 ## [0.1.36] — 2026-10-13
 
 ### Added

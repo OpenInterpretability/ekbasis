@@ -554,9 +554,14 @@ def check(commands, repo: str = ".", client: Ekbasis | None = None, fetch: bool 
                 p_in_progress=ans["in_progress"].p_yes, state=prompt,
                 branch=(ans["branch"].value, ans["branch"].confidence) if "branch" in ans else None)
     sim = None
-    if simulate if simulate is not None else os.environ.get("EKBASIS_GIT_COPY") == "1":
+    # 0.1.37: on by default where it is cheap (within git_sim.AUTO_BUDGET). simulate=True (git-check --copy) forces it and
+    # simulate=False turns it off, whatever the environment; otherwise EKBASIS_GIT_COPY="0" turns it off, "1" forces it.
+    flag = os.environ.get("EKBASIS_GIT_COPY")
+    mode = ("forced" if simulate is True else "off" if simulate is False
+            else "off" if flag == "0" else "forced" if flag == "1" else "auto")
+    if mode != "off":
         from . import git_sim
-        sim = git_sim.run_on_copy(repo, commands)   # 0.1.33: each failure from git itself, on a copy
+        sim = git_sim.run_on_copy(repo, commands, budget=None if mode == "forced" else git_sim.AUTO_BUDGET)
     if sim and sim["ran"]:
         for k, code in enumerate(sim["exit"]):
             v.p_fail[k] = 1.0 if code != 0 else 0.0
