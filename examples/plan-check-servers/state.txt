@@ -1,0 +1,8 @@
+ssh web1 'free -h; ps aux --sort=-rss | head -4':
+Mem: total 16G, used 15.1G, free 0.4G
+api      2231  9.8G  /usr/bin/api --port 8080
+nginx    1880  0.2G  nginx: worker process
+ssh db1 'ps aux --sort=-rss | head -3':
+postgres 912   11.2G /usr/lib/postgresql/16/bin/postgres -D /var/lib/postgresql/16/main
+postgres 1404  0.6G  postgres: autovacuum worker
+load balancer: web1 healthy, web2 healthy

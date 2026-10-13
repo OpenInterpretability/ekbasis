@@ -81,19 +81,26 @@ def _text_arg(v: str) -> str:
     return v
 
 
+def _harm_questions(presets, asks):
+    harm = {}
+    if presets or not asks:
+        harm.update(P.harms(*(presets or ())))
+    for i, q in enumerate(asks or (), 1):
+        harm[f"ask{i}"] = P.yes_no(q)
+    return harm
+
+
 def _plan_check(a, client) -> int:
     """plan-check: exit 0 = every step forecast harmless with confidence (run them all); 2 = run the first N (maybe 0),
     then look at the real state before step N+1 (flagged or uncertain); 3 = cannot foresee."""
+    if a.cases:
+        return _plan_cases(a, client)
     from .plan import check_plan
     actions = [l.strip() for l in open(a.steps_file, encoding="utf-8") if l.strip()] if a.steps_file else list(a.actions)
-    if not actions:
-        print("ekbasis plan-check: give the actions as arguments or with --steps-file", file=sys.stderr)
+    if not actions or a.state is None:
+        print("ekbasis plan-check: give --state and the actions (as arguments or with --steps-file)", file=sys.stderr)
         return ERROR
-    harm = {}
-    if a.harm or not a.ask:
-        harm.update(P.harms(*(a.harm or ())))
-    for i, q in enumerate(a.ask or (), 1):
-        harm[f"ask{i}"] = P.yes_no(q)
+    harm = _harm_questions(a.harm, a.ask)
     if any(k in P.HARMS for k in harm) and not a.request:
         print("ekbasis plan-check: the preset harm questions ask about what the user's request does not ask for; "
               "pass --request (or use --ask with your own questions)", file=sys.stderr)
@@ -109,13 +116,168 @@ def _plan_check(a, client) -> int:
     elif pc.ok:
         print(f"Ekbasis: OK  all {len(actions)} steps forecast harmless with confidence")
     else:
-        what = f"flags {', '.join(pc.flags)}" if pc.reason == "flagged" else "is unsure"
-        p = next((x for x in pc.prefixes if x["step"] == pc.step), None)
-        detail = f" (p = {max(p['p_yes'].values()):.2f})" if p and pc.reason == "flagged" else ""
-        print(f"Ekbasis: STOP BEFORE STEP {pc.step}  it {what}{detail}: {actions[pc.step - 1]}")
-        print(f"  run steps 1-{pc.safe} now, then look at the real state and check the rest" if pc.safe else
+        at = next((x for x in pc.prefixes if x["step"] == pc.step), None)
+        labels = {**P.HARM_LABELS, **{f"ask{i}": q for i, q in enumerate(a.ask or (), 1)}}
+        print(f"Ekbasis: STOP BEFORE STEP {pc.step}  {actions[pc.step - 1]}")
+        if at:
+            ranked = sorted(at["p_yes"].items(), key=lambda kv: -kv[1])
+            if pc.reason == "flagged":
+                print("  at stake:")
+                for k, p in ranked:
+                    if k in pc.flags:
+                        print(f"    {p:4.0%}  {labels.get(k, k)}")
+            else:
+                k, p = ranked[0]
+                print(f"  unsure (confidence {at['confidence']:.2f}); closest to harm: {labels.get(k, k)} {p:.0%}")
+        first = "step 1" if pc.safe == 1 else f"steps 1-{pc.safe}"
+        print(f"  run {first} now, then look at the real state and check the rest" if pc.safe else
               "  look at the real state before running anything, then check again")
     return OK if pc.ok else RISKY
+
+
+def _case_expect(c):
+    """A case's expectation: ("ok", None), ("stop", None) = stop anywhere, ("stop", N) = stop at step N or before."""
+    e = c.get("expect")
+    if e == "ok":
+        return "ok", None
+    if e == "stop":
+        return "stop", None
+    if isinstance(e, dict) and isinstance(e.get("stop_by"), int) and e["stop_by"] >= 1:
+        return "stop", e["stop_by"]
+    raise ValueError('"expect" must be "ok", "stop" or {"stop_by": STEP}')
+
+
+def _case_outcome(pc) -> dict:
+    """What the check decided, with the number that decided it: the highest harm probability at the stopping step (or
+    the confidence there when it was only unsure), or, when the plan passed, the highest harm probability seen."""
+    if pc.ok:
+        top = max((max(x["p_yes"].values()) for x in pc.prefixes), default=0.0)
+        return {"outcome": "ok", "step": None, "why": None, "p": round(top, 3)}
+    at = next((x for x in pc.prefixes if x["step"] == pc.step), None)
+    if pc.reason == "flagged" and at:
+        why, p = ", ".join(pc.flags), max(at["p_yes"].values())
+    else:
+        why, p = "unsure", (at["confidence"] if at else 0.0)
+    return {"outcome": "stop", "step": pc.step, "why": why, "p": round(p, 3)}
+
+
+def _plan_cases(a, client) -> int:
+    """plan-check --cases FILE: run known cases (past incidents, plans that must pass) against the rules, and report
+    which still come out as expected. Exit 0 = all as expected; 2 = at least one is not; 3 = some could not be judged
+    (and none failed); 1 = a malformed case file."""
+    from .plan import check_plan
+    base = os.path.dirname(os.path.abspath(a.cases))
+
+    def text(v, what, name):   # a case's own text: @FILE is next to the case file
+        if not isinstance(v, str):
+            raise ValueError(f"case {name!r}: {what} must be text or @FILE")
+        if v.startswith("@") and not os.path.isabs(v[1:]):
+            v = "@" + os.path.join(base, v[1:])
+        return _text_arg(v)
+
+    cases = []
+    try:
+        with open(a.cases, encoding="utf-8") as f:
+            for n, line in enumerate(f, 1):
+                if not line.strip() or line.lstrip().startswith("#"):
+                    continue
+                c = json.loads(line)
+                name = str(c.get("name") or f"line {n}")
+                acts = c.get("actions")
+                if not isinstance(acts, list) or not acts or not all(isinstance(x, str) and x.strip() for x in acts):
+                    raise ValueError(f"case {name!r}: \"actions\" must be a list of action strings")
+                if not c.get("state") and a.state is None:
+                    raise ValueError(f"case {name!r}: no \"state\" (and no --state)")
+                try:
+                    kind, by = _case_expect(c)
+                except ValueError as e:
+                    raise ValueError(f"case {name!r}: {e}") from None
+                if by and by > len(acts):
+                    raise ValueError(f"case {name!r}: stop_by {by} is past the last action")
+                request = c.get("request", a.request)
+                harm = _harm_questions(c.get("harm", a.harm), c.get("ask", a.ask))
+                if any(k in P.HARMS for k in harm) and not request:
+                    raise ValueError(f"case {name!r}: the preset harm questions need a \"request\" (or \"ask\")")
+                cases.append({"name": name,
+                              "rules": text(c["rules"], "rules", name) if "rules" in c else _text_arg(a.rules),
+                              "state": text(c["state"], "state", name) if c.get("state") else _text_arg(a.state),
+                              "request": request,
+                              "actions": acts, "harm": harm, "kind": kind, "by": by})
+    except (OSError, ValueError) as e:   # json.JSONDecodeError is a ValueError
+        print(f"ekbasis plan-check --cases: {e}", file=sys.stderr)
+        return ERROR
+    if not cases:
+        print("ekbasis plan-check --cases: no cases in the file", file=sys.stderr)
+        return ERROR
+
+    before = {}
+    if a.compare and os.path.exists(a.compare):
+        try:
+            with open(a.compare, encoding="utf-8") as f:
+                before = json.load(f).get("cases", {})
+        except (OSError, ValueError):
+            before = {}
+
+    results, requests = [], 0
+    for c in cases:
+        try:
+            pc = check_plan(client, c["rules"], c["state"], c["actions"], c["harm"], look_below=a.look_below,
+                            parallel=a.parallel, request=c["request"])
+        except CannotJudge as e:
+            results.append({**c, "got": {"outcome": "cannot", "step": None, "why": str(e), "p": None}, "status": "cannot"})
+            continue
+        requests += pc.requests
+        got = _case_outcome(pc)
+        if c["kind"] == "ok":
+            status = "pass" if got["outcome"] == "ok" else "false_alarm"
+        elif got["outcome"] == "ok":
+            status = "miss"
+        else:
+            status = "late" if c["by"] and got["step"] > c["by"] else "pass"
+        results.append({**c, "got": got, "status": status})
+
+    def said(g):
+        if g["outcome"] == "cannot":
+            return "cannot foresee"
+        if g["outcome"] == "ok":
+            return f"ok (highest harm p {g['p']:.2f})"
+        return f"stop at {g['step']}: {g['why']} ({'confidence' if g['why'] == 'unsure' else 'p'} {g['p']:.2f})"
+
+    def wanted(r):
+        return "ok" if r["kind"] == "ok" else f"stop by {r['by']}" if r["by"] else "stop"
+
+    label = {"pass": "PASS", "miss": "MISS", "late": "LATE", "false_alarm": "FALSE ALARM", "cannot": "CANNOT"}
+    def decision(g):   # what a run decided: pass, or stop at a step because of a harm or because it was unsure
+        return g.get("outcome"), g.get("step"), g.get("why") == "unsure"
+
+    changed = [r for r in results if r["name"] in before and decision(before[r["name"]]) != decision(r["got"])]
+    stops = [r for r in results if r["kind"] == "stop"]
+    oks = [r for r in results if r["kind"] == "ok"]
+    caught = sum(r["status"] == "pass" for r in stops)
+    clear = sum(r["status"] == "pass" for r in oks)
+    if a.json:
+        print(json.dumps({"cases": [{"name": r["name"], "expect": wanted(r), "status": r["status"], **r["got"],
+                                     "before": before.get(r["name"])} for r in results],
+                          "stops_caught": [caught, len(stops)], "oks_clear": [clear, len(oks)],
+                          "changed": [r["name"] for r in changed], "requests": requests}))
+    else:
+        width = max(len(r["name"]) for r in results)
+        for r in results:
+            line = f"{label[r['status']]:<11} {r['name']:<{width}}  {said(r['got'])}"
+            if r["status"] != "pass":
+                line += f"  (expected {wanted(r)})"
+            if r in changed:
+                line += f"  [was: {said(before[r['name']])}]"
+            print(line)
+        print(f"\nplans that must stop: {caught}/{len(stops)} stopped in time · plans that must pass: "
+              f"{clear}/{len(oks)} passed · {requests} requests"
+              + (f" · {len(changed)} changed since the last run" if before else ""))
+    if a.compare:
+        with open(a.compare, "w", encoding="utf-8") as f:
+            json.dump({"cases": {r["name"]: r["got"] for r in results}}, f, indent=1)
+    if any(r["status"] in ("miss", "late", "false_alarm") for r in results):
+        return RISKY
+    return CANNOT_JUDGE if any(r["status"] == "cannot" for r in results) else OK
 
 
 def main(argv=None) -> int:
@@ -212,7 +374,7 @@ def main(argv=None) -> int:
     pc = sub.add_parser("plan-check", help="check a list of actions before an agent runs them (look when unsure: "
                                             "run the safe prefix, look before the first flagged or uncertain step)")
     pc.add_argument("--rules", required=True, help="how this system works: text, or @FILE")
-    pc.add_argument("--state", required=True, help="how things stand now: text, or @FILE")
+    pc.add_argument("--state", default=None, help="how things stand now: text, or @FILE")
     pc.add_argument("--request", default=None, help="what the user asked for, in their words (the --harm presets ask "
                                                     "about harm this request does not ask for)")
     pc.add_argument("--harm", action="append", default=None,
@@ -225,6 +387,12 @@ def main(argv=None) -> int:
     pc.add_argument("--json", action="store_true")
     pc.add_argument("--fail-open", action="store_true", help="exit 0 (with a warning) when it cannot foresee")
     pc.add_argument("--steps-file", default=None, help="one action per line (instead of arguments)")
+    pc.add_argument("--cases", default=None, metavar="FILE",
+                    help="0.1.38: test the rules on known cases instead of checking a plan: JSON lines, each with "
+                         "\"name\", \"state\", \"request\", \"actions\" and \"expect\" (\"ok\", \"stop\" or "
+                         "{\"stop_by\": STEP}); exit 0 when every case comes out as expected, 2 when not")
+    pc.add_argument("--compare", default=None, metavar="FILE",
+                    help="with --cases: show what changed since the results saved in FILE, then save these there")
     pc.add_argument("actions", nargs="*", help='each action as one argument, in order, e.g. "kubectl delete pvc data-0"')
     p = sub.add_parser("predict", help="one question about the outcome of some actions")
     p.add_argument("--rules", required=True)
