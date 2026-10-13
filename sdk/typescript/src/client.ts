@@ -1,7 +1,7 @@
 import type { Question } from "./prompts.js";
 
-export const VERSION = "0.2.1";
-const QUESTION_TYPES = ["noul", "choice", "score"];
+export const VERSION = "0.2.2";
+const QUESTION_TYPES = ["noul", "boolean", "choice", "score"];
 
 export class EkbasisError extends Error {}
 /** The server could not be reached, refused the request or did not answer in time: treat the action as unchecked. */
