@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.36] — 2026-10-13
+
+### Added
+- **Update notice.** The hosted API now sends the latest published client versions (`X-Ekbasis-Latest-Python`,
+  `X-Ekbasis-Latest-Js`). When yours is older, the client says so on stderr, at most once a day (never on stdout, so
+  `--json` output and the hook are unchanged): `ekbasis 0.1.37 is available (you have 0.1.36): pip install -U ekbasis`.
+  `EKBASIS_NO_UPDATE_CHECK=1` turns it off. TypeScript SDK 0.2.3: the same, once per process, on the console.
+
 ## [0.1.35] — 2026-10-13
 
 ### Fixed

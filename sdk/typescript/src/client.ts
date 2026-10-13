@@ -1,6 +1,6 @@
 import type { Question } from "./prompts.js";
 
-export const VERSION = "0.2.2";
+export const VERSION = "0.2.3";
 const QUESTION_TYPES = ["noul", "boolean", "choice", "score"];
 
 export class EkbasisError extends Error {}
@@ -22,6 +22,22 @@ export interface EkbasisOptions { url?: string; apiKey?: string; timeoutMs?: num
 function env(name: string): string | undefined {
   const p = (globalThis as { process?: { env?: Record<string, string | undefined> } }).process;
   return p?.env?.[name];
+}
+
+let noticed = false;
+const vt = (v: string) => v.split(".").slice(0, 3).map((x) => Number(x));
+/** 0.2.3: the hosted API sends the latest published SDK version; when it is newer, say so once per process on the
+ * console (EKBASIS_NO_UPDATE_CHECK=1 turns it off). Never throws. */
+function noticeUpdate(latest: string | null): void {
+  try {
+    if (noticed || !latest || !/^\d+\.\d+\.\d+$/.test(latest) || env("EKBASIS_NO_UPDATE_CHECK") === "1") return;
+    const [a, b] = [vt(latest), vt(VERSION)];
+    const newer = a[0] - b[0] || a[1] - b[1] || a[2] - b[2];
+    if (newer > 0) {
+      noticed = true;
+      console.warn(`ekbasis ${latest} is available (you have ${VERSION}): npm install ekbasis@latest (set EKBASIS_NO_UPDATE_CHECK=1 to hide this)`);
+    }
+  } catch {}
 }
 
 /** Refuse a malformed question before sending it: the server reads only `instructions`. */
@@ -87,6 +103,7 @@ export class Ekbasis {
         const dur = bits.find((b) => b.startsWith("dur="));
         if (bits[0] && dur) timing[bits[0]] = Number(dur.slice(4));
       }
+      noticeUpdate(r.headers.get("X-Ekbasis-Latest-Js"));
       const usage = (d.usage ?? {}) as { input_tokens?: number };
       const metered = r.headers.get("X-Ekbasis-Metered-Tokens");
       this.lastUsage = { ms: Date.now() - t0, serverTiming: timing, requestId: r.headers.get("X-Ekbasis-Request-Id") ?? undefined,
