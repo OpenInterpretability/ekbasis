@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.1.33] — 2026-10-13
+
+### Added
+- **Which git commands fail, from git itself, on a copy of the repository** (`ekbasis.git_sim`; opt-in:
+  `ekbasis git-check --copy` or `EKBASIS_GIT_COPY=1`, which the Claude Code hook uses for lines made only of git
+  commands). The commands run in order on a copy (APFS clonefile, a reflink, or a copy of up to 512 MB), with the
+  repository's hooks disabled, no editor, no prompt and no signing, under a time limit; each command's failure is then
+  set to 0 or 1 by its exit code, and the reason quotes git's error. Only local subcommands run: at the first command
+  that could reach a remote (push, pull, fetch, ...) or that is not on the list, the run stops and the rest stays with
+  the model. The real repository is never touched (tested: every file and the .git folder hash the same afterwards), and
+  the prompt the model reads does not change. Validated against the ground truth of the git data generator (real
+  repositories, 700 new scenarios): 1,064 of 1,064 simulated commands agree. On the held-out guard set, the model's
+  confident errors that this covers: 442 of 537 (the rest involve the network, shell commands between git commands, or
+  lost work, which stays with the model).
+
 ## [0.1.32] — 2026-10-13
 
 ### Added
