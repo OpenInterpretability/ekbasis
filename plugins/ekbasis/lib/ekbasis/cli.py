@@ -124,6 +124,8 @@ def main(argv=None) -> int:
     ap.add_argument("--timeout", type=float, default=120.0, help="seconds to wait for each answer (default 120)")
     sub = ap.add_subparsers(dest="cmd", required=True)
     g = sub.add_parser("git-check", help="check git commands before running them")
+    g.add_argument("--copy", action="store_true", help="0.1.33: find which commands fail by running them on a copy of "
+                   "the repository (local commands only; the real repository is not touched; also EKBASIS_GIT_COPY=1)")
     g.add_argument("--repo", default=".")
     g.add_argument("--fetch", action="store_true", help="git fetch first, so the state shows the real remote")
     g.add_argument("--json", action="store_true")
@@ -397,7 +399,7 @@ def main(argv=None) -> int:
                 print("ekbasis: cannot foresee every part of the line; --fail-open: not treated as risky", file=sys.stderr)
             return CANNOT_JUDGE if v.cannot_judge else OK
         v = G.check(a.commands, repo=a.repo, client=client, fetch=a.fetch, lost_threshold=a.lost_threshold,
-                    fail_threshold=a.fail_threshold, fail_closed=not a.fail_open, request=a.request)
+                    fail_threshold=a.fail_threshold, fail_closed=not a.fail_open, request=a.request, simulate=a.copy or None)
         route = None
         if v.risky and not a.no_safer and os.environ.get("EKBASIS_SAFER", "1") != "0":
             route = SF.search(v.commands, repo=a.repo, client=client, lost_threshold=a.lost_threshold,

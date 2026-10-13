@@ -467,6 +467,7 @@ class Verdict:
     risky: bool = False                 # p_lost >= the threshold
     reasons: list = field(default_factory=list)
     state: str = ""                     # the exact state the model read
+    simulated: int = 0                  # 0.1.33: how many leading commands were run on a copy (their failures are exact)
 
     def summary(self) -> str:
         out = [f"Ekbasis: {'RISKY' if self.risky else 'ok'}  (lose uncommitted work: {100 * self.p_lost:.0f}%)"]
@@ -514,7 +515,8 @@ def other_repo(command: str) -> bool:
 
 def check(commands, repo: str = ".", client: Ekbasis | None = None, fetch: bool = False, lost_threshold: float = 0.2,
           fail_threshold: float = 0.5, commit_text: str = "hash", facts: bool = True, notes: bool = True,
-          notes_at: str | None = None, fail_closed: bool = True, request: str | None = None) -> Verdict:
+          notes_at: str | None = None, fail_closed: bool = True, request: str | None = None,
+          simulate: bool | None = None) -> Verdict:
     """What these git commands will do, before they run: lost work, failures, unfinished merge/rebase, final branch.
     facts / notes: see the module docstring (facts=False, notes=False reproduce client 0.1.0).
 
@@ -553,11 +555,24 @@ def check(commands, repo: str = ".", client: Ekbasis | None = None, fetch: bool 
     if v.p_lost >= lost_threshold:
         v.risky = True
         v.reasons.append(f"may permanently lose uncommitted work ({100 * v.p_lost:.0f}%)")
-    refused = rebase_refused(repo, commands)
-    if refused:   # 0.1.32: decided by code, whatever the model says; the prompt is unchanged
-        v.p_fail[0] = 1.0
-        v.reasons.append(refused)
-    v.reasons += [f"command {k} likely fails: {c}" for k, (c, p) in enumerate(zip(commands, v.p_fail), 1) if p >= fail_threshold]
+    sim = None
+    if simulate if simulate is not None else os.environ.get("EKBASIS_GIT_COPY") == "1":
+        from . import git_sim
+        sim = git_sim.run_on_copy(repo, commands)   # 0.1.33: each failure from git itself, on a copy
+    if sim and sim["ran"]:
+        for k, code in enumerate(sim["exit"]):
+            v.p_fail[k] = 1.0 if code != 0 else 0.0
+            if code != 0:
+                v.reasons.append(f"command {k + 1} fails (run on a copy of the repository): {sim['stderr'][k]}")
+        v.simulated = sim["ran"]
+    else:
+        refused = rebase_refused(repo, commands)
+        if refused:   # 0.1.32: decided by code, whatever the model says; the prompt is unchanged
+            v.p_fail[0] = 1.0
+            v.reasons.append(refused)
+    done = getattr(v, "simulated", 0)
+    v.reasons += [f"command {k} likely fails: {c}" for k, (c, p) in enumerate(zip(commands, v.p_fail), 1)
+                  if p >= fail_threshold and k > done]
     return v
 
 

@@ -675,9 +675,11 @@ def main() -> int:
                 return _cannot_judge(f"cannot read a git repository at {repo}: {problem}", session, rkey)
             if shortcuts and R.no_uncommitted_work(repo):
                 continue
+            only_git = not plan.shell_line.strip()   # 0.1.33: run on a copy only when nothing else in the line writes
             v = _with_deadline(lambda: G.check(cmds, repo=repo, client=client,
                                                fetch=os.environ.get("EKBASIS_FETCH") == "1",
-                                               lost_threshold=threshold, request=request), left())
+                                               lost_threshold=threshold, request=request,
+                                               simulate=os.environ.get("EKBASIS_GIT_COPY") == "1" and only_git), left())
             if v.risky:
                 flagged.add(repo)
                 stake = G.at_stake(repo, cmds)
