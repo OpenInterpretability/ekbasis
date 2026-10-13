@@ -83,6 +83,9 @@ NOTE_WORKTREE = ("git worktree remove fails if the linked worktree has uncommitt
                  "it deletes them.")
 NOTE_SUBMODULE = ("git submodule update checks out, in each submodule, the commit the superproject records; it fails if that "
                   "would overwrite uncommitted changes in the submodule, and --force throws them away.")
+NOTE_REBASE_DIRTY = ("git rebase without --autostash (and without rebase.autoStash set) refuses to start when tracked files "
+                     "have uncommitted changes, staged or not: it fails and changes nothing, even when the branch is "
+                     "already up to date. Untracked files alone do not stop it.")
 NOTE_PULL = ("git pull with no --rebase, --no-rebase or --ff-only fails when the current branch and its upstream have "
              "diverged (each has commits the other lacks), unless pull.rebase or pull.ff is configured; a branch that is "
              "only behind is fast-forwarded. --ff-only fails on diverged branches; --no-rebase merges.")
@@ -153,7 +156,8 @@ def _positional(args, value_opts=()) -> list:
 def git_notes(commands, info=None) -> list:
     """The notes the commands need, in order, each once. info (from ekbasis.git.inspect): nonbranch_targets (refs the
     commands target that are commits or tags, not local branches), path_args (arguments that are existing paths),
-    pull_config, ignored_overwrite (a target ref tracks a path that is an ignored file here)."""
+    pull_config, ignored_overwrite (a target ref tracks a path that is an ignored file here), rebase_autostash
+    (rebase.autoStash is true here)."""
     info = info or {}
     out = []
 
@@ -190,6 +194,9 @@ def git_notes(commands, info=None) -> list:
                 add(NOTE_RESET_PATH)
         elif sub in ("rebase", "cherry-pick", "revert", "am") and a & {"--abort", "--skip"}:
             add(NOTE_ABORT)
+        elif sub == "rebase" and not a & {"--autostash", "--continue", "--quit", "--edit-todo"} \
+                and not info.get("rebase_autostash"):
+            add(NOTE_REBASE_DIRTY)
         elif sub == "clean":
             if args not in (["-fd"], ["-n"]):
                 add(NOTE_CLEAN)
