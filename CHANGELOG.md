@@ -13,6 +13,8 @@
 - **`check_plan(..., request=...)`** and `run_plan(..., request=...)`: the user's request at the top of every prompt, the
   layout the chain studies used (`request_on_top`).
 - TypeScript SDK 0.2.0: the same `HARMS`, `harms()`, `requestOnTop` and `checkPlan(..., { request })`.
+- TypeScript SDK 0.2.1: also a CommonJS build. Up to 0.2.0 the package was ESM only, and `require("ekbasis")` failed
+  with `ERR_PACKAGE_PATH_NOT_EXPORTED` in every CommonJS project; tested now in CommonJS, ESM and tsx projects.
 
 ## [0.1.27] — 2026-10-12
 
