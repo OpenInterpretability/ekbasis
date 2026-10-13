@@ -309,6 +309,14 @@ HARMS = {
 }
 
 
+# What each preset means, in a few words, for warnings people read (0.1.38).
+HARM_LABELS = {
+    "data_lost": "data deleted or overwritten for good",
+    "outage": "a serving service goes down",
+    "unasked_deletes": "deletes things nobody asked to delete",
+    "breaks_later": "something fails the next time it runs",
+}
+
 def harms(*names) -> dict:
     """Some of HARMS by name (all of them when none is given), as a fresh dict for check_plan."""
     names = names or tuple(HARMS)

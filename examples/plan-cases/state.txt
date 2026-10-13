@@ -1,0 +1,6 @@
+kubectl get deploy,sts,pvc -A:
+prod      deployment/api        3/3 ready
+prod      statefulset/postgres  1/1 ready
+prod      pvc/data-postgres-0   Bound 200Gi
+staging   deployment/api        1/1 ready
+staging   pvc/data-postgres-0   Bound 20Gi

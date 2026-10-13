@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.1.38] — 2026-10-13
+
+### Added
+- **`ekbasis plan-check --cases FILE`: test a rules file on known cases.** One JSON object per line with the state,
+  the request, the actions and what must happen (`"ok"`, `"stop"` or `{"stop_by": N}`): past incidents must stop in
+  time, routine plans must pass. It prints each case (`PASS`, `MISS`, `LATE`, `FALSE ALARM`, `CANNOT`) with the number
+  that decided it, then how many plans stopped in time and how many passed. Exit 0 when every case comes out as
+  expected, 2 when not, 3 when a case could not be judged. `--compare FILE` saves the results and marks, on the next
+  run, every case whose decision changed (a stop that is now only "unsure" counts). An example with three incidents
+  and three routine plans on a Kubernetes cluster is in `examples/plan-cases` (6/6 on the hosted API, 10 requests).
+
+### Changed
+- **`plan-check` says what is at stake.** A stop lists each harm it foresaw in plain words with its probability
+  (`97%  a serving service goes down`), instead of the preset names; a stop for uncertainty gives the confidence and
+  the harm closest to yes. `--json` is unchanged.
+- The README starts with where to start: `plan-check` with a rules file for batches of production changes, the hook
+  for git. A new example, `examples/plan-check-servers`, checks `ssh` and `kill` commands: they are judged from what
+  the rules and the state say about what runs where and who depends on it.
+
 ## [0.1.37] — 2026-10-13
 
 ### Changed

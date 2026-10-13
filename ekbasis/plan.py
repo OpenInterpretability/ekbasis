@@ -48,7 +48,8 @@ class PlanCheck:
         if self.ok:
             return f"ok: all {len(self.prefixes)} steps forecast harmless with confidence"
         why = "flags " + ", ".join(self.flags) if self.reason == "flagged" else "is unsure about"
-        return (f"run steps 1-{self.safe} now (predicted safe); it {why} step {self.step}: check it on the state as it is "
+        first = "step 1" if self.safe == 1 else f"steps 1-{self.safe}"
+        return (f"run {first} now (predicted safe); it {why} step {self.step}: check it on the state as it is "
                 f"after them" if self.safe else f"step {self.step} needs a check on the state as it is now ({self.reason})")
 
 

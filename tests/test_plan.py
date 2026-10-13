@@ -127,8 +127,15 @@ class TestPlanCheckCli(unittest.TestCase):
         code, out = self.run_cli({"rm uploads": 0.97}, ["plan-check", "--rules", "r", "--state", "s", "--request", "free space",
                                                          "du", "rm cache", "rm uploads", "df"])
         self.assertEqual(code, 2)
-        self.assertIn("STOP BEFORE STEP 3", out)
+        self.assertIn("STOP BEFORE STEP 3  rm uploads", out)
+        self.assertIn("97%  data deleted or overwritten for good", out)
         self.assertIn("run steps 1-2 now", out)
+
+    def test_unsure_says_what_is_closest(self):
+        code, out = self.run_cli({"b": 0.3}, ["plan-check", "--rules", "r", "--state", "s", "--ask", "Is data lost?",
+                                               "a", "b"])
+        self.assertEqual(code, 2)
+        self.assertIn("unsure (confidence 0.70); closest to harm: Is data lost? 30%", out)
 
     def test_all_ok_exit_0_json(self):
         import json
@@ -143,3 +150,122 @@ class TestPlanCheckCli(unittest.TestCase):
     def test_own_question_without_request(self):
         code, _ = self.run_cli({"a": 0.9}, ["plan-check", "--rules", "r", "--state", "s", "--ask", "Is data lost?", "a"])
         self.assertEqual(code, 2)
+
+
+class TestPlanCases(unittest.TestCase):
+    """plan-check --cases: known cases against the rules, with what changed since the last run."""
+    def setUp(self):
+        import tempfile
+        self.dir = tempfile.mkdtemp()
+
+    def write(self, name, lines):
+        import json, os
+        path = os.path.join(self.dir, name)
+        with open(path, "w") as f:
+            f.write("\n".join(l if isinstance(l, str) else json.dumps(l) for l in lines) + "\n")
+        return path
+
+    def run_cli(self, table, argv):
+        import contextlib, io
+        from unittest import mock
+        from ekbasis import cli
+        out, err = io.StringIO(), io.StringIO()
+        with mock.patch.object(cli, "Ekbasis", lambda **k: Scripted(table)), contextlib.redirect_stdout(out), \
+                contextlib.redirect_stderr(err):
+            code = cli.main(argv)
+        return code, out.getvalue(), err.getvalue()
+
+    CASES = [
+        "# incidents first",
+        {"name": "pvc", "state": "s", "request": "free space", "actions": ["du", "kubectl delete pvc data-0"],
+         "expect": {"stop_by": 2}},
+        {"name": "deploy", "state": "s", "request": "ship it", "actions": ["build", "push"], "expect": "ok"},
+    ]
+
+    def test_all_as_expected(self):
+        cases = self.write("c.jsonl", self.CASES)
+        code, out, _ = self.run_cli({"kubectl delete pvc data-0": 0.95}, ["plan-check", "--rules", "r", "--cases", cases])
+        self.assertEqual(code, 0, out)
+        self.assertIn("PASS        pvc     stop at 2: ", out)
+        self.assertIn("must stop: 1/1 stopped in time", out)
+        self.assertIn("must pass: 1/1 passed", out)
+
+    def test_miss_and_false_alarm_fail(self):
+        cases = self.write("c.jsonl", self.CASES)
+        code, out, _ = self.run_cli({"push": 0.9}, ["plan-check", "--rules", "r", "--cases", cases])
+        self.assertEqual(code, 2)
+        self.assertIn("MISS        pvc", out)
+        self.assertIn("(expected stop by 2)", out)
+        self.assertIn("FALSE ALARM deploy", out)
+
+    def test_late_stop_fails(self):
+        cases = self.write("c.jsonl", [{"name": "x", "state": "s", "ask": ["Is data lost?"],
+                                        "actions": ["a", "b", "c"], "expect": {"stop_by": 1}}])
+        code, out, _ = self.run_cli({"c": 0.9}, ["plan-check", "--rules", "r", "--cases", cases])
+        self.assertEqual(code, 2)
+        self.assertIn("LATE", out)
+
+    def test_compare_shows_changes(self):
+        import json
+        cases = self.write("c.jsonl", self.CASES)
+        saved = self.dir + "/last.json"
+        self.run_cli({"kubectl delete pvc data-0": 0.95}, ["plan-check", "--rules", "r", "--cases", cases, "--compare", saved])
+        code, out, _ = self.run_cli({}, ["plan-check", "--rules", "r", "--cases", cases, "--compare", saved, "--json"])
+        r = json.loads(out)
+        self.assertEqual(code, 2)
+        self.assertEqual(r["changed"], ["pvc"])
+        self.assertEqual(r["stops_caught"], [0, 1])
+        self.assertEqual(json.load(open(saved))["cases"]["pvc"]["outcome"], "ok")
+
+    def test_flag_turning_unsure_is_a_change(self):
+        import json
+        cases = self.write("c.jsonl", self.CASES[:2])
+        saved = self.dir + "/last.json"
+        self.run_cli({"kubectl delete pvc data-0": 0.95}, ["plan-check", "--rules", "r", "--cases", cases, "--compare", saved])
+        code, out, _ = self.run_cli({"kubectl delete pvc data-0": 0.4},
+                                    ["plan-check", "--rules", "r", "--cases", cases, "--compare", saved])
+        self.assertEqual(code, 0)          # still stops in time...
+        self.assertIn("[was: stop at 2: data_lost", out)   # ...but no longer because it foresaw the harm
+        self.assertIn("1 changed since the last run", out)
+
+    def test_state_from_file_next_to_cases(self):
+        self.write("cluster.txt", ["3 replicas of api"])
+        cases = self.write("c.jsonl", [{"name": "x", "state": "@cluster.txt", "ask": ["Is it down?"], "actions": ["a"],
+                                        "expect": "ok"}])
+        c = Scripted({})
+        import contextlib, io
+        from unittest import mock
+        from ekbasis import cli
+        with mock.patch.object(cli, "Ekbasis", lambda **k: c), contextlib.redirect_stdout(io.StringIO()):
+            self.assertEqual(cli.main(["plan-check", "--rules", "r", "--cases", cases]), 0)
+        self.assertIn("3 replicas of api", c.calls[0])
+
+    def test_cli_rules_file_is_relative_to_the_cwd(self):
+        import os
+        rules = self.write("rules.md", ["RULES-FROM-CLI"])
+        sub = os.path.join(self.dir, "sub")
+        os.mkdir(sub)
+        cases = os.path.join(sub, "c.jsonl")
+        with open(cases, "w") as f:
+            f.write('{"name": "x", "state": "s", "ask": ["q"], "actions": ["a"], "expect": "ok"}\n')
+        c = Scripted({})
+        import contextlib, io
+        from unittest import mock
+        from ekbasis import cli
+        old = os.getcwd()
+        os.chdir(self.dir)
+        try:
+            with mock.patch.object(cli, "Ekbasis", lambda **k: c), contextlib.redirect_stdout(io.StringIO()):
+                self.assertEqual(cli.main(["plan-check", "--rules", "@rules.md", "--cases", cases]), 0)
+        finally:
+            os.chdir(old)
+        self.assertIn("RULES-FROM-CLI", c.calls[0])
+
+    def test_malformed_case_is_a_usage_error(self):
+        for bad in [{"name": "x", "state": "s", "ask": ["q"], "actions": [], "expect": "ok"},
+                    {"name": "x", "state": "s", "ask": ["q"], "actions": ["a"], "expect": "maybe"},
+                    {"name": "x", "state": "s", "ask": ["q"], "actions": ["a"], "expect": {"stop_by": 2}},
+                    {"name": "x", "state": "s", "actions": ["a"], "expect": "ok"}]:   # presets without a request
+            code, _, err = self.run_cli({}, ["plan-check", "--rules", "r", "--cases", self.write("c.jsonl", [bad])])
+            self.assertEqual(code, 1, bad)
+            self.assertIn("case 'x'", err)
