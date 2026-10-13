@@ -1,0 +1,41 @@
+# Publishes the TypeScript SDK (sdk/typescript) to npm when a tag sdk-ts-v* is pushed
+# (git tag sdk-ts-v0.1.1 && git push origin sdk-ts-v0.1.1), with npm Trusted Publishing: no token in the repository;
+# npm checks GitHub's OIDC identity of this workflow and attaches a provenance attestation to the package.
+# One-time setup on npmjs.com (package ekbasis → Settings → Trusted publishing → GitHub Actions): organization
+# OpenInterpretability, repository ekbasis, workflow publish-npm.yml, environment npm.
+name: Publish the TypeScript SDK to npm
+
+on:
+  push:
+    tags: ["sdk-ts-v*"]
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment:
+      name: npm
+      url: https://www.npmjs.com/package/ekbasis
+    permissions:
+      contents: read
+      id-token: write
+    defaults:
+      run:
+        working-directory: sdk/typescript
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          registry-url: "https://registry.npmjs.org"
+      - name: npm with trusted publishing (11.5.1 or later)
+        run: npm install -g npm@11.6.2
+      - name: the tag matches the package version
+        run: |
+          v=$(node -p 'require("./package.json").version')
+          test "${GITHUB_REF_NAME}" = "sdk-ts-v${v}" || { echo "tag ${GITHUB_REF_NAME} but package.json says ${v}"; exit 1; }
+      - run: npm install --no-audit --no-fund
+      - run: npm test
+      - run: npm publish --access public
