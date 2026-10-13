@@ -1319,6 +1319,73 @@ class ShellVerdict:
         return "\n".join(out)
 
 
+SPLIT_AT = {";", "\n", "&&"}
+# Commands that change the session (directory, variables, options): a line is not split after them, because the rest
+# would run as a separate call, where the agent's shell may not carry that change.
+SESSION_CHANGES = {"cd", "pushd", "popd", "export", "set", "unset", "source", ".", "alias", "shopt", "umask", "trap"}
+
+
+def sequence_parts(line: str) -> list | None:
+    """The top-level commands of a line joined only by ;, newlines or &&, as (operator before it, its text) pairs
+    (0.1.29, for the hook's chain mode); None when the line cannot be cut safely: a pipe, ||, &, a here-document, a
+    compound command (if, for, while, ...), a nested shell, a command that changes the session (cd, export, NAME=value
+    ...) or anything the parser does not evaluate."""
+    pr = parse(line)
+    if pr.problems or len(pr.commands) < 2:
+        return None
+    starts = []
+    for c in pr.commands:
+        if c.joined_by and c.joined_by not in SPLIT_AT:
+            return None
+        if not c.words or c.words[0].start < 0:
+            return None
+        w0 = c.words[0].text
+        if w0 in RESERVED or w0 in NESTED or w0 in SESSION_CHANGES or ASSIGN.match(w0):
+            return None
+        if any(r.op in ("<<", "<<-") for r in c.redirects):
+            return None
+        starts.append(c.words[0].start)
+    parts = []
+    for i, st in enumerate(starts):
+        end = starts[i + 1] if i + 1 < len(starts) else len(line)
+        text = line[st:end].rstrip()
+        nxt = (pr.commands[i + 1].joined_by if i + 1 < len(pr.commands) else "").strip()
+        if nxt and text.endswith(nxt):
+            text = text[: -len(nxt)].rstrip()
+        if not text:
+            return None
+        parts.append((pr.commands[i].joined_by, text))
+    return parts
+
+
+def join_parts(parts: list) -> str:
+    """A line from sequence_parts() pairs, with their operators."""
+    out = ""
+    for op, text in parts:
+        out += text if not out else ("\n" if op == "\n" else f" {op} ") + text
+    return out
+
+
+def first_risky(parts: list, cwd: str = ".", client: Ekbasis | None = None, lost_threshold: float = 0.2,
+                request: str | None = None, parallel: int = 4) -> int | None:
+    """The 1-based index of the first command whose prefix (commands 1..k of sequence_parts()) is risky by check(),
+    asked in parallel; None if no prefix shorter than the whole line is. A prefix that cannot be judged counts as
+    risky (it stops there)."""
+    import concurrent.futures as cf
+    client = client or Ekbasis()
+
+    def one(k):
+        try:
+            v = check([join_parts(parts[:k])], cwd=cwd, client=client, lost_threshold=lost_threshold, request=request)
+            return v.lost_risky or v.cannot_judge
+        except CannotJudge:
+            return True
+    ks = list(range(1, len(parts)))
+    with cf.ThreadPoolExecutor(max(1, min(parallel, len(ks)))) as ex:
+        risky = list(ex.map(one, ks))
+    return next((k for k, r in zip(ks, risky) if r), None)
+
+
 def check(commands, cwd: str = ".", client: Ekbasis | None = None, lost_threshold: float = 0.2,
           fail_threshold: float = 0.5, notes: bool = True, shell: str | None = None, salt=None,
           where: str | None = None, fail_closed: bool = True, skip=None, request: str | None = None) -> ShellVerdict:

@@ -581,6 +581,13 @@ The agent studies behind this section, on demo apps, on real self-hosted Gitea, 
   from running them): content lost right 91.4%, 93.2% of the losses flagged with 11.9% false alarms, failures right
   96.2%, against 54.8% for a list of destructive commands (82.0% flagged, 67.9% false alarms). What it misses: see
   Limits.
+  **Chain mode (since 0.1.29, `EKBASIS_CHAIN=1` with the shell guard):** when a flagged line has several commands joined
+  by `;`, `&&` or new lines, the hook finds the first command whose prefix is risky (the prefixes are checked in
+  parallel) and adds to the warning which commands before it are predicted safe and how to split the line: run those
+  on their own first, then the rest as a separate call, which is then checked on the state after them (look when
+  unsure, as `check_plan` does for a plan). The decision is the same; only the advice is added. Lines with a pipe,
+  `||`, `&`, a here-document, a compound command, a nested shell, or a command that changes the session (`cd`,
+  `export`, `NAME=value`, `source`) are not split.
 
 - **Preflight (since 0.1.6)** — `ekbasis preflight -- "sqlite3 app.db < migrations/0012.sql"` (or
   `ekbasis.preflight.check_line`) checks a multi-step change before it runs: a sqlite3 run of several statements (a file
