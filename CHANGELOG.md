@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.1.35] — 2026-10-13
+
+### Fixed
+- **The run on a copy is fast.** 0.1.34's lost-work comparison started one git process per file and per branch or tag:
+  on a repository of ~1,200 files it took 130 s. It now works on blob ids with a few batched git calls (one tree
+  listing per ref, one `hash-object --stdin-paths`, one `cat-file --batch`): 2.1 s on the same repository. Same
+  results: re-validated on 400 new generated scenarios, failures 616 of 616 and lost work 300 of 300 agree with the
+  ground truth. Still opt-in (`git-check --copy`, `EKBASIS_GIT_COPY=1`). If you turned it on with 0.1.34, upgrade.
+
 ## [0.1.34] — 2026-10-13
 
 ### Added

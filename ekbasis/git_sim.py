@@ -48,62 +48,146 @@ def _g(cwd, env, *args):
     return r.returncode, r.stdout
 
 
-def _uncommitted(cwd, env) -> dict | None:
-    """{path: {content bytes}}: versions in the work tree (tracked and changed, untracked or ignored files), in the
-    index, or only in stash entries, that HEAD does not have. None when there are too many files to compare."""
-    rc, out = _g(cwd, env, "ls-files", "-z", "--modified", "--others", "--deleted")
-    rc2, ign = _g(cwd, env, "ls-files", "-z", "--others", "--ignored", "--exclude-standard")
-    rc3, staged = _g(cwd, env, "diff", "--cached", "--name-only", "-z")
-    paths = {p for blob in (out, ign, staged) for p in blob.decode(errors="replace").split("\0") if p}
-    if len(paths) > MAX_FILES:
-        return None
-    vers, total = {}, 0
-    for p in paths:
-        rc, head = _g(cwd, env, "show", f"HEAD:{p}")
-        head = head if rc == 0 else None
-        full = os.path.join(cwd, p)
-        if os.path.isfile(full) and not os.path.islink(full):
-            data = open(full, "rb").read()
-            total += len(data)
-            if data != head:
-                vers.setdefault(p, set()).add(data)
-        rc, idx = _g(cwd, env, "show", f":{p}")
-        if rc == 0 and idx != head:
-            vers.setdefault(p, set()).add(idx)
-        if total > MAX_BYTES:
-            return None
+def _tree(cwd, env, ref) -> dict:
+    """{path: blob id} of a commit's tree (one `git ls-tree -r`)."""
+    rc, out = _g(cwd, env, "ls-tree", "-r", "-z", "--full-tree", ref)
+    tree = {}
+    for item in (out.decode(errors="replace").split("\0") if rc == 0 else []):
+        meta, _, path = item.partition("\t")
+        parts = meta.split()
+        if path and len(parts) == 3 and parts[1] == "blob":
+            tree[path] = parts[2]
+    return tree
+
+
+def _index(cwd, env) -> dict:
+    """{path: {blob ids}} in the index (every stage: a conflict keeps both sides)."""
+    rc, out = _g(cwd, env, "ls-files", "-s", "-z")
+    idx = {}
+    for item in (out.decode(errors="replace").split("\0") if rc == 0 else []):
+        meta, _, path = item.partition("\t")
+        parts = meta.split()
+        if path and len(parts) == 3:
+            idx.setdefault(path, set()).add(parts[1])
+    return idx
+
+
+def _worktree_blobs(cwd, env, paths) -> dict:
+    """{path: blob id} of the files in the work tree (one `git hash-object --stdin-paths`)."""
+    files = [p for p in sorted(paths) if os.path.isfile(os.path.join(cwd, p)) and not os.path.islink(os.path.join(cwd, p))]
+    if not files:
+        return {}
+    r = subprocess.run(["git", *SAFE_CONFIG, "hash-object", "--no-filters", "--stdin-paths"], cwd=cwd, env=env,
+                       input="\n".join(files).encode(), capture_output=True, timeout=TIME_LIMIT)
+    ids = r.stdout.decode().split()
+    return dict(zip(files, ids)) if r.returncode == 0 and len(ids) == len(files) else {}
+
+
+def _stash_commits(cwd, env) -> list:
     rc, hs = _g(cwd, env, "stash", "list", "--format=%H")
+    out = []
     for h in hs.decode().split()[:50]:
         for ref in (h, h + "^2", h + "^3"):
-            rc, names = _g(cwd, env, "ls-tree", "-r", "-z", "--name-only", ref)
-            for p in (names.decode(errors="replace").split("\0") if rc == 0 else []):
-                if not p:
-                    continue
-                rc, c = _g(cwd, env, "show", f"{ref}:{p}")
-                rc2, head = _g(cwd, env, "show", f"HEAD:{p}")
-                if rc == 0 and (rc2 != 0 or c != head):
-                    vers.setdefault(p, set()).add(c)
-    return vers
+            rc, sha = _g(cwd, env, "rev-parse", "--verify", "-q", ref)
+            if rc == 0:
+                out.append(sha.decode().strip())
+    return out
 
 
-def _survives(cwd, env, path, content) -> bool:
-    """Whether this content of `path` still exists anywhere: work tree, index, any branch or remote-tracking tip, any
-    stash entry; or inside another version of the same file (a merge result with conflict markers keeps both sides)."""
-    found = []
-    full = os.path.join(cwd, path)
-    if os.path.isfile(full) and not os.path.islink(full):
-        found.append(open(full, "rb").read())
-    rc, out = _g(cwd, env, "for-each-ref", "--format=%(refname)", "refs/heads", "refs/remotes", "refs/tags")
-    refs = out.decode().split()[:500]
-    rc, hs = _g(cwd, env, "stash", "list", "--format=%H")
-    for h in hs.decode().split()[:50]:
-        refs += [h, h + "^2", h + "^3"]
-    for ref in [""] + refs:   # "" = the index
-        rc, c = _g(cwd, env, "show", f"{ref}:{path}")
-        if rc == 0:
-            found.append(c)
-    want = content.strip()
-    return any(c == content or (want and want in c) for c in found)
+def _uncommitted(cwd, env) -> dict | None:
+    """{path: {blob id}}: versions in the work tree (tracked and changed, untracked or ignored files), in the index, or
+    only in a stash entry, that HEAD does not have. None when there are too many files to compare. Works on blob ids:
+    a handful of git calls, whatever the number of files."""
+    rc, out = _g(cwd, env, "ls-files", "-z", "--modified", "--others", "--deleted")
+    rc2, ign = _g(cwd, env, "ls-files", "-z", "--others", "--ignored", "--exclude-standard")
+    paths = {p for blob in (out, ign) for p in blob.decode(errors="replace").split("\0") if p}
+    head = _tree(cwd, env, "HEAD")
+    idx = _index(cwd, env)
+    paths |= {p for p, ids in idx.items() if ids != {head.get(p)}}
+    if len(paths) > MAX_FILES:
+        return None
+    total = sum(os.path.getsize(os.path.join(cwd, p)) for p in paths
+                if os.path.isfile(os.path.join(cwd, p)) and not os.path.islink(os.path.join(cwd, p)))
+    if total > MAX_BYTES:
+        return None
+    vers = {}
+    for p, b in _worktree_blobs(cwd, env, paths).items():
+        if b != head.get(p):
+            vers.setdefault(p, set()).add(b)
+    for p in paths:
+        for b in idx.get(p, ()):
+            if b != head.get(p):
+                vers.setdefault(p, set()).add(b)
+    for c in _stash_commits(cwd, env):
+        for p, b in _tree(cwd, env, c).items():
+            if b != head.get(p):
+                vers.setdefault(p, set()).add(b)
+    # keep the content of work-tree versions now: the commands may delete the files (their blobs are not in .git)
+    store = {}
+    for p, ids in vers.items():
+        full = os.path.join(cwd, p)
+        if os.path.isfile(full) and not os.path.islink(full):
+            store[p] = open(full, "rb").read()
+    return {"vers": vers, "files": store}
+
+
+def _cat(cwd, env, ids) -> dict:
+    """{blob id: content} (one `git cat-file --batch`)."""
+    ids = sorted(set(ids))
+    if not ids:
+        return {}
+    r = subprocess.run(["git", *SAFE_CONFIG, "cat-file", "--batch"], cwd=cwd, env=env, input="\n".join(ids).encode() + b"\n",
+                       capture_output=True, timeout=TIME_LIMIT)
+    out, data, at = {}, r.stdout, 0
+    for i in ids:
+        nl = data.find(b"\n", at)
+        if nl < 0:
+            break
+        head = data[at:nl].split()
+        if len(head) == 2 and head[1] == b"missing":
+            at = nl + 1
+            continue
+        size = int(head[2])
+        out[i] = data[nl + 1: nl + 1 + size]
+        at = nl + 1 + size + 1
+    return out
+
+
+def _lost(cwd, env, before) -> list:
+    """Paths with an uncommitted version (from _uncommitted) that survives nowhere after the commands: work tree, index,
+    any branch, remote-tracking or tag tip, any stash entry; or inside another version of the same file."""
+    vers, files = before["vers"], before["files"]
+    paths = set(vers)
+    after = {p: set() for p in paths}
+    for p, b in _worktree_blobs(cwd, env, paths).items():
+        after[p].add(b)
+    for p, ids in _index(cwd, env).items():
+        if p in after:
+            after[p] |= ids
+    rc, out = _g(cwd, env, "for-each-ref", "--format=%(objectname)", "refs/heads", "refs/remotes", "refs/tags")
+    commits = out.decode().split()[:300] + _stash_commits(cwd, env)
+    for c in commits:
+        for p, b in _tree(cwd, env, c).items():
+            if p in after:
+                after[p].add(b)
+    missing = {p: {b for b in ids if b not in after[p]} for p, ids in vers.items()}
+    missing = {p: ids for p, ids in missing.items() if ids}
+    if not missing:
+        return []
+    # not found as such: is the content inside another version of the same file (a merge with conflict markers)?
+    contents = _cat(cwd, env, [b for ids in missing.values() for b in ids] + [b for p in missing for b in after[p]])
+    now = {p: [contents.get(b, b"") for b in after[p]] + ([open(os.path.join(cwd, p), "rb").read()]
+                                                           if os.path.isfile(os.path.join(cwd, p)) else []) for p in missing}
+    lost = set()
+    for p, ids in missing.items():
+        for b in ids:
+            c = contents.get(b)
+            if c is None and p in files:
+                c = files[p]     # a work-tree version: its content was kept before the commands ran
+            want = (c or b"").strip()
+            if not want or not any(want in x for x in now[p]):
+                lost.add(p)
+    return sorted(lost)
 
 
 def run_on_copy(repo: str, commands) -> dict | None:
@@ -152,8 +236,7 @@ def run_on_copy(repo: str, commands) -> dict | None:
             out["ran"] += 1
         # lost work, only when every command ran here and the work tree was small enough to compare
         if out["ran"] == len(list(commands)) and before is not None:
-            lost = sorted(p for p, vs in before.items() for c in vs if not _survives(cwd, env, p, c))
-            out["lost"] = sorted(set(lost))
+            out["lost"] = _lost(cwd, env, before)
         return out
     finally:
         shutil.rmtree(work, ignore_errors=True)
