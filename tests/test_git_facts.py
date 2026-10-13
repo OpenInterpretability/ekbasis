@@ -136,7 +136,7 @@ def test_notes_for_the_forms_git_wild_found():
             "git switch HEAD~1": P.NOTE_DETACH_SWITCH, "git checkout v1.0": P.NOTE_DETACH_CHECKOUT,
             "git switch --orphan x": P.NOTE_ORPHAN, "git mv -f a.py b.py": P.NOTE_MV, "git worktree remove ../wt": P.NOTE_WORKTREE,
             "git submodule update --force": P.NOTE_SUBMODULE, "git pull": P.NOTE_PULL, "git stash drop stash@{2}": P.NOTE_STASH_REF,
-            "git sparse-checkout set src": P.NOTE_SPARSE, "git rebase feature": P.NOTE_REBASE_DIRTY}
+            "git sparse-checkout set src": P.NOTE_SPARSE}
     for c, n in want.items():
         assert n in P.git_notes([c], info), c
     assert P.git_notes(["git switch --detach HEAD~1"], info) == []
@@ -154,9 +154,7 @@ if __name__ == "__main__":
     print("ok")
 
 
-def test_rebase_note_only_where_rebase_would_refuse():
-    assert P.git_notes(["git rebase main"]) == [P.NOTE_REBASE_DIRTY]
-    for c in ("git rebase --autostash main", "git rebase --continue", "git rebase --quit", "git rebase --edit-todo"):
+def test_rebase_note_not_added_since_0_1_31():
+    for c in ("git rebase main", "git rebase feature", "git rebase --autostash main"):
         assert P.NOTE_REBASE_DIRTY not in P.git_notes([c]), c
     assert P.git_notes(["git rebase --abort"]) == [P.NOTE_ABORT]
-    assert P.git_notes(["git rebase main"], {"rebase_autostash": True}) == []

@@ -83,6 +83,7 @@ NOTE_WORKTREE = ("git worktree remove fails if the linked worktree has uncommitt
                  "it deletes them.")
 NOTE_SUBMODULE = ("git submodule update checks out, in each submodule, the commit the superproject records; it fails if that "
                   "would overwrite uncommitted changes in the submodule, and --force throws them away.")
+# Kept for the record (0.1.30); not added since 0.1.31.
 NOTE_REBASE_DIRTY = ("git rebase without --autostash (and without rebase.autoStash set) refuses to start when tracked files "
                      "have uncommitted changes, staged or not: it fails and changes nothing, even when the branch is "
                      "already up to date. Untracked files alone do not stop it.")
@@ -194,9 +195,8 @@ def git_notes(commands, info=None) -> list:
                 add(NOTE_RESET_PATH)
         elif sub in ("rebase", "cherry-pick", "revert", "am") and a & {"--abort", "--skip"}:
             add(NOTE_ABORT)
-        elif sub == "rebase" and not a & {"--autostash", "--continue", "--quit", "--edit-todo"} \
-                and not info.get("rebase_autostash"):
-            add(NOTE_REBASE_DIRTY)
+        # 0.1.31: NOTE_REBASE_DIRTY is no longer added. On the held-out guard set its "fails and changes nothing" spread
+        # to the other commands of a line: real losses flagged at 0.2 fell 93.5% -> 91.8% (CHANGELOG 0.1.31).
         elif sub == "clean":
             if args not in (["-fd"], ["-n"]):
                 add(NOTE_CLEAN)
