@@ -1,8 +1,10 @@
 /** Question and state builders, byte for byte the layouts of the Python client (ekbasis.prompts). */
+/** A question the API accepts. The model reads the question only from `instructions`. */
 export type Question =
-  | { type: "noul"; instructions: string; criteria?: { true?: string; false?: string } }
-  | { type: "choice"; instructions: string; criteria: Record<string, string | null> }
-  | { type: "score"; instructions: string; criteria: string[] };
+  | { type: "noul" | "boolean"; instructions: string; criteria?: { true?: string; false?: string } }
+  | { type: "choice"; instructions: string; criteria: Record<string, string | null>; options?: never }
+  | { type: "choice"; instructions: string; options: string[]; criteria?: never }
+  | { type: "score"; instructions: string; criteria: string[] | Record<string, string> };
 
 export const WORLD_NOTE = "The questions are about the state after all these actions.";
 

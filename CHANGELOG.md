@@ -1,5 +1,12 @@
 # Changelog
 
+## TypeScript SDK 0.2.2 — 2026-10-13
+
+### Fixed
+- The `Question` type accepts every shape the API takes: `type: "boolean"` (same as `"noul"`), `choice` with
+  `options: string[]` (or `criteria`), `score` with `criteria` as an object (value → description) or a list. Before, the
+  first two were refused by the type checker (they worked in JavaScript), and `checkQuestions` refused `"boolean"`.
+
 ## [0.1.29] — 2026-10-13
 
 ### Added

@@ -28,7 +28,7 @@ export async function checkPlan(client: Ekbasis, rules: string, state: string, a
                                 harm: Record<string, Question>, o: PlanOptions = {}): Promise<PlanCheck> {
   const lookBelow = o.lookBelow ?? LOOK_BELOW, harmAt = o.harmAt ?? HARM_AT, width = Math.max(1, o.parallel ?? 4);
   for (const [k, q] of Object.entries(harm)) {
-    if (q.type !== "noul") throw new Error(`harm question ${k} must be a yes/no question (yesNo) whose yes is the harm`);
+    if (q.type !== "noul" && q.type !== "boolean") throw new Error(`harm question ${k} must be a yes/no question (yesNo) whose yes is the harm`);
   }
   const pc: PlanCheck = { ok: false, safe: 0, reason: null, step: null, flags: [], prefixes: [], requests: 0 };
   if (!actions.length) return { ...pc, ok: true };
