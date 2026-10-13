@@ -99,3 +99,20 @@ test("harms presets and the request on top of every prompt", async () => {
   assert.equal(log.length, 2);
   for (const c of log) assert.ok(c.body.state.startsWith('The user\'s request: "free some disk space"\n\nR'));
 });
+
+test("a newer SDK is mentioned once, on the console", async () => {
+  const warns = [];
+  const orig = console.warn;
+  console.warn = (m) => warns.push(m);
+  try {
+    const fetchNewer = async () => new Response(JSON.stringify({ answers: { q: noul(0.9) }, usage: {} }),
+      { status: 200, headers: { "X-Ekbasis-Latest-Js": "99.0.0" } });
+    const ek = new Ekbasis({ url: "http://x", fetch: fetchNewer });
+    await ek.ask("s", harm);
+    await ek.ask("s", harm);
+    assert.equal(warns.length, 1);
+    assert.match(warns[0], /99\.0\.0 is available/);
+  } finally {
+    console.warn = orig;
+  }
+});

@@ -8,6 +8,7 @@ from __future__ import annotations
 import json
 import os
 import socket
+import sys
 import time
 import urllib.error
 import urllib.request
@@ -38,6 +39,41 @@ def last_request_id() -> str | None:
         return json.loads((_cache_dir() / "last_request_id").read_text())["id"]
     except (OSError, ValueError, KeyError, TypeError):
         return None
+
+
+UPDATE_NOTICE_EVERY = 86400   # seconds: tell the user about a newer client at most once a day
+
+
+def _version_tuple(v):
+    try:
+        return tuple(int(x) for x in str(v).split(".")[:3])
+    except ValueError:
+        return None
+
+
+def _maybe_notice_update(latest) -> None:
+    """0.1.36: the hosted API sends the latest published client version (X-Ekbasis-Latest-Python). When it is newer than
+    this one, say so on stderr, at most once a day (never on stdout, which tools parse). EKBASIS_NO_UPDATE_CHECK=1 turns
+    it off. Any failure here is ignored: the notice must never get in the way of an answer."""
+    try:
+        if not latest or os.environ.get("EKBASIS_NO_UPDATE_CHECK") == "1":
+            return
+        new, cur = _version_tuple(latest), _version_tuple(__version__)
+        if not new or not cur or new <= cur:
+            return
+        stamp = os.path.join(os.path.expanduser("~"), ".cache", "ekbasis", "update-notice")
+        try:
+            if time.time() - os.path.getmtime(stamp) < UPDATE_NOTICE_EVERY:
+                return
+        except OSError:
+            pass
+        os.makedirs(os.path.dirname(stamp), exist_ok=True)
+        with open(stamp, "w") as f:
+            f.write(str(latest))
+        sys.stderr.write(f"ekbasis {latest} is available (you have {__version__}): pip install -U ekbasis "
+                         f"(set EKBASIS_NO_UPDATE_CHECK=1 to hide this)\n")
+    except Exception:  # noqa: BLE001
+        pass
 
 
 def _remember_request_id(rid: str) -> None:
@@ -152,6 +188,7 @@ class Ekbasis:
                 if rid:
                     self.last_request_id = rid
                     _remember_request_id(rid)
+                _maybe_notice_update(r.headers.get("X-Ekbasis-Latest-Python"))
                 return out
         except urllib.error.HTTPError as e:
             self.last_status, self.last_timing = e.code, server_timing(e.headers.get("Server-Timing") if e.headers else None)
