@@ -28,7 +28,7 @@ a.lost.value;       // true
 a.lost.pYes;        // probability of yes
 a.kind.value;       // "deleted"
 a.kind.confidence;
-ek.lastUsage;       // { ms, inputTokens, requestId, serverTiming: { auth, queue, model, ... } }
+ek.lastUsage;       // { ms, inputTokens, requestId, model, serverTiming: { auth, queue, model, ... } }
 ```
 
 All questions about one state go in one request. The question text must be in `instructions` (the server ignores any

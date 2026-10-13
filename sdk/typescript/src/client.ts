@@ -1,6 +1,6 @@
 import type { Question } from "./prompts.js";
 
-export const VERSION = "0.1.0";
+export const VERSION = "0.1.1";
 const QUESTION_TYPES = ["noul", "choice", "score"];
 
 export class EkbasisError extends Error {}
@@ -15,7 +15,7 @@ export interface Answer {
   pYes?: number;
 }
 
-export interface Usage { inputTokens?: number; requestId?: string; ms: number; serverTiming?: Record<string, number> }
+export interface Usage { inputTokens?: number; requestId?: string; model?: string; ms: number; serverTiming?: Record<string, number> }
 
 export interface EkbasisOptions { url?: string; apiKey?: string; timeoutMs?: number; surface?: string; fetch?: typeof fetch }
 
@@ -90,6 +90,7 @@ export class Ekbasis {
       const usage = (d.usage ?? {}) as { input_tokens?: number };
       const metered = r.headers.get("X-Ekbasis-Metered-Tokens");
       this.lastUsage = { ms: Date.now() - t0, serverTiming: timing, requestId: r.headers.get("X-Ekbasis-Request-Id") ?? undefined,
+                         model: r.headers.get("X-Ekbasis-Model") ?? undefined,
                          inputTokens: usage.input_tokens ?? (metered ? Number(metered) : undefined) };
       return d;
     } catch (e) {
