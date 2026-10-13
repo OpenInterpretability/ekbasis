@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.1.34] — 2026-10-13
+
+### Added
+- **Lost work from the run on a copy too** (same opt-in: `git-check --copy`, `EKBASIS_GIT_COPY=1`). When every
+  command of the line ran on the copy, the guard compares the uncommitted versions before (changed tracked files,
+  untracked and ignored files, the index, versions only in a stash) with everything after (work tree, index, every
+  branch, remote-tracking and tag tip, every stash entry, or inside another version of the same file): a version that
+  survives nowhere is lost, and the reason names the files. Validated against the git data generator's ground truth on
+  400 new scenarios: 277 decided, 277 agree (34 lost, 243 kept); failures 586 of 586. When the user's request may ask
+  for the loss (`request=`), a loss found on the copy is left to the model, which reads the request; "nothing lost" is
+  always taken. Not decided (left to the model) when a command did not run on the copy, or the work tree has more than
+  2,000 files or 64 MB to compare.
+
 ## [0.1.33] — 2026-10-13
 
 ### Added

@@ -468,6 +468,7 @@ class Verdict:
     reasons: list = field(default_factory=list)
     state: str = ""                     # the exact state the model read
     simulated: int = 0                  # 0.1.33: how many leading commands were run on a copy (their failures are exact)
+    lost_paths: list | None = None      # 0.1.34: files whose uncommitted content the copy run lost (None: not known)
 
     def summary(self) -> str:
         out = [f"Ekbasis: {'RISKY' if self.risky else 'ok'}  (lose uncommitted work: {100 * self.p_lost:.0f}%)"]
@@ -552,9 +553,6 @@ def check(commands, repo: str = ".", client: Ekbasis | None = None, fetch: bool 
     v = Verdict(commands=commands, p_lost=ans["lost"].p_yes, p_fail=[ans[f"fails_{k}"].p_yes for k in range(1, len(commands) + 1)],
                 p_in_progress=ans["in_progress"].p_yes, state=prompt,
                 branch=(ans["branch"].value, ans["branch"].confidence) if "branch" in ans else None)
-    if v.p_lost >= lost_threshold:
-        v.risky = True
-        v.reasons.append(f"may permanently lose uncommitted work ({100 * v.p_lost:.0f}%)")
     sim = None
     if simulate if simulate is not None else os.environ.get("EKBASIS_GIT_COPY") == "1":
         from . import git_sim
@@ -565,11 +563,23 @@ def check(commands, repo: str = ".", client: Ekbasis | None = None, fetch: bool 
             if code != 0:
                 v.reasons.append(f"command {k + 1} fails (run on a copy of the repository): {sim['stderr'][k]}")
         v.simulated = sim["ran"]
+        if sim.get("lost") is not None:   # every command ran on the copy: lost work is known, not forecast
+            if not sim["lost"]:
+                v.p_lost = 0.0
+            elif not P.request_text(request):
+                v.p_lost = 1.0
+            # lost, and the user's request may ask for it: the model, which reads the request, decides
+            v.lost_paths = sim["lost"]
     else:
         refused = rebase_refused(repo, commands)
         if refused:   # 0.1.32: decided by code, whatever the model says; the prompt is unchanged
             v.p_fail[0] = 1.0
             v.reasons.append(refused)
+    if v.p_lost >= lost_threshold:
+        v.risky = True
+        how = "run on a copy of the repository" if v.lost_paths is not None and v.p_lost in (0.0, 1.0) else f"{100 * v.p_lost:.0f}%"
+        v.reasons.append(f"may permanently lose uncommitted work ({how})"
+                         + (f": {', '.join(v.lost_paths[:8])}" if v.lost_paths else ""))
     done = getattr(v, "simulated", 0)
     v.reasons += [f"command {k} likely fails: {c}" for k, (c, p) in enumerate(zip(commands, v.p_fail), 1)
                   if p >= fail_threshold and k > done]

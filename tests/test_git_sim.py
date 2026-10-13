@@ -96,3 +96,44 @@ class TestGitSim(unittest.TestCase):
         self.assertFalse(v.risky)
         w = G.check(["git status", "git rebase main"], repo=d, client=Fake(), simulate=False)
         self.assertEqual(w.p_fail, [0.02, 0.02])   # the model's answers, unchanged
+
+
+class TestLostOnCopy(unittest.TestCase):
+    def repo(self):
+        return TestGitSim.repo(self)
+
+    def test_reset_hard_loses_and_stash_keeps(self):
+        d = self.repo()
+        open(os.path.join(d, "b.txt"), "a").write("my work")
+        out = git_sim.run_on_copy(d, ["git reset --hard"])
+        self.assertEqual(out["lost"], ["b.txt"])
+        out = git_sim.run_on_copy(d, ["git stash", "git reset --hard"])
+        self.assertEqual(out["lost"], [])
+        out = git_sim.run_on_copy(d, ["git stash", "git stash drop"])
+        self.assertEqual(out["lost"], ["b.txt"])
+
+    def test_ignored_files_count(self):
+        d = self.repo()
+        open(os.path.join(d, ".gitignore"), "w").write("*.log\n")
+        open(os.path.join(d, "run.log"), "w").write("only copy of these logs")
+        out = git_sim.run_on_copy(d, ["git clean -fdX"])
+        self.assertEqual(out["lost"], ["run.log"])
+
+    def test_not_known_when_a_command_did_not_run(self):
+        d = self.repo()
+        open(os.path.join(d, "b.txt"), "a").write("x")
+        out = git_sim.run_on_copy(d, ["git reset --hard", "git push origin main"])
+        self.assertIsNone(out["lost"])
+
+    def test_check_sets_lost_both_ways_and_respects_the_request(self):
+        d = self.repo()
+        open(os.path.join(d, "b.txt"), "a").write("my work")
+        v = G.check(["git reset --hard"], repo=d, client=Fake(), simulate=True)
+        self.assertEqual(v.p_lost, 1.0)
+        self.assertTrue(v.risky)
+        self.assertIn("b.txt", " ".join(v.reasons))
+        w = G.check(["git stash", "git reset --hard"], repo=d, client=Fake(), simulate=True)
+        self.assertEqual(w.p_lost, 0.0)
+        self.assertFalse(w.risky)
+        r = G.check(["git reset --hard"], repo=d, client=Fake(), simulate=True, request="discard my changes")
+        self.assertEqual(r.p_lost, 0.02)   # lost, but asked for: the model, which reads the request, decides
