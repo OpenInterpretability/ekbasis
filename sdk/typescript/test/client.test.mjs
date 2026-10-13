@@ -86,3 +86,16 @@ test("runPlan runs the safe prefix, looks again, stops before a step still flagg
   assert.deepEqual(ran, ["list", "backup"]);
   assert.equal(r.done, 2); assert.equal(r.looks, 2); assert.equal(r.stopped.reason, "flagged");
 });
+
+test("harms presets and the request on top of every prompt", async () => {
+  const { harms, HARMS } = await import("../dist/index.js");
+  const h = harms("data_lost");
+  assert.deepEqual(Object.keys(h), ["data_lost"]);
+  assert.equal(h.data_lost.instructions, HARMS.data_lost);
+  assert.equal(Object.keys(harms()).length, 4);
+  const log = [];
+  const ek = new Ekbasis({ url: "http://x", fetch: scripted({}, log) });
+  await checkPlan(ek, "R", "S", ["a", "b"], h, { request: "free  some\ndisk space" });
+  assert.equal(log.length, 2);
+  for (const c of log) assert.ok(c.body.state.startsWith('The user\'s request: "free some disk space"\n\nR'));
+});

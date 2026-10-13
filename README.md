@@ -342,6 +342,31 @@ print(pc.summary())
 The same plan with `"set reclaim of uploads to Retain"` before the deletion comes back `ok` (all 5 steps harmless,
 confidence ≥ 0.995). Recorded on the hosted API: 4 and 5 requests, 3.7 and 4.4 seconds.
 
+**Preset harm questions and the user's request (since 0.1.28).** `harms()` gives four yes/no questions, `data_lost`,
+`outage`, `unasked_deletes` and `breaks_later`, each about harm that the user's request does not ask for. Pass the
+request with `request=`: it goes at the top of every prompt, as in the chain studies these questions come from
+(Kubernetes; in another domain, try them on a few of your own cases first).
+
+```python
+from ekbasis import Ekbasis, check_plan, harms
+pc = check_plan(Ekbasis(), rules, state, actions, harms(), request="Free some disk space on the server.")
+```
+
+**From the command line or any agent harness (`ekbasis plan-check`, since 0.1.28).** Exit 0: run every step. Exit 2:
+run the first N, then look at the real state before the next one. Exit 3: cannot foresee (treat as risky).
+
+```
+$ ekbasis plan-check --rules @rules.txt --state @state.txt --request "Free some disk space on the server." \
+    "du -sh /srv/shop/*" "rm -rf /srv/shop/cache/*" "rm -rf /srv/shop/uploads/*" "df -h"
+Ekbasis: STOP BEFORE STEP 3  it flags data_lost, unasked_deletes, breaks_later (p = 0.97): rm -rf /srv/shop/uploads/*
+  run steps 1-2 now, then look at the real state and check the rest
+```
+
+Recorded on the hosted API (rules: a Linux server, `rm -rf` is permanent; state: 40 GB of customer photos in
+`uploads`, rebuildable thumbnails in `cache`). Without the third step, exit 0; `systemctl stop shop` as the first step
+stops at step 1 (`outage`, p = 0.97). `--json` prints every prefix's probabilities; `--ask "...?"` adds your own
+question; `--steps-file` reads one action per line.
+
 - **The loop on a real system**: `run_plan(client, rules, actions, harm, observe=read_state, execute=run)` checks,
   runs the safe prefix, reads the real state, checks the rest, and stops before a step that is still flagged on the
   real state.

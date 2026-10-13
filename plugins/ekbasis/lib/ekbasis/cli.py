@@ -73,6 +73,51 @@ def _cannot_judge(a, why: str) -> int:
     return CANNOT_JUDGE
 
 
+def _text_arg(v: str) -> str:
+    """A text argument, or the contents of @FILE."""
+    if v.startswith("@"):
+        with open(v[1:], encoding="utf-8") as f:
+            return f.read().strip()
+    return v
+
+
+def _plan_check(a, client) -> int:
+    """plan-check: exit 0 = every step forecast harmless with confidence (run them all); 2 = run the first N (maybe 0),
+    then look at the real state before step N+1 (flagged or uncertain); 3 = cannot foresee."""
+    from .plan import check_plan
+    actions = [l.strip() for l in open(a.steps_file, encoding="utf-8") if l.strip()] if a.steps_file else list(a.actions)
+    if not actions:
+        print("ekbasis plan-check: give the actions as arguments or with --steps-file", file=sys.stderr)
+        return ERROR
+    harm = {}
+    if a.harm or not a.ask:
+        harm.update(P.harms(*(a.harm or ())))
+    for i, q in enumerate(a.ask or (), 1):
+        harm[f"ask{i}"] = P.yes_no(q)
+    if any(k in P.HARMS for k in harm) and not a.request:
+        print("ekbasis plan-check: the preset harm questions ask about what the user's request does not ask for; "
+              "pass --request (or use --ask with your own questions)", file=sys.stderr)
+        return ERROR
+    try:
+        pc = check_plan(client, _text_arg(a.rules), _text_arg(a.state), actions, harm, look_below=a.look_below,
+                        parallel=a.parallel, request=a.request)
+    except CannotJudge as e:
+        return _cannot_judge(a, str(e))
+    if a.json:
+        print(json.dumps({"ok": pc.ok, "safe": pc.safe, "reason": pc.reason, "step": pc.step, "flags": pc.flags,
+                          "prefixes": pc.prefixes, "requests": pc.requests}))
+    elif pc.ok:
+        print(f"Ekbasis: OK  all {len(actions)} steps forecast harmless with confidence")
+    else:
+        what = f"flags {', '.join(pc.flags)}" if pc.reason == "flagged" else "is unsure"
+        p = next((x for x in pc.prefixes if x["step"] == pc.step), None)
+        detail = f" (p = {max(p['p_yes'].values()):.2f})" if p and pc.reason == "flagged" else ""
+        print(f"Ekbasis: STOP BEFORE STEP {pc.step}  it {what}{detail}: {actions[pc.step - 1]}")
+        print(f"  run steps 1-{pc.safe} now, then look at the real state and check the rest" if pc.safe else
+              "  look at the real state before running anything, then check again")
+    return OK if pc.ok else RISKY
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(prog="ekbasis", description="Ekbasis: what happens if I do this? (typed, calibrated, one pass)")
     ap.add_argument("--url", default=None, help="server (default: EKBASIS_URL or http://127.0.0.1:8000)")
@@ -162,6 +207,23 @@ def main(argv=None) -> int:
                          "requirements depend on redis, sidekiq, celery...)")
     gg.add_argument("-o", "--output", default="-", help="the bundle file (default: stdout)")
     gg.add_argument("files", nargs="*", help="migration files to render (instead of --base)")
+    pc = sub.add_parser("plan-check", help="check a list of actions before an agent runs them (look when unsure: "
+                                            "run the safe prefix, look before the first flagged or uncertain step)")
+    pc.add_argument("--rules", required=True, help="how this system works: text, or @FILE")
+    pc.add_argument("--state", required=True, help="how things stand now: text, or @FILE")
+    pc.add_argument("--request", default=None, help="what the user asked for, in their words (the --harm presets ask "
+                                                    "about harm this request does not ask for)")
+    pc.add_argument("--harm", action="append", default=None,
+                    help=f"a preset harm question, repeatable ({', '.join(P.HARMS)}; default: all of them)")
+    pc.add_argument("--ask", action="append", default=None, metavar="QUESTION",
+                    help="your own yes/no harm question (yes = the harm), repeatable; replaces the presets unless "
+                         "--harm is also given")
+    pc.add_argument("--look-below", type=float, default=0.9, help="confidence under which a step needs a look (0.9)")
+    pc.add_argument("--parallel", type=int, default=4)
+    pc.add_argument("--json", action="store_true")
+    pc.add_argument("--fail-open", action="store_true", help="exit 0 (with a warning) when it cannot foresee")
+    pc.add_argument("--steps-file", default=None, help="one action per line (instead of arguments)")
+    pc.add_argument("actions", nargs="*", help='each action as one argument, in order, e.g. "kubectl delete pvc data-0"')
     p = sub.add_parser("predict", help="one question about the outcome of some actions")
     p.add_argument("--rules", required=True)
     p.add_argument("--state", required=True)
@@ -214,6 +276,8 @@ def main(argv=None) -> int:
         if a.cmd == "health":
             print(json.dumps(client.health()))
             return OK
+        if a.cmd == "plan-check":
+            return _plan_check(a, client)
         if a.cmd == "predict":
             q = P.choice(a.question, [x.strip() for x in a.options.split(",")]) if a.options else P.yes_no(a.question)
             if a.recap_rule:

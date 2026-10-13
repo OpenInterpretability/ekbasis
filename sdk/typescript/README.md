@@ -54,6 +54,15 @@ Prefixes are independent, so they are asked in parallel waves (`parallel`, defau
 (the plan of the example above with 5 commands, the 4th deleting the uploads): stops at step 4 with p = 0.984 in 2.7 s;
 the same plan without that step comes back `ok` in 0.5 s.
 
+**Preset harm questions (0.2.0).** `harms()` gives four yes/no questions (`data_lost`, `outage`, `unasked_deletes`,
+`breaks_later`), each about harm the user's request does not ask for; pass the request so it goes at the top of every
+prompt, as in the chain studies they come from (Kubernetes; in another domain, try them on your own cases first):
+
+```ts
+import { checkPlan, harms } from "ekbasis";
+const pc = await checkPlan(ek, rules, state, actions, harms(), { request: "Free some disk space on the server." });
+```
+
 `runPlan(client, rules, actions, harm, observe, execute)` is the loop over a real system: check, run the safe prefix,
 read the real state with `observe()`, check the rest, and stop before a step still flagged on the real state.
 
