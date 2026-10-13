@@ -571,6 +571,28 @@ def user_request(transcript_path: str | None) -> str | None:
     return last
 
 
+def _chain_split(line: str, cwd: str, client, threshold: float, request, left) -> str:
+    """Chain mode (EKBASIS_CHAIN=1, 0.1.29): for a flagged line of several commands joined by ;, && or new lines, the
+    first command whose prefix is risky, and the advice to run the commands before it on their own, so the rest is
+    checked on the state after them (look when unsure, as in the chain studies). Only adds to the message: the
+    decision is the same. "" when the line cannot be cut safely, the first command is already the risky one, or the
+    check does not finish in time."""
+    parts = S.sequence_parts(line)
+    if not parts or len(parts) > 12:
+        return ""
+    try:
+        k = _with_deadline(lambda: S.first_risky(parts, cwd=cwd, client=client, lost_threshold=threshold,
+                                                 request=request), left())
+    except Exception:  # noqa: BLE001 — the warning goes out without the split
+        return ""
+    k = k or len(parts)
+    if k <= 1:
+        return ""
+    return (f" The commands before command {k} are predicted safe: run `{S.join_parts(parts[:k - 1])}` on its own "
+            f"first, then `{S.join_parts([('', parts[k - 1][1])] + parts[k:])}` as a separate call, so it is checked "
+            "on the state after them.")
+
+
 def main() -> int:
     try:
         data = json.load(sys.stdin)
@@ -687,8 +709,11 @@ def main() -> int:
                                  + (f" and {len(names) - 8} more" if len(names) > 8 else "") + ".")
                 except Exception:  # noqa: BLE001 — the warning goes out without the list
                     pass
-                found.append(f"Ekbasis (shell guard): {what}. Line: {line}.{stake} Consider keeping a copy of the "
-                             "files first.")
+                split = ""
+                if os.environ.get("EKBASIS_CHAIN") == "1" and v.lost_risky:
+                    split = _chain_split(plan.shell_line, cwd, client, threshold, request, left)
+                found.append(f"Ekbasis (shell guard): {what}. Line: {line}.{stake}{split} Consider keeping a copy of "
+                             "the files first.")
         if os.environ.get("EKBASIS_PREFLIGHT") == "1":
             warn = _preflight(line, cwd, data.get("session_id"), client, left)
             if warn:

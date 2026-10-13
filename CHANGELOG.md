@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.1.29] — 2026-10-13
+
+### Added
+- **Chain mode in the Claude Code hook** (`EKBASIS_CHAIN=1`, with `EKBASIS_SHELL_GUARD=1`): a flagged line of several
+  commands joined by `;`, `&&` or new lines gets, in its warning, the first risky command and the advice to run the
+  commands before it on their own, then the rest as a separate call checked on the state after them. The decision does
+  not change. Not split: pipes, `||`, `&`, here-documents, compound commands, nested shells, and commands that change
+  the session (`cd`, `export`, assignments, `source`). `shell.sequence_parts`, `join_parts`, `first_risky`.
+
 ## [0.1.28] — 2026-10-13
 
 ### Added
