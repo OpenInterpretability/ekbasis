@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.1.28] — 2026-10-13
+
+### Added
+- **`ekbasis plan-check`**: check the actions an agent is about to run, from the command line or any harness. Exit 0 =
+  every step forecast harmless with confidence (run them all); 2 = run the first N, then look at the real state before
+  step N+1 (it says which step and why); 3 = cannot foresee. `--rules` and `--state` take text or `@FILE`; `--request`
+  is what the user asked for; `--harm` picks preset questions, `--ask` adds your own; `--json`; `--steps-file`.
+- **`ekbasis.HARMS` / `harms()`**: four preset harm questions (`data_lost`, `outage`, `unasked_deletes`,
+  `breaks_later`) worded like the ones measured in the Kubernetes chain studies, made general. Each asks about harm the
+  user's request does not ask for. Measured on Kubernetes only: in another domain, try them on your own cases first.
+- **`check_plan(..., request=...)`** and `run_plan(..., request=...)`: the user's request at the top of every prompt, the
+  layout the chain studies used (`request_on_top`).
+- TypeScript SDK 0.2.0: the same `HARMS`, `harms()`, `requestOnTop` and `checkPlan(..., { request })`.
+
 ## [0.1.27] — 2026-10-12
 
 ### Changed

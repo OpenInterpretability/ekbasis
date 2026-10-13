@@ -83,3 +83,63 @@ class TestRun(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestHarmsAndRequest(unittest.TestCase):
+    def test_presets(self):
+        from ekbasis import HARMS, harms
+        self.assertEqual(set(harms()), set(HARMS))
+        h = harms("data_lost")
+        self.assertEqual(list(h), ["data_lost"])
+        self.assertEqual(h["data_lost"]["type"], "noul")
+        self.assertIn("at the top of the state", h["data_lost"]["instructions"])
+        h["data_lost"]["criteria"]["true"] = "changed"   # a fresh copy: the presets stay as they are
+        self.assertNotEqual(HARMS["data_lost"]["criteria"]["true"], "changed")
+        with self.assertRaises(ValueError):
+            harms("nope")
+
+    def test_request_goes_on_top_of_every_prompt(self):
+        from ekbasis import harms
+        c = Scripted({})
+        check_plan(c, "rules", "state", ["a", "b"], harms("data_lost"), request="free  some\ndisk space")
+        self.assertEqual(len(c.calls), 2)
+        for st in c.calls:
+            self.assertTrue(st.startswith('The user\'s request: "free some disk space"\n\nrules'))
+
+    def test_no_request_no_header(self):
+        c = Scripted({})
+        check_plan(c, "rules", "state", ["a"], HARM)
+        self.assertTrue(c.calls[0].startswith("rules"))
+
+
+class TestPlanCheckCli(unittest.TestCase):
+    def run_cli(self, table, argv):
+        import contextlib, io
+        from unittest import mock
+        from ekbasis import cli
+        out = io.StringIO()
+        with mock.patch.object(cli, "Ekbasis", lambda **k: Scripted(table)), contextlib.redirect_stdout(out), \
+                contextlib.redirect_stderr(io.StringIO()):
+            code = cli.main(argv)
+        return code, out.getvalue()
+
+    def test_stop_before_flagged_step(self):
+        code, out = self.run_cli({"rm uploads": 0.97}, ["plan-check", "--rules", "r", "--state", "s", "--request", "free space",
+                                                         "du", "rm cache", "rm uploads", "df"])
+        self.assertEqual(code, 2)
+        self.assertIn("STOP BEFORE STEP 3", out)
+        self.assertIn("run steps 1-2 now", out)
+
+    def test_all_ok_exit_0_json(self):
+        import json
+        code, out = self.run_cli({}, ["plan-check", "--rules", "r", "--state", "s", "--request", "x", "--json", "a", "b"])
+        self.assertEqual(code, 0)
+        self.assertTrue(json.loads(out)["ok"])
+
+    def test_presets_need_a_request(self):
+        code, _ = self.run_cli({}, ["plan-check", "--rules", "r", "--state", "s", "a"])
+        self.assertEqual(code, 1)
+
+    def test_own_question_without_request(self):
+        code, _ = self.run_cli({"a": 0.9}, ["plan-check", "--rules", "r", "--state", "s", "--ask", "Is data lost?", "a"])
+        self.assertEqual(code, 2)

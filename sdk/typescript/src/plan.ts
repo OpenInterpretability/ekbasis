@@ -1,5 +1,5 @@
 import type { Ekbasis } from "./client.js";
-import { worldState, type Question } from "./prompts.js";
+import { requestOnTop, worldState, type Question } from "./prompts.js";
 
 export const LOOK_BELOW = 0.9;
 export const HARM_AT = 0.5;
@@ -17,7 +17,11 @@ export interface PlanCheck {
   requests: number;
 }
 
-export interface PlanOptions { lookBelow?: number; harmAt?: number; maxSteps?: number; notes?: string[]; parallel?: number }
+export interface PlanOptions {
+  lookBelow?: number; harmAt?: number; maxSteps?: number; notes?: string[]; parallel?: number;
+  /** What the user asked for, in their words: put at the top of every prompt (the HARMS questions ask about it). */
+  request?: string;
+}
 
 /** Forecast every prefix of the plan from `state`; stop at the first one flagged or uncertain (ekbasis.check_plan). */
 export async function checkPlan(client: Ekbasis, rules: string, state: string, actions: string[],
@@ -31,7 +35,7 @@ export async function checkPlan(client: Ekbasis, rules: string, state: string, a
   const n = o.maxSteps ? Math.min(actions.length, o.maxSteps) : actions.length;
   for (let start = 1; start <= n; start += width) {
     const wave = Array.from({ length: Math.min(width, n - start + 1) }, (_, j) => start + j);
-    const answers = await Promise.all(wave.map((i) => client.ask(worldState(rules, state, actions.slice(0, i), o.notes), harm)));
+    const answers = await Promise.all(wave.map((i) => client.ask(requestOnTop(worldState(rules, state, actions.slice(0, i), o.notes), o.request), harm)));
     pc.requests += wave.length;
     for (let j = 0; j < wave.length; j++) {
       const p: Record<string, number> = {};

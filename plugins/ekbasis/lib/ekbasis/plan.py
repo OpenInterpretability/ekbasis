@@ -28,7 +28,7 @@ import concurrent.futures as cf
 from dataclasses import dataclass, field
 
 from .client import Ekbasis
-from .prompts import world_state
+from .prompts import request_on_top, world_state
 
 LOOK_BELOW = 0.9
 HARM_AT = 0.5
@@ -53,9 +53,13 @@ class PlanCheck:
 
 
 def check_plan(client: Ekbasis, rules: str, state: str, actions, harm: dict, look_below: float = LOOK_BELOW,
-               harm_at: float = HARM_AT, max_steps: int | None = None, notes=None, parallel: int = 4) -> PlanCheck:
+               harm_at: float = HARM_AT, max_steps: int | None = None, notes=None, parallel: int = 4,
+               request: str | None = None) -> PlanCheck:
     """Forecast every prefix of `actions` (strings) from `state` (text) under `rules`; stop at the first prefix with a
     harm answered yes at >= harm_at, or with any harm question's confidence below look_below.
+
+    request (0.1.28): what the user asked for, in their words, put at the top of every prompt; the HARMS questions
+    (ekbasis.harms()) ask about harm that request does not ask for.
 
     parallel (0.1.27): prefixes are independent (each is forecast from `state`), so up to `parallel` of them are asked
     at once, in waves; the answer is the same as asking them one by one, and a wave past the stopping step costs at
@@ -70,7 +74,7 @@ def check_plan(client: Ekbasis, rules: str, state: str, actions, harm: dict, loo
     pc = PlanCheck(ok=False, safe=0)
 
     def ask(i):
-        return client.ask(world_state(rules, state, actions[:i], notes=notes), harm)
+        return client.ask(request_on_top(world_state(rules, state, actions[:i], notes=notes), request), harm)
 
     width = max(1, int(parallel))
     with cf.ThreadPoolExecutor(width) as ex:
@@ -103,7 +107,8 @@ class PlanRun:
 
 
 def run_plan(client: Ekbasis, rules: str, actions, harm: dict, observe, execute, look_below: float = LOOK_BELOW,
-             harm_at: float = HARM_AT, max_steps: int | None = None, parallel: int = 4) -> PlanRun:
+             harm_at: float = HARM_AT, max_steps: int | None = None, parallel: int = 4,
+             request: str | None = None) -> PlanRun:
     """Run a plan with look when unsure: check, run the safe prefix with execute(list_of_actions), read the real state
     with observe() -> text, check the rest from it. Stops (without running the step) when a step is still flagged on
     the state as it is right before it; a step that is only uncertain on the real state is checked once more alone and
@@ -112,7 +117,8 @@ def run_plan(client: Ekbasis, rules: str, actions, harm: dict, observe, execute,
     while done < len(actions):
         state = observe()
         out.looks += 1
-        pc = check_plan(client, rules, state, actions[done:], harm, look_below, harm_at, max_steps, parallel=parallel)
+        pc = check_plan(client, rules, state, actions[done:], harm, look_below, harm_at, max_steps, parallel=parallel,
+                        request=request)
         out.checks.append(pc)
         if pc.ok:
             execute(actions[done:])
