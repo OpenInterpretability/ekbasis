@@ -204,6 +204,18 @@ print(t.value, t.holds, t.confidence)
   code gave 99.0% on budgets, timers, quotas, rate limits and lockouts (capability map, `accumulation`). Use it whenever
   an effect depends on a sum crossing a limit.
 
+## TypeScript / JavaScript
+
+`npm install ekbasis` ([sdk/typescript](sdk/typescript)): the same requests and prompt layouts as the Python client,
+no dependencies, Node 18+, Deno, Bun and browsers.
+
+```ts
+import { Ekbasis, yesNo, checkPlan } from "ekbasis";
+const ek = new Ekbasis();   // EKBASIS_API_KEY; EKBASIS_URL defaults to the hosted API
+const pc = await checkPlan(ek, rules, state, actions,
+  { data: yesNo("Do these actions permanently delete data the user did not ask to delete?") });
+```
+
 ## Look when unsure (predict, observe, correct)
 
 The study behind this section is the paper *Look When Unsure, Check When Sure* ([PDF](https://github.com/OpenInterpretability/ekbasis/blob/main/paper/look_when_unsure.pdf),
