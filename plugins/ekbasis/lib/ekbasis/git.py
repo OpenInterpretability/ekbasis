@@ -553,8 +553,36 @@ def check(commands, repo: str = ".", client: Ekbasis | None = None, fetch: bool 
     if v.p_lost >= lost_threshold:
         v.risky = True
         v.reasons.append(f"may permanently lose uncommitted work ({100 * v.p_lost:.0f}%)")
+    refused = rebase_refused(repo, commands)
+    if refused:   # 0.1.32: decided by code, whatever the model says; the prompt is unchanged
+        v.p_fail[0] = 1.0
+        v.reasons.append(refused)
     v.reasons += [f"command {k} likely fails: {c}" for k, (c, p) in enumerate(zip(commands, v.p_fail), 1) if p >= fail_threshold]
     return v
+
+
+REBASE_GOES_ON = {"--autostash", "--abort", "--skip", "--continue", "--quit", "--edit-todo"}
+
+
+def rebase_refused(repo: str, commands) -> str | None:
+    """0.1.32, check when sure: when the FIRST command is `git rebase` (without --autostash, --abort, --skip,
+    --continue, --quit or --edit-todo) and rebase.autoStash is not set, git refuses to start it if tracked files have
+    uncommitted changes, staged or not, and changes nothing (even when already up to date; untracked files alone do not
+    stop it). Read from the real `git status`, so only the first command, whose state is the real one. Returns the
+    reason, or None. (0.1.30 put this rule in the prompt instead, and it leaked into the other answers: CHANGELOG.)"""
+    if not commands:
+        return None
+    sub, args = P.parse_git(commands[0])
+    if sub != "rebase" or set(args) & REBASE_GOES_ON:
+        return None
+    rc, v = _git(repo, "config", "--get", "rebase.autoStash")
+    if rc == 0 and v.strip().lower() in ("true", "yes", "on", "1"):
+        return None
+    rc, out = _git(repo, "status", "--porcelain", "--untracked-files=no")
+    if rc != 0 or not out.strip():
+        return None
+    return ("command 1 fails (decided by code): git rebase refuses to start while tracked files have uncommitted "
+            "changes, and changes nothing; commit or stash them first, or use --autostash")
 
 
 # ---------------------------------------------------------------- 0.1.3: read-only commands, lost committed work
