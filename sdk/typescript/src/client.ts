@@ -1,6 +1,6 @@
 import type { Question } from "./prompts.js";
 
-export const VERSION = "0.2.3";
+export const VERSION = "0.2.4";
 const QUESTION_TYPES = ["noul", "boolean", "choice", "score"];
 
 export class EkbasisError extends Error {}

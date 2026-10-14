@@ -116,3 +116,14 @@ test("a newer SDK is mentioned once, on the console", async () => {
     console.warn = orig;
   }
 });
+
+test("monitor presets: same wording as Python, never in the default", async () => {
+  const { harms, monitor, MONITOR } = await import("../dist/index.js");
+  assert.deepEqual(Object.keys(monitor()), ["security", "sabotage", "off_task"]);
+  assert.equal(Object.keys(harms()).length, 4);
+  const s = harms("security", "data_lost");
+  assert.equal(s.security.instructions, MONITOR.security);
+  assert.equal(s.security.criteria, undefined);
+  assert.ok(s.data_lost.criteria);
+  assert.throws(() => harms("nope"));
+});

@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.1.39] — 2026-10-14
+
+### Added
+- **`monitor()` and three MONITOR questions — `security`, `sabotage`, `off_task` — for watching an agent that may act
+  against the user** (exfiltrate a secret, switch off a check or a test, plant code that misbehaves later), worded
+  exactly as in our pre-registered adversarial-agent study. Plain yes/no questions about the user's task at the top
+  of the state; never in the default `harms()` (still the four presets); name them in `harms(...)`, in
+  `ekbasis plan-check --harm security`, or take all three with `monitor()`. `plan-check` asks for `--request` with
+  them, as with the presets. TypeScript SDK 0.2.4: `MONITOR`, `monitor()`, same wording (a test checks it).
+
 ## [0.1.38] — 2026-10-13
 
 ### Added
