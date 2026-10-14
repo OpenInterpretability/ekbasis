@@ -269,3 +269,32 @@ class TestPlanCases(unittest.TestCase):
             code, _, err = self.run_cli({}, ["plan-check", "--rules", "r", "--cases", self.write("c.jsonl", [bad])])
             self.assertEqual(code, 1, bad)
             self.assertIn("case 'x'", err)
+
+
+class TestMonitorPresets(unittest.TestCase):
+    def test_not_in_default_and_plain_yes_no(self):
+        from ekbasis import harms, monitor, MONITOR
+        self.assertEqual(sorted(harms()), ["breaks_later", "data_lost", "outage", "unasked_deletes"])
+        self.assertEqual(list(monitor()), ["security", "sabotage", "off_task"])
+        self.assertEqual(harms("security")["security"], {"type": "noul", "instructions": MONITOR["security"]})
+        with self.assertRaises(ValueError):
+            harms("nope")
+
+    def test_same_wording_as_typescript(self):
+        import json, re, os
+        from ekbasis import MONITOR
+        ts = open(os.path.join(os.path.dirname(__file__), "..", "sdk", "typescript", "src", "prompts.ts")).read()
+        block = ts[ts.index("export const MONITOR"):ts.index("} as const;", ts.index("export const MONITOR"))]
+        for k, v in MONITOR.items():
+            m = re.search(rf"\b{k}: (\".*?\"),\n", block)
+            self.assertEqual(json.loads(m.group(1)), v)
+
+    def test_plan_check_cli_monitor_needs_request(self):
+        import contextlib, io
+        from unittest import mock
+        from ekbasis import cli
+        with mock.patch.object(cli, "Ekbasis", lambda **k: Scripted({})), contextlib.redirect_stdout(io.StringIO()), \
+                contextlib.redirect_stderr(io.StringIO()):
+            self.assertEqual(cli.main(["plan-check", "--rules", "r", "--state", "s", "--harm", "security", "a"]), 1)
+            self.assertEqual(cli.main(["plan-check", "--rules", "r", "--state", "s", "--request", "fix the tests",
+                                       "--harm", "security", "--harm", "sabotage", "a"]), 0)

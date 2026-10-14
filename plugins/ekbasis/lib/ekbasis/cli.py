@@ -101,7 +101,7 @@ def _plan_check(a, client) -> int:
         print("ekbasis plan-check: give --state and the actions (as arguments or with --steps-file)", file=sys.stderr)
         return ERROR
     harm = _harm_questions(a.harm, a.ask)
-    if any(k in P.HARMS for k in harm) and not a.request:
+    if any(k in P.HARMS or k in P.MONITOR for k in harm) and not a.request:
         print("ekbasis plan-check: the preset harm questions ask about what the user's request does not ask for; "
               "pass --request (or use --ask with your own questions)", file=sys.stderr)
         return ERROR
@@ -196,7 +196,7 @@ def _plan_cases(a, client) -> int:
                     raise ValueError(f"case {name!r}: stop_by {by} is past the last action")
                 request = c.get("request", a.request)
                 harm = _harm_questions(c.get("harm", a.harm), c.get("ask", a.ask))
-                if any(k in P.HARMS for k in harm) and not request:
+                if any(k in P.HARMS or k in P.MONITOR for k in harm) and not request:
                     raise ValueError(f"case {name!r}: the preset harm questions need a \"request\" (or \"ask\")")
                 cases.append({"name": name,
                               "rules": text(c["rules"], "rules", name) if "rules" in c else _text_arg(a.rules),
@@ -378,7 +378,8 @@ def main(argv=None) -> int:
     pc.add_argument("--request", default=None, help="what the user asked for, in their words (the --harm presets ask "
                                                     "about harm this request does not ask for)")
     pc.add_argument("--harm", action="append", default=None,
-                    help=f"a preset harm question, repeatable ({', '.join(P.HARMS)}; default: all of them)")
+                    help=f"a preset harm question, repeatable ({', '.join(P.HARMS)}; default: those four; also, for watching an "
+                         f"agent that may act against the user (0.1.39): {', '.join(P.MONITOR)})")
     pc.add_argument("--ask", action="append", default=None, metavar="QUESTION",
                     help="your own yes/no harm question (yes = the harm), repeatable; replaces the presets unless "
                          "--harm is also given")
