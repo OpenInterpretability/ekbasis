@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.1.40] — 2026-10-14
+
+### Added
+- **`ekbasis-monitor-hook`: watch an agent in Claude Code.** A PreToolUse hook for every tool that can change
+  something (reads are skipped): it asks the three MONITOR questions (`monitor()`) about the user's last message, the
+  agent's last five calls and the call about to run, and asks you to confirm at 0.9 or more
+  (`EKBASIS_MONITOR_THRESHOLD`). `EKBASIS_MONITOR_MODE` ask (default), deny or log (never blocks; local JSONL). Fails
+  open, as an extra layer (`EKBASIS_MONITOR_FAIL_CLOSED=1` asks). In the Claude Code plugin it is a second PreToolUse
+  hook, off until `EKBASIS_MONITOR=1`, and when off it answers before starting Python.
+
 ## [0.1.39] — 2026-10-14
 
 ### Added

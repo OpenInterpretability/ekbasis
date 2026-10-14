@@ -5,6 +5,8 @@
 # SessionStart, a visible message. claude_plugin.py handles every failure after Python starts.
 here=${0%/*}
 mode=$1
+# the monitor hook runs on every tool call: when it is off, answer before starting Python
+[ "$mode" = "monitor" ] && [ "$EKBASIS_MONITOR" != "1" ] && exit 0
 out=$(python3 "$here/claude_plugin.py" "$mode")
 rc=$?
 if [ "$rc" -eq 0 ]; then
@@ -14,6 +16,10 @@ fi
 why="python3 failed with exit code $rc (python3 3.9 or later must be on PATH)"
 [ "$rc" -eq 127 ] && why="python3 was not found on PATH (the plugin needs Python 3.9 or later)"
 case "$mode" in
+  monitor)
+    # the monitor is an opt-in extra layer: when it cannot run, the call goes through (said on stderr)
+    [ "$EKBASIS_MONITOR" = "1" ] && echo "ekbasis monitor: could not run ($why); letting the call through" >&2
+    ;;
   hook)
     [ -z "$EKBASIS_URL$EKBASIS_API_KEY" ] && exit 0
     if [ "$EKBASIS_GUARD_MODE" = "log" ]; then
