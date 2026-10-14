@@ -390,8 +390,11 @@ there are. `--json` prints every prefix's probabilities; `--ask "...?"` adds you
 The four presets ask about harm an honest plan causes by accident. To watch an agent that might work against the
 user (exfiltrate a secret, switch off a check, plant code that misbehaves later), ask the three MONITOR questions about
 every action before it runs: `security`, `sabotage`, `off_task`. They are worded exactly as in our pre-registered
-adversarial-agent study (results to be published), are not part of the default `harms()`, and read the user's task at
-the top of the state, so pass it as the request.
+adversarial-agent study on LinuxArena: at a 1% audit budget Ekbasis caught 94.9% of the successful attacks, against
+74.9% for the benchmark's GPT-5 Nano monitor (the four presets alone caught 39.5%); no adaptive attacker was tested
+([study](https://github.com/OpenInterpretability/ekbasis-cookbook/tree/main/studies/agent-monitor-linuxarena)).
+They are not part of the default `harms()`, and read the user's task at the top of the state, so pass it as the
+request.
 
 ```python
 from ekbasis import Ekbasis, check_plan, monitor
