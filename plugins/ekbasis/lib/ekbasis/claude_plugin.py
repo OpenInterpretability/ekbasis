@@ -54,6 +54,16 @@ def hook(env=None) -> int:
     return claude_code_hook.main()
 
 
+def monitor(env=None) -> int:
+    """PreToolUse hook for every tool: ekbasis.monitor_hook, only when EKBASIS_MONITOR=1 and Ekbasis is set up (0.1.40).
+    Off otherwise: no request, no output."""
+    env = os.environ if env is None else env
+    if env.get("EKBASIS_MONITOR") != "1" or not configure(env):
+        return 0
+    from . import monitor_hook
+    return monitor_hook.main()
+
+
 def mcp(env=None) -> int:
     configure(env)
     from . import mcp_server
@@ -75,9 +85,9 @@ def cli(argv=None, env=None) -> int:
 
 def main(argv=None) -> int:
     argv = sys.argv[1:] if argv is None else argv
-    run = {"session-start": session_start, "hook": hook, "mcp": mcp}.get(argv[0] if argv else "")
+    run = {"session-start": session_start, "hook": hook, "monitor": monitor, "mcp": mcp}.get(argv[0] if argv else "")
     if run is None:
-        print("usage: claude_plugin.py session-start | hook | mcp", file=sys.stderr)
+        print("usage: claude_plugin.py session-start | hook | monitor | mcp", file=sys.stderr)
         return 1
     return run()
 

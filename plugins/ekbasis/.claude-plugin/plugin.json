@@ -1,8 +1,8 @@
 {
   "name": "ekbasis",
   "displayName": "Ekbasis",
-  "version": "0.1.39",
-  "description": "Foresee before you act: a git guard hook for the Bash tool, the ekbasis-guard skill and the Ekbasis MCP server (calibrated consequence predictions). Needs EKBASIS_API_KEY or EKBASIS_URL.",
+  "version": "0.1.40",
+  "description": "Foresee before you act: a git guard hook for the Bash tool, an opt-in monitor hook for every tool (EKBASIS_MONITOR=1), the ekbasis-guard skill and the Ekbasis MCP server (calibrated consequence predictions). Needs EKBASIS_API_KEY or EKBASIS_URL.",
   "author": {
     "name": "Caio Vicentino",
     "url": "https://openinterp.org/ekbasis"
@@ -26,6 +26,17 @@
       }
     ],
     "PreToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh",
+            "args": ["${CLAUDE_PLUGIN_ROOT}/scripts/run.sh", "monitor"],
+            "timeout": 15
+          }
+        ]
+      },
       {
         "matcher": "Bash",
         "hooks": [
