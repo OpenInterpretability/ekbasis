@@ -1,0 +1,6 @@
+# PLAN_v49.md Addendum B (data as built), hashed 2026-10-07T11:16:01Z
+9434b5ea3559ebf06cfaac83dbf5cdd10daaeb487557dad8569e70473a20cce5  Addendum B text
+6b4e356a388a105db1ba2cdedd91efcee3a9f77facd2aae1f45485a8960220fd  PLAN_v49.md
+47b83daf1cdd3ce10846d6c0dfcedd115125bb35ab8119a71b683ab128092ca7  v49/runs.json
+0ccb46a73a8c8c694c37ae8aa71fc2022f2c092f3082f3c5a8edd11578887533  v49/make_runs_v49.py
+69f28cf9c5a156978afdcce43904c22c8c871bf9b4b121a6e35158001e2e8bd0  v49/make_v49_data.py

@@ -16,6 +16,7 @@ merges. The objective, the prompt and the readout are Ekbasis-27B's ([../README.
 | `stage_files_skopos.py` | Writes the Skopos stages' training files, under the names their runs read, and the split files, from the dataset. |
 | `run_lineage_skopos.sh` | The whole lineage: Ekbasis-27B's release adapter (`../run_lineage.sh`), v49f, the first Skopos, R4, the merge. |
 | `quantize/quantize_r4.py` | The INT4 (GPTQ W4A16, groups of 128) and FP8 (FP8_DYNAMIC) builds, with llm-compressor. |
+| `quantize/build_mlx_and_merge.sh` | The commands that merged R4 into the first Skopos and built the MLX 4-bit build, typed in the session that ran them and saved verbatim. |
 
 ## The lineage
 
@@ -67,9 +68,10 @@ its release adapter, which v49f continues. One GPU with about 96 GB; ~150 GB of 
 **Quantized builds.** `quantize/quantize_r4.py <bf16 dir> <out dir> int4|fp8` with llm-compressor (a separate
 environment): only the language model's linear layers are quantized; the vision tower, `lm_head`, embeddings and the
 multi-token-prediction layer stay in bf16. INT4 is calibrated on 256 items of R4's training file drawn with R4's mix
-(`TRAIN_FILE` = `ftrain_R4.jsonl`; never evaluation items). The MLX build was made with mlx_lm's converter,
-`mlx_lm convert -q --q-bits 4 --q-group-size 64`, from the bf16 release with `mtp_num_hidden_layers` set to 0 in
-`config.json` (the build ships no multi-token-prediction layer); it was run by hand, so no script is published for it.
+(`TRAIN_FILE` = `ftrain_r2.jsonl`; never evaluation items). The MLX build: mlx_lm's converter,
+`mlx_lm convert -q --q-bits 4 --q-group-size 64`, on the bf16 release, then `mtp_num_hidden_layers` set to 0 in
+`config.json` (the build ships no multi-token-prediction layer) and the MLX serving files copied in
+(`quantize/build_mlx_and_merge.sh`, the commands as typed).
 
 ## Provenance
 
@@ -92,8 +94,11 @@ multi-token-prediction layer stay in bf16. INT4 is calibrated on 256 items of R4
   `train_conseq_v50.py` and `quantize_r4.py` are byte-identical to that machine's copies, backed up with its logs, and
   to the hashes sealed before the runs (`train_conseq_v50.py` in V50's pilot pre-registration, `quantize_r4.py` and
   `run_r4.sh` in [../../prereg_skopos/PREREG_sha256.txt](../../prereg_skopos/PREREG_sha256.txt)).
-- **R4's merge** ran `merge_lora.py` (that machine's copy); no saved script records its command line, and its log reads
-  `MERGE_DONE 496 LoRA pairs, scale 2.0`. The released weights' hashes are in the model repository's `SHA256SUMS`.
+- **R4's merge and the MLX build** ran `merge_lora.py` (that machine's copy) and mlx_lm's converter from the command
+  line; the commands were typed in the session that ran them and are saved verbatim in
+  `quantize/build_mlx_and_merge.sh` (sha256 f5b340ae44fb3583260b6c63bc92e52fafe6b6476f0d13ab973d2d871b7abeda). The
+  merge's log reads `MERGE_DONE 496 LoRA pairs, scale 2.0`. The released weights' hashes are in the model repository's
+  `SHA256SUMS`.
 - **The first Skopos** was built on the training machine with `wise_lora.py` (as the V49 runner built every λ = 0.5
   candidate: `wise_lora.py <w4a5> <v49f/ckpt_900> 0.5 <out>`) and merged with `merge_lora_v45.py`, the merge tool its
   hand-off names; the merge log was not kept. R4 started from the merged weights as uploaded then (revision

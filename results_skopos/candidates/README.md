@@ -7,11 +7,16 @@ and their hashes are in [`../../prereg_skopos/`](../../prereg_skopos/PREREG_sha2
 the linked files, not repeated here.
 
 The first Skopos (`v49f_w50`), on which the release was trained, is an unreleased intermediate checkpoint, archived
-privately; it is reproducible with [`training/skopos/`](../../training/skopos/README.md). How it was itself chosen
-among the V49 runs is not part of this package.
+privately; it is reproducible with [`training/skopos/`](../../training/skopos/README.md). How it was chosen among the
+V49 runs is in [`first_skopos_v49/`](first_skopos_v49/): PLAN_v49 with its addenda and notes, PLAN_v49b (a second
+selection registered after V49's quick readouts, with its disclosure), each with the hash files written when it was
+sealed, the run definitions, the data report and the V49b selection. The verdict file of V49b's decision reads is not
+among the files we kept.
 
 | Candidate | Question | Pre-registered rule | Outcome | Decision |
 |---|---|---|---|---|
+| **V49** (four arms on Ekbasis-27B's adapter: the executed factory, the FX factory, or both; v49f is F + FX) · [plan](first_skopos_v49/PLAN_v49.md) · [`runs.json`](first_skopos_v49/runs.json) | Which new data, at which interpolation λ, keeps the guard and gains? | λ chosen on validation only (the guard's flagged and false-alarm rates within 1 point of Ekbasis-27B's, `m3val` within 0.5); decision by the earlier plan's gates on full readouts | Raw (λ = 1) chosen for v49a, v49f and v49g by that rule | A second selection was registered (next row) |
+| **V49b** (a second selection with an old-worlds criterion, decided on fresh sets) · [plan](first_skopos_v49/PLAN_v49b.md) · [selection](first_skopos_v49/v49b_selection.json) | Which λ of each arm passes the guard, `m3val` and the old worlds' confident-errors rule? | Validation only (PLAN_v49b §2, tolerances frozen by its Addendum A) | v49a raw, v49f at λ 0.5 (`v49f_w50`), v49g at λ 0.75; none for v49h | `v49f_w50` became the first Skopos, kept privately; R2 and R4 were measured against it |
 | **V50 pilot** (plan-level items in synthetic worlds, 4–16 actions; on Ekbasis-27B, 600 steps) · [prereg](../../prereg_skopos/v50p/PREREG.md) · [results](v50p_pilot/RESULTS.md) · `runs/run/`, `runs/base/` | Do plan-level items teach long horizons? | Long horizons (8, 12, 20 actions) at least +3 points with the interval above 0, and no regression suite more than 1 point worse with its interval below 0 | Missed narrowly: a gain with the interval above 0, below +3; no regression | Not promising by the rule; a larger dose was registered |
 | **V50 dose** (the same items at twice the share, 1,200 steps) · [addendum](../../prereg_skopos/v50p/ADDENDUM_DOSE.md) · `runs/run_dose/` | Does the gain grow with the dose? | The pilot's rule | Passed | Then tested on real git (next row) |
 | **Transfer to real git** (M5: git sequences of 5, 8, 12 commands, executed) · [addendum](../../prereg_skopos/v50p/ADDENDUM_M5.md) · `runs/m5_*/` | Does the synthetic long-horizon gain carry over to real git? | Transfer if the dose's gain on 8 and 12 commands is at least +3 points with the interval above 0 | No transfer (interval across 0) | Plan-level items must come from the real domain: R1 |

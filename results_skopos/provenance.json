@@ -19,6 +19,110 @@
   "sha256": "26229e44a1423c79b9206457b22167067e0fa999a4aca8ef797a62f6a732477a",
   "source": "release workspace results/calib_fit_skopos_int4.json"
  },
+ "candidates/first_skopos_v49/PLAN_v49.addendumA.sha256": {
+  "sha256": "df03f103fdc36b8d168eca66579e2f19a2f5d9e7138954b27fbbeaec0d8f286a",
+  "source": "the research write-up PLAN_v49.addendumA.sha256"
+ },
+ "candidates/first_skopos_v49/PLAN_v49.addendumB.sha256": {
+  "sha256": "3abce52f733a387bd881caf57985e4e8c04064041610a93b1bfbff6eb59604d1",
+  "source": "the research write-up PLAN_v49.addendumB.sha256"
+ },
+ "candidates/first_skopos_v49/PLAN_v49.addendumC.sha256": {
+  "sha256": "0d678c6edcc47c4b1db9be55a1469c3bbad6be2a78900c81f7123c87655b0ae2",
+  "source": "the research write-up PLAN_v49.addendumC.sha256"
+ },
+ "candidates/first_skopos_v49/PLAN_v49.addendumD.sha256": {
+  "sha256": "9af4f03fb5cd907acd7746b3e985ae43bf7163a7796ff5c88755376caae626b3",
+  "source": "the research write-up PLAN_v49.addendumD.sha256"
+ },
+ "candidates/first_skopos_v49/PLAN_v49.addendumE.sha256": {
+  "sha256": "c765e02c1fe7d9f00a115f9b0a789ba6a8074d5106f0b8c0cb88c8a651ca3984",
+  "source": "the research write-up PLAN_v49.addendumE.sha256"
+ },
+ "candidates/first_skopos_v49/PLAN_v49.md": {
+  "sha256": "040672e8dae6dc019291819f85643ec3b60f1992a9d60836fc38a2eaabbc8d73",
+  "source": "the research write-up PLAN_v49.md"
+ },
+ "candidates/first_skopos_v49/PLAN_v49.note_e_v48a.sha256": {
+  "sha256": "ee87990d12525753f5bdc48f28aba507a514c5a0e05012f0148f227a26242ab9",
+  "source": "the research write-up PLAN_v49.note_e_v48a.sha256"
+ },
+ "candidates/first_skopos_v49/PLAN_v49.note_fulls_after_v49b.sha256": {
+  "sha256": "2d284d71902bc657d83a6ecc54e3cd63c397b1bcd3a1f3902db7ea363c7e5cbf",
+  "source": "the research write-up PLAN_v49.note_fulls_after_v49b.sha256"
+ },
+ "candidates/first_skopos_v49/PLAN_v49.note_v49c.sha256": {
+  "sha256": "b35143b395270459d59cdf4a81aa253d5480f98d879c70dfcdb35551a8f4efa4",
+  "source": "the research write-up PLAN_v49.note_v49c.sha256"
+ },
+ "candidates/first_skopos_v49/PLAN_v49.note_v49h.sha256": {
+  "sha256": "fcacd3868434b244d2ea5bab6619def7b09488e42cfab56f10713141ed666b93",
+  "source": "the research write-up PLAN_v49.note_v49h.sha256"
+ },
+ "candidates/first_skopos_v49/PLAN_v49b.addendumA.sha256": {
+  "sha256": "06cb391b0cebdd3478522cc0d0b0aef6b419c84365da883ca0c7fad62fad1fd1",
+  "source": "the research write-up PLAN_v49b.addendumA.sha256"
+ },
+ "candidates/first_skopos_v49/PLAN_v49b.addendumB.sha256": {
+  "sha256": "5989a88a6916c1eb6be7c4f9ccd24c669554d13ab4fc05128daca56e0707798f",
+  "source": "the research write-up PLAN_v49b.addendumB.sha256"
+ },
+ "candidates/first_skopos_v49/PLAN_v49b.addendumC.sha256": {
+  "sha256": "868349b139a03c11ac8b0b98525c3fa87164ca0ca6b08a7098c86370568043f6",
+  "source": "the research write-up PLAN_v49b.addendumC.sha256"
+ },
+ "candidates/first_skopos_v49/PLAN_v49b.addendumC_frozen.sha256": {
+  "sha256": "52f7847469cbcc016a28c4b069108ae089b25e541403a557580095d9da2de6af",
+  "source": "the research write-up PLAN_v49b.addendumC_frozen.sha256"
+ },
+ "candidates/first_skopos_v49/PLAN_v49b.addendumC_v1.txt": {
+  "sha256": "56b1c4946bbb1e5391cecd7830bdb159f07e248ff1d29639a82f8db3bdb1a3cd",
+  "source": "the research write-up PLAN_v49b.addendumC_v1.txt"
+ },
+ "candidates/first_skopos_v49/PLAN_v49b.addendumD.sha256": {
+  "sha256": "bb202048d86382318ebf777765f96d61d29d782d7ad4b7655ec36cafec28fa4a",
+  "source": "the research write-up PLAN_v49b.addendumD.sha256"
+ },
+ "candidates/first_skopos_v49/PLAN_v49b.md": {
+  "sha256": "0cff1a9be06487ac090ef4897f8ff3680de146a29dccf922324d2e009bb313bf",
+  "source": "the research write-up PLAN_v49b.md"
+ },
+ "candidates/first_skopos_v49/PLAN_v49b.note1.sha256": {
+  "sha256": "486b7f1ab472ee0851dcc0374d0d08cbfa3191d8f3804f8cff46d47ff0781d1b",
+  "source": "the research write-up PLAN_v49b.note1.sha256"
+ },
+ "candidates/first_skopos_v49/PLAN_v49b.note2.sha256": {
+  "sha256": "4755e9d951757729890540065f71788f315f2469476554d8e4fb071d458b736e",
+  "source": "the research write-up PLAN_v49b.note2.sha256"
+ },
+ "candidates/first_skopos_v49/PLAN_v49b.note3.sha256": {
+  "sha256": "d2c47c635c59e85abad54c3e677a95c38a83a2a227fe39e7a9f02c37adfb8b66",
+  "source": "the research write-up PLAN_v49b.note3.sha256"
+ },
+ "candidates/first_skopos_v49/PLAN_v49b.sha256": {
+  "sha256": "42bebad57e58ee6264ddafe086194c52de25fe880a7480ea56fa2e6086904f1c",
+  "source": "the research write-up PLAN_v49b.sha256"
+ },
+ "candidates/first_skopos_v49/V49b_DRAFT.md": {
+  "sha256": "0d6b7e310e1dd5f946b8f4f977f4a1eed103e6cad71aae73ec52fbdb8f5151b0",
+  "source": "the research write-up V49b_DRAFT.md"
+ },
+ "candidates/first_skopos_v49/audit_v49.json": {
+  "sha256": "dd31402fc3978a19c25121e172f3d1d80a5ea216dc65043d3d6314a7eee71ec4",
+  "source": "the research write-up audit_v49.json"
+ },
+ "candidates/first_skopos_v49/make_v49_data.json": {
+  "sha256": "63c9bda69d143cd897018bce68f265e8d1e5a458de50d303bf762c2a3483f1da",
+  "source": "the research write-up make_v49_data.json"
+ },
+ "candidates/first_skopos_v49/runs.json": {
+  "sha256": "47b83daf1cdd3ce10846d6c0dfcedd115125bb35ab8119a71b683ab128092ca7",
+  "source": "the research write-up runs.json"
+ },
+ "candidates/first_skopos_v49/v49b_selection.json": {
+  "sha256": "94954fd689174523e967a0f9c3cc687f480a9c602a8e972844900b48b82ad5bc",
+  "source": "the research write-up selection.json"
+ },
  "candidates/frontier/RESULTS_FRONTIER.md": {
   "sha256": "4285f3a61adb540b0ff850bd7eb299270ab8b8d88c40523f65e27d652c026082",
   "source": "the research write-up RESULTS_FRONTIER.md"
@@ -111,6 +215,26 @@
  "neutral.json": {
   "sha256": "67479c3b788f48b92271f9f4bdc5bba0f3e7b9ce8c04d12d8b651a93e816118f",
   "source": "release workspace results/neutral.json"
+ },
+ "overlap_audit/audit_overlap_skopos.py": {
+  "sha256": "30abf6a31fd451be76b710ebbc953d686de5d7896a0a0d1b1b25a64d01653c37",
+  "source": "the audit workspace audit/audit_overlap_skopos.py"
+ },
+ "overlap_audit/overlap.json": {
+  "sha256": "f4a848eff73f96b93a19e2378c198d590c5d82e83cb1bfc103d81a7502c9b589",
+  "source": "the audit workspace audit/out/overlap.json"
+ },
+ "overlap_audit/overlap_run.log": {
+  "sha256": "718e25ae3f13a81e180bd6e605ab384ed0c94f8bb3f23a2b61624dbe1f620b7e",
+  "source": "the audit workspace audit/out/overlap_run.log"
+ },
+ "overlap_audit/recompute_without_overlap.py": {
+  "sha256": "d4e58e236dd72bd2ee0fdef656cc66d27278e08797f15d7d4a3085088f0fa48e",
+  "source": "the audit workspace audit/recompute_without_overlap.py"
+ },
+ "overlap_audit/recomputed.json": {
+  "sha256": "d1b88ebad0d7e89377eb92ead6ea7625465169b3ef181da25bb95238c8074ef7",
+  "source": "the audit workspace audit/out/recomputed.json"
  },
  "overlap_audit_r4.json": {
   "as_run_copy": "rtx/v50p/overlap_audit_r4.json",

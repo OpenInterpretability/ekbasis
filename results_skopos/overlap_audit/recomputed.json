@@ -1,0 +1,5422 @@
+{
+ "rules": {
+  "primary": "identical OR near (the exclusion used for the clean numbers)",
+  "sensitivity": "flagged OR near_symmetric"
+ },
+ "excluded": {
+  "git3_test_known": {
+   "primary": 0,
+   "sensitivity": 25
+  },
+  "git3_test_held": {
+   "primary": 0,
+   "sensitivity": 6
+  },
+  "guard_known": {
+   "primary": 0,
+   "sensitivity": 77
+  },
+  "guard_held": {
+   "primary": 0,
+   "sensitivity": 27
+  },
+  "multi_test_trainfam": {
+   "primary": 291,
+   "sensitivity": 313
+  },
+  "multi_test_testfam": {
+   "primary": 0,
+   "sensitivity": 0
+  },
+  "ftest_family": {
+   "primary": 0,
+   "sensitivity": 0
+  },
+  "ftest_fresh": {
+   "primary": 0,
+   "sensitivity": 0
+  },
+  "fac_val": {
+   "primary": 105,
+   "sensitivity": 170
+  },
+  "git_long": {
+   "primary": 0,
+   "sensitivity": 0
+  },
+  "git_long_val": {
+   "primary": 0,
+   "sensitivity": 0
+  },
+  "sess_val": {
+   "primary": 0,
+   "sensitivity": 0
+  },
+  "fhorizon": {
+   "primary": 547,
+   "sensitivity": 584
+  },
+  "latent_test": {
+   "primary": 0,
+   "sensitivity": 0
+  },
+  "awb_neutral": {
+   "primary": 0,
+   "sensitivity": 0
+  },
+  "fval_git3": {
+   "primary": 0,
+   "sensitivity": 47
+  },
+  "m3val": {
+   "primary": 0,
+   "sensitivity": 0
+  },
+  "ce_items": {
+   "primary": 5381,
+   "sensitivity": 5697
+  },
+  "image_fresh": {
+   "primary": 5,
+   "sensitivity": 21
+  }
+ },
+ "release_protocol": {
+  "bf16": {
+   "source": "results/release_read_bf16.json (compare_release.py on rtx/v50p/release_r4 vs release_ref)",
+   "reproduced": true,
+   "published_checks": {
+    "1 git v3": true,
+    "2a multi single": true,
+    "2b multi read-once": true,
+    "3 ftest changed": false,
+    "4 ECE git v3": true,
+    "5a guard known flagged": true,
+    "5b guard known false alarms": true,
+    "6a guard held flagged": true,
+    "6b guard held false alarms": true
+   },
+   "all": {
+    "release": {
+     "git_v3_all": 96.61835748792271,
+     "git_v3_n": 3105,
+     "ece_git_v3_10bins": 0.02413589775850236,
+     "ece_git_v3_15bins": 0.02387429598640893,
+     "multi_testfam_single": 81.15770821027762,
+     "multi_testfam_read_once": 78.02717070289427,
+     "multi_trainfam_single": 92.35033259423503,
+     "multi_trainfam_read_once": 91.46341463414635,
+     "multi_trainfam_n_changed": 902,
+     "ftest_changed": 81.87599364069952,
+     "guard_known": [
+      828,
+      863,
+      37,
+      863
+     ],
+     "guard_held": [
+      767,
+      799,
+      49,
+      799
+     ]
+    },
+    "candidate": {
+     "git_v3_all": 96.94041867954911,
+     "git_v3_n": 3105,
+     "ece_git_v3_10bins": 0.023023580449022904,
+     "ece_git_v3_15bins": 0.023879337521950778,
+     "multi_testfam_single": 81.51210868281157,
+     "multi_testfam_read_once": 78.67690490253987,
+     "multi_trainfam_single": 95.01108647450111,
+     "multi_trainfam_read_once": 93.90243902439025,
+     "multi_trainfam_n_changed": 902,
+     "ftest_changed": 80.28616852146264,
+     "guard_known": [
+      837,
+      863,
+      27,
+      863
+     ],
+     "guard_held": [
+      776,
+      799,
+      26,
+      799
+     ]
+    },
+    "checks": {
+     "1 git v3": true,
+     "2a multi single": true,
+     "2b multi read-once": true,
+     "3 ftest changed": false,
+     "4 ECE git v3": true,
+     "5a guard known flagged": true,
+     "5b guard known false alarms": true,
+     "6a guard held flagged": true,
+     "6b guard held false alarms": true
+    },
+    "pass": false
+   },
+   "primary": {
+    "release": {
+     "git_v3_all": 96.61835748792271,
+     "git_v3_n": 3105,
+     "ece_git_v3_10bins": 0.02413589775850236,
+     "ece_git_v3_15bins": 0.02387429598640893,
+     "multi_testfam_single": 81.15770821027762,
+     "multi_testfam_read_once": 78.02717070289427,
+     "multi_trainfam_single": 93.63057324840764,
+     "multi_trainfam_read_once": 92.78131634819533,
+     "multi_trainfam_n_changed": 471,
+     "ftest_changed": 81.87599364069952,
+     "guard_known": [
+      828,
+      863,
+      37,
+      863
+     ],
+     "guard_held": [
+      767,
+      799,
+      49,
+      799
+     ]
+    },
+    "candidate": {
+     "git_v3_all": 96.94041867954911,
+     "git_v3_n": 3105,
+     "ece_git_v3_10bins": 0.023023580449022904,
+     "ece_git_v3_15bins": 0.023879337521950778,
+     "multi_testfam_single": 81.51210868281157,
+     "multi_testfam_read_once": 78.67690490253987,
+     "multi_trainfam_single": 96.60297239915074,
+     "multi_trainfam_read_once": 95.75371549893843,
+     "multi_trainfam_n_changed": 471,
+     "ftest_changed": 80.28616852146264,
+     "guard_known": [
+      837,
+      863,
+      27,
+      863
+     ],
+     "guard_held": [
+      776,
+      799,
+      26,
+      799
+     ]
+    },
+    "checks": {
+     "1 git v3": true,
+     "2a multi single": true,
+     "2b multi read-once": true,
+     "3 ftest changed": false,
+     "4 ECE git v3": true,
+     "5a guard known flagged": true,
+     "5b guard known false alarms": true,
+     "6a guard held flagged": true,
+     "6b guard held false alarms": true
+    },
+    "pass": false
+   },
+   "sensitivity": {
+    "release": {
+     "git_v3_all": 96.61678594664932,
+     "git_v3_n": 3074,
+     "ece_git_v3_10bins": 0.024069456132728723,
+     "ece_git_v3_15bins": 0.023805216216544675,
+     "multi_testfam_single": 81.15770821027762,
+     "multi_testfam_read_once": 78.02717070289427,
+     "multi_trainfam_single": 93.54838709677419,
+     "multi_trainfam_read_once": 92.62672811059907,
+     "multi_trainfam_n_changed": 434,
+     "ftest_changed": 81.87599364069952,
+     "guard_known": [
+      825,
+      860,
+      37,
+      843
+     ],
+     "guard_held": [
+      766,
+      798,
+      49,
+      795
+     ]
+    },
+    "candidate": {
+     "git_v3_all": 96.94209499024073,
+     "git_v3_n": 3074,
+     "ece_git_v3_10bins": 0.022941534889155412,
+     "ece_git_v3_15bins": 0.023805921913046514,
+     "multi_testfam_single": 81.51210868281157,
+     "multi_testfam_read_once": 78.67690490253987,
+     "multi_trainfam_single": 96.7741935483871,
+     "multi_trainfam_read_once": 95.85253456221199,
+     "multi_trainfam_n_changed": 434,
+     "ftest_changed": 80.28616852146264,
+     "guard_known": [
+      834,
+      860,
+      26,
+      843
+     ],
+     "guard_held": [
+      775,
+      798,
+      26,
+      795
+     ]
+    },
+    "checks": {
+     "1 git v3": true,
+     "2a multi single": true,
+     "2b multi read-once": true,
+     "3 ftest changed": false,
+     "4 ECE git v3": true,
+     "5a guard known flagged": true,
+     "5b guard known false alarms": true,
+     "6a guard held flagged": true,
+     "6b guard held false alarms": true
+    },
+    "pass": false
+   },
+   "conclusion_holds": {
+    "primary": {
+     "1 git v3": true,
+     "2a multi single": true,
+     "2b multi read-once": true,
+     "3 ftest changed": true,
+     "4 ECE git v3": true,
+     "5a guard known flagged": true,
+     "5b guard known false alarms": true,
+     "6a guard held flagged": true,
+     "6b guard held false alarms": true
+    },
+    "sensitivity": {
+     "1 git v3": true,
+     "2a multi single": true,
+     "2b multi read-once": true,
+     "3 ftest changed": true,
+     "4 ECE git v3": true,
+     "5a guard known flagged": true,
+     "5b guard known false alarms": true,
+     "6a guard held flagged": true,
+     "6b guard held false alarms": true
+    }
+   }
+  },
+  "int4": {
+   "source": "results/release_read_int4.json (compare_release.py on rtx/v50p/release_r4_int4 vs release_ref)",
+   "reproduced": true,
+   "published_checks": {
+    "1 git v3": true,
+    "2a multi single": true,
+    "2b multi read-once": true,
+    "3 ftest changed": false,
+    "4 ECE git v3": true,
+    "5a guard known flagged": true,
+    "5b guard known false alarms": true,
+    "6a guard held flagged": true,
+    "6b guard held false alarms": true
+   },
+   "all": {
+    "release": {
+     "git_v3_all": 96.61835748792271,
+     "git_v3_n": 3105,
+     "ece_git_v3_10bins": 0.02413589775850236,
+     "ece_git_v3_15bins": 0.02387429598640893,
+     "multi_testfam_single": 81.15770821027762,
+     "multi_testfam_read_once": 78.02717070289427,
+     "multi_trainfam_single": 92.35033259423503,
+     "multi_trainfam_read_once": 91.46341463414635,
+     "multi_trainfam_n_changed": 902,
+     "ftest_changed": 81.87599364069952,
+     "guard_known": [
+      828,
+      863,
+      37,
+      863
+     ],
+     "guard_held": [
+      767,
+      799,
+      49,
+      799
+     ]
+    },
+    "candidate": {
+     "git_v3_all": 96.77938808373591,
+     "git_v3_n": 3105,
+     "ece_git_v3_10bins": 0.025254217274906978,
+     "ece_git_v3_15bins": 0.024838844464788828,
+     "multi_testfam_single": 81.51210868281157,
+     "multi_testfam_read_once": 77.90903721204961,
+     "multi_trainfam_single": 94.45676274944567,
+     "multi_trainfam_read_once": 93.12638580931264,
+     "multi_trainfam_n_changed": 902,
+     "ftest_changed": 80.44515103338632,
+     "guard_known": [
+      836,
+      863,
+      25,
+      863
+     ],
+     "guard_held": [
+      778,
+      799,
+      25,
+      799
+     ]
+    },
+    "checks": {
+     "1 git v3": true,
+     "2a multi single": true,
+     "2b multi read-once": true,
+     "3 ftest changed": false,
+     "4 ECE git v3": true,
+     "5a guard known flagged": true,
+     "5b guard known false alarms": true,
+     "6a guard held flagged": true,
+     "6b guard held false alarms": true
+    },
+    "pass": false
+   },
+   "primary": {
+    "release": {
+     "git_v3_all": 96.61835748792271,
+     "git_v3_n": 3105,
+     "ece_git_v3_10bins": 0.02413589775850236,
+     "ece_git_v3_15bins": 0.02387429598640893,
+     "multi_testfam_single": 81.15770821027762,
+     "multi_testfam_read_once": 78.02717070289427,
+     "multi_trainfam_single": 93.63057324840764,
+     "multi_trainfam_read_once": 92.78131634819533,
+     "multi_trainfam_n_changed": 471,
+     "ftest_changed": 81.87599364069952,
+     "guard_known": [
+      828,
+      863,
+      37,
+      863
+     ],
+     "guard_held": [
+      767,
+      799,
+      49,
+      799
+     ]
+    },
+    "candidate": {
+     "git_v3_all": 96.77938808373591,
+     "git_v3_n": 3105,
+     "ece_git_v3_10bins": 0.025254217274906978,
+     "ece_git_v3_15bins": 0.024838844464788828,
+     "multi_testfam_single": 81.51210868281157,
+     "multi_testfam_read_once": 77.90903721204961,
+     "multi_trainfam_single": 95.96602972399151,
+     "multi_trainfam_read_once": 94.90445859872611,
+     "multi_trainfam_n_changed": 471,
+     "ftest_changed": 80.44515103338632,
+     "guard_known": [
+      836,
+      863,
+      25,
+      863
+     ],
+     "guard_held": [
+      778,
+      799,
+      25,
+      799
+     ]
+    },
+    "checks": {
+     "1 git v3": true,
+     "2a multi single": true,
+     "2b multi read-once": true,
+     "3 ftest changed": false,
+     "4 ECE git v3": true,
+     "5a guard known flagged": true,
+     "5b guard known false alarms": true,
+     "6a guard held flagged": true,
+     "6b guard held false alarms": true
+    },
+    "pass": false
+   },
+   "sensitivity": {
+    "release": {
+     "git_v3_all": 96.61678594664932,
+     "git_v3_n": 3074,
+     "ece_git_v3_10bins": 0.024069456132728723,
+     "ece_git_v3_15bins": 0.023805216216544675,
+     "multi_testfam_single": 81.15770821027762,
+     "multi_testfam_read_once": 78.02717070289427,
+     "multi_trainfam_single": 93.54838709677419,
+     "multi_trainfam_read_once": 92.62672811059907,
+     "multi_trainfam_n_changed": 434,
+     "ftest_changed": 81.87599364069952,
+     "guard_known": [
+      825,
+      860,
+      37,
+      843
+     ],
+     "guard_held": [
+      766,
+      798,
+      49,
+      795
+     ]
+    },
+    "candidate": {
+     "git_v3_all": 96.77944046844502,
+     "git_v3_n": 3074,
+     "ece_git_v3_10bins": 0.025194118830703223,
+     "ece_git_v3_15bins": 0.02477455716010573,
+     "multi_testfam_single": 81.51210868281157,
+     "multi_testfam_read_once": 77.90903721204961,
+     "multi_trainfam_single": 96.31336405529954,
+     "multi_trainfam_read_once": 95.16129032258064,
+     "multi_trainfam_n_changed": 434,
+     "ftest_changed": 80.44515103338632,
+     "guard_known": [
+      833,
+      860,
+      24,
+      843
+     ],
+     "guard_held": [
+      777,
+      798,
+      25,
+      795
+     ]
+    },
+    "checks": {
+     "1 git v3": true,
+     "2a multi single": true,
+     "2b multi read-once": true,
+     "3 ftest changed": false,
+     "4 ECE git v3": true,
+     "5a guard known flagged": true,
+     "5b guard known false alarms": true,
+     "6a guard held flagged": true,
+     "6b guard held false alarms": true
+    },
+    "pass": false
+   },
+   "conclusion_holds": {
+    "primary": {
+     "1 git v3": true,
+     "2a multi single": true,
+     "2b multi read-once": true,
+     "3 ftest changed": true,
+     "4 ECE git v3": true,
+     "5a guard known flagged": true,
+     "5b guard known false alarms": true,
+     "6a guard held flagged": true,
+     "6b guard held false alarms": true
+    },
+    "sensitivity": {
+     "1 git v3": true,
+     "2a multi single": true,
+     "2b multi read-once": true,
+     "3 ftest changed": true,
+     "4 ECE git v3": true,
+     "5a guard known flagged": true,
+     "5b guard known false alarms": true,
+     "6a guard held flagged": true,
+     "6b guard held false alarms": true
+    }
+   }
+  },
+  "fp8": {
+   "source": "results/release_read_fp8.json (compare_release.py on rtx/v50p/release_r4_fp8 vs release_ref)",
+   "reproduced": true,
+   "published_checks": {
+    "1 git v3": true,
+    "2a multi single": true,
+    "2b multi read-once": true,
+    "3 ftest changed": false,
+    "4 ECE git v3": true,
+    "5a guard known flagged": true,
+    "5b guard known false alarms": true,
+    "6a guard held flagged": true,
+    "6b guard held false alarms": true
+   },
+   "all": {
+    "release": {
+     "git_v3_all": 96.61835748792271,
+     "git_v3_n": 3105,
+     "ece_git_v3_10bins": 0.02413589775850236,
+     "ece_git_v3_15bins": 0.02387429598640893,
+     "multi_testfam_single": 81.15770821027762,
+     "multi_testfam_read_once": 78.02717070289427,
+     "multi_trainfam_single": 92.35033259423503,
+     "multi_trainfam_read_once": 91.46341463414635,
+     "multi_trainfam_n_changed": 902,
+     "ftest_changed": 81.87599364069952,
+     "guard_known": [
+      828,
+      863,
+      37,
+      863
+     ],
+     "guard_held": [
+      767,
+      799,
+      49,
+      799
+     ]
+    },
+    "candidate": {
+     "git_v3_all": 96.87600644122384,
+     "git_v3_n": 3105,
+     "ece_git_v3_10bins": 0.02349797466142937,
+     "ece_git_v3_15bins": 0.02355705424783319,
+     "multi_testfam_single": 81.68930891907856,
+     "multi_testfam_read_once": 78.49970466627289,
+     "multi_trainfam_single": 94.01330376940133,
+     "multi_trainfam_read_once": 93.34811529933481,
+     "multi_trainfam_n_changed": 902,
+     "ftest_changed": 80.44515103338632,
+     "guard_known": [
+      835,
+      863,
+      27,
+      863
+     ],
+     "guard_held": [
+      774,
+      799,
+      26,
+      799
+     ]
+    },
+    "checks": {
+     "1 git v3": true,
+     "2a multi single": true,
+     "2b multi read-once": true,
+     "3 ftest changed": false,
+     "4 ECE git v3": true,
+     "5a guard known flagged": true,
+     "5b guard known false alarms": true,
+     "6a guard held flagged": true,
+     "6b guard held false alarms": true
+    },
+    "pass": false
+   },
+   "primary": {
+    "release": {
+     "git_v3_all": 96.61835748792271,
+     "git_v3_n": 3105,
+     "ece_git_v3_10bins": 0.02413589775850236,
+     "ece_git_v3_15bins": 0.02387429598640893,
+     "multi_testfam_single": 81.15770821027762,
+     "multi_testfam_read_once": 78.02717070289427,
+     "multi_trainfam_single": 93.63057324840764,
+     "multi_trainfam_read_once": 92.78131634819533,
+     "multi_trainfam_n_changed": 471,
+     "ftest_changed": 81.87599364069952,
+     "guard_known": [
+      828,
+      863,
+      37,
+      863
+     ],
+     "guard_held": [
+      767,
+      799,
+      49,
+      799
+     ]
+    },
+    "candidate": {
+     "git_v3_all": 96.87600644122384,
+     "git_v3_n": 3105,
+     "ece_git_v3_10bins": 0.02349797466142937,
+     "ece_git_v3_15bins": 0.02355705424783319,
+     "multi_testfam_single": 81.68930891907856,
+     "multi_testfam_read_once": 78.49970466627289,
+     "multi_trainfam_single": 95.32908704883228,
+     "multi_trainfam_read_once": 95.32908704883228,
+     "multi_trainfam_n_changed": 471,
+     "ftest_changed": 80.44515103338632,
+     "guard_known": [
+      835,
+      863,
+      27,
+      863
+     ],
+     "guard_held": [
+      774,
+      799,
+      26,
+      799
+     ]
+    },
+    "checks": {
+     "1 git v3": true,
+     "2a multi single": true,
+     "2b multi read-once": true,
+     "3 ftest changed": false,
+     "4 ECE git v3": true,
+     "5a guard known flagged": true,
+     "5b guard known false alarms": true,
+     "6a guard held flagged": true,
+     "6b guard held false alarms": true
+    },
+    "pass": false
+   },
+   "sensitivity": {
+    "release": {
+     "git_v3_all": 96.61678594664932,
+     "git_v3_n": 3074,
+     "ece_git_v3_10bins": 0.024069456132728723,
+     "ece_git_v3_15bins": 0.023805216216544675,
+     "multi_testfam_single": 81.15770821027762,
+     "multi_testfam_read_once": 78.02717070289427,
+     "multi_trainfam_single": 93.54838709677419,
+     "multi_trainfam_read_once": 92.62672811059907,
+     "multi_trainfam_n_changed": 434,
+     "ftest_changed": 81.87599364069952,
+     "guard_known": [
+      825,
+      860,
+      37,
+      843
+     ],
+     "guard_held": [
+      766,
+      798,
+      49,
+      795
+     ]
+    },
+    "candidate": {
+     "git_v3_all": 96.87703318152245,
+     "git_v3_n": 3074,
+     "ece_git_v3_10bins": 0.023421585811914135,
+     "ece_git_v3_15bins": 0.023481261191154044,
+     "multi_testfam_single": 81.68930891907856,
+     "multi_testfam_read_once": 78.49970466627289,
+     "multi_trainfam_single": 96.08294930875576,
+     "multi_trainfam_read_once": 95.39170506912443,
+     "multi_trainfam_n_changed": 434,
+     "ftest_changed": 80.44515103338632,
+     "guard_known": [
+      832,
+      860,
+      27,
+      843
+     ],
+     "guard_held": [
+      773,
+      798,
+      26,
+      795
+     ]
+    },
+    "checks": {
+     "1 git v3": true,
+     "2a multi single": true,
+     "2b multi read-once": true,
+     "3 ftest changed": false,
+     "4 ECE git v3": true,
+     "5a guard known flagged": true,
+     "5b guard known false alarms": true,
+     "6a guard held flagged": true,
+     "6b guard held false alarms": true
+    },
+    "pass": false
+   },
+   "conclusion_holds": {
+    "primary": {
+     "1 git v3": true,
+     "2a multi single": true,
+     "2b multi read-once": true,
+     "3 ftest changed": true,
+     "4 ECE git v3": true,
+     "5a guard known flagged": true,
+     "5b guard known false alarms": true,
+     "6a guard held flagged": true,
+     "6b guard held false alarms": true
+    },
+    "sensitivity": {
+     "1 git v3": true,
+     "2a multi single": true,
+     "2b multi read-once": true,
+     "3 ftest changed": true,
+     "4 ECE git v3": true,
+     "5a guard known flagged": true,
+     "5b guard known false alarms": true,
+     "6a guard held flagged": true,
+     "6b guard held false alarms": true
+    }
+   }
+  },
+  "mlx": {
+   "source": "results/release_read_mlx.json (compare_release.py on rtx/v50p/release_r4_mlx vs release_ref)",
+   "reproduced": true,
+   "published_checks": null,
+   "all": {
+    "release": {
+     "git_v3_all": 96.61835748792271,
+     "git_v3_n": 3105,
+     "ece_git_v3_10bins": 0.02413589775850236,
+     "ece_git_v3_15bins": 0.02387429598640893,
+     "multi_testfam_single": 81.15770821027762,
+     "multi_testfam_read_once": 78.02717070289427,
+     "multi_trainfam_single": 92.35033259423503,
+     "multi_trainfam_read_once": 91.46341463414635,
+     "multi_trainfam_n_changed": 902,
+     "ftest_changed": 81.87599364069952,
+     "guard_known": [
+      828,
+      863,
+      37,
+      863
+     ],
+     "guard_held": [
+      767,
+      799,
+      49,
+      799
+     ]
+    },
+    "candidate": {
+     "git_v3_all": 96.94041867954911,
+     "git_v3_n": 3105,
+     "ece_git_v3_10bins": 0.021618846994667144,
+     "ece_git_v3_15bins": 0.02161884699466732,
+     "multi_testfam_single": 81.45304193738924,
+     "multi_testfam_read_once": null,
+     "multi_trainfam_single": 93.68070953436808,
+     "multi_trainfam_read_once": null,
+     "multi_trainfam_n_changed": 902,
+     "ftest_changed": 81.08108108108108,
+     "guard_known": [
+      836,
+      863,
+      36,
+      863
+     ],
+     "guard_held": [
+      785,
+      799,
+      38,
+      799
+     ]
+    },
+    "checks": {
+     "1 git v3": true,
+     "2a multi single": true,
+     "2b multi read-once": null,
+     "3 ftest changed": true,
+     "4 ECE git v3": true,
+     "5a guard known flagged": true,
+     "5b guard known false alarms": true,
+     "6a guard held flagged": true,
+     "6b guard held false alarms": true
+    },
+    "pass": true
+   },
+   "primary": {
+    "release": {
+     "git_v3_all": 96.61835748792271,
+     "git_v3_n": 3105,
+     "ece_git_v3_10bins": 0.02413589775850236,
+     "ece_git_v3_15bins": 0.02387429598640893,
+     "multi_testfam_single": 81.15770821027762,
+     "multi_testfam_read_once": 78.02717070289427,
+     "multi_trainfam_single": 93.63057324840764,
+     "multi_trainfam_read_once": 92.78131634819533,
+     "multi_trainfam_n_changed": 471,
+     "ftest_changed": 81.87599364069952,
+     "guard_known": [
+      828,
+      863,
+      37,
+      863
+     ],
+     "guard_held": [
+      767,
+      799,
+      49,
+      799
+     ]
+    },
+    "candidate": {
+     "git_v3_all": 96.94041867954911,
+     "git_v3_n": 3105,
+     "ece_git_v3_10bins": 0.021618846994667144,
+     "ece_git_v3_15bins": 0.02161884699466732,
+     "multi_testfam_single": 81.45304193738924,
+     "multi_testfam_read_once": null,
+     "multi_trainfam_single": 95.96602972399151,
+     "multi_trainfam_read_once": null,
+     "multi_trainfam_n_changed": 471,
+     "ftest_changed": 81.08108108108108,
+     "guard_known": [
+      836,
+      863,
+      36,
+      863
+     ],
+     "guard_held": [
+      785,
+      799,
+      38,
+      799
+     ]
+    },
+    "checks": {
+     "1 git v3": true,
+     "2a multi single": true,
+     "2b multi read-once": null,
+     "3 ftest changed": true,
+     "4 ECE git v3": true,
+     "5a guard known flagged": true,
+     "5b guard known false alarms": true,
+     "6a guard held flagged": true,
+     "6b guard held false alarms": true
+    },
+    "pass": true
+   },
+   "sensitivity": {
+    "release": {
+     "git_v3_all": 96.61678594664932,
+     "git_v3_n": 3074,
+     "ece_git_v3_10bins": 0.024069456132728723,
+     "ece_git_v3_15bins": 0.023805216216544675,
+     "multi_testfam_single": 81.15770821027762,
+     "multi_testfam_read_once": 78.02717070289427,
+     "multi_trainfam_single": 93.54838709677419,
+     "multi_trainfam_read_once": 92.62672811059907,
+     "multi_trainfam_n_changed": 434,
+     "ftest_changed": 81.87599364069952,
+     "guard_known": [
+      825,
+      860,
+      37,
+      843
+     ],
+     "guard_held": [
+      766,
+      798,
+      49,
+      795
+     ]
+    },
+    "candidate": {
+     "git_v3_all": 96.94209499024073,
+     "git_v3_n": 3074,
+     "ece_git_v3_10bins": 0.021525404925616227,
+     "ece_git_v3_15bins": 0.02152540492561624,
+     "multi_testfam_single": 81.45304193738924,
+     "multi_testfam_read_once": null,
+     "multi_trainfam_single": 96.08294930875576,
+     "multi_trainfam_read_once": null,
+     "multi_trainfam_n_changed": 434,
+     "ftest_changed": 81.08108108108108,
+     "guard_known": [
+      833,
+      860,
+      35,
+      843
+     ],
+     "guard_held": [
+      784,
+      798,
+      38,
+      795
+     ]
+    },
+    "checks": {
+     "1 git v3": true,
+     "2a multi single": true,
+     "2b multi read-once": null,
+     "3 ftest changed": true,
+     "4 ECE git v3": true,
+     "5a guard known flagged": true,
+     "5b guard known false alarms": true,
+     "6a guard held flagged": true,
+     "6b guard held false alarms": true
+    },
+    "pass": true
+   },
+   "conclusion_holds": {
+    "primary": {
+     "1 git v3": true,
+     "2a multi single": true,
+     "2b multi read-once": true,
+     "3 ftest changed": true,
+     "4 ECE git v3": true,
+     "5a guard known flagged": true,
+     "5b guard known false alarms": true,
+     "6a guard held flagged": true,
+     "6b guard held false alarms": true
+    },
+    "sensitivity": {
+     "1 git v3": true,
+     "2a multi single": true,
+     "2b multi read-once": true,
+     "3 ftest changed": true,
+     "4 ECE git v3": true,
+     "5a guard known flagged": true,
+     "5b guard known false alarms": true,
+     "6a guard held flagged": true,
+     "6b guard held false alarms": true
+    }
+   }
+  }
+ },
+ "served_report_bf16": {
+  "source": "results/release_read_bf16_report.json (release_eval.py's report, recomputed from rtx/v50p/release_r4)",
+  "reproduced": true,
+  "skopos": {
+   "all": {
+    "git3_test_known": {
+     "lost": {
+      "n": 102,
+      "acc": 100.0,
+      "ci95": [
+       100.0,
+       100.0
+      ]
+     },
+     "fails": {
+      "n": 138,
+      "acc": 97.10144927536231,
+      "ci95": [
+       93.47826086956522,
+       99.27536231884058
+      ]
+     },
+     "in_progress": {
+      "n": 282,
+      "acc": 99.29078014184397,
+      "ci95": [
+       98.22695035460993,
+       100.0
+      ]
+     },
+     "changed state": {
+      "n": 88,
+      "acc": 88.63636363636364,
+      "ci95": [
+       80.68181818181817,
+       94.31818181818183
+      ]
+     },
+     "all": {
+      "n": 1482,
+      "acc": 98.582995951417,
+      "ci95": [
+       97.97570850202429,
+       99.12280701754386
+      ]
+     },
+     "lost_auroc": 1.0,
+     "lost_flagged_at_0.2": 100.0,
+     "false_alarm_at_0.2": 0.0
+    },
+    "git3_test_held": {
+     "lost": {
+      "n": 84,
+      "acc": 96.42857142857143,
+      "ci95": [
+       91.66666666666666,
+       100.0
+      ]
+     },
+     "fails": {
+      "n": 228,
+      "acc": 85.96491228070175,
+      "ci95": [
+       81.14035087719299,
+       90.35087719298247
+      ]
+     },
+     "in_progress": {
+      "n": 351,
+      "acc": 95.44159544159544,
+      "ci95": [
+       93.16239316239316,
+       97.43589743589743
+      ]
+     },
+     "changed state": {
+      "n": 49,
+      "acc": 77.55102040816327,
+      "ci95": [
+       65.3061224489796,
+       89.79591836734694
+      ]
+     },
+     "all": {
+      "n": 1623,
+      "acc": 95.44054220579174,
+      "ci95": [
+       94.45471349353049,
+       96.42637091805298
+      ]
+     },
+     "lost_auroc": 0.9914965986394558,
+     "lost_flagged_at_0.2": 97.61904761904762,
+     "false_alarm_at_0.2": 2.380952380952381
+    },
+    "multi_test_trainfam (one prompt per question)": {
+     "n_changed": 902,
+     "acc_changed": 95.01108647450111,
+     "ci95_changed": [
+      93.45898004434589,
+      96.45232815964523
+     ],
+     "acc_all": 97.3743195645213
+    },
+    "multi_test_trainfam (read-once)": {
+     "n_changed": 902,
+     "acc_changed": 93.90243902439025,
+     "ci95_changed": [
+      92.23946784922394,
+      95.45454545454545
+     ],
+     "acc_all": 97.18219660582773
+    },
+    "multi_test_testfam (one prompt per question)": {
+     "n_changed": 1693,
+     "acc_changed": 81.51210868281157,
+     "ci95_changed": [
+      79.56290608387478,
+      83.34317779090372
+     ],
+     "acc_all": 85.48104956268222
+    },
+    "multi_test_testfam (read-once)": {
+     "n_changed": 1693,
+     "acc_changed": 78.67690490253987,
+     "ci95_changed": [
+      76.66863555818074,
+      80.56704075605434
+     ],
+     "acc_all": 84.3731778425656
+    }
+   },
+   "primary": {
+    "git3_test_known": {
+     "lost": {
+      "n": 102,
+      "acc": 100.0,
+      "ci95": [
+       100.0,
+       100.0
+      ]
+     },
+     "fails": {
+      "n": 138,
+      "acc": 97.10144927536231,
+      "ci95": [
+       93.47826086956522,
+       99.27536231884058
+      ]
+     },
+     "in_progress": {
+      "n": 282,
+      "acc": 99.29078014184397,
+      "ci95": [
+       98.22695035460993,
+       100.0
+      ]
+     },
+     "changed state": {
+      "n": 88,
+      "acc": 88.63636363636364,
+      "ci95": [
+       80.68181818181817,
+       94.31818181818183
+      ]
+     },
+     "all": {
+      "n": 1482,
+      "acc": 98.582995951417,
+      "ci95": [
+       97.97570850202429,
+       99.12280701754386
+      ]
+     },
+     "lost_auroc": 1.0,
+     "lost_flagged_at_0.2": 100.0,
+     "false_alarm_at_0.2": 0.0
+    },
+    "git3_test_held": {
+     "lost": {
+      "n": 84,
+      "acc": 96.42857142857143,
+      "ci95": [
+       91.66666666666666,
+       100.0
+      ]
+     },
+     "fails": {
+      "n": 228,
+      "acc": 85.96491228070175,
+      "ci95": [
+       81.14035087719299,
+       90.35087719298247
+      ]
+     },
+     "in_progress": {
+      "n": 351,
+      "acc": 95.44159544159544,
+      "ci95": [
+       93.16239316239316,
+       97.43589743589743
+      ]
+     },
+     "changed state": {
+      "n": 49,
+      "acc": 77.55102040816327,
+      "ci95": [
+       65.3061224489796,
+       89.79591836734694
+      ]
+     },
+     "all": {
+      "n": 1623,
+      "acc": 95.44054220579174,
+      "ci95": [
+       94.45471349353049,
+       96.42637091805298
+      ]
+     },
+     "lost_auroc": 0.9914965986394558,
+     "lost_flagged_at_0.2": 97.61904761904762,
+     "false_alarm_at_0.2": 2.380952380952381
+    },
+    "multi_test_trainfam (one prompt per question)": {
+     "n_changed": 471,
+     "acc_changed": 96.60297239915074,
+     "ci95_changed": [
+      94.90445859872611,
+      98.08917197452229
+     ],
+     "acc_all": 97.709049255441
+    },
+    "multi_test_trainfam (read-once)": {
+     "n_changed": 471,
+     "acc_changed": 95.75371549893843,
+     "ci95_changed": [
+      93.84288747346072,
+      97.45222929936305
+     ],
+     "acc_all": 97.53722794959909
+    },
+    "multi_test_testfam (one prompt per question)": {
+     "n_changed": 1693,
+     "acc_changed": 81.51210868281157,
+     "ci95_changed": [
+      79.56290608387478,
+      83.34317779090372
+     ],
+     "acc_all": 85.48104956268222
+    },
+    "multi_test_testfam (read-once)": {
+     "n_changed": 1693,
+     "acc_changed": 78.67690490253987,
+     "ci95_changed": [
+      76.66863555818074,
+      80.56704075605434
+     ],
+     "acc_all": 84.3731778425656
+    }
+   },
+   "sensitivity": {
+    "git3_test_known": {
+     "lost": {
+      "n": 100,
+      "acc": 100.0,
+      "ci95": [
+       100.0,
+       100.0
+      ]
+     },
+     "fails": {
+      "n": 136,
+      "acc": 97.79411764705883,
+      "ci95": [
+       94.85294117647058,
+       100.0
+      ]
+     },
+     "in_progress": {
+      "n": 279,
+      "acc": 99.2831541218638,
+      "ci95": [
+       98.2078853046595,
+       100.0
+      ]
+     },
+     "changed state": {
+      "n": 88,
+      "acc": 88.63636363636364,
+      "ci95": [
+       80.68181818181817,
+       94.31818181818183
+      ]
+     },
+     "all": {
+      "n": 1457,
+      "acc": 98.62731640356898,
+      "ci95": [
+       98.00960878517502,
+       99.17638984214139
+      ]
+     },
+     "lost_auroc": 1.0,
+     "lost_flagged_at_0.2": 100.0,
+     "false_alarm_at_0.2": 0.0
+    },
+    "git3_test_held": {
+     "lost": {
+      "n": 83,
+      "acc": 96.3855421686747,
+      "ci95": [
+       91.56626506024097,
+       100.0
+      ]
+     },
+     "fails": {
+      "n": 228,
+      "acc": 85.96491228070175,
+      "ci95": [
+       81.14035087719299,
+       90.35087719298247
+      ]
+     },
+     "in_progress": {
+      "n": 349,
+      "acc": 95.41547277936962,
+      "ci95": [
+       93.12320916905445,
+       97.42120343839542
+      ]
+     },
+     "changed state": {
+      "n": 49,
+      "acc": 77.55102040816327,
+      "ci95": [
+       65.3061224489796,
+       89.79591836734694
+      ]
+     },
+     "all": {
+      "n": 1617,
+      "acc": 95.42362399505257,
+      "ci95": [
+       94.37229437229438,
+       96.47495361781077
+      ]
+     },
+     "lost_auroc": 0.9912891986062717,
+     "lost_flagged_at_0.2": 97.61904761904762,
+     "false_alarm_at_0.2": 2.4390243902439024
+    },
+    "multi_test_trainfam (one prompt per question)": {
+     "n_changed": 434,
+     "acc_changed": 96.7741935483871,
+     "ci95_changed": [
+      95.16129032258065,
+      98.38709677419355
+     ],
+     "acc_all": 97.77365491651206
+    },
+    "multi_test_trainfam (read-once)": {
+     "n_changed": 434,
+     "acc_changed": 95.85253456221199,
+     "ci95_changed": [
+      93.77880184331798,
+      97.6958525345622
+     ],
+     "acc_all": 97.46444032158318
+    },
+    "multi_test_testfam (one prompt per question)": {
+     "n_changed": 1693,
+     "acc_changed": 81.51210868281157,
+     "ci95_changed": [
+      79.56290608387478,
+      83.34317779090372
+     ],
+     "acc_all": 85.48104956268222
+    },
+    "multi_test_testfam (read-once)": {
+     "n_changed": 1693,
+     "acc_changed": 78.67690490253987,
+     "ci95_changed": [
+      76.66863555818074,
+      80.56704075605434
+     ],
+     "acc_all": 84.3731778425656
+    }
+   }
+  },
+  "ekbasis27b": {
+   "all": {
+    "git3_test_known": {
+     "lost": {
+      "n": 102,
+      "acc": 99.01960784313725,
+      "ci95": [
+       97.05882352941177,
+       100.0
+      ]
+     },
+     "fails": {
+      "n": 138,
+      "acc": 97.82608695652173,
+      "ci95": [
+       94.92753623188406,
+       100.0
+      ]
+     },
+     "in_progress": {
+      "n": 282,
+      "acc": 99.64539007092199,
+      "ci95": [
+       98.93617021276596,
+       100.0
+      ]
+     },
+     "changed state": {
+      "n": 88,
+      "acc": 82.95454545454545,
+      "ci95": [
+       75.0,
+       89.77272727272727
+      ]
+     },
+     "all": {
+      "n": 1482,
+      "acc": 98.110661268556,
+      "ci95": [
+       97.36842105263158,
+       98.78542510121457
+      ]
+     },
+     "lost_auroc": 0.998077662437524,
+     "lost_flagged_at_0.2": 98.03921568627452,
+     "false_alarm_at_0.2": 0.0
+    },
+    "git3_test_held": {
+     "lost": {
+      "n": 84,
+      "acc": 96.42857142857143,
+      "ci95": [
+       91.66666666666666,
+       100.0
+      ]
+     },
+     "fails": {
+      "n": 228,
+      "acc": 83.33333333333333,
+      "ci95": [
+       78.50877192982456,
+       88.1578947368421
+      ]
+     },
+     "in_progress": {
+      "n": 351,
+      "acc": 97.43589743589743,
+      "ci95": [
+       95.44159544159544,
+       98.86039886039886
+      ]
+     },
+     "changed state": {
+      "n": 49,
+      "acc": 71.42857142857143,
+      "ci95": [
+       59.183673469387756,
+       83.6734693877551
+      ]
+     },
+     "all": {
+      "n": 1623,
+      "acc": 95.25569932224276,
+      "ci95": [
+       94.26987060998152,
+       96.24152803450401
+      ]
+     },
+     "lost_auroc": 0.9889455782312925,
+     "lost_flagged_at_0.2": 95.23809523809524,
+     "false_alarm_at_0.2": 2.380952380952381
+    },
+    "multi_test_trainfam (one prompt per question)": {
+     "n_changed": 902,
+     "acc_changed": 92.35033259423503,
+     "ci95_changed": [
+      90.57649667405765,
+      94.01330376940133
+     ],
+     "acc_all": 96.02945885366634
+    },
+    "multi_test_trainfam (read-once)": {
+     "n_changed": 902,
+     "acc_changed": 91.46341463414635,
+     "ci95_changed": [
+      89.68957871396896,
+      93.34811529933481
+     ],
+     "acc_all": 95.58117195004803
+    },
+    "multi_test_testfam (one prompt per question)": {
+     "n_changed": 1693,
+     "acc_changed": 81.15770821027762,
+     "ci95_changed": [
+      79.32663910218547,
+      83.04784406379208
+     ],
+     "acc_all": 83.64431486880467
+    },
+    "multi_test_testfam (read-once)": {
+     "n_changed": 1693,
+     "acc_changed": 78.02717070289427,
+     "ci95_changed": [
+      76.01890135853515,
+      79.97637330183107
+     ],
+     "acc_all": 83.2069970845481
+    }
+   },
+   "primary": {
+    "git3_test_known": {
+     "lost": {
+      "n": 102,
+      "acc": 99.01960784313725,
+      "ci95": [
+       97.05882352941177,
+       100.0
+      ]
+     },
+     "fails": {
+      "n": 138,
+      "acc": 97.82608695652173,
+      "ci95": [
+       94.92753623188406,
+       100.0
+      ]
+     },
+     "in_progress": {
+      "n": 282,
+      "acc": 99.64539007092199,
+      "ci95": [
+       98.93617021276596,
+       100.0
+      ]
+     },
+     "changed state": {
+      "n": 88,
+      "acc": 82.95454545454545,
+      "ci95": [
+       75.0,
+       89.77272727272727
+      ]
+     },
+     "all": {
+      "n": 1482,
+      "acc": 98.110661268556,
+      "ci95": [
+       97.36842105263158,
+       98.78542510121457
+      ]
+     },
+     "lost_auroc": 0.998077662437524,
+     "lost_flagged_at_0.2": 98.03921568627452,
+     "false_alarm_at_0.2": 0.0
+    },
+    "git3_test_held": {
+     "lost": {
+      "n": 84,
+      "acc": 96.42857142857143,
+      "ci95": [
+       91.66666666666666,
+       100.0
+      ]
+     },
+     "fails": {
+      "n": 228,
+      "acc": 83.33333333333333,
+      "ci95": [
+       78.50877192982456,
+       88.1578947368421
+      ]
+     },
+     "in_progress": {
+      "n": 351,
+      "acc": 97.43589743589743,
+      "ci95": [
+       95.44159544159544,
+       98.86039886039886
+      ]
+     },
+     "changed state": {
+      "n": 49,
+      "acc": 71.42857142857143,
+      "ci95": [
+       59.183673469387756,
+       83.6734693877551
+      ]
+     },
+     "all": {
+      "n": 1623,
+      "acc": 95.25569932224276,
+      "ci95": [
+       94.26987060998152,
+       96.24152803450401
+      ]
+     },
+     "lost_auroc": 0.9889455782312925,
+     "lost_flagged_at_0.2": 95.23809523809524,
+     "false_alarm_at_0.2": 2.380952380952381
+    },
+    "multi_test_trainfam (one prompt per question)": {
+     "n_changed": 471,
+     "acc_changed": 93.63057324840764,
+     "ci95_changed": [
+      91.29511677282377,
+      95.75371549893843
+     ],
+     "acc_all": 96.10538373424971
+    },
+    "multi_test_trainfam (read-once)": {
+     "n_changed": 471,
+     "acc_changed": 92.78131634819533,
+     "ci95_changed": [
+      90.44585987261146,
+      95.1167728237792
+     ],
+     "acc_all": 95.53264604810997
+    },
+    "multi_test_testfam (one prompt per question)": {
+     "n_changed": 1693,
+     "acc_changed": 81.15770821027762,
+     "ci95_changed": [
+      79.32663910218547,
+      83.04784406379208
+     ],
+     "acc_all": 83.64431486880467
+    },
+    "multi_test_testfam (read-once)": {
+     "n_changed": 1693,
+     "acc_changed": 78.02717070289427,
+     "ci95_changed": [
+      76.01890135853515,
+      79.97637330183107
+     ],
+     "acc_all": 83.2069970845481
+    }
+   },
+   "sensitivity": {
+    "git3_test_known": {
+     "lost": {
+      "n": 100,
+      "acc": 99.0,
+      "ci95": [
+       97.0,
+       100.0
+      ]
+     },
+     "fails": {
+      "n": 136,
+      "acc": 98.52941176470588,
+      "ci95": [
+       96.32352941176471,
+       100.0
+      ]
+     },
+     "in_progress": {
+      "n": 279,
+      "acc": 99.6415770609319,
+      "ci95": [
+       98.9247311827957,
+       100.0
+      ]
+     },
+     "changed state": {
+      "n": 88,
+      "acc": 82.95454545454545,
+      "ci95": [
+       75.0,
+       89.77272727272727
+      ]
+     },
+     "all": {
+      "n": 1457,
+      "acc": 98.14687714481812,
+      "ci95": [
+       97.39190116678105,
+       98.83321894303363
+      ]
+     },
+     "lost_auroc": 0.998,
+     "lost_flagged_at_0.2": 98.0,
+     "false_alarm_at_0.2": 0.0
+    },
+    "git3_test_held": {
+     "lost": {
+      "n": 83,
+      "acc": 96.3855421686747,
+      "ci95": [
+       91.56626506024097,
+       100.0
+      ]
+     },
+     "fails": {
+      "n": 228,
+      "acc": 83.33333333333333,
+      "ci95": [
+       78.50877192982456,
+       88.1578947368421
+      ]
+     },
+     "in_progress": {
+      "n": 349,
+      "acc": 97.42120343839541,
+      "ci95": [
+       95.70200573065902,
+       99.14040114613181
+      ]
+     },
+     "changed state": {
+      "n": 49,
+      "acc": 71.42857142857143,
+      "ci95": [
+       59.183673469387756,
+       83.6734693877551
+      ]
+     },
+     "all": {
+      "n": 1617,
+      "acc": 95.23809523809524,
+      "ci95": [
+       94.18676561533704,
+       96.22758194186765
+      ]
+     },
+     "lost_auroc": 0.9886759581881533,
+     "lost_flagged_at_0.2": 95.23809523809524,
+     "false_alarm_at_0.2": 2.4390243902439024
+    },
+    "multi_test_trainfam (one prompt per question)": {
+     "n_changed": 434,
+     "acc_changed": 93.54838709677419,
+     "ci95_changed": [
+      91.24423963133641,
+      95.85253456221197
+     ],
+     "acc_all": 96.04205318491033
+    },
+    "multi_test_trainfam (read-once)": {
+     "n_changed": 434,
+     "acc_changed": 92.62672811059907,
+     "ci95_changed": [
+      90.32258064516128,
+      95.16129032258065
+     ],
+     "acc_all": 95.42362399505257
+    },
+    "multi_test_testfam (one prompt per question)": {
+     "n_changed": 1693,
+     "acc_changed": 81.15770821027762,
+     "ci95_changed": [
+      79.32663910218547,
+      83.04784406379208
+     ],
+     "acc_all": 83.64431486880467
+    },
+    "multi_test_testfam (read-once)": {
+     "n_changed": 1693,
+     "acc_changed": 78.02717070289427,
+     "ci95_changed": [
+      76.01890135853515,
+      79.97637330183107
+     ],
+     "acc_all": 83.2069970845481
+    }
+   }
+  }
+ },
+ "h2h": {
+  "r4_vs_skopos_v49f": {
+   "source": "results/r4_vs_skopos_v49f.json (analyze_r4.py; 'r2' = the candidate)",
+   "reproduced": true,
+   "all": {
+    "fac_val": {
+     "n": 3983,
+     "skopos": 0.9247,
+     "r2": 0.9402,
+     "base": 0.884,
+     "r2_minus_skopos": [
+      0.0156,
+      [
+       0.0095,
+       0.0218
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0407,
+      [
+       0.0326,
+       0.0487
+      ]
+     ]
+    },
+    "git_long": {
+     "n": 900,
+     "skopos": 0.9133,
+     "r2": 0.9322,
+     "base": 0.9067,
+     "r2_minus_skopos": [
+      0.0189,
+      [
+       0.0067,
+       0.0311
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0067,
+      [
+       -0.0078,
+       0.02
+      ]
+     ]
+    },
+    "git_long_val": {
+     "n": 1800,
+     "skopos": 0.9194,
+     "r2": 0.9456,
+     "base": 0.91,
+     "r2_minus_skopos": [
+      0.0261,
+      [
+       0.0161,
+       0.0361
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0094,
+      [
+       0.0006,
+       0.0189
+      ]
+     ]
+    },
+    "fhorizon": {
+     "n": 1375,
+     "skopos": 0.8676,
+     "r2": 0.8676,
+     "base": 0.8604,
+     "r2_minus_skopos": [
+      0.0,
+      [
+       -0.0131,
+       0.0131
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0073,
+      [
+       -0.0029,
+       0.0182
+      ]
+     ]
+    },
+    "latent_test": {
+     "n": 4320,
+     "skopos": 0.7931,
+     "r2": 0.8137,
+     "base": 0.7919,
+     "r2_minus_skopos": [
+      0.0206,
+      [
+       0.0127,
+       0.0282
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0012,
+      [
+       -0.006,
+       0.0081
+      ]
+     ]
+    },
+    "git3_test_known": {
+     "n": 1482,
+     "skopos": 0.9845,
+     "r2": 0.9852,
+     "base": 0.9804,
+     "r2_minus_skopos": [
+      0.0007,
+      [
+       -0.004,
+       0.0054
+      ]
+     ],
+     "skopos_minus_base": [
+      0.004,
+      [
+       -0.0007,
+       0.0094
+      ]
+     ]
+    },
+    "git3_test_held": {
+     "n": 1623,
+     "skopos": 0.9575,
+     "r2": 0.9532,
+     "base": 0.9519,
+     "r2_minus_skopos": [
+      -0.0043,
+      [
+       -0.0111,
+       0.0025
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0055,
+      [
+       -0.0012,
+       0.0123
+      ]
+     ]
+    },
+    "guard_known": {
+     "n": 4486,
+     "skopos": 0.9603,
+     "r2": 0.9639,
+     "base": 0.9469,
+     "r2_minus_skopos": [
+      0.0036,
+      [
+       -0.0004,
+       0.0076
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0134,
+      [
+       0.0089,
+       0.0183
+      ]
+     ]
+    },
+    "ftest_family": {
+     "n": 1080,
+     "skopos": 0.8343,
+     "r2": 0.8343,
+     "base": 0.8306,
+     "r2_minus_skopos": [
+      0.0,
+      [
+       -0.0148,
+       0.0139
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0037,
+      [
+       -0.0074,
+       0.0148
+      ]
+     ]
+    },
+    "m3val": {
+     "n": 300,
+     "skopos": 0.9367,
+     "r2": 0.93,
+     "base": 0.9133,
+     "r2_minus_skopos": [
+      -0.0067,
+      [
+       -0.0267,
+       0.0133
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0233,
+      [
+       0.0033,
+       0.0467
+      ]
+     ]
+    },
+    "fval_git3": {
+     "n": 1524,
+     "skopos": 0.9331,
+     "r2": 0.9409,
+     "base": 0.9298,
+     "r2_minus_skopos": [
+      0.0079,
+      [
+       0.0,
+       0.0157
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0033,
+      [
+       -0.0046,
+       0.0112
+      ]
+     ]
+    },
+    "sess_val": {
+     "n": 730,
+     "skopos": 0.9123,
+     "r2": 0.9315,
+     "base": 0.8904,
+     "r2_minus_skopos": [
+      0.0192,
+      [
+       0.0068,
+       0.0329
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0219,
+      [
+       0.011,
+       0.0342
+      ]
+     ]
+    },
+    "guard_0.2": {
+     "skopos": {
+      "flagged_at_0.2": 97.45,
+      "false_alarms_at_0.2": 4.29
+     },
+     "r2": {
+      "flagged_at_0.2": 96.76,
+      "false_alarms_at_0.2": 3.24
+     },
+     "base": {
+      "flagged_at_0.2": 95.71,
+      "false_alarms_at_0.2": 4.4
+     }
+    },
+    "verdict": {
+     "suites_worse": [],
+     "gain_suites": [
+      "fac_val",
+      "git_long",
+      "git_long_val"
+     ],
+     "guard_flagged_diff": -0.69,
+     "guard_fa_diff": -1.05,
+     "replaces_skopos": true
+    }
+   },
+   "primary": {
+    "fac_val": {
+     "n": 3878,
+     "skopos": 0.9232,
+     "r2": 0.9386,
+     "base": 0.8814,
+     "r2_minus_skopos": [
+      0.0155,
+      [
+       0.0098,
+       0.0217
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0418,
+      [
+       0.0338,
+       0.0503
+      ]
+     ]
+    },
+    "git_long": {
+     "n": 900,
+     "skopos": 0.9133,
+     "r2": 0.9322,
+     "base": 0.9067,
+     "r2_minus_skopos": [
+      0.0189,
+      [
+       0.0067,
+       0.0311
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0067,
+      [
+       -0.0078,
+       0.02
+      ]
+     ]
+    },
+    "git_long_val": {
+     "n": 1800,
+     "skopos": 0.9194,
+     "r2": 0.9456,
+     "base": 0.91,
+     "r2_minus_skopos": [
+      0.0261,
+      [
+       0.0161,
+       0.0361
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0094,
+      [
+       0.0006,
+       0.0189
+      ]
+     ]
+    },
+    "fhorizon": {
+     "n": 828,
+     "skopos": 0.8865,
+     "r2": 0.8792,
+     "base": 0.872,
+     "r2_minus_skopos": [
+      -0.0072,
+      [
+       -0.0254,
+       0.0085
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0145,
+      [
+       0.0,
+       0.0278
+      ]
+     ]
+    },
+    "latent_test": {
+     "n": 4320,
+     "skopos": 0.7931,
+     "r2": 0.8137,
+     "base": 0.7919,
+     "r2_minus_skopos": [
+      0.0206,
+      [
+       0.0127,
+       0.0282
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0012,
+      [
+       -0.006,
+       0.0081
+      ]
+     ]
+    },
+    "git3_test_known": {
+     "n": 1482,
+     "skopos": 0.9845,
+     "r2": 0.9852,
+     "base": 0.9804,
+     "r2_minus_skopos": [
+      0.0007,
+      [
+       -0.004,
+       0.0054
+      ]
+     ],
+     "skopos_minus_base": [
+      0.004,
+      [
+       -0.0007,
+       0.0094
+      ]
+     ]
+    },
+    "git3_test_held": {
+     "n": 1623,
+     "skopos": 0.9575,
+     "r2": 0.9532,
+     "base": 0.9519,
+     "r2_minus_skopos": [
+      -0.0043,
+      [
+       -0.0111,
+       0.0025
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0055,
+      [
+       -0.0012,
+       0.0123
+      ]
+     ]
+    },
+    "guard_known": {
+     "n": 4486,
+     "skopos": 0.9603,
+     "r2": 0.9639,
+     "base": 0.9469,
+     "r2_minus_skopos": [
+      0.0036,
+      [
+       -0.0004,
+       0.0076
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0134,
+      [
+       0.0089,
+       0.0183
+      ]
+     ]
+    },
+    "ftest_family": {
+     "n": 1080,
+     "skopos": 0.8343,
+     "r2": 0.8343,
+     "base": 0.8306,
+     "r2_minus_skopos": [
+      0.0,
+      [
+       -0.0148,
+       0.0139
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0037,
+      [
+       -0.0074,
+       0.0148
+      ]
+     ]
+    },
+    "m3val": {
+     "n": 300,
+     "skopos": 0.9367,
+     "r2": 0.93,
+     "base": 0.9133,
+     "r2_minus_skopos": [
+      -0.0067,
+      [
+       -0.0267,
+       0.0133
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0233,
+      [
+       0.0033,
+       0.0467
+      ]
+     ]
+    },
+    "fval_git3": {
+     "n": 1524,
+     "skopos": 0.9331,
+     "r2": 0.9409,
+     "base": 0.9298,
+     "r2_minus_skopos": [
+      0.0079,
+      [
+       0.0,
+       0.0157
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0033,
+      [
+       -0.0046,
+       0.0112
+      ]
+     ]
+    },
+    "sess_val": {
+     "n": 730,
+     "skopos": 0.9123,
+     "r2": 0.9315,
+     "base": 0.8904,
+     "r2_minus_skopos": [
+      0.0192,
+      [
+       0.0068,
+       0.0329
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0219,
+      [
+       0.011,
+       0.0342
+      ]
+     ]
+    },
+    "guard_0.2": {
+     "skopos": {
+      "flagged_at_0.2": 97.45,
+      "false_alarms_at_0.2": 4.29
+     },
+     "r2": {
+      "flagged_at_0.2": 96.76,
+      "false_alarms_at_0.2": 3.24
+     },
+     "base": {
+      "flagged_at_0.2": 95.71,
+      "false_alarms_at_0.2": 4.4
+     }
+    },
+    "verdict": {
+     "suites_worse": [],
+     "gain_suites": [
+      "fac_val",
+      "git_long",
+      "git_long_val"
+     ],
+     "guard_flagged_diff": -0.69,
+     "guard_fa_diff": -1.05,
+     "replaces_skopos": true
+    }
+   },
+   "sensitivity": {
+    "fac_val": {
+     "n": 3813,
+     "skopos": 0.9229,
+     "r2": 0.9386,
+     "base": 0.8807,
+     "r2_minus_skopos": [
+      0.0157,
+      [
+       0.0094,
+       0.022
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0422,
+      [
+       0.0344,
+       0.0509
+      ]
+     ]
+    },
+    "git_long": {
+     "n": 900,
+     "skopos": 0.9133,
+     "r2": 0.9322,
+     "base": 0.9067,
+     "r2_minus_skopos": [
+      0.0189,
+      [
+       0.0067,
+       0.0311
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0067,
+      [
+       -0.0078,
+       0.02
+      ]
+     ]
+    },
+    "git_long_val": {
+     "n": 1800,
+     "skopos": 0.9194,
+     "r2": 0.9456,
+     "base": 0.91,
+     "r2_minus_skopos": [
+      0.0261,
+      [
+       0.0161,
+       0.0361
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0094,
+      [
+       0.0006,
+       0.0189
+      ]
+     ]
+    },
+    "fhorizon": {
+     "n": 791,
+     "skopos": 0.89,
+     "r2": 0.8824,
+     "base": 0.8748,
+     "r2_minus_skopos": [
+      -0.0076,
+      [
+       -0.024,
+       0.0101
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0152,
+      [
+       0.0,
+       0.0303
+      ]
+     ]
+    },
+    "latent_test": {
+     "n": 4320,
+     "skopos": 0.7931,
+     "r2": 0.8137,
+     "base": 0.7919,
+     "r2_minus_skopos": [
+      0.0206,
+      [
+       0.0127,
+       0.0282
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0012,
+      [
+       -0.006,
+       0.0081
+      ]
+     ]
+    },
+    "git3_test_known": {
+     "n": 1457,
+     "skopos": 0.9849,
+     "r2": 0.9856,
+     "base": 0.9808,
+     "r2_minus_skopos": [
+      0.0007,
+      [
+       -0.0041,
+       0.0055
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0041,
+      [
+       -0.0007,
+       0.0096
+      ]
+     ]
+    },
+    "git3_test_held": {
+     "n": 1617,
+     "skopos": 0.9573,
+     "r2": 0.953,
+     "base": 0.9518,
+     "r2_minus_skopos": [
+      -0.0043,
+      [
+       -0.0111,
+       0.0025
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0056,
+      [
+       -0.0012,
+       0.0124
+      ]
+     ]
+    },
+    "guard_known": {
+     "n": 4409,
+     "skopos": 0.9596,
+     "r2": 0.9635,
+     "base": 0.9462,
+     "r2_minus_skopos": [
+      0.0039,
+      [
+       -0.0002,
+       0.0079
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0134,
+      [
+       0.0086,
+       0.0181
+      ]
+     ]
+    },
+    "ftest_family": {
+     "n": 1080,
+     "skopos": 0.8343,
+     "r2": 0.8343,
+     "base": 0.8306,
+     "r2_minus_skopos": [
+      0.0,
+      [
+       -0.0148,
+       0.0139
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0037,
+      [
+       -0.0074,
+       0.0148
+      ]
+     ]
+    },
+    "m3val": {
+     "n": 300,
+     "skopos": 0.9367,
+     "r2": 0.93,
+     "base": 0.9133,
+     "r2_minus_skopos": [
+      -0.0067,
+      [
+       -0.0267,
+       0.0133
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0233,
+      [
+       0.0033,
+       0.0467
+      ]
+     ]
+    },
+    "fval_git3": {
+     "n": 1477,
+     "skopos": 0.9309,
+     "r2": 0.9391,
+     "base": 0.9276,
+     "r2_minus_skopos": [
+      0.0081,
+      [
+       0.0,
+       0.0169
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0034,
+      [
+       -0.0047,
+       0.0122
+      ]
+     ]
+    },
+    "sess_val": {
+     "n": 730,
+     "skopos": 0.9123,
+     "r2": 0.9315,
+     "base": 0.8904,
+     "r2_minus_skopos": [
+      0.0192,
+      [
+       0.0068,
+       0.0329
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0219,
+      [
+       0.011,
+       0.0342
+      ]
+     ]
+    },
+    "guard_0.2": {
+     "skopos": {
+      "flagged_at_0.2": 97.44,
+      "false_alarms_at_0.2": 4.39
+     },
+     "r2": {
+      "flagged_at_0.2": 96.74,
+      "false_alarms_at_0.2": 3.2
+     },
+     "base": {
+      "flagged_at_0.2": 95.81,
+      "false_alarms_at_0.2": 4.51
+     }
+    },
+    "verdict": {
+     "suites_worse": [],
+     "gain_suites": [
+      "fac_val",
+      "git_long",
+      "git_long_val"
+     ],
+     "guard_flagged_diff": -0.7,
+     "guard_fa_diff": -1.19,
+     "replaces_skopos": true
+    }
+   },
+   "verdict_holds": {
+    "primary": true,
+    "sensitivity": true
+   }
+  },
+  "skopos_v49f_vs_r2": {
+   "source": "results/skopos_v49f_vs_r2.json (analyze_skopos.py; 'r2' = the candidate)",
+   "reproduced": true,
+   "all": {
+    "fac_val": {
+     "n": 3983,
+     "skopos": 0.9247,
+     "r2": 0.9249,
+     "base": 0.884,
+     "r2_minus_skopos": [
+      0.0003,
+      [
+       -0.0063,
+       0.007
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0407,
+      [
+       0.0326,
+       0.0487
+      ]
+     ]
+    },
+    "git_long": {
+     "n": 900,
+     "skopos": 0.9133,
+     "r2": 0.9267,
+     "base": 0.9067,
+     "r2_minus_skopos": [
+      0.0133,
+      [
+       -0.0011,
+       0.0278
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0067,
+      [
+       -0.0078,
+       0.02
+      ]
+     ]
+    },
+    "git_long_val": {
+     "n": 1800,
+     "skopos": 0.9194,
+     "r2": 0.9439,
+     "base": 0.91,
+     "r2_minus_skopos": [
+      0.0244,
+      [
+       0.0144,
+       0.035
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0094,
+      [
+       0.0006,
+       0.0189
+      ]
+     ]
+    },
+    "fhorizon": {
+     "n": 1375,
+     "skopos": 0.8676,
+     "r2": 0.8793,
+     "base": 0.8604,
+     "r2_minus_skopos": [
+      0.0116,
+      [
+       -0.0029,
+       0.0255
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0073,
+      [
+       -0.0029,
+       0.0182
+      ]
+     ]
+    },
+    "latent_test": {
+     "n": 4320,
+     "skopos": 0.7931,
+     "r2": 0.7961,
+     "base": 0.7919,
+     "r2_minus_skopos": [
+      0.003,
+      [
+       -0.0053,
+       0.0116
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0012,
+      [
+       -0.006,
+       0.0081
+      ]
+     ]
+    },
+    "git3_test_known": {
+     "n": 1482,
+     "skopos": 0.9845,
+     "r2": 0.9825,
+     "base": 0.9804,
+     "r2_minus_skopos": [
+      -0.002,
+      [
+       -0.0067,
+       0.0027
+      ]
+     ],
+     "skopos_minus_base": [
+      0.004,
+      [
+       -0.0007,
+       0.0094
+      ]
+     ]
+    },
+    "git3_test_held": {
+     "n": 1623,
+     "skopos": 0.9575,
+     "r2": 0.9538,
+     "base": 0.9519,
+     "r2_minus_skopos": [
+      -0.0037,
+      [
+       -0.0099,
+       0.0031
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0055,
+      [
+       -0.0012,
+       0.0123
+      ]
+     ]
+    },
+    "guard_known": {
+     "n": 4486,
+     "skopos": 0.9603,
+     "r2": 0.9532,
+     "base": 0.9469,
+     "r2_minus_skopos": [
+      -0.0071,
+      [
+       -0.0114,
+       -0.0027
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0134,
+      [
+       0.0089,
+       0.0183
+      ]
+     ]
+    },
+    "ftest_family": {
+     "n": 1080,
+     "skopos": 0.8343,
+     "r2": 0.8222,
+     "base": 0.8306,
+     "r2_minus_skopos": [
+      -0.012,
+      [
+       -0.0269,
+       0.0028
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0037,
+      [
+       -0.0074,
+       0.0148
+      ]
+     ]
+    },
+    "m3val": {
+     "n": 300,
+     "skopos": 0.9367,
+     "r2": 0.9267,
+     "base": 0.9133,
+     "r2_minus_skopos": [
+      -0.01,
+      [
+       -0.0367,
+       0.0167
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0233,
+      [
+       0.0033,
+       0.0467
+      ]
+     ]
+    },
+    "fval_git3": {
+     "n": 1524,
+     "skopos": 0.9331,
+     "r2": 0.935,
+     "base": 0.9298,
+     "r2_minus_skopos": [
+      0.002,
+      [
+       -0.0072,
+       0.0112
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0033,
+      [
+       -0.0046,
+       0.0112
+      ]
+     ]
+    },
+    "sess_val": {
+     "n": 730,
+     "skopos": 0.9123,
+     "r2": 0.9137,
+     "base": 0.8904,
+     "r2_minus_skopos": [
+      0.0014,
+      [
+       -0.0082,
+       0.0123
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0219,
+      [
+       0.011,
+       0.0342
+      ]
+     ]
+    },
+    "guard_0.2": {
+     "skopos": {
+      "flagged_at_0.2": 97.45,
+      "false_alarms_at_0.2": 4.29
+     },
+     "r2": {
+      "flagged_at_0.2": 95.37,
+      "false_alarms_at_0.2": 4.87
+     },
+     "base": {
+      "flagged_at_0.2": 95.71,
+      "false_alarms_at_0.2": 4.4
+     }
+    },
+    "verdict": {
+     "suites_worse": [],
+     "gain_suites": [
+      "git_long_val"
+     ],
+     "guard_flagged_diff": -2.08,
+     "guard_fa_diff": 0.58,
+     "replaces_skopos": false
+    }
+   },
+   "primary": {
+    "fac_val": {
+     "n": 3878,
+     "skopos": 0.9232,
+     "r2": 0.9229,
+     "base": 0.8814,
+     "r2_minus_skopos": [
+      -0.0003,
+      [
+       -0.007,
+       0.0064
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0418,
+      [
+       0.0338,
+       0.0503
+      ]
+     ]
+    },
+    "git_long": {
+     "n": 900,
+     "skopos": 0.9133,
+     "r2": 0.9267,
+     "base": 0.9067,
+     "r2_minus_skopos": [
+      0.0133,
+      [
+       -0.0011,
+       0.0278
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0067,
+      [
+       -0.0078,
+       0.02
+      ]
+     ]
+    },
+    "git_long_val": {
+     "n": 1800,
+     "skopos": 0.9194,
+     "r2": 0.9439,
+     "base": 0.91,
+     "r2_minus_skopos": [
+      0.0244,
+      [
+       0.0144,
+       0.035
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0094,
+      [
+       0.0006,
+       0.0189
+      ]
+     ]
+    },
+    "fhorizon": {
+     "n": 828,
+     "skopos": 0.8865,
+     "r2": 0.8889,
+     "base": 0.872,
+     "r2_minus_skopos": [
+      0.0024,
+      [
+       -0.0145,
+       0.0193
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0145,
+      [
+       0.0,
+       0.0278
+      ]
+     ]
+    },
+    "latent_test": {
+     "n": 4320,
+     "skopos": 0.7931,
+     "r2": 0.7961,
+     "base": 0.7919,
+     "r2_minus_skopos": [
+      0.003,
+      [
+       -0.0053,
+       0.0116
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0012,
+      [
+       -0.006,
+       0.0081
+      ]
+     ]
+    },
+    "git3_test_known": {
+     "n": 1482,
+     "skopos": 0.9845,
+     "r2": 0.9825,
+     "base": 0.9804,
+     "r2_minus_skopos": [
+      -0.002,
+      [
+       -0.0067,
+       0.0027
+      ]
+     ],
+     "skopos_minus_base": [
+      0.004,
+      [
+       -0.0007,
+       0.0094
+      ]
+     ]
+    },
+    "git3_test_held": {
+     "n": 1623,
+     "skopos": 0.9575,
+     "r2": 0.9538,
+     "base": 0.9519,
+     "r2_minus_skopos": [
+      -0.0037,
+      [
+       -0.0099,
+       0.0031
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0055,
+      [
+       -0.0012,
+       0.0123
+      ]
+     ]
+    },
+    "guard_known": {
+     "n": 4486,
+     "skopos": 0.9603,
+     "r2": 0.9532,
+     "base": 0.9469,
+     "r2_minus_skopos": [
+      -0.0071,
+      [
+       -0.0114,
+       -0.0027
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0134,
+      [
+       0.0089,
+       0.0183
+      ]
+     ]
+    },
+    "ftest_family": {
+     "n": 1080,
+     "skopos": 0.8343,
+     "r2": 0.8222,
+     "base": 0.8306,
+     "r2_minus_skopos": [
+      -0.012,
+      [
+       -0.0269,
+       0.0028
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0037,
+      [
+       -0.0074,
+       0.0148
+      ]
+     ]
+    },
+    "m3val": {
+     "n": 300,
+     "skopos": 0.9367,
+     "r2": 0.9267,
+     "base": 0.9133,
+     "r2_minus_skopos": [
+      -0.01,
+      [
+       -0.0367,
+       0.0167
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0233,
+      [
+       0.0033,
+       0.0467
+      ]
+     ]
+    },
+    "fval_git3": {
+     "n": 1524,
+     "skopos": 0.9331,
+     "r2": 0.935,
+     "base": 0.9298,
+     "r2_minus_skopos": [
+      0.002,
+      [
+       -0.0072,
+       0.0112
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0033,
+      [
+       -0.0046,
+       0.0112
+      ]
+     ]
+    },
+    "sess_val": {
+     "n": 730,
+     "skopos": 0.9123,
+     "r2": 0.9137,
+     "base": 0.8904,
+     "r2_minus_skopos": [
+      0.0014,
+      [
+       -0.0082,
+       0.0123
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0219,
+      [
+       0.011,
+       0.0342
+      ]
+     ]
+    },
+    "guard_0.2": {
+     "skopos": {
+      "flagged_at_0.2": 97.45,
+      "false_alarms_at_0.2": 4.29
+     },
+     "r2": {
+      "flagged_at_0.2": 95.37,
+      "false_alarms_at_0.2": 4.87
+     },
+     "base": {
+      "flagged_at_0.2": 95.71,
+      "false_alarms_at_0.2": 4.4
+     }
+    },
+    "verdict": {
+     "suites_worse": [],
+     "gain_suites": [
+      "git_long_val"
+     ],
+     "guard_flagged_diff": -2.08,
+     "guard_fa_diff": 0.58,
+     "replaces_skopos": false
+    }
+   },
+   "sensitivity": {
+    "fac_val": {
+     "n": 3813,
+     "skopos": 0.9229,
+     "r2": 0.9221,
+     "base": 0.8807,
+     "r2_minus_skopos": [
+      -0.0008,
+      [
+       -0.0073,
+       0.0055
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0422,
+      [
+       0.0344,
+       0.0509
+      ]
+     ]
+    },
+    "git_long": {
+     "n": 900,
+     "skopos": 0.9133,
+     "r2": 0.9267,
+     "base": 0.9067,
+     "r2_minus_skopos": [
+      0.0133,
+      [
+       -0.0011,
+       0.0278
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0067,
+      [
+       -0.0078,
+       0.02
+      ]
+     ]
+    },
+    "git_long_val": {
+     "n": 1800,
+     "skopos": 0.9194,
+     "r2": 0.9439,
+     "base": 0.91,
+     "r2_minus_skopos": [
+      0.0244,
+      [
+       0.0144,
+       0.035
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0094,
+      [
+       0.0006,
+       0.0189
+      ]
+     ]
+    },
+    "fhorizon": {
+     "n": 791,
+     "skopos": 0.89,
+     "r2": 0.8925,
+     "base": 0.8748,
+     "r2_minus_skopos": [
+      0.0025,
+      [
+       -0.0164,
+       0.0215
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0152,
+      [
+       0.0,
+       0.0303
+      ]
+     ]
+    },
+    "latent_test": {
+     "n": 4320,
+     "skopos": 0.7931,
+     "r2": 0.7961,
+     "base": 0.7919,
+     "r2_minus_skopos": [
+      0.003,
+      [
+       -0.0053,
+       0.0116
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0012,
+      [
+       -0.006,
+       0.0081
+      ]
+     ]
+    },
+    "git3_test_known": {
+     "n": 1457,
+     "skopos": 0.9849,
+     "r2": 0.9828,
+     "base": 0.9808,
+     "r2_minus_skopos": [
+      -0.0021,
+      [
+       -0.0069,
+       0.0027
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0041,
+      [
+       -0.0007,
+       0.0096
+      ]
+     ]
+    },
+    "git3_test_held": {
+     "n": 1617,
+     "skopos": 0.9573,
+     "r2": 0.9536,
+     "base": 0.9518,
+     "r2_minus_skopos": [
+      -0.0037,
+      [
+       -0.0105,
+       0.0031
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0056,
+      [
+       -0.0012,
+       0.0124
+      ]
+     ]
+    },
+    "guard_known": {
+     "n": 4409,
+     "skopos": 0.9596,
+     "r2": 0.9526,
+     "base": 0.9462,
+     "r2_minus_skopos": [
+      -0.007,
+      [
+       -0.0116,
+       -0.0027
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0134,
+      [
+       0.0086,
+       0.0181
+      ]
+     ]
+    },
+    "ftest_family": {
+     "n": 1080,
+     "skopos": 0.8343,
+     "r2": 0.8222,
+     "base": 0.8306,
+     "r2_minus_skopos": [
+      -0.012,
+      [
+       -0.0269,
+       0.0028
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0037,
+      [
+       -0.0074,
+       0.0148
+      ]
+     ]
+    },
+    "m3val": {
+     "n": 300,
+     "skopos": 0.9367,
+     "r2": 0.9267,
+     "base": 0.9133,
+     "r2_minus_skopos": [
+      -0.01,
+      [
+       -0.0367,
+       0.0167
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0233,
+      [
+       0.0033,
+       0.0467
+      ]
+     ]
+    },
+    "fval_git3": {
+     "n": 1477,
+     "skopos": 0.9309,
+     "r2": 0.933,
+     "base": 0.9276,
+     "r2_minus_skopos": [
+      0.002,
+      [
+       -0.0074,
+       0.0122
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0034,
+      [
+       -0.0047,
+       0.0122
+      ]
+     ]
+    },
+    "sess_val": {
+     "n": 730,
+     "skopos": 0.9123,
+     "r2": 0.9137,
+     "base": 0.8904,
+     "r2_minus_skopos": [
+      0.0014,
+      [
+       -0.0082,
+       0.0123
+      ]
+     ],
+     "skopos_minus_base": [
+      0.0219,
+      [
+       0.011,
+       0.0342
+      ]
+     ]
+    },
+    "guard_0.2": {
+     "skopos": {
+      "flagged_at_0.2": 97.44,
+      "false_alarms_at_0.2": 4.39
+     },
+     "r2": {
+      "flagged_at_0.2": 95.35,
+      "false_alarms_at_0.2": 4.86
+     },
+     "base": {
+      "flagged_at_0.2": 95.81,
+      "false_alarms_at_0.2": 4.51
+     }
+    },
+    "verdict": {
+     "suites_worse": [],
+     "gain_suites": [
+      "git_long_val"
+     ],
+     "guard_flagged_diff": -2.09,
+     "guard_fa_diff": 0.47,
+     "replaces_skopos": false
+    }
+   },
+   "verdict_holds": {
+    "primary": true,
+    "sensitivity": true
+   }
+  },
+  "fac_val_by_family": {
+   "all": {
+    "fac_git": {
+     "n": 1432,
+     "r4": 0.9183,
+     "skopos": 0.9155,
+     "base": 0.8987
+    },
+    "fac_python": {
+     "n": 140,
+     "r4": 1.0,
+     "skopos": 0.9857,
+     "base": 0.9786
+    },
+    "fac_shell": {
+     "n": 1509,
+     "r4": 0.947,
+     "skopos": 0.9364,
+     "base": 0.9059
+    },
+    "fac_sql": {
+     "n": 902,
+     "r4": 0.9545,
+     "skopos": 0.9102,
+     "base": 0.8093
+    }
+   },
+   "primary": {
+    "fac_git": {
+     "n": 1427,
+     "r4": 0.918,
+     "skopos": 0.9152,
+     "base": 0.8984
+    },
+    "fac_python": {
+     "n": 40,
+     "r4": 1.0,
+     "skopos": 1.0,
+     "base": 0.975
+    },
+    "fac_shell": {
+     "n": 1509,
+     "r4": 0.947,
+     "skopos": 0.9364,
+     "base": 0.9059
+    },
+    "fac_sql": {
+     "n": 902,
+     "r4": 0.9545,
+     "skopos": 0.9102,
+     "base": 0.8093
+    }
+   },
+   "sensitivity": {
+    "fac_git": {
+     "n": 1369,
+     "r4": 0.9175,
+     "skopos": 0.9145,
+     "base": 0.8977
+    },
+    "fac_python": {
+     "n": 33,
+     "r4": 1.0,
+     "skopos": 1.0,
+     "base": 0.9697
+    },
+    "fac_shell": {
+     "n": 1509,
+     "r4": 0.947,
+     "skopos": 0.9364,
+     "base": 0.9059
+    },
+    "fac_sql": {
+     "n": 902,
+     "r4": 0.9545,
+     "skopos": 0.9102,
+     "base": 0.8093
+    }
+   }
+  },
+  "fac_val_without_python": {
+   "all": {
+    "n": 3843,
+    "skopos": 0.9225,
+    "r2": 0.9381,
+    "base": 0.8806,
+    "r2_minus_skopos": [
+     0.0156,
+     [
+      0.0096,
+      0.0216
+     ]
+    ],
+    "skopos_minus_base": [
+     0.0419,
+     [
+      0.0341,
+      0.05
+     ]
+    ]
+   },
+   "primary": {
+    "n": 3838,
+    "skopos": 0.9224,
+    "r2": 0.938,
+    "base": 0.8804,
+    "r2_minus_skopos": [
+     0.0156,
+     [
+      0.0094,
+      0.0216
+     ]
+    ],
+    "skopos_minus_base": [
+     0.0419,
+     [
+      0.0339,
+      0.05
+     ]
+    ]
+   },
+   "sensitivity": {
+    "n": 3780,
+    "skopos": 0.9222,
+    "r2": 0.9381,
+    "base": 0.8799,
+    "r2_minus_skopos": [
+     0.0159,
+     [
+      0.0098,
+      0.0222
+     ]
+    ],
+    "skopos_minus_base": [
+     0.0423,
+     [
+      0.0341,
+      0.0511
+     ]
+    ]
+   }
+  }
+ },
+ "fresh_confirmation": {
+  "source": "results/confirm_ftest_fresh.json",
+  "reproduced": true,
+  "excluded": {
+   "all": 0,
+   "primary": 0,
+   "sensitivity": 0
+  },
+  "all": {
+   "changed": {
+    "n": 3014,
+    "release": 81.75,
+    "r4": 83.38,
+    "r4_minus_release": [
+     1.63,
+     [
+      0.7,
+      2.52
+     ]
+    ]
+   },
+   "all": {
+    "n": 5385,
+    "release": 84.23,
+    "r4": 85.81,
+    "r4_minus_release": [
+     1.58,
+     [
+      0.91,
+      2.19
+     ]
+    ]
+   },
+   "loss_confirmed": false
+  },
+  "primary": {
+   "changed": {
+    "n": 3014,
+    "release": 81.75,
+    "r4": 83.38,
+    "r4_minus_release": [
+     1.63,
+     [
+      0.7,
+      2.52
+     ]
+    ]
+   },
+   "all": {
+    "n": 5385,
+    "release": 84.23,
+    "r4": 85.81,
+    "r4_minus_release": [
+     1.58,
+     [
+      0.91,
+      2.19
+     ]
+    ]
+   },
+   "loss_confirmed": false
+  },
+  "sensitivity": {
+   "changed": {
+    "n": 3014,
+    "release": 81.75,
+    "r4": 83.38,
+    "r4_minus_release": [
+     1.63,
+     [
+      0.7,
+      2.52
+     ]
+    ]
+   },
+   "all": {
+    "n": 5385,
+    "release": 84.23,
+    "r4": 85.81,
+    "r4_minus_release": [
+     1.58,
+     [
+      0.91,
+      2.19
+     ]
+    ]
+   },
+   "loss_confirmed": false
+  }
+ },
+ "image": {
+  "source": "results/image_compare.json (per-item rtx/v50p/image_{skopos,ekbasis}_int4.json; the published summary's script was not saved: paired bootstrap by item, 2,000, seed 20261015, as PREREG_IMAGE.md)",
+  "reproduced_point_estimates": true,
+  "reproduced_ci": true,
+  "all": {
+   "text_all": {
+    "n": 400,
+    "skopos": 92.0,
+    "ekbasis": 89.75,
+    "diff": 2.25,
+    "ci": [
+     -0.5,
+     5.0
+    ]
+   },
+   "text_changed": {
+    "n": 200,
+    "skopos": 88.5,
+    "ekbasis": 85.5,
+    "diff": 3.0,
+    "ci": [
+     -1.5,
+     7.5
+    ]
+   },
+   "image_all": {
+    "n": 400,
+    "skopos": 80.0,
+    "ekbasis": 79.0,
+    "diff": 1.0,
+    "ci": [
+     -2.0,
+     4.25
+    ]
+   },
+   "image_changed": {
+    "n": 200,
+    "skopos": 74.0,
+    "ekbasis": 73.0,
+    "diff": 1.0,
+    "ci": [
+     -4.5,
+     6.0
+    ]
+   },
+   "read_all": {
+    "n": 400,
+    "skopos": 94.25,
+    "ekbasis": 92.0,
+    "diff": 2.25,
+    "ci": [
+     0.5,
+     4.25
+    ]
+   },
+   "read_changed": {
+    "n": 200,
+    "skopos": 95.0,
+    "ekbasis": 91.0,
+    "diff": 4.0,
+    "ci": [
+     1.0,
+     7.5
+    ]
+   },
+   "preserved": true
+  },
+  "primary": {
+   "text_all": {
+    "n": 395,
+    "skopos": 91.9,
+    "ekbasis": 89.62,
+    "diff": 2.28,
+    "ci": [
+     -0.51,
+     5.06
+    ]
+   },
+   "text_changed": {
+    "n": 198,
+    "skopos": 88.38,
+    "ekbasis": 85.35,
+    "diff": 3.03,
+    "ci": [
+     -1.52,
+     7.58
+    ]
+   },
+   "image_all": {
+    "n": 395,
+    "skopos": 79.75,
+    "ekbasis": 78.73,
+    "diff": 1.01,
+    "ci": [
+     -2.03,
+     4.05
+    ]
+   },
+   "image_changed": {
+    "n": 198,
+    "skopos": 73.74,
+    "ekbasis": 72.73,
+    "diff": 1.01,
+    "ci": [
+     -4.04,
+     6.57
+    ]
+   },
+   "read_all": {
+    "n": 395,
+    "skopos": 94.18,
+    "ekbasis": 91.9,
+    "diff": 2.28,
+    "ci": [
+     0.51,
+     4.3
+    ]
+   },
+   "read_changed": {
+    "n": 198,
+    "skopos": 94.95,
+    "ekbasis": 90.91,
+    "diff": 4.04,
+    "ci": [
+     1.01,
+     7.58
+    ]
+   },
+   "preserved": true
+  },
+  "sensitivity": {
+   "text_all": {
+    "n": 379,
+    "skopos": 91.56,
+    "ekbasis": 89.45,
+    "diff": 2.11,
+    "ci": [
+     -0.79,
+     4.75
+    ]
+   },
+   "text_changed": {
+    "n": 183,
+    "skopos": 87.43,
+    "ekbasis": 84.7,
+    "diff": 2.73,
+    "ci": [
+     -2.19,
+     8.2
+    ]
+   },
+   "image_all": {
+    "n": 379,
+    "skopos": 80.47,
+    "ekbasis": 79.42,
+    "diff": 1.06,
+    "ci": [
+     -2.11,
+     4.22
+    ]
+   },
+   "image_changed": {
+    "n": 183,
+    "skopos": 74.86,
+    "ekbasis": 73.77,
+    "diff": 1.09,
+    "ci": [
+     -3.83,
+     6.56
+    ]
+   },
+   "read_all": {
+    "n": 379,
+    "skopos": 94.2,
+    "ekbasis": 91.82,
+    "diff": 2.37,
+    "ci": [
+     0.26,
+     4.49
+    ]
+   },
+   "read_changed": {
+    "n": 183,
+    "skopos": 95.08,
+    "ekbasis": 90.71,
+    "diff": 4.37,
+    "ci": [
+     1.09,
+     8.2
+    ]
+   },
+   "preserved": true
+  },
+  "preserved_holds": {
+   "primary": true,
+   "sensitivity": true
+  }
+ },
+ "calibration_int4": {
+  "skopos_int4": {
+   "source": "results/calib_fit_skopos_int4.json (audit/hf/rtx/v50p/calib_scores_skopos_int4.jsonl)",
+   "reproduced": true,
+   "all": {
+    "T": 1.67,
+    "test_pooled": {
+     "T1": {
+      "n": 2500,
+      "acc": 0.9512,
+      "ece": 0.0343,
+      "conf_err_per100": 3.28,
+      "brier": 0.0843
+     },
+     "Tfit": {
+      "n": 2500,
+      "acc": 0.9512,
+      "ece": 0.0146,
+      "conf_err_per100": 1.72,
+      "brier": 0.0778
+     }
+    },
+    "git_long": {
+     "T1": {
+      "n": 900,
+      "acc": 0.9278,
+      "ece": 0.056,
+      "conf_err_per100": 4.67,
+      "brier": 0.1216
+     },
+     "Tfit": {
+      "n": 900,
+      "acc": 0.9278,
+      "ece": 0.0266,
+      "conf_err_per100": 2.44,
+      "brier": 0.1088
+     }
+    },
+    "guard_known": {
+     "T1": {
+      "n": 800,
+      "acc": 0.9712,
+      "ece": 0.0202,
+      "conf_err_per100": 2.5,
+      "brier": 0.0534
+     },
+     "Tfit": {
+      "n": 800,
+      "acc": 0.9712,
+      "ece": 0.025,
+      "conf_err_per100": 1.0,
+      "brier": 0.0515
+     }
+    },
+    "fac_val": {
+     "T1": {
+      "n": 800,
+      "acc": 0.9575,
+      "ece": 0.0283,
+      "conf_err_per100": 2.5,
+      "brier": 0.0732
+     },
+     "Tfit": {
+      "n": 800,
+      "acc": 0.9575,
+      "ece": 0.0181,
+      "conf_err_per100": 1.62,
+      "brier": 0.0692
+     }
+    }
+   },
+   "primary": {
+    "T": 1.67,
+    "test_pooled": {
+     "T1": {
+      "n": 2482,
+      "acc": 0.9508,
+      "ece": 0.0346,
+      "conf_err_per100": 3.3,
+      "brier": 0.0849
+     },
+     "Tfit": {
+      "n": 2482,
+      "acc": 0.9508,
+      "ece": 0.0147,
+      "conf_err_per100": 1.73,
+      "brier": 0.0783
+     }
+    },
+    "git_long": {
+     "T1": {
+      "n": 900,
+      "acc": 0.9278,
+      "ece": 0.056,
+      "conf_err_per100": 4.67,
+      "brier": 0.1216
+     },
+     "Tfit": {
+      "n": 900,
+      "acc": 0.9278,
+      "ece": 0.0266,
+      "conf_err_per100": 2.44,
+      "brier": 0.1088
+     }
+    },
+    "guard_known": {
+     "T1": {
+      "n": 800,
+      "acc": 0.9712,
+      "ece": 0.0202,
+      "conf_err_per100": 2.5,
+      "brier": 0.0534
+     },
+     "Tfit": {
+      "n": 800,
+      "acc": 0.9712,
+      "ece": 0.025,
+      "conf_err_per100": 1.0,
+      "brier": 0.0515
+     }
+    },
+    "fac_val": {
+     "T1": {
+      "n": 782,
+      "acc": 0.9565,
+      "ece": 0.029,
+      "conf_err_per100": 2.56,
+      "brier": 0.0749
+     },
+     "Tfit": {
+      "n": 782,
+      "acc": 0.9565,
+      "ece": 0.018,
+      "conf_err_per100": 1.66,
+      "brier": 0.0708
+     }
+    }
+   },
+   "sensitivity": {
+    "T": 1.68,
+    "test_pooled": {
+     "T1": {
+      "n": 2452,
+      "acc": 0.9502,
+      "ece": 0.0351,
+      "conf_err_per100": 3.34,
+      "brier": 0.086
+     },
+     "Tfit": {
+      "n": 2452,
+      "acc": 0.9502,
+      "ece": 0.016,
+      "conf_err_per100": 1.63,
+      "brier": 0.0792
+     }
+    },
+    "git_long": {
+     "T1": {
+      "n": 900,
+      "acc": 0.9278,
+      "ece": 0.056,
+      "conf_err_per100": 4.67,
+      "brier": 0.1216
+     },
+     "Tfit": {
+      "n": 900,
+      "acc": 0.9278,
+      "ece": 0.026,
+      "conf_err_per100": 2.22,
+      "brier": 0.1087
+     }
+    },
+    "guard_known": {
+     "T1": {
+      "n": 782,
+      "acc": 0.9706,
+      "ece": 0.0208,
+      "conf_err_per100": 2.56,
+      "brier": 0.0547
+     },
+     "Tfit": {
+      "n": 782,
+      "acc": 0.9706,
+      "ece": 0.0257,
+      "conf_err_per100": 0.9,
+      "brier": 0.0526
+     }
+    },
+    "fac_val": {
+     "T1": {
+      "n": 770,
+      "acc": 0.9558,
+      "ece": 0.0295,
+      "conf_err_per100": 2.6,
+      "brier": 0.0761
+     },
+     "Tfit": {
+      "n": 770,
+      "acc": 0.9558,
+      "ece": 0.0184,
+      "conf_err_per100": 1.69,
+      "brier": 0.0719
+     }
+    }
+   }
+  },
+  "ekbasis_int4": {
+   "source": "results/calib_fit_ekbasis_int4.json (audit/inputs/calib_scores_ekbasis_int4.jsonl)",
+   "reproduced": true,
+   "all": {
+    "T": 1.55,
+    "test_pooled": {
+     "T1": {
+      "n": 2500,
+      "acc": 0.9108,
+      "ece": 0.0683,
+      "conf_err_per100": 6.24,
+      "brier": 0.1553
+     },
+     "Tfit": {
+      "n": 2500,
+      "acc": 0.9108,
+      "ece": 0.036,
+      "conf_err_per100": 3.88,
+      "brier": 0.1416
+     }
+    },
+    "git_long": {
+     "T1": {
+      "n": 900,
+      "acc": 0.9033,
+      "ece": 0.0735,
+      "conf_err_per100": 6.44,
+      "brier": 0.1663
+     },
+     "Tfit": {
+      "n": 900,
+      "acc": 0.9033,
+      "ece": 0.0457,
+      "conf_err_per100": 3.89,
+      "brier": 0.1515
+     }
+    },
+    "guard_known": {
+     "T1": {
+      "n": 800,
+      "acc": 0.945,
+      "ece": 0.0365,
+      "conf_err_per100": 3.88,
+      "brier": 0.0955
+     },
+     "Tfit": {
+      "n": 800,
+      "acc": 0.945,
+      "ece": 0.0165,
+      "conf_err_per100": 2.62,
+      "brier": 0.0898
+     }
+    },
+    "fac_val": {
+     "T1": {
+      "n": 800,
+      "acc": 0.885,
+      "ece": 0.0941,
+      "conf_err_per100": 8.38,
+      "brier": 0.2027
+     },
+     "Tfit": {
+      "n": 800,
+      "acc": 0.885,
+      "ece": 0.0606,
+      "conf_err_per100": 5.12,
+      "brier": 0.1822
+     }
+    }
+   },
+   "primary": {
+    "T": 1.55,
+    "test_pooled": {
+     "T1": {
+      "n": 2482,
+      "acc": 0.9102,
+      "ece": 0.0688,
+      "conf_err_per100": 6.29,
+      "brier": 0.1564
+     },
+     "Tfit": {
+      "n": 2482,
+      "acc": 0.9102,
+      "ece": 0.0366,
+      "conf_err_per100": 3.91,
+      "brier": 0.1426
+     }
+    },
+    "git_long": {
+     "T1": {
+      "n": 900,
+      "acc": 0.9033,
+      "ece": 0.0735,
+      "conf_err_per100": 6.44,
+      "brier": 0.1663
+     },
+     "Tfit": {
+      "n": 900,
+      "acc": 0.9033,
+      "ece": 0.0457,
+      "conf_err_per100": 3.89,
+      "brier": 0.1515
+     }
+    },
+    "guard_known": {
+     "T1": {
+      "n": 800,
+      "acc": 0.945,
+      "ece": 0.0365,
+      "conf_err_per100": 3.88,
+      "brier": 0.0955
+     },
+     "Tfit": {
+      "n": 800,
+      "acc": 0.945,
+      "ece": 0.0165,
+      "conf_err_per100": 2.62,
+      "brier": 0.0898
+     }
+    },
+    "fac_val": {
+     "T1": {
+      "n": 782,
+      "acc": 0.8824,
+      "ece": 0.0964,
+      "conf_err_per100": 8.57,
+      "brier": 0.2074
+     },
+     "Tfit": {
+      "n": 782,
+      "acc": 0.8824,
+      "ece": 0.0631,
+      "conf_err_per100": 5.24,
+      "brier": 0.1863
+     }
+    }
+   },
+   "sensitivity": {
+    "T": 1.56,
+    "test_pooled": {
+     "T1": {
+      "n": 2452,
+      "acc": 0.9095,
+      "ece": 0.0694,
+      "conf_err_per100": 6.36,
+      "brier": 0.1577
+     },
+     "Tfit": {
+      "n": 2452,
+      "acc": 0.9095,
+      "ece": 0.0364,
+      "conf_err_per100": 3.96,
+      "brier": 0.1437
+     }
+    },
+    "git_long": {
+     "T1": {
+      "n": 900,
+      "acc": 0.9033,
+      "ece": 0.0735,
+      "conf_err_per100": 6.44,
+      "brier": 0.1663
+     },
+     "Tfit": {
+      "n": 900,
+      "acc": 0.9033,
+      "ece": 0.0451,
+      "conf_err_per100": 3.89,
+      "brier": 0.1513
+     }
+    },
+    "guard_known": {
+     "T1": {
+      "n": 782,
+      "acc": 0.945,
+      "ece": 0.0364,
+      "conf_err_per100": 3.96,
+      "brier": 0.0959
+     },
+     "Tfit": {
+      "n": 782,
+      "acc": 0.945,
+      "ece": 0.0158,
+      "conf_err_per100": 2.69,
+      "brier": 0.0904
+     }
+    },
+    "fac_val": {
+     "T1": {
+      "n": 770,
+      "acc": 0.8805,
+      "ece": 0.098,
+      "conf_err_per100": 8.7,
+      "brier": 0.2106
+     },
+     "Tfit": {
+      "n": 770,
+      "acc": 0.8805,
+      "ece": 0.0638,
+      "conf_err_per100": 5.32,
+      "brier": 0.1889
+     }
+    }
+   }
+  },
+  "comparison": {
+   "all": {
+    "acc": [
+     0.9512,
+     0.9108
+    ],
+    "conf_err_per100_T1": [
+     3.28,
+     6.24
+    ],
+    "conf_err_per100_Tfit": [
+     1.72,
+     3.88
+    ],
+    "ece_T1": [
+     0.0343,
+     0.0683
+    ],
+    "ece_Tfit": [
+     0.0146,
+     0.036
+    ],
+    "skopos_better_on_all": true
+   },
+   "primary": {
+    "acc": [
+     0.9508,
+     0.9102
+    ],
+    "conf_err_per100_T1": [
+     3.3,
+     6.29
+    ],
+    "conf_err_per100_Tfit": [
+     1.73,
+     3.91
+    ],
+    "ece_T1": [
+     0.0346,
+     0.0688
+    ],
+    "ece_Tfit": [
+     0.0147,
+     0.0366
+    ],
+    "skopos_better_on_all": true
+   },
+   "sensitivity": {
+    "acc": [
+     0.9502,
+     0.9095
+    ],
+    "conf_err_per100_T1": [
+     3.34,
+     6.36
+    ],
+    "conf_err_per100_Tfit": [
+     1.63,
+     3.96
+    ],
+    "ece_T1": [
+     0.0351,
+     0.0694
+    ],
+    "ece_Tfit": [
+     0.016,
+     0.0364
+    ],
+    "skopos_better_on_all": true
+   }
+  },
+  "note": "the 2,500 test items are git_long 900 + guard_known 800 + fac_val 800, all three in-distribution sets (their generators made training rows); the per-build fits (bf16, FP8, MLX) had no per-item scores here"
+ },
+ "confident_errors": {
+  "source": "results/ce_r4.json + addendum/ce/report.json (RESULTS_ADDENDUM.md A2)",
+  "reproduced": true,
+  "all": {
+   "groups": {
+    "T_all": {
+     "n": 7172,
+     "error_skopos": 3.6391522587841605,
+     "error_ekbasis": 4.26659230340212,
+     "error_diff": -0.6274400446179591,
+     "error_diff_ci": [
+      -1.0317902955939768,
+      -0.22308979364194093
+     ],
+     "conf_wrong_per100_skopos": 1.784718349135527,
+     "conf_wrong_per100_ekbasis": 2.0635805911879532,
+     "conf_wrong_diff": -0.27886224205242627,
+     "conf_wrong_diff_ci": [
+      -0.585610708310095,
+      0.02788622420524267
+     ]
+    },
+    "T_changed": {
+     "n": 2940,
+     "error_skopos": 6.020408163265306,
+     "error_ekbasis": 7.244897959183674,
+     "error_diff": -1.2244897959183678,
+     "error_diff_ci": [
+      -2.0068027210884347,
+      -0.4761904761904763
+     ],
+     "conf_wrong_per100_skopos": 2.9591836734693877,
+     "conf_wrong_per100_ekbasis": 3.5374149659863945,
+     "conf_wrong_diff": -0.5782312925170068,
+     "conf_wrong_diff_ci": [
+      -1.156462585034014,
+      0.034013605442176686
+     ]
+    },
+    "H_all": {
+     "n": 2472,
+     "error_skopos": 9.70873786407767,
+     "error_ekbasis": 11.771844660194175,
+     "error_diff": -2.0631067961165055,
+     "error_diff_ci": [
+      -3.114886731391586,
+      -0.9708737864077666
+     ],
+     "conf_wrong_per100_skopos": 3.6407766990291264,
+     "conf_wrong_per100_ekbasis": 4.004854368932039,
+     "conf_wrong_diff": -0.36407766990291224,
+     "conf_wrong_diff_ci": [
+      -1.2135922330097086,
+      0.44498381877022686
+     ]
+    },
+    "H_changed": {
+     "n": 1106,
+     "error_skopos": 10.57866184448463,
+     "error_ekbasis": 13.652802893309222,
+     "error_diff": -3.0741410488245915,
+     "error_diff_ci": [
+      -4.88245931283906,
+      -1.3562386980108485
+     ],
+     "conf_wrong_per100_skopos": 3.7974683544303796,
+     "conf_wrong_per100_ekbasis": 4.882459312839059,
+     "conf_wrong_diff": -1.0849909584086799,
+     "conf_wrong_diff_ci": [
+      -2.44122965641953,
+      0.1808318264014468
+     ]
+    },
+    "U_all": {
+     "n": 5364,
+     "error_skopos": 14.261744966442953,
+     "error_ekbasis": 14.93288590604027,
+     "error_diff": -0.6711409395973167,
+     "error_diff_ci": [
+      -1.304996271439224,
+      -0.055928411633109576
+     ],
+     "conf_wrong_per100_skopos": 4.4929157345264725,
+     "conf_wrong_per100_ekbasis": 3.7472035794183447,
+     "conf_wrong_diff": 0.7457121551081278,
+     "conf_wrong_diff_ci": [
+      0.2796420581655483,
+      1.2304250559284116
+     ]
+    },
+    "U_changed": {
+     "n": 2700,
+     "error_skopos": 14.851851851851851,
+     "error_ekbasis": 14.666666666666666,
+     "error_diff": 0.18518518518518512,
+     "error_diff_ci": [
+      -0.7037037037037042,
+      1.1481481481481488
+     ],
+     "conf_wrong_per100_skopos": 4.222222222222222,
+     "conf_wrong_per100_ekbasis": 3.037037037037037,
+     "conf_wrong_diff": 1.1851851851851851,
+     "conf_wrong_diff_ci": [
+      0.5185185185185186,
+      1.8888888888888893
+     ]
+    }
+   },
+   "primary_skopos": {
+    "share_T": 49.042145593869726,
+    "share_U": 31.503267973856207,
+    "difference_points": 17.53887762001352,
+    "ci95": [
+     10.628130605683362,
+     24.7244094488189
+    ],
+    "family_median_T": 50.0,
+    "family_median_U": 28.735632183908045,
+    "families_counted_T": 5,
+    "verdict": "confirmed"
+   },
+   "primary_ekbasis": {
+    "share_T": 48.36601307189542,
+    "share_U": 25.0936329588015,
+    "difference_points": 23.272380113093924,
+    "ci95": [
+     16.82064770672366,
+     30.09970736152242
+    ],
+    "family_median_T": 51.21428571428572,
+    "family_median_U": 28.125,
+    "families_counted_T": 6,
+    "verdict": "confirmed"
+   },
+   "prediction_within_1pt_every_group": false
+  },
+  "primary": {
+   "groups": {
+    "T_all": {
+     "n": 3019,
+     "error_skopos": 2.3186485591255384,
+     "error_ekbasis": 2.9148724743292482,
+     "error_diff": -0.5962239152037099,
+     "error_diff_ci": [
+      -1.1262007287181184,
+      -0.03312355084465057
+     ],
+     "conf_wrong_per100_skopos": 1.1262007287181186,
+     "conf_wrong_per100_ekbasis": 1.4574362371646241,
+     "conf_wrong_diff": -0.3312355084465055,
+     "conf_wrong_diff_ci": [
+      -0.794965220271613,
+      0.16561775422325264
+     ]
+    },
+    "T_changed": {
+     "n": 1131,
+     "error_skopos": 3.5366931918656057,
+     "error_ekbasis": 4.420866489832007,
+     "error_diff": -0.8841732979664014,
+     "error_diff_ci": [
+      -1.9451812555260832,
+      0.17683465959328037
+     ],
+     "conf_wrong_per100_skopos": 1.5915119363395225,
+     "conf_wrong_per100_ekbasis": 2.387267904509284,
+     "conf_wrong_diff": -0.7957559681697615,
+     "conf_wrong_diff_ci": [
+      -1.7683465959328026,
+      0.17683465959328015
+     ]
+    },
+    "H_all": {
+     "n": 1244,
+     "error_skopos": 11.655948553054662,
+     "error_ekbasis": 13.585209003215434,
+     "error_diff": -1.929260450160772,
+     "error_diff_ci": [
+      -3.617363344051446,
+      -0.24115755627009605
+     ],
+     "conf_wrong_per100_skopos": 4.019292604501608,
+     "conf_wrong_per100_ekbasis": 5.064308681672026,
+     "conf_wrong_diff": -1.045016077170418,
+     "conf_wrong_diff_ci": [
+      -2.411575562700965,
+      0.32154340836012807
+     ]
+    },
+    "H_changed": {
+     "n": 627,
+     "error_skopos": 12.280701754385966,
+     "error_ekbasis": 14.67304625199362,
+     "error_diff": -2.392344497607654,
+     "error_diff_ci": [
+      -4.944178628389153,
+      0.0
+     ],
+     "conf_wrong_per100_skopos": 4.784688995215311,
+     "conf_wrong_per100_ekbasis": 6.698564593301436,
+     "conf_wrong_diff": -1.9138755980861246,
+     "conf_wrong_diff_ci": [
+      -3.987240829346093,
+      0.1594896331738438
+     ]
+    },
+    "U_all": {
+     "n": 5364,
+     "error_skopos": 14.261744966442953,
+     "error_ekbasis": 14.93288590604027,
+     "error_diff": -0.6711409395973167,
+     "error_diff_ci": [
+      -1.304996271439224,
+      -0.055928411633109576
+     ],
+     "conf_wrong_per100_skopos": 4.4929157345264725,
+     "conf_wrong_per100_ekbasis": 3.7472035794183447,
+     "conf_wrong_diff": 0.7457121551081278,
+     "conf_wrong_diff_ci": [
+      0.2796420581655483,
+      1.2304250559284116
+     ]
+    },
+    "U_changed": {
+     "n": 2700,
+     "error_skopos": 14.851851851851851,
+     "error_ekbasis": 14.666666666666666,
+     "error_diff": 0.18518518518518512,
+     "error_diff_ci": [
+      -0.7037037037037042,
+      1.1481481481481488
+     ],
+     "conf_wrong_per100_skopos": 4.222222222222222,
+     "conf_wrong_per100_ekbasis": 3.037037037037037,
+     "conf_wrong_diff": 1.1851851851851851,
+     "conf_wrong_diff_ci": [
+      0.5185185185185186,
+      1.8888888888888893
+     ]
+    }
+   },
+   "primary_skopos": {
+    "share_T": 48.57142857142857,
+    "share_U": 31.503267973856207,
+    "difference_points": 17.068160597572362,
+    "ci95": [
+     4.8358966228000675,
+     28.976550768164493
+    ],
+    "family_median_T": 46.973684210526315,
+    "family_median_U": 28.735632183908045,
+    "families_counted_T": 2,
+    "verdict": "confirmed"
+   },
+   "primary_ekbasis": {
+    "share_T": 50.0,
+    "share_U": 25.0936329588015,
+    "difference_points": 24.9063670411985,
+    "ci95": [
+     14.017054971828841,
+     35.86309924362735
+    ],
+    "family_median_T": 66.66666666666666,
+    "family_median_U": 28.125,
+    "families_counted_T": 3,
+    "verdict": "confirmed"
+   },
+   "prediction_within_1pt_every_group": false
+  },
+  "sensitivity": {
+   "groups": {
+    "T_all": {
+     "n": 2778,
+     "error_skopos": 2.3038156947444204,
+     "error_ekbasis": 2.8797696184305255,
+     "error_diff": -0.5759539236861051,
+     "error_diff_ci": [
+      -1.1159107271418287,
+      -0.07199424046076297
+     ],
+     "conf_wrong_per100_skopos": 1.1159107271418287,
+     "conf_wrong_per100_ekbasis": 1.4398848092152627,
+     "conf_wrong_diff": -0.32397408207343403,
+     "conf_wrong_diff_ci": [
+      -0.7919366450683947,
+      0.14398848092152639
+     ]
+    },
+    "T_changed": {
+     "n": 1031,
+     "error_skopos": 3.4917555771096023,
+     "error_ekbasis": 4.461687681862269,
+     "error_diff": -0.969932104752667,
+     "error_diff_ci": [
+      -2.0368574199806013,
+      0.09699321047526643
+     ],
+     "conf_wrong_per100_skopos": 1.5518913676042676,
+     "conf_wrong_per100_ekbasis": 2.4248302618816684,
+     "conf_wrong_diff": -0.8729388942774008,
+     "conf_wrong_diff_ci": [
+      -1.8428709990300678,
+      0.0
+     ]
+    },
+    "H_all": {
+     "n": 1169,
+     "error_skopos": 11.976047904191617,
+     "error_ekbasis": 13.686911890504705,
+     "error_diff": -1.710863986313088,
+     "error_diff_ci": [
+      -3.507271171941831,
+      0.08554319931565502
+     ],
+     "conf_wrong_per100_skopos": 4.020530367835757,
+     "conf_wrong_per100_ekbasis": 5.0470487596236095,
+     "conf_wrong_diff": -1.0265183917878522,
+     "conf_wrong_diff_ci": [
+      -2.4807527801539777,
+      0.34217279726261784
+     ]
+    },
+    "H_changed": {
+     "n": 593,
+     "error_skopos": 12.647554806070826,
+     "error_ekbasis": 14.502529510961214,
+     "error_diff": -1.8549747048903882,
+     "error_diff_ci": [
+      -4.384485666104553,
+      0.8431703204047203
+     ],
+     "conf_wrong_per100_skopos": 4.721753794266442,
+     "conf_wrong_per100_ekbasis": 6.57672849915683,
+     "conf_wrong_diff": -1.8549747048903882,
+     "conf_wrong_diff_ci": [
+      -4.0472175379426645,
+      0.3372681281618881
+     ]
+    },
+    "U_all": {
+     "n": 5364,
+     "error_skopos": 14.261744966442953,
+     "error_ekbasis": 14.93288590604027,
+     "error_diff": -0.6711409395973167,
+     "error_diff_ci": [
+      -1.304996271439224,
+      -0.055928411633109576
+     ],
+     "conf_wrong_per100_skopos": 4.4929157345264725,
+     "conf_wrong_per100_ekbasis": 3.7472035794183447,
+     "conf_wrong_diff": 0.7457121551081278,
+     "conf_wrong_diff_ci": [
+      0.2796420581655483,
+      1.2304250559284116
+     ]
+    },
+    "U_changed": {
+     "n": 2700,
+     "error_skopos": 14.851851851851851,
+     "error_ekbasis": 14.666666666666666,
+     "error_diff": 0.18518518518518512,
+     "error_diff_ci": [
+      -0.7037037037037042,
+      1.1481481481481488
+     ],
+     "conf_wrong_per100_skopos": 4.222222222222222,
+     "conf_wrong_per100_ekbasis": 3.037037037037037,
+     "conf_wrong_diff": 1.1851851851851851,
+     "conf_wrong_diff_ci": [
+      0.5185185185185186,
+      1.8888888888888893
+     ]
+    }
+   },
+   "primary_skopos": {
+    "share_T": 48.4375,
+    "share_U": 31.503267973856207,
+    "difference_points": 16.934232026143793,
+    "ci95": [
+     4.768868307742302,
+     30.08318200456916
+    ],
+    "family_median_T": 48.19819819819819,
+    "family_median_U": 28.735632183908045,
+    "families_counted_T": 2,
+    "verdict": "confirmed"
+   },
+   "primary_ekbasis": {
+    "share_T": 50.0,
+    "share_U": 25.0936329588015,
+    "difference_points": 24.9063670411985,
+    "ci95": [
+     13.582629674306396,
+     36.0594222267914
+    ],
+    "family_median_T": 66.66666666666666,
+    "family_median_U": 28.125,
+    "families_counted_T": 3,
+    "verdict": "confirmed"
+   },
+   "prediction_within_1pt_every_group": false
+  },
+  "excluded": {
+   "all": 0,
+   "primary": 5381,
+   "sensitivity": 5697
+  },
+  "excluded_by_group": {
+   "all": {},
+   "primary": {
+    "T": 4153,
+    "H": 1228
+   },
+   "sensitivity": {
+    "T": 4394,
+    "H": 1303
+   }
+  }
+ },
+ "quantization_gates": {
+  "int4": {
+   "source": "results/quant_gate_int4.json",
+   "reproduced": true,
+   "all": {
+    "values_bf16_build": {
+     "git3": [
+      96.94041867954911,
+      96.77938808373591
+     ],
+     "ece_git3": [
+      0.023023580449022904,
+      0.025254217274906978
+     ],
+     "multi_single": [
+      81.51210868281157,
+      81.51210868281157
+     ],
+     "multi_read_once": [
+      78.67690490253987,
+      77.90903721204961
+     ],
+     "ftest_changed": [
+      80.28616852146264,
+      80.44515103338632
+     ],
+     "guard_known": {
+      "flagged": [
+       96.98725376593279,
+       96.87137891077636
+      ],
+      "false_alarms": [
+       3.1286210892236386,
+       2.8968713789107765
+      ]
+     },
+     "guard_held": {
+      "flagged": [
+       97.12140175219024,
+       97.37171464330413
+      ],
+      "false_alarms": [
+       3.254067584480601,
+       3.1289111389236544
+      ]
+     },
+     "agreement": 97.4392646093237,
+     "agreement_conf09": 99.87267634326457
+    },
+    "checks": {
+     "1 git3": true,
+     "2 ECE": true,
+     "1 multi single": true,
+     "1 multi read_once": true,
+     "1 ftest": true,
+     "3 guard_known flagged": true,
+     "3 guard_known false alarms": true,
+     "3 guard_held flagged": true,
+     "3 guard_held false alarms": true,
+     "4 agreement >= 97": true,
+     "4 agreement conf>=0.9 >= 99": true
+    },
+    "pass": true
+   },
+   "primary": {
+    "values_bf16_build": {
+     "git3": [
+      96.94041867954911,
+      96.77938808373591
+     ],
+     "ece_git3": [
+      0.023023580449022904,
+      0.025254217274906978
+     ],
+     "multi_single": [
+      81.51210868281157,
+      81.51210868281157
+     ],
+     "multi_read_once": [
+      78.67690490253987,
+      77.90903721204961
+     ],
+     "ftest_changed": [
+      80.28616852146264,
+      80.44515103338632
+     ],
+     "guard_known": {
+      "flagged": [
+       96.98725376593279,
+       96.87137891077636
+      ],
+      "false_alarms": [
+       3.1286210892236386,
+       2.8968713789107765
+      ]
+     },
+     "guard_held": {
+      "flagged": [
+       97.12140175219024,
+       97.37171464330413
+      ],
+      "false_alarms": [
+       3.254067584480601,
+       3.1289111389236544
+      ]
+     },
+     "agreement": 97.4392646093237,
+     "agreement_conf09": 99.87267634326457
+    },
+    "checks": {
+     "1 git3": true,
+     "2 ECE": true,
+     "1 multi single": true,
+     "1 multi read_once": true,
+     "1 ftest": true,
+     "3 guard_known flagged": true,
+     "3 guard_known false alarms": true,
+     "3 guard_held flagged": true,
+     "3 guard_held false alarms": true,
+     "4 agreement >= 97": true,
+     "4 agreement conf>=0.9 >= 99": true
+    },
+    "pass": true
+   },
+   "sensitivity": {
+    "values_bf16_build": {
+     "git3": [
+      96.94209499024073,
+      96.77944046844502
+     ],
+     "ece_git3": [
+      0.022941534889155412,
+      0.025194118830703223
+     ],
+     "multi_single": [
+      81.51210868281157,
+      81.51210868281157
+     ],
+     "multi_read_once": [
+      78.67690490253987,
+      77.90903721204961
+     ],
+     "ftest_changed": [
+      80.28616852146264,
+      80.44515103338632
+     ],
+     "guard_known": {
+      "flagged": [
+       96.97674418604652,
+       96.86046511627907
+      ],
+      "false_alarms": [
+       3.0842230130486357,
+       2.8469750889679717
+      ]
+     },
+     "guard_held": {
+      "flagged": [
+       97.11779448621554,
+       97.36842105263158
+      ],
+      "false_alarms": [
+       3.270440251572327,
+       3.1446540880503147
+      ]
+     },
+     "agreement": 97.42879746835443,
+     "agreement_conf09": 99.87166324435319
+    },
+    "checks": {
+     "1 git3": true,
+     "2 ECE": true,
+     "1 multi single": true,
+     "1 multi read_once": true,
+     "1 ftest": true,
+     "3 guard_known flagged": true,
+     "3 guard_known false alarms": true,
+     "3 guard_held flagged": true,
+     "3 guard_held false alarms": true,
+     "4 agreement >= 97": true,
+     "4 agreement conf>=0.9 >= 99": true
+    },
+    "pass": true
+   },
+   "pass_holds": {
+    "primary": true,
+    "sensitivity": true
+   }
+  },
+  "fp8": {
+   "source": "results/quant_gate_fp8.json",
+   "reproduced": true,
+   "all": {
+    "values_bf16_build": {
+     "git3": [
+      96.94041867954911,
+      96.87600644122384
+     ],
+     "ece_git3": [
+      0.023023580449022904,
+      0.02349797466142937
+     ],
+     "multi_single": [
+      81.51210868281157,
+      81.68930891907856
+     ],
+     "multi_read_once": [
+      78.67690490253987,
+      78.49970466627289
+     ],
+     "ftest_changed": [
+      80.28616852146264,
+      80.44515103338632
+     ],
+     "guard_known": {
+      "flagged": [
+       96.98725376593279,
+       96.75550405561994
+      ],
+      "false_alarms": [
+       3.1286210892236386,
+       3.1286210892236386
+      ]
+     },
+     "guard_held": {
+      "flagged": [
+       97.12140175219024,
+       96.87108886107634
+      ],
+      "false_alarms": [
+       3.254067584480601,
+       3.254067584480601
+      ]
+     },
+     "agreement": 98.56861457649376,
+     "agreement_conf09": 99.94907053730583
+    },
+    "checks": {
+     "1 git3": true,
+     "2 ECE": true,
+     "1 multi single": true,
+     "1 multi read_once": true,
+     "1 ftest": true,
+     "3 guard_known flagged": true,
+     "3 guard_known false alarms": true,
+     "3 guard_held flagged": true,
+     "3 guard_held false alarms": true,
+     "4 agreement >= 97": true,
+     "4 agreement conf>=0.9 >= 99": true
+    },
+    "pass": true
+   },
+   "primary": {
+    "values_bf16_build": {
+     "git3": [
+      96.94041867954911,
+      96.87600644122384
+     ],
+     "ece_git3": [
+      0.023023580449022904,
+      0.02349797466142937
+     ],
+     "multi_single": [
+      81.51210868281157,
+      81.68930891907856
+     ],
+     "multi_read_once": [
+      78.67690490253987,
+      78.49970466627289
+     ],
+     "ftest_changed": [
+      80.28616852146264,
+      80.44515103338632
+     ],
+     "guard_known": {
+      "flagged": [
+       96.98725376593279,
+       96.75550405561994
+      ],
+      "false_alarms": [
+       3.1286210892236386,
+       3.1286210892236386
+      ]
+     },
+     "guard_held": {
+      "flagged": [
+       97.12140175219024,
+       96.87108886107634
+      ],
+      "false_alarms": [
+       3.254067584480601,
+       3.254067584480601
+      ]
+     },
+     "agreement": 98.56861457649376,
+     "agreement_conf09": 99.94907053730583
+    },
+    "checks": {
+     "1 git3": true,
+     "2 ECE": true,
+     "1 multi single": true,
+     "1 multi read_once": true,
+     "1 ftest": true,
+     "3 guard_known flagged": true,
+     "3 guard_known false alarms": true,
+     "3 guard_held flagged": true,
+     "3 guard_held false alarms": true,
+     "4 agreement >= 97": true,
+     "4 agreement conf>=0.9 >= 99": true
+    },
+    "pass": true
+   },
+   "sensitivity": {
+    "values_bf16_build": {
+     "git3": [
+      96.94209499024073,
+      96.87703318152245
+     ],
+     "ece_git3": [
+      0.022941534889155412,
+      0.023421585811914135
+     ],
+     "multi_single": [
+      81.51210868281157,
+      81.68930891907856
+     ],
+     "multi_read_once": [
+      78.67690490253987,
+      78.49970466627289
+     ],
+     "ftest_changed": [
+      80.28616852146264,
+      80.44515103338632
+     ],
+     "guard_known": {
+      "flagged": [
+       96.97674418604652,
+       96.74418604651163
+      ],
+      "false_alarms": [
+       3.0842230130486357,
+       3.202846975088968
+      ]
+     },
+     "guard_held": {
+      "flagged": [
+       97.11779448621554,
+       96.8671679197995
+      ],
+      "false_alarms": [
+       3.270440251572327,
+       3.270440251572327
+      ]
+     },
+     "agreement": 98.56276371308017,
+     "agreement_conf09": 99.94866529774127
+    },
+    "checks": {
+     "1 git3": true,
+     "2 ECE": true,
+     "1 multi single": true,
+     "1 multi read_once": true,
+     "1 ftest": true,
+     "3 guard_known flagged": true,
+     "3 guard_known false alarms": true,
+     "3 guard_held flagged": true,
+     "3 guard_held false alarms": true,
+     "4 agreement >= 97": true,
+     "4 agreement conf>=0.9 >= 99": true
+    },
+    "pass": true
+   },
+   "pass_holds": {
+    "primary": true,
+    "sensitivity": true
+   }
+  },
+  "mlx": {
+   "source": "results/quant_gate_mlx.json",
+   "reproduced": true,
+   "all": {
+    "values_bf16_build": {
+     "git3": [
+      96.94041867954911,
+      96.94041867954911
+     ],
+     "ece_git3": [
+      0.023023580449022904,
+      0.021618846994667144
+     ],
+     "multi_single": [
+      81.51210868281157,
+      81.45304193738924
+     ],
+     "ftest_changed": [
+      80.28616852146264,
+      81.08108108108108
+     ],
+     "guard_known": {
+      "flagged": [
+       96.98725376593279,
+       96.87137891077636
+      ],
+      "false_alarms": [
+       3.1286210892236386,
+       4.171494785631518
+      ]
+     },
+     "guard_held": {
+      "flagged": [
+       97.12140175219024,
+       98.24780976220275
+      ],
+      "false_alarms": [
+       3.254067584480601,
+       4.755944931163955
+      ]
+     },
+     "agreement": 95.8634274458306,
+     "agreement_conf09": 99.36338171632289
+    },
+    "checks": {
+     "1 git3": true,
+     "2 ECE": true,
+     "1 multi single": true,
+     "1 ftest": true,
+     "3 guard_known flagged": true,
+     "3 guard_known false alarms": false,
+     "3 guard_held flagged": true,
+     "3 guard_held false alarms": false,
+     "4 agreement >= 97": false,
+     "4 agreement conf>=0.9 >= 99": true
+    },
+    "pass": false
+   },
+   "primary": {
+    "values_bf16_build": {
+     "git3": [
+      96.94041867954911,
+      96.94041867954911
+     ],
+     "ece_git3": [
+      0.023023580449022904,
+      0.021618846994667144
+     ],
+     "multi_single": [
+      81.51210868281157,
+      81.45304193738924
+     ],
+     "ftest_changed": [
+      80.28616852146264,
+      81.08108108108108
+     ],
+     "guard_known": {
+      "flagged": [
+       96.98725376593279,
+       96.87137891077636
+      ],
+      "false_alarms": [
+       3.1286210892236386,
+       4.171494785631518
+      ]
+     },
+     "guard_held": {
+      "flagged": [
+       97.12140175219024,
+       98.24780976220275
+      ],
+      "false_alarms": [
+       3.254067584480601,
+       4.755944931163955
+      ]
+     },
+     "agreement": 95.8634274458306,
+     "agreement_conf09": 99.36338171632289
+    },
+    "checks": {
+     "1 git3": true,
+     "2 ECE": true,
+     "1 multi single": true,
+     "1 ftest": true,
+     "3 guard_known flagged": true,
+     "3 guard_known false alarms": false,
+     "3 guard_held flagged": true,
+     "3 guard_held false alarms": false,
+     "4 agreement >= 97": false,
+     "4 agreement conf>=0.9 >= 99": true
+    },
+    "pass": false
+   },
+   "sensitivity": {
+    "values_bf16_build": {
+     "git3": [
+      96.94209499024073,
+      96.94209499024073
+     ],
+     "ece_git3": [
+      0.022941534889155412,
+      0.021525404925616227
+     ],
+     "multi_single": [
+      81.51210868281157,
+      81.45304193738924
+     ],
+     "ftest_changed": [
+      80.28616852146264,
+      81.08108108108108
+     ],
+     "guard_known": {
+      "flagged": [
+       96.97674418604652,
+       96.86046511627907
+      ],
+      "false_alarms": [
+       3.0842230130486357,
+       4.1518386714116255
+      ]
+     },
+     "guard_held": {
+      "flagged": [
+       97.11779448621554,
+       98.24561403508773
+      ],
+      "false_alarms": [
+       3.270440251572327,
+       4.779874213836478
+      ]
+     },
+     "agreement": 95.84651898734177,
+     "agreement_conf09": 99.35831622176592
+    },
+    "checks": {
+     "1 git3": true,
+     "2 ECE": true,
+     "1 multi single": true,
+     "1 ftest": true,
+     "3 guard_known flagged": true,
+     "3 guard_known false alarms": false,
+     "3 guard_held flagged": true,
+     "3 guard_held false alarms": false,
+     "4 agreement >= 97": false,
+     "4 agreement conf>=0.9 >= 99": true
+    },
+    "pass": false
+   },
+   "pass_holds": {
+    "primary": true,
+    "sensitivity": true
+   }
+  }
+ },
+ "frontier": {
+  "source": "results/frontier_agentworld.json (AgentWorld vs Ekbasis-27B and R1, a sibling of R4; not in the card)",
+  "reproduced": true,
+  "all": {
+   "git_long": {
+    "n": 300,
+    "aw": 0.66,
+    "base": 0.913,
+    "r1": 0.907,
+    "base_minus_aw": [
+     0.253,
+     [
+      0.2,
+      0.307
+     ]
+    ]
+   },
+   "guard_known": {
+    "n": 200,
+    "aw": 0.78,
+    "base": 0.94,
+    "r1": 0.945,
+    "base_minus_aw": [
+     0.16,
+     [
+      0.105,
+      0.22
+     ]
+    ]
+   },
+   "fhorizon": {
+    "n": 300,
+    "aw": 0.977,
+    "base": 0.843,
+    "r1": 0.873,
+    "base_minus_aw": [
+     -0.133,
+     [
+      -0.177,
+      -0.09
+     ]
+    ]
+   },
+   "latent_test": {
+    "n": 200,
+    "aw": 0.885,
+    "base": 0.81,
+    "r1": 0.815,
+    "base_minus_aw": [
+     -0.075,
+     [
+      -0.135,
+      -0.02
+     ]
+    ]
+   }
+  },
+  "primary": {
+   "git_long": {
+    "n": 300,
+    "aw": 0.66,
+    "base": 0.913,
+    "r1": 0.907,
+    "base_minus_aw": [
+     0.253,
+     [
+      0.2,
+      0.307
+     ]
+    ]
+   },
+   "guard_known": {
+    "n": 200,
+    "aw": 0.78,
+    "base": 0.94,
+    "r1": 0.945,
+    "base_minus_aw": [
+     0.16,
+     [
+      0.105,
+      0.22
+     ]
+    ]
+   },
+   "fhorizon": {
+    "n": 173,
+    "aw": 0.971,
+    "base": 0.844,
+    "r1": 0.873,
+    "base_minus_aw": [
+     -0.127,
+     [
+      -0.185,
+      -0.069
+     ]
+    ]
+   },
+   "latent_test": {
+    "n": 200,
+    "aw": 0.885,
+    "base": 0.81,
+    "r1": 0.815,
+    "base_minus_aw": [
+     -0.075,
+     [
+      -0.135,
+      -0.02
+     ]
+    ]
+   }
+  },
+  "sensitivity": {
+   "git_long": {
+    "n": 300,
+    "aw": 0.66,
+    "base": 0.913,
+    "r1": 0.907,
+    "base_minus_aw": [
+     0.253,
+     [
+      0.2,
+      0.307
+     ]
+    ]
+   },
+   "guard_known": {
+    "n": 198,
+    "aw": 0.778,
+    "base": 0.939,
+    "r1": 0.944,
+    "base_minus_aw": [
+     0.162,
+     [
+      0.106,
+      0.222
+     ]
+    ]
+   },
+   "fhorizon": {
+    "n": 168,
+    "aw": 0.97,
+    "base": 0.845,
+    "r1": 0.869,
+    "base_minus_aw": [
+     -0.125,
+     [
+      -0.185,
+      -0.071
+     ]
+    ]
+   },
+   "latent_test": {
+    "n": 200,
+    "aw": 0.885,
+    "base": 0.81,
+    "r1": 0.815,
+    "base_minus_aw": [
+     -0.075,
+     [
+      -0.135,
+      -0.02
+     ]
+    ]
+   }
+  }
+ },
+ "unchanged_by_construction": {
+  "neutral.json (awb_neutral)": "0 items flagged under either rule: every number unchanged",
+  "ftest_fresh_int4.json / ftest_fresh_fp8.json": "ftest_fresh: 0 items flagged under either rule: unchanged",
+  "t3c_r4.json": "real-repository scenarios (pallets/itsdangerous), not dataset items: outside the audit",
+  "mlx_mac_test / served equivalence": "agreement between builds, not accuracy on a set: not affected by overlap"
+ }
+}

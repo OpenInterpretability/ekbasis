@@ -1,0 +1,6 @@
+{'git3_test_known': 1482, 'git3_test_held': 1623, 'guard_known': 4486, 'guard_held': 6394, 'multi_test_trainfam': 600, 'multi_test_testfam': 600, 'ftest_family': 1080, 'ftest_fresh': 5385, 'fac_val': 3983, 'git_long': 900, 'git_long_val': 1800, 'sess_val': 730, 'fhorizon': 1375, 'latent_test': 4320, 'awb_neutral': 455, 'fval_git3': 1524, 'm3val': 300, 'ce_items': 15008, 'image_fresh': 400}
+unique evaluation prompts 46525; distinct non-layout shingles 847018
+training pass 66s
+corpus rows {'ftrain_mixG3_full': 198276, 'mined_wide': 7458, 'mined_chain': 555, 'v45_v44git': 2612, 'v45rx_shell': 19032, 'v45rx_git': 17189, 'v45rx_sql': 14630, 'v46_anchor': 2212, 'v49_anchor2': 1398, 'v49_fx': 17625, 'ftrain_v50p': 195188, 'git_plan_train': 6048, 'fac_rx': 55469} distinct rows 345957
+training texts: 844679 (unique 437253); shingle hits 23488796
+sparse product cost (sum of postings) 9,046,709,188, max per prompt 1,143,735

@@ -443,6 +443,22 @@ for k, lab in (("text", "The state as text"), ("image", "The state as an image")
 w(f"\nImage ability **{'preserved' if IMG['preserved'] else 'not preserved'}** by the registered reading (Skopos − "
   "Ekbasis-27B ≥ −2.0 points on the image and the read prompts).\n")
 
+# ---------------------------------------------------------------------------------------------------------- latency
+LS, LE = ld("latency_skopos_int4.json"), ld("latency_ekbasis_int4.json")
+w("## Latency and cost (INT4)\n")
+if LS and LE:
+    w(f"""Both INT4 builds served the same way on the same RTX PRO 6000 (vLLM and `serve.py`, nothing else on the GPU), on
+{LS['n']} fixed items (addendum A5; `results_skopos/latency_*_int4.json`). The hosted API runs on another GPU.
+
+| | Skopos INT4 | Ekbasis-27B INT4 |
+|---|---|---|
+| One at a time: median / 90th percentile | {h(LS['one_at_a_time']['median_s'], 3)} s / {h(LS['one_at_a_time']['p90_s'], 3)} s | {h(LE['one_at_a_time']['median_s'], 3)} s / {h(LE['one_at_a_time']['p90_s'], 3)} s |
+| 16 in parallel: requests per second | {h(LS['parallel16']['requests_per_s'], 1)} | {h(LE['parallel16']['requests_per_s'], 1)} |
+| Input tokens per request: mean / median | {LS['input_tokens_per_request']['mean']:,.0f} / {LS['input_tokens_per_request']['median']:,.0f} | {LE['input_tokens_per_request']['mean']:,.0f} / {LE['input_tokens_per_request']['median']:,.0f} |
+""")
+else:
+    w(pending("latency_skopos_int4.json", "addendum A5") + "\n")
+
 # ---------------------------------------------------------------------------------------------------------- overlap
 w("## Overlap with the training data\n")
 w("A first check counted, per evaluation set, the items whose state is identical to a state of the training rows "
@@ -451,12 +467,51 @@ w("A first check counted, per evaluation set, the items whose state is identical
 w("| Set | Items | Identical state in training |\n|---|---|---|")
 for s, d in OV.items():
     w(f"| `{s}` | {d['items']:,} | {d['state_in_training']} |")
-AUD = ld("overlap/summary.json")
-w("\nThe audit redone against every training row of the whole lineage (Ekbasis-27B's stages, v49f's and R4's files), "
-  "with near duplicates (word 8-gram Jaccard ≥ 0.5) and every published number recomputed without overlapping items:")
-w(f"see `results_skopos/overlap/`.\n" if AUD else pending("overlap/summary.json", "the redone audit") + "\n")
-w("`fac_val`, `sess_val`, `git_long`, `git_long_val` and `fhorizon` come from the same generators as training rows "
-  "(with fresh seeds and firewalls): they measure in-distribution generalization, not transfer.\n")
+OVA, REC = ld("overlap_audit/overlap.json"), ld("overlap_audit/recomputed.json")
+if OVA:
+    w(f"""
+**The audit redone for this release** against every training row of the whole lineage (Ekbasis-27B's stages, v49f's
+and R4's files: {OVA['training_texts']['unique_normalized']:,} distinct training texts), with Ekbasis-27B's rule:
+{OVA['rule']} (`results_skopos/overlap_audit/`, with its two scripts). "Flagged" is the exclusion used for the numbers
+without overlap; the sensitivity rule also removes the set's layout from the training text.
+
+| Set | Items | Identical | Near duplicate | Flagged | Sensitivity rule | Same generators as training rows |
+|---|---|---|---|---|---|---|""")
+    for s, d in OVA["sets"].items():
+        w(f"| `{s}` | {d['items']:,} | {d['identical']:,} | {d['near_dup']:,} | {d['flagged']:,} | {d['flagged_sensitivity']:,} | "
+          f"{'yes' if d['in_distribution'] else 'no'} |")
+else:
+    w("\nThe audit redone against every training row of the whole lineage: " + pending("overlap_audit/overlap.json", "the redone audit"))
+if REC:
+    rp = REC["release_protocol"]
+    holds = lambda d: all(all(v.values()) if isinstance(v, dict) else v for v in d.values())
+    imgp = REC["image"]["primary"]["image_all"]
+    ceU = REC["confident_errors"]["primary"]["groups"].get("U_all")
+    w("\n**Every published number recomputed without the flagged items** (`results_skopos/overlap_audit/recomputed.json`):\n")
+    for b in ("bf16", "int4", "fp8", "mlx"):
+        w(f"- Release read, {b}: every criterion's outcome {'is the same' if holds(rp[b]['conclusion_holds']) else '**changes**'} "
+          "under both rules.")
+    w(f"- R4 against the first Skopos, and R2 against it: the verdicts "
+      f"{'hold' if holds(REC['h2h']['r4_vs_skopos_v49f']['verdict_holds']) and holds(REC['h2h']['skopos_v49f_vs_r2']['verdict_holds']) else '**change**'}.")
+    w(f"- The fresh confirmation: {REC['fresh_confirmation']['excluded']['primary']} items flagged; unchanged.")
+    w(f"- Images: preserved {'under both rules' if all(REC['image']['preserved_holds'].values()) else '**not under both rules**'} "
+      f"(image prompts {sg(imgp['diff'], 2)} {ci(imgp['ci'], 2)} on {imgp['n']} items).")
+    w(f"- Quantization gates: each build's pass or miss "
+      f"{'holds' if all(holds(REC['quantization_gates'][b]['pass_holds']) for b in REC['quantization_gates']) else '**changes**'}.")
+    if ceU:
+        byg = REC["confident_errors"]["excluded_by_group"]["primary"]
+        names_g = {"T": "trained families", "H": "trained families with held-out question types", "U": "never-trained families"}
+        w(f"- Confident errors: {REC['confident_errors']['excluded']['primary']:,} items flagged ("
+          + ", ".join(f"{n:,} in the {names_g[g]}" for g, n in byg.items()) + ")"
+          + ("; nothing in the never-trained families, so their numbers stand" if not byg.get("U") else "")
+          + f" (never-trained families, wrong at ≥ 0.9: {sg(ceU['conf_wrong_diff'], 2)} per 100 {ci(ceU['conf_wrong_diff_ci'], 2)}).")
+    for k, v in REC["unchanged_by_construction"].items():
+        w(f"- {k}: {v}.")
+    w("")
+else:
+    w(pending("overlap_audit/recomputed.json", "the numbers without overlap") + "\n")
+w("Sets from the same generators as training rows (the last column; fresh seeds and firewalls) measure "
+  "in-distribution generalization, not transfer.\n")
 
 # -------------------------------------------------------------------------------------------------------- deviations
 w("## Deviations from the pre-registrations\n")

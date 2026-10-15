@@ -1,0 +1,459 @@
+{
+ "v49_fx_raw": {
+  "rows": 19800,
+  "families": 45,
+  "by_family": {
+   "ext_cwm_python": {
+    "rows": 2000,
+    "types": {
+     "value": 2000
+    }
+   },
+   "ext_shio_cmds": {
+    "rows": 600,
+    "types": {
+     "content": 100,
+     "count": 100,
+     "exists": 100,
+     "fails": 100,
+     "kind": 100,
+     "lost": 100
+    }
+   },
+   "git_branch_commit": {
+    "rows": 400,
+    "types": {
+     "branch": 80,
+     "clean": 80,
+     "fails": 80,
+     "in_progress": 80,
+     "lost": 80
+    }
+   },
+   "git_checkout_restore": {
+    "rows": 400,
+    "types": {
+     "branch": 80,
+     "clean": 80,
+     "fails": 80,
+     "in_progress": 80,
+     "lost": 80
+    }
+   },
+   "git_clean": {
+    "rows": 400,
+    "types": {
+     "branch": 80,
+     "clean": 80,
+     "fails": 80,
+     "in_progress": 80,
+     "lost": 80
+    }
+   },
+   "git_merge_pull": {
+    "rows": 400,
+    "types": {
+     "branch": 80,
+     "clean": 80,
+     "fails": 80,
+     "in_progress": 80,
+     "lost": 80
+    }
+   },
+   "git_rebase_cherry_revert": {
+    "rows": 400,
+    "types": {
+     "branch": 80,
+     "clean": 80,
+     "fails": 80,
+     "in_progress": 80,
+     "lost": 80
+    }
+   },
+   "git_reflog_gc": {
+    "rows": 400,
+    "types": {
+     "fails": 134,
+     "found": 133,
+     "lost": 133
+    }
+   },
+   "git_reset": {
+    "rows": 400,
+    "types": {
+     "branch": 80,
+     "clean": 80,
+     "fails": 80,
+     "in_progress": 80,
+     "lost": 80
+    }
+   },
+   "git_sparse_remote": {
+    "rows": 400,
+    "types": {
+     "branch": 80,
+     "clean": 80,
+     "fails": 80,
+     "in_progress": 80,
+     "lost": 80
+    }
+   },
+   "git_stash": {
+    "rows": 400,
+    "types": {
+     "branch": 80,
+     "clean": 80,
+     "fails": 80,
+     "in_progress": 80,
+     "lost": 80
+    }
+   },
+   "git_worktree": {
+    "rows": 400,
+    "types": {
+     "branch": 100,
+     "dir_exists": 100,
+     "fails": 100,
+     "lost": 100
+    }
+   },
+   "pg_conflict_sequences": {
+    "rows": 400,
+    "types": {
+     "fails": 100,
+     "new_id": 100,
+     "rows": 100,
+     "value": 100
+    }
+   },
+   "pg_types_strict": {
+    "rows": 400,
+    "types": {
+     "fails": 54,
+     "rows": 101,
+     "value": 245
+    }
+   },
+   "py_alias_mutation": {
+    "rows": 400,
+    "types": {
+     "exc": 18,
+     "raises": 18,
+     "value": 364
+    }
+   },
+   "py_control_exc": {
+    "rows": 400,
+    "types": {
+     "value": 400
+    }
+   },
+   "py_files_io": {
+    "rows": 400,
+    "types": {
+     "exc": 144,
+     "file": 144,
+     "file_exists": 42,
+     "value": 70
+    }
+   },
+   "py_iter_lazy": {
+    "rows": 400,
+    "types": {
+     "value": 400
+    }
+   },
+   "py_strings_seq": {
+    "rows": 400,
+    "types": {
+     "exc": 134,
+     "raises": 133,
+     "value": 133
+    }
+   },
+   "se_git": {
+    "rows": 400,
+    "types": {
+     "side_effect": 200,
+     "side_effect_which": 200
+    }
+   },
+   "se_shell": {
+    "rows": 400,
+    "types": {
+     "side_effect": 200,
+     "side_effect_which": 200
+    }
+   },
+   "se_sql": {
+    "rows": 400,
+    "types": {
+     "side_effect": 200,
+     "side_effect_which": 200
+    }
+   },
+   "se_vikunja": {
+    "rows": 400,
+    "types": {
+     "side_effect": 200,
+     "side_effect_which": 200
+    }
+   },
+   "sh_archive": {
+    "rows": 400,
+    "types": {
+     "content": 67,
+     "count": 67,
+     "exists": 67,
+     "fails": 67,
+     "kind": 66,
+     "lost": 66
+    }
+   },
+   "sh_archive2": {
+    "rows": 400,
+    "types": {
+     "content": 67,
+     "count": 67,
+     "exists": 67,
+     "fails": 67,
+     "kind": 66,
+     "lost": 66
+    }
+   },
+   "sh_copy": {
+    "rows": 400,
+    "types": {
+     "content": 67,
+     "count": 67,
+     "exists": 67,
+     "fails": 67,
+     "kind": 66,
+     "lost": 66
+    }
+   },
+   "sh_edit_misc": {
+    "rows": 400,
+    "types": {
+     "content": 67,
+     "count": 67,
+     "exists": 67,
+     "fails": 67,
+     "kind": 66,
+     "lost": 66
+    }
+   },
+   "sh_find_select": {
+    "rows": 400,
+    "types": {
+     "content": 67,
+     "count": 67,
+     "exists": 67,
+     "fails": 67,
+     "kind": 66,
+     "lost": 66
+    }
+   },
+   "sh_glob_brace": {
+    "rows": 400,
+    "types": {
+     "content": 67,
+     "count": 67,
+     "exists": 67,
+     "fails": 67,
+     "kind": 66,
+     "lost": 66
+    }
+   },
+   "sh_links": {
+    "rows": 400,
+    "types": {
+     "content": 73,
+     "count": 37,
+     "exists": 73,
+     "fails": 73,
+     "kind": 72,
+     "lost": 72
+    }
+   },
+   "sh_move": {
+    "rows": 400,
+    "types": {
+     "content": 67,
+     "count": 67,
+     "exists": 67,
+     "fails": 67,
+     "kind": 66,
+     "lost": 66
+    }
+   },
+   "sh_redirect": {
+    "rows": 400,
+    "types": {
+     "content": 67,
+     "count": 67,
+     "exists": 67,
+     "fails": 67,
+     "kind": 66,
+     "lost": 66
+    }
+   },
+   "sh_remove": {
+    "rows": 400,
+    "types": {
+     "content": 67,
+     "count": 67,
+     "exists": 67,
+     "fails": 67,
+     "kind": 66,
+     "lost": 66
+    }
+   },
+   "sh_status_pipes": {
+    "rows": 400,
+    "types": {
+     "content": 67,
+     "count": 67,
+     "exists": 67,
+     "fails": 67,
+     "kind": 66,
+     "lost": 66
+    }
+   },
+   "sh_write_modes": {
+    "rows": 400,
+    "types": {
+     "content": 80,
+     "exists": 80,
+     "fails": 80,
+     "kind": 80,
+     "lost": 80
+    }
+   },
+   "sql_collation_affinity": {
+    "rows": 400,
+    "types": {
+     "fails": 128,
+     "rows": 136,
+     "value": 136
+    }
+   },
+   "sql_delete": {
+    "rows": 400,
+    "types": {
+     "fails": 100,
+     "other": 100,
+     "rows": 100,
+     "value": 100
+    }
+   },
+   "sql_fk": {
+    "rows": 400,
+    "types": {
+     "col_exists": 35,
+     "fails": 87,
+     "other": 86,
+     "rows": 86,
+     "table_exists": 20,
+     "value": 86
+    }
+   },
+   "sql_insert_conflict": {
+    "rows": 400,
+    "types": {
+     "fails": 100,
+     "other": 100,
+     "rows": 100,
+     "value": 100
+    }
+   },
+   "sql_null": {
+    "rows": 400,
+    "types": {
+     "fails": 100,
+     "other": 100,
+     "rows": 100,
+     "value": 100
+    }
+   },
+   "sql_txn_ddl_types": {
+    "rows": 400,
+    "types": {
+     "col_exists": 35,
+     "fails": 70,
+     "new_id": 70,
+     "other": 70,
+     "rows": 70,
+     "table_exists": 16,
+     "value": 69
+    }
+   },
+   "sql_views_check_generated": {
+    "rows": 400,
+    "types": {
+     "fails": 134,
+     "rows": 133,
+     "value": 133
+    }
+   },
+   "vk_labels_buckets": {
+    "rows": 400,
+    "types": {
+     "bucket": 134,
+     "fails": 133,
+     "task_done": 133
+    }
+   },
+   "vk_projects_archive_delete": {
+    "rows": 400,
+    "types": {
+     "count": 80,
+     "fails": 80,
+     "project_exists": 80,
+     "task_done": 80,
+     "task_exists": 80
+    }
+   },
+   "vk_tasks_repeat_done": {
+    "rows": 400,
+    "types": {
+     "open_count": 134,
+     "task_done": 133,
+     "task_due": 133
+    }
+   }
+  },
+  "share_cwm": 0.101,
+  "share_shio": 0.0303
+ },
+ "v49_anchor2_raw": {
+  "rows": 1398
+ },
+ "fxe_family": {
+  "rows": 2600,
+  "families": {
+   "ext_shio_eval": 200,
+   "git_bare_push": 200,
+   "git_tag": 200,
+   "pg_ddl_cascade": 200,
+   "pg_txn_abort": 200,
+   "py_classes": 200,
+   "py_collections": 200,
+   "se_shell_heldout": 200,
+   "se_sql_heldout": 200,
+   "sh_perm": 200,
+   "sh_text": 200,
+   "sql_triggers": 200,
+   "vk_sharing_teams": 200
+  }
+ },
+ "fxe_app": {
+  "rows": 800,
+  "families": {
+   "mm_side_effects": 215,
+   "mm_visibility": 255,
+   "mm_comments": 109,
+   "mm_archive_delete": 221
+  }
+ }
+}

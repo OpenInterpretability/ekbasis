@@ -280,6 +280,10 @@ in INT4 through the same serving, images sent as a client sends them (`results_s
 
 Image ability **preserved** by the registered reading (Skopos − Ekbasis-27B ≥ −2.0 points on the image and the read prompts).
 
+## Latency and cost (INT4)
+
+*Pending: addendum A5 (`results_skopos/latency_skopos_int4.json` not yet written).*
+
 ## Overlap with the training data
 
 A first check counted, per evaluation set, the items whose state is identical to a state of the training rows (`results_skopos/overlap_audit_r4.json`; its script was not saved, so which training files it covered cannot be shown here; the redone audit below replaces it):
@@ -300,10 +304,50 @@ A first check counted, per evaluation set, the items whose state is identical to
 | `sess_val` | 730 | 0 |
 | `awb_neutral` | 455 | 0 |
 
-The audit redone against every training row of the whole lineage (Ekbasis-27B's stages, v49f's and R4's files), with near duplicates (word 8-gram Jaccard ≥ 0.5) and every published number recomputed without overlapping items:
-*Pending: the redone audit (`results_skopos/overlap/summary.json` not yet written).*
+**The audit redone for this release** against every training row of the whole lineage (Ekbasis-27B's stages, v49f's
+and R4's files: 437,253 distinct training texts), with Ekbasis-27B's rule:
+identical prompts (also against the hindsight prompt), and near-duplicates at word 8-gram Jaccard >= 0.5 against one training text after removing each set's own layout (Ekbasis-27B's audit rule, exact best match) (`results_skopos/overlap_audit/`, with its two scripts). "Flagged" is the exclusion used for the numbers
+without overlap; the sensitivity rule also removes the set's layout from the training text.
 
-`fac_val`, `sess_val`, `git_long`, `git_long_val` and `fhorizon` come from the same generators as training rows (with fresh seeds and firewalls): they measure in-distribution generalization, not transfer.
+| Set | Items | Identical | Near duplicate | Flagged | Sensitivity rule | Same generators as training rows |
+|---|---|---|---|---|---|---|
+| `git3_test_known` | 1,482 | 0 | 0 | 0 | 25 | yes |
+| `git3_test_held` | 1,623 | 0 | 0 | 0 | 6 | no |
+| `guard_known` | 4,486 | 0 | 0 | 0 | 77 | yes |
+| `guard_held` | 6,394 | 0 | 0 | 0 | 27 | no |
+| `multi_test_trainfam` | 600 | 5 | 286 | 291 | 313 | yes |
+| `multi_test_testfam` | 600 | 0 | 0 | 0 | 0 | no |
+| `ftest_family` | 1,080 | 0 | 0 | 0 | 0 | no |
+| `ftest_fresh` | 5,385 | 0 | 0 | 0 | 0 | no |
+| `fac_val` | 3,983 | 6 | 99 | 105 | 170 | yes |
+| `git_long` | 900 | 0 | 0 | 0 | 0 | yes |
+| `git_long_val` | 1,800 | 0 | 0 | 0 | 0 | yes |
+| `sess_val` | 730 | 0 | 0 | 0 | 0 | yes |
+| `fhorizon` | 1,375 | 0 | 547 | 547 | 584 | yes |
+| `latent_test` | 4,320 | 0 | 0 | 0 | 0 | no |
+| `awb_neutral` | 455 | 0 | 0 | 0 | 0 | no |
+| `fval_git3` | 1,524 | 0 | 0 | 0 | 47 | yes |
+| `m3val` | 300 | 0 | 0 | 0 | 0 | yes |
+| `ce_items` | 15,008 | 174 | 5,207 | 5,381 | 5,697 | yes |
+| `image` | 400 | 0 | 5 | 5 | 21 | yes |
+
+**Every published number recomputed without the flagged items** (`results_skopos/overlap_audit/recomputed.json`):
+
+- Release read, bf16: every criterion's outcome is the same under both rules.
+- Release read, int4: every criterion's outcome is the same under both rules.
+- Release read, fp8: every criterion's outcome is the same under both rules.
+- Release read, mlx: every criterion's outcome is the same under both rules.
+- R4 against the first Skopos, and R2 against it: the verdicts hold.
+- The fresh confirmation: 0 items flagged; unchanged.
+- Images: preserved under both rules (image prompts +1.01 [−2.03, +4.05] on 395 items).
+- Quantization gates: each build's pass or miss holds.
+- Confident errors: 5,381 items flagged (4,153 in the trained families, 1,228 in the trained families with held-out question types); nothing in the never-trained families, so their numbers stand (never-trained families, wrong at ≥ 0.9: +0.75 per 100 [+0.28, +1.23]).
+- neutral.json (awb_neutral): 0 items flagged under either rule: every number unchanged.
+- ftest_fresh_int4.json / ftest_fresh_fp8.json: ftest_fresh: 0 items flagged under either rule: unchanged.
+- t3c_r4.json: real-repository scenarios (pallets/itsdangerous), not dataset items: outside the audit.
+- mlx_mac_test / served equivalence: agreement between builds, not accuracy on a set: not affected by overlap.
+
+Sets from the same generators as training rows (the last column; fresh seeds and firewalls) measure in-distribution generalization, not transfer.
 
 ## Deviations from the pre-registrations
 

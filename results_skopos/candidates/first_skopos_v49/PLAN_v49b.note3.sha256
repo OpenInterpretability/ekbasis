@@ -1,0 +1,8 @@
+# PLAN_v49b.md Note 3: ho_rules_fresh49b read in two parts (as the full readout reads ho_rules), hashed 2026-10-07T22:17:32Z
+3d04712fc717533697f8b513d76b5113d11e6dc86328e1755ce51a7baf602a1f  Note 3 text
+0cff1a9be06487ac090ef4897f8ff3680de146a29dccf922324d2e009bb313bf  PLAN_v49b.md
+61895158296d088974a57035e8cd3d21ae86582a7c08767a9fb8e3e795661433  v49b/split_long_rules.py
+6324651bce69c2621f9e2b598a2afc1d59a47010b809c8a01b382b2bb5d947e6  v49b/make_fresh_spec2.py
+2c5a6c0f9f4409dd645fe015bd265b0ebfb69bf708ae40e070e28dc9bbc7cabf  v49b/fresh_spec2.json
+4c3b551c08f5985b29c0e567f02b8f374f04bcce8ded5c47e441a572ad24e14c  /dev/shm/conseq/fac/ho_rules_fresh49b__s.jsonl
+4ecc50ddd76478c08fc1f9e7c3763635fe90c8bac11a87251cacf967fbb33919  /dev/shm/conseq/fac/ho_rules_fresh49b__l.jsonl

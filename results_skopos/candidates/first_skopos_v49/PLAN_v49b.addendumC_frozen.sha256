@@ -1,0 +1,13 @@
+# PLAN_v49b.md Addendum C appendix: the frozen paired image rule (the coordinator's decision), hashed 2026-10-07T20:54:21Z,
+# before any read of img49b_fresh or img49b_val (img/fresh49b and img/val49b do not exist)
+55e1cb22dc704d107092d7a14c406bda12ded130ec5321613e88d7be12d947f6  Addendum C appendix text
+1d1239bd544bf28996161b0bbd021418271c5b2cb2f0089e7d2b6e503333ac79  PLAN_v49b.md
+dd8725635fc86ba6191cc4b1c7c7147b95095ac4dbd45da09cfa29eef3aab03e  img/gate_img49b.py
+622f82f745275fb09ec2fb3f8399216a58199914f40fba73e8e531b8c13d4e9a  img/paired_rule_null.py
+ff97a55026144dab6bda80e9de738413698a71de6991fe9807a7b58482258566  img/data/paired_rule_null.json
+37edc457a6b51996052cad8a2954c8f8cc3ca418177423a6e47510552fd0e99d  img/data/unpaired_info_oldsets.json
+d57a31a35cbd8c84574338a0792092adb822aa5f23363c33109b0cc8ff0cb073  img/calibrate_img.py
+d27b979457b362d5ffec8c45330170c3a611d8bd39c8d13db085569b70be5843  img/cal_img_spec.json
+349f4b224a154d8ea4af6d2e575b573bbc8ad542047803fc2039dfbfa9675582  img/image_readout.py
+4ddd0a1666003a5cb5f2098ce81b208e314a51b6d79677f2ca1e4a0d6e5ac8c3  img/data/img49b_fresh_exclude.json
+224a734abb755df9e75438add5e74dd6dd8b7f9632467794c676ef7623792f5f  v49b/make_fresh_spec.py
