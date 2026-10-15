@@ -1,0 +1,415 @@
+{
+ "conseq/envs.py": {
+  "sha256": "7a3b8b1cdbef5bf4fb6f040eae4f8fd27c03e0627271fd37e6fdd7a0cbbb8eef",
+  "sha256_as_run": "7a3b8b1cdbef5bf4fb6f040eae4f8fd27c03e0627271fd37e6fdd7a0cbbb8eef",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)",
+  "training_machine_copy": "identical"
+ },
+ "conseq/gen_factory.py": {
+  "sha256": "211feeaff102410be691b112f5add7b29d352717f75f595c36c3ac2f4381ed59",
+  "sha256_as_run": "211feeaff102410be691b112f5add7b29d352717f75f595c36c3ac2f4381ed59",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)"
+ },
+ "conseq/gen_factory3.py": {
+  "sha256": "a6198f9f36dc374de2b27f9d780dffdf06ac2ceafacb37dbca160dc7e7859c98",
+  "sha256_as_run": "a6198f9f36dc374de2b27f9d780dffdf06ac2ceafacb37dbca160dc7e7859c98",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)"
+ },
+ "conseq/gen_git.py": {
+  "sha256": "3c4af6125a69cd81e7ea127570c5276391bb478d09fa8a61163216072a9d9e8d",
+  "sha256_as_run": "3c4af6125a69cd81e7ea127570c5276391bb478d09fa8a61163216072a9d9e8d",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)"
+ },
+ "conseq/gen_git2.py": {
+  "sha256": "e917a2c409930ed37b6633d233bdb8074c918893b3829818cf47d62f9d6e0e60",
+  "sha256_as_run": "e917a2c409930ed37b6633d233bdb8074c918893b3829818cf47d62f9d6e0e60",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)"
+ },
+ "conseq/gen_git3.py": {
+  "sha256": "b140610c34f5fb93ef71d8794649e736a8ed94bceb5f089b2d5ea94ed240d1fe",
+  "sha256_as_run": "b140610c34f5fb93ef71d8794649e736a8ed94bceb5f089b2d5ea94ed240d1fe",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)"
+ },
+ "conseq/gen_guard_big.py": {
+  "sha256": "9078cd7e4a2a92e201318bdb78adaaa792d4c1bb1fdb538f9d0aec487ac46714",
+  "sha256_as_run": "9078cd7e4a2a92e201318bdb78adaaa792d4c1bb1fdb538f9d0aec487ac46714",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)"
+ },
+ "conseq/gen_horizon.py": {
+  "sha256": "dc95dfcc4e452553a0907289deb75bb142e58e4f902252b08eca8565af371d1a",
+  "sha256_as_run": "dc95dfcc4e452553a0907289deb75bb142e58e4f902252b08eca8565af371d1a",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)"
+ },
+ "conseq/gen_m3only.py": {
+  "sha256": "2c48be70798d9883b52c017ff8d67e554ed3cfe21c2f4e9fea616d42a97e6080",
+  "sha256_as_run": "2c48be70798d9883b52c017ff8d67e554ed3cfe21c2f4e9fea616d42a97e6080",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)"
+ },
+ "conseq/gen_multi.py": {
+  "sha256": "58da9cd331efc0e590ce0d6e70e25c5ccc9174a90fefb12647dd611d7b1d8709",
+  "sha256_as_run": "58da9cd331efc0e590ce0d6e70e25c5ccc9174a90fefb12647dd611d7b1d8709",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)"
+ },
+ "conseq/gitbox.py": {
+  "sha256": "7f3fb815179887407866757c75ed5169772ecfa6ac459f0103f570daf2dd6520",
+  "sha256_as_run": "7f3fb815179887407866757c75ed5169772ecfa6ac459f0103f570daf2dd6520",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)",
+  "training_machine_copy": "identical"
+ },
+ "conseq/gitbox2.py": {
+  "sha256": "38cf9cda620acd0247c4a8ded7fdfa17e50cb5745152f685d6e4e0a598773e49",
+  "sha256_as_run": "38cf9cda620acd0247c4a8ded7fdfa17e50cb5745152f685d6e4e0a598773e49",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)",
+  "training_machine_copy": "identical"
+ },
+ "conseq/gitbox3.py": {
+  "sha256": "a9532bb091f70773e2546467dabfdf64a9fcc2aa3654e955d6d9ed93135ffb92",
+  "sha256_as_run": "a9532bb091f70773e2546467dabfdf64a9fcc2aa3654e955d6d9ed93135ffb92",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)",
+  "training_machine_copy": "identical"
+ },
+ "conseq/long_chain3.py": {
+  "sha256": "364455a1a429698abb2923c546e5c6d21a408af00bc127d684f056268b33dab7",
+  "sha256_as_run": "364455a1a429698abb2923c546e5c6d21a408af00bc127d684f056268b33dab7",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)"
+ },
+ "conseq/run_ideas_mine_r4.sh": {
+  "sha256": "dac6b0abe115634eff1c302eacf3ea488c7b98358e175cd837438df168e8d983",
+  "sha256_as_run": "dac6b0abe115634eff1c302eacf3ea488c7b98358e175cd837438df168e8d983",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)"
+ },
+ "conseq/v44/gen_v44_git.py": {
+  "sha256": "2c0212e359bbad9f16846111bdabec928a5719bc72f05d45fbbb98681b85816c",
+  "sha256_as_run": "2c0212e359bbad9f16846111bdabec928a5719bc72f05d45fbbb98681b85816c",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)"
+ },
+ "conseq/worldgen.py": {
+  "sha256": "3edbba376d2d868dcdd30b652d6dc093fb744e8b6350e5fd83cbc59f6fa11bc8",
+  "sha256_as_run": "3edbba376d2d868dcdd30b652d6dc093fb744e8b6350e5fd83cbc59f6fa11bc8",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)",
+  "training_machine_copy": "identical"
+ },
+ "conseq/worldgen3.py": {
+  "sha256": "d43ccdb0bf06e25ab494fde96e8ee1d5f98f9c30151438c375f7612122ed33ee",
+  "sha256_as_run": "d43ccdb0bf06e25ab494fde96e8ee1d5f98f9c30151438c375f7612122ed33ee",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)"
+ },
+ "factory/common.py": {
+  "sha256": "b12a5f7d525d620ae06c16a91918d2167df59b77ca649e8b40da90bc64783bdb",
+  "sha256_as_run": "b12a5f7d525d620ae06c16a91918d2167df59b77ca649e8b40da90bc64783bdb",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)",
+  "training_machine_copy": "identical"
+ },
+ "factory/gitfam.py": {
+  "sha256": "fdf6de2c7cffbd58cc597601f6e54fd06451dcb4657dab9215122cc744be27a5",
+  "sha256_as_run": "fdf6de2c7cffbd58cc597601f6e54fd06451dcb4657dab9215122cc744be27a5",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)",
+  "training_machine_copy": "identical"
+ },
+ "factory/overlap.py": {
+  "sha256": "3e83f4eeb7299983210a8b76a21d984fb6199dd994666a7f31b2acd82010b8fa",
+  "sha256_as_run": "3e83f4eeb7299983210a8b76a21d984fb6199dd994666a7f31b2acd82010b8fa",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)",
+  "training_machine_copy": "identical"
+ },
+ "factory/overlap_c012.py": {
+  "sha256": "f412c9408767bcd6c4a6db0c802787adb195f24a8367350c9fa3c973531c94c2",
+  "sha256_as_run": "f412c9408767bcd6c4a6db0c802787adb195f24a8367350c9fa3c973531c94c2",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)",
+  "training_machine_copy": "identical"
+ },
+ "factory/pack.py": {
+  "sha256": "33a15964ed64c9980f0bdf7c9ab73f550deea810965b5ccb0e450481ae78ad09",
+  "sha256_as_run": "33a15964ed64c9980f0bdf7c9ab73f550deea810965b5ccb0e450481ae78ad09",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)",
+  "training_machine_copy": "identical"
+ },
+ "factory/pyfam.py": {
+  "sha256": "4575299601586248199752251108646e8c9be6dcf54f1b1320c5c736ac9c9ddc",
+  "sha256_as_run": "4575299601586248199752251108646e8c9be6dcf54f1b1320c5c736ac9c9ddc",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)",
+  "training_machine_copy": "identical"
+ },
+ "factory/quality.py": {
+  "sha256": "475d26737668a63be2e7085310963539df95e9992164c28b26e6cff833d44316",
+  "sha256_as_run": "475d26737668a63be2e7085310963539df95e9992164c28b26e6cff833d44316",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)",
+  "training_machine_copy": "identical"
+ },
+ "factory/run_family.py": {
+  "sha256": "b0d6e162bd62fe3f1e2a1fc95947f85a84ad5a61dc349954ec879d5bbb00058d",
+  "sha256_as_run": "b0d6e162bd62fe3f1e2a1fc95947f85a84ad5a61dc349954ec879d5bbb00058d",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)",
+  "training_machine_copy": "identical"
+ },
+ "factory/shell.py": {
+  "sha256": "b540fa84b3ae100a07c6a28e32942a332679c6680ff213985b06a0ca3baa8960",
+  "sha256_as_run": "b540fa84b3ae100a07c6a28e32942a332679c6680ff213985b06a0ca3baa8960",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)",
+  "training_machine_copy": "identical"
+ },
+ "factory/sqlfam.py": {
+  "sha256": "42af09f4672ab69633128f63d84ce7ae270271d424b49d9a3c353f6a3f8e4fff",
+  "sha256_as_run": "42af09f4672ab69633128f63d84ce7ae270271d424b49d9a3c353f6a3f8e4fff",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)",
+  "training_machine_copy": "identical"
+ },
+ "fx/common.py": {
+  "sha256": "e01e67f6f8ecf6360d6c50463803a088b7e948539be890587fc11cac3ac387ac",
+  "sha256_as_run": "e01e67f6f8ecf6360d6c50463803a088b7e948539be890587fc11cac3ac387ac",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)"
+ },
+ "fx/download_ext.py": {
+  "sha256": "d7c9ef656baafe13b31c0a52f2708058370a118fc62d6d2a645950894198e700",
+  "sha256_as_run": "d7c9ef656baafe13b31c0a52f2708058370a118fc62d6d2a645950894198e700",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)"
+ },
+ "fx/fx_ext_cwm.py": {
+  "sha256": "89f6b4f91c00acbd415216f8da59a21fb83ca56b9a7d695e58da97cf29876d58",
+  "sha256_as_run": "89f6b4f91c00acbd415216f8da59a21fb83ca56b9a7d695e58da97cf29876d58",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)"
+ },
+ "fx/fx_ext_shio.py": {
+  "sha256": "2aeec8fc4f5878b52dfbabc2866a0fd7104c1a70261f8d09d8ab31ba250f6b6a",
+  "sha256_as_run": "2aeec8fc4f5878b52dfbabc2866a0fd7104c1a70261f8d09d8ab31ba250f6b6a",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)"
+ },
+ "fx/fx_firewall.py": {
+  "sha256": "95773ba29053970f0d85b4ad73af6635db6b7d90fa0a4166a41e7fd4fba98225",
+  "sha256_as_run": "95773ba29053970f0d85b4ad73af6635db6b7d90fa0a4166a41e7fd4fba98225",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)"
+ },
+ "fx/fx_git_new.py": {
+  "sha256": "e4b2b26c77b1d7003956be65ed6d1005af764aa0d5ba83e9d856da8e48b6481e",
+  "sha256_as_run": "e4b2b26c77b1d7003956be65ed6d1005af764aa0d5ba83e9d856da8e48b6481e",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)"
+ },
+ "fx/fx_internal_leak.py": {
+  "sha256": "683abaae27eb119338144222f9e919ff0075a1e4fe3ac43019ce67974c6ca5e1",
+  "sha256_as_run": "683abaae27eb119338144222f9e919ff0075a1e4fe3ac43019ce67974c6ca5e1",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)"
+ },
+ "fx/fx_new_registry.py": {
+  "sha256": "5af42160e4c5ad6ca19a28dc89b3b0fd131e825674448ca2fb95fc4a13b9afcd",
+  "sha256_as_run": "5af42160e4c5ad6ca19a28dc89b3b0fd131e825674448ca2fb95fc4a13b9afcd",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)"
+ },
+ "fx/fx_pack.py": {
+  "sha256": "ee709c72d03e8239a841ce1c81b9ea55b20354ff0307d551934f6599732600a6",
+  "sha256_as_run": "ee709c72d03e8239a841ce1c81b9ea55b20354ff0307d551934f6599732600a6",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)"
+ },
+ "fx/fx_pg.py": {
+  "sha256": "e0b7bb17d56458e33cbfa3b96089ef9547c2b328e7196835c9e5df59824a45a9",
+  "sha256_as_run": "e0b7bb17d56458e33cbfa3b96089ef9547c2b328e7196835c9e5df59824a45a9",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)"
+ },
+ "fx/fx_py_new.py": {
+  "sha256": "693f9e873301856b36c86b773e9d9c6fea7bdf88123b6dbbf5a012d884b1a786",
+  "sha256_as_run": "693f9e873301856b36c86b773e9d9c6fea7bdf88123b6dbbf5a012d884b1a786",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)"
+ },
+ "fx/fx_registry.py": {
+  "sha256": "101932c7baf9c50223c520e756f6e7532155bc9dc566c74f8f97d0c557a6a51f",
+  "sha256_as_run": "101932c7baf9c50223c520e756f6e7532155bc9dc566c74f8f97d0c557a6a51f",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)"
+ },
+ "fx/fx_report.py": {
+  "sha256": "361c52aefa972071e1454f7eeae3f42c78a6b987478641670ecf6e4bf3a7d1a1",
+  "sha256_as_run": "361c52aefa972071e1454f7eeae3f42c78a6b987478641670ecf6e4bf3a7d1a1",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)"
+ },
+ "fx/fx_run.py": {
+  "sha256": "369e8f3ca51777022ad96ec5560eedccc2ad6b1e21df6d65b4cc40601f86b00a",
+  "sha256_as_run": "369e8f3ca51777022ad96ec5560eedccc2ad6b1e21df6d65b4cc40601f86b00a",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)"
+ },
+ "fx/fx_shell_new.py": {
+  "sha256": "8ddb6ad8dde6fc03b9ef8f49e134e2387763dd2e805693ecf689960f81da295d",
+  "sha256_as_run": "8ddb6ad8dde6fc03b9ef8f49e134e2387763dd2e805693ecf689960f81da295d",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)"
+ },
+ "fx/fx_side.py": {
+  "sha256": "b126cbcbafb7e847bd4af5c0156c55f6db16524c28be983bf32b30895f43b3fe",
+  "sha256_as_run": "b126cbcbafb7e847bd4af5c0156c55f6db16524c28be983bf32b30895f43b3fe",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)"
+ },
+ "fx/fx_sql_new.py": {
+  "sha256": "2dd11494851ce0e39f0c9d8cc79dae59500fb3efd036c13e80aca3882d59580c",
+  "sha256_as_run": "2dd11494851ce0e39f0c9d8cc79dae59500fb3efd036c13e80aca3882d59580c",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)"
+ },
+ "fx/gitfam.py": {
+  "sha256": "95a2f111ed60fbc5099aa01a96a95835c93a91ea296e0c06cc913bfdf7ddce3e",
+  "sha256_as_run": "95a2f111ed60fbc5099aa01a96a95835c93a91ea296e0c06cc913bfdf7ddce3e",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)"
+ },
+ "fx/overlap.py": {
+  "sha256": "3e83f4eeb7299983210a8b76a21d984fb6199dd994666a7f31b2acd82010b8fa",
+  "sha256_as_run": "3e83f4eeb7299983210a8b76a21d984fb6199dd994666a7f31b2acd82010b8fa",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)"
+ },
+ "fx/pack.py": {
+  "sha256": "33a15964ed64c9980f0bdf7c9ab73f550deea810965b5ccb0e450481ae78ad09",
+  "sha256_as_run": "33a15964ed64c9980f0bdf7c9ab73f550deea810965b5ccb0e450481ae78ad09",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)"
+ },
+ "fx/plan_jobs.py": {
+  "sha256": "a184e125a648de7b719bc5fa6e9cfd26fd67ef96827847a72576b6198df6961b",
+  "sha256_as_run": "a184e125a648de7b719bc5fa6e9cfd26fd67ef96827847a72576b6198df6961b",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)"
+ },
+ "fx/pyfam.py": {
+  "sha256": "1bf2f2c900f788c1b5447d4acc310b62213a5308583ca154a6c76b447fdf4859",
+  "sha256_as_run": "1bf2f2c900f788c1b5447d4acc310b62213a5308583ca154a6c76b447fdf4859",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)"
+ },
+ "fx/quality.py": {
+  "sha256": "475d26737668a63be2e7085310963539df95e9992164c28b26e6cff833d44316",
+  "sha256_as_run": "475d26737668a63be2e7085310963539df95e9992164c28b26e6cff833d44316",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)"
+ },
+ "fx/run_core.sh": {
+  "sha256": "3e5960cae2be10c50c554bbece953885500fad93c9ca6d1ee38ee1ef30855587",
+  "sha256_as_run": "3e5960cae2be10c50c554bbece953885500fad93c9ca6d1ee38ee1ef30855587",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)"
+ },
+ "fx/run_family.py": {
+  "sha256": "b0d6e162bd62fe3f1e2a1fc95947f85a84ad5a61dc349954ec879d5bbb00058d",
+  "sha256_as_run": "b0d6e162bd62fe3f1e2a1fc95947f85a84ad5a61dc349954ec879d5bbb00058d",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)"
+ },
+ "fx/run_jobs.sh": {
+  "sha256": "707408f60db29dc77f19f875a74350cff328455356fd014ddb30b9a18c2f8347",
+  "sha256_as_run": "707408f60db29dc77f19f875a74350cff328455356fd014ddb30b9a18c2f8347",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)"
+ },
+ "fx/run_plus.sh": {
+  "sha256": "025a8266e32e6656a8ff89082f466c1947f3e50ff08a61fe37601444b90fbd50",
+  "sha256_as_run": "025a8266e32e6656a8ff89082f466c1947f3e50ff08a61fe37601444b90fbd50",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)"
+ },
+ "fx/run_se.sh": {
+  "sha256": "65561718a6483e1c94743e697b01d958b121fc1e0248b911c1659719458c1d9d",
+  "sha256_as_run": "65561718a6483e1c94743e697b01d958b121fc1e0248b911c1659719458c1d9d",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)"
+ },
+ "fx/shell.py": {
+  "sha256": "e3c168bdcbd5c930e5f17e26b13f910463297fda2fe766dd78c85bcee933baf6",
+  "sha256_as_run": "e3c168bdcbd5c930e5f17e26b13f910463297fda2fe766dd78c85bcee933baf6",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)"
+ },
+ "fx/sqlfam.py": {
+  "sha256": "7006e4dd89a61b2120f60f73aa9f70339c41e63120fb4b429e545d9bcf3c71d0",
+  "sha256_as_run": "7006e4dd89a61b2120f60f73aa9f70339c41e63120fb4b429e545d9bcf3c71d0",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)"
+ },
+ "prep_v45_v49/audit_overlap.py": {
+  "sha256": "f027d16049a017129b32a8889220ebdbb99ea4b8a83fa079266f151dea9ca58e",
+  "sha256_as_run": "f027d16049a017129b32a8889220ebdbb99ea4b8a83fa079266f151dea9ca58e",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)"
+ },
+ "prep_v45_v49/audit_v48.py": {
+  "sha256": "17227cb83aa0fd24ca6af23219357d8cf095d1a0ec6d778670b40c48a0d4739d",
+  "sha256_as_run": "17227cb83aa0fd24ca6af23219357d8cf095d1a0ec6d778670b40c48a0d4739d",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)"
+ },
+ "prep_v45_v49/gen_anchor.py": {
+  "sha256": "dc7e332dc946a665f30a17941cca78d7236b9729313b09dfa26ccd16eadf626c",
+  "sha256_as_run": "dc7e332dc946a665f30a17941cca78d7236b9729313b09dfa26ccd16eadf626c",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)"
+ },
+ "prep_v45_v49/gen_softanchor.py": {
+  "sha256": "c2a590102af61b94effede11f72f7627173abc7dce2b3cb2099e31d3a8218e18",
+  "sha256_as_run": "c2a590102af61b94effede11f72f7627173abc7dce2b3cb2099e31d3a8218e18",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)"
+ },
+ "prep_v45_v49/make_v49_data.py": {
+  "sha256": "69f28cf9c5a156978afdcce43904c22c8c871bf9b4b121a6e35158001e2e8bd0",
+  "sha256_as_run": "69f28cf9c5a156978afdcce43904c22c8c871bf9b4b121a6e35158001e2e8bd0",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)"
+ },
+ "prep_v45_v49/prepare_data.py": {
+  "sha256": "5a01f39e41887f1ff83f5869a5e773676062f66f77d7fb37558a2dc261c89d36",
+  "sha256_as_run": "5a01f39e41887f1ff83f5869a5e773676062f66f77d7fb37558a2dc261c89d36",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)"
+ },
+ "prep_v45_v49/prepare_v46.py": {
+  "sha256": "0cc95ed3adfdec2121c15a273f081378ca13b511ec51ea052469d7f27390087f",
+  "sha256_as_run": "0cc95ed3adfdec2121c15a273f081378ca13b511ec51ea052469d7f27390087f",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)"
+ },
+ "prep_v45_v49/rerender_shell.py": {
+  "sha256": "b1519518013d041bbd73f649f88af3267de6a23f2678356d1cea652e68db1cc3",
+  "sha256_as_run": "b1519518013d041bbd73f649f88af3267de6a23f2678356d1cea652e68db1cc3",
+  "source": "local mirror of the 4-GPU training machine (no longer exists)"
+ },
+ "v50/build_awb_neutral.py": {
+  "sha256": "9fcdf592d9a56045371d1b194e29c26aa85899832ce4520f17665fd9db32485c",
+  "sha256_as_run": "9fcdf592d9a56045371d1b194e29c26aa85899832ce4520f17665fd9db32485c",
+  "source": "local copy (Mac)"
+ },
+ "v50/build_calib_items.py": {
+  "sha256": "14f1c9bddbef34e1a577d2101de25de09b46b225383e13b26d02010f3f2482b6",
+  "sha256_as_run": "14f1c9bddbef34e1a577d2101de25de09b46b225383e13b26d02010f3f2482b6",
+  "source": "the RTX machine's backed-up copy",
+  "training_machine_copy": "identical"
+ },
+ "v50/build_data.py": {
+  "sha256": "09153023002b61e0eb5c396d5a82ad088afd4db98c0556062f1371ab8bf8345f",
+  "sha256_as_run": "09153023002b61e0eb5c396d5a82ad088afd4db98c0556062f1371ab8bf8345f",
+  "source": "local copy (Mac)"
+ },
+ "v50/gen_factory.sh": {
+  "sha256": "c0fe02d9f0d2ed187742650ba21c83ae5617556c7890f549f95381f7271698f9",
+  "sha256_as_run": "c0fe02d9f0d2ed187742650ba21c83ae5617556c7890f549f95381f7271698f9",
+  "source": "the RTX machine's backed-up copy",
+  "training_machine_copy": "identical"
+ },
+ "v50/gen_ftest_fresh.py": {
+  "sha256": "cdec8cf19636720af3be949348dca1bdca5e5d9ba47005c4e7bccf22a1507c14",
+  "sha256_as_run": "cdec8cf19636720af3be949348dca1bdca5e5d9ba47005c4e7bccf22a1507c14",
+  "source": "local copy (Mac)",
+  "training_machine_copy": "identical"
+ },
+ "v50/gen_git_long.py": {
+  "sha256": "b084582640ac0a87c24e3b21be975eb43be18b661f0183a7f1b4f9577fdd9f48",
+  "sha256_as_run": "b084582640ac0a87c24e3b21be975eb43be18b661f0183a7f1b4f9577fdd9f48",
+  "source": "local copy (Mac)"
+ },
+ "v50/gen_git_train.py": {
+  "sha256": "4f4135fb13e93c8c1145b4f6ca8ffb4ddbe6d19a036723cc085b01069ad7cc43",
+  "sha256_as_run": "4f4135fb13e93c8c1145b4f6ca8ffb4ddbe6d19a036723cc085b01069ad7cc43",
+  "source": "local copy (Mac)",
+  "training_machine_copy": "identical"
+ },
+ "v50/gen_git_val.py": {
+  "sha256": "6d42b38cfeda06e66708b9c67fc5eac7f33db68ca6dfb27b824dee7dd95cf391",
+  "sha256_as_run": "6d42b38cfeda06e66708b9c67fc5eac7f33db68ca6dfb27b824dee7dd95cf391",
+  "source": "local copy (Mac)",
+  "training_machine_copy": "identical"
+ },
+ "v50/gen_session.py": {
+  "sha256": "29512207b2a425d2f83fbbf61613ac6df66df14e48b54524fbacbe0009d4de9c",
+  "sha256_as_run": "29512207b2a425d2f83fbbf61613ac6df66df14e48b54524fbacbe0009d4de9c",
+  "source": "local copy (Mac)",
+  "training_machine_copy": "identical"
+ },
+ "v50/image_served.py": {
+  "sha256": "87b26338a1fad9e88286c3ef1f67b69d9ed8aab346c9f6b5a84a02b9733748a0",
+  "sha256_as_run": "87b26338a1fad9e88286c3ef1f67b69d9ed8aab346c9f6b5a84a02b9733748a0",
+  "source": "local copy (Mac)",
+  "training_machine_copy": "identical"
+ },
+ "v50/latent_gen_data.py": {
+  "sha256": "a167cf7d12b2b30ea9b5183c2e9599ef25a5c200e8206d14319ed63329715a38",
+  "sha256_as_run": "a167cf7d12b2b30ea9b5183c2e9599ef25a5c200e8206d14319ed63329715a38",
+  "source": "local copy (Mac)"
+ },
+ "v50/run_r2.sh": {
+  "sha256": "516793f0d244dc4fc2b6ba597a471ff874001cf3a9c9dd6f4136434621c26a5d",
+  "sha256_as_run": "516793f0d244dc4fc2b6ba597a471ff874001cf3a9c9dd6f4136434621c26a5d",
+  "source": "local copy (Mac)",
+  "training_machine_copy": "identical"
+ }
+}
