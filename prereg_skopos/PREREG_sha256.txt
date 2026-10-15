@@ -3,7 +3,8 @@
 # is its content here; the earlier seals are listed under it. "as run" marks a script whose copy here differs from the
 # sealed bytes by the lines its folder's README lists (paths and hosts only).
 283549470e582e4f58c6f0b0de126323fff5d83787505100fc93a263a5557a16  prereg_skopos/PREREG_R1.md  (2026-10-15T00:52:25Z, sealed right after the run was scheduled, before any R1 result)
-179714a93871b0d37257bea76fc32f9dc0f6e88cb91b973882ba3b90a1f6fec6  run_r1.sh  (with PREREG_R1.md; R1 is not in the release's lineage, its recipe is the base of R2's and R4's; not published)
+179714a93871b0d37257bea76fc32f9dc0f6e88cb91b973882ba3b90a1f6fec6  results_skopos/scripts/run_r1.sh  (with PREREG_R1.md)
+8d1b5935cf8cc11a3ca0267cd74b5021aca82f219acc98f0898f868d84ba0eef  results_skopos/scripts/analyze_r1_as_sealed.py  (with PREREG_R1.md; it crashed at the end of R1, see candidates/r1/RESULTS_R1.md; the fixed copy that ran is scripts/analyze_r1.py)
 4f4135fb13e93c8c1145b4f6ca8ffb4ddbe6d19a036723cc085b01069ad7cc43  generators/v50/gen_git_train.py  (with PREREG_R1.md)
 5d0297c4c40e6a979b44c8c58175414f09a30520d550f0fa392be003279e3bf1  prereg_skopos/PREREG_R2.md  (2026-10-15T02:53:01Z, Addendum A, before R1's result and before any R2 data existed)
   6b2826bced413c20abdf75287853bfaf36b22b28e6a7f74988ef4918ca9fffba  (first seal 2026-10-15T02:50:38Z, before Addendum A)
@@ -29,6 +30,10 @@ b8c0352ad8262d0132ba9411909113b8662b45a5d0a0d88483f4f37ae81c87eb  results_skopos
   b5c1a9b146ca9d1444163f861cd3b9ead3453b014e15dfc18a7f9a5e163c15ad  (2026-10-15T04:36:55Z, Addendum B)
   f3522943530782368fca8a5e658d8d9a4704e4244803bb6fe91159b3040c1c0f  (2026-10-15T04:36:59Z, time typo)
   7030555ebb0c808b75738186b11d4d16b28034bc4f8ebb5dcd64d9d16dcdf552  (2026-10-15T05:14:31Z, Addendum C)
+25abd401020e6e5f916a3da211a479c5801819710837bf89b545570e34b65209  prereg_skopos/PREREG_R3.md  (2026-10-15T09:22:23Z, time typo fixed; first seal 47e9d67c… at 09:21:52Z, before any R3 data or score)
+b5f2d0b4d3565fcda3b1820fc72ddce895ca3fe4235f7c00f80304a73b71c0e3  results_skopos/scripts/run_r3.sh  (2026-10-15T09:21:52Z)
+29512207b2a425d2f83fbbf61613ac6df66df14e48b54524fbacbe0009d4de9c  generators/v50/gen_session.py  (2026-10-15T09:21:52Z)
+c09807d811ea5aec382dd17ed71110b4caccb1a8ff325e70d97969f1edb787dc  results_skopos/scripts/analyze_r3.py  (2026-10-15T09:22:46Z, before R3's results)
 53dc87698e1c8945821a1b8094235b63257e8628c3736316b4804811c0376792  prereg_skopos/PREREG_SKOPOS_CMP.md  (2026-10-15T12:26:52Z, before any score of the first Skopos)
 8bdf0ee3299e4108c6556a1fea04912c897babc234b74b73c7f38c5c62e3000f  results_skopos/scripts/run_skopos_cmp.sh  (2026-10-15T12:26:52Z)
 27525c8371cd756f114cb6f47bb6e4f87d72d403ebc0c774b9fca4a12ca5460c  results_skopos/scripts/analyze_skopos.py  (2026-10-15T13:23:04Z, written after partial accuracies were seen; the rule unchanged)
@@ -50,7 +55,12 @@ f73c231b662359d06e864f17f8d0869977aaee26f8f181529fb5e0da3cf622e6  prereg_skopos/
 091707ef6843af868f9da95306e51ad0c2dfefbbeb589e92d5f305e88af28515  prereg_skopos/PREREG_ADDENDUM.md  (2026-10-15T23:23:23Z, A5 header time typo fixed; still before any A5/A6 request)
   d8a01ee19fecfc912a3a78f0164c7e38ffd6cdccc96900d1ac308803dc26ced3  (first seal 2026-10-15T22:52:40Z, A1-A4, before any of their requests)
   12f6616899278ccd4f699105c78075bc6bca01254b851a6f467dcd98f6652bec  (2026-10-15T23:23:14Z, A5-A6 appended, A1-A4 text unchanged)
-# Sealed in V50's pilot (2026-10-14), files the Skopos lineage reads:
+# V50's pilot (2026-10-14; candidates/v50p_pilot/), sealed in its own seal log; with the files the Skopos lineage reads:
+cc159e1e33acd1d797c73907c6ff7d1c8bc7cbd64dd2275315bb489afb2b8651  prereg_skopos/v50p/PREREG.md  (2026-10-14T17:21:16Z, before any training)
+f6a9695787a85bde8417d253ff59c987176d5c73d72af5ebfcc84094a3b63d54  prereg_skopos/v50p/ADDENDUM_DOSE.md  (2026-10-14T21:39:34Z, after the pilot's result, before the dose arm)
+a664cf5d412cbfa53959eb518a58022c621048f1ec1479ae4d5920fa78f81ede  results_skopos/scripts/v50p/m4.py  (2026-10-14T21:39:34Z)
+b72c1ac08ba04aed93e1a18b802c2309ba38268336dfba703f6b51a3735db020  results_skopos/scripts/v50p/analyze.py  (2026-10-14T21:39:34Z)
+9cc2adfb88399b7b47c5dd8256c8ca3a48f4cfd8df63e65efd466767d42f2592  prereg_skopos/v50p/ADDENDUM_M5.md  (2026-10-14T23:57:35Z, before any M5 score)
 5a89f17e82998623e160a3466d48b2aab3c7d4cbf076f0d9e5ea1662b88a821c  training/skopos/train_conseq_v50.py  (2026-10-14T17:21:16Z; as run, see training/skopos/README.md)
 09153023002b61e0eb5c396d5a82ad088afd4db98c0556062f1371ab8bf8345f  generators/v50/build_data.py  (2026-10-14T17:21:16Z)
 7c696dfe7530cf6fd1cb0ccfc1b79faf8b4a5ea1cfec0a5b42ed341ed296972f  ftrain_v50p.jsonl  (2026-10-14T17:21:16Z; Ekbasis-27B's published V42 file plus floorPL, the first part of R4's training file)

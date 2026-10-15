@@ -23,7 +23,7 @@ merges. The objective, the prompt and the readout are Ekbasis-27B's ([../README.
 |---|---|---|---|---|---|
 | Ekbasis-27B | Eikos-27B | | | | its own lineage ([../README.md](../README.md)): the exact interpolation halfway between the V42 and r4a adapters (`w4a5`, rank 128) |
 | **v49f** | w4a5's adapter (`INIT`, rank 128), on Eikos-27B | 273,529 | 900 × 8 | 1.5e-5 | world replay 0.245 (multi .0735, floor .049, floor3 .0343, read .0196, replay .0686), git replay 0.245 (floorG3 .1715, floorG2 .049, floorG .0245), guard anchor floorGA .20, executed factory data .155 (floorGV .0227, floorRXsh .0444, floorRXgit .0394, floorRXsql .0296, floorC .0189), floorFX .155 |
-| **first Skopos** (`v49f_w50`) | w4a5 + v49f | | | | the exact interpolation halfway between the w4a5 and v49f adapters (`wise_lora.py`, λ = 0.5, rank 256), merged into Eikos-27B (`merge_lora_v45.py`); never released |
+| **first Skopos** (`v49f_w50`) | w4a5 + v49f | | | | the exact interpolation halfway between the w4a5 and v49f adapters (`wise_lora.py`, λ = 0.5, rank 256), merged into Eikos-27B (`merge_lora_v45.py`); an unreleased intermediate checkpoint, archived privately |
 | **R4** | the first Skopos (a new LoRA, rank 64, alpha 128) | 256,705 | 1,200 × 8 | 1.5e-5 | the V42 mix × 0.55 (floorG3 .1925, floorG2 .055, floorG .0275, multi .0825, floor .055, floor3 .0385, read .022, replay .077), floorPL .15, floorPLG .15, floorRX .15 |
 | **release** | first Skopos + R4 | | | | R4's adapter merged into the first Skopos (`merge_lora.py`: 496 LoRA pairs, scale 2.0) |
 
@@ -97,7 +97,7 @@ multi-token-prediction layer stay in bf16. INT4 is calibrated on 256 items of R4
 - **The first Skopos** was built on the training machine with `wise_lora.py` (as the V49 runner built every λ = 0.5
   candidate: `wise_lora.py <w4a5> <v49f/ckpt_900> 0.5 <out>`) and merged with `merge_lora_v45.py`, the merge tool its
   hand-off names; the merge log was not kept. R4 started from the merged weights as uploaded then (revision
-  `1e48ae09a3` of a private repository, kept privately).
+  `1e48ae09a3`), an unreleased intermediate checkpoint, archived privately and reproducible with this folder.
 
 **Deviations.**
 - **v49f's memory restart.** v49f was registered to run `train_conseq_v47.py` at batch 8. It ran out of GPU memory at
