@@ -1,11 +1,21 @@
 import type { Question } from "./prompts.js";
 
-export const VERSION = "0.2.4";
+export const VERSION = "0.2.5";
 const QUESTION_TYPES = ["noul", "boolean", "choice", "score"];
 
 export class EkbasisError extends Error {}
 /** The server could not be reached, refused the request or did not answer in time: treat the action as unchecked. */
 export class CannotJudge extends EkbasisError {}
+
+/** The same answer at the temperature the hosted API fit on held-out validation (0.2.5): probabilities to read as
+ * frequencies. Same chosen answer as the plain fields, which keep the raw probabilities the built-in thresholds use. */
+export interface Calibrated {
+  temperature: number;
+  confidence: number;
+  probabilities: Record<string, number>;
+  /** yes/no questions: the calibrated probability of yes. */
+  pYes?: number;
+}
 
 export interface Answer {
   value: boolean | string | number;
@@ -13,6 +23,8 @@ export interface Answer {
   probabilities: Record<string, number>;
   /** yes/no questions: the probability of yes. */
   pYes?: number;
+  /** Present when the server sends it: the calibrated probabilities, to show people or set your own thresholds on. */
+  calibrated?: Calibrated;
 }
 
 export interface Usage { inputTokens?: number; requestId?: string; model?: string; ms: number; serverTiming?: Record<string, number> }
@@ -56,13 +68,28 @@ export function checkQuestions(questions: Record<string, Question>): void {
   }
 }
 
+function readCalibrated(c: unknown, yesNo: boolean): Calibrated | undefined {
+  if (!c || typeof c !== "object" || !("confidence" in c)) return undefined;
+  const o = c as Record<string, unknown>;
+  const base = { temperature: Number(o.temperature ?? 0), confidence: Number(o.confidence) };
+  if (yesNo) {
+    const p = Number(o.probability);
+    return { ...base, probabilities: { yes: p, no: 1 - p }, pYes: p };
+  }
+  return { ...base, probabilities: { ...((o.probabilities ?? {}) as Record<string, number>) } };
+}
+
 export function readAnswer(a: Record<string, unknown>): Answer {
-  if (a.type === "noul" || a.type === "boolean") {
+  const yesNo = a.type === "noul" || a.type === "boolean";
+  const cal = readCalibrated(a.calibrated, yesNo);
+  if (yesNo) {
     const p = Number(a.probability);
-    return { value: Boolean(a.value), confidence: Number(a.confidence), probabilities: { yes: p, no: 1 - p }, pYes: p };
+    return { value: Boolean(a.value), confidence: Number(a.confidence), probabilities: { yes: p, no: 1 - p }, pYes: p,
+      ...(cal ? { calibrated: cal } : {}) };
   }
   const probs = (a.probabilities ?? {}) as Record<string, number>;
-  return { value: (a.choice ?? a.score) as string | number, confidence: Number(a.confidence), probabilities: { ...probs } };
+  return { value: (a.choice ?? a.score) as string | number, confidence: Number(a.confidence), probabilities: { ...probs },
+    ...(cal ? { calibrated: cal } : {}) };
 }
 
 /** const ek = new Ekbasis(); await ek.ask(state, {name: question}) -> {name: Answer}. */

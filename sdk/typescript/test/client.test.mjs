@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { Ekbasis, CannotJudge, yesNo, choice, worldState, checkPlan, runPlan } from "../dist/index.js";
+import { Ekbasis, CannotJudge, yesNo, choice, worldState, checkPlan, runPlan, readAnswer } from "../dist/index.js";
 
 const noul = (p) => ({ type: "noul", value: p >= 0.5, probability: p, confidence: Math.max(p, 1 - p) });
 
@@ -126,4 +126,18 @@ test("monitor presets: same wording as Python, never in the default", async () =
   assert.equal(s.security.criteria, undefined);
   assert.ok(s.data_lost.criteria);
   assert.throws(() => harms("nope"));
+});
+
+test("0.2.5: the additive calibrated field is read; the plain fields stay raw", () => {
+  const a = readAnswer({ type: "noul", probability: 0.9859, value: true, confidence: 0.9859,
+    calibrated: { temperature: 1.55, confidence: 0.9395, probability: 0.9395 } });
+  assert.equal(a.pYes, 0.9859);
+  assert.equal(a.calibrated.pYes, 0.9395);
+  assert.equal(a.calibrated.temperature, 1.55);
+  const c = readAnswer({ type: "choice", choice: "b", probabilities: { a: 0.01, b: 0.99 }, confidence: 0.99,
+    calibrated: { temperature: 1.55, confidence: 0.95, probabilities: { a: 0.05, b: 0.95 } } });
+  assert.deepEqual(c.calibrated.probabilities, { a: 0.05, b: 0.95 });
+  const old = readAnswer({ type: "noul", probability: 0.2, value: false, confidence: 0.8 });
+  assert.equal(old.calibrated, undefined);
+  assert.equal("calibrated" in old, false);
 });

@@ -203,6 +203,11 @@ t = threshold(client, "Each purchase adds its price to the month's spending.", {
 print(t.value, t.holds, t.confidence)
 ```
 
+- **Calibrated probabilities** (`answer.calibrated`, since 0.1.41 / TS 0.2.5): the hosted API also returns every
+  answer at a temperature fit on held-out validation, in its own field. `ans["a"].calibrated.p_yes` (yes/no) and
+  `.calibrated.confidence` / `.probabilities` are meant to be read as frequencies. The chosen answer is the same, and the plain fields (`p_yes`, `confidence`, `probabilities`) keep the model's
+  raw probabilities, which every threshold built into this client uses, so nothing it decides changes. Show the
+  calibrated numbers to people and set your own thresholds on them; `None` on servers that do not send them.
 - **Recap** (`recap`, `simulate(..., recap=True)`, `ekbasis predict --recap`): repeating the rule that decides the
   answer right before the question fixed the case where Ekbasis ignored a written prohibition that compares two values
   (Tower of Hanoi's size rule: 0 of 8 right, 8 of 8 with the recap; capability map, `habit_vs_rule`). On fresh items it
