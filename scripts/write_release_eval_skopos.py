@@ -70,6 +70,7 @@ FP = ld("release_read_ftest_paired.json")
 CF = ld("confirm_ftest_fresh.json")
 CMP2 = ld("skopos_v49f_vs_r2.json")
 CMP4 = ld("r4_vs_skopos_v49f.json")
+VSE = ld("r4_vs_ekbasis27b_trainer.json")
 NEU = ld("neutral.json")
 IMG = ld("image_compare.json")
 OV = ld("overlap_audit_r4.json")
@@ -122,7 +123,9 @@ w("## How this checkpoint was chosen\n")
 w(f"""1. **The first Skopos** (`v49f_w50`): Ekbasis-27B's release adapter trained 900 more steps (v49f) on executed shell,
    git and SQLite scenarios, the FX factory (with rows converted from two public datasets of real commands and code
    traces), fresh guard-style git items and a replay of Ekbasis-27B's own mix, then the exact interpolation halfway
-   between the two adapters, merged. An internal candidate, never released.
+   between the two adapters, merged: an unreleased intermediate checkpoint, archived privately, reproducible with
+   [training/skopos/](training/skopos/README.md). Every candidate that was not released, with its rule and outcome:
+   [results_skopos/candidates/](results_skopos/candidates/README.md).
 2. **R2 did not replace it** ([PREREG_SKOPOS_CMP.md](prereg_skopos/PREREG_SKOPOS_CMP.md)). R2, the same new data
    trained as a LoRA on Ekbasis-27B, gained on {", ".join(f"`{s}`" for s in v2["gain_suites"])} but flagged
    {h(g2["r2"]["flagged_at_0.2"], 2)}% of the work-losing commands of `guard_known` at 0.2 against the first Skopos'
@@ -136,13 +139,18 @@ w(f"""1. **The first Skopos** (`v49f_w50`): Ekbasis-27B's release adapter traine
    with an interval above zero on {", ".join(f"`{s}`" for s in v4["gain_suites"])} (`results_skopos/r4_vs_skopos_v49f.json`;
    in this file the key `r2` means R4). Trainer readout.
 """)
-w("| Suite | Ekbasis-27B | first Skopos | **Skopos (R4)** | Skopos − first Skopos, 95% CI |\n|---|---|---|---|---|")
+IND = {"fac_val", "git_long", "git_long_val", "sess_val", "fhorizon"}  # same generators as training rows, fresh seeds
+w("| Suite | Ekbasis-27B | first Skopos | **Skopos (R4)** | Skopos − first Skopos, 95% CI | Skopos − Ekbasis-27B, 95% CI |\n|---|---|---|---|---|---|")
 for s, name in SUITE.items():
     if s in CMP4:
         d = CMP4[s]
-        w(f"| {name} | {h(100 * d['base'])} | {h(100 * d['skopos'])} | **{h(100 * d['r2'])}** | "
-          f"{sg(100 * d['r2_minus_skopos'][0])} {ci(d['r2_minus_skopos'][1], 1, 100)} |")
-w("\nPaired bootstrap by item (2,000 resamples, seed 20261015).")
+        e = VSE["sets"].get(s) if VSE else None
+        et = f"{sg(100 * e['r4_minus_ekbasis27b'][0])} {ci(e['r4_minus_ekbasis27b'][1], 1, 100)}" if e else "—"
+        w(f"| {name}{' †' if s in IND else ''} | {h(100 * d['base'])} | {h(100 * d['skopos'])} | **{h(100 * d['r2'])}** | "
+          f"{sg(100 * d['r2_minus_skopos'][0])} {ci(d['r2_minus_skopos'][1], 1, 100)} | {et} |")
+w("\nPaired bootstrap by item (2,000 resamples, seed 20261015); the last column, descriptive, from "
+  "`results_skopos/r4_vs_ekbasis27b_trainer.json` (the same predictions and bootstrap). † In-distribution: the same "
+  "generators as training rows, with fresh seeds and firewalls.")
 if SEQ:
     n_same = SEQ.get("same", SEQ.get("same_answer"))
     if n_same is None or "n" not in SEQ:
@@ -346,7 +354,9 @@ if CE:
     pS, pE = CE["primary_skopos"], CE["primary_ekbasis"]
     w(f"""The pre-registered test of Ekbasis-27B ([PREREG_confident_errors.md](PREREG_confident_errors.md)), the same
 {CE['n']:,} questions, one prompt per question, through the served bf16 (addendum A2; `results_skopos/ce_r4.json`,
-paired bootstrap against Ekbasis-27B's published predictions, 2,000 resamples, seed 20261015). Its confirmatory
+paired bootstrap against Ekbasis-27B's published predictions, 2,000 resamples, seed 20261015). The items were read from
+ekbasis-data's `raw/ce_items.jsonl`, which stores yes/no answers as booleans, while `results/confident_errors/items.jsonl`
+and `confident_errors.py` use the strings yes/no: the answers were re-scored with that normalization (deviation 4). Its confirmatory
 question ({'confirmed' if pS['verdict'] == 'confirmed' else 'not confirmed'} for Skopos, {pE['verdict']} for
 Ekbasis-27B): are wrong answers more often confident (≥ 0.9) in the families it was trained on than in those it never
 saw? {h(pS['share_T'])}% against {h(pS['share_U'])}% ({sg(pS['difference_points'])}

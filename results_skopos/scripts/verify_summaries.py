@@ -93,6 +93,20 @@ for k in ("text", "image", "read"):
 pub = json.load(open(RES / "image_compare.json"))
 img_ok = all(img[k]["n"] == pub[k]["n"] and math.isclose(img[k]["diff"], pub[k]["diff"]) and img[k]["ci"] == pub[k]["ci"] for k in img)
 
+# R4 - Ekbasis-27B (r4_vs_ekbasis.py, which reads the same files from the research backup): the same bootstrap here
+vse_ok = True
+if (RES / "r4_vs_ekbasis27b_trainer.json").exists():
+    pub = json.load(open(RES / "r4_vs_ekbasis27b_trainer.json"))["sets"]
+    SRC = {"fac_val": "base_facval", "git_long_val": "diag_base", "sess_val": "base_sessval"}
+    for s, d in pub.items():
+        a = [int(json.loads(l)["ok"]) for l in open(W / "run_r4" / f"preds_{s}_floor.jsonl")]
+        b = [int(json.loads(l)["ok"]) for l in open(W / SRC.get(s, "base_probs") / f"preds_{s}_floor.jsonl")]
+        dd = [x - y for x, y in zip(a, b)]
+        rng = random.Random(20261015)
+        v = sorted(sum(dd[rng.randrange(len(dd))] for _ in dd) / len(dd) for _ in range(2000))
+        mine = [round(sum(dd) / len(dd), 4), [round(v[50], 4), round(v[1949], 4)]]
+        vse_ok &= mine == d["r4_minus_ekbasis27b"] and len(a) == d["n"]
+
 # T3c: release_eval_t3c.py's summary, recomputed from its own per-scenario rows (lost flagged at 0.2; right at 0.5)
 t3c_ok = True
 if (RES / "t3c_r4.json").exists():
@@ -119,6 +133,8 @@ print(f"{'ok      ' if img_ok else 'DIFFERS '} image_compare.json (differences a
 bad += not img_ok
 print(f"{'ok      ' if t3c_ok else 'DIFFERS '} t3c_r4.json (primary summary from its rows)")
 bad += not t3c_ok
+print(f"{'ok      ' if vse_ok else 'DIFFERS '} r4_vs_ekbasis27b_trainer.json (R4 − Ekbasis-27B, paired bootstrap)")
+bad += not vse_ok
 shutil.rmtree(W)
-print(f"{len(checks) + 2 - bad} of {len(checks) + 2} summaries recomputed")
+print(f"{len(checks) + 3 - bad} of {len(checks) + 3} summaries recomputed")
 sys.exit(1 if bad else 0)

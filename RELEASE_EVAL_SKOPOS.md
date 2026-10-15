@@ -21,7 +21,9 @@ recomputes the summaries from them. Deviations from the pre-registrations are li
 1. **The first Skopos** (`v49f_w50`): Ekbasis-27B's release adapter trained 900 more steps (v49f) on executed shell,
    git and SQLite scenarios, the FX factory (with rows converted from two public datasets of real commands and code
    traces), fresh guard-style git items and a replay of Ekbasis-27B's own mix, then the exact interpolation halfway
-   between the two adapters, merged. An internal candidate, never released.
+   between the two adapters, merged: an unreleased intermediate checkpoint, archived privately, reproducible with
+   [training/skopos/](training/skopos/README.md). Every candidate that was not released, with its rule and outcome:
+   [results_skopos/candidates/](results_skopos/candidates/README.md).
 2. **R2 did not replace it** ([PREREG_SKOPOS_CMP.md](prereg_skopos/PREREG_SKOPOS_CMP.md)). R2, the same new data
    trained as a LoRA on Ekbasis-27B, gained on `git_long_val` but flagged
    95.37% of the work-losing commands of `guard_known` at 0.2 against the first Skopos'
@@ -35,22 +37,22 @@ recomputes the summaries from them. Deviations from the pre-registrations are li
    with an interval above zero on `fac_val`, `git_long`, `git_long_val` (`results_skopos/r4_vs_skopos_v49f.json`;
    in this file the key `r2` means R4). Trainer readout.
 
-| Suite | Ekbasis-27B | first Skopos | **Skopos (R4)** | Skopos − first Skopos, 95% CI |
-|---|---|---|---|---|
-| Executed factory scenarios (shell, SQL, Python, git) | 88.4 | 92.5 | **94.0** | +1.6 [+1.0, +2.2] |
-| Real git sequences, 5–12 commands | 90.7 | 91.3 | **93.2** | +1.9 [+0.7, +3.1] |
-| Same, validation twin | 91.0 | 91.9 | **94.6** | +2.6 [+1.6, +3.6] |
-| Agent sessions (shell, read as a transcript) | 89.0 | 91.2 | **93.2** | +1.9 [+0.7, +3.3] |
-| Latent-state worlds | 79.2 | 79.3 | **81.4** | +2.1 [+1.3, +2.8] |
-| Synthetic horizons, 1–20 actions | 86.0 | 86.8 | **86.8** | +0.0 [−1.3, +1.3] |
-| git v3, known command types | 98.0 | 98.5 | **98.5** | +0.1 [−0.4, +0.5] |
-| git v3, held-out command types | 95.2 | 95.8 | **95.3** | −0.4 [−1.1, +0.3] |
-| The guard, known command types (all questions) | 94.7 | 96.0 | **96.4** | +0.4 [+0.0, +0.8] |
-| Never-trained families (`ftest_family`) | 83.1 | 83.4 | **83.4** | +0.0 [−1.5, +1.4] |
-| Factory-3 worlds (validation) | 91.3 | 93.7 | **93.0** | −0.7 [−2.7, +1.3] |
-| git v3 (validation) | 93.0 | 93.3 | **94.1** | +0.8 [+0.0, +1.6] |
+| Suite | Ekbasis-27B | first Skopos | **Skopos (R4)** | Skopos − first Skopos, 95% CI | Skopos − Ekbasis-27B, 95% CI |
+|---|---|---|---|---|---|
+| Executed factory scenarios (shell, SQL, Python, git) † | 88.4 | 92.5 | **94.0** | +1.6 [+1.0, +2.2] | +5.6 [+4.8, +6.6] |
+| Real git sequences, 5–12 commands † | 90.7 | 91.3 | **93.2** | +1.9 [+0.7, +3.1] | +2.6 [+1.1, +3.9] |
+| Same, validation twin † | 91.0 | 91.9 | **94.6** | +2.6 [+1.6, +3.6] | +3.6 [+2.6, +4.7] |
+| Agent sessions (shell, read as a transcript) † | 89.0 | 91.2 | **93.2** | +1.9 [+0.7, +3.3] | +4.1 [+2.5, +5.8] |
+| Latent-state worlds | 79.2 | 79.3 | **81.4** | +2.1 [+1.3, +2.8] | +2.2 [+1.4, +3.0] |
+| Synthetic horizons, 1–20 actions † | 86.0 | 86.8 | **86.8** | +0.0 [−1.3, +1.3] | +0.7 [−0.6, +2.1] |
+| git v3, known command types | 98.0 | 98.5 | **98.5** | +0.1 [−0.4, +0.5] | +0.5 [−0.1, +1.0] |
+| git v3, held-out command types | 95.2 | 95.8 | **95.3** | −0.4 [−1.1, +0.3] | +0.1 [−0.7, +0.9] |
+| The guard, known command types (all questions) | 94.7 | 96.0 | **96.4** | +0.4 [+0.0, +0.8] | +1.7 [+1.2, +2.3] |
+| Never-trained families (`ftest_family`) | 83.1 | 83.4 | **83.4** | +0.0 [−1.5, +1.4] | +0.4 [−1.0, +1.8] |
+| Factory-3 worlds (validation) | 91.3 | 93.7 | **93.0** | −0.7 [−2.7, +1.3] | +1.7 [−1.0, +4.3] |
+| git v3 (validation) | 93.0 | 93.3 | **94.1** | +0.8 [+0.0, +1.6] | +1.1 [+0.3, +2.0] |
 
-Paired bootstrap by item (2,000 resamples, seed 20261015).
+Paired bootstrap by item (2,000 resamples, seed 20261015); the last column, descriptive, from `results_skopos/r4_vs_ekbasis27b_trainer.json` (the same predictions and bootstrap). † In-distribution: the same generators as training rows, with fresh seeds and firewalls.
 Served against trainer, item by item: *Pending: addendum A6 (`results_skopos/served_equivalence_bf16.json` not yet written).*
 
 ## The release read
@@ -208,7 +210,9 @@ its card; this one ships only after the test on Apple hardware of addendum A4:
 
 The pre-registered test of Ekbasis-27B ([PREREG_confident_errors.md](PREREG_confident_errors.md)), the same
 15,008 questions, one prompt per question, through the served bf16 (addendum A2; `results_skopos/ce_r4.json`,
-paired bootstrap against Ekbasis-27B's published predictions, 2,000 resamples, seed 20261015). Its confirmatory
+paired bootstrap against Ekbasis-27B's published predictions, 2,000 resamples, seed 20261015). The items were read from
+ekbasis-data's `raw/ce_items.jsonl`, which stores yes/no answers as booleans, while `results/confident_errors/items.jsonl`
+and `confident_errors.py` use the strings yes/no: the answers were re-scored with that normalization (deviation 4). Its confirmatory
 question (confirmed for Skopos, confirmed for
 Ekbasis-27B): are wrong answers more often confident (≥ 0.9) in the families it was trained on than in those it never
 saw? 49.0% against 31.5% (+17.5

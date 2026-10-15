@@ -1,0 +1,1 @@
+- analyze.py written after the runs finished (no result looked at beyond the per-suite totals printed by the trainer); multi preds have no gold field, so they are paired by order with world/qtype checked.
