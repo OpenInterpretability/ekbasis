@@ -16,6 +16,19 @@ from what an agent believes.
 > results, every prediction, how this checkpoint was chosen, which measurements were pre-registered
 > ([PREREG_release_eval.md](https://github.com/OpenInterpretability/ekbasis/blob/main/PREREG_release_eval.md), [paper/prereg/](https://github.com/OpenInterpretability/ekbasis/tree/main/paper/prereg/)) and the deviations.
 
+<!-- skopos:intro -->
+> **Ekbasis-Skopos-27B is the recommended model** ([card](https://huggingface.co/caiovicentino1/Ekbasis-Skopos-27B),
+> [RELEASE_EVAL_SKOPOS.md](https://github.com/OpenInterpretability/ekbasis/blob/main/RELEASE_EVAL_SKOPOS.md)):
+> Ekbasis-27B trained further on what real tools did, with the same prompt, readout, API and client. Against
+> Ekbasis-27B, on the same items: the git guard, served, raises fewer false alarms on command types it never trained on
+> (26 of 799 instead of 49) and catches more lost work (97.1% instead of 96.0%); on 5,385 fresh items of world families
+> it never saw, +1.63 points on the answers the actions change (95% CI +0.70 to +2.52); executed shell, SQL, Python and
+> git scenarios 94.0% instead of 88.4%, real git sequences of 5–12 commands 93.2% instead of 90.7%. In world families it
+> never saw, more of its wrong answers come with high confidence (+0.75 per 100 answers). Ekbasis-27B and its builds
+> stay available; the measurements on this page are Ekbasis-27B's unless a section says otherwise.
+
+<!-- /skopos:intro -->
+
 ## Install
 
 The client needs a server: the hosted API (`EKBASIS_URL=https://openinterp.org/api/v1` and `EKBASIS_API_KEY=ekb_…`,
@@ -119,9 +132,9 @@ is a prototype that asks too often to keep on.
    Python environment where vLLM is installed:
 
    ```bash
-   hf download caiovicentino1/Ekbasis-27B --local-dir Ekbasis-27B
-   bash Ekbasis-27B/serve_vllm.sh Ekbasis-27B 8001             # vLLM on 127.0.0.1:8001
-   python Ekbasis-27B/serve.py --model Ekbasis-27B --vllm-url http://127.0.0.1:8001 --port 8000
+   hf download caiovicentino1/Ekbasis-Skopos-27B --local-dir Ekbasis-Skopos-27B   # or Ekbasis-27B, the same way
+   bash Ekbasis-Skopos-27B/serve_vllm.sh Ekbasis-Skopos-27B 8001             # vLLM on 127.0.0.1:8001
+   python Ekbasis-Skopos-27B/serve.py --model Ekbasis-Skopos-27B --vllm-url http://127.0.0.1:8001 --port 8000
    ```
 
 2. **Install the client** (standard library only, Python ≥ 3.9), anywhere that can reach the server:
@@ -151,6 +164,22 @@ is a prototype that asks too often to keep on.
 
 Every build that works is released, so each machine runs the one that fits; each build's card shows its quality
 against bf16 on the same evaluation (the gate was pre-registered in `PREREG_quantized.md`).
+
+<!-- skopos:builds -->
+**Ekbasis-Skopos-27B** (recommended): the same architecture and size as Ekbasis-27B, so each build runs where
+Ekbasis-27B's build of the same kind runs; each build's quality against its bf16 and against Ekbasis-27B is in
+[RELEASE_EVAL_SKOPOS.md](https://github.com/OpenInterpretability/ekbasis/blob/main/RELEASE_EVAL_SKOPOS.md).
+
+| Build | Size |
+|---|---|
+| [Ekbasis-Skopos-27B](https://huggingface.co/caiovicentino1/Ekbasis-Skopos-27B) (bf16) | 54.7 GB |
+| [Ekbasis-Skopos-27B-FP8](https://huggingface.co/caiovicentino1/Ekbasis-Skopos-27B-FP8) | 30.4 GB |
+| [Ekbasis-Skopos-27B-INT4](https://huggingface.co/caiovicentino1/Ekbasis-Skopos-27B-INT4) | 18.6 GB |
+| Ekbasis-Skopos-27B-MLX-4bit | released after its test on an Apple-silicon Mac |
+
+**Ekbasis-27B**:
+
+<!-- /skopos:builds -->
 
 | Build | Size | Runs on | Speed (one RTX PRO 6000) |
 |---|---|---|---|
@@ -924,6 +953,14 @@ The code that trained Ekbasis-27B is in [`training/`](training/): the trainer (c
 JEPA-style hindsight term), the six stages of the lineage with their exact recipes, and the interpolation that is the
 release. The training rows are the `lineage` config of
 [ekbasis-data](https://huggingface.co/datasets/caiovicentino1/ekbasis-data).
+
+<!-- skopos:training -->
+Ekbasis-Skopos-27B's two further stages, its interpolation, merges and quantized builds are in
+[`training/skopos/`](training/skopos/README.md); the programs that computed the answers of every training row and
+evaluation set of its lineage, as they ran, in [`generators/`](generators/README.md); the rows in
+[ekbasis-skopos-data](https://huggingface.co/datasets/caiovicentino1/ekbasis-skopos-data).
+
+<!-- /skopos:training -->
 
 ## Citation
 

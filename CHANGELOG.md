@@ -1,5 +1,24 @@
 # Changelog
 
+<!-- skopos:entry -->
+## [Unreleased] — Ekbasis-Skopos-27B (model)
+
+### Added
+- **Ekbasis-Skopos-27B, the recommended model** ([card](https://huggingface.co/caiovicentino1/Ekbasis-Skopos-27B); bf16,
+  FP8 and INT4 builds; MLX after its test on an Apple-silicon Mac): Ekbasis-27B trained further on what real tools did.
+  Against Ekbasis-27B, on the same items: the git guard, served, raises fewer false alarms on command types it never
+  trained on (26 of 799 instead of 49) and catches more lost work (97.1% instead of 96.0%); on 5,385 fresh items of
+  world families it never saw, +1.63 points on the answers the actions change (95% CI +0.70 to +2.52); executed shell,
+  SQL, Python and git scenarios 94.0% instead of 88.4%, real git sequences of 5–12 commands 93.2% instead of 90.7%. In
+  world families it never saw, more of its wrong answers come with high confidence (+0.75 per 100 answers). The client,
+  the API and the prompts are unchanged: serve the new weights with their own `serve.py`, or keep Ekbasis-27B. Its
+  evaluation, with every prediction and pre-registration: [RELEASE_EVAL_SKOPOS.md](RELEASE_EVAL_SKOPOS.md),
+  [results_skopos/](results_skopos/README.md), [prereg_skopos/](prereg_skopos/PREREG_sha256.txt); its training code:
+  [training/skopos/](training/skopos/README.md); the generators behind every training kind and evaluation set, as they
+  ran: [generators/](generators/README.md).
+
+<!-- /skopos:entry -->
+
 ## [0.1.41] — 2026-10-15
 
 ### Added
