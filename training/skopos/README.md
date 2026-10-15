@@ -13,7 +13,7 @@ merges. The objective, the prompt and the readout are Ekbasis-27B's ([../README.
 | `wise_lora.py` | The exact interpolation of two LoRA adapters as one adapter of twice the rank (the same file as `../wise_lora.py`). |
 | `merge_lora_v45.py` | Merges an adapter into Eikos-27B's multimodal weights with PEFT (the first Skopos). |
 | `merge_lora.py` | Merges an adapter into a full checkpoint's shards, W += (alpha / r) · B · A in float32 (R4 into the first Skopos). |
-| `stage_files_skopos.py` | Writes each Skopos stage's training file and the split files from the dataset. |
+| `stage_files_skopos.py` | Writes the Skopos stages' training files, under the names their runs read, and the split files, from the dataset. |
 | `run_lineage_skopos.sh` | The whole lineage: Ekbasis-27B's release adapter (`../run_lineage.sh`), v49f, the first Skopos, R4, the merge. |
 | `quantize/quantize_r4.py` | The INT4 (GPTQ W4A16, groups of 128) and FP8 (FP8_DYNAMIC) builds, with llm-compressor. |
 
@@ -110,14 +110,17 @@ multi-token-prediction layer stay in bf16. INT4 is calibrated on 256 items of R4
   logged losses agree to 6 decimals. The same 8 items per step, in the same order, with the same option permutations;
   only the floating-point order and the LoRA-dropout draws differ.
 - **R4 at micro-batch 4** was registered so (`PREREG_R4.md`: "BS 8 (micro 4)").
-- **Data paths.** v49f read `ftrain_mixG3` plus eight `TRAIN_EXTRA` files; R4 read `ftrain_r2` = `ftrain_v50p` +
-  `git_plan_train` + `fac_rx`. `stage_files_skopos.py` writes one file per stage with the same rows.
+- **Data files.** v49f read `ftrain_mixG3` plus eight `TRAIN_EXTRA` files; R4 read `ftrain_r2` = `ftrain_v50p`
+  (Ekbasis-27B's published `ftrain_mixG3` + `floorPL`) + `git_plan_train` + `fac_rx`. `stage_files_skopos.py` writes them
+  under those names, in their original order, from the dataset's `raw/`, and `run_lineage_skopos.sh` passes the runs'
+  own `TRAIN`, `TRAIN_EXTRA` and `MIX`.
 
 ## What will differ in a rerun
 
 - **The start.** v49f continues w4a5's adapter, which is not published (only Ekbasis-27B's merged weights are); a rerun
   starts from the adapter `../run_lineage.sh` rebuilds.
-- **v49f's replay rows.** Of v49f's 12,342 replay rows, 7,423 are not redistributed (ekbasis-data's card says why);
-  R4 already read only the 4,919 that are.
+- **v49f's replay rows.** Of v49f's 12,342 replay rows, 7,423 are not redistributed (ekbasis-data's card says why), so
+  a rerun of v49f reads the 190,853-row `ftrain_mixG3` R4 read, not the 198,276 rows v49f read; R4 already read only the
+  4,919 replay rows that are redistributed.
 - Sampling and GPU arithmetic are not deterministic across hardware and library versions: expect close numbers, not the
   same weights. The release's own weights are on Hugging Face.

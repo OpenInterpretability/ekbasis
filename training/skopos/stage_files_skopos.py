@@ -1,60 +1,49 @@
-"""Writes the training file of each Skopos stage (v49f, R4) and the validation and test files their runs read, from the
-published dataset (huggingface.co/datasets/caiovicentino1/ekbasis-skopos-data): the `lineage` config marks in which
-stages each row was trained (`stages`), and `item` is the row exactly as the trainer read it.
+"""Writes the training files of the Skopos stages, under the names their runs read, and the validation and test files,
+from the published dataset (huggingface.co/datasets/caiovicentino1/ekbasis-skopos-data): `raw/` holds each file as the
+trainer read it, in its order, without the rows the dataset does not redistribute (its card lists them).
 
-    python3 stage_files_skopos.py <data_dir>   ->  <data_dir>/ftrain_v49f.jsonl, ftrain_R4.jsonl, and the split files
+    python3 stage_files_skopos.py <data_dir>   ->  v49f: ftrain_mixG3.jsonl + its eight TRAIN_EXTRA files;
+                                                   R4: ftrain_r2.jsonl (= ftrain_mixG3 + floorPL + git_plan_train + fac_rx);
+                                                   the split files the runs validate and read on
 
-v49f originally read ftrain_mixG3 plus eight TRAIN_EXTRA files and R4 read ftrain_r2; here each stage gets one file with
-the same rows. The trainer draws each batch item from a per-kind pool, so a stage's rows are written in their original
-order when the dataset carries it (`order`, the row's position in the stage's original files); otherwise in the
-dataset's order, and a rerun then samples the same rows in another order.
-
-CHECK (written before the dataset was final): the layout assumed here is ekbasis-data's (config `lineage`, columns
-`stages` and `item`; the split files under raw/). The script checks it first and stops, listing what is missing,
-rather than write a partial file."""
-import json
+The trainer draws each batch item from a per-kind pool in file order, so the order matters: it is the original one.
+v49f read the 198,276-row ftrain_mixG3 of Ekbasis-27B's lineage; the dataset's (and ekbasis-data's) holds the 190,853
+rows that are redistributed, the file R4 read."""
 import os
 import sys
 
-import pyarrow.parquet as pq
 from huggingface_hub import hf_hub_download
 
 REPO = os.environ.get("SKOPOS_DATA", "caiovicentino1/ekbasis-skopos-data")
-STAGES = {"v49f": 273529, "R4": 256705}  # rows the original files held (README: lineage table)
-SPLITS = ["fval_git3", "m3val", "git3_test_known", "git3_test_held", "guard_known", "ftest_family", "fac_val",
-          "git_long", "git_long_val", "fhorizon", "latent_test", "sess_val"]  # what the runs validate and read on
+V49F = ["ftrain_mixG3", "v45_v44git", "v45rx_shell", "v45rx_git", "v45rx_sql", "mined_chain", "v46_anchor", "v49_anchor2",
+        "v49_fx"]  # TRAIN, then TRAIN_EXTRA in the order the run listed them
+R4 = ["ftrain_mixG3", "floorPL", "git_plan_train", "fac_rx"]  # ftrain_r2, as it was concatenated
+SPLITS = ["fval_git3", "m3val", "git3_test_known", "git3_test_held", "guard_known", "ftest_family", "fac_val", "git_long",
+          "git_long_val", "fhorizon", "latent_test", "sess_val"]
 
 out = sys.argv[1]
 os.makedirs(out, exist_ok=True)
-path = hf_hub_download(REPO, "data/lineage/train.parquet", repo_type="dataset")
-cols = set(pq.read_schema(path).names)
-need = {"stages", "item"} - cols
-if need:
-    raise SystemExit(f"{REPO}: data/lineage/train.parquet has no column {sorted(need)}; this script expects "
-                     f"ekbasis-data's layout (stages, item)")
-rows = pq.read_table(path, columns=["stages", "item"] + (["order"] if "order" in cols else [])).to_pylist()
-present = {s for r in rows for s in (r["stages"] or [])}
-if set(STAGES) - present:
-    raise SystemExit(f"{REPO}: no row is marked with stage {sorted(set(STAGES) - present)} (stages present: "
-                     f"{sorted(present)})")
-for st, n_orig in STAGES.items():
-    mine = [r for r in rows if st in (r["stages"] or [])]
-    ordered = "order" in cols and all(r["order"] and st in r["order"] for r in mine)
-    if ordered:
-        mine.sort(key=lambda r: r["order"][st])
-    with open(os.path.join(out, f"ftrain_{st}.jsonl"), "w") as f:
-        for r in mine:
-            f.write(r["item"].rstrip("\n") + "\n")
-    print(f"ftrain_{st}.jsonl: {len(mine)} rows (the original files: {n_orig}){'' if ordered else '; dataset order'}")
 missing = []
-for sp in SPLITS:
+
+
+def raw(name):
     try:
-        src = hf_hub_download(REPO, f"raw/{sp}.jsonl", repo_type="dataset")
+        return hf_hub_download(REPO, f"raw/{name}.jsonl", repo_type="dataset")
     except Exception as e:  # noqa: BLE001
-        missing.append(f"raw/{sp}.jsonl ({type(e).__name__})")
-        continue
-    with open(src) as a, open(os.path.join(out, f"{sp}.jsonl"), "w") as b:
-        b.write(a.read())
-    print(f"{sp}.jsonl")
+        missing.append(f"raw/{name}.jsonl ({type(e).__name__})")
+
+
+paths = {n: raw(n) for n in dict.fromkeys(V49F + R4 + SPLITS)}
 if missing:
     raise SystemExit(f"{REPO}: missing " + ", ".join(missing))
+for n in dict.fromkeys(V49F + SPLITS):
+    with open(paths[n]) as a, open(os.path.join(out, f"{n}.jsonl"), "w") as b:
+        b.write(a.read())
+    print(f"{n}.jsonl")
+with open(os.path.join(out, "ftrain_r2.jsonl"), "w") as b:
+    n = 0
+    for part in R4:
+        for line in open(paths[part]):
+            b.write(line)
+            n += 1
+print(f"ftrain_r2.jsonl: {n} rows")
