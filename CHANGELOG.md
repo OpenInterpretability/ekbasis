@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.1.41] — 2026-10-15
+
+### Added
+- **Calibrated probabilities, as an additive field.** The hosted API now returns, next to every answer's raw
+  probabilities, the same answer at a temperature fit on held-out validation (`"calibrated": {"temperature",
+  "confidence", "probability" | "probabilities"}`); read them as frequencies. `Answer.calibrated` (Python) and
+  `answer.calibrated` (TypeScript SDK 0.2.5) expose it; `None`/absent on servers that do not send it. The plain fields
+  are unchanged and every built-in threshold (`LOOK_BELOW`, `lost_threshold`, the monitor hook) still reads the raw
+  probabilities, so no decision of this client changes. A global switch was not made because thresholds in installed
+  clients would shift (the pre-registered test of 3 October, `results_v42/recalibration/`).
+
 ## [0.1.40] — 2026-10-14
 
 ### Added

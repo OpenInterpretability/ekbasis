@@ -116,21 +116,50 @@ class CannotJudge(EkbasisError):
 
 
 @dataclass
-class Answer:
-    """One typed answer. value: True/False for yes/no questions, the chosen label for the others. p_yes: the probability
-    of "yes" (yes/no questions). probabilities: every option's probability. confidence: the chosen answer's probability."""
-    value: object
+class Calibrated:
+    """The same answer at the temperature the hosted API fit on held-out validation (0.1.41): read these probabilities
+    as frequencies (of the answers it gives at 0.9, about 9 in 10 are right). Same chosen answer as the plain fields,
+    which keep the model's raw probabilities; every threshold built into this client reads the raw ones, so nothing it
+    decides changes. None when the server does not send it (self-hosted servers before this field)."""
+    temperature: float
     confidence: float
     probabilities: dict = field(default_factory=dict)
     p_yes: float | None = None
 
     @classmethod
+    def from_api(cls, c: dict | None, qtype: str | None) -> "Calibrated | None":
+        if not isinstance(c, dict) or "confidence" not in c:
+            return None
+        if qtype in ("noul", "boolean"):
+            p = float(c["probability"])
+            return cls(temperature=float(c.get("temperature", 0)), confidence=float(c["confidence"]),
+                       probabilities={"yes": p, "no": 1 - p}, p_yes=p)
+        return cls(temperature=float(c.get("temperature", 0)), confidence=float(c["confidence"]),
+                   probabilities=dict(c.get("probabilities") or {}))
+
+
+@dataclass
+class Answer:
+    """One typed answer. value: True/False for yes/no questions, the chosen label for the others. p_yes: the probability
+    of "yes" (yes/no questions). probabilities: every option's probability. confidence: the chosen answer's probability.
+    These are the model's raw probabilities; calibrated (when the server sends it) holds the same answer's calibrated
+    probabilities, the ones to show people or to set your own thresholds on."""
+    value: object
+    confidence: float
+    probabilities: dict = field(default_factory=dict)
+    p_yes: float | None = None
+    calibrated: Calibrated | None = None
+
+    @classmethod
     def from_api(cls, a: dict) -> "Answer":
+        cal = Calibrated.from_api(a.get("calibrated"), a.get("type"))
         if a.get("type") in ("noul", "boolean"):
             p = float(a["probability"])
-            return cls(value=bool(a["value"]), confidence=float(a["confidence"]), probabilities={"yes": p, "no": 1 - p}, p_yes=p)
+            return cls(value=bool(a["value"]), confidence=float(a["confidence"]), probabilities={"yes": p, "no": 1 - p}, p_yes=p,
+                       calibrated=cal)
         value = a.get("choice", a.get("score"))
-        return cls(value=value, confidence=float(a["confidence"]), probabilities=dict(a.get("probabilities") or {}))
+        return cls(value=value, confidence=float(a["confidence"]), probabilities=dict(a.get("probabilities") or {}),
+                   calibrated=cal)
 
 
 QUESTION_TYPES = ("noul", "choice", "score")
