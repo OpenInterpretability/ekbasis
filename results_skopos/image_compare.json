@@ -1,0 +1,63 @@
+{
+ "text_all": {
+  "n": 400,
+  "skopos": 92.0,
+  "ekbasis": 89.8,
+  "diff": 2.25,
+  "ci": [
+   -0.5,
+   5.0
+  ]
+ },
+ "text_changed": {
+  "n": 200,
+  "skopos": 88.5,
+  "ekbasis": 85.5,
+  "diff": 3.0,
+  "ci": [
+   -1.5,
+   7.5
+  ]
+ },
+ "image_all": {
+  "n": 400,
+  "skopos": 80.0,
+  "ekbasis": 79.0,
+  "diff": 1.0,
+  "ci": [
+   -2.0,
+   4.25
+  ]
+ },
+ "image_changed": {
+  "n": 200,
+  "skopos": 74.0,
+  "ekbasis": 73.0,
+  "diff": 1.0,
+  "ci": [
+   -4.5,
+   6.0
+  ]
+ },
+ "read_all": {
+  "n": 400,
+  "skopos": 94.2,
+  "ekbasis": 92.0,
+  "diff": 2.25,
+  "ci": [
+   0.5,
+   4.25
+  ]
+ },
+ "read_changed": {
+  "n": 200,
+  "skopos": 95.0,
+  "ekbasis": 91.0,
+  "diff": 4.0,
+  "ci": [
+   1.0,
+   7.5
+  ]
+ },
+ "preserved": true
+}

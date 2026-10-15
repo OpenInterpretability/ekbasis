@@ -1,0 +1,31 @@
+{
+ "ftest_family (all answers)": {
+  "n": 1080,
+  "acc": 83.14814814814815,
+  "ci95": [
+   81.01851851851852,
+   85.37037037037038
+  ],
+  "per_world": {
+   "cards": "254/360",
+   "machines": "300/360",
+   "timers": "344/360"
+  },
+  "seconds": 51.81649947166443
+ },
+ "ftest_family (answers the actions change)": {
+  "n_known": 1080,
+  "n_changed": 629,
+  "acc_changed": 80.28616852146264,
+  "ci95_changed": [
+   77.10651828298887,
+   83.30683624801271
+  ],
+  "acc_unchanged": 87.13968957871397,
+  "per_world_changed": {
+   "cards": "146/220",
+   "machines": "164/203",
+   "timers": "195/206"
+  }
+ }
+}

@@ -1,0 +1,250 @@
+{
+ "T3C_COMMAND.txt": {
+  "sha256": "a57c8f2be07c1699f8cf3d37b0a441869c41767830ed1a1976a23194dbbd1217",
+  "sha256_as_run": "a57c8f2be07c1699f8cf3d37b0a441869c41767830ed1a1976a23194dbbd1217",
+  "source": "the release workspace's copy (scripts_main/)"
+ },
+ "analyze_confirm_ftest.py": {
+  "sha256": "d41558b1bf57b0513ebd42e4ee380f551e0008b92089c35bfe1ca418f7efb086",
+  "sha256_as_run": "d41558b1bf57b0513ebd42e4ee380f551e0008b92089c35bfe1ca418f7efb086",
+  "source": "local copy (Mac)",
+  "training_machine_copy": "identical"
+ },
+ "analyze_neutral.py": {
+  "sha256": "d75b62ea4981ac6b13d0b961cb8f9908f814669ad78578a78488e03b78f97b47",
+  "sha256_as_run": "d75b62ea4981ac6b13d0b961cb8f9908f814669ad78578a78488e03b78f97b47",
+  "source": "local copy (Mac)"
+ },
+ "analyze_r2.py": {
+  "sha256": "5187f5a900ec959f3aad9e8f8f72d9a575576e16e33c47a06593b9b57e4204ef",
+  "sha256_as_run": "5187f5a900ec959f3aad9e8f8f72d9a575576e16e33c47a06593b9b57e4204ef",
+  "source": "local copy (Mac)",
+  "training_machine_copy": "identical"
+ },
+ "analyze_r4.py": {
+  "sha256": "e30041775e000202520a8b48340866f62bb9eaea626381ff79c4ad279c3fc099",
+  "sha256_as_run": "e30041775e000202520a8b48340866f62bb9eaea626381ff79c4ad279c3fc099",
+  "source": "local copy (Mac)",
+  "training_machine_copy": "identical"
+ },
+ "analyze_skopos.py": {
+  "sha256": "27525c8371cd756f114cb6f47bb6e4f87d72d403ebc0c774b9fca4a12ca5460c",
+  "sha256_as_run": "27525c8371cd756f114cb6f47bb6e4f87d72d403ebc0c774b9fca4a12ca5460c",
+  "source": "local copy (Mac)",
+  "training_machine_copy": "identical"
+ },
+ "ce_rescore_and_compare.py": {
+  "sha256": "8cebf2a56ddb9e80187de59dbc2b07f0b2508986866b996eded6461284f1b4df",
+  "sha256_as_run": "8cebf2a56ddb9e80187de59dbc2b07f0b2508986866b996eded6461284f1b4df",
+  "source": "the release workspace's copy (scripts_main/)"
+ },
+ "compare_release.py": {
+  "sha256": "c4f4b4e05e5c856cdaad9778719327827ab74f7e30f59eb1fd7e966b2d98c20e",
+  "sha256_as_run": "c4f4b4e05e5c856cdaad9778719327827ab74f7e30f59eb1fd7e966b2d98c20e",
+  "source": "local copy (Mac)",
+  "training_machine_copy": "identical"
+ },
+ "confident_errors.py": {
+  "sha256": "9950c209a518a4e6bad7c7c2860e7b4a16867d76b79f99f1a02078831606e2a2",
+  "sha256_as_run": "9950c209a518a4e6bad7c7c2860e7b4a16867d76b79f99f1a02078831606e2a2",
+  "source": "local copy (Mac)"
+ },
+ "confident_errors_report.py": {
+  "sha256": "08c323351b054aa6086cd9aa2a2f0cfa93a22b6bdc6665abbf4b2b9a8cc57ad7",
+  "sha256_as_run": "08c323351b054aa6086cd9aa2a2f0cfa93a22b6bdc6665abbf4b2b9a8cc57ad7",
+  "source": "local copy (Mac)"
+ },
+ "confident_errors_rtx_path.py": {
+  "sha256": "d15da8a4c739f01b959b5491e94d40e11d4f356b275829169201e70552a1d079",
+  "sha256_as_run": "d15da8a4c739f01b959b5491e94d40e11d4f356b275829169201e70552a1d079",
+  "source": "the release workspace's copy (scripts_main/)"
+ },
+ "equiv_mlx.py": {
+  "sha256": "08917661a642b11f41f6701ed9cea4db869c705abc27dd4f79060cebe8257113",
+  "sha256_as_run": "08917661a642b11f41f6701ed9cea4db869c705abc27dd4f79060cebe8257113",
+  "source": "the RTX machine's backed-up copy",
+  "training_machine_copy": "identical"
+ },
+ "equiv_r4.py": {
+  "sha256": "7b73c9ebf99c0f0e275aeba0e502f3f78aee967492666092835ea39ce8db15e0",
+  "sha256_as_run": "7b73c9ebf99c0f0e275aeba0e502f3f78aee967492666092835ea39ce8db15e0",
+  "source": "the RTX machine's backed-up copy",
+  "training_machine_copy": "identical"
+ },
+ "fit_T.py": {
+  "sha256": "4f74987e88cfe94cbf67c624762d38166ebb472de1f6b5a2e235a11f20e6c781",
+  "sha256_as_run": "4f74987e88cfe94cbf67c624762d38166ebb472de1f6b5a2e235a11f20e6c781",
+  "source": "the release workspace's copy (run on the Mac)"
+ },
+ "ftest_fresh_served.py": {
+  "sha256": "5270920b7165f7d784018e77fd6e05d3a5f7689b9f8a3a819ab6c36a48a68171",
+  "sha256_as_run": "5270920b7165f7d784018e77fd6e05d3a5f7689b9f8a3a819ab6c36a48a68171",
+  "source": "local copy (Mac)",
+  "training_machine_copy": "identical"
+ },
+ "git_battery3.py": {
+  "edits": [
+   "line 8: the training machine's SSH port and address replaced by placeholders"
+  ],
+  "sha256": "8cd23681a46a22836fcf7d672b315e348f3f941396678c2052789e6516f55d7f",
+  "sha256_as_run": "0bdc6a3368297b9477355440b2b1b27d5cc49de729f5d7819753a9e887d806a2",
+  "source": "local copy (Mac)"
+ },
+ "git_battery3_inj.py": {
+  "edits": [
+   "line 8: the training machine's SSH port and address replaced by placeholders"
+  ],
+  "sha256": "8a7ece82070e5e6451ed4d6ba50686f98f364ae873b885fed4091bbcf8953da7",
+  "sha256_as_run": "760710f5fe40ff0fa77a2c89f0bb2a436aa27e4db4b33aa7954acdac65af4bfc",
+  "source": "local copy (Mac)"
+ },
+ "guard_big_served_rtx.py": {
+  "sha256": "a1cbdd61652a0bbd99cd68638584137ac3c60f18d6105a4526f93a5fd6eacff8",
+  "sha256_as_run": "a1cbdd61652a0bbd99cd68638584137ac3c60f18d6105a4526f93a5fd6eacff8",
+  "source": "the RTX machine's backed-up copy",
+  "training_machine_copy": "identical"
+ },
+ "quant_gate.py": {
+  "sha256": "62353bc4cbe734a76e3728569e958adad268f4d4bb80b9ba94cf425917de140b",
+  "sha256_as_run": "62353bc4cbe734a76e3728569e958adad268f4d4bb80b9ba94cf425917de140b",
+  "source": "local copy (Mac)",
+  "training_machine_copy": "identical"
+ },
+ "r4_vs_ekbasis.py": {
+  "sha256": "d82fc6fe63345c28105781c8a90d6407c4aa08969edcbe0890049f8a5e89c326",
+  "sha256_as_run": "d82fc6fe63345c28105781c8a90d6407c4aa08969edcbe0890049f8a5e89c326",
+  "source": "the release workspace's copy (scripts_main/)"
+ },
+ "release_eval.py": {
+  "sha256": "bc857b14e95f424d72b2ac55b75cc80890fd4f871347e7f358a82f07209bbd96",
+  "sha256_as_run": "bc857b14e95f424d72b2ac55b75cc80890fd4f871347e7f358a82f07209bbd96",
+  "source": "the RTX machine's backed-up copy",
+  "training_machine_copy": "identical"
+ },
+ "release_eval_extra_rtx.py": {
+  "sha256": "9904fd09afbdf306da219a30fba6423459292a65fb885eb949bce3da2f263ef5",
+  "sha256_as_run": "9904fd09afbdf306da219a30fba6423459292a65fb885eb949bce3da2f263ef5",
+  "source": "the RTX machine's backed-up copy",
+  "training_machine_copy": "identical"
+ },
+ "release_eval_t3c.py": {
+  "sha256": "56660ab6331afa37f00f80ece87d271fa09a103ad0f37648955df5c8711c9a87",
+  "sha256_as_run": "56660ab6331afa37f00f80ece87d271fa09a103ad0f37648955df5c8711c9a87",
+  "source": "local copy (Mac)"
+ },
+ "rescore_inj_truth.py": {
+  "sha256": "b0c1bce9905dcadbc7ebcc39b2add1c9c0b54e66c23d5747c6e13f273823c4eb",
+  "sha256_as_run": "b0c1bce9905dcadbc7ebcc39b2add1c9c0b54e66c23d5747c6e13f273823c4eb",
+  "source": "local copy (Mac)"
+ },
+ "run_addendum_bf16.sh": {
+  "sha256": "768dd6ac0f22d5045b8ab550c0da2fc78bda07fe9dde14458ea3e31e2faf5e4e",
+  "sha256_as_run": "768dd6ac0f22d5045b8ab550c0da2fc78bda07fe9dde14458ea3e31e2faf5e4e",
+  "source": "the release workspace's copy (scripts_main/)"
+ },
+ "run_addendum_builds.sh": {
+  "sha256": "38b7c5bc830184afa8965501b015882d789f7eac1c15e939e8e12edebe2118e2",
+  "sha256_as_run": "38b7c5bc830184afa8965501b015882d789f7eac1c15e939e8e12edebe2118e2",
+  "source": "the release workspace's copy (scripts_main/)"
+ },
+ "run_confirm_ftest.sh": {
+  "sha256": "2e61f9a25fbee6e36a60c79d530ad9f2fd45fd9440c16dcadb53879724d872eb",
+  "sha256_as_run": "2e61f9a25fbee6e36a60c79d530ad9f2fd45fd9440c16dcadb53879724d872eb",
+  "source": "local copy (Mac)",
+  "training_machine_copy": "identical"
+ },
+ "run_fp8.sh": {
+  "sha256": "ca6c88db971bd3f2d7a8432521430f1cc9e42d8b3b8699de4c147f64ae8a2d0d",
+  "sha256_as_run": "ca6c88db971bd3f2d7a8432521430f1cc9e42d8b3b8699de4c147f64ae8a2d0d",
+  "source": "local copy (Mac)",
+  "training_machine_copy": "identical"
+ },
+ "run_ftest_builds.sh": {
+  "sha256": "70b5a73fb68438258c248977a05762ef76a7692d5c43ce3afabfeb8eea2d50e8",
+  "sha256_as_run": "70b5a73fb68438258c248977a05762ef76a7692d5c43ce3afabfeb8eea2d50e8",
+  "source": "local copy (Mac)",
+  "training_machine_copy": "identical"
+ },
+ "run_image.sh": {
+  "sha256": "301732d87f556b18483a1705261bbf797de813994968949653c4d37d120f7504",
+  "sha256_as_run": "301732d87f556b18483a1705261bbf797de813994968949653c4d37d120f7504",
+  "source": "local copy (Mac)",
+  "training_machine_copy": "identical"
+ },
+ "run_int4_r4.sh": {
+  "sha256": "890c5c58ca1066382a30463a14139eb8560618ca6274d24c0c0a3fffa6697117",
+  "sha256_as_run": "890c5c58ca1066382a30463a14139eb8560618ca6274d24c0c0a3fffa6697117",
+  "source": "local copy (Mac)",
+  "training_machine_copy": "identical"
+ },
+ "run_mlx_gate.sh": {
+  "sha256": "b756134fd0aa400bd8a2ea8ae56b2c9670451cde2b4c8646fbb1f7cd8a950a6a",
+  "sha256_as_run": "b756134fd0aa400bd8a2ea8ae56b2c9670451cde2b4c8646fbb1f7cd8a950a6a",
+  "source": "local copy (Mac)",
+  "training_machine_copy": "identical"
+ },
+ "run_mlx_gate2.sh": {
+  "sha256": "a0fdafdb5eee45471b4bdd9a347fa5ce8e2a0bf0f797ff4e55cae0eda0b10562",
+  "sha256_as_run": "a0fdafdb5eee45471b4bdd9a347fa5ce8e2a0bf0f797ff4e55cae0eda0b10562",
+  "source": "local copy (Mac)",
+  "training_machine_copy": "identical"
+ },
+ "run_mlx_gate3.sh": {
+  "sha256": "db75e486ff7ec16d349af17780c9f63511e7f1772a29e2c57b59f1b151fc9d4f",
+  "sha256_as_run": "db75e486ff7ec16d349af17780c9f63511e7f1772a29e2c57b59f1b151fc9d4f",
+  "source": "the RTX machine's backed-up copy",
+  "training_machine_copy": "identical"
+ },
+ "run_neutral.sh": {
+  "sha256": "b8c0352ad8262d0132ba9411909113b8662b45a5d0a0d88483f4f37ae81c87eb",
+  "sha256_as_run": "b8c0352ad8262d0132ba9411909113b8662b45a5d0a0d88483f4f37ae81c87eb",
+  "source": "local copy (Mac)",
+  "training_machine_copy": "identical"
+ },
+ "run_neutral_ek.sh": {
+  "sha256": "55726ce3ad2d3037e0cb527fcdb265e7f445a15a607dde8785302266311d1549",
+  "sha256_as_run": "55726ce3ad2d3037e0cb527fcdb265e7f445a15a607dde8785302266311d1549",
+  "source": "local copy (Mac)",
+  "training_machine_copy": "identical"
+ },
+ "run_r4.sh": {
+  "sha256": "18eccdb3b7288cb97ec28af74bb0829d85176ebb943227e1f5229b95c3616e7c",
+  "sha256_as_run": "18eccdb3b7288cb97ec28af74bb0829d85176ebb943227e1f5229b95c3616e7c",
+  "source": "local copy (Mac)",
+  "training_machine_copy": "identical"
+ },
+ "run_release_r4.sh": {
+  "sha256": "57b54a2eb538f21a4a302ff97dd4223c2145c691e8ac968c1399960c7c8b3a28",
+  "sha256_as_run": "57b54a2eb538f21a4a302ff97dd4223c2145c691e8ac968c1399960c7c8b3a28",
+  "source": "local copy (Mac)",
+  "training_machine_copy": "identical"
+ },
+ "run_skopos_cmp.sh": {
+  "sha256": "8bdf0ee3299e4108c6556a1fea04912c897babc234b74b73c7f38c5c62e3000f",
+  "sha256_as_run": "8bdf0ee3299e4108c6556a1fea04912c897babc234b74b73c7f38c5c62e3000f",
+  "source": "local copy (Mac)",
+  "training_machine_copy": "identical"
+ },
+ "score_calib_build.py": {
+  "sha256": "8ccc793418516ca0f3687798b7d5e7751e053ef76c2c4a8e0cf3887d7fb4f3b3",
+  "sha256_as_run": "8ccc793418516ca0f3687798b7d5e7751e053ef76c2c4a8e0cf3887d7fb4f3b3",
+  "source": "the release workspace's copy (scripts_main/)"
+ },
+ "score_prod.py": {
+  "sha256": "f05a18c1a7e20be3244a8511c36c808ff788f496de658a695e318ead5b5a8130",
+  "sha256_as_run": "f05a18c1a7e20be3244a8511c36c808ff788f496de658a695e318ead5b5a8130",
+  "source": "the session's copy, sent to the production server that scored Ekbasis-27B-INT4"
+ },
+ "score_skopos_int4.py": {
+  "sha256": "02fd31ef8d3e6865827aee4d7233951e93066dd316542cabd644e0bbea70f43f",
+  "sha256_as_run": "02fd31ef8d3e6865827aee4d7233951e93066dd316542cabd644e0bbea70f43f",
+  "source": "the RTX machine's backed-up copy",
+  "training_machine_copy": "identical"
+ },
+ "serve_r4.sh": {
+  "sha256": "53ecdb0ed3e7541d9ae40b19c7a0fd4d15cd6d50ac3e4fa892d6fd731e5ee3f3",
+  "sha256_as_run": "53ecdb0ed3e7541d9ae40b19c7a0fd4d15cd6d50ac3e4fa892d6fd731e5ee3f3",
+  "source": "the RTX machine's backed-up copy",
+  "training_machine_copy": "identical"
+ }
+}

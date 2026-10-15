@@ -1,0 +1,900 @@
+{"world": "git", "qtype": "lost", "steps": 5, "ok": true, "conf": 0.9990890026092529, "p_gold": 0.9990890026092529, "pred": "no", "gold": "no", "probs": [0.0009111, 0.999089]}
+{"world": "git", "qtype": "clean", "steps": 5, "ok": false, "conf": 0.9740425944328308, "p_gold": 0.02595735713839531, "pred": "yes", "gold": "no", "probs": [0.9740426, 0.0259574]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9996646642684937, "p_gold": 0.9996646642684937, "pred": "no", "gold": "no", "probs": [0.0003354, 0.9996647]}
+{"world": "git", "qtype": "staged", "steps": 5, "ok": true, "conf": 0.9999417066574097, "p_gold": 0.9999417066574097, "pred": "no", "gold": "no", "probs": [5.83e-05, 0.9999417]}
+{"world": "git", "qtype": "lost", "steps": 5, "ok": true, "conf": 0.9859364032745361, "p_gold": 0.9859364032745361, "pred": "no", "gold": "no", "probs": [0.0140636, 0.9859364]}
+{"world": "git", "qtype": "staged", "steps": 5, "ok": true, "conf": 0.9999251365661621, "p_gold": 0.9999251365661621, "pred": "no", "gold": "no", "probs": [7.48e-05, 0.9999251]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9984021782875061, "p_gold": 0.9984021782875061, "pred": "no", "gold": "no", "probs": [0.0015978, 0.9984022]}
+{"world": "git", "qtype": "stash", "steps": 5, "ok": false, "conf": 0.913434624671936, "p_gold": 0.0749792754650116, "pred": "1", "gold": "2", "probs": [0.0054315, 0.9134346, 0.0749793, 0.0061547]}
+{"world": "git", "qtype": "in_progress", "steps": 5, "ok": true, "conf": 0.9999203681945801, "p_gold": 0.9999203681945801, "pred": "no", "gold": "no", "probs": [7.97e-05, 0.9999204]}
+{"world": "git", "qtype": "staged", "steps": 5, "ok": true, "conf": 0.999929666519165, "p_gold": 0.999929666519165, "pred": "no", "gold": "no", "probs": [7.03e-05, 0.9999297]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9840936064720154, "p_gold": 0.9840936064720154, "pred": "yes", "gold": "yes", "probs": [0.9840936, 0.0159064]}
+{"world": "git", "qtype": "branch", "steps": 5, "ok": true, "conf": 0.9998910427093506, "p_gold": 0.9998910427093506, "pred": "dev", "gold": "dev", "probs": [0.999891, 0.0001089]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9979493021965027, "p_gold": 0.9979493021965027, "pred": "no", "gold": "no", "probs": [0.0020507, 0.9979493]}
+{"world": "git", "qtype": "staged", "steps": 5, "ok": true, "conf": 0.999868631362915, "p_gold": 0.999868631362915, "pred": "no", "gold": "no", "probs": [0.0001314, 0.9998686]}
+{"world": "git", "qtype": "lost", "steps": 5, "ok": true, "conf": 0.985042929649353, "p_gold": 0.985042929649353, "pred": "yes", "gold": "yes", "probs": [0.9850429, 0.0149571]}
+{"world": "git", "qtype": "exists", "steps": 5, "ok": true, "conf": 0.9999517202377319, "p_gold": 0.9999517202377319, "pred": "no", "gold": "no", "probs": [4.83e-05, 0.9999517]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9971990585327148, "p_gold": 0.9971990585327148, "pred": "yes", "gold": "yes", "probs": [0.9971991, 0.0028009]}
+{"world": "git", "qtype": "stash", "steps": 5, "ok": true, "conf": 0.9999072551727295, "p_gold": 0.9999072551727295, "pred": "0", "gold": "0", "probs": [0.9999073, 4.54e-05, 2.14e-05, 2.59e-05]}
+{"world": "git", "qtype": "lost", "steps": 5, "ok": true, "conf": 0.9937100410461426, "p_gold": 0.9937100410461426, "pred": "no", "gold": "no", "probs": [0.0062899, 0.99371]}
+{"world": "git", "qtype": "remote", "steps": 5, "ok": true, "conf": 0.9998511075973511, "p_gold": 0.9998511075973511, "pred": "yes", "gold": "yes", "probs": [0.9998511, 0.0001488]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9820137619972229, "p_gold": 0.9820137619972229, "pred": "no", "gold": "no", "probs": [0.0179862, 0.9820138]}
+{"world": "git", "qtype": "remote", "steps": 5, "ok": true, "conf": 0.998498797416687, "p_gold": 0.998498797416687, "pred": "no", "gold": "no", "probs": [0.0015012, 0.9984988]}
+{"world": "git", "qtype": "in_progress", "steps": 5, "ok": true, "conf": 0.9998910427093506, "p_gold": 0.9998910427093506, "pred": "no", "gold": "no", "probs": [0.0001089, 0.999891]}
+{"world": "git", "qtype": "branch", "steps": 5, "ok": true, "conf": 0.9998205304145813, "p_gold": 0.9998205304145813, "pred": "main", "gold": "main", "probs": [0.0001795, 0.9998205]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9996849298477173, "p_gold": 0.9996849298477173, "pred": "no", "gold": "no", "probs": [0.000315, 0.9996849]}
+{"world": "git", "qtype": "remote", "steps": 5, "ok": true, "conf": 0.9994115829467773, "p_gold": 0.9994115829467773, "pred": "no", "gold": "no", "probs": [0.0005884, 0.9994116]}
+{"world": "git", "qtype": "lost", "steps": 5, "ok": true, "conf": 0.9830850958824158, "p_gold": 0.9830850958824158, "pred": "yes", "gold": "yes", "probs": [0.9830851, 0.0169149]}
+{"world": "git", "qtype": "exists", "steps": 5, "ok": true, "conf": 0.999962329864502, "p_gold": 0.999962329864502, "pred": "no", "gold": "no", "probs": [3.76e-05, 0.9999623]}
+{"world": "git", "qtype": "lost", "steps": 5, "ok": true, "conf": 0.9947799444198608, "p_gold": 0.9947799444198608, "pred": "no", "gold": "no", "probs": [0.0052201, 0.9947799]}
+{"world": "git", "qtype": "clean", "steps": 5, "ok": true, "conf": 0.9980732202529907, "p_gold": 0.9980732202529907, "pred": "no", "gold": "no", "probs": [0.0019267, 0.9980732]}
+{"world": "git", "qtype": "lost", "steps": 5, "ok": true, "conf": 0.9989012479782104, "p_gold": 0.9989012479782104, "pred": "no", "gold": "no", "probs": [0.0010987, 0.9989012]}
+{"world": "git", "qtype": "staged", "steps": 5, "ok": false, "conf": 0.9933071732521057, "p_gold": 0.006692850962281227, "pred": "no", "gold": "yes", "probs": [0.0066929, 0.9933072]}
+{"world": "git", "qtype": "in_progress", "steps": 5, "ok": true, "conf": 0.999480664730072, "p_gold": 0.999480664730072, "pred": "no", "gold": "no", "probs": [0.0005193, 0.9994807]}
+{"world": "git", "qtype": "clean", "steps": 5, "ok": true, "conf": 0.9783847332000732, "p_gold": 0.9783847332000732, "pred": "yes", "gold": "yes", "probs": [0.9783847, 0.0216153]}
+{"world": "git", "qtype": "in_progress", "steps": 5, "ok": true, "conf": 0.999929666519165, "p_gold": 0.999929666519165, "pred": "no", "gold": "no", "probs": [7.03e-05, 0.9999297]}
+{"world": "git", "qtype": "content", "steps": 5, "ok": true, "conf": 0.9999675750732422, "p_gold": 0.9999675750732422, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.9999676, 8.9e-06, 7.4e-06, 9.5e-06, 6.5e-06]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9994471669197083, "p_gold": 0.9994471669197083, "pred": "no", "gold": "no", "probs": [0.0005528, 0.9994472]}
+{"world": "git", "qtype": "clean", "steps": 5, "ok": true, "conf": 0.9933071732521057, "p_gold": 0.9933071732521057, "pred": "no", "gold": "no", "probs": [0.0066929, 0.9933072]}
+{"world": "git", "qtype": "lost", "steps": 5, "ok": true, "conf": 0.9808759689331055, "p_gold": 0.9808759689331055, "pred": "no", "gold": "no", "probs": [0.019124, 0.980876]}
+{"world": "git", "qtype": "exists", "steps": 5, "ok": true, "conf": 0.9981897473335266, "p_gold": 0.9981897473335266, "pred": "yes", "gold": "yes", "probs": [0.9981897, 0.0018102]}
+{"world": "git", "qtype": "in_progress", "steps": 5, "ok": true, "conf": 0.9999039173126221, "p_gold": 0.9999039173126221, "pred": "no", "gold": "no", "probs": [9.61e-05, 0.9999039]}
+{"world": "git", "qtype": "stash", "steps": 5, "ok": true, "conf": 0.9983610510826111, "p_gold": 0.9983610510826111, "pred": "0", "gold": "0", "probs": [0.9983611, 0.0009691, 0.0003349, 0.0003349]}
+{"world": "git", "qtype": "lost", "steps": 5, "ok": true, "conf": 0.9953904151916504, "p_gold": 0.9953904151916504, "pred": "no", "gold": "no", "probs": [0.0046096, 0.9953904]}
+{"world": "git", "qtype": "clean", "steps": 5, "ok": false, "conf": 0.9937100410461426, "p_gold": 0.006289901677519083, "pred": "no", "gold": "yes", "probs": [0.0062899, 0.99371]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9937100410461426, "p_gold": 0.9937100410461426, "pred": "no", "gold": "no", "probs": [0.0062899, 0.99371]}
+{"world": "git", "qtype": "exists", "steps": 5, "ok": true, "conf": 0.9989677667617798, "p_gold": 0.9989677667617798, "pred": "yes", "gold": "yes", "probs": [0.9989678, 0.0010322]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9820137619972229, "p_gold": 0.9820137619972229, "pred": "yes", "gold": "yes", "probs": [0.9820138, 0.0179862]}
+{"world": "git", "qtype": "content", "steps": 5, "ok": true, "conf": 0.9875056743621826, "p_gold": 0.9875056743621826, "pred": "fix", "gold": "fix", "probs": [0.0016823, 0.9875057, 0.0045731, 0.0037912, 0.0024478]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": false, "conf": 0.9724147915840149, "p_gold": 0.027585284784436226, "pred": "yes", "gold": "no", "probs": [0.9724148, 0.0275853]}
+{"world": "git", "qtype": "staged", "steps": 5, "ok": true, "conf": 0.9999417066574097, "p_gold": 0.9999417066574097, "pred": "no", "gold": "no", "probs": [5.83e-05, 0.9999417]}
+{"world": "git", "qtype": "lost", "steps": 5, "ok": true, "conf": 0.9989677667617798, "p_gold": 0.9989677667617798, "pred": "no", "gold": "no", "probs": [0.0010322, 0.9989678]}
+{"world": "git", "qtype": "content", "steps": 5, "ok": true, "conf": 0.9999793767929077, "p_gold": 0.9999793767929077, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.9999794, 8.9e-06, 5.1e-06, 6.5e-06]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9997387528419495, "p_gold": 0.9997387528419495, "pred": "no", "gold": "no", "probs": [0.0002612, 0.9997388]}
+{"world": "git", "qtype": "branch", "steps": 5, "ok": true, "conf": 0.9986749291419983, "p_gold": 0.9986749291419983, "pred": "main", "gold": "main", "probs": [0.001325, 0.9986749]}
+{"world": "git", "qtype": "in_progress", "steps": 5, "ok": true, "conf": 0.999929666519165, "p_gold": 0.999929666519165, "pred": "no", "gold": "no", "probs": [7.03e-05, 0.9999297]}
+{"world": "git", "qtype": "staged", "steps": 5, "ok": true, "conf": 0.9940890073776245, "p_gold": 0.9940890073776245, "pred": "no", "gold": "no", "probs": [0.0059111, 0.994089]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9924227595329285, "p_gold": 0.9924227595329285, "pred": "no", "gold": "no", "probs": [0.0075772, 0.9924228]}
+{"world": "git", "qtype": "content", "steps": 5, "ok": true, "conf": 0.999993085861206, "p_gold": 0.999993085861206, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.9999931, 3.7e-06, 1.7e-06, 1.6e-06]}
+{"world": "git", "qtype": "lost", "steps": 5, "ok": true, "conf": 0.8933094143867493, "p_gold": 0.8933094143867493, "pred": "yes", "gold": "yes", "probs": [0.8933094, 0.1066906]}
+{"world": "git", "qtype": "staged", "steps": 5, "ok": true, "conf": 0.9998977184295654, "p_gold": 0.9998977184295654, "pred": "no", "gold": "no", "probs": [0.0001023, 0.9998977]}
+{"world": "git", "qtype": "in_progress", "steps": 5, "ok": true, "conf": 0.9998977184295654, "p_gold": 0.9998977184295654, "pred": "no", "gold": "no", "probs": [0.0001023, 0.9998977]}
+{"world": "git", "qtype": "content", "steps": 5, "ok": true, "conf": 0.99988853931427, "p_gold": 0.99988853931427, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.9998885, 6.6e-05, 4.54e-05]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9994471669197083, "p_gold": 0.9994471669197083, "pred": "no", "gold": "no", "probs": [0.0005528, 0.9994472]}
+{"world": "git", "qtype": "staged", "steps": 5, "ok": true, "conf": 0.9890130758285522, "p_gold": 0.9890130758285522, "pred": "no", "gold": "no", "probs": [0.0109869, 0.9890131]}
+{"world": "git", "qtype": "in_progress", "steps": 5, "ok": true, "conf": 0.9740425944328308, "p_gold": 0.9740425944328308, "pred": "no", "gold": "no", "probs": [0.0259574, 0.9740426]}
+{"world": "git", "qtype": "clean", "steps": 5, "ok": true, "conf": 0.9740425944328308, "p_gold": 0.9740425944328308, "pred": "no", "gold": "no", "probs": [0.0259574, 0.9740426]}
+{"world": "git", "qtype": "in_progress", "steps": 5, "ok": true, "conf": 0.9999203681945801, "p_gold": 0.9999203681945801, "pred": "no", "gold": "no", "probs": [7.97e-05, 0.9999204]}
+{"world": "git", "qtype": "staged", "steps": 5, "ok": true, "conf": 0.9982993006706238, "p_gold": 0.9982993006706238, "pred": "no", "gold": "no", "probs": [0.0017007, 0.9982993]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9755768775939941, "p_gold": 0.9755768775939941, "pred": "no", "gold": "no", "probs": [0.0244231, 0.9755769]}
+{"world": "git", "qtype": "staged", "steps": 5, "ok": true, "conf": 0.9999452829360962, "p_gold": 0.9999452829360962, "pred": "no", "gold": "no", "probs": [5.48e-05, 0.9999453]}
+{"world": "git", "qtype": "lost", "steps": 5, "ok": true, "conf": 0.977022647857666, "p_gold": 0.977022647857666, "pred": "yes", "gold": "yes", "probs": [0.9770226, 0.0229774]}
+{"world": "git", "qtype": "staged", "steps": 5, "ok": true, "conf": 0.9998205304145813, "p_gold": 0.9998205304145813, "pred": "no", "gold": "no", "probs": [0.0001795, 0.9998205]}
+{"world": "git", "qtype": "lost", "steps": 5, "ok": true, "conf": 0.9796676635742188, "p_gold": 0.9796676635742188, "pred": "yes", "gold": "yes", "probs": [0.9796677, 0.0203324]}
+{"world": "git", "qtype": "remote", "steps": 5, "ok": true, "conf": 0.9995694756507874, "p_gold": 0.9995694756507874, "pred": "yes", "gold": "yes", "probs": [0.9995695, 0.0004306]}
+{"world": "git", "qtype": "in_progress", "steps": 5, "ok": true, "conf": 0.9999251365661621, "p_gold": 0.9999251365661621, "pred": "no", "gold": "no", "probs": [7.48e-05, 0.9999251]}
+{"world": "git", "qtype": "branch", "steps": 5, "ok": true, "conf": 0.9987550973892212, "p_gold": 0.9987550973892212, "pred": "feature", "gold": "feature", "probs": [0.9987551, 0.0012448]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9603611826896667, "p_gold": 0.9603611826896667, "pred": "yes", "gold": "yes", "probs": [0.9603612, 0.0396388]}
+{"world": "git", "qtype": "branch", "steps": 5, "ok": true, "conf": 0.9996429681777954, "p_gold": 0.9996429681777954, "pred": "exp", "gold": "exp", "probs": [0.999643, 0.000357]}
+{"world": "git", "qtype": "lost", "steps": 5, "ok": true, "conf": 0.9796676635742188, "p_gold": 0.9796676635742188, "pred": "no", "gold": "no", "probs": [0.0203324, 0.9796677]}
+{"world": "git", "qtype": "remote", "steps": 5, "ok": true, "conf": 0.999373733997345, "p_gold": 0.999373733997345, "pred": "no", "gold": "no", "probs": [0.0006263, 0.9993737]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9996429681777954, "p_gold": 0.9996429681777954, "pred": "no", "gold": "no", "probs": [0.000357, 0.999643]}
+{"world": "git", "qtype": "clean", "steps": 5, "ok": true, "conf": 0.9902915358543396, "p_gold": 0.9902915358543396, "pred": "yes", "gold": "yes", "probs": [0.9902915, 0.0097085]}
+{"world": "git", "qtype": "lost", "steps": 5, "ok": true, "conf": 0.9979493021965027, "p_gold": 0.9979493021965027, "pred": "no", "gold": "no", "probs": [0.0020507, 0.9979493]}
+{"world": "git", "qtype": "staged", "steps": 5, "ok": true, "conf": 0.999929666519165, "p_gold": 0.999929666519165, "pred": "no", "gold": "no", "probs": [7.03e-05, 0.9999297]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9867772459983826, "p_gold": 0.9867772459983826, "pred": "no", "gold": "no", "probs": [0.0132228, 0.9867772]}
+{"world": "git", "qtype": "content", "steps": 5, "ok": true, "conf": 0.99997878074646, "p_gold": 0.99997878074646, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.9999788, 1.22e-05, 4.5e-06, 4.5e-06]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9992445707321167, "p_gold": 0.9992445707321167, "pred": "no", "gold": "no", "probs": [0.0007554, 0.9992446]}
+{"world": "git", "qtype": "stash", "steps": 5, "ok": true, "conf": 0.9997339844703674, "p_gold": 0.9997339844703674, "pred": "1", "gold": "1", "probs": [9.61e-05, 0.999734, 9.03e-05, 7.97e-05]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9944451451301575, "p_gold": 0.9944451451301575, "pred": "no", "gold": "no", "probs": [0.0055549, 0.9944451]}
+{"world": "git", "qtype": "remote", "steps": 5, "ok": true, "conf": 0.9987550973892212, "p_gold": 0.9987550973892212, "pred": "yes", "gold": "yes", "probs": [0.9987551, 0.0012448]}
+{"world": "git", "qtype": "lost", "steps": 5, "ok": true, "conf": 0.9908744096755981, "p_gold": 0.9908744096755981, "pred": "no", "gold": "no", "probs": [0.0091256, 0.9908744]}
+{"world": "git", "qtype": "content", "steps": 5, "ok": true, "conf": 0.9999855756759644, "p_gold": 0.9999855756759644, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.9999856, 5.8e-06, 2.6e-06, 2.4e-06, 3.7e-06]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9991440773010254, "p_gold": 0.9991440773010254, "pred": "no", "gold": "no", "probs": [0.0008559, 0.9991441]}
+{"world": "git", "qtype": "clean", "steps": 5, "ok": true, "conf": 0.9980732202529907, "p_gold": 0.9980732202529907, "pred": "no", "gold": "no", "probs": [0.0019267, 0.9980732]}
+{"world": "git", "qtype": "in_progress", "steps": 5, "ok": true, "conf": 0.9998766183853149, "p_gold": 0.9998766183853149, "pred": "no", "gold": "no", "probs": [0.0001234, 0.9998766]}
+{"world": "git", "qtype": "remote", "steps": 5, "ok": true, "conf": 0.9998205304145813, "p_gold": 0.9998205304145813, "pred": "yes", "gold": "yes", "probs": [0.9998205, 0.0001795]}
+{"world": "git", "qtype": "lost", "steps": 5, "ok": true, "conf": 0.9950946569442749, "p_gold": 0.9950946569442749, "pred": "no", "gold": "no", "probs": [0.0049054, 0.9950947]}
+{"world": "git", "qtype": "clean", "steps": 5, "ok": true, "conf": 0.977022647857666, "p_gold": 0.977022647857666, "pred": "no", "gold": "no", "probs": [0.0229774, 0.9770226]}
+{"world": "git", "qtype": "in_progress", "steps": 5, "ok": true, "conf": 0.999937891960144, "p_gold": 0.999937891960144, "pred": "no", "gold": "no", "probs": [6.21e-05, 0.9999379]}
+{"world": "git", "qtype": "remote", "steps": 5, "ok": true, "conf": 0.9997546076774597, "p_gold": 0.9997546076774597, "pred": "yes", "gold": "yes", "probs": [0.9997546, 0.0002454]}
+{"world": "git", "qtype": "lost", "steps": 5, "ok": true, "conf": 0.9883127808570862, "p_gold": 0.9883127808570862, "pred": "yes", "gold": "yes", "probs": [0.9883128, 0.0116873]}
+{"world": "git", "qtype": "staged", "steps": 5, "ok": true, "conf": 0.9998766183853149, "p_gold": 0.9998766183853149, "pred": "no", "gold": "no", "probs": [0.0001234, 0.9998766]}
+{"world": "git", "qtype": "in_progress", "steps": 5, "ok": true, "conf": 0.9999203681945801, "p_gold": 0.9999203681945801, "pred": "no", "gold": "no", "probs": [7.97e-05, 0.9999204]}
+{"world": "git", "qtype": "branch", "steps": 5, "ok": true, "conf": 0.999783456325531, "p_gold": 0.999783456325531, "pred": "main", "gold": "main", "probs": [0.0002165, 0.9997835]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9956685304641724, "p_gold": 0.9956685304641724, "pred": "no", "gold": "no", "probs": [0.0043315, 0.9956685]}
+{"world": "git", "qtype": "exists", "steps": 5, "ok": true, "conf": 0.9998766183853149, "p_gold": 0.9998766183853149, "pred": "yes", "gold": "yes", "probs": [0.9998766, 0.0001234]}
+{"world": "git", "qtype": "in_progress", "steps": 5, "ok": true, "conf": 0.9997695088386536, "p_gold": 0.9997695088386536, "pred": "no", "gold": "no", "probs": [0.0002305, 0.9997695]}
+{"world": "git", "qtype": "content", "steps": 5, "ok": true, "conf": 0.9999817609786987, "p_gold": 0.9999817609786987, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.9999818, 5.4e-06, 3.5e-06, 4.8e-06, 4.5e-06]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9997965693473816, "p_gold": 0.9997965693473816, "pred": "no", "gold": "no", "probs": [0.0002034, 0.9997966]}
+{"world": "git", "qtype": "branch", "steps": 5, "ok": true, "conf": 0.9999251365661621, "p_gold": 0.9999251365661621, "pred": "exp", "gold": "exp", "probs": [0.9999251, 7.48e-05]}
+{"world": "git", "qtype": "lost", "steps": 5, "ok": true, "conf": 0.9796676635742188, "p_gold": 0.9796676635742188, "pred": "no", "gold": "no", "probs": [0.0203324, 0.9796677]}
+{"world": "git", "qtype": "content", "steps": 5, "ok": true, "conf": 0.9999827146530151, "p_gold": 0.9999827146530151, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.9999827, 8.9e-06, 4.2e-06, 4.2e-06]}
+{"world": "git", "qtype": "lost", "steps": 5, "ok": true, "conf": 0.9986749291419983, "p_gold": 0.9986749291419983, "pred": "no", "gold": "no", "probs": [0.001325, 0.9986749]}
+{"world": "git", "qtype": "clean", "steps": 5, "ok": true, "conf": 0.9914224743843079, "p_gold": 0.9914224743843079, "pred": "no", "gold": "no", "probs": [0.0085775, 0.9914225]}
+{"world": "git", "qtype": "lost", "steps": 5, "ok": true, "conf": 0.9919379353523254, "p_gold": 0.9919379353523254, "pred": "no", "gold": "no", "probs": [0.008062, 0.9919379]}
+{"world": "git", "qtype": "branch", "steps": 5, "ok": true, "conf": 0.995028555393219, "p_gold": 0.995028555393219, "pred": "exp", "gold": "exp", "probs": [0.9950286, 0.003167, 0.0018045]}
+{"world": "git", "qtype": "in_progress", "steps": 5, "ok": true, "conf": 0.9998205304145813, "p_gold": 0.9998205304145813, "pred": "no", "gold": "no", "probs": [0.0001795, 0.9998205]}
+{"world": "git", "qtype": "stash", "steps": 5, "ok": false, "conf": 0.8921797871589661, "p_gold": 0.08833776414394379, "pred": "0", "gold": "1", "probs": [0.8921798, 0.0883378, 0.0153508, 0.0041316]}
+{"world": "git", "qtype": "in_progress", "steps": 5, "ok": true, "conf": 0.9998977184295654, "p_gold": 0.9998977184295654, "pred": "no", "gold": "no", "probs": [0.0001023, 0.9998977]}
+{"world": "git", "qtype": "clean", "steps": 5, "ok": true, "conf": 0.9902915358543396, "p_gold": 0.9902915358543396, "pred": "yes", "gold": "yes", "probs": [0.9902915, 0.0097085]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9924227595329285, "p_gold": 0.9924227595329285, "pred": "yes", "gold": "yes", "probs": [0.9924228, 0.0075772]}
+{"world": "git", "qtype": "content", "steps": 5, "ok": true, "conf": 0.9952474236488342, "p_gold": 0.9952474236488342, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.9952474, 0.0004563, 0.0035894, 0.0007068]}
+{"world": "git", "qtype": "in_progress", "steps": 5, "ok": true, "conf": 0.9999203681945801, "p_gold": 0.9999203681945801, "pred": "no", "gold": "no", "probs": [7.97e-05, 0.9999204]}
+{"world": "git", "qtype": "exists", "steps": 5, "ok": true, "conf": 0.9999877214431763, "p_gold": 0.9999877214431763, "pred": "no", "gold": "no", "probs": [1.22e-05, 0.9999877]}
+{"world": "git", "qtype": "lost", "steps": 5, "ok": true, "conf": 0.9603611826896667, "p_gold": 0.9603611826896667, "pred": "yes", "gold": "yes", "probs": [0.9603612, 0.0396388]}
+{"world": "git", "qtype": "content", "steps": 5, "ok": true, "conf": 0.9999256134033203, "p_gold": 0.9999256134033203, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.9999256, 6.2e-05, 1.22e-05]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9947799444198608, "p_gold": 0.9947799444198608, "pred": "no", "gold": "no", "probs": [0.0052201, 0.9947799]}
+{"world": "git", "qtype": "clean", "steps": 5, "ok": true, "conf": 0.985042929649353, "p_gold": 0.985042929649353, "pred": "yes", "gold": "yes", "probs": [0.9850429, 0.0149571]}
+{"world": "git", "qtype": "lost", "steps": 5, "ok": true, "conf": 0.9919379353523254, "p_gold": 0.9919379353523254, "pred": "no", "gold": "no", "probs": [0.008062, 0.9919379]}
+{"world": "git", "qtype": "exists", "steps": 5, "ok": true, "conf": 0.9999861717224121, "p_gold": 0.9999861717224121, "pred": "no", "gold": "no", "probs": [1.38e-05, 0.9999862]}
+{"world": "git", "qtype": "in_progress", "steps": 5, "ok": true, "conf": 0.9999339580535889, "p_gold": 0.9999339580535889, "pred": "no", "gold": "no", "probs": [6.61e-05, 0.999934]}
+{"world": "git", "qtype": "remote", "steps": 5, "ok": true, "conf": 0.999595582485199, "p_gold": 0.999595582485199, "pred": "yes", "gold": "yes", "probs": [0.9995956, 0.0004045]}
+{"world": "git", "qtype": "in_progress", "steps": 5, "ok": true, "conf": 0.9997695088386536, "p_gold": 0.9997695088386536, "pred": "no", "gold": "no", "probs": [0.0002305, 0.9997695]}
+{"world": "git", "qtype": "exists", "steps": 5, "ok": true, "conf": 0.9979493021965027, "p_gold": 0.9979493021965027, "pred": "yes", "gold": "yes", "probs": [0.9979493, 0.0020507]}
+{"world": "git", "qtype": "in_progress", "steps": 5, "ok": true, "conf": 0.9994471669197083, "p_gold": 0.9994471669197083, "pred": "no", "gold": "no", "probs": [0.0005528, 0.9994472]}
+{"world": "git", "qtype": "branch", "steps": 5, "ok": true, "conf": 0.9970190525054932, "p_gold": 0.9970190525054932, "pred": "dev", "gold": "dev", "probs": [0.9970191, 0.002981]}
+{"world": "git", "qtype": "lost", "steps": 5, "ok": true, "conf": 0.977022647857666, "p_gold": 0.977022647857666, "pred": "yes", "gold": "yes", "probs": [0.9770226, 0.0229774]}
+{"world": "git", "qtype": "exists", "steps": 5, "ok": true, "conf": 0.9999822378158569, "p_gold": 0.9999822378158569, "pred": "no", "gold": "no", "probs": [1.78e-05, 0.9999822]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.998498797416687, "p_gold": 0.998498797416687, "pred": "no", "gold": "no", "probs": [0.0015012, 0.9984988]}
+{"world": "git", "qtype": "exists", "steps": 5, "ok": true, "conf": 0.949669361114502, "p_gold": 0.949669361114502, "pred": "no", "gold": "no", "probs": [0.0503306, 0.9496694]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9944451451301575, "p_gold": 0.9944451451301575, "pred": "yes", "gold": "yes", "probs": [0.9944451, 0.0055549]}
+{"world": "git", "qtype": "exists", "steps": 5, "ok": true, "conf": 0.9999039173126221, "p_gold": 0.9999039173126221, "pred": "yes", "gold": "yes", "probs": [0.9999039, 9.61e-05]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9966233968734741, "p_gold": 0.9966233968734741, "pred": "yes", "gold": "yes", "probs": [0.9966234, 0.0033766]}
+{"world": "git", "qtype": "content", "steps": 5, "ok": true, "conf": 0.9999597072601318, "p_gold": 0.9999597072601318, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.9999597, 1.57e-05, 1.38e-05, 1.08e-05]}
+{"world": "git", "qtype": "in_progress", "steps": 5, "ok": true, "conf": 0.9997695088386536, "p_gold": 0.9997695088386536, "pred": "no", "gold": "no", "probs": [0.0002305, 0.9997695]}
+{"world": "git", "qtype": "stash", "steps": 5, "ok": true, "conf": 0.999990701675415, "p_gold": 0.999990701675415, "pred": "0", "gold": "0", "probs": [0.9999907, 4.2e-06, 2.6e-06, 2.6e-06]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9976769089698792, "p_gold": 0.9976769089698792, "pred": "no", "gold": "no", "probs": [0.0023232, 0.9976769]}
+{"world": "git", "qtype": "staged", "steps": 5, "ok": true, "conf": 0.9980732202529907, "p_gold": 0.9980732202529907, "pred": "no", "gold": "no", "probs": [0.0019267, 0.9980732]}
+{"world": "git", "qtype": "in_progress", "steps": 5, "ok": true, "conf": 0.9997695088386536, "p_gold": 0.9997695088386536, "pred": "no", "gold": "no", "probs": [0.0002305, 0.9997695]}
+{"world": "git", "qtype": "branch", "steps": 5, "ok": true, "conf": 0.9919379353523254, "p_gold": 0.9919379353523254, "pred": "exp", "gold": "exp", "probs": [0.9919379, 0.008062]}
+{"world": "git", "qtype": "in_progress", "steps": 5, "ok": true, "conf": 0.9985895752906799, "p_gold": 0.9985895752906799, "pred": "no", "gold": "no", "probs": [0.0014104, 0.9985896]}
+{"world": "git", "qtype": "staged", "steps": 5, "ok": true, "conf": 0.9998766183853149, "p_gold": 0.9998766183853149, "pred": "no", "gold": "no", "probs": [0.0001234, 0.9998766]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": false, "conf": 0.9896718263626099, "p_gold": 0.010328153148293495, "pred": "yes", "gold": "no", "probs": [0.9896718, 0.0103282]}
+{"world": "git", "qtype": "staged", "steps": 5, "ok": true, "conf": 0.9992903470993042, "p_gold": 0.9992903470993042, "pred": "no", "gold": "no", "probs": [0.0007097, 0.9992903]}
+{"world": "git", "qtype": "in_progress", "steps": 5, "ok": true, "conf": 0.9997387528419495, "p_gold": 0.9997387528419495, "pred": "no", "gold": "no", "probs": [0.0002612, 0.9997388]}
+{"world": "git", "qtype": "exists", "steps": 5, "ok": true, "conf": 0.9999785423278809, "p_gold": 0.9999785423278809, "pred": "no", "gold": "no", "probs": [2.14e-05, 0.9999785]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9994471669197083, "p_gold": 0.9994471669197083, "pred": "no", "gold": "no", "probs": [0.0005528, 0.9994472]}
+{"world": "git", "qtype": "content", "steps": 5, "ok": false, "conf": 0.8473930954933167, "p_gold": 0.06138495355844498, "pred": "old", "gold": "hotfix", "probs": [0.0023802, 0.0225823, 0.061385, 0.8473931, 0.0120874, 0.054172]}
+{"world": "git", "qtype": "in_progress", "steps": 5, "ok": true, "conf": 0.9996646642684937, "p_gold": 0.9996646642684937, "pred": "no", "gold": "no", "probs": [0.0003354, 0.9996647]}
+{"world": "git", "qtype": "clean", "steps": 5, "ok": true, "conf": 0.9984021782875061, "p_gold": 0.9984021782875061, "pred": "no", "gold": "no", "probs": [0.0015978, 0.9984022]}
+{"world": "git", "qtype": "lost", "steps": 5, "ok": true, "conf": 0.949669361114502, "p_gold": 0.949669361114502, "pred": "yes", "gold": "yes", "probs": [0.9496694, 0.0503306]}
+{"world": "git", "qtype": "content", "steps": 5, "ok": true, "conf": 0.9999812841415405, "p_gold": 0.9999812841415405, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.9999813, 7.4e-06, 3.1e-06, 4.8e-06, 3.5e-06]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9987550973892212, "p_gold": 0.9987550973892212, "pred": "no", "gold": "no", "probs": [0.0012448, 0.9987551]}
+{"world": "git", "qtype": "content", "steps": 5, "ok": true, "conf": 0.9999649524688721, "p_gold": 0.9999649524688721, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.999965, 8.9e-06, 6.1e-06, 5.4e-06, 6.5e-06, 7.9e-06]}
+{"world": "git", "qtype": "in_progress", "steps": 5, "ok": true, "conf": 0.9999203681945801, "p_gold": 0.9999203681945801, "pred": "no", "gold": "no", "probs": [7.97e-05, 0.9999204]}
+{"world": "git", "qtype": "content", "steps": 5, "ok": true, "conf": 0.9994322657585144, "p_gold": 0.9994322657585144, "pred": "final", "gold": "final", "probs": [0.0001023, 0.9994323, 7.03e-05, 0.0002165, 7.96e-05, 7.48e-05, 2.43e-05]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.998498797416687, "p_gold": 0.998498797416687, "pred": "no", "gold": "no", "probs": [0.0015012, 0.9984988]}
+{"world": "git", "qtype": "stash", "steps": 5, "ok": true, "conf": 0.9881687760353088, "p_gold": 0.9881687760353088, "pred": "2", "gold": "2", "probs": [0.0026074, 0.0040384, 0.9881688, 0.0051854]}
+{"world": "git", "qtype": "in_progress", "steps": 5, "ok": true, "conf": 0.9999097585678101, "p_gold": 0.9999097585678101, "pred": "no", "gold": "no", "probs": [9.03e-05, 0.9999098]}
+{"world": "git", "qtype": "staged", "steps": 5, "ok": true, "conf": 0.9992445707321167, "p_gold": 0.9992445707321167, "pred": "no", "gold": "no", "probs": [0.0007554, 0.9992446]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9995121955871582, "p_gold": 0.9995121955871582, "pred": "no", "gold": "no", "probs": [0.0004879, 0.9995122]}
+{"world": "git", "qtype": "exists", "steps": 5, "ok": true, "conf": 0.9981897473335266, "p_gold": 0.9981897473335266, "pred": "no", "gold": "no", "probs": [0.0018102, 0.9981897]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9988304972648621, "p_gold": 0.9988304972648621, "pred": "no", "gold": "no", "probs": [0.0011695, 0.9988305]}
+{"world": "git", "qtype": "content", "steps": 5, "ok": true, "conf": 0.999985933303833, "p_gold": 0.999985933303833, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.9999859, 4.5e-06, 2.7e-06, 4e-06, 2.9e-06]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9997219443321228, "p_gold": 0.9997219443321228, "pred": "no", "gold": "no", "probs": [0.000278, 0.9997219]}
+{"world": "git", "qtype": "content", "steps": 5, "ok": true, "conf": 0.9999847412109375, "p_gold": 0.9999847412109375, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.9999847, 7.9e-06, 3.5e-06, 4e-06]}
+{"world": "git", "qtype": "lost", "steps": 5, "ok": true, "conf": 0.9980732202529907, "p_gold": 0.9980732202529907, "pred": "no", "gold": "no", "probs": [0.0019267, 0.9980732]}
+{"world": "git", "qtype": "stash", "steps": 5, "ok": true, "conf": 0.9992258548736572, "p_gold": 0.9992258548736572, "pred": "0", "gold": "0", "probs": [0.9992259, 0.0003798, 0.0002033, 0.000191]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9985895752906799, "p_gold": 0.9985895752906799, "pred": "yes", "gold": "yes", "probs": [0.9985896, 0.0014104]}
+{"world": "git", "qtype": "stash", "steps": 5, "ok": true, "conf": 0.9998742341995239, "p_gold": 0.9998742341995239, "pred": "0", "gold": "0", "probs": [0.9998742, 4.54e-05, 4.26e-05, 3.76e-05]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9988304972648621, "p_gold": 0.9988304972648621, "pred": "no", "gold": "no", "probs": [0.0011695, 0.9988305]}
+{"world": "git", "qtype": "clean", "steps": 5, "ok": false, "conf": 0.9924227595329285, "p_gold": 0.007577240467071533, "pred": "no", "gold": "yes", "probs": [0.0075772, 0.9924228]}
+{"world": "git", "qtype": "in_progress", "steps": 5, "ok": true, "conf": 0.9990302324295044, "p_gold": 0.9990302324295044, "pred": "no", "gold": "no", "probs": [0.0009698, 0.9990302]}
+{"world": "git", "qtype": "stash", "steps": 5, "ok": true, "conf": 0.9999798536300659, "p_gold": 0.9999798536300659, "pred": "0", "gold": "0", "probs": [0.9999799, 7.9e-06, 5.8e-06, 6.5e-06]}
+{"world": "git", "qtype": "lost", "steps": 5, "ok": true, "conf": 0.9937100410461426, "p_gold": 0.9937100410461426, "pred": "no", "gold": "no", "probs": [0.0062899, 0.99371]}
+{"world": "git", "qtype": "content", "steps": 5, "ok": true, "conf": 0.9999721050262451, "p_gold": 0.9999721050262451, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.9999721, 1.15e-05, 4e-06, 6.1e-06, 4e-06, 2.4e-06]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9985895752906799, "p_gold": 0.9985895752906799, "pred": "no", "gold": "no", "probs": [0.0014104, 0.9985896]}
+{"world": "git", "qtype": "branch", "steps": 5, "ok": true, "conf": 0.9998910427093506, "p_gold": 0.9998910427093506, "pred": "main", "gold": "main", "probs": [0.0001089, 0.999891]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9991958737373352, "p_gold": 0.9991958737373352, "pred": "no", "gold": "no", "probs": [0.0008041, 0.9991959]}
+{"world": "git", "qtype": "remote", "steps": 5, "ok": true, "conf": 0.9998601675033569, "p_gold": 0.9998601675033569, "pred": "yes", "gold": "yes", "probs": [0.9998602, 0.0001398]}
+{"world": "git", "qtype": "in_progress", "steps": 5, "ok": true, "conf": 0.999841570854187, "p_gold": 0.999841570854187, "pred": "no", "gold": "no", "probs": [0.0001584, 0.9998416]}
+{"world": "git", "qtype": "staged", "steps": 5, "ok": true, "conf": 0.999929666519165, "p_gold": 0.999929666519165, "pred": "no", "gold": "no", "probs": [7.03e-05, 0.9999297]}
+{"world": "git", "qtype": "in_progress", "steps": 5, "ok": true, "conf": 0.999937891960144, "p_gold": 0.999937891960144, "pred": "no", "gold": "no", "probs": [6.21e-05, 0.9999379]}
+{"world": "git", "qtype": "remote", "steps": 5, "ok": true, "conf": 0.9988304972648621, "p_gold": 0.9988304972648621, "pred": "no", "gold": "no", "probs": [0.0011695, 0.9988305]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9995121955871582, "p_gold": 0.9995121955871582, "pred": "no", "gold": "no", "probs": [0.0004879, 0.9995122]}
+{"world": "git", "qtype": "branch", "steps": 5, "ok": true, "conf": 0.9998313188552856, "p_gold": 0.9998313188552856, "pred": "main", "gold": "main", "probs": [0.0001687, 0.9998313]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9924227595329285, "p_gold": 0.9924227595329285, "pred": "yes", "gold": "yes", "probs": [0.9924228, 0.0075772]}
+{"world": "git", "qtype": "branch", "steps": 5, "ok": true, "conf": 0.9888607859611511, "p_gold": 0.9888607859611511, "pred": "feature", "gold": "feature", "probs": [0.0020321, 0.9888608, 0.0091071]}
+{"world": "git", "qtype": "in_progress", "steps": 5, "ok": true, "conf": 0.9999645948410034, "p_gold": 0.9999645948410034, "pred": "no", "gold": "no", "probs": [3.54e-05, 0.9999646]}
+{"world": "git", "qtype": "staged", "steps": 5, "ok": true, "conf": 0.9998977184295654, "p_gold": 0.9998977184295654, "pred": "no", "gold": "no", "probs": [0.0001023, 0.9998977]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.999373733997345, "p_gold": 0.999373733997345, "pred": "no", "gold": "no", "probs": [0.0006263, 0.9993737]}
+{"world": "git", "qtype": "remote", "steps": 5, "ok": true, "conf": 0.9998511075973511, "p_gold": 0.9998511075973511, "pred": "yes", "gold": "yes", "probs": [0.9998511, 0.0001488]}
+{"world": "git", "qtype": "in_progress", "steps": 5, "ok": true, "conf": 0.9998511075973511, "p_gold": 0.9998511075973511, "pred": "no", "gold": "no", "probs": [0.0001488, 0.9998511]}
+{"world": "git", "qtype": "stash", "steps": 5, "ok": true, "conf": 0.9999308586120605, "p_gold": 0.9999308586120605, "pred": "0", "gold": "0", "probs": [0.9999309, 2.59e-05, 1.89e-05, 2.43e-05]}
+{"world": "git", "qtype": "lost", "steps": 5, "ok": true, "conf": 0.8740772008895874, "p_gold": 0.8740772008895874, "pred": "yes", "gold": "yes", "probs": [0.8740772, 0.1259228]}
+{"world": "git", "qtype": "stash", "steps": 5, "ok": true, "conf": 0.9999786615371704, "p_gold": 0.9999786615371704, "pred": "0", "gold": "0", "probs": [0.9999787, 9.5e-06, 5.8e-06, 6.1e-06]}
+{"world": "git", "qtype": "lost", "steps": 5, "ok": false, "conf": 0.9820137619972229, "p_gold": 0.01798621006309986, "pred": "no", "gold": "yes", "probs": [0.0179862, 0.9820138]}
+{"world": "git", "qtype": "remote", "steps": 5, "ok": true, "conf": 0.9998205304145813, "p_gold": 0.9998205304145813, "pred": "yes", "gold": "yes", "probs": [0.9998205, 0.0001795]}
+{"world": "git", "qtype": "lost", "steps": 5, "ok": true, "conf": 0.9875683188438416, "p_gold": 0.9875683188438416, "pred": "yes", "gold": "yes", "probs": [0.9875683, 0.0124317]}
+{"world": "git", "qtype": "remote", "steps": 5, "ok": true, "conf": 0.9997387528419495, "p_gold": 0.9997387528419495, "pred": "yes", "gold": "yes", "probs": [0.9997388, 0.0002612]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9924227595329285, "p_gold": 0.9924227595329285, "pred": "no", "gold": "no", "probs": [0.0075772, 0.9924228]}
+{"world": "git", "qtype": "clean", "steps": 5, "ok": true, "conf": 0.9924227595329285, "p_gold": 0.9924227595329285, "pred": "yes", "gold": "yes", "probs": [0.9924228, 0.0075772]}
+{"world": "git", "qtype": "lost", "steps": 5, "ok": true, "conf": 0.977022647857666, "p_gold": 0.977022647857666, "pred": "yes", "gold": "yes", "probs": [0.9770226, 0.0229774]}
+{"world": "git", "qtype": "staged", "steps": 5, "ok": true, "conf": 0.9830850958824158, "p_gold": 0.9830850958824158, "pred": "no", "gold": "no", "probs": [0.0169149, 0.9830851]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9990302324295044, "p_gold": 0.9990302324295044, "pred": "no", "gold": "no", "probs": [0.0009698, 0.9990302]}
+{"world": "git", "qtype": "exists", "steps": 5, "ok": true, "conf": 0.9997695088386536, "p_gold": 0.9997695088386536, "pred": "yes", "gold": "yes", "probs": [0.9997695, 0.0002305]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9994471669197083, "p_gold": 0.9994471669197083, "pred": "no", "gold": "no", "probs": [0.0005528, 0.9994472]}
+{"world": "git", "qtype": "exists", "steps": 5, "ok": true, "conf": 0.9994471669197083, "p_gold": 0.9994471669197083, "pred": "yes", "gold": "yes", "probs": [0.9994472, 0.0005528]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9982993006706238, "p_gold": 0.9982993006706238, "pred": "no", "gold": "no", "probs": [0.0017007, 0.9982993]}
+{"world": "git", "qtype": "staged", "steps": 5, "ok": true, "conf": 0.9999452829360962, "p_gold": 0.9999452829360962, "pred": "no", "gold": "no", "probs": [5.48e-05, 0.9999453]}
+{"world": "git", "qtype": "lost", "steps": 5, "ok": true, "conf": 0.9956685304641724, "p_gold": 0.9956685304641724, "pred": "no", "gold": "no", "probs": [0.0043315, 0.9956685]}
+{"world": "git", "qtype": "staged", "steps": 5, "ok": true, "conf": 0.9999339580535889, "p_gold": 0.9999339580535889, "pred": "no", "gold": "no", "probs": [6.61e-05, 0.999934]}
+{"world": "git", "qtype": "in_progress", "steps": 5, "ok": true, "conf": 0.9999203681945801, "p_gold": 0.9999203681945801, "pred": "no", "gold": "no", "probs": [7.97e-05, 0.9999204]}
+{"world": "git", "qtype": "exists", "steps": 5, "ok": true, "conf": 0.9956685304641724, "p_gold": 0.9956685304641724, "pred": "no", "gold": "no", "probs": [0.0043315, 0.9956685]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9993333220481873, "p_gold": 0.9993333220481873, "pred": "no", "gold": "no", "probs": [0.0006667, 0.9993333]}
+{"world": "git", "qtype": "remote", "steps": 5, "ok": true, "conf": 0.9975274205207825, "p_gold": 0.9975274205207825, "pred": "no", "gold": "no", "probs": [0.0024726, 0.9975274]}
+{"world": "git", "qtype": "in_progress", "steps": 5, "ok": true, "conf": 0.9999339580535889, "p_gold": 0.9999339580535889, "pred": "no", "gold": "no", "probs": [6.61e-05, 0.999934]}
+{"world": "git", "qtype": "remote", "steps": 5, "ok": true, "conf": 0.9840936064720154, "p_gold": 0.9840936064720154, "pred": "no", "gold": "no", "probs": [0.0159064, 0.9840936]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9940890073776245, "p_gold": 0.9940890073776245, "pred": "yes", "gold": "yes", "probs": [0.994089, 0.0059111]}
+{"world": "git", "qtype": "remote", "steps": 5, "ok": true, "conf": 0.9997387528419495, "p_gold": 0.9997387528419495, "pred": "yes", "gold": "yes", "probs": [0.9997388, 0.0002612]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9796676635742188, "p_gold": 0.9796676635742188, "pred": "no", "gold": "no", "probs": [0.0203324, 0.9796677]}
+{"world": "git", "qtype": "clean", "steps": 5, "ok": true, "conf": 0.9755768775939941, "p_gold": 0.9755768775939941, "pred": "no", "gold": "no", "probs": [0.0244231, 0.9755769]}
+{"world": "git", "qtype": "in_progress", "steps": 5, "ok": true, "conf": 0.9999485015869141, "p_gold": 0.9999485015869141, "pred": "no", "gold": "no", "probs": [5.14e-05, 0.9999485]}
+{"world": "git", "qtype": "clean", "steps": 5, "ok": true, "conf": 0.9783847332000732, "p_gold": 0.9783847332000732, "pred": "no", "gold": "no", "probs": [0.0216153, 0.9783847]}
+{"world": "git", "qtype": "in_progress", "steps": 5, "ok": true, "conf": 0.998498797416687, "p_gold": 0.998498797416687, "pred": "no", "gold": "no", "probs": [0.0015012, 0.9984988]}
+{"world": "git", "qtype": "clean", "steps": 5, "ok": true, "conf": 0.9961755275726318, "p_gold": 0.9961755275726318, "pred": "no", "gold": "no", "probs": [0.0038245, 0.9961755]}
+{"world": "git", "qtype": "lost", "steps": 5, "ok": true, "conf": 0.9890130758285522, "p_gold": 0.9890130758285522, "pred": "no", "gold": "no", "probs": [0.0109869, 0.9890131]}
+{"world": "git", "qtype": "stash", "steps": 5, "ok": true, "conf": 0.9568045735359192, "p_gold": 0.9568045735359192, "pred": "1", "gold": "1", "probs": [0.028893, 0.9568046, 0.0106291, 0.0036733]}
+{"world": "git", "qtype": "lost", "steps": 5, "ok": true, "conf": 0.9919379353523254, "p_gold": 0.9919379353523254, "pred": "no", "gold": "no", "probs": [0.008062, 0.9919379]}
+{"world": "git", "qtype": "staged", "steps": 5, "ok": true, "conf": 0.9999545812606812, "p_gold": 0.9999545812606812, "pred": "no", "gold": "no", "probs": [4.54e-05, 0.9999546]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9820137619972229, "p_gold": 0.9820137619972229, "pred": "no", "gold": "no", "probs": [0.0179862, 0.9820138]}
+{"world": "git", "qtype": "remote", "steps": 5, "ok": true, "conf": 0.9997387528419495, "p_gold": 0.9997387528419495, "pred": "yes", "gold": "yes", "probs": [0.9997388, 0.0002612]}
+{"world": "git", "qtype": "in_progress", "steps": 5, "ok": true, "conf": 0.9998766183853149, "p_gold": 0.9998766183853149, "pred": "no", "gold": "no", "probs": [0.0001234, 0.9998766]}
+{"world": "git", "qtype": "remote", "steps": 5, "ok": true, "conf": 0.999841570854187, "p_gold": 0.999841570854187, "pred": "yes", "gold": "yes", "probs": [0.9998416, 0.0001584]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9950946569442749, "p_gold": 0.9950946569442749, "pred": "no", "gold": "no", "probs": [0.0049054, 0.9950947]}
+{"world": "git", "qtype": "stash", "steps": 5, "ok": true, "conf": 0.9936043620109558, "p_gold": 0.9936043620109558, "pred": "1", "gold": "1", "probs": [0.0014938, 0.9936044, 0.0035835, 0.0013183]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9993333220481873, "p_gold": 0.9993333220481873, "pred": "no", "gold": "no", "probs": [0.0006667, 0.9993333]}
+{"world": "git", "qtype": "branch", "steps": 5, "ok": true, "conf": 0.9998089671134949, "p_gold": 0.9998089671134949, "pred": "main", "gold": "main", "probs": [0.0001911, 0.999809]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9980732202529907, "p_gold": 0.9980732202529907, "pred": "no", "gold": "no", "probs": [0.0019267, 0.9980732]}
+{"world": "git", "qtype": "clean", "steps": 5, "ok": true, "conf": 0.9783847332000732, "p_gold": 0.9783847332000732, "pred": "no", "gold": "no", "probs": [0.0216153, 0.9783847]}
+{"world": "git", "qtype": "in_progress", "steps": 5, "ok": true, "conf": 0.9998840093612671, "p_gold": 0.9998840093612671, "pred": "no", "gold": "no", "probs": [0.0001159, 0.999884]}
+{"world": "git", "qtype": "stash", "steps": 5, "ok": true, "conf": 0.9999841451644897, "p_gold": 0.9999841451644897, "pred": "0", "gold": "0", "probs": [0.9999841, 6.5e-06, 4.2e-06, 5.1e-06]}
+{"world": "git", "qtype": "in_progress", "steps": 5, "ok": true, "conf": 0.9999417066574097, "p_gold": 0.9999417066574097, "pred": "no", "gold": "no", "probs": [5.83e-05, 0.9999417]}
+{"world": "git", "qtype": "staged", "steps": 5, "ok": true, "conf": 0.9999687671661377, "p_gold": 0.9999687671661377, "pred": "no", "gold": "no", "probs": [3.12e-05, 0.9999688]}
+{"world": "git", "qtype": "lost", "steps": 5, "ok": true, "conf": 0.9933071732521057, "p_gold": 0.9933071732521057, "pred": "no", "gold": "no", "probs": [0.0066929, 0.9933072]}
+{"world": "git", "qtype": "exists", "steps": 5, "ok": true, "conf": 0.9995417594909668, "p_gold": 0.9995417594909668, "pred": "yes", "gold": "yes", "probs": [0.9995418, 0.0004583]}
+{"world": "git", "qtype": "lost", "steps": 5, "ok": true, "conf": 0.9914224743843079, "p_gold": 0.9914224743843079, "pred": "no", "gold": "no", "probs": [0.0085775, 0.9914225]}
+{"world": "git", "qtype": "remote", "steps": 5, "ok": true, "conf": 0.9991440773010254, "p_gold": 0.9991440773010254, "pred": "no", "gold": "no", "probs": [0.0008559, 0.9991441]}
+{"world": "git", "qtype": "lost", "steps": 5, "ok": true, "conf": 0.9755768775939941, "p_gold": 0.9755768775939941, "pred": "no", "gold": "no", "probs": [0.0244231, 0.9755769]}
+{"world": "git", "qtype": "clean", "steps": 5, "ok": false, "conf": 0.9859364032745361, "p_gold": 0.014063626527786255, "pred": "no", "gold": "yes", "probs": [0.0140636, 0.9859364]}
+{"world": "git", "qtype": "in_progress", "steps": 5, "ok": true, "conf": 0.9999203681945801, "p_gold": 0.9999203681945801, "pred": "no", "gold": "no", "probs": [7.97e-05, 0.9999204]}
+{"world": "git", "qtype": "content", "steps": 5, "ok": true, "conf": 0.999931812286377, "p_gold": 0.999931812286377, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.9999318, 4.54e-05, 2.28e-05]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9980732202529907, "p_gold": 0.9980732202529907, "pred": "yes", "gold": "yes", "probs": [0.9980732, 0.0019267]}
+{"world": "git", "qtype": "clean", "steps": 5, "ok": false, "conf": 0.9875683188438416, "p_gold": 0.01243165135383606, "pred": "yes", "gold": "no", "probs": [0.9875683, 0.0124317]}
+{"world": "git", "qtype": "lost", "steps": 5, "ok": false, "conf": 0.970687747001648, "p_gold": 0.02931223064661026, "pred": "no", "gold": "yes", "probs": [0.0293122, 0.9706877]}
+{"world": "git", "qtype": "exists", "steps": 5, "ok": false, "conf": 0.9896718263626099, "p_gold": 0.010328153148293495, "pred": "yes", "gold": "no", "probs": [0.9896718, 0.0103282]}
+{"world": "git", "qtype": "lost", "steps": 5, "ok": true, "conf": 0.9830850958824158, "p_gold": 0.9830850958824158, "pred": "no", "gold": "no", "probs": [0.0169149, 0.9830851]}
+{"world": "git", "qtype": "remote", "steps": 5, "ok": true, "conf": 0.9998910427093506, "p_gold": 0.9998910427093506, "pred": "yes", "gold": "yes", "probs": [0.999891, 0.0001089]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9976769089698792, "p_gold": 0.9976769089698792, "pred": "no", "gold": "no", "probs": [0.0023232, 0.9976769]}
+{"world": "git", "qtype": "remote", "steps": 5, "ok": true, "conf": 0.9996646642684937, "p_gold": 0.9996646642684937, "pred": "yes", "gold": "yes", "probs": [0.9996647, 0.0003354]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9985895752906799, "p_gold": 0.9985895752906799, "pred": "no", "gold": "no", "probs": [0.0014104, 0.9985896]}
+{"world": "git", "qtype": "branch", "steps": 5, "ok": true, "conf": 0.9998313188552856, "p_gold": 0.9998313188552856, "pred": "main", "gold": "main", "probs": [0.0001687, 0.9998313]}
+{"world": "git", "qtype": "in_progress", "steps": 5, "ok": true, "conf": 0.9998511075973511, "p_gold": 0.9998511075973511, "pred": "no", "gold": "no", "probs": [0.0001488, 0.9998511]}
+{"world": "git", "qtype": "exists", "steps": 5, "ok": true, "conf": 0.9999798536300659, "p_gold": 0.9999798536300659, "pred": "no", "gold": "no", "probs": [2.01e-05, 0.9999799]}
+{"world": "git", "qtype": "in_progress", "steps": 5, "ok": true, "conf": 0.9998511075973511, "p_gold": 0.9998511075973511, "pred": "no", "gold": "no", "probs": [0.0001488, 0.9998511]}
+{"world": "git", "qtype": "branch", "steps": 5, "ok": true, "conf": 0.7057850360870361, "p_gold": 0.7057850360870361, "pred": "main", "gold": "main", "probs": [0.294215, 0.705785]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9933071732521057, "p_gold": 0.9933071732521057, "pred": "no", "gold": "no", "probs": [0.0066929, 0.9933072]}
+{"world": "git", "qtype": "staged", "steps": 5, "ok": true, "conf": 0.9999452829360962, "p_gold": 0.9999452829360962, "pred": "no", "gold": "no", "probs": [5.48e-05, 0.9999453]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9993333220481873, "p_gold": 0.9993333220481873, "pred": "no", "gold": "no", "probs": [0.0006667, 0.9993333]}
+{"world": "git", "qtype": "staged", "steps": 5, "ok": true, "conf": 0.9999097585678101, "p_gold": 0.9999097585678101, "pred": "no", "gold": "no", "probs": [9.03e-05, 0.9999098]}
+{"world": "git", "qtype": "in_progress", "steps": 5, "ok": true, "conf": 0.9998840093612671, "p_gold": 0.9998840093612671, "pred": "no", "gold": "no", "probs": [0.0001159, 0.999884]}
+{"world": "git", "qtype": "exists", "steps": 5, "ok": true, "conf": 0.9999910593032837, "p_gold": 0.9999910593032837, "pred": "no", "gold": "no", "probs": [8.9e-06, 0.9999911]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9648551344871521, "p_gold": 0.9648551344871521, "pred": "yes", "gold": "yes", "probs": [0.9648551, 0.0351448]}
+{"world": "git", "qtype": "clean", "steps": 5, "ok": false, "conf": 0.9525741338729858, "p_gold": 0.04742587357759476, "pred": "no", "gold": "yes", "probs": [0.0474259, 0.9525741]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9988304972648621, "p_gold": 0.9988304972648621, "pred": "no", "gold": "no", "probs": [0.0011695, 0.9988305]}
+{"world": "git", "qtype": "staged", "steps": 5, "ok": true, "conf": 0.999937891960144, "p_gold": 0.999937891960144, "pred": "no", "gold": "no", "probs": [6.21e-05, 0.9999379]}
+{"world": "git", "qtype": "lost", "steps": 5, "ok": true, "conf": 0.9902915358543396, "p_gold": 0.9902915358543396, "pred": "no", "gold": "no", "probs": [0.0097085, 0.9902915]}
+{"world": "git", "qtype": "exists", "steps": 5, "ok": true, "conf": 0.9999861717224121, "p_gold": 0.9999861717224121, "pred": "no", "gold": "no", "probs": [1.38e-05, 0.9999862]}
+{"world": "git", "qtype": "in_progress", "steps": 5, "ok": true, "conf": 0.9999452829360962, "p_gold": 0.9999452829360962, "pred": "no", "gold": "no", "probs": [5.48e-05, 0.9999453]}
+{"world": "git", "qtype": "clean", "steps": 5, "ok": true, "conf": 0.9553191661834717, "p_gold": 0.9553191661834717, "pred": "no", "gold": "no", "probs": [0.0446809, 0.9553192]}
+{"world": "git", "qtype": "lost", "steps": 5, "ok": true, "conf": 0.9989012479782104, "p_gold": 0.9989012479782104, "pred": "no", "gold": "no", "probs": [0.0010987, 0.9989012]}
+{"world": "git", "qtype": "clean", "steps": 5, "ok": true, "conf": 0.9933071732521057, "p_gold": 0.9933071732521057, "pred": "no", "gold": "no", "probs": [0.0066929, 0.9933072]}
+{"world": "git", "qtype": "lost", "steps": 5, "ok": true, "conf": 0.9944451451301575, "p_gold": 0.9944451451301575, "pred": "no", "gold": "no", "probs": [0.0055549, 0.9944451]}
+{"world": "git", "qtype": "staged", "steps": 5, "ok": true, "conf": 0.9990302324295044, "p_gold": 0.9990302324295044, "pred": "yes", "gold": "yes", "probs": [0.9990302, 0.0009698]}
+{"world": "git", "qtype": "fails", "steps": 5, "ok": true, "conf": 0.9996199607849121, "p_gold": 0.9996199607849121, "pred": "no", "gold": "no", "probs": [0.00038, 0.99962]}
+{"world": "git", "qtype": "remote", "steps": 5, "ok": true, "conf": 0.9956685304641724, "p_gold": 0.9956685304641724, "pred": "yes", "gold": "yes", "probs": [0.9956685, 0.0043315]}
+{"world": "git", "qtype": "in_progress", "steps": 5, "ok": true, "conf": 0.999373733997345, "p_gold": 0.999373733997345, "pred": "no", "gold": "no", "probs": [0.0006263, 0.9993737]}
+{"world": "git", "qtype": "content", "steps": 5, "ok": true, "conf": 0.9999525547027588, "p_gold": 0.9999525547027588, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.9999526, 1.3e-05, 2.14e-05, 1.3e-05]}
+{"world": "git", "qtype": "in_progress", "steps": 5, "ok": true, "conf": 0.9997695088386536, "p_gold": 0.9997695088386536, "pred": "no", "gold": "no", "probs": [0.0002305, 0.9997695]}
+{"world": "git", "qtype": "clean", "steps": 5, "ok": true, "conf": 0.9991440773010254, "p_gold": 0.9991440773010254, "pred": "no", "gold": "no", "probs": [0.0008559, 0.9991441]}
+{"world": "git", "qtype": "in_progress", "steps": 8, "ok": true, "conf": 0.9998977184295654, "p_gold": 0.9998977184295654, "pred": "no", "gold": "no", "probs": [0.0001023, 0.9998977]}
+{"world": "git", "qtype": "stash", "steps": 8, "ok": true, "conf": 0.9995965361595154, "p_gold": 0.9995965361595154, "pred": "1", "gold": "1", "probs": [0.0001234, 0.9995965, 0.0001488, 0.0001313]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": true, "conf": 0.9399133324623108, "p_gold": 0.9399133324623108, "pred": "no", "gold": "no", "probs": [0.0600866, 0.9399133]}
+{"world": "git", "qtype": "exists", "steps": 8, "ok": true, "conf": 0.9999822378158569, "p_gold": 0.9999822378158569, "pred": "no", "gold": "no", "probs": [1.78e-05, 0.9999822]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": true, "conf": 0.9902915358543396, "p_gold": 0.9902915358543396, "pred": "no", "gold": "no", "probs": [0.0097085, 0.9902915]}
+{"world": "git", "qtype": "branch", "steps": 8, "ok": false, "conf": 0.9867772459983826, "p_gold": 0.013222822919487953, "pred": "main", "gold": "bugfix", "probs": [0.0132228, 0.9867772]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": true, "conf": 0.9959298968315125, "p_gold": 0.9959298968315125, "pred": "no", "gold": "no", "probs": [0.0040701, 0.9959299]}
+{"world": "git", "qtype": "staged", "steps": 8, "ok": true, "conf": 0.9890130758285522, "p_gold": 0.9890130758285522, "pred": "no", "gold": "no", "probs": [0.0109869, 0.9890131]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": true, "conf": 0.977022647857666, "p_gold": 0.977022647857666, "pred": "no", "gold": "no", "probs": [0.0229774, 0.9770226]}
+{"world": "git", "qtype": "content", "steps": 8, "ok": true, "conf": 0.9999700784683228, "p_gold": 0.9999700784683228, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.9999701, 6.5e-06, 4.8e-06, 6.5e-06, 5.1e-06, 7e-06]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": false, "conf": 0.997368335723877, "p_gold": 0.0026316740550100803, "pred": "no", "gold": "yes", "probs": [0.0026317, 0.9973683]}
+{"world": "git", "qtype": "content", "steps": 8, "ok": true, "conf": 0.9896148443222046, "p_gold": 0.9896148443222046, "pred": "todo", "gold": "todo", "probs": [0.0011587, 0.0035691, 0.0033529, 0.9896148, 0.0023044]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": true, "conf": 0.9465966820716858, "p_gold": 0.9465966820716858, "pred": "yes", "gold": "yes", "probs": [0.9465967, 0.0534033]}
+{"world": "git", "qtype": "exists", "steps": 8, "ok": true, "conf": 0.9999724626541138, "p_gold": 0.9999724626541138, "pred": "no", "gold": "no", "probs": [2.75e-05, 0.9999725]}
+{"world": "git", "qtype": "fails", "steps": 8, "ok": true, "conf": 0.9688562154769897, "p_gold": 0.9688562154769897, "pred": "no", "gold": "no", "probs": [0.0311438, 0.9688562]}
+{"world": "git", "qtype": "staged", "steps": 8, "ok": true, "conf": 0.9998511075973511, "p_gold": 0.9998511075973511, "pred": "no", "gold": "no", "probs": [0.0001488, 0.9998511]}
+{"world": "git", "qtype": "fails", "steps": 8, "ok": false, "conf": 0.9953904151916504, "p_gold": 0.004609572701156139, "pred": "no", "gold": "yes", "probs": [0.0046096, 0.9953904]}
+{"world": "git", "qtype": "clean", "steps": 8, "ok": true, "conf": 0.859663724899292, "p_gold": 0.859663724899292, "pred": "no", "gold": "no", "probs": [0.1403362, 0.8596637]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": true, "conf": 0.9755768775939941, "p_gold": 0.9755768775939941, "pred": "yes", "gold": "yes", "probs": [0.9755769, 0.0244231]}
+{"world": "git", "qtype": "stash", "steps": 8, "ok": true, "conf": 0.9998040795326233, "p_gold": 0.9998040795326233, "pred": "0", "gold": "0", "probs": [0.9998041, 0.0001488, 2.28e-05, 2.43e-05]}
+{"world": "git", "qtype": "fails", "steps": 8, "ok": true, "conf": 0.9724147915840149, "p_gold": 0.9724147915840149, "pred": "no", "gold": "no", "probs": [0.0275853, 0.9724148]}
+{"world": "git", "qtype": "content", "steps": 8, "ok": false, "conf": 0.9998623132705688, "p_gold": 4.264341259840876e-05, "pred": "wip", "gold": "final", "probs": [2.01e-05, 3.54e-05, 4.26e-05, 2.28e-05, 1.67e-05, 0.9998623]}
+{"world": "git", "qtype": "fails", "steps": 8, "ok": false, "conf": 0.8807970285415649, "p_gold": 0.11920291930437088, "pred": "yes", "gold": "no", "probs": [0.880797, 0.1192029]}
+{"world": "git", "qtype": "branch", "steps": 8, "ok": true, "conf": 0.9921550154685974, "p_gold": 0.9921550154685974, "pred": "exp", "gold": "exp", "probs": [0.0021703, 0.0010252, 0.992155, 0.0031578, 0.0014916]}
+{"world": "git", "qtype": "fails", "steps": 8, "ok": true, "conf": 0.9648551344871521, "p_gold": 0.9648551344871521, "pred": "no", "gold": "no", "probs": [0.0351448, 0.9648551]}
+{"world": "git", "qtype": "staged", "steps": 8, "ok": true, "conf": 0.9999545812606812, "p_gold": 0.9999545812606812, "pred": "no", "gold": "no", "probs": [4.54e-05, 0.9999546]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": true, "conf": 0.9399133324623108, "p_gold": 0.9399133324623108, "pred": "yes", "gold": "yes", "probs": [0.9399133, 0.0600866]}
+{"world": "git", "qtype": "remote", "steps": 8, "ok": true, "conf": 0.9996849298477173, "p_gold": 0.9996849298477173, "pred": "yes", "gold": "yes", "probs": [0.9996849, 0.000315]}
+{"world": "git", "qtype": "in_progress", "steps": 8, "ok": true, "conf": 0.9999339580535889, "p_gold": 0.9999339580535889, "pred": "no", "gold": "no", "probs": [6.61e-05, 0.999934]}
+{"world": "git", "qtype": "content", "steps": 8, "ok": true, "conf": 0.999988317489624, "p_gold": 0.999988317489624, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.9999883, 6.1e-06, 2.9e-06, 2.7e-06]}
+{"world": "git", "qtype": "fails", "steps": 8, "ok": true, "conf": 0.970687747001648, "p_gold": 0.970687747001648, "pred": "yes", "gold": "yes", "probs": [0.9706877, 0.0293122]}
+{"world": "git", "qtype": "exists", "steps": 8, "ok": true, "conf": 0.9998089671134949, "p_gold": 0.9998089671134949, "pred": "yes", "gold": "yes", "probs": [0.999809, 0.0001911]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": true, "conf": 0.9976769089698792, "p_gold": 0.9976769089698792, "pred": "no", "gold": "no", "probs": [0.0023232, 0.9976769]}
+{"world": "git", "qtype": "content", "steps": 8, "ok": true, "conf": 0.9996267557144165, "p_gold": 0.9996267557144165, "pred": "fix", "gold": "fix", "probs": [7.48e-05, 9.03e-05, 0.0001234, 0.9996268, 8.48e-05]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": false, "conf": 0.9937100410461426, "p_gold": 0.006289901677519083, "pred": "no", "gold": "yes", "probs": [0.0062899, 0.99371]}
+{"world": "git", "qtype": "staged", "steps": 8, "ok": true, "conf": 0.9994115829467773, "p_gold": 0.9994115829467773, "pred": "no", "gold": "no", "probs": [0.0005884, 0.9994116]}
+{"world": "git", "qtype": "fails", "steps": 8, "ok": true, "conf": 0.9919379353523254, "p_gold": 0.9919379353523254, "pred": "no", "gold": "no", "probs": [0.008062, 0.9919379]}
+{"world": "git", "qtype": "stash", "steps": 8, "ok": true, "conf": 0.9935421943664551, "p_gold": 0.9935421943664551, "pred": "1", "gold": "1", "probs": [0.0021734, 0.9935422, 0.0027907, 0.0014937]}
+{"world": "git", "qtype": "fails", "steps": 8, "ok": true, "conf": 0.9688562154769897, "p_gold": 0.9688562154769897, "pred": "no", "gold": "no", "probs": [0.0311438, 0.9688562]}
+{"world": "git", "qtype": "exists", "steps": 8, "ok": true, "conf": 0.8740772008895874, "p_gold": 0.8740772008895874, "pred": "no", "gold": "no", "probs": [0.1259228, 0.8740772]}
+{"world": "git", "qtype": "in_progress", "steps": 8, "ok": true, "conf": 0.9998511075973511, "p_gold": 0.9998511075973511, "pred": "no", "gold": "no", "probs": [0.0001488, 0.9998511]}
+{"world": "git", "qtype": "remote", "steps": 8, "ok": true, "conf": 0.9976769089698792, "p_gold": 0.9976769089698792, "pred": "no", "gold": "no", "probs": [0.0023232, 0.9976769]}
+{"world": "git", "qtype": "in_progress", "steps": 8, "ok": true, "conf": 0.9997695088386536, "p_gold": 0.9997695088386536, "pred": "no", "gold": "no", "probs": [0.0002305, 0.9997695]}
+{"world": "git", "qtype": "content", "steps": 8, "ok": true, "conf": 0.9999762773513794, "p_gold": 0.9999762773513794, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.9999763, 8.4e-06, 7e-06, 4.2e-06, 4.2e-06]}
+{"world": "git", "qtype": "in_progress", "steps": 8, "ok": true, "conf": 0.9997040629386902, "p_gold": 0.9997040629386902, "pred": "no", "gold": "no", "probs": [0.000296, 0.9997041]}
+{"world": "git", "qtype": "branch", "steps": 8, "ok": true, "conf": 0.9998313188552856, "p_gold": 0.9998313188552856, "pred": "feature", "gold": "feature", "probs": [0.9998313, 0.0001687]}
+{"world": "git", "qtype": "in_progress", "steps": 8, "ok": true, "conf": 0.9992445707321167, "p_gold": 0.9992445707321167, "pred": "no", "gold": "no", "probs": [0.0007554, 0.9992446]}
+{"world": "git", "qtype": "remote", "steps": 8, "ok": true, "conf": 0.999783456325531, "p_gold": 0.999783456325531, "pred": "yes", "gold": "yes", "probs": [0.9997835, 0.0002165]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": false, "conf": 0.9808759689331055, "p_gold": 0.01912403665482998, "pred": "yes", "gold": "no", "probs": [0.980876, 0.019124]}
+{"world": "git", "qtype": "exists", "steps": 8, "ok": true, "conf": 0.9999877214431763, "p_gold": 0.9999877214431763, "pred": "no", "gold": "no", "probs": [1.22e-05, 0.9999877]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": true, "conf": 0.9820137619972229, "p_gold": 0.9820137619972229, "pred": "no", "gold": "no", "probs": [0.0179862, 0.9820138]}
+{"world": "git", "qtype": "exists", "steps": 8, "ok": true, "conf": 0.9991958737373352, "p_gold": 0.9991958737373352, "pred": "yes", "gold": "yes", "probs": [0.9991959, 0.0008041]}
+{"world": "git", "qtype": "in_progress", "steps": 8, "ok": true, "conf": 0.9998766183853149, "p_gold": 0.9998766183853149, "pred": "no", "gold": "no", "probs": [0.0001234, 0.9998766]}
+{"world": "git", "qtype": "exists", "steps": 8, "ok": true, "conf": 0.9992903470993042, "p_gold": 0.9992903470993042, "pred": "yes", "gold": "yes", "probs": [0.9992903, 0.0007097]}
+{"world": "git", "qtype": "in_progress", "steps": 8, "ok": true, "conf": 0.9997387528419495, "p_gold": 0.9997387528419495, "pred": "no", "gold": "no", "probs": [0.0002612, 0.9997388]}
+{"world": "git", "qtype": "staged", "steps": 8, "ok": true, "conf": 0.999937891960144, "p_gold": 0.999937891960144, "pred": "no", "gold": "no", "probs": [6.21e-05, 0.9999379]}
+{"world": "git", "qtype": "fails", "steps": 8, "ok": true, "conf": 0.9919379353523254, "p_gold": 0.9919379353523254, "pred": "no", "gold": "no", "probs": [0.008062, 0.9919379]}
+{"world": "git", "qtype": "content", "steps": 8, "ok": true, "conf": 0.9999834299087524, "p_gold": 0.9999834299087524, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.9999834, 4.8e-06, 3.1e-06, 4e-06, 4.8e-06]}
+{"world": "git", "qtype": "fails", "steps": 8, "ok": true, "conf": 0.9964063763618469, "p_gold": 0.9964063763618469, "pred": "yes", "gold": "yes", "probs": [0.9964064, 0.0035936]}
+{"world": "git", "qtype": "exists", "steps": 8, "ok": true, "conf": 0.9999904632568359, "p_gold": 0.9999904632568359, "pred": "no", "gold": "no", "probs": [9.5e-06, 0.9999905]}
+{"world": "git", "qtype": "fails", "steps": 8, "ok": true, "conf": 0.9991958737373352, "p_gold": 0.9991958737373352, "pred": "no", "gold": "no", "probs": [0.0008041, 0.9991959]}
+{"world": "git", "qtype": "remote", "steps": 8, "ok": true, "conf": 0.9924227595329285, "p_gold": 0.9924227595329285, "pred": "yes", "gold": "yes", "probs": [0.9924228, 0.0075772]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": true, "conf": 0.970687747001648, "p_gold": 0.970687747001648, "pred": "yes", "gold": "yes", "probs": [0.9706877, 0.0293122]}
+{"world": "git", "qtype": "clean", "steps": 8, "ok": false, "conf": 0.8933094143867493, "p_gold": 0.10669060051441193, "pred": "no", "gold": "yes", "probs": [0.1066906, 0.8933094]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": true, "conf": 0.9896718263626099, "p_gold": 0.9896718263626099, "pred": "no", "gold": "no", "probs": [0.0103282, 0.9896718]}
+{"world": "git", "qtype": "content", "steps": 8, "ok": true, "conf": 0.9999550580978394, "p_gold": 0.9999550580978394, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.9999551, 1.38e-05, 5.4e-06, 8.9e-06, 8.9e-06, 6.1e-06, 1.7e-06]}
+{"world": "git", "qtype": "in_progress", "steps": 8, "ok": true, "conf": 0.9998766183853149, "p_gold": 0.9998766183853149, "pred": "no", "gold": "no", "probs": [0.0001234, 0.9998766]}
+{"world": "git", "qtype": "stash", "steps": 8, "ok": true, "conf": 0.9998213648796082, "p_gold": 0.9998213648796082, "pred": "1", "gold": "1", "probs": [6.2e-05, 0.9998214, 5.83e-05, 5.83e-05]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": true, "conf": 0.9976769089698792, "p_gold": 0.9976769089698792, "pred": "no", "gold": "no", "probs": [0.0023232, 0.9976769]}
+{"world": "git", "qtype": "stash", "steps": 8, "ok": true, "conf": 0.9994131326675415, "p_gold": 0.9994131326675415, "pred": "1", "gold": "1", "probs": [0.000191, 0.9994131, 0.0002165, 0.0001795]}
+{"world": "git", "qtype": "fails", "steps": 8, "ok": true, "conf": 0.9947799444198608, "p_gold": 0.9947799444198608, "pred": "yes", "gold": "yes", "probs": [0.9947799, 0.0052201]}
+{"world": "git", "qtype": "remote", "steps": 8, "ok": true, "conf": 0.9808759689331055, "p_gold": 0.9808759689331055, "pred": "no", "gold": "no", "probs": [0.019124, 0.980876]}
+{"world": "git", "qtype": "in_progress", "steps": 8, "ok": true, "conf": 0.9999039173126221, "p_gold": 0.9999039173126221, "pred": "no", "gold": "no", "probs": [9.61e-05, 0.9999039]}
+{"world": "git", "qtype": "clean", "steps": 8, "ok": false, "conf": 0.9840936064720154, "p_gold": 0.01590639166533947, "pred": "yes", "gold": "no", "probs": [0.9840936, 0.0159064]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": true, "conf": 0.9982993006706238, "p_gold": 0.9982993006706238, "pred": "no", "gold": "no", "probs": [0.0017007, 0.9982993]}
+{"world": "git", "qtype": "clean", "steps": 8, "ok": true, "conf": 0.957912266254425, "p_gold": 0.957912266254425, "pred": "yes", "gold": "yes", "probs": [0.9579123, 0.0420877]}
+{"world": "git", "qtype": "fails", "steps": 8, "ok": true, "conf": 0.9990302324295044, "p_gold": 0.9990302324295044, "pred": "no", "gold": "no", "probs": [0.0009698, 0.9990302]}
+{"world": "git", "qtype": "content", "steps": 8, "ok": true, "conf": 0.9999791383743286, "p_gold": 0.9999791383743286, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.9999791, 8.9e-06, 6.1e-06, 5.8e-06]}
+{"world": "git", "qtype": "in_progress", "steps": 8, "ok": true, "conf": 0.9999151229858398, "p_gold": 0.9999151229858398, "pred": "no", "gold": "no", "probs": [8.48e-05, 0.9999151]}
+{"world": "git", "qtype": "exists", "steps": 8, "ok": true, "conf": 0.9966233968734741, "p_gold": 0.9966233968734741, "pred": "yes", "gold": "yes", "probs": [0.9966234, 0.0033766]}
+{"world": "git", "qtype": "fails", "steps": 8, "ok": true, "conf": 0.9989677667617798, "p_gold": 0.9989677667617798, "pred": "no", "gold": "no", "probs": [0.0010322, 0.9989678]}
+{"world": "git", "qtype": "staged", "steps": 8, "ok": true, "conf": 0.9998977184295654, "p_gold": 0.9998977184295654, "pred": "no", "gold": "no", "probs": [0.0001023, 0.9998977]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": true, "conf": 0.9902915358543396, "p_gold": 0.9902915358543396, "pred": "no", "gold": "no", "probs": [0.0097085, 0.9902915]}
+{"world": "git", "qtype": "remote", "steps": 8, "ok": true, "conf": 0.9998313188552856, "p_gold": 0.9998313188552856, "pred": "yes", "gold": "yes", "probs": [0.9998313, 0.0001687]}
+{"world": "git", "qtype": "in_progress", "steps": 8, "ok": true, "conf": 0.9997965693473816, "p_gold": 0.9997965693473816, "pred": "no", "gold": "no", "probs": [0.0002034, 0.9997966]}
+{"world": "git", "qtype": "content", "steps": 8, "ok": false, "conf": 0.9938327074050903, "p_gold": 0.002791471779346466, "pred": "fix", "gold": "(no such file)", "probs": [0.0027915, 0.0008514, 0.9938327, 0.0012387, 0.0007058, 0.0003778, 0.0002022]}
+{"world": "git", "qtype": "fails", "steps": 8, "ok": true, "conf": 0.9956685304641724, "p_gold": 0.9956685304641724, "pred": "no", "gold": "no", "probs": [0.0043315, 0.9956685]}
+{"world": "git", "qtype": "staged", "steps": 8, "ok": true, "conf": 0.9999151229858398, "p_gold": 0.9999151229858398, "pred": "no", "gold": "no", "probs": [8.48e-05, 0.9999151]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": true, "conf": 0.9830850958824158, "p_gold": 0.9830850958824158, "pred": "yes", "gold": "yes", "probs": [0.9830851, 0.0169149]}
+{"world": "git", "qtype": "branch", "steps": 8, "ok": true, "conf": 0.9960303902626038, "p_gold": 0.9960303902626038, "pred": "dev", "gold": "dev", "probs": [0.9960304, 0.0019228, 0.0020468]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": true, "conf": 0.9975274205207825, "p_gold": 0.9975274205207825, "pred": "no", "gold": "no", "probs": [0.0024726, 0.9975274]}
+{"world": "git", "qtype": "branch", "steps": 8, "ok": true, "conf": 0.9196425676345825, "p_gold": 0.9196425676345825, "pred": "dev", "gold": "dev", "probs": [0.9196426, 0.0803575]}
+{"world": "git", "qtype": "fails", "steps": 8, "ok": true, "conf": 0.9987550973892212, "p_gold": 0.9987550973892212, "pred": "no", "gold": "no", "probs": [0.0012448, 0.9987551]}
+{"world": "git", "qtype": "exists", "steps": 8, "ok": true, "conf": 0.9999798536300659, "p_gold": 0.9999798536300659, "pred": "no", "gold": "no", "probs": [2.01e-05, 0.9999799]}
+{"world": "git", "qtype": "in_progress", "steps": 8, "ok": true, "conf": 0.9997695088386536, "p_gold": 0.9997695088386536, "pred": "no", "gold": "no", "probs": [0.0002305, 0.9997695]}
+{"world": "git", "qtype": "content", "steps": 8, "ok": true, "conf": 0.9998181462287903, "p_gold": 0.9998181462287903, "pred": "wip", "gold": "wip", "probs": [3.12e-05, 3.54e-05, 3.76e-05, 2.75e-05, 1.89e-05, 3.12e-05, 0.9998181]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": true, "conf": 0.9940890073776245, "p_gold": 0.9940890073776245, "pred": "no", "gold": "no", "probs": [0.0059111, 0.994089]}
+{"world": "git", "qtype": "clean", "steps": 8, "ok": true, "conf": 0.977022647857666, "p_gold": 0.977022647857666, "pred": "yes", "gold": "yes", "probs": [0.9770226, 0.0229774]}
+{"world": "git", "qtype": "fails", "steps": 8, "ok": true, "conf": 0.9947799444198608, "p_gold": 0.9947799444198608, "pred": "yes", "gold": "yes", "probs": [0.9947799, 0.0052201]}
+{"world": "git", "qtype": "exists", "steps": 8, "ok": false, "conf": 0.9808759689331055, "p_gold": 0.01912403665482998, "pred": "no", "gold": "yes", "probs": [0.019124, 0.980876]}
+{"world": "git", "qtype": "fails", "steps": 8, "ok": true, "conf": 0.9964063763618469, "p_gold": 0.9964063763618469, "pred": "no", "gold": "no", "probs": [0.0035936, 0.9964064]}
+{"world": "git", "qtype": "staged", "steps": 8, "ok": true, "conf": 0.9989677667617798, "p_gold": 0.9989677667617798, "pred": "no", "gold": "no", "probs": [0.0010322, 0.9989678]}
+{"world": "git", "qtype": "fails", "steps": 8, "ok": true, "conf": 0.9820137619972229, "p_gold": 0.9820137619972229, "pred": "no", "gold": "no", "probs": [0.0179862, 0.9820138]}
+{"world": "git", "qtype": "clean", "steps": 8, "ok": true, "conf": 0.9840936064720154, "p_gold": 0.9840936064720154, "pred": "no", "gold": "no", "probs": [0.0159064, 0.9840936]}
+{"world": "git", "qtype": "in_progress", "steps": 8, "ok": true, "conf": 0.9998511075973511, "p_gold": 0.9998511075973511, "pred": "no", "gold": "no", "probs": [0.0001488, 0.9998511]}
+{"world": "git", "qtype": "staged", "steps": 8, "ok": true, "conf": 0.9928786158561707, "p_gold": 0.9928786158561707, "pred": "yes", "gold": "yes", "probs": [0.9928786, 0.0071214]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": true, "conf": 0.9986749291419983, "p_gold": 0.9986749291419983, "pred": "no", "gold": "no", "probs": [0.001325, 0.9986749]}
+{"world": "git", "qtype": "exists", "steps": 8, "ok": true, "conf": 0.9998840093612671, "p_gold": 0.9998840093612671, "pred": "yes", "gold": "yes", "probs": [0.999884, 0.0001159]}
+{"world": "git", "qtype": "in_progress", "steps": 8, "ok": true, "conf": 0.9996429681777954, "p_gold": 0.9996429681777954, "pred": "no", "gold": "no", "probs": [0.000357, 0.999643]}
+{"world": "git", "qtype": "staged", "steps": 8, "ok": true, "conf": 0.999868631362915, "p_gold": 0.999868631362915, "pred": "no", "gold": "no", "probs": [0.0001314, 0.9998686]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": true, "conf": 0.9993333220481873, "p_gold": 0.9993333220481873, "pred": "no", "gold": "no", "probs": [0.0006667, 0.9993333]}
+{"world": "git", "qtype": "staged", "steps": 8, "ok": true, "conf": 0.9998511075973511, "p_gold": 0.9998511075973511, "pred": "no", "gold": "no", "probs": [0.0001488, 0.9998511]}
+{"world": "git", "qtype": "fails", "steps": 8, "ok": true, "conf": 0.9896718263626099, "p_gold": 0.9896718263626099, "pred": "no", "gold": "no", "probs": [0.0103282, 0.9896718]}
+{"world": "git", "qtype": "content", "steps": 8, "ok": true, "conf": 0.9944713115692139, "p_gold": 0.9944713115692139, "pred": "fix", "gold": "fix", "probs": [0.0007518, 0.9944713, 0.0029734, 0.0018035]}
+{"world": "git", "qtype": "fails", "steps": 8, "ok": true, "conf": 0.9993333220481873, "p_gold": 0.9993333220481873, "pred": "no", "gold": "no", "probs": [0.0006667, 0.9993333]}
+{"world": "git", "qtype": "staged", "steps": 8, "ok": true, "conf": 0.9999517202377319, "p_gold": 0.9999517202377319, "pred": "no", "gold": "no", "probs": [4.83e-05, 0.9999517]}
+{"world": "git", "qtype": "in_progress", "steps": 8, "ok": true, "conf": 0.9991440773010254, "p_gold": 0.9991440773010254, "pred": "no", "gold": "no", "probs": [0.0008559, 0.9991441]}
+{"world": "git", "qtype": "remote", "steps": 8, "ok": true, "conf": 0.9991958737373352, "p_gold": 0.9991958737373352, "pred": "no", "gold": "no", "probs": [0.0008041, 0.9991959]}
+{"world": "git", "qtype": "fails", "steps": 8, "ok": true, "conf": 0.9976769089698792, "p_gold": 0.9976769089698792, "pred": "no", "gold": "no", "probs": [0.0023232, 0.9976769]}
+{"world": "git", "qtype": "clean", "steps": 8, "ok": true, "conf": 0.9830850958824158, "p_gold": 0.9830850958824158, "pred": "no", "gold": "no", "probs": [0.0169149, 0.9830851]}
+{"world": "git", "qtype": "in_progress", "steps": 8, "ok": true, "conf": 0.9896718263626099, "p_gold": 0.9896718263626099, "pred": "no", "gold": "no", "probs": [0.0103282, 0.9896718]}
+{"world": "git", "qtype": "content", "steps": 8, "ok": true, "conf": 0.9999867677688599, "p_gold": 0.9999867677688599, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.9999868, 2.7e-06, 2e-06, 2.7e-06, 1.8e-06, 4e-06]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": true, "conf": 0.977022647857666, "p_gold": 0.977022647857666, "pred": "yes", "gold": "yes", "probs": [0.9770226, 0.0229774]}
+{"world": "git", "qtype": "content", "steps": 8, "ok": true, "conf": 0.9999843835830688, "p_gold": 0.9999843835830688, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.9999844, 4.8e-06, 3.5e-06, 3.5e-06, 1.5e-06, 2.4e-06]}
+{"world": "git", "qtype": "in_progress", "steps": 8, "ok": true, "conf": 0.9998089671134949, "p_gold": 0.9998089671134949, "pred": "no", "gold": "no", "probs": [0.0001911, 0.999809]}
+{"world": "git", "qtype": "content", "steps": 8, "ok": true, "conf": 0.9999799728393555, "p_gold": 0.9999799728393555, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.99998, 9.5e-06, 5.4e-06, 5.1e-06]}
+{"world": "git", "qtype": "in_progress", "steps": 8, "ok": true, "conf": 0.9989012479782104, "p_gold": 0.9989012479782104, "pred": "no", "gold": "no", "probs": [0.0010987, 0.9989012]}
+{"world": "git", "qtype": "content", "steps": 8, "ok": true, "conf": 0.999988317489624, "p_gold": 0.999988317489624, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.9999883, 3.1e-06, 2.4e-06, 3.7e-06, 2.6e-06]}
+{"world": "git", "qtype": "in_progress", "steps": 8, "ok": true, "conf": 0.9999339580535889, "p_gold": 0.9999339580535889, "pred": "no", "gold": "no", "probs": [6.61e-05, 0.999934]}
+{"world": "git", "qtype": "content", "steps": 8, "ok": true, "conf": 0.999863862991333, "p_gold": 0.999863862991333, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.9998639, 2.59e-05, 2.43e-05, 5.48e-05, 3.12e-05]}
+{"world": "git", "qtype": "fails", "steps": 8, "ok": true, "conf": 0.997368335723877, "p_gold": 0.997368335723877, "pred": "no", "gold": "no", "probs": [0.0026317, 0.9973683]}
+{"world": "git", "qtype": "exists", "steps": 8, "ok": true, "conf": 0.9908744096755981, "p_gold": 0.9908744096755981, "pred": "yes", "gold": "yes", "probs": [0.9908744, 0.0091256]}
+{"world": "git", "qtype": "in_progress", "steps": 8, "ok": true, "conf": 0.9997695088386536, "p_gold": 0.9997695088386536, "pred": "no", "gold": "no", "probs": [0.0002305, 0.9997695]}
+{"world": "git", "qtype": "exists", "steps": 8, "ok": true, "conf": 0.9999861717224121, "p_gold": 0.9999861717224121, "pred": "no", "gold": "no", "probs": [1.38e-05, 0.9999862]}
+{"world": "git", "qtype": "fails", "steps": 8, "ok": true, "conf": 0.9994471669197083, "p_gold": 0.9994471669197083, "pred": "no", "gold": "no", "probs": [0.0005528, 0.9994472]}
+{"world": "git", "qtype": "remote", "steps": 8, "ok": true, "conf": 0.9830850958824158, "p_gold": 0.9830850958824158, "pred": "no", "gold": "no", "probs": [0.0169149, 0.9830851]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": true, "conf": 0.9970190525054932, "p_gold": 0.9970190525054932, "pred": "no", "gold": "no", "probs": [0.002981, 0.9970191]}
+{"world": "git", "qtype": "staged", "steps": 8, "ok": true, "conf": 0.9999417066574097, "p_gold": 0.9999417066574097, "pred": "no", "gold": "no", "probs": [5.83e-05, 0.9999417]}
+{"world": "git", "qtype": "in_progress", "steps": 8, "ok": true, "conf": 0.9999097585678101, "p_gold": 0.9999097585678101, "pred": "no", "gold": "no", "probs": [9.03e-05, 0.9999098]}
+{"world": "git", "qtype": "staged", "steps": 8, "ok": true, "conf": 0.9998766183853149, "p_gold": 0.9998766183853149, "pred": "no", "gold": "no", "probs": [0.0001234, 0.9998766]}
+{"world": "git", "qtype": "in_progress", "steps": 8, "ok": true, "conf": 0.9998840093612671, "p_gold": 0.9998840093612671, "pred": "no", "gold": "no", "probs": [0.0001159, 0.999884]}
+{"world": "git", "qtype": "exists", "steps": 8, "ok": true, "conf": 0.9999772310256958, "p_gold": 0.9999772310256958, "pred": "no", "gold": "no", "probs": [2.28e-05, 0.9999772]}
+{"world": "git", "qtype": "in_progress", "steps": 8, "ok": true, "conf": 0.9944451451301575, "p_gold": 0.9944451451301575, "pred": "no", "gold": "no", "probs": [0.0055549, 0.9944451]}
+{"world": "git", "qtype": "remote", "steps": 8, "ok": true, "conf": 0.9991958737373352, "p_gold": 0.9991958737373352, "pred": "yes", "gold": "yes", "probs": [0.9991959, 0.0008041]}
+{"world": "git", "qtype": "in_progress", "steps": 8, "ok": true, "conf": 0.9997965693473816, "p_gold": 0.9997965693473816, "pred": "no", "gold": "no", "probs": [0.0002034, 0.9997966]}
+{"world": "git", "qtype": "content", "steps": 8, "ok": true, "conf": 0.9987585544586182, "p_gold": 0.9987585544586182, "pred": "todo", "gold": "todo", "probs": [0.0001312, 0.000458, 0.0002957, 0.0003567, 0.9987586]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": true, "conf": 0.9944451451301575, "p_gold": 0.9944451451301575, "pred": "no", "gold": "no", "probs": [0.0055549, 0.9944451]}
+{"world": "git", "qtype": "staged", "steps": 8, "ok": true, "conf": 0.9998205304145813, "p_gold": 0.9998205304145813, "pred": "no", "gold": "no", "probs": [0.0001795, 0.9998205]}
+{"world": "git", "qtype": "fails", "steps": 8, "ok": true, "conf": 0.9984021782875061, "p_gold": 0.9984021782875061, "pred": "no", "gold": "no", "probs": [0.0015978, 0.9984022]}
+{"world": "git", "qtype": "remote", "steps": 8, "ok": true, "conf": 0.9981897473335266, "p_gold": 0.9981897473335266, "pred": "yes", "gold": "yes", "probs": [0.9981897, 0.0018102]}
+{"world": "git", "qtype": "in_progress", "steps": 8, "ok": true, "conf": 0.9997965693473816, "p_gold": 0.9997965693473816, "pred": "no", "gold": "no", "probs": [0.0002034, 0.9997966]}
+{"world": "git", "qtype": "stash", "steps": 8, "ok": true, "conf": 0.9637051224708557, "p_gold": 0.9637051224708557, "pred": "2", "gold": "2", "probs": [0.0057304, 0.0129137, 0.9637051, 0.0176509]}
+{"world": "git", "qtype": "in_progress", "steps": 8, "ok": true, "conf": 0.999868631362915, "p_gold": 0.999868631362915, "pred": "no", "gold": "no", "probs": [0.0001314, 0.9998686]}
+{"world": "git", "qtype": "stash", "steps": 8, "ok": false, "conf": 0.7962170839309692, "p_gold": 0.20131520926952362, "pred": "1", "gold": "0", "probs": [0.2013152, 0.7962171, 0.0017417, 0.0007261]}
+{"world": "git", "qtype": "fails", "steps": 8, "ok": true, "conf": 0.9991958737373352, "p_gold": 0.9991958737373352, "pred": "no", "gold": "no", "probs": [0.0008041, 0.9991959]}
+{"world": "git", "qtype": "clean", "steps": 8, "ok": true, "conf": 0.9924227595329285, "p_gold": 0.9924227595329285, "pred": "yes", "gold": "yes", "probs": [0.9924228, 0.0075772]}
+{"world": "git", "qtype": "in_progress", "steps": 8, "ok": true, "conf": 0.9997387528419495, "p_gold": 0.9997387528419495, "pred": "no", "gold": "no", "probs": [0.0002612, 0.9997388]}
+{"world": "git", "qtype": "stash", "steps": 8, "ok": true, "conf": 0.9314712285995483, "p_gold": 0.9314712285995483, "pred": "1", "gold": "1", "probs": [0.0124817, 0.9314712, 0.0493662, 0.006681]}
+{"world": "git", "qtype": "fails", "steps": 8, "ok": true, "conf": 0.997368335723877, "p_gold": 0.997368335723877, "pred": "no", "gold": "no", "probs": [0.0026317, 0.9973683]}
+{"world": "git", "qtype": "staged", "steps": 8, "ok": true, "conf": 0.999480664730072, "p_gold": 0.999480664730072, "pred": "no", "gold": "no", "probs": [0.0005193, 0.9994807]}
+{"world": "git", "qtype": "fails", "steps": 8, "ok": true, "conf": 0.9099069833755493, "p_gold": 0.9099069833755493, "pred": "no", "gold": "no", "probs": [0.090093, 0.909907]}
+{"world": "git", "qtype": "staged", "steps": 8, "ok": true, "conf": 0.9896718263626099, "p_gold": 0.9896718263626099, "pred": "no", "gold": "no", "probs": [0.0103282, 0.9896718]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": false, "conf": 0.9525741338729858, "p_gold": 0.04742587357759476, "pred": "yes", "gold": "no", "probs": [0.9525741, 0.0474259]}
+{"world": "git", "qtype": "staged", "steps": 8, "ok": true, "conf": 0.9999151229858398, "p_gold": 0.9999151229858398, "pred": "no", "gold": "no", "probs": [8.48e-05, 0.9999151]}
+{"world": "git", "qtype": "fails", "steps": 8, "ok": false, "conf": 0.9241418242454529, "p_gold": 0.07585817575454712, "pred": "yes", "gold": "no", "probs": [0.9241418, 0.0758582]}
+{"world": "git", "qtype": "remote", "steps": 8, "ok": true, "conf": 0.9961755275726318, "p_gold": 0.9961755275726318, "pred": "no", "gold": "no", "probs": [0.0038245, 0.9961755]}
+{"world": "git", "qtype": "fails", "steps": 8, "ok": true, "conf": 0.9968273043632507, "p_gold": 0.9968273043632507, "pred": "no", "gold": "no", "probs": [0.0031727, 0.9968273]}
+{"world": "git", "qtype": "branch", "steps": 8, "ok": true, "conf": 0.9976811408996582, "p_gold": 0.9976811408996582, "pred": "bugfix", "gold": "bugfix", "probs": [0.9976811, 0.0009098, 0.0014091]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": true, "conf": 0.9992445707321167, "p_gold": 0.9992445707321167, "pred": "no", "gold": "no", "probs": [0.0007554, 0.9992446]}
+{"world": "git", "qtype": "content", "steps": 8, "ok": true, "conf": 0.9979999661445618, "p_gold": 0.9979999661445618, "pred": "todo", "gold": "todo", "probs": [0.0009688, 0.0010312, 0.998]}
+{"world": "git", "qtype": "fails", "steps": 8, "ok": true, "conf": 0.9626730680465698, "p_gold": 0.9626730680465698, "pred": "yes", "gold": "yes", "probs": [0.9626731, 0.0373269]}
+{"world": "git", "qtype": "content", "steps": 8, "ok": true, "conf": 0.9995768666267395, "p_gold": 0.9995768666267395, "pred": "wip", "gold": "wip", "probs": [7.03e-05, 0.000278, 7.48e-05, 0.9995769]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": true, "conf": 0.9830850958824158, "p_gold": 0.9830850958824158, "pred": "yes", "gold": "yes", "probs": [0.9830851, 0.0169149]}
+{"world": "git", "qtype": "content", "steps": 8, "ok": true, "conf": 0.49545007944107056, "p_gold": 0.49545007944107056, "pred": "new", "gold": "new", "probs": [0.0015769, 0.007523, 0.4954501, 0.4954501]}
+{"world": "git", "qtype": "fails", "steps": 8, "ok": true, "conf": 0.9994115829467773, "p_gold": 0.9994115829467773, "pred": "no", "gold": "no", "probs": [0.0005884, 0.9994116]}
+{"world": "git", "qtype": "clean", "steps": 8, "ok": true, "conf": 0.9984021782875061, "p_gold": 0.9984021782875061, "pred": "no", "gold": "no", "probs": [0.0015978, 0.9984022]}
+{"world": "git", "qtype": "fails", "steps": 8, "ok": true, "conf": 0.9902915358543396, "p_gold": 0.9902915358543396, "pred": "no", "gold": "no", "probs": [0.0097085, 0.9902915]}
+{"world": "git", "qtype": "branch", "steps": 8, "ok": true, "conf": 0.9940890073776245, "p_gold": 0.9940890073776245, "pred": "feature", "gold": "feature", "probs": [0.994089, 0.0059111]}
+{"world": "git", "qtype": "in_progress", "steps": 8, "ok": true, "conf": 0.9998089671134949, "p_gold": 0.9998089671134949, "pred": "no", "gold": "no", "probs": [0.0001911, 0.999809]}
+{"world": "git", "qtype": "remote", "steps": 8, "ok": true, "conf": 0.9995417594909668, "p_gold": 0.9995417594909668, "pred": "no", "gold": "no", "probs": [0.0004583, 0.9995418]}
+{"world": "git", "qtype": "in_progress", "steps": 8, "ok": true, "conf": 0.9998910427093506, "p_gold": 0.9998910427093506, "pred": "no", "gold": "no", "probs": [0.0001089, 0.999891]}
+{"world": "git", "qtype": "clean", "steps": 8, "ok": true, "conf": 0.9990302324295044, "p_gold": 0.9990302324295044, "pred": "no", "gold": "no", "probs": [0.0009698, 0.9990302]}
+{"world": "git", "qtype": "in_progress", "steps": 8, "ok": true, "conf": 0.999373733997345, "p_gold": 0.999373733997345, "pred": "no", "gold": "no", "probs": [0.0006263, 0.9993737]}
+{"world": "git", "qtype": "staged", "steps": 8, "ok": true, "conf": 0.9783847332000732, "p_gold": 0.9783847332000732, "pred": "no", "gold": "no", "probs": [0.0216153, 0.9783847]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": true, "conf": 0.998498797416687, "p_gold": 0.998498797416687, "pred": "no", "gold": "no", "probs": [0.0015012, 0.9984988]}
+{"world": "git", "qtype": "content", "steps": 8, "ok": true, "conf": 0.999981164932251, "p_gold": 0.999981164932251, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.9999812, 1.15e-05, 7.4e-06]}
+{"world": "git", "qtype": "in_progress", "steps": 8, "ok": true, "conf": 0.999937891960144, "p_gold": 0.999937891960144, "pred": "no", "gold": "no", "probs": [6.21e-05, 0.9999379]}
+{"world": "git", "qtype": "exists", "steps": 8, "ok": true, "conf": 0.9999842643737793, "p_gold": 0.9999842643737793, "pred": "no", "gold": "no", "probs": [1.57e-05, 0.9999843]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": true, "conf": 0.9987550973892212, "p_gold": 0.9987550973892212, "pred": "no", "gold": "no", "probs": [0.0012448, 0.9987551]}
+{"world": "git", "qtype": "content", "steps": 8, "ok": true, "conf": 0.9999793767929077, "p_gold": 0.9999793767929077, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.9999794, 8.4e-06, 3.7e-06, 5.1e-06, 3.5e-06]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": true, "conf": 0.9988304972648621, "p_gold": 0.9988304972648621, "pred": "no", "gold": "no", "probs": [0.0011695, 0.9988305]}
+{"world": "git", "qtype": "content", "steps": 8, "ok": true, "conf": 0.9986685514450073, "p_gold": 0.9986685514450073, "pred": "new", "gold": "new", "probs": [0.0004874, 0.0003566, 0.9986686, 0.0004874]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": true, "conf": 0.9755768775939941, "p_gold": 0.9755768775939941, "pred": "yes", "gold": "yes", "probs": [0.9755769, 0.0244231]}
+{"world": "git", "qtype": "remote", "steps": 8, "ok": true, "conf": 0.9990890026092529, "p_gold": 0.9990890026092529, "pred": "no", "gold": "no", "probs": [0.0009111, 0.999089]}
+{"world": "git", "qtype": "in_progress", "steps": 8, "ok": true, "conf": 0.9991440773010254, "p_gold": 0.9991440773010254, "pred": "no", "gold": "no", "probs": [0.0008559, 0.9991441]}
+{"world": "git", "qtype": "remote", "steps": 8, "ok": true, "conf": 0.9959298968315125, "p_gold": 0.9959298968315125, "pred": "no", "gold": "no", "probs": [0.0040701, 0.9959299]}
+{"world": "git", "qtype": "fails", "steps": 8, "ok": true, "conf": 0.5, "p_gold": 0.5, "pred": "yes", "gold": "yes", "probs": [0.5, 0.5]}
+{"world": "git", "qtype": "stash", "steps": 8, "ok": true, "conf": 0.999885082244873, "p_gold": 0.999885082244873, "pred": "0", "gold": "0", "probs": [0.9998851, 4.83e-05, 3.12e-05, 3.54e-05]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": true, "conf": 0.9399133324623108, "p_gold": 0.9399133324623108, "pred": "no", "gold": "no", "probs": [0.0600866, 0.9399133]}
+{"world": "git", "qtype": "exists", "steps": 8, "ok": true, "conf": 0.999962329864502, "p_gold": 0.999962329864502, "pred": "no", "gold": "no", "probs": [3.76e-05, 0.9999623]}
+{"world": "git", "qtype": "in_progress", "steps": 8, "ok": true, "conf": 0.9988304972648621, "p_gold": 0.9988304972648621, "pred": "no", "gold": "no", "probs": [0.0011695, 0.9988305]}
+{"world": "git", "qtype": "exists", "steps": 8, "ok": true, "conf": 0.9999772310256958, "p_gold": 0.9999772310256958, "pred": "no", "gold": "no", "probs": [2.28e-05, 0.9999772]}
+{"world": "git", "qtype": "in_progress", "steps": 8, "ok": true, "conf": 0.9986749291419983, "p_gold": 0.9986749291419983, "pred": "no", "gold": "no", "probs": [0.001325, 0.9986749]}
+{"world": "git", "qtype": "exists", "steps": 8, "ok": true, "conf": 0.9999833106994629, "p_gold": 0.9999833106994629, "pred": "no", "gold": "no", "probs": [1.67e-05, 0.9999833]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": true, "conf": 0.9947799444198608, "p_gold": 0.9947799444198608, "pred": "no", "gold": "no", "probs": [0.0052201, 0.9947799]}
+{"world": "git", "qtype": "exists", "steps": 8, "ok": true, "conf": 0.9984021782875061, "p_gold": 0.9984021782875061, "pred": "yes", "gold": "yes", "probs": [0.9984022, 0.0015978]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": false, "conf": 0.9808759689331055, "p_gold": 0.01912403665482998, "pred": "yes", "gold": "no", "probs": [0.980876, 0.019124]}
+{"world": "git", "qtype": "branch", "steps": 8, "ok": true, "conf": 0.9993333220481873, "p_gold": 0.9993333220481873, "pred": "main", "gold": "main", "probs": [0.0006667, 0.9993333]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": true, "conf": 0.9859364032745361, "p_gold": 0.9859364032745361, "pred": "yes", "gold": "yes", "probs": [0.9859364, 0.0140636]}
+{"world": "git", "qtype": "stash", "steps": 8, "ok": true, "conf": 0.9999727010726929, "p_gold": 0.9999727010726929, "pred": "0", "gold": "0", "probs": [0.9999727, 1.15e-05, 7.4e-06, 8.4e-06]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": false, "conf": 0.7549149990081787, "p_gold": 0.24508501589298248, "pred": "no", "gold": "yes", "probs": [0.245085, 0.754915]}
+{"world": "git", "qtype": "stash", "steps": 8, "ok": false, "conf": 0.9342942833900452, "p_gold": 0.05270928144454956, "pred": "2", "gold": "1", "probs": [0.0062952, 0.0527093, 0.9342943, 0.0067012]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": true, "conf": 0.9324532747268677, "p_gold": 0.9324532747268677, "pred": "no", "gold": "no", "probs": [0.0675467, 0.9324533]}
+{"world": "git", "qtype": "exists", "steps": 8, "ok": true, "conf": 0.9999861717224121, "p_gold": 0.9999861717224121, "pred": "no", "gold": "no", "probs": [1.38e-05, 0.9999862]}
+{"world": "git", "qtype": "fails", "steps": 8, "ok": true, "conf": 0.9859364032745361, "p_gold": 0.9859364032745361, "pred": "yes", "gold": "yes", "probs": [0.9859364, 0.0140636]}
+{"world": "git", "qtype": "stash", "steps": 8, "ok": false, "conf": 0.7415915727615356, "p_gold": 0.24075953662395477, "pred": "2", "gold": "1", "probs": [0.0056621, 0.2407595, 0.7415916, 0.0119867]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": true, "conf": 0.9525741338729858, "p_gold": 0.9525741338729858, "pred": "no", "gold": "no", "probs": [0.0474259, 0.9525741]}
+{"world": "git", "qtype": "remote", "steps": 8, "ok": true, "conf": 0.9998910427093506, "p_gold": 0.9998910427093506, "pred": "yes", "gold": "yes", "probs": [0.999891, 0.0001089]}
+{"world": "git", "qtype": "in_progress", "steps": 8, "ok": true, "conf": 0.9961755275726318, "p_gold": 0.9961755275726318, "pred": "no", "gold": "no", "probs": [0.0038245, 0.9961755]}
+{"world": "git", "qtype": "branch", "steps": 8, "ok": true, "conf": 0.8670357465744019, "p_gold": 0.8670357465744019, "pred": "main", "gold": "main", "probs": [0.1329642, 0.8670357]}
+{"world": "git", "qtype": "fails", "steps": 8, "ok": true, "conf": 0.9947799444198608, "p_gold": 0.9947799444198608, "pred": "no", "gold": "no", "probs": [0.0052201, 0.9947799]}
+{"world": "git", "qtype": "staged", "steps": 8, "ok": true, "conf": 0.9975274205207825, "p_gold": 0.9975274205207825, "pred": "no", "gold": "no", "probs": [0.0024726, 0.9975274]}
+{"world": "git", "qtype": "in_progress", "steps": 8, "ok": true, "conf": 0.9997695088386536, "p_gold": 0.9997695088386536, "pred": "no", "gold": "no", "probs": [0.0002305, 0.9997695]}
+{"world": "git", "qtype": "content", "steps": 8, "ok": true, "conf": 0.9991806149482727, "p_gold": 0.9991806149482727, "pred": "v1", "gold": "v1", "probs": [0.0001088, 0.0003798, 0.0001397, 0.000191, 0.9991806]}
+{"world": "git", "qtype": "fails", "steps": 8, "ok": true, "conf": 0.9783847332000732, "p_gold": 0.9783847332000732, "pred": "no", "gold": "no", "probs": [0.0216153, 0.9783847]}
+{"world": "git", "qtype": "content", "steps": 8, "ok": true, "conf": 0.9999903440475464, "p_gold": 0.9999903440475464, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.9999903, 4e-06, 3.1e-06, 2.6e-06]}
+{"world": "git", "qtype": "in_progress", "steps": 8, "ok": true, "conf": 0.9998601675033569, "p_gold": 0.9998601675033569, "pred": "no", "gold": "no", "probs": [0.0001398, 0.9998602]}
+{"world": "git", "qtype": "stash", "steps": 8, "ok": true, "conf": 0.9999806880950928, "p_gold": 0.9999806880950928, "pred": "0", "gold": "0", "probs": [0.9999807, 8.4e-06, 5.1e-06, 5.8e-06]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": true, "conf": 0.970687747001648, "p_gold": 0.970687747001648, "pred": "yes", "gold": "yes", "probs": [0.9706877, 0.0293122]}
+{"world": "git", "qtype": "clean", "steps": 8, "ok": true, "conf": 0.9796676635742188, "p_gold": 0.9796676635742188, "pred": "yes", "gold": "yes", "probs": [0.9796677, 0.0203324]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": true, "conf": 0.9241418242454529, "p_gold": 0.9241418242454529, "pred": "no", "gold": "no", "probs": [0.0758582, 0.9241418]}
+{"world": "git", "qtype": "staged", "steps": 8, "ok": true, "conf": 0.977022647857666, "p_gold": 0.977022647857666, "pred": "no", "gold": "no", "probs": [0.0229774, 0.9770226]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": true, "conf": 0.9982993006706238, "p_gold": 0.9982993006706238, "pred": "no", "gold": "no", "probs": [0.0017007, 0.9982993]}
+{"world": "git", "qtype": "remote", "steps": 8, "ok": true, "conf": 0.9975274205207825, "p_gold": 0.9975274205207825, "pred": "no", "gold": "no", "probs": [0.0024726, 0.9975274]}
+{"world": "git", "qtype": "fails", "steps": 8, "ok": true, "conf": 0.9626730680465698, "p_gold": 0.9626730680465698, "pred": "no", "gold": "no", "probs": [0.0373269, 0.9626731]}
+{"world": "git", "qtype": "stash", "steps": 8, "ok": true, "conf": 0.9997655749320984, "p_gold": 0.9997655749320984, "pred": "1", "gold": "1", "probs": [8.48e-05, 0.9997656, 7.48e-05, 7.48e-05]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": true, "conf": 0.9099069833755493, "p_gold": 0.9099069833755493, "pred": "yes", "gold": "yes", "probs": [0.909907, 0.090093]}
+{"world": "git", "qtype": "remote", "steps": 8, "ok": true, "conf": 0.9998089671134949, "p_gold": 0.9998089671134949, "pred": "yes", "gold": "yes", "probs": [0.999809, 0.0001911]}
+{"world": "git", "qtype": "in_progress", "steps": 8, "ok": true, "conf": 0.9998601675033569, "p_gold": 0.9998601675033569, "pred": "no", "gold": "no", "probs": [0.0001398, 0.9998602]}
+{"world": "git", "qtype": "remote", "steps": 8, "ok": false, "conf": 0.5926666259765625, "p_gold": 0.4073334336280823, "pred": "yes", "gold": "no", "probs": [0.5926666, 0.4073334]}
+{"world": "git", "qtype": "in_progress", "steps": 8, "ok": true, "conf": 0.999929666519165, "p_gold": 0.999929666519165, "pred": "no", "gold": "no", "probs": [7.03e-05, 0.9999297]}
+{"world": "git", "qtype": "exists", "steps": 8, "ok": true, "conf": 0.9999852180480957, "p_gold": 0.9999852180480957, "pred": "no", "gold": "no", "probs": [1.47e-05, 0.9999852]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": true, "conf": 0.9968273043632507, "p_gold": 0.9968273043632507, "pred": "no", "gold": "no", "probs": [0.0031727, 0.9968273]}
+{"world": "git", "qtype": "remote", "steps": 8, "ok": true, "conf": 0.9997695088386536, "p_gold": 0.9997695088386536, "pred": "yes", "gold": "yes", "probs": [0.9997695, 0.0002305]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": true, "conf": 0.9553191661834717, "p_gold": 0.9553191661834717, "pred": "yes", "gold": "yes", "probs": [0.9553192, 0.0446809]}
+{"world": "git", "qtype": "branch", "steps": 8, "ok": true, "conf": 0.9979121088981628, "p_gold": 0.9979121088981628, "pred": "dev", "gold": "dev", "probs": [0.9979121, 0.0005875, 0.0015003]}
+{"world": "git", "qtype": "fails", "steps": 8, "ok": true, "conf": 0.9993333220481873, "p_gold": 0.9993333220481873, "pred": "no", "gold": "no", "probs": [0.0006667, 0.9993333]}
+{"world": "git", "qtype": "exists", "steps": 8, "ok": true, "conf": 0.9961755275726318, "p_gold": 0.9961755275726318, "pred": "yes", "gold": "yes", "probs": [0.9961755, 0.0038245]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": true, "conf": 0.9992445707321167, "p_gold": 0.9992445707321167, "pred": "no", "gold": "no", "probs": [0.0007554, 0.9992446]}
+{"world": "git", "qtype": "clean", "steps": 8, "ok": false, "conf": 0.9890130758285522, "p_gold": 0.01098694372922182, "pred": "yes", "gold": "no", "probs": [0.9890131, 0.0109869]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": true, "conf": 0.9820137619972229, "p_gold": 0.9820137619972229, "pred": "no", "gold": "no", "probs": [0.0179862, 0.9820138]}
+{"world": "git", "qtype": "stash", "steps": 8, "ok": true, "conf": 0.9998856782913208, "p_gold": 0.9998856782913208, "pred": "0", "gold": "0", "probs": [0.9998857, 7.97e-05, 1.57e-05, 1.89e-05]}
+{"world": "git", "qtype": "fails", "steps": 8, "ok": true, "conf": 0.9914224743843079, "p_gold": 0.9914224743843079, "pred": "no", "gold": "no", "probs": [0.0085775, 0.9914225]}
+{"world": "git", "qtype": "staged", "steps": 8, "ok": true, "conf": 0.999929666519165, "p_gold": 0.999929666519165, "pred": "no", "gold": "no", "probs": [7.03e-05, 0.9999297]}
+{"world": "git", "qtype": "fails", "steps": 8, "ok": true, "conf": 0.9956685304641724, "p_gold": 0.9956685304641724, "pred": "no", "gold": "no", "probs": [0.0043315, 0.9956685]}
+{"world": "git", "qtype": "branch", "steps": 8, "ok": true, "conf": 0.6791787147521973, "p_gold": 0.6791787147521973, "pred": "main", "gold": "main", "probs": [0.3208213, 0.6791787]}
+{"world": "git", "qtype": "fails", "steps": 8, "ok": true, "conf": 0.9648551344871521, "p_gold": 0.9648551344871521, "pred": "no", "gold": "no", "probs": [0.0351448, 0.9648551]}
+{"world": "git", "qtype": "clean", "steps": 8, "ok": true, "conf": 0.9956685304641724, "p_gold": 0.9956685304641724, "pred": "no", "gold": "no", "probs": [0.0043315, 0.9956685]}
+{"world": "git", "qtype": "in_progress", "steps": 8, "ok": true, "conf": 0.9999251365661621, "p_gold": 0.9999251365661621, "pred": "no", "gold": "no", "probs": [7.48e-05, 0.9999251]}
+{"world": "git", "qtype": "stash", "steps": 8, "ok": true, "conf": 0.999996542930603, "p_gold": 0.999996542930603, "pred": "0", "gold": "0", "probs": [0.9999965, 1.1e-06, 1.1e-06, 1.3e-06]}
+{"world": "git", "qtype": "fails", "steps": 8, "ok": true, "conf": 0.9998089671134949, "p_gold": 0.9998089671134949, "pred": "no", "gold": "no", "probs": [0.0001911, 0.999809]}
+{"world": "git", "qtype": "remote", "steps": 8, "ok": true, "conf": 0.9998977184295654, "p_gold": 0.9998977184295654, "pred": "yes", "gold": "yes", "probs": [0.9998977, 0.0001023]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": true, "conf": 0.9990302324295044, "p_gold": 0.9990302324295044, "pred": "no", "gold": "no", "probs": [0.0009698, 0.9990302]}
+{"world": "git", "qtype": "branch", "steps": 8, "ok": true, "conf": 0.9992998838424683, "p_gold": 0.9992998838424683, "pred": "dev", "gold": "dev", "probs": [0.9992999, 0.0004044, 0.0002958]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": true, "conf": 0.9626730680465698, "p_gold": 0.9626730680465698, "pred": "no", "gold": "no", "probs": [0.0373269, 0.9626731]}
+{"world": "git", "qtype": "branch", "steps": 8, "ok": true, "conf": 0.9980732202529907, "p_gold": 0.9980732202529907, "pred": "main", "gold": "main", "probs": [0.0019267, 0.9980732]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": false, "conf": 0.9820137619972229, "p_gold": 0.01798621006309986, "pred": "yes", "gold": "no", "probs": [0.9820138, 0.0179862]}
+{"world": "git", "qtype": "branch", "steps": 8, "ok": true, "conf": 0.9997387528419495, "p_gold": 0.9997387528419495, "pred": "main", "gold": "main", "probs": [0.0002612, 0.9997388]}
+{"world": "git", "qtype": "in_progress", "steps": 8, "ok": true, "conf": 0.9996429681777954, "p_gold": 0.9996429681777954, "pred": "no", "gold": "no", "probs": [0.000357, 0.999643]}
+{"world": "git", "qtype": "remote", "steps": 8, "ok": true, "conf": 0.9991440773010254, "p_gold": 0.9991440773010254, "pred": "yes", "gold": "yes", "probs": [0.9991441, 0.0008559]}
+{"world": "git", "qtype": "in_progress", "steps": 8, "ok": true, "conf": 0.9996646642684937, "p_gold": 0.9996646642684937, "pred": "no", "gold": "no", "probs": [0.0003354, 0.9996647]}
+{"world": "git", "qtype": "stash", "steps": 8, "ok": true, "conf": 0.9917994737625122, "p_gold": 0.9917994737625122, "pred": "1", "gold": "1", "probs": [0.0038077, 0.9917995, 0.0031567, 0.0012362]}
+{"world": "git", "qtype": "fails", "steps": 8, "ok": true, "conf": 0.9919379353523254, "p_gold": 0.9919379353523254, "pred": "no", "gold": "no", "probs": [0.008062, 0.9919379]}
+{"world": "git", "qtype": "remote", "steps": 8, "ok": true, "conf": 0.9985895752906799, "p_gold": 0.9985895752906799, "pred": "no", "gold": "no", "probs": [0.0014104, 0.9985896]}
+{"world": "git", "qtype": "in_progress", "steps": 8, "ok": true, "conf": 0.999937891960144, "p_gold": 0.999937891960144, "pred": "no", "gold": "no", "probs": [6.21e-05, 0.9999379]}
+{"world": "git", "qtype": "remote", "steps": 8, "ok": true, "conf": 0.9996429681777954, "p_gold": 0.9996429681777954, "pred": "yes", "gold": "yes", "probs": [0.999643, 0.000357]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": true, "conf": 0.9669140577316284, "p_gold": 0.9669140577316284, "pred": "yes", "gold": "yes", "probs": [0.9669141, 0.033086]}
+{"world": "git", "qtype": "content", "steps": 8, "ok": true, "conf": 0.999968409538269, "p_gold": 0.999968409538269, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.9999684, 1.22e-05, 6.1e-06, 7e-06, 6.1e-06]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": false, "conf": 0.7057850360870361, "p_gold": 0.29421496391296387, "pred": "no", "gold": "yes", "probs": [0.294215, 0.705785]}
+{"world": "git", "qtype": "clean", "steps": 8, "ok": false, "conf": 0.9648551344871521, "p_gold": 0.03514484688639641, "pred": "no", "gold": "yes", "probs": [0.0351448, 0.9648551]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": true, "conf": 0.9950946569442749, "p_gold": 0.9950946569442749, "pred": "no", "gold": "no", "probs": [0.0049054, 0.9950947]}
+{"world": "git", "qtype": "stash", "steps": 8, "ok": true, "conf": 0.9955905675888062, "p_gold": 0.9955905675888062, "pred": "1", "gold": "1", "probs": [0.0016961, 0.9955906, 0.0018055, 0.0009079]}
+{"world": "git", "qtype": "in_progress", "steps": 8, "ok": true, "conf": 0.9991440773010254, "p_gold": 0.9991440773010254, "pred": "no", "gold": "no", "probs": [0.0008559, 0.9991441]}
+{"world": "git", "qtype": "staged", "steps": 8, "ok": true, "conf": 0.9997695088386536, "p_gold": 0.9997695088386536, "pred": "no", "gold": "no", "probs": [0.0002305, 0.9997695]}
+{"world": "git", "qtype": "fails", "steps": 8, "ok": true, "conf": 0.9995694756507874, "p_gold": 0.9995694756507874, "pred": "no", "gold": "no", "probs": [0.0004306, 0.9995695]}
+{"world": "git", "qtype": "clean", "steps": 8, "ok": true, "conf": 0.8740772008895874, "p_gold": 0.8740772008895874, "pred": "no", "gold": "no", "probs": [0.1259228, 0.8740772]}
+{"world": "git", "qtype": "in_progress", "steps": 8, "ok": true, "conf": 0.9993333220481873, "p_gold": 0.9993333220481873, "pred": "no", "gold": "no", "probs": [0.0006667, 0.9993333]}
+{"world": "git", "qtype": "staged", "steps": 8, "ok": true, "conf": 0.9999251365661621, "p_gold": 0.9999251365661621, "pred": "no", "gold": "no", "probs": [7.48e-05, 0.9999251]}
+{"world": "git", "qtype": "in_progress", "steps": 8, "ok": true, "conf": 0.9986749291419983, "p_gold": 0.9986749291419983, "pred": "no", "gold": "no", "probs": [0.001325, 0.9986749]}
+{"world": "git", "qtype": "content", "steps": 8, "ok": true, "conf": 0.9673014283180237, "p_gold": 0.9673014283180237, "pred": "draft", "gold": "draft", "probs": [0.0034886, 0.9673014, 0.02921]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": true, "conf": 0.9796676635742188, "p_gold": 0.9796676635742188, "pred": "yes", "gold": "yes", "probs": [0.9796677, 0.0203324]}
+{"world": "git", "qtype": "stash", "steps": 8, "ok": true, "conf": 0.9997277855873108, "p_gold": 0.9997277855873108, "pred": "0", "gold": "0", "probs": [0.9997278, 0.0001023, 9.03e-05, 7.97e-05]}
+{"world": "git", "qtype": "fails", "steps": 8, "ok": true, "conf": 0.9961755275726318, "p_gold": 0.9961755275726318, "pred": "yes", "gold": "yes", "probs": [0.9961755, 0.0038245]}
+{"world": "git", "qtype": "branch", "steps": 8, "ok": true, "conf": 0.9999039173126221, "p_gold": 0.9999039173126221, "pred": "feature", "gold": "feature", "probs": [0.9999039, 9.61e-05]}
+{"world": "git", "qtype": "lost", "steps": 8, "ok": true, "conf": 0.9890130758285522, "p_gold": 0.9890130758285522, "pred": "no", "gold": "no", "probs": [0.0109869, 0.9890131]}
+{"world": "git", "qtype": "content", "steps": 8, "ok": true, "conf": 0.9999752044677734, "p_gold": 0.9999752044677734, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.9999752, 8.9e-06, 4e-06, 5.4e-06, 6.5e-06]}
+{"world": "git", "qtype": "in_progress", "steps": 8, "ok": true, "conf": 0.999841570854187, "p_gold": 0.999841570854187, "pred": "no", "gold": "no", "probs": [0.0001584, 0.9998416]}
+{"world": "git", "qtype": "exists", "steps": 8, "ok": true, "conf": 0.9999706745147705, "p_gold": 0.9999706745147705, "pred": "no", "gold": "no", "probs": [2.93e-05, 0.9999707]}
+{"world": "git", "qtype": "in_progress", "steps": 8, "ok": true, "conf": 0.999868631362915, "p_gold": 0.999868631362915, "pred": "no", "gold": "no", "probs": [0.0001314, 0.9998686]}
+{"world": "git", "qtype": "content", "steps": 8, "ok": true, "conf": 0.9987078905105591, "p_gold": 0.9987078905105591, "pred": "hotfix", "gold": "hotfix", "probs": [0.0006663, 0.0006259, 0.9987079]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.9998977184295654, "p_gold": 0.9998977184295654, "pred": "no", "gold": "no", "probs": [0.0001023, 0.9998977]}
+{"world": "git", "qtype": "branch", "steps": 12, "ok": true, "conf": 0.9965624213218689, "p_gold": 0.9965624213218689, "pred": "bugfix", "gold": "bugfix", "probs": [0.9965624, 0.0024702, 0.0009674]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.9997387528419495, "p_gold": 0.9997387528419495, "pred": "no", "gold": "no", "probs": [0.0002612, 0.9997388]}
+{"world": "git", "qtype": "content", "steps": 12, "ok": false, "conf": 0.9626185894012451, "p_gold": 0.0017457028152421117, "pred": "fix", "gold": "old", "probs": [0.0273074, 0.9626186, 0.0017457, 0.0083283]}
+{"world": "git", "qtype": "lost", "steps": 12, "ok": true, "conf": 0.997368335723877, "p_gold": 0.997368335723877, "pred": "no", "gold": "no", "probs": [0.0026317, 0.9973683]}
+{"world": "git", "qtype": "stash", "steps": 12, "ok": true, "conf": 0.9979810118675232, "p_gold": 0.9979810118675232, "pred": "0", "gold": "0", "probs": [0.997981, 0.0014095, 0.0003794, 0.0002301]}
+{"world": "git", "qtype": "fails", "steps": 12, "ok": true, "conf": 0.9989012479782104, "p_gold": 0.9989012479782104, "pred": "no", "gold": "no", "probs": [0.0010987, 0.9989012]}
+{"world": "git", "qtype": "content", "steps": 12, "ok": true, "conf": 0.9933071732521057, "p_gold": 0.9933071732521057, "pred": "v2", "gold": "v2", "probs": [0.0014934, 0.0019175, 0.0016922, 0.0015897, 0.9933072]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.9995417594909668, "p_gold": 0.9995417594909668, "pred": "no", "gold": "no", "probs": [0.0004583, 0.9995418]}
+{"world": "git", "qtype": "content", "steps": 12, "ok": true, "conf": 0.999964714050293, "p_gold": 0.999964714050293, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.9999647, 1.67e-05, 6.1e-06, 7e-06, 5.4e-06]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.9997965693473816, "p_gold": 0.9997965693473816, "pred": "no", "gold": "no", "probs": [0.0002034, 0.9997966]}
+{"world": "git", "qtype": "branch", "steps": 12, "ok": true, "conf": 0.9998089671134949, "p_gold": 0.9998089671134949, "pred": "main", "gold": "main", "probs": [0.0001911, 0.999809]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.9996646642684937, "p_gold": 0.9996646642684937, "pred": "no", "gold": "no", "probs": [0.0003354, 0.9996647]}
+{"world": "git", "qtype": "remote", "steps": 12, "ok": true, "conf": 0.9989677667617798, "p_gold": 0.9989677667617798, "pred": "yes", "gold": "yes", "probs": [0.9989678, 0.0010322]}
+{"world": "git", "qtype": "lost", "steps": 12, "ok": true, "conf": 0.985042929649353, "p_gold": 0.985042929649353, "pred": "no", "gold": "no", "probs": [0.0149571, 0.9850429]}
+{"world": "git", "qtype": "clean", "steps": 12, "ok": true, "conf": 0.9978172779083252, "p_gold": 0.9978172779083252, "pred": "no", "gold": "no", "probs": [0.0021827, 0.9978173]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.9999039173126221, "p_gold": 0.9999039173126221, "pred": "no", "gold": "no", "probs": [9.61e-05, 0.9999039]}
+{"world": "git", "qtype": "staged", "steps": 12, "ok": true, "conf": 0.9875683188438416, "p_gold": 0.9875683188438416, "pred": "no", "gold": "no", "probs": [0.0124317, 0.9875683]}
+{"world": "git", "qtype": "lost", "steps": 12, "ok": true, "conf": 0.9808759689331055, "p_gold": 0.9808759689331055, "pred": "yes", "gold": "yes", "probs": [0.980876, 0.019124]}
+{"world": "git", "qtype": "staged", "steps": 12, "ok": false, "conf": 0.9099069833755493, "p_gold": 0.09009299427270889, "pred": "no", "gold": "yes", "probs": [0.090093, 0.909907]}
+{"world": "git", "qtype": "fails", "steps": 12, "ok": true, "conf": 0.9928786158561707, "p_gold": 0.9928786158561707, "pred": "no", "gold": "no", "probs": [0.0071214, 0.9928786]}
+{"world": "git", "qtype": "staged", "steps": 12, "ok": true, "conf": 0.9998840093612671, "p_gold": 0.9998840093612671, "pred": "no", "gold": "no", "probs": [0.0001159, 0.999884]}
+{"world": "git", "qtype": "fails", "steps": 12, "ok": true, "conf": 0.9196425676345825, "p_gold": 0.9196425676345825, "pred": "no", "gold": "no", "probs": [0.0803575, 0.9196426]}
+{"world": "git", "qtype": "remote", "steps": 12, "ok": true, "conf": 0.9947799444198608, "p_gold": 0.9947799444198608, "pred": "no", "gold": "no", "probs": [0.0052201, 0.9947799]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.9998511075973511, "p_gold": 0.9998511075973511, "pred": "no", "gold": "no", "probs": [0.0001488, 0.9998511]}
+{"world": "git", "qtype": "stash", "steps": 12, "ok": true, "conf": 0.9997113347053528, "p_gold": 0.9997113347053528, "pred": "1", "gold": "1", "probs": [9.03e-05, 0.9997113, 0.0001023, 9.61e-05]}
+{"world": "git", "qtype": "lost", "steps": 12, "ok": true, "conf": 0.9975274205207825, "p_gold": 0.9975274205207825, "pred": "no", "gold": "no", "probs": [0.0024726, 0.9975274]}
+{"world": "git", "qtype": "clean", "steps": 12, "ok": false, "conf": 0.7057850360870361, "p_gold": 0.29421496391296387, "pred": "no", "gold": "yes", "probs": [0.294215, 0.705785]}
+{"world": "git", "qtype": "fails", "steps": 12, "ok": true, "conf": 0.9783847332000732, "p_gold": 0.9783847332000732, "pred": "no", "gold": "no", "probs": [0.0216153, 0.9783847]}
+{"world": "git", "qtype": "remote", "steps": 12, "ok": true, "conf": 0.9883127808570862, "p_gold": 0.9883127808570862, "pred": "no", "gold": "no", "probs": [0.0116873, 0.9883128]}
+{"world": "git", "qtype": "lost", "steps": 12, "ok": true, "conf": 0.9796676635742188, "p_gold": 0.9796676635742188, "pred": "no", "gold": "no", "probs": [0.0203324, 0.9796677]}
+{"world": "git", "qtype": "remote", "steps": 12, "ok": true, "conf": 0.9986749291419983, "p_gold": 0.9986749291419983, "pred": "no", "gold": "no", "probs": [0.001325, 0.9986749]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.9995694756507874, "p_gold": 0.9995694756507874, "pred": "no", "gold": "no", "probs": [0.0004306, 0.9995695]}
+{"world": "git", "qtype": "remote", "steps": 12, "ok": true, "conf": 0.999783456325531, "p_gold": 0.999783456325531, "pred": "yes", "gold": "yes", "probs": [0.9997835, 0.0002165]}
+{"world": "git", "qtype": "lost", "steps": 12, "ok": true, "conf": 0.9820137619972229, "p_gold": 0.9820137619972229, "pred": "no", "gold": "no", "probs": [0.0179862, 0.9820138]}
+{"world": "git", "qtype": "remote", "steps": 12, "ok": true, "conf": 0.9993333220481873, "p_gold": 0.9993333220481873, "pred": "yes", "gold": "yes", "probs": [0.9993333, 0.0006667]}
+{"world": "git", "qtype": "lost", "steps": 12, "ok": true, "conf": 0.9724147915840149, "p_gold": 0.9724147915840149, "pred": "yes", "gold": "yes", "probs": [0.9724148, 0.0275853]}
+{"world": "git", "qtype": "staged", "steps": 12, "ok": true, "conf": 0.9999151229858398, "p_gold": 0.9999151229858398, "pred": "no", "gold": "no", "probs": [8.48e-05, 0.9999151]}
+{"world": "git", "qtype": "lost", "steps": 12, "ok": true, "conf": 0.9933071732521057, "p_gold": 0.9933071732521057, "pred": "no", "gold": "no", "probs": [0.0066929, 0.9933072]}
+{"world": "git", "qtype": "content", "steps": 12, "ok": true, "conf": 0.9999781847000122, "p_gold": 0.9999781847000122, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.9999782, 1.67e-05, 5.1e-06]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.9995121955871582, "p_gold": 0.9995121955871582, "pred": "no", "gold": "no", "probs": [0.0004879, 0.9995122]}
+{"world": "git", "qtype": "remote", "steps": 12, "ok": true, "conf": 0.9950946569442749, "p_gold": 0.9950946569442749, "pred": "no", "gold": "no", "probs": [0.0049054, 0.9950947]}
+{"world": "git", "qtype": "lost", "steps": 12, "ok": true, "conf": 0.9688562154769897, "p_gold": 0.9688562154769897, "pred": "no", "gold": "no", "probs": [0.0311438, 0.9688562]}
+{"world": "git", "qtype": "stash", "steps": 12, "ok": true, "conf": 0.5542576313018799, "p_gold": 0.5542576313018799, "pred": "2", "gold": "2", "probs": [0.0354325, 0.3809353, 0.5542576, 0.0293746]}
+{"world": "git", "qtype": "fails", "steps": 12, "ok": true, "conf": 0.9944451451301575, "p_gold": 0.9944451451301575, "pred": "no", "gold": "no", "probs": [0.0055549, 0.9944451]}
+{"world": "git", "qtype": "remote", "steps": 12, "ok": true, "conf": 0.977022647857666, "p_gold": 0.977022647857666, "pred": "no", "gold": "no", "probs": [0.0229774, 0.9770226]}
+{"world": "git", "qtype": "fails", "steps": 12, "ok": true, "conf": 0.977022647857666, "p_gold": 0.977022647857666, "pred": "yes", "gold": "yes", "probs": [0.9770226, 0.0229774]}
+{"world": "git", "qtype": "clean", "steps": 12, "ok": true, "conf": 0.9820137619972229, "p_gold": 0.9820137619972229, "pred": "no", "gold": "no", "probs": [0.0179862, 0.9820138]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.9991440773010254, "p_gold": 0.9991440773010254, "pred": "no", "gold": "no", "probs": [0.0008559, 0.9991441]}
+{"world": "git", "qtype": "stash", "steps": 12, "ok": true, "conf": 0.9220592975616455, "p_gold": 0.9220592975616455, "pred": "2", "gold": "2", "probs": [0.0102432, 0.0380579, 0.9220593, 0.0296395]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.9997695088386536, "p_gold": 0.9997695088386536, "pred": "no", "gold": "no", "probs": [0.0002305, 0.9997695]}
+{"world": "git", "qtype": "stash", "steps": 12, "ok": true, "conf": 0.9754350781440735, "p_gold": 0.9754350781440735, "pred": "0", "gold": "0", "probs": [0.9754351, 0.0202445, 0.0031046, 0.0012158]}
+{"world": "git", "qtype": "lost", "steps": 12, "ok": true, "conf": 0.9046505093574524, "p_gold": 0.9046505093574524, "pred": "yes", "gold": "yes", "probs": [0.9046505, 0.0953495]}
+{"world": "git", "qtype": "stash", "steps": 12, "ok": true, "conf": 0.9825207591056824, "p_gold": 0.9825207591056824, "pred": "1", "gold": "1", "probs": [0.0085005, 0.9825208, 0.0062191, 0.0027597]}
+{"world": "git", "qtype": "lost", "steps": 12, "ok": true, "conf": 0.9820137619972229, "p_gold": 0.9820137619972229, "pred": "yes", "gold": "yes", "probs": [0.9820138, 0.0179862]}
+{"world": "git", "qtype": "remote", "steps": 12, "ok": true, "conf": 0.9980732202529907, "p_gold": 0.9980732202529907, "pred": "no", "gold": "no", "probs": [0.0019267, 0.9980732]}
+{"world": "git", "qtype": "lost", "steps": 12, "ok": true, "conf": 0.9919379353523254, "p_gold": 0.9919379353523254, "pred": "no", "gold": "no", "probs": [0.008062, 0.9919379]}
+{"world": "git", "qtype": "remote", "steps": 12, "ok": true, "conf": 0.9979493021965027, "p_gold": 0.9979493021965027, "pred": "no", "gold": "no", "probs": [0.0020507, 0.9979493]}
+{"world": "git", "qtype": "fails", "steps": 12, "ok": true, "conf": 0.9940890073776245, "p_gold": 0.9940890073776245, "pred": "no", "gold": "no", "probs": [0.0059111, 0.994089]}
+{"world": "git", "qtype": "clean", "steps": 12, "ok": true, "conf": 0.977022647857666, "p_gold": 0.977022647857666, "pred": "yes", "gold": "yes", "probs": [0.9770226, 0.0229774]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.999841570854187, "p_gold": 0.999841570854187, "pred": "no", "gold": "no", "probs": [0.0001584, 0.9998416]}
+{"world": "git", "qtype": "stash", "steps": 12, "ok": false, "conf": 0.5630363821983337, "p_gold": 0.07619868963956833, "pred": "1", "gold": "3", "probs": [0.019266, 0.5630364, 0.3414988, 0.0761987]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.9976769089698792, "p_gold": 0.9976769089698792, "pred": "no", "gold": "no", "probs": [0.0023232, 0.9976769]}
+{"world": "git", "qtype": "remote", "steps": 12, "ok": true, "conf": 0.9984021782875061, "p_gold": 0.9984021782875061, "pred": "no", "gold": "no", "probs": [0.0015978, 0.9984022]}
+{"world": "git", "qtype": "lost", "steps": 12, "ok": true, "conf": 0.9991440773010254, "p_gold": 0.9991440773010254, "pred": "no", "gold": "no", "probs": [0.0008559, 0.9991441]}
+{"world": "git", "qtype": "clean", "steps": 12, "ok": false, "conf": 0.6513549089431763, "p_gold": 0.3486451506614685, "pred": "no", "gold": "yes", "probs": [0.3486452, 0.6513549]}
+{"world": "git", "qtype": "fails", "steps": 12, "ok": true, "conf": 0.998498797416687, "p_gold": 0.998498797416687, "pred": "no", "gold": "no", "probs": [0.0015012, 0.9984988]}
+{"world": "git", "qtype": "exists", "steps": 12, "ok": true, "conf": 0.9999772310256958, "p_gold": 0.9999772310256958, "pred": "no", "gold": "no", "probs": [2.28e-05, 0.9999772]}
+{"world": "git", "qtype": "lost", "steps": 12, "ok": false, "conf": 0.859663724899292, "p_gold": 0.14033624529838562, "pred": "no", "gold": "yes", "probs": [0.1403362, 0.8596637]}
+{"world": "git", "qtype": "branch", "steps": 12, "ok": true, "conf": 0.999480664730072, "p_gold": 0.999480664730072, "pred": "main", "gold": "main", "probs": [0.0005193, 0.9994807]}
+{"world": "git", "qtype": "fails", "steps": 12, "ok": true, "conf": 0.9989677667617798, "p_gold": 0.9989677667617798, "pred": "no", "gold": "no", "probs": [0.0010322, 0.9989678]}
+{"world": "git", "qtype": "content", "steps": 12, "ok": true, "conf": 0.9961018562316895, "p_gold": 0.9961018562316895, "pred": "fix", "gold": "fix", "probs": [0.0003342, 0.9961019, 0.0010293, 0.002179, 0.0003557]}
+{"world": "git", "qtype": "lost", "steps": 12, "ok": true, "conf": 0.977022647857666, "p_gold": 0.977022647857666, "pred": "yes", "gold": "yes", "probs": [0.9770226, 0.0229774]}
+{"world": "git", "qtype": "remote", "steps": 12, "ok": true, "conf": 0.9968273043632507, "p_gold": 0.9968273043632507, "pred": "no", "gold": "no", "probs": [0.0031727, 0.9968273]}
+{"world": "git", "qtype": "fails", "steps": 12, "ok": true, "conf": 0.9859364032745361, "p_gold": 0.9859364032745361, "pred": "yes", "gold": "yes", "probs": [0.9859364, 0.0140636]}
+{"world": "git", "qtype": "stash", "steps": 12, "ok": true, "conf": 0.7666881084442139, "p_gold": 0.7666881084442139, "pred": "2", "gold": "2", "probs": [0.0204315, 0.1607065, 0.7666881, 0.0521738]}
+{"world": "git", "qtype": "lost", "steps": 12, "ok": false, "conf": 0.8807970285415649, "p_gold": 0.11920291930437088, "pred": "yes", "gold": "no", "probs": [0.880797, 0.1192029]}
+{"world": "git", "qtype": "content", "steps": 12, "ok": true, "conf": 0.9997811913490295, "p_gold": 0.9997811913490295, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.9997812, 4.01e-05, 5.14e-05, 9.61e-05, 3.12e-05]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.999937891960144, "p_gold": 0.999937891960144, "pred": "no", "gold": "no", "probs": [6.21e-05, 0.9999379]}
+{"world": "git", "qtype": "clean", "steps": 12, "ok": true, "conf": 0.9896718263626099, "p_gold": 0.9896718263626099, "pred": "yes", "gold": "yes", "probs": [0.9896718, 0.0103282]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.9979493021965027, "p_gold": 0.9979493021965027, "pred": "no", "gold": "no", "probs": [0.0020507, 0.9979493]}
+{"world": "git", "qtype": "content", "steps": 12, "ok": true, "conf": 0.9999810457229614, "p_gold": 0.9999810457229614, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.999981, 7.4e-06, 5.8e-06, 5.8e-06]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.9995694756507874, "p_gold": 0.9995694756507874, "pred": "no", "gold": "no", "probs": [0.0004306, 0.9995695]}
+{"world": "git", "qtype": "clean", "steps": 12, "ok": false, "conf": 0.9626730680465698, "p_gold": 0.037326883524656296, "pred": "yes", "gold": "no", "probs": [0.9626731, 0.0373269]}
+{"world": "git", "qtype": "lost", "steps": 12, "ok": true, "conf": 0.977022647857666, "p_gold": 0.977022647857666, "pred": "no", "gold": "no", "probs": [0.0229774, 0.9770226]}
+{"world": "git", "qtype": "stash", "steps": 12, "ok": true, "conf": 0.7596077919006348, "p_gold": 0.7596077919006348, "pred": "1", "gold": "1", "probs": [0.2176313, 0.7596078, 0.0190164, 0.0037446]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.9997695088386536, "p_gold": 0.9997695088386536, "pred": "no", "gold": "no", "probs": [0.0002305, 0.9997695]}
+{"world": "git", "qtype": "remote", "steps": 12, "ok": true, "conf": 0.9999039173126221, "p_gold": 0.9999039173126221, "pred": "yes", "gold": "yes", "probs": [0.9999039, 9.61e-05]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.9953904151916504, "p_gold": 0.9953904151916504, "pred": "no", "gold": "no", "probs": [0.0046096, 0.9953904]}
+{"world": "git", "qtype": "exists", "steps": 12, "ok": true, "conf": 0.9999687671661377, "p_gold": 0.9999687671661377, "pred": "no", "gold": "no", "probs": [3.12e-05, 0.9999688]}
+{"world": "git", "qtype": "fails", "steps": 12, "ok": true, "conf": 0.9399133324623108, "p_gold": 0.9399133324623108, "pred": "no", "gold": "no", "probs": [0.0600866, 0.9399133]}
+{"world": "git", "qtype": "staged", "steps": 12, "ok": true, "conf": 0.9997219443321228, "p_gold": 0.9997219443321228, "pred": "no", "gold": "no", "probs": [0.000278, 0.9997219]}
+{"world": "git", "qtype": "lost", "steps": 12, "ok": true, "conf": 0.9362850189208984, "p_gold": 0.9362850189208984, "pred": "yes", "gold": "yes", "probs": [0.936285, 0.063715]}
+{"world": "git", "qtype": "remote", "steps": 12, "ok": true, "conf": 0.9976769089698792, "p_gold": 0.9976769089698792, "pred": "no", "gold": "no", "probs": [0.0023232, 0.9976769]}
+{"world": "git", "qtype": "lost", "steps": 12, "ok": false, "conf": 0.9859364032745361, "p_gold": 0.014063626527786255, "pred": "no", "gold": "yes", "probs": [0.0140636, 0.9859364]}
+{"world": "git", "qtype": "remote", "steps": 12, "ok": true, "conf": 0.985042929649353, "p_gold": 0.985042929649353, "pred": "yes", "gold": "yes", "probs": [0.9850429, 0.0149571]}
+{"world": "git", "qtype": "lost", "steps": 12, "ok": true, "conf": 0.9896718263626099, "p_gold": 0.9896718263626099, "pred": "no", "gold": "no", "probs": [0.0103282, 0.9896718]}
+{"world": "git", "qtype": "exists", "steps": 12, "ok": true, "conf": 0.9999687671661377, "p_gold": 0.9999687671661377, "pred": "no", "gold": "no", "probs": [3.12e-05, 0.9999688]}
+{"world": "git", "qtype": "fails", "steps": 12, "ok": true, "conf": 0.7310585379600525, "p_gold": 0.7310585379600525, "pred": "no", "gold": "no", "probs": [0.2689414, 0.7310585]}
+{"world": "git", "qtype": "stash", "steps": 12, "ok": true, "conf": 0.9797950983047485, "p_gold": 0.9797950983047485, "pred": "1", "gold": "1", "probs": [0.0108845, 0.9797951, 0.0062018, 0.0031185]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.9996429681777954, "p_gold": 0.9996429681777954, "pred": "no", "gold": "no", "probs": [0.000357, 0.999643]}
+{"world": "git", "qtype": "remote", "steps": 12, "ok": true, "conf": 0.9985895752906799, "p_gold": 0.9985895752906799, "pred": "no", "gold": "no", "probs": [0.0014104, 0.9985896]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.9986749291419983, "p_gold": 0.9986749291419983, "pred": "no", "gold": "no", "probs": [0.001325, 0.9986749]}
+{"world": "git", "qtype": "stash", "steps": 12, "ok": true, "conf": 0.8505657911300659, "p_gold": 0.8505657911300659, "pred": "2", "gold": "2", "probs": [0.0212935, 0.1081373, 0.8505658, 0.0200034]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.999373733997345, "p_gold": 0.999373733997345, "pred": "no", "gold": "no", "probs": [0.0006263, 0.9993737]}
+{"world": "git", "qtype": "content", "steps": 12, "ok": true, "conf": 0.9999771118164062, "p_gold": 0.9999771118164062, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.9999771, 8.9e-06, 6.5e-06, 7.4e-06]}
+{"world": "git", "qtype": "fails", "steps": 12, "ok": true, "conf": 0.9919379353523254, "p_gold": 0.9919379353523254, "pred": "yes", "gold": "yes", "probs": [0.9919379, 0.008062]}
+{"world": "git", "qtype": "clean", "steps": 12, "ok": false, "conf": 0.8670357465744019, "p_gold": 0.13296423852443695, "pred": "yes", "gold": "no", "probs": [0.8670357, 0.1329642]}
+{"world": "git", "qtype": "lost", "steps": 12, "ok": true, "conf": 0.9783847332000732, "p_gold": 0.9783847332000732, "pred": "no", "gold": "no", "probs": [0.0216153, 0.9783847]}
+{"world": "git", "qtype": "exists", "steps": 12, "ok": true, "conf": 0.9999151229858398, "p_gold": 0.9999151229858398, "pred": "yes", "gold": "yes", "probs": [0.9999151, 8.48e-05]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.9988304972648621, "p_gold": 0.9988304972648621, "pred": "no", "gold": "no", "probs": [0.0011695, 0.9988305]}
+{"world": "git", "qtype": "stash", "steps": 12, "ok": false, "conf": 0.7797240614891052, "p_gold": 0.19714510440826416, "pred": "0", "gold": "1", "probs": [0.7797241, 0.1971451, 0.01952, 0.0036108]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.9997695088386536, "p_gold": 0.9997695088386536, "pred": "no", "gold": "no", "probs": [0.0002305, 0.9997695]}
+{"world": "git", "qtype": "content", "steps": 12, "ok": true, "conf": 0.9999545812606812, "p_gold": 0.9999545812606812, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.9999546, 1.38e-05, 1.38e-05, 1.78e-05]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.9998766183853149, "p_gold": 0.9998766183853149, "pred": "no", "gold": "no", "probs": [0.0001234, 0.9998766]}
+{"world": "git", "qtype": "exists", "steps": 12, "ok": true, "conf": 0.9648551344871521, "p_gold": 0.9648551344871521, "pred": "yes", "gold": "yes", "probs": [0.9648551, 0.0351448]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.9919379353523254, "p_gold": 0.9919379353523254, "pred": "no", "gold": "no", "probs": [0.008062, 0.9919379]}
+{"world": "git", "qtype": "exists", "steps": 12, "ok": true, "conf": 0.9999545812606812, "p_gold": 0.9999545812606812, "pred": "no", "gold": "no", "probs": [4.54e-05, 0.9999546]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.9944451451301575, "p_gold": 0.9944451451301575, "pred": "no", "gold": "no", "probs": [0.0055549, 0.9944451]}
+{"world": "git", "qtype": "stash", "steps": 12, "ok": true, "conf": 0.8532492518424988, "p_gold": 0.8532492518424988, "pred": "1", "gold": "1", "probs": [0.1229222, 0.8532493, 0.0177086, 0.0061199]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.9976769089698792, "p_gold": 0.9976769089698792, "pred": "no", "gold": "no", "probs": [0.0023232, 0.9976769]}
+{"world": "git", "qtype": "branch", "steps": 12, "ok": false, "conf": 0.8692678809165955, "p_gold": 0.12522992491722107, "pred": "exp", "gold": "main", "probs": [0.0055022, 0.8692679, 0.1252299]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.998498797416687, "p_gold": 0.998498797416687, "pred": "no", "gold": "no", "probs": [0.0015012, 0.9984988]}
+{"world": "git", "qtype": "clean", "steps": 12, "ok": false, "conf": 0.957912266254425, "p_gold": 0.042087726294994354, "pred": "no", "gold": "yes", "probs": [0.0420877, 0.9579123]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.999841570854187, "p_gold": 0.999841570854187, "pred": "no", "gold": "no", "probs": [0.0001584, 0.9998416]}
+{"world": "git", "qtype": "content", "steps": 12, "ok": true, "conf": 0.999980092048645, "p_gold": 0.999980092048645, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.9999801, 7.9e-06, 6.5e-06, 5.4e-06]}
+{"world": "git", "qtype": "lost", "steps": 12, "ok": true, "conf": 0.977022647857666, "p_gold": 0.977022647857666, "pred": "yes", "gold": "yes", "probs": [0.9770226, 0.0229774]}
+{"world": "git", "qtype": "stash", "steps": 12, "ok": true, "conf": 0.9998880624771118, "p_gold": 0.9998880624771118, "pred": "0", "gold": "0", "probs": [0.9998881, 4.54e-05, 3.12e-05, 3.54e-05]}
+{"world": "git", "qtype": "lost", "steps": 12, "ok": false, "conf": 0.970687747001648, "p_gold": 0.02931223064661026, "pred": "yes", "gold": "no", "probs": [0.9706877, 0.0293122]}
+{"world": "git", "qtype": "remote", "steps": 12, "ok": true, "conf": 0.9976769089698792, "p_gold": 0.9976769089698792, "pred": "no", "gold": "no", "probs": [0.0023232, 0.9976769]}
+{"world": "git", "qtype": "lost", "steps": 12, "ok": true, "conf": 0.997368335723877, "p_gold": 0.997368335723877, "pred": "no", "gold": "no", "probs": [0.0026317, 0.9973683]}
+{"world": "git", "qtype": "exists", "steps": 12, "ok": true, "conf": 0.9999852180480957, "p_gold": 0.9999852180480957, "pred": "no", "gold": "no", "probs": [1.47e-05, 0.9999852]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.9998511075973511, "p_gold": 0.9998511075973511, "pred": "no", "gold": "no", "probs": [0.0001488, 0.9998511]}
+{"world": "git", "qtype": "clean", "steps": 12, "ok": true, "conf": 0.9740425944328308, "p_gold": 0.9740425944328308, "pred": "no", "gold": "no", "probs": [0.0259574, 0.9740426]}
+{"world": "git", "qtype": "lost", "steps": 12, "ok": true, "conf": 0.9603611826896667, "p_gold": 0.9603611826896667, "pred": "no", "gold": "no", "probs": [0.0396388, 0.9603612]}
+{"world": "git", "qtype": "clean", "steps": 12, "ok": true, "conf": 0.9933071732521057, "p_gold": 0.9933071732521057, "pred": "no", "gold": "no", "probs": [0.0066929, 0.9933072]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.9995417594909668, "p_gold": 0.9995417594909668, "pred": "no", "gold": "no", "probs": [0.0004583, 0.9995418]}
+{"world": "git", "qtype": "clean", "steps": 12, "ok": true, "conf": 0.9883127808570862, "p_gold": 0.9883127808570862, "pred": "no", "gold": "no", "probs": [0.0116873, 0.9883128]}
+{"world": "git", "qtype": "fails", "steps": 12, "ok": true, "conf": 0.9987550973892212, "p_gold": 0.9987550973892212, "pred": "no", "gold": "no", "probs": [0.0012448, 0.9987551]}
+{"world": "git", "qtype": "staged", "steps": 12, "ok": true, "conf": 0.9966233968734741, "p_gold": 0.9966233968734741, "pred": "no", "gold": "no", "probs": [0.0033766, 0.9966234]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.9998840093612671, "p_gold": 0.9998840093612671, "pred": "no", "gold": "no", "probs": [0.0001159, 0.999884]}
+{"world": "git", "qtype": "content", "steps": 12, "ok": true, "conf": 0.9999790191650391, "p_gold": 0.9999790191650391, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.999979, 9.5e-06, 4.5e-06, 7e-06]}
+{"world": "git", "qtype": "lost", "steps": 12, "ok": false, "conf": 0.9840936064720154, "p_gold": 0.01590639166533947, "pred": "yes", "gold": "no", "probs": [0.9840936, 0.0159064]}
+{"world": "git", "qtype": "staged", "steps": 12, "ok": true, "conf": 0.9998511075973511, "p_gold": 0.9998511075973511, "pred": "no", "gold": "no", "probs": [0.0001488, 0.9998511]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.9999251365661621, "p_gold": 0.9999251365661621, "pred": "no", "gold": "no", "probs": [7.48e-05, 0.9999251]}
+{"world": "git", "qtype": "stash", "steps": 12, "ok": true, "conf": 0.9650163054466248, "p_gold": 0.9650163054466248, "pred": "1", "gold": "1", "probs": [0.0188148, 0.9650163, 0.0114118, 0.0047571]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.9997546076774597, "p_gold": 0.9997546076774597, "pred": "no", "gold": "no", "probs": [0.0002454, 0.9997546]}
+{"world": "git", "qtype": "exists", "steps": 12, "ok": true, "conf": 0.9999724626541138, "p_gold": 0.9999724626541138, "pred": "no", "gold": "no", "probs": [2.75e-05, 0.9999725]}
+{"world": "git", "qtype": "fails", "steps": 12, "ok": true, "conf": 0.9908744096755981, "p_gold": 0.9908744096755981, "pred": "no", "gold": "no", "probs": [0.0091256, 0.9908744]}
+{"world": "git", "qtype": "staged", "steps": 12, "ok": true, "conf": 0.9998313188552856, "p_gold": 0.9998313188552856, "pred": "no", "gold": "no", "probs": [0.0001687, 0.9998313]}
+{"world": "git", "qtype": "lost", "steps": 12, "ok": true, "conf": 0.949669361114502, "p_gold": 0.949669361114502, "pred": "yes", "gold": "yes", "probs": [0.9496694, 0.0503306]}
+{"world": "git", "qtype": "content", "steps": 12, "ok": true, "conf": 0.9999710321426392, "p_gold": 0.9999710321426392, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.999971, 1.01e-05, 5.4e-06, 6.5e-06, 7e-06]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.999841570854187, "p_gold": 0.999841570854187, "pred": "no", "gold": "no", "probs": [0.0001584, 0.9998416]}
+{"world": "git", "qtype": "content", "steps": 12, "ok": true, "conf": 0.9962802529335022, "p_gold": 0.9962802529335022, "pred": "draft", "gold": "draft", "probs": [0.0010295, 0.9962803, 0.0015944, 0.0010958]}
+{"world": "git", "qtype": "fails", "steps": 12, "ok": true, "conf": 0.9796676635742188, "p_gold": 0.9796676635742188, "pred": "no", "gold": "no", "probs": [0.0203324, 0.9796677]}
+{"world": "git", "qtype": "clean", "steps": 12, "ok": true, "conf": 0.9947799444198608, "p_gold": 0.9947799444198608, "pred": "no", "gold": "no", "probs": [0.0052201, 0.9947799]}
+{"world": "git", "qtype": "fails", "steps": 12, "ok": true, "conf": 0.9914224743843079, "p_gold": 0.9914224743843079, "pred": "no", "gold": "no", "probs": [0.0085775, 0.9914225]}
+{"world": "git", "qtype": "content", "steps": 12, "ok": true, "conf": 0.9999605417251587, "p_gold": 0.9999605417251587, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.9999605, 1.38e-05, 8.4e-06, 8.9e-06, 8.4e-06]}
+{"world": "git", "qtype": "fails", "steps": 12, "ok": true, "conf": 0.9808759689331055, "p_gold": 0.9808759689331055, "pred": "no", "gold": "no", "probs": [0.019124, 0.980876]}
+{"world": "git", "qtype": "content", "steps": 12, "ok": true, "conf": 0.9999643564224243, "p_gold": 0.9999643564224243, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.9999644, 8.4e-06, 1.08e-05, 5.8e-06, 1.08e-05]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.9999097585678101, "p_gold": 0.9999097585678101, "pred": "no", "gold": "no", "probs": [9.03e-05, 0.9999098]}
+{"world": "git", "qtype": "stash", "steps": 12, "ok": true, "conf": 0.9980010390281677, "p_gold": 0.9980010390281677, "pred": "0", "gold": "0", "probs": [0.998001, 0.0015004, 0.0002955, 0.0002031]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.9995417594909668, "p_gold": 0.9995417594909668, "pred": "no", "gold": "no", "probs": [0.0004583, 0.9995418]}
+{"world": "git", "qtype": "stash", "steps": 12, "ok": true, "conf": 0.9785595536231995, "p_gold": 0.9785595536231995, "pred": "2", "gold": "2", "probs": [0.0037569, 0.0102122, 0.9785596, 0.0074714]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.9995121955871582, "p_gold": 0.9995121955871582, "pred": "no", "gold": "no", "probs": [0.0004879, 0.9995122]}
+{"world": "git", "qtype": "stash", "steps": 12, "ok": false, "conf": 0.781957745552063, "p_gold": 0.19770987331867218, "pred": "0", "gold": "1", "probs": [0.7819577, 0.1977099, 0.016229, 0.0041033]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.9997965693473816, "p_gold": 0.9997965693473816, "pred": "no", "gold": "no", "probs": [0.0002034, 0.9997966]}
+{"world": "git", "qtype": "clean", "steps": 12, "ok": true, "conf": 0.9908744096755981, "p_gold": 0.9908744096755981, "pred": "no", "gold": "no", "probs": [0.0091256, 0.9908744]}
+{"world": "git", "qtype": "fails", "steps": 12, "ok": true, "conf": 0.999480664730072, "p_gold": 0.999480664730072, "pred": "no", "gold": "no", "probs": [0.0005193, 0.9994807]}
+{"world": "git", "qtype": "stash", "steps": 12, "ok": true, "conf": 0.9999687671661377, "p_gold": 0.9999687671661377, "pred": "0", "gold": "0", "probs": [0.9999688, 1.22e-05, 8.9e-06, 1.01e-05]}
+{"world": "git", "qtype": "fails", "steps": 12, "ok": true, "conf": 0.9994471669197083, "p_gold": 0.9994471669197083, "pred": "no", "gold": "no", "probs": [0.0005528, 0.9994472]}
+{"world": "git", "qtype": "clean", "steps": 12, "ok": true, "conf": 0.985042929649353, "p_gold": 0.985042929649353, "pred": "yes", "gold": "yes", "probs": [0.9850429, 0.0149571]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.9997387528419495, "p_gold": 0.9997387528419495, "pred": "no", "gold": "no", "probs": [0.0002612, 0.9997388]}
+{"world": "git", "qtype": "stash", "steps": 12, "ok": true, "conf": 0.9866999387741089, "p_gold": 0.9866999387741089, "pred": "1", "gold": "1", "probs": [0.0042925, 0.9866999, 0.0058671, 0.0031404]}
+{"world": "git", "qtype": "fails", "steps": 12, "ok": true, "conf": 0.9944451451301575, "p_gold": 0.9944451451301575, "pred": "no", "gold": "no", "probs": [0.0055549, 0.9944451]}
+{"world": "git", "qtype": "stash", "steps": 12, "ok": true, "conf": 0.5006713271141052, "p_gold": 0.5006713271141052, "pred": "1", "gold": "1", "probs": [0.0234167, 0.5006713, 0.4418409, 0.0340711]}
+{"world": "git", "qtype": "lost", "steps": 12, "ok": true, "conf": 0.9241418242454529, "p_gold": 0.9241418242454529, "pred": "yes", "gold": "yes", "probs": [0.9241418, 0.0758582]}
+{"world": "git", "qtype": "content", "steps": 12, "ok": true, "conf": 0.9999531507492065, "p_gold": 0.9999531507492065, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.9999532, 1.89e-05, 1.22e-05, 1.57e-05]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.9998313188552856, "p_gold": 0.9998313188552856, "pred": "no", "gold": "no", "probs": [0.0001687, 0.9998313]}
+{"world": "git", "qtype": "stash", "steps": 12, "ok": true, "conf": 0.9999521970748901, "p_gold": 0.9999521970748901, "pred": "0", "gold": "0", "probs": [0.9999522, 2.01e-05, 1.38e-05, 1.38e-05]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.9981897473335266, "p_gold": 0.9981897473335266, "pred": "no", "gold": "no", "probs": [0.0018102, 0.9981897]}
+{"world": "git", "qtype": "exists", "steps": 12, "ok": true, "conf": 0.9998766183853149, "p_gold": 0.9998766183853149, "pred": "no", "gold": "no", "probs": [0.0001234, 0.9998766]}
+{"world": "git", "qtype": "lost", "steps": 12, "ok": false, "conf": 0.9908744096755981, "p_gold": 0.00912563782185316, "pred": "no", "gold": "yes", "probs": [0.0091256, 0.9908744]}
+{"world": "git", "qtype": "content", "steps": 12, "ok": false, "conf": 0.9728875160217285, "p_gold": 0.02288012206554413, "pred": "hotfix", "gold": "(no such file)", "probs": [0.0228801, 0.0042324, 0.9728875]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.9997387528419495, "p_gold": 0.9997387528419495, "pred": "no", "gold": "no", "probs": [0.0002612, 0.9997388]}
+{"world": "git", "qtype": "remote", "steps": 12, "ok": true, "conf": 0.9993333220481873, "p_gold": 0.9993333220481873, "pred": "no", "gold": "no", "probs": [0.0006667, 0.9993333]}
+{"world": "git", "qtype": "fails", "steps": 12, "ok": true, "conf": 0.9953904151916504, "p_gold": 0.9953904151916504, "pred": "no", "gold": "no", "probs": [0.0046096, 0.9953904]}
+{"world": "git", "qtype": "staged", "steps": 12, "ok": true, "conf": 0.9755768775939941, "p_gold": 0.9755768775939941, "pred": "yes", "gold": "yes", "probs": [0.9755769, 0.0244231]}
+{"world": "git", "qtype": "fails", "steps": 12, "ok": true, "conf": 0.970687747001648, "p_gold": 0.970687747001648, "pred": "yes", "gold": "yes", "probs": [0.9706877, 0.0293122]}
+{"world": "git", "qtype": "content", "steps": 12, "ok": true, "conf": 0.9999761581420898, "p_gold": 0.9999761581420898, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.9999762, 8.4e-06, 8.9e-06, 6.5e-06]}
+{"world": "git", "qtype": "lost", "steps": 12, "ok": true, "conf": 0.9796676635742188, "p_gold": 0.9796676635742188, "pred": "no", "gold": "no", "probs": [0.0203324, 0.9796677]}
+{"world": "git", "qtype": "exists", "steps": 12, "ok": true, "conf": 0.999987006187439, "p_gold": 0.999987006187439, "pred": "no", "gold": "no", "probs": [1.3e-05, 0.999987]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.9989677667617798, "p_gold": 0.9989677667617798, "pred": "no", "gold": "no", "probs": [0.0010322, 0.9989678]}
+{"world": "git", "qtype": "staged", "steps": 12, "ok": true, "conf": 0.9998977184295654, "p_gold": 0.9998977184295654, "pred": "no", "gold": "no", "probs": [0.0001023, 0.9998977]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.9999203681945801, "p_gold": 0.9999203681945801, "pred": "no", "gold": "no", "probs": [7.97e-05, 0.9999204]}
+{"world": "git", "qtype": "exists", "steps": 12, "ok": true, "conf": 0.9959298968315125, "p_gold": 0.9959298968315125, "pred": "yes", "gold": "yes", "probs": [0.9959299, 0.0040701]}
+{"world": "git", "qtype": "fails", "steps": 12, "ok": true, "conf": 0.7185943722724915, "p_gold": 0.7185943722724915, "pred": "yes", "gold": "yes", "probs": [0.7185944, 0.2814056]}
+{"world": "git", "qtype": "content", "steps": 12, "ok": true, "conf": 0.9840190410614014, "p_gold": 0.9840190410614014, "pred": "new / fix", "gold": "new / fix", "probs": [0.0010824, 0.0029422, 0.0109315, 0.984019, 0.0005442, 0.0003514, 0.0001293]}
+{"world": "git", "qtype": "fails", "steps": 12, "ok": true, "conf": 0.970687747001648, "p_gold": 0.970687747001648, "pred": "yes", "gold": "yes", "probs": [0.9706877, 0.0293122]}
+{"world": "git", "qtype": "branch", "steps": 12, "ok": true, "conf": 0.9995121955871582, "p_gold": 0.9995121955871582, "pred": "main", "gold": "main", "probs": [0.0004879, 0.9995122]}
+{"world": "git", "qtype": "fails", "steps": 12, "ok": true, "conf": 0.9933071732521057, "p_gold": 0.9933071732521057, "pred": "yes", "gold": "yes", "probs": [0.9933072, 0.0066929]}
+{"world": "git", "qtype": "clean", "steps": 12, "ok": false, "conf": 0.8175744414329529, "p_gold": 0.18242551386356354, "pred": "yes", "gold": "no", "probs": [0.8175744, 0.1824255]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.9998205304145813, "p_gold": 0.9998205304145813, "pred": "no", "gold": "no", "probs": [0.0001795, 0.9998205]}
+{"world": "git", "qtype": "clean", "steps": 12, "ok": true, "conf": 0.9688562154769897, "p_gold": 0.9688562154769897, "pred": "no", "gold": "no", "probs": [0.0311438, 0.9688562]}
+{"world": "git", "qtype": "lost", "steps": 12, "ok": true, "conf": 0.9783847332000732, "p_gold": 0.9783847332000732, "pred": "yes", "gold": "yes", "probs": [0.9783847, 0.0216153]}
+{"world": "git", "qtype": "staged", "steps": 12, "ok": true, "conf": 0.9998313188552856, "p_gold": 0.9998313188552856, "pred": "no", "gold": "no", "probs": [0.0001687, 0.9998313]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.9999097585678101, "p_gold": 0.9999097585678101, "pred": "no", "gold": "no", "probs": [9.03e-05, 0.9999098]}
+{"world": "git", "qtype": "staged", "steps": 12, "ok": true, "conf": 0.9998840093612671, "p_gold": 0.9998840093612671, "pred": "no", "gold": "no", "probs": [0.0001159, 0.999884]}
+{"world": "git", "qtype": "lost", "steps": 12, "ok": true, "conf": 0.9908744096755981, "p_gold": 0.9908744096755981, "pred": "no", "gold": "no", "probs": [0.0091256, 0.9908744]}
+{"world": "git", "qtype": "clean", "steps": 12, "ok": true, "conf": 0.9196425676345825, "p_gold": 0.9196425676345825, "pred": "no", "gold": "no", "probs": [0.0803575, 0.9196426]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.999373733997345, "p_gold": 0.999373733997345, "pred": "no", "gold": "no", "probs": [0.0006263, 0.9993737]}
+{"world": "git", "qtype": "stash", "steps": 12, "ok": true, "conf": 0.9999703168869019, "p_gold": 0.9999703168869019, "pred": "0", "gold": "0", "probs": [0.9999703, 1.15e-05, 7.4e-06, 1.08e-05]}
+{"world": "git", "qtype": "fails", "steps": 12, "ok": true, "conf": 0.949669361114502, "p_gold": 0.949669361114502, "pred": "yes", "gold": "yes", "probs": [0.9496694, 0.0503306]}
+{"world": "git", "qtype": "stash", "steps": 12, "ok": true, "conf": 0.9804598093032837, "p_gold": 0.9804598093032837, "pred": "1", "gold": "1", "probs": [0.0066063, 0.9804598, 0.0096121, 0.0033218]}
+{"world": "git", "qtype": "fails", "steps": 12, "ok": true, "conf": 0.9553191661834717, "p_gold": 0.9553191661834717, "pred": "yes", "gold": "yes", "probs": [0.9553192, 0.0446809]}
+{"world": "git", "qtype": "exists", "steps": 12, "ok": true, "conf": 0.999929666519165, "p_gold": 0.999929666519165, "pred": "no", "gold": "no", "probs": [7.03e-05, 0.9999297]}
+{"world": "git", "qtype": "fails", "steps": 12, "ok": true, "conf": 0.9985895752906799, "p_gold": 0.9985895752906799, "pred": "no", "gold": "no", "probs": [0.0014104, 0.9985896]}
+{"world": "git", "qtype": "remote", "steps": 12, "ok": true, "conf": 0.9937100410461426, "p_gold": 0.9937100410461426, "pred": "yes", "gold": "yes", "probs": [0.99371, 0.0062899]}
+{"world": "git", "qtype": "fails", "steps": 12, "ok": true, "conf": 0.985042929649353, "p_gold": 0.985042929649353, "pred": "yes", "gold": "yes", "probs": [0.9850429, 0.0149571]}
+{"world": "git", "qtype": "content", "steps": 12, "ok": false, "conf": 0.9728993773460388, "p_gold": 0.007907255552709103, "pred": "old", "gold": "todo", "probs": [0.0013741, 0.9728994, 0.0079073, 0.0178193]}
+{"world": "git", "qtype": "fails", "steps": 12, "ok": true, "conf": 0.970687747001648, "p_gold": 0.970687747001648, "pred": "no", "gold": "no", "probs": [0.0293122, 0.9706877]}
+{"world": "git", "qtype": "staged", "steps": 12, "ok": true, "conf": 0.9999039173126221, "p_gold": 0.9999039173126221, "pred": "no", "gold": "no", "probs": [9.61e-05, 0.9999039]}
+{"world": "git", "qtype": "lost", "steps": 12, "ok": true, "conf": 0.9783847332000732, "p_gold": 0.9783847332000732, "pred": "no", "gold": "no", "probs": [0.0216153, 0.9783847]}
+{"world": "git", "qtype": "stash", "steps": 12, "ok": true, "conf": 0.9225591421127319, "p_gold": 0.9225591421127319, "pred": "1", "gold": "1", "probs": [0.0191471, 0.9225591, 0.0459315, 0.0123623]}
+{"world": "git", "qtype": "fails", "steps": 12, "ok": true, "conf": 0.9990302324295044, "p_gold": 0.9990302324295044, "pred": "no", "gold": "no", "probs": [0.0009698, 0.9990302]}
+{"world": "git", "qtype": "remote", "steps": 12, "ok": true, "conf": 0.9961755275726318, "p_gold": 0.9961755275726318, "pred": "no", "gold": "no", "probs": [0.0038245, 0.9961755]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.999841570854187, "p_gold": 0.999841570854187, "pred": "no", "gold": "no", "probs": [0.0001584, 0.9998416]}
+{"world": "git", "qtype": "stash", "steps": 12, "ok": true, "conf": 0.9797564148902893, "p_gold": 0.9797564148902893, "pred": "1", "gold": "1", "probs": [0.0108841, 0.9797564, 0.0058258, 0.0035336]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.9998511075973511, "p_gold": 0.9998511075973511, "pred": "no", "gold": "no", "probs": [0.0001488, 0.9998511]}
+{"world": "git", "qtype": "staged", "steps": 12, "ok": true, "conf": 0.9959298968315125, "p_gold": 0.9959298968315125, "pred": "no", "gold": "no", "probs": [0.0040701, 0.9959299]}
+{"world": "git", "qtype": "fails", "steps": 12, "ok": false, "conf": 0.6791787147521973, "p_gold": 0.3208213150501251, "pred": "yes", "gold": "no", "probs": [0.6791787, 0.3208213]}
+{"world": "git", "qtype": "branch", "steps": 12, "ok": true, "conf": 0.9777035117149353, "p_gold": 0.9777035117149353, "pred": "feature", "gold": "feature", "probs": [0.0045277, 0.0123075, 0.9777035, 0.0054614]}
+{"world": "git", "qtype": "fails", "steps": 12, "ok": true, "conf": 0.9740425944328308, "p_gold": 0.9740425944328308, "pred": "yes", "gold": "yes", "probs": [0.9740426, 0.0259574]}
+{"world": "git", "qtype": "branch", "steps": 12, "ok": false, "conf": 0.5986379981040955, "p_gold": 0.363092303276062, "pred": "feature", "gold": "exp", "probs": [0.3630923, 0.598638, 0.0382696]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.9998313188552856, "p_gold": 0.9998313188552856, "pred": "no", "gold": "no", "probs": [0.0001687, 0.9998313]}
+{"world": "git", "qtype": "staged", "steps": 12, "ok": true, "conf": 0.9998910427093506, "p_gold": 0.9998910427093506, "pred": "no", "gold": "no", "probs": [0.0001089, 0.999891]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.9997387528419495, "p_gold": 0.9997387528419495, "pred": "no", "gold": "no", "probs": [0.0002612, 0.9997388]}
+{"world": "git", "qtype": "clean", "steps": 12, "ok": true, "conf": 0.9669140577316284, "p_gold": 0.9669140577316284, "pred": "yes", "gold": "yes", "probs": [0.9669141, 0.033086]}
+{"world": "git", "qtype": "lost", "steps": 12, "ok": true, "conf": 0.9968273043632507, "p_gold": 0.9968273043632507, "pred": "no", "gold": "no", "probs": [0.0031727, 0.9968273]}
+{"world": "git", "qtype": "exists", "steps": 12, "ok": true, "conf": 0.9999785423278809, "p_gold": 0.9999785423278809, "pred": "no", "gold": "no", "probs": [2.14e-05, 0.9999785]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.9998313188552856, "p_gold": 0.9998313188552856, "pred": "no", "gold": "no", "probs": [0.0001687, 0.9998313]}
+{"world": "git", "qtype": "content", "steps": 12, "ok": false, "conf": 0.9004135131835938, "p_gold": 0.0030506483744829893, "pred": "final", "gold": "fix", "probs": [0.0949029, 0.9004135, 0.0030506, 0.0016329]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.9688562154769897, "p_gold": 0.9688562154769897, "pred": "no", "gold": "no", "probs": [0.0311438, 0.9688562]}
+{"world": "git", "qtype": "remote", "steps": 12, "ok": true, "conf": 0.9919379353523254, "p_gold": 0.9919379353523254, "pred": "no", "gold": "no", "probs": [0.008062, 0.9919379]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.9997965693473816, "p_gold": 0.9997965693473816, "pred": "no", "gold": "no", "probs": [0.0002034, 0.9997966]}
+{"world": "git", "qtype": "staged", "steps": 12, "ok": true, "conf": 0.9875683188438416, "p_gold": 0.9875683188438416, "pred": "no", "gold": "no", "probs": [0.0124317, 0.9875683]}
+{"world": "git", "qtype": "fails", "steps": 12, "ok": true, "conf": 0.9964063763618469, "p_gold": 0.9964063763618469, "pred": "no", "gold": "no", "probs": [0.0035936, 0.9964064]}
+{"world": "git", "qtype": "clean", "steps": 12, "ok": false, "conf": 0.9626730680465698, "p_gold": 0.037326883524656296, "pred": "yes", "gold": "no", "probs": [0.9626731, 0.0373269]}
+{"world": "git", "qtype": "lost", "steps": 12, "ok": true, "conf": 0.9989677667617798, "p_gold": 0.9989677667617798, "pred": "no", "gold": "no", "probs": [0.0010322, 0.9989678]}
+{"world": "git", "qtype": "stash", "steps": 12, "ok": true, "conf": 0.9996869564056396, "p_gold": 0.9996869564056396, "pred": "0", "gold": "0", "probs": [0.999687, 0.0002034, 5.83e-05, 5.14e-05]}
+{"world": "git", "qtype": "lost", "steps": 12, "ok": true, "conf": 0.9669140577316284, "p_gold": 0.9669140577316284, "pred": "no", "gold": "no", "probs": [0.033086, 0.9669141]}
+{"world": "git", "qtype": "branch", "steps": 12, "ok": true, "conf": 0.9930503368377686, "p_gold": 0.9930503368377686, "pred": "feature", "gold": "feature", "probs": [0.0055471, 0.9930503, 0.0014025]}
+{"world": "git", "qtype": "fails", "steps": 12, "ok": true, "conf": 0.9996199607849121, "p_gold": 0.9996199607849121, "pred": "no", "gold": "no", "probs": [0.00038, 0.99962]}
+{"world": "git", "qtype": "exists", "steps": 12, "ok": true, "conf": 0.9999772310256958, "p_gold": 0.9999772310256958, "pred": "no", "gold": "no", "probs": [2.28e-05, 0.9999772]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.9998511075973511, "p_gold": 0.9998511075973511, "pred": "no", "gold": "no", "probs": [0.0001488, 0.9998511]}
+{"world": "git", "qtype": "exists", "steps": 12, "ok": true, "conf": 0.9796676635742188, "p_gold": 0.9796676635742188, "pred": "yes", "gold": "yes", "probs": [0.9796677, 0.0203324]}
+{"world": "git", "qtype": "fails", "steps": 12, "ok": true, "conf": 0.957912266254425, "p_gold": 0.957912266254425, "pred": "no", "gold": "no", "probs": [0.0420877, 0.9579123]}
+{"world": "git", "qtype": "branch", "steps": 12, "ok": true, "conf": 0.9931867122650146, "p_gold": 0.9931867122650146, "pred": "dev", "gold": "dev", "probs": [0.9931867, 0.0019173, 0.004896]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.9997965693473816, "p_gold": 0.9997965693473816, "pred": "no", "gold": "no", "probs": [0.0002034, 0.9997966]}
+{"world": "git", "qtype": "staged", "steps": 12, "ok": true, "conf": 0.9999203681945801, "p_gold": 0.9999203681945801, "pred": "no", "gold": "no", "probs": [7.97e-05, 0.9999204]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.999480664730072, "p_gold": 0.999480664730072, "pred": "no", "gold": "no", "probs": [0.0005193, 0.9994807]}
+{"world": "git", "qtype": "exists", "steps": 12, "ok": true, "conf": 0.9999842643737793, "p_gold": 0.9999842643737793, "pred": "no", "gold": "no", "probs": [1.57e-05, 0.9999843]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.999373733997345, "p_gold": 0.999373733997345, "pred": "no", "gold": "no", "probs": [0.0006263, 0.9993737]}
+{"world": "git", "qtype": "stash", "steps": 12, "ok": true, "conf": 0.9993209838867188, "p_gold": 0.9993209838867188, "pred": "1", "gold": "1", "probs": [0.0002033, 0.999321, 0.0002453, 0.0002304]}
+{"world": "git", "qtype": "fails", "steps": 12, "ok": true, "conf": 0.9985895752906799, "p_gold": 0.9985895752906799, "pred": "no", "gold": "no", "probs": [0.0014104, 0.9985896]}
+{"world": "git", "qtype": "clean", "steps": 12, "ok": true, "conf": 0.9465966820716858, "p_gold": 0.9465966820716858, "pred": "no", "gold": "no", "probs": [0.0534033, 0.9465967]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.9995694756507874, "p_gold": 0.9995694756507874, "pred": "no", "gold": "no", "probs": [0.0004306, 0.9995695]}
+{"world": "git", "qtype": "remote", "steps": 12, "ok": true, "conf": 0.9992903470993042, "p_gold": 0.9992903470993042, "pred": "no", "gold": "no", "probs": [0.0007097, 0.9992903]}
+{"world": "git", "qtype": "fails", "steps": 12, "ok": true, "conf": 0.9953904151916504, "p_gold": 0.9953904151916504, "pred": "no", "gold": "no", "probs": [0.0046096, 0.9953904]}
+{"world": "git", "qtype": "branch", "steps": 12, "ok": true, "conf": 0.9997695088386536, "p_gold": 0.9997695088386536, "pred": "main", "gold": "main", "probs": [0.0002305, 0.9997695]}
+{"world": "git", "qtype": "fails", "steps": 12, "ok": true, "conf": 0.9724147915840149, "p_gold": 0.9724147915840149, "pred": "yes", "gold": "yes", "probs": [0.9724148, 0.0275853]}
+{"world": "git", "qtype": "branch", "steps": 12, "ok": true, "conf": 0.9967474937438965, "p_gold": 0.9967474937438965, "pred": "bugfix", "gold": "bugfix", "probs": [0.9967475, 0.0009675, 0.0005868, 0.0016981]}
+{"world": "git", "qtype": "lost", "steps": 12, "ok": true, "conf": 0.9940890073776245, "p_gold": 0.9940890073776245, "pred": "no", "gold": "no", "probs": [0.0059111, 0.994089]}
+{"world": "git", "qtype": "clean", "steps": 12, "ok": true, "conf": 0.9553191661834717, "p_gold": 0.9553191661834717, "pred": "yes", "gold": "yes", "probs": [0.9553192, 0.0446809]}
+{"world": "git", "qtype": "lost", "steps": 12, "ok": true, "conf": 0.9976769089698792, "p_gold": 0.9976769089698792, "pred": "no", "gold": "no", "probs": [0.0023232, 0.9976769]}
+{"world": "git", "qtype": "remote", "steps": 12, "ok": true, "conf": 0.9993333220481873, "p_gold": 0.9993333220481873, "pred": "no", "gold": "no", "probs": [0.0006667, 0.9993333]}
+{"world": "git", "qtype": "lost", "steps": 12, "ok": true, "conf": 0.9956685304641724, "p_gold": 0.9956685304641724, "pred": "no", "gold": "no", "probs": [0.0043315, 0.9956685]}
+{"world": "git", "qtype": "stash", "steps": 12, "ok": true, "conf": 0.9956995248794556, "p_gold": 0.9956995248794556, "pred": "1", "gold": "1", "probs": [0.0013211, 0.9956995, 0.0021781, 0.0008013]}
+{"world": "git", "qtype": "lost", "steps": 12, "ok": true, "conf": 0.9989677667617798, "p_gold": 0.9989677667617798, "pred": "no", "gold": "no", "probs": [0.0010322, 0.9989678]}
+{"world": "git", "qtype": "exists", "steps": 12, "ok": true, "conf": 0.9999877214431763, "p_gold": 0.9999877214431763, "pred": "no", "gold": "no", "probs": [1.22e-05, 0.9999877]}
+{"world": "git", "qtype": "lost", "steps": 12, "ok": true, "conf": 0.9783847332000732, "p_gold": 0.9783847332000732, "pred": "no", "gold": "no", "probs": [0.0216153, 0.9783847]}
+{"world": "git", "qtype": "staged", "steps": 12, "ok": true, "conf": 0.9999097585678101, "p_gold": 0.9999097585678101, "pred": "no", "gold": "no", "probs": [9.03e-05, 0.9999098]}
+{"world": "git", "qtype": "fails", "steps": 12, "ok": false, "conf": 0.9433475732803345, "p_gold": 0.05665242671966553, "pred": "yes", "gold": "no", "probs": [0.9433476, 0.0566524]}
+{"world": "git", "qtype": "staged", "steps": 12, "ok": true, "conf": 0.9998205304145813, "p_gold": 0.9998205304145813, "pred": "no", "gold": "no", "probs": [0.0001795, 0.9998205]}
+{"world": "git", "qtype": "lost", "steps": 12, "ok": true, "conf": 0.9783847332000732, "p_gold": 0.9783847332000732, "pred": "yes", "gold": "yes", "probs": [0.9783847, 0.0216153]}
+{"world": "git", "qtype": "staged", "steps": 12, "ok": true, "conf": 0.977022647857666, "p_gold": 0.977022647857666, "pred": "no", "gold": "no", "probs": [0.0229774, 0.9770226]}
+{"world": "git", "qtype": "fails", "steps": 12, "ok": true, "conf": 0.9994471669197083, "p_gold": 0.9994471669197083, "pred": "no", "gold": "no", "probs": [0.0005528, 0.9994472]}
+{"world": "git", "qtype": "content", "steps": 12, "ok": true, "conf": 0.9999842643737793, "p_gold": 0.9999842643737793, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.9999843, 4.8e-06, 3.5e-06, 2.7e-06, 4.8e-06]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.9944451451301575, "p_gold": 0.9944451451301575, "pred": "no", "gold": "no", "probs": [0.0055549, 0.9944451]}
+{"world": "git", "qtype": "remote", "steps": 12, "ok": false, "conf": 0.9196425676345825, "p_gold": 0.08035746961832047, "pred": "no", "gold": "yes", "probs": [0.0803575, 0.9196426]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.9987550973892212, "p_gold": 0.9987550973892212, "pred": "no", "gold": "no", "probs": [0.0012448, 0.9987551]}
+{"world": "git", "qtype": "exists", "steps": 12, "ok": true, "conf": 0.9999645948410034, "p_gold": 0.9999645948410034, "pred": "no", "gold": "no", "probs": [3.54e-05, 0.9999646]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.9982993006706238, "p_gold": 0.9982993006706238, "pred": "no", "gold": "no", "probs": [0.0017007, 0.9982993]}
+{"world": "git", "qtype": "exists", "steps": 12, "ok": false, "conf": 0.9997546076774597, "p_gold": 0.0002453695051372051, "pred": "yes", "gold": "no", "probs": [0.9997546, 0.0002454]}
+{"world": "git", "qtype": "fails", "steps": 12, "ok": true, "conf": 0.9840936064720154, "p_gold": 0.9840936064720154, "pred": "no", "gold": "no", "probs": [0.0159064, 0.9840936]}
+{"world": "git", "qtype": "content", "steps": 12, "ok": true, "conf": 0.5360289216041565, "p_gold": 0.5360289216041565, "pred": "hotfix / v1", "gold": "hotfix / v1", "probs": [0.0183419, 0.3684069, 0.5360289, 0.0772223]}
+{"world": "git", "qtype": "lost", "steps": 12, "ok": false, "conf": 0.9669140577316284, "p_gold": 0.03308597952127457, "pred": "yes", "gold": "no", "probs": [0.9669141, 0.033086]}
+{"world": "git", "qtype": "stash", "steps": 12, "ok": true, "conf": 0.9993333220481873, "p_gold": 0.9993333220481873, "pred": "1", "gold": "1", "probs": [0.000191, 0.9993333, 0.0002304, 0.0002453]}
+{"world": "git", "qtype": "in_progress", "steps": 12, "ok": true, "conf": 0.9997219443321228, "p_gold": 0.9997219443321228, "pred": "no", "gold": "no", "probs": [0.000278, 0.9997219]}
+{"world": "git", "qtype": "exists", "steps": 12, "ok": true, "conf": 0.999962329864502, "p_gold": 0.999962329864502, "pred": "no", "gold": "no", "probs": [3.76e-05, 0.9999623]}

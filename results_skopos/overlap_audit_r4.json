@@ -1,0 +1,54 @@
+{
+ "git3_test_known": {
+  "items": 1482,
+  "state_in_training": 0
+ },
+ "git3_test_held": {
+  "items": 1623,
+  "state_in_training": 0
+ },
+ "multi_test_trainfam": {
+  "items": 600,
+  "state_in_training": 5
+ },
+ "multi_test_testfam": {
+  "items": 600,
+  "state_in_training": 0
+ },
+ "ftest_family": {
+  "items": 1080,
+  "state_in_training": 0
+ },
+ "guard_known": {
+  "items": 4486,
+  "state_in_training": 0
+ },
+ "guard_held": {
+  "items": 6394,
+  "state_in_training": 0
+ },
+ "ftest_fresh": {
+  "items": 5385,
+  "state_in_training": 0
+ },
+ "fac_val": {
+  "items": 3983,
+  "state_in_training": 0
+ },
+ "git_long": {
+  "items": 900,
+  "state_in_training": 0
+ },
+ "git_long_val": {
+  "items": 1800,
+  "state_in_training": 0
+ },
+ "sess_val": {
+  "items": 730,
+  "state_in_training": 0
+ },
+ "awb_neutral": {
+  "items": 455,
+  "state_in_training": 0
+ }
+}

@@ -1,0 +1,58 @@
+{
+ "release": {
+  "git_v3_all": 96.61835748792271,
+  "ece_git_v3_10bins": 0.024135897758502365,
+  "ece_git_v3_15bins": 0.02387429598640893,
+  "multi_testfam_single": 81.15770821027762,
+  "multi_testfam_read_once": 78.02717070289427,
+  "multi_trainfam_single": 92.35033259423503,
+  "multi_trainfam_read_once": 91.46341463414635,
+  "ftest_changed": 81.87599364069952,
+  "guard_known": [
+   828,
+   863,
+   37,
+   863
+  ],
+  "guard_held": [
+   767,
+   799,
+   49,
+   799
+  ]
+ },
+ "candidate": {
+  "git_v3_all": 96.77938808373591,
+  "ece_git_v3_10bins": 0.025254217274906975,
+  "ece_git_v3_15bins": 0.024838844464788835,
+  "multi_testfam_single": 81.51210868281157,
+  "multi_testfam_read_once": 77.90903721204961,
+  "multi_trainfam_single": 94.45676274944567,
+  "multi_trainfam_read_once": 93.12638580931264,
+  "ftest_changed": 80.44515103338632,
+  "guard_known": [
+   836,
+   863,
+   25,
+   863
+  ],
+  "guard_held": [
+   778,
+   799,
+   25,
+   799
+  ]
+ },
+ "checks": {
+  "1 git v3": true,
+  "2a multi single": true,
+  "2b multi read-once": true,
+  "3 ftest changed": false,
+  "4 ECE git v3": true,
+  "5a guard known flagged": true,
+  "5b guard known false alarms": true,
+  "6a guard held flagged": true,
+  "6b guard held false alarms": true
+ },
+ "pass": false
+}

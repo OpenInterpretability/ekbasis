@@ -1,0 +1,136 @@
+{
+ "n": 15008,
+ "deviation": "the published raw/ce_items.jsonl stores yes/no gold as booleans while confident_errors.py compares strings; ok re-scored with the gold normalized to yes/no exactly as in the code repository's results/confident_errors/items.jsonl (items otherwise identical, checked); predictions unchanged",
+ "groups": {
+  "T_all": {
+   "n": 7172,
+   "error_skopos": 3.6391522587841605,
+   "error_ekbasis": 4.26659230340212,
+   "error_diff": -0.6274400446179591,
+   "error_diff_ci": [
+    -1.0317902955939768,
+    -0.22308979364194093
+   ],
+   "conf_wrong_per100_skopos": 1.784718349135527,
+   "conf_wrong_per100_ekbasis": 2.0635805911879532,
+   "conf_wrong_diff": -0.27886224205242627,
+   "conf_wrong_diff_ci": [
+    -0.585610708310095,
+    0.02788622420524267
+   ]
+  },
+  "T_changed": {
+   "n": 2940,
+   "error_skopos": 6.020408163265306,
+   "error_ekbasis": 7.244897959183674,
+   "error_diff": -1.2244897959183678,
+   "error_diff_ci": [
+    -2.0068027210884347,
+    -0.4761904761904763
+   ],
+   "conf_wrong_per100_skopos": 2.9591836734693877,
+   "conf_wrong_per100_ekbasis": 3.5374149659863945,
+   "conf_wrong_diff": -0.5782312925170068,
+   "conf_wrong_diff_ci": [
+    -1.156462585034014,
+    0.034013605442176686
+   ]
+  },
+  "H_all": {
+   "n": 2472,
+   "error_skopos": 9.70873786407767,
+   "error_ekbasis": 11.771844660194175,
+   "error_diff": -2.0631067961165055,
+   "error_diff_ci": [
+    -3.114886731391586,
+    -0.9708737864077666
+   ],
+   "conf_wrong_per100_skopos": 3.6407766990291264,
+   "conf_wrong_per100_ekbasis": 4.004854368932039,
+   "conf_wrong_diff": -0.36407766990291224,
+   "conf_wrong_diff_ci": [
+    -1.2135922330097086,
+    0.44498381877022686
+   ]
+  },
+  "H_changed": {
+   "n": 1106,
+   "error_skopos": 10.57866184448463,
+   "error_ekbasis": 13.652802893309222,
+   "error_diff": -3.0741410488245915,
+   "error_diff_ci": [
+    -4.88245931283906,
+    -1.3562386980108485
+   ],
+   "conf_wrong_per100_skopos": 3.7974683544303796,
+   "conf_wrong_per100_ekbasis": 4.882459312839059,
+   "conf_wrong_diff": -1.0849909584086799,
+   "conf_wrong_diff_ci": [
+    -2.44122965641953,
+    0.1808318264014468
+   ]
+  },
+  "U_all": {
+   "n": 5364,
+   "error_skopos": 14.261744966442953,
+   "error_ekbasis": 14.93288590604027,
+   "error_diff": -0.6711409395973167,
+   "error_diff_ci": [
+    -1.304996271439224,
+    -0.055928411633109576
+   ],
+   "conf_wrong_per100_skopos": 4.4929157345264725,
+   "conf_wrong_per100_ekbasis": 3.7472035794183447,
+   "conf_wrong_diff": 0.7457121551081278,
+   "conf_wrong_diff_ci": [
+    0.2796420581655483,
+    1.2304250559284116
+   ]
+  },
+  "U_changed": {
+   "n": 2700,
+   "error_skopos": 14.851851851851851,
+   "error_ekbasis": 14.666666666666666,
+   "error_diff": 0.18518518518518512,
+   "error_diff_ci": [
+    -0.7037037037037042,
+    1.1481481481481488
+   ],
+   "conf_wrong_per100_skopos": 4.222222222222222,
+   "conf_wrong_per100_ekbasis": 3.037037037037037,
+   "conf_wrong_diff": 1.1851851851851851,
+   "conf_wrong_diff_ci": [
+    0.5185185185185186,
+    1.8888888888888893
+   ]
+  }
+ },
+ "primary_skopos": {
+  "share_T": 49.042145593869726,
+  "share_U": 31.503267973856207,
+  "difference_points": 17.53887762001352,
+  "ci95": [
+   10.628130605683362,
+   24.7244094488189
+  ],
+  "family_median_T": 50.0,
+  "family_median_U": 28.735632183908045,
+  "families_counted_T": 5,
+  "families_counted_U": 5,
+  "verdict": "confirmed"
+ },
+ "primary_ekbasis": {
+  "share_T": 48.36601307189542,
+  "share_U": 25.0936329588015,
+  "difference_points": 23.272380113093924,
+  "ci95": [
+   16.82064770672366,
+   30.09970736152242
+  ],
+  "family_median_T": 51.21428571428572,
+  "family_median_U": 28.125,
+  "families_counted_T": 6,
+  "families_counted_U": 5,
+  "verdict": "confirmed"
+ }
+}

@@ -1,0 +1,730 @@
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9914224743843079, "p_gold": 0.9914224743843079, "pred": "no", "gold": "no", "probs": [0.0085775, 0.9914225]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9914224743843079, "p_gold": 0.9914224743843079, "pred": "yes", "gold": "yes", "probs": [0.9914225, 0.0085775]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.975111722946167, "p_gold": 0.975111722946167, "pred": "nothing (it does not exist)", "gold": "nothing (it does not exist)", "probs": [0.0025729, 0.9751117, 0.0033037, 0.0190117]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": true, "conf": 0.991283655166626, "p_gold": 0.991283655166626, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.0012355, 0.0015865, 0.0058944, 0.9912837]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9149009585380554, "p_gold": 0.9149009585380554, "pred": "yes", "gold": "yes", "probs": [0.914901, 0.085099]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9944451451301575, "p_gold": 0.9944451451301575, "pred": "no", "gold": "no", "probs": [0.0055549, 0.9944451]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9945231676101685, "p_gold": 0.9945231676101685, "pred": "a file", "gold": "a file", "probs": [0.0009069, 0.0031653, 0.0014046, 0.9945232]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": true, "conf": 0.9141964316368103, "p_gold": 0.9141964316368103, "pred": "\"sierrb-5739 inlet\"", "gold": "\"sierrb-5739 inlet\"", "probs": [0.9141964, 0.0798816, 0.0024122, 0.0035098]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9883127808570862, "p_gold": 0.9883127808570862, "pred": "yes", "gold": "yes", "probs": [0.9883128, 0.0116873]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9966233968734741, "p_gold": 0.9966233968734741, "pred": "no", "gold": "no", "probs": [0.0033766, 0.9966234]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9925804138183594, "p_gold": 0.9925804138183594, "pred": "nothing (it does not exist)", "gold": "nothing (it does not exist)", "probs": [0.0031592, 0.9925804, 0.0024604, 0.0018]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.997368335723877, "p_gold": 0.997368335723877, "pred": "no", "gold": "no", "probs": [0.0026317, 0.9973683]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9982993006706238, "p_gold": 0.9982993006706238, "pred": "no", "gold": "no", "probs": [0.0017007, 0.9982993]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9987633228302002, "p_gold": 0.9987633228302002, "pred": "nothing (it does not exist)", "gold": "nothing (it does not exist)", "probs": [0.0002303, 0.9987633, 0.0005189, 0.0004875]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9985895752906799, "p_gold": 0.9985895752906799, "pred": "no", "gold": "no", "probs": [0.0014104, 0.9985896]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9991440773010254, "p_gold": 0.9991440773010254, "pred": "no", "gold": "no", "probs": [0.0008559, 0.9991441]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9996199607849121, "p_gold": 0.9996199607849121, "pred": "yes", "gold": "yes", "probs": [0.99962, 0.00038]}
+{"world": "sess_shell", "qtype": "count", "steps": 1, "ok": true, "conf": 0.9998615980148315, "p_gold": 0.9998615980148315, "pred": "1", "gold": "1", "probs": [4.83e-05, 0.9998616, 3.54e-05, 5.48e-05]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9947799444198608, "p_gold": 0.9947799444198608, "pred": "no", "gold": "no", "probs": [0.0052201, 0.9947799]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9908744096755981, "p_gold": 0.9908744096755981, "pred": "yes", "gold": "yes", "probs": [0.9908744, 0.0091256]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9996849298477173, "p_gold": 0.9996849298477173, "pred": "no", "gold": "no", "probs": [0.000315, 0.9996849]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9840936064720154, "p_gold": 0.9840936064720154, "pred": "no", "gold": "no", "probs": [0.0159064, 0.9840936]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9908744096755981, "p_gold": 0.9908744096755981, "pred": "yes", "gold": "yes", "probs": [0.9908744, 0.0091256]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9993333220481873, "p_gold": 0.9993333220481873, "pred": "no", "gold": "no", "probs": [0.0006667, 0.9993333]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9099069833755493, "p_gold": 0.9099069833755493, "pred": "yes", "gold": "yes", "probs": [0.909907, 0.090093]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9970190525054932, "p_gold": 0.9970190525054932, "pred": "no", "gold": "no", "probs": [0.002981, 0.9970191]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9982993006706238, "p_gold": 0.9982993006706238, "pred": "yes", "gold": "yes", "probs": [0.9982993, 0.0017007]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9740425944328308, "p_gold": 0.9740425944328308, "pred": "yes", "gold": "yes", "probs": [0.9740426, 0.0259574]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9956685304641724, "p_gold": 0.9956685304641724, "pred": "no", "gold": "no", "probs": [0.0043315, 0.9956685]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.982602596282959, "p_gold": 0.982602596282959, "pred": "a link", "gold": "a link", "probs": [0.9826026, 0.0102544, 0.0031274, 0.0040157]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9956685304641724, "p_gold": 0.9956685304641724, "pred": "no", "gold": "no", "probs": [0.0043315, 0.9956685]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9984021782875061, "p_gold": 0.9984021782875061, "pred": "no", "gold": "no", "probs": [0.0015978, 0.9984022]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.98243248462677, "p_gold": 0.98243248462677, "pred": "a link", "gold": "a link", "probs": [0.0102526, 0.0035432, 0.9824325, 0.0037717]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9989677667617798, "p_gold": 0.9989677667617798, "pred": "no", "gold": "no", "probs": [0.0010322, 0.9989678]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9981897473335266, "p_gold": 0.9981897473335266, "pred": "no", "gold": "no", "probs": [0.0018102, 0.9981897]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9959298968315125, "p_gold": 0.9959298968315125, "pred": "yes", "gold": "yes", "probs": [0.9959299, 0.0040701]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": true, "conf": 0.9927942156791687, "p_gold": 0.9927942156791687, "pred": "\"fjord-2682 gale\"", "gold": "\"fjord-2682 gale\"", "probs": [0.0023118, 0.0048941, 0.9927942]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9796676635742188, "p_gold": 0.9796676635742188, "pred": "no", "gold": "no", "probs": [0.0203324, 0.9796677]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9755768775939941, "p_gold": 0.9755768775939941, "pred": "yes", "gold": "yes", "probs": [0.9755769, 0.0244231]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": false, "conf": 0.9688562154769897, "p_gold": 0.031143832951784134, "pred": "yes", "gold": "no", "probs": [0.9688562, 0.0311438]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": true, "conf": 0.9259825944900513, "p_gold": 0.9259825944900513, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.0522404, 0.021777, 0.9259826]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9989012479782104, "p_gold": 0.9989012479782104, "pred": "no", "gold": "no", "probs": [0.0010987, 0.9989012]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9976769089698792, "p_gold": 0.9976769089698792, "pred": "no", "gold": "no", "probs": [0.0023232, 0.9976769]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9991958737373352, "p_gold": 0.9991958737373352, "pred": "no", "gold": "no", "probs": [0.0008041, 0.9991959]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9953904151916504, "p_gold": 0.9953904151916504, "pred": "yes", "gold": "yes", "probs": [0.9953904, 0.0046096]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": true, "conf": 0.9954258799552917, "p_gold": 0.9954258799552917, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.9954259, 0.0014059, 0.0031682]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9796676635742188, "p_gold": 0.9796676635742188, "pred": "no", "gold": "no", "probs": [0.0203324, 0.9796677]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9919379353523254, "p_gold": 0.9919379353523254, "pred": "yes", "gold": "yes", "probs": [0.9919379, 0.008062]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9959298968315125, "p_gold": 0.9959298968315125, "pred": "yes", "gold": "yes", "probs": [0.9959299, 0.0040701]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9980732202529907, "p_gold": 0.9980732202529907, "pred": "no", "gold": "no", "probs": [0.0019267, 0.9980732]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9944451451301575, "p_gold": 0.9944451451301575, "pred": "yes", "gold": "yes", "probs": [0.9944451, 0.0055549]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9997219443321228, "p_gold": 0.9997219443321228, "pred": "no", "gold": "no", "probs": [0.000278, 0.9997219]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9992445707321167, "p_gold": 0.9992445707321167, "pred": "no", "gold": "no", "probs": [0.0007554, 0.9992446]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9902915358543396, "p_gold": 0.9902915358543396, "pred": "yes", "gold": "yes", "probs": [0.9902915, 0.0097085]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9648551344871521, "p_gold": 0.9648551344871521, "pred": "no", "gold": "no", "probs": [0.0351448, 0.9648551]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9840936064720154, "p_gold": 0.9840936064720154, "pred": "no", "gold": "no", "probs": [0.0159064, 0.9840936]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9924227595329285, "p_gold": 0.9924227595329285, "pred": "yes", "gold": "yes", "probs": [0.9924228, 0.0075772]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.977022647857666, "p_gold": 0.977022647857666, "pred": "yes", "gold": "yes", "probs": [0.9770226, 0.0229774]}
+{"world": "sess_shell", "qtype": "count", "steps": 1, "ok": true, "conf": 0.5563702583312988, "p_gold": 0.5563702583312988, "pred": "0", "gold": "0", "probs": [0.0045219, 0.4333016, 0.5563703, 0.0058062]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9989012479782104, "p_gold": 0.9989012479782104, "pred": "no", "gold": "no", "probs": [0.0010987, 0.9989012]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9978172779083252, "p_gold": 0.9978172779083252, "pred": "no", "gold": "no", "probs": [0.0021827, 0.9978173]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9962278604507446, "p_gold": 0.9962278604507446, "pred": "a folder", "gold": "a folder", "probs": [0.0007531, 0.0010958, 0.9962279, 0.0019232]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9921149611473083, "p_gold": 0.9921149611473083, "pred": "a file", "gold": "a file", "probs": [0.992115, 0.0019152, 0.0040545, 0.0019152]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9978172779083252, "p_gold": 0.9978172779083252, "pred": "no", "gold": "no", "probs": [0.0021827, 0.9978173]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9908744096755981, "p_gold": 0.9908744096755981, "pred": "yes", "gold": "yes", "probs": [0.9908744, 0.0091256]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9994691014289856, "p_gold": 0.9994691014289856, "pred": "a folder", "gold": "a folder", "probs": [0.000191, 0.0001488, 0.000191, 0.9994691]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9992414712905884, "p_gold": 0.9992414712905884, "pred": "nothing (it does not exist)", "gold": "nothing (it does not exist)", "probs": [0.9992415, 0.0001794, 0.0004304, 0.0001487]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9669140577316284, "p_gold": 0.9669140577316284, "pred": "no", "gold": "no", "probs": [0.033086, 0.9669141]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9919379353523254, "p_gold": 0.9919379353523254, "pred": "yes", "gold": "yes", "probs": [0.9919379, 0.008062]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9345320463180542, "p_gold": 0.9345320463180542, "pred": "nothing (it does not exist)", "gold": "nothing (it does not exist)", "probs": [0.934532, 0.0249044, 0.0362357, 0.0043277]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9461730122566223, "p_gold": 0.9461730122566223, "pred": "a file", "gold": "a file", "probs": [0.946173, 0.0016119, 0.0020697, 0.0501453]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9964063763618469, "p_gold": 0.9964063763618469, "pred": "no", "gold": "no", "probs": [0.0035936, 0.9964064]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9919379353523254, "p_gold": 0.9919379353523254, "pred": "yes", "gold": "yes", "probs": [0.9919379, 0.008062]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9863287806510925, "p_gold": 0.9863287806510925, "pred": "nothing (it does not exist)", "gold": "nothing (it does not exist)", "probs": [0.0055096, 0.0022967, 0.9863288, 0.0058649]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9937204122543335, "p_gold": 0.9937204122543335, "pred": "nothing (it does not exist)", "gold": "nothing (it does not exist)", "probs": [0.0004021, 0.0052146, 0.000663, 0.9937204]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": false, "conf": 0.9914224743843079, "p_gold": 0.008577484637498856, "pred": "yes", "gold": "no", "probs": [0.9914225, 0.0085775]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9950946569442749, "p_gold": 0.9950946569442749, "pred": "yes", "gold": "yes", "probs": [0.9950947, 0.0049054]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": false, "conf": 0.9369946122169495, "p_gold": 0.03867438808083534, "pred": "nothing (it does not exist)", "gold": "a folder", "probs": [0.9369946, 0.0151451, 0.009186, 0.0386744]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9964063763618469, "p_gold": 0.9964063763618469, "pred": "no", "gold": "no", "probs": [0.0035936, 0.9964064]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9956685304641724, "p_gold": 0.9956685304641724, "pred": "yes", "gold": "yes", "probs": [0.9956685, 0.0043315]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": false, "conf": 0.9316457509994507, "p_gold": 0.0633992850780487, "pred": "a file", "gold": "nothing (it does not exist)", "probs": [0.0017985, 0.0031565, 0.9316458, 0.0633993]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9981897473335266, "p_gold": 0.9981897473335266, "pred": "no", "gold": "no", "probs": [0.0018102, 0.9981897]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9989012479782104, "p_gold": 0.9989012479782104, "pred": "no", "gold": "no", "probs": [0.0010987, 0.9989012]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9994471669197083, "p_gold": 0.9994471669197083, "pred": "yes", "gold": "yes", "probs": [0.9994472, 0.0005528]}
+{"world": "sess_shell", "qtype": "count", "steps": 1, "ok": true, "conf": 0.9997681975364685, "p_gold": 0.9997681975364685, "pred": "3", "gold": "3", "probs": [7.97e-05, 0.9997682, 5.48e-05, 6.2e-05, 3.53e-05]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9970190525054932, "p_gold": 0.9970190525054932, "pred": "no", "gold": "no", "probs": [0.002981, 0.9970191]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9883127808570862, "p_gold": 0.9883127808570862, "pred": "yes", "gold": "yes", "probs": [0.9883128, 0.0116873]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9964063763618469, "p_gold": 0.9964063763618469, "pred": "no", "gold": "no", "probs": [0.0035936, 0.9964064]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9956685304641724, "p_gold": 0.9956685304641724, "pred": "no", "gold": "no", "probs": [0.0043315, 0.9956685]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9928786158561707, "p_gold": 0.9928786158561707, "pred": "yes", "gold": "yes", "probs": [0.9928786, 0.0071214]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9986749291419983, "p_gold": 0.9986749291419983, "pred": "no", "gold": "no", "probs": [0.001325, 0.9986749]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9553191661834717, "p_gold": 0.9553191661834717, "pred": "no", "gold": "no", "probs": [0.0446809, 0.9553192]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9950946569442749, "p_gold": 0.9950946569442749, "pred": "yes", "gold": "yes", "probs": [0.9950947, 0.0049054]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9840936064720154, "p_gold": 0.9840936064720154, "pred": "yes", "gold": "yes", "probs": [0.9840936, 0.0159064]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9989677667617798, "p_gold": 0.9989677667617798, "pred": "no", "gold": "no", "probs": [0.0010322, 0.9989678]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9971990585327148, "p_gold": 0.9971990585327148, "pred": "no", "gold": "no", "probs": [0.0028009, 0.9971991]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9959298968315125, "p_gold": 0.9959298968315125, "pred": "no", "gold": "no", "probs": [0.0040701, 0.9959299]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9926506876945496, "p_gold": 0.9926506876945496, "pred": "a file", "gold": "a file", "probs": [0.0014924, 0.0018002, 0.0040567, 0.9926507]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9953904151916504, "p_gold": 0.9953904151916504, "pred": "no", "gold": "no", "probs": [0.0046096, 0.9953904]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9859364032745361, "p_gold": 0.9859364032745361, "pred": "no", "gold": "no", "probs": [0.0140636, 0.9859364]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9883127808570862, "p_gold": 0.9883127808570862, "pred": "no", "gold": "no", "probs": [0.0116873, 0.9883128]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9886651039123535, "p_gold": 0.9886651039123535, "pred": "a folder", "gold": "a folder", "probs": [0.0070912, 0.9886651, 0.0024507, 0.0017929]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9820137619972229, "p_gold": 0.9820137619972229, "pred": "yes", "gold": "yes", "probs": [0.9820138, 0.0179862]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9950946569442749, "p_gold": 0.9950946569442749, "pred": "no", "gold": "no", "probs": [0.0049054, 0.9950947]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9959298968315125, "p_gold": 0.9959298968315125, "pred": "no", "gold": "no", "probs": [0.0040701, 0.9959299]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": true, "conf": 0.9925232529640198, "p_gold": 0.9925232529640198, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.9925233, 0.0043178, 0.003159]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": false, "conf": 0.9433475732803345, "p_gold": 0.05665242671966553, "pred": "yes", "gold": "no", "probs": [0.9433476, 0.0566524]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.997368335723877, "p_gold": 0.997368335723877, "pred": "no", "gold": "no", "probs": [0.0026317, 0.9973683]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.997368335723877, "p_gold": 0.997368335723877, "pred": "no", "gold": "no", "probs": [0.0026317, 0.9973683]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": true, "conf": 0.9912236928939819, "p_gold": 0.9912236928939819, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.0052015, 0.9912237, 0.0035749]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9981897473335266, "p_gold": 0.9981897473335266, "pred": "no", "gold": "no", "probs": [0.0018102, 0.9981897]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9989677667617798, "p_gold": 0.9989677667617798, "pred": "no", "gold": "no", "probs": [0.0010322, 0.9989678]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9999545812606812, "p_gold": 0.9999545812606812, "pred": "no", "gold": "no", "probs": [4.54e-05, 0.9999546]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9830850958824158, "p_gold": 0.9830850958824158, "pred": "yes", "gold": "yes", "probs": [0.9830851, 0.0169149]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9984021782875061, "p_gold": 0.9984021782875061, "pred": "no", "gold": "no", "probs": [0.0015978, 0.9984022]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9992903470993042, "p_gold": 0.9992903470993042, "pred": "no", "gold": "no", "probs": [0.0007097, 0.9992903]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9820137619972229, "p_gold": 0.9820137619972229, "pred": "yes", "gold": "yes", "probs": [0.9820138, 0.0179862]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9959298968315125, "p_gold": 0.9959298968315125, "pred": "no", "gold": "no", "probs": [0.0040701, 0.9959299]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.999480664730072, "p_gold": 0.999480664730072, "pred": "no", "gold": "no", "probs": [0.0005193, 0.9994807]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9961755275726318, "p_gold": 0.9961755275726318, "pred": "yes", "gold": "yes", "probs": [0.9961755, 0.0038245]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": true, "conf": 0.9978006482124329, "p_gold": 0.9978006482124329, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.001031, 0.9978006, 0.0011683]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9990890026092529, "p_gold": 0.9990890026092529, "pred": "no", "gold": "no", "probs": [0.0009111, 0.999089]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.998498797416687, "p_gold": 0.998498797416687, "pred": "no", "gold": "no", "probs": [0.0015012, 0.9984988]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.999373733997345, "p_gold": 0.999373733997345, "pred": "no", "gold": "no", "probs": [0.0006263, 0.9993737]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9961755275726318, "p_gold": 0.9961755275726318, "pred": "yes", "gold": "yes", "probs": [0.9961755, 0.0038245]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": true, "conf": 0.9970813393592834, "p_gold": 0.9970813393592834, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.0015957, 0.9970813, 0.0013229]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.999373733997345, "p_gold": 0.999373733997345, "pred": "no", "gold": "no", "probs": [0.0006263, 0.9993737]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9796676635742188, "p_gold": 0.9796676635742188, "pred": "yes", "gold": "yes", "probs": [0.9796677, 0.0203324]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9991440773010254, "p_gold": 0.9991440773010254, "pred": "yes", "gold": "yes", "probs": [0.9991441, 0.0008559]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9989012479782104, "p_gold": 0.9989012479782104, "pred": "no", "gold": "no", "probs": [0.0010987, 0.9989012]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9914224743843079, "p_gold": 0.9914224743843079, "pred": "yes", "gold": "yes", "probs": [0.9914225, 0.0085775]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9988304972648621, "p_gold": 0.9988304972648621, "pred": "no", "gold": "no", "probs": [0.0011695, 0.9988305]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9896718263626099, "p_gold": 0.9896718263626099, "pred": "yes", "gold": "yes", "probs": [0.9896718, 0.0103282]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.997368335723877, "p_gold": 0.997368335723877, "pred": "no", "gold": "no", "probs": [0.0026317, 0.9973683]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9977928400039673, "p_gold": 0.9977928400039673, "pred": "nothing (it does not exist)", "gold": "nothing (it does not exist)", "probs": [0.9977928, 0.000487, 0.0005519, 0.0011683]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9992903470993042, "p_gold": 0.9992903470993042, "pred": "no", "gold": "no", "probs": [0.0007097, 0.9992903]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": true, "conf": 0.994888961315155, "p_gold": 0.994888961315155, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.0023167, 0.0027944, 0.994889]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.997368335723877, "p_gold": 0.997368335723877, "pred": "no", "gold": "no", "probs": [0.0026317, 0.9973683]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9808759689331055, "p_gold": 0.9808759689331055, "pred": "yes", "gold": "yes", "probs": [0.980876, 0.019124]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": false, "conf": 0.9808759689331055, "p_gold": 0.01912403665482998, "pred": "yes", "gold": "no", "probs": [0.980876, 0.019124]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": false, "conf": 0.9908744096755981, "p_gold": 0.00912563782185316, "pred": "(empty)", "gold": "(no such file)", "probs": [0.0091256, 0.9908744]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9968273043632507, "p_gold": 0.9968273043632507, "pred": "no", "gold": "no", "probs": [0.0031727, 0.9968273]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": false, "conf": 0.8807970285415649, "p_gold": 0.11920291930437088, "pred": "no", "gold": "yes", "probs": [0.1192029, 0.880797]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9896718263626099, "p_gold": 0.9896718263626099, "pred": "yes", "gold": "yes", "probs": [0.9896718, 0.0103282]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9196425676345825, "p_gold": 0.9196425676345825, "pred": "no", "gold": "no", "probs": [0.0803575, 0.9196426]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9961755275726318, "p_gold": 0.9961755275726318, "pred": "no", "gold": "no", "probs": [0.0038245, 0.9961755]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.996800422668457, "p_gold": 0.996800422668457, "pred": "a folder", "gold": "a folder", "probs": [0.0008022, 0.9968004, 0.0008022, 0.0015953]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9985895752906799, "p_gold": 0.9985895752906799, "pred": "yes", "gold": "yes", "probs": [0.9985896, 0.0014104]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": true, "conf": 0.997058629989624, "p_gold": 0.997058629989624, "pred": "\"jasper-5107 gale\"", "gold": "\"jasper-5107 gale\"", "probs": [0.0012427, 0.0016986, 0.9970586]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.977022647857666, "p_gold": 0.977022647857666, "pred": "yes", "gold": "yes", "probs": [0.9770226, 0.0229774]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.997368335723877, "p_gold": 0.997368335723877, "pred": "no", "gold": "no", "probs": [0.0026317, 0.9973683]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9991440773010254, "p_gold": 0.9991440773010254, "pred": "no", "gold": "no", "probs": [0.0008559, 0.9991441]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.997368335723877, "p_gold": 0.997368335723877, "pred": "yes", "gold": "yes", "probs": [0.9973683, 0.0026317]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9830850958824158, "p_gold": 0.9830850958824158, "pred": "no", "gold": "no", "probs": [0.0169149, 0.9830851]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9944451451301575, "p_gold": 0.9944451451301575, "pred": "yes", "gold": "yes", "probs": [0.9944451, 0.0055549]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.977022647857666, "p_gold": 0.977022647857666, "pred": "no", "gold": "no", "probs": [0.0229774, 0.9770226]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9896718263626099, "p_gold": 0.9896718263626099, "pred": "yes", "gold": "yes", "probs": [0.9896718, 0.0103282]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9984021782875061, "p_gold": 0.9984021782875061, "pred": "no", "gold": "no", "probs": [0.0015978, 0.9984022]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9896718263626099, "p_gold": 0.9896718263626099, "pred": "no", "gold": "no", "probs": [0.0103282, 0.9896718]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9724147915840149, "p_gold": 0.9724147915840149, "pred": "yes", "gold": "yes", "probs": [0.9724148, 0.0275853]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9979493021965027, "p_gold": 0.9979493021965027, "pred": "yes", "gold": "yes", "probs": [0.9979493, 0.0020507]}
+{"world": "sess_shell", "qtype": "count", "steps": 1, "ok": true, "conf": 0.9976118803024292, "p_gold": 0.9976118803024292, "pred": "1", "gold": "1", "probs": [0.9976119, 0.0007542, 0.0009684, 0.0006656]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9987550973892212, "p_gold": 0.9987550973892212, "pred": "no", "gold": "no", "probs": [0.0012448, 0.9987551]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9940890073776245, "p_gold": 0.9940890073776245, "pred": "yes", "gold": "yes", "probs": [0.994089, 0.0059111]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9964063763618469, "p_gold": 0.9964063763618469, "pred": "no", "gold": "no", "probs": [0.0035936, 0.9964064]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9989012479782104, "p_gold": 0.9989012479782104, "pred": "yes", "gold": "yes", "probs": [0.9989012, 0.0010987]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": true, "conf": 0.9964063763618469, "p_gold": 0.9964063763618469, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.9964064, 0.0035936]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.970687747001648, "p_gold": 0.970687747001648, "pred": "no", "gold": "no", "probs": [0.0293122, 0.9706877]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.7981867790222168, "p_gold": 0.7981867790222168, "pred": "no", "gold": "no", "probs": [0.2018132, 0.7981868]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9934543371200562, "p_gold": 0.9934543371200562, "pred": "a file", "gold": "a file", "probs": [0.0015899, 0.0015899, 0.0033659, 0.9934543]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9917529225349426, "p_gold": 0.9917529225349426, "pred": "nothing (it does not exist)", "gold": "nothing (it does not exist)", "probs": [0.0026169, 0.9917529, 0.0013158, 0.0043145]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9966233968734741, "p_gold": 0.9966233968734741, "pred": "no", "gold": "no", "probs": [0.0033766, 0.9966234]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9928786158561707, "p_gold": 0.9928786158561707, "pred": "yes", "gold": "yes", "probs": [0.9928786, 0.0071214]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9986749291419983, "p_gold": 0.9986749291419983, "pred": "no", "gold": "no", "probs": [0.001325, 0.9986749]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9553191661834717, "p_gold": 0.9553191661834717, "pred": "no", "gold": "no", "probs": [0.0446809, 0.9553192]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9883127808570862, "p_gold": 0.9883127808570862, "pred": "yes", "gold": "yes", "probs": [0.9883128, 0.0116873]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9525741338729858, "p_gold": 0.9525741338729858, "pred": "yes", "gold": "yes", "probs": [0.9525741, 0.0474259]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9933071732521057, "p_gold": 0.9933071732521057, "pred": "no", "gold": "no", "probs": [0.0066929, 0.9933072]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9919379353523254, "p_gold": 0.9919379353523254, "pred": "yes", "gold": "yes", "probs": [0.9919379, 0.008062]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9740425944328308, "p_gold": 0.9740425944328308, "pred": "yes", "gold": "yes", "probs": [0.9740426, 0.0259574]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9952147006988525, "p_gold": 0.9952147006988525, "pred": "nothing (it does not exist)", "gold": "nothing (it does not exist)", "probs": [0.0007068, 0.0007068, 0.0033718, 0.9952147]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9626730680465698, "p_gold": 0.9626730680465698, "pred": "no", "gold": "no", "probs": [0.0373269, 0.9626731]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": false, "conf": 0.9919379353523254, "p_gold": 0.00806199200451374, "pred": "yes", "gold": "no", "probs": [0.9919379, 0.008062]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": false, "conf": 0.9755768775939941, "p_gold": 0.024423090741038322, "pred": "yes", "gold": "no", "probs": [0.9755769, 0.0244231]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9778514504432678, "p_gold": 0.9778514504432678, "pred": "nothing (it does not exist)", "gold": "nothing (it does not exist)", "probs": [0.0079475, 0.9778515, 0.0039963, 0.0102048]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9991440773010254, "p_gold": 0.9991440773010254, "pred": "no", "gold": "no", "probs": [0.0008559, 0.9991441]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": false, "conf": 0.9975274205207825, "p_gold": 0.0024726232513785362, "pred": "no", "gold": "yes", "probs": [0.0024726, 0.9975274]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": false, "conf": 0.927068293094635, "p_gold": 0.055674776434898376, "pred": "a folder", "gold": "nothing (it does not exist)", "probs": [0.0040331, 0.0556748, 0.0132239, 0.9270683]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": true, "conf": 0.8807970285415649, "p_gold": 0.8807970285415649, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.1192029, 0.880797]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9859364032745361, "p_gold": 0.9859364032745361, "pred": "no", "gold": "no", "probs": [0.0140636, 0.9859364]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9399133324623108, "p_gold": 0.9399133324623108, "pred": "yes", "gold": "yes", "probs": [0.9399133, 0.0600866]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9073590636253357, "p_gold": 0.9073590636253357, "pred": "a folder", "gold": "a folder", "probs": [0.069968, 0.0088954, 0.0137775, 0.9073591]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9992903470993042, "p_gold": 0.9992903470993042, "pred": "no", "gold": "no", "probs": [0.0007097, 0.9992903]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9984021782875061, "p_gold": 0.9984021782875061, "pred": "no", "gold": "no", "probs": [0.0015978, 0.9984022]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9921402335166931, "p_gold": 0.9921402335166931, "pred": "a file", "gold": "a file", "probs": [0.0019153, 0.0031578, 0.9921402, 0.0027867]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9995417594909668, "p_gold": 0.9995417594909668, "pred": "no", "gold": "no", "probs": [0.0004583, 0.9995418]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": true, "conf": 0.9926199316978455, "p_gold": 0.9926199316978455, "pred": "\"lattice-9538 jade\"", "gold": "\"lattice-9538 jade\"", "probs": [0.0021713, 0.9926199, 0.0052088]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9982993006706238, "p_gold": 0.9982993006706238, "pred": "no", "gold": "no", "probs": [0.0017007, 0.9982993]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9940890073776245, "p_gold": 0.9940890073776245, "pred": "yes", "gold": "yes", "probs": [0.994089, 0.0059111]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9926787614822388, "p_gold": 0.9926787614822388, "pred": "nothing (it does not exist)", "gold": "nothing (it does not exist)", "probs": [0.0007504, 0.9926788, 0.0055451, 0.0010257]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9979493021965027, "p_gold": 0.9979493021965027, "pred": "no", "gold": "no", "probs": [0.0020507, 0.9979493]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": true, "conf": 0.9960502982139587, "p_gold": 0.9960502982139587, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.0013215, 0.0026282, 0.9960503]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": false, "conf": 0.970687747001648, "p_gold": 0.02931223064661026, "pred": "yes", "gold": "no", "probs": [0.9706877, 0.0293122]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9959298968315125, "p_gold": 0.9959298968315125, "pred": "yes", "gold": "yes", "probs": [0.9959299, 0.0040701]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9883834719657898, "p_gold": 0.9883834719657898, "pred": "a folder", "gold": "a folder", "probs": [0.0075464, 0.9883835, 0.0021621, 0.001908]}
+{"world": "sess_shell", "qtype": "count", "steps": 1, "ok": false, "conf": 0.779563307762146, "p_gold": 0.1272602081298828, "pred": "0", "gold": "1", "probs": [0.025059, 0.0681175, 0.7795633, 0.1272602]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9978172779083252, "p_gold": 0.9978172779083252, "pred": "no", "gold": "no", "probs": [0.0021827, 0.9978173]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9944451451301575, "p_gold": 0.9944451451301575, "pred": "yes", "gold": "yes", "probs": [0.9944451, 0.0055549]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9991617202758789, "p_gold": 0.9991617202758789, "pred": "nothing (it does not exist)", "gold": "nothing (it does not exist)", "probs": [0.0001397, 0.0001794, 0.9991617, 0.0005191]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9976769089698792, "p_gold": 0.9976769089698792, "pred": "no", "gold": "no", "probs": [0.0023232, 0.9976769]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9953904151916504, "p_gold": 0.9953904151916504, "pred": "no", "gold": "no", "probs": [0.0046096, 0.9953904]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9966233968734741, "p_gold": 0.9966233968734741, "pred": "yes", "gold": "yes", "probs": [0.9966234, 0.0033766]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9968186616897583, "p_gold": 0.9968186616897583, "pred": "nothing (it does not exist)", "gold": "nothing (it does not exist)", "probs": [0.00103, 0.000909, 0.0012424, 0.9968187]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": true, "conf": 0.9934720993041992, "p_gold": 0.9934720993041992, "pred": "\"opal-6186 flint\"", "gold": "\"opal-6186 flint\"", "probs": [0.003162, 0.0033659, 0.9934721]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.985042929649353, "p_gold": 0.985042929649353, "pred": "no", "gold": "no", "probs": [0.0149571, 0.9850429]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9755768775939941, "p_gold": 0.9755768775939941, "pred": "no", "gold": "no", "probs": [0.0244231, 0.9755769]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.985042929649353, "p_gold": 0.985042929649353, "pred": "yes", "gold": "yes", "probs": [0.9850429, 0.0149571]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": false, "conf": 0.6821863651275635, "p_gold": 0.2843775749206543, "pred": "a folder", "gold": "nothing (it does not exist)", "probs": [0.2843776, 0.0248486, 0.6821864, 0.0085875]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9980732202529907, "p_gold": 0.9980732202529907, "pred": "no", "gold": "no", "probs": [0.0019267, 0.9980732]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9987550973892212, "p_gold": 0.9987550973892212, "pred": "no", "gold": "no", "probs": [0.0012448, 0.9987551]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9990517497062683, "p_gold": 0.9990517497062683, "pred": "a file", "gold": "a file", "probs": [0.9990517, 0.0002958, 0.0002958, 0.0003568]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9925500154495239, "p_gold": 0.9925500154495239, "pred": "a file", "gold": "a file", "probs": [0.0021712, 0.99255, 0.0023112, 0.0029677]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9984021782875061, "p_gold": 0.9984021782875061, "pred": "no", "gold": "no", "probs": [0.0015978, 0.9984022]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9970190525054932, "p_gold": 0.9970190525054932, "pred": "no", "gold": "no", "probs": [0.002981, 0.9970191]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.964228093624115, "p_gold": 0.964228093624115, "pred": "a link", "gold": "a link", "probs": [0.0047532, 0.0226765, 0.9642281, 0.0083422]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9875683188438416, "p_gold": 0.9875683188438416, "pred": "yes", "gold": "yes", "probs": [0.9875683, 0.0124317]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.997368335723877, "p_gold": 0.997368335723877, "pred": "no", "gold": "no", "probs": [0.0026317, 0.9973683]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9960945248603821, "p_gold": 0.9960945248603821, "pred": "a file", "gold": "a file", "probs": [0.0011663, 0.0014976, 0.0012415, 0.9960945]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9669140577316284, "p_gold": 0.9669140577316284, "pred": "no", "gold": "no", "probs": [0.033086, 0.9669141]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9937100410461426, "p_gold": 0.9937100410461426, "pred": "yes", "gold": "yes", "probs": [0.99371, 0.0062899]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9414157867431641, "p_gold": 0.9414157867431641, "pred": "a folder", "gold": "a folder", "probs": [0.0440306, 0.0040955, 0.0104582, 0.9414158]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9984021782875061, "p_gold": 0.9984021782875061, "pred": "no", "gold": "no", "probs": [0.0015978, 0.9984022]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": false, "conf": 0.9982993006706238, "p_gold": 0.001700722612440586, "pred": "no", "gold": "yes", "probs": [0.0017007, 0.9982993]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9998977184295654, "p_gold": 0.9998977184295654, "pred": "no", "gold": "no", "probs": [0.0001023, 0.9998977]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": true, "conf": 0.9991440773010254, "p_gold": 0.9991440773010254, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.0008559, 0.9991441]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9840936064720154, "p_gold": 0.9840936064720154, "pred": "yes", "gold": "yes", "probs": [0.9840936, 0.0159064]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9978172779083252, "p_gold": 0.9978172779083252, "pred": "no", "gold": "no", "probs": [0.0021827, 0.9978173]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9999599456787109, "p_gold": 0.9999599456787109, "pred": "no", "gold": "no", "probs": [4.01e-05, 0.9999599]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": true, "conf": 0.9981897473335266, "p_gold": 0.9981897473335266, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.9981897, 0.0018102]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9976769089698792, "p_gold": 0.9976769089698792, "pred": "no", "gold": "no", "probs": [0.0023232, 0.9976769]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9902915358543396, "p_gold": 0.9902915358543396, "pred": "yes", "gold": "yes", "probs": [0.9902915, 0.0097085]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9981514811515808, "p_gold": 0.9981514811515808, "pred": "a file", "gold": "a file", "probs": [0.0003794, 0.9981515, 0.0008032, 0.0006659]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": true, "conf": 0.9974939823150635, "p_gold": 0.9974939823150635, "pred": "\"kestrel-6378 gale\"", "gold": "\"kestrel-6378 gale\"", "probs": [0.0010972, 0.997494, 0.0014088]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9968273043632507, "p_gold": 0.9968273043632507, "pred": "no", "gold": "no", "probs": [0.0031727, 0.9968273]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9890130758285522, "p_gold": 0.9890130758285522, "pred": "yes", "gold": "yes", "probs": [0.9890131, 0.0109869]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9957574009895325, "p_gold": 0.9957574009895325, "pred": "a folder", "gold": "a folder", "probs": [0.0005863, 0.0010289, 0.0026274, 0.9957574]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.957912266254425, "p_gold": 0.957912266254425, "pred": "no", "gold": "no", "probs": [0.0420877, 0.9579123]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9914224743843079, "p_gold": 0.9914224743843079, "pred": "yes", "gold": "yes", "probs": [0.9914225, 0.0085775]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9786295294761658, "p_gold": 0.9786295294761658, "pred": "a file", "gold": "a file", "probs": [0.9786295, 0.0131136, 0.0042574, 0.0039994]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9979493021965027, "p_gold": 0.9979493021965027, "pred": "no", "gold": "no", "probs": [0.0020507, 0.9979493]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.997368335723877, "p_gold": 0.997368335723877, "pred": "no", "gold": "no", "probs": [0.0026317, 0.9973683]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.996780276298523, "p_gold": 0.996780276298523, "pred": "a folder", "gold": "a folder", "probs": [0.0007535, 0.9967803, 0.0014986, 0.0009676]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9899877905845642, "p_gold": 0.9899877905845642, "pred": "a file", "gold": "a file", "probs": [0.0021656, 0.0038007, 0.9899878, 0.0040459]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": true, "conf": 0.9888161420822144, "p_gold": 0.9888161420822144, "pred": "\"quill-1889 inlet\"", "gold": "\"quill-1889 inlet\"", "probs": [0.0031472, 0.0080366, 0.9888161]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9971990585327148, "p_gold": 0.9971990585327148, "pred": "no", "gold": "no", "probs": [0.0028009, 0.9971991]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9908744096755981, "p_gold": 0.9908744096755981, "pred": "yes", "gold": "yes", "probs": [0.9908744, 0.0091256]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9922393560409546, "p_gold": 0.9922393560409546, "pred": "a folder", "gold": "a folder", "probs": [0.9922394, 0.0014918, 0.0024595, 0.0038094]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9946461319923401, "p_gold": 0.9946461319923401, "pred": "nothing (it does not exist)", "gold": "nothing (it does not exist)", "probs": [0.0010941, 0.0031657, 0.9946461, 0.0010941]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": true, "conf": 0.9964340925216675, "p_gold": 0.9964340925216675, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.001096, 0.0024699, 0.9964341]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9990890026092529, "p_gold": 0.9990890026092529, "pred": "no", "gold": "no", "probs": [0.0009111, 0.999089]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9982993006706238, "p_gold": 0.9982993006706238, "pred": "no", "gold": "no", "probs": [0.0017007, 0.9982993]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9950946569442749, "p_gold": 0.9950946569442749, "pred": "yes", "gold": "yes", "probs": [0.9950947, 0.0049054]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": true, "conf": 0.9844223260879517, "p_gold": 0.9844223260879517, "pred": "\"beacon-1205 north\"", "gold": "\"beacon-1205 north\"", "probs": [0.9844223, 0.0085169, 0.0070608]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9956685304641724, "p_gold": 0.9956685304641724, "pred": "no", "gold": "no", "probs": [0.0043315, 0.9956685]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": false, "conf": 0.9465966820716858, "p_gold": 0.0534033328294754, "pred": "no", "gold": "yes", "probs": [0.0534033, 0.9465967]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": false, "conf": 0.9669140577316284, "p_gold": 0.03308597952127457, "pred": "yes", "gold": "no", "probs": [0.9669141, 0.033086]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": true, "conf": 0.9184379577636719, "p_gold": 0.9184379577636719, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.0625005, 0.0190616, 0.918438]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9979493021965027, "p_gold": 0.9979493021965027, "pred": "no", "gold": "no", "probs": [0.0020507, 0.9979493]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9890130758285522, "p_gold": 0.9890130758285522, "pred": "yes", "gold": "yes", "probs": [0.9890131, 0.0109869]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9970190525054932, "p_gold": 0.9970190525054932, "pred": "yes", "gold": "yes", "probs": [0.9970191, 0.002981]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9987550973892212, "p_gold": 0.9987550973892212, "pred": "no", "gold": "no", "probs": [0.0012448, 0.9987551]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9896718263626099, "p_gold": 0.9896718263626099, "pred": "yes", "gold": "yes", "probs": [0.9896718, 0.0103282]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": false, "conf": 0.9324532747268677, "p_gold": 0.06754669547080994, "pred": "yes", "gold": "no", "probs": [0.9324533, 0.0675467]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9992903470993042, "p_gold": 0.9992903470993042, "pred": "no", "gold": "no", "probs": [0.0007097, 0.9992903]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9985895752906799, "p_gold": 0.9985895752906799, "pred": "no", "gold": "no", "probs": [0.0014104, 0.9985896]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9913177490234375, "p_gold": 0.9913177490234375, "pred": "a file", "gold": "a file", "probs": [0.0021685, 0.0031551, 0.9913177, 0.0033586]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": true, "conf": 0.9993333220481873, "p_gold": 0.9993333220481873, "pred": "(empty)", "gold": "(empty)", "probs": [0.0006667, 0.9993333]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9986749291419983, "p_gold": 0.9986749291419983, "pred": "no", "gold": "no", "probs": [0.001325, 0.9986749]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.851952850818634, "p_gold": 0.851952850818634, "pred": "no", "gold": "no", "probs": [0.1480472, 0.8519529]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9730004072189331, "p_gold": 0.9730004072189331, "pred": "a folder", "gold": "a folder", "probs": [0.0074289, 0.0147742, 0.0047965, 0.9730004]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.8438951373100281, "p_gold": 0.8438951373100281, "pred": "no", "gold": "no", "probs": [0.1561049, 0.8438951]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9978172779083252, "p_gold": 0.9978172779083252, "pred": "no", "gold": "no", "probs": [0.0021827, 0.9978173]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9930093288421631, "p_gold": 0.9930093288421631, "pred": "a file", "gold": "a file", "probs": [0.0015892, 0.0015892, 0.9930093, 0.0038123]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9669140577316284, "p_gold": 0.9669140577316284, "pred": "no", "gold": "no", "probs": [0.033086, 0.9669141]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": false, "conf": 0.9908744096755981, "p_gold": 0.00912563782185316, "pred": "no", "gold": "yes", "probs": [0.0091256, 0.9908744]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9693666100502014, "p_gold": 0.9693666100502014, "pred": "a folder", "gold": "a folder", "probs": [0.0078785, 0.0089276, 0.9693666, 0.0138273]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.997368335723877, "p_gold": 0.997368335723877, "pred": "no", "gold": "no", "probs": [0.0026317, 0.9973683]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9908744096755981, "p_gold": 0.9908744096755981, "pred": "yes", "gold": "yes", "probs": [0.9908744, 0.0091256]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.955676794052124, "p_gold": 0.955676794052124, "pred": "a file", "gold": "a file", "probs": [0.0254679, 0.0060492, 0.9556768, 0.0128061]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": true, "conf": 0.8044360876083374, "p_gold": 0.8044360876083374, "pred": "\"juniper-8089 gale\"", "gold": "\"juniper-8089 gale\"", "probs": [0.0044935, 0.8044361, 0.1910703]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9984021782875061, "p_gold": 0.9984021782875061, "pred": "no", "gold": "no", "probs": [0.0015978, 0.9984022]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9940890073776245, "p_gold": 0.9940890073776245, "pred": "yes", "gold": "yes", "probs": [0.994089, 0.0059111]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9946467280387878, "p_gold": 0.9946467280387878, "pred": "nothing (it does not exist)", "gold": "nothing (it does not exist)", "probs": [0.0008004, 0.0009655, 0.9946467, 0.0035873]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": true, "conf": 0.9979336261749268, "p_gold": 0.9979336261749268, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.9979336, 0.0010977, 0.0009687]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9989677667617798, "p_gold": 0.9989677667617798, "pred": "no", "gold": "no", "probs": [0.0010322, 0.9989678]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9978172779083252, "p_gold": 0.9978172779083252, "pred": "no", "gold": "no", "probs": [0.0021827, 0.9978173]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9978172779083252, "p_gold": 0.9978172779083252, "pred": "yes", "gold": "yes", "probs": [0.9978173, 0.0021827]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9859364032745361, "p_gold": 0.9859364032745361, "pred": "yes", "gold": "yes", "probs": [0.9859364, 0.0140636]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9992903470993042, "p_gold": 0.9992903470993042, "pred": "no", "gold": "no", "probs": [0.0007097, 0.9992903]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9991440773010254, "p_gold": 0.9991440773010254, "pred": "no", "gold": "no", "probs": [0.0008559, 0.9991441]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9964063763618469, "p_gold": 0.9964063763618469, "pred": "yes", "gold": "yes", "probs": [0.9964064, 0.0035936]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9988304972648621, "p_gold": 0.9988304972648621, "pred": "no", "gold": "no", "probs": [0.0011695, 0.9988305]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": true, "conf": 0.9875683188438416, "p_gold": 0.9875683188438416, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.0124317, 0.9875683]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9976769089698792, "p_gold": 0.9976769089698792, "pred": "no", "gold": "no", "probs": [0.0023232, 0.9976769]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9988304972648621, "p_gold": 0.9988304972648621, "pred": "no", "gold": "no", "probs": [0.0011695, 0.9988305]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9993987083435059, "p_gold": 0.9993987083435059, "pred": "nothing (it does not exist)", "gold": "nothing (it does not exist)", "probs": [5.83e-05, 0.0004582, 8.48e-05, 0.9993987]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9724147915840149, "p_gold": 0.9724147915840149, "pred": "no", "gold": "no", "probs": [0.0275853, 0.9724148]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9553191661834717, "p_gold": 0.9553191661834717, "pred": "yes", "gold": "yes", "probs": [0.9553192, 0.0446809]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9506141543388367, "p_gold": 0.9506141543388367, "pred": "a folder", "gold": "a folder", "probs": [0.018534, 0.0269668, 0.9506142, 0.0038849]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9978172779083252, "p_gold": 0.9978172779083252, "pred": "no", "gold": "no", "probs": [0.0021827, 0.9978173]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9986749291419983, "p_gold": 0.9986749291419983, "pred": "no", "gold": "no", "probs": [0.001325, 0.9986749]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9994471669197083, "p_gold": 0.9994471669197083, "pred": "yes", "gold": "yes", "probs": [0.9994472, 0.0005528]}
+{"world": "sess_shell", "qtype": "count", "steps": 1, "ok": true, "conf": 0.9993634819984436, "p_gold": 0.9993634819984436, "pred": "3", "gold": "3", "probs": [0.0001233, 0.0001159, 0.9993635, 0.0003352, 6.2e-05]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9937100410461426, "p_gold": 0.9937100410461426, "pred": "no", "gold": "no", "probs": [0.0062899, 0.99371]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9902915358543396, "p_gold": 0.9902915358543396, "pred": "yes", "gold": "yes", "probs": [0.9902915, 0.0097085]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9995417594909668, "p_gold": 0.9995417594909668, "pred": "no", "gold": "no", "probs": [0.0004583, 0.9995418]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.998498797416687, "p_gold": 0.998498797416687, "pred": "no", "gold": "no", "probs": [0.0015012, 0.9984988]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9984021782875061, "p_gold": 0.9984021782875061, "pred": "no", "gold": "no", "probs": [0.0015978, 0.9984022]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9991440773010254, "p_gold": 0.9991440773010254, "pred": "yes", "gold": "yes", "probs": [0.9991441, 0.0008559]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": true, "conf": 0.9977128505706787, "p_gold": 0.9977128505706787, "pred": "\"dune-1975 inlet\"", "gold": "\"dune-1975 inlet\"", "probs": [0.0005874, 0.9977129, 0.0016997]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9976769089698792, "p_gold": 0.9976769089698792, "pred": "no", "gold": "no", "probs": [0.0023232, 0.9976769]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": false, "conf": 0.9919379353523254, "p_gold": 0.00806199200451374, "pred": "no", "gold": "yes", "probs": [0.008062, 0.9919379]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9987550973892212, "p_gold": 0.9987550973892212, "pred": "yes", "gold": "yes", "probs": [0.9987551, 0.0012448]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": false, "conf": 0.9740425944328308, "p_gold": 0.02595735713839531, "pred": "yes", "gold": "no", "probs": [0.9740426, 0.0259574]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9978172779083252, "p_gold": 0.9978172779083252, "pred": "no", "gold": "no", "probs": [0.0021827, 0.9978173]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9992445707321167, "p_gold": 0.9992445707321167, "pred": "yes", "gold": "yes", "probs": [0.9992446, 0.0007554]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9957414865493774, "p_gold": 0.9957414865493774, "pred": "a file", "gold": "a file", "probs": [0.0012411, 0.9957415, 0.0013211, 0.0016964]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": false, "conf": 0.9755768775939941, "p_gold": 0.024423090741038322, "pred": "yes", "gold": "no", "probs": [0.9755769, 0.0244231]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9830850958824158, "p_gold": 0.9830850958824158, "pred": "yes", "gold": "yes", "probs": [0.9830851, 0.0169149]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9987550973892212, "p_gold": 0.9987550973892212, "pred": "yes", "gold": "yes", "probs": [0.9987551, 0.0012448]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": false, "conf": 0.95725417137146, "p_gold": 0.027155211195349693, "pred": "a folder", "gold": "a file", "probs": [0.9572542, 0.0082819, 0.0073087, 0.0271552]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9990302324295044, "p_gold": 0.9990302324295044, "pred": "no", "gold": "no", "probs": [0.0009698, 0.9990302]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9981897473335266, "p_gold": 0.9981897473335266, "pred": "no", "gold": "no", "probs": [0.0018102, 0.9981897]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9947799444198608, "p_gold": 0.9947799444198608, "pred": "yes", "gold": "yes", "probs": [0.9947799, 0.0052201]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9976769089698792, "p_gold": 0.9976769089698792, "pred": "no", "gold": "no", "probs": [0.0023232, 0.9976769]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9933071732521057, "p_gold": 0.9933071732521057, "pred": "yes", "gold": "yes", "probs": [0.9933072, 0.0066929]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.998498797416687, "p_gold": 0.998498797416687, "pred": "no", "gold": "no", "probs": [0.0015012, 0.9984988]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.985042929649353, "p_gold": 0.985042929649353, "pred": "yes", "gold": "yes", "probs": [0.9850429, 0.0149571]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.997368335723877, "p_gold": 0.997368335723877, "pred": "no", "gold": "no", "probs": [0.0026317, 0.9973683]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9924207329750061, "p_gold": 0.9924207329750061, "pred": "nothing (it does not exist)", "gold": "nothing (it does not exist)", "probs": [0.0007986, 0.0012369, 0.0055436, 0.9924207]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": false, "conf": 0.9840936064720154, "p_gold": 0.01590639166533947, "pred": "yes", "gold": "no", "probs": [0.9840936, 0.0159064]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.997368335723877, "p_gold": 0.997368335723877, "pred": "no", "gold": "no", "probs": [0.0026317, 0.9973683]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9944776296615601, "p_gold": 0.9944776296615601, "pred": "nothing (it does not exist)", "gold": "nothing (it does not exist)", "probs": [0.0007063, 0.0007518, 0.0040642, 0.9944776]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9991958737373352, "p_gold": 0.9991958737373352, "pred": "no", "gold": "no", "probs": [0.0008041, 0.9991959]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.998498797416687, "p_gold": 0.998498797416687, "pred": "no", "gold": "no", "probs": [0.0015012, 0.9984988]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9964879751205444, "p_gold": 0.9964879751205444, "pred": "nothing (it does not exist)", "gold": "nothing (it does not exist)", "probs": [0.996488, 0.0007077, 0.0021798, 0.0006245]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9961755275726318, "p_gold": 0.9961755275726318, "pred": "yes", "gold": "yes", "probs": [0.9961755, 0.0038245]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": false, "conf": 0.9908744096755981, "p_gold": 0.00912563782185316, "pred": "no", "gold": "yes", "probs": [0.0091256, 0.9908744]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": false, "conf": 0.9783847332000732, "p_gold": 0.02161533385515213, "pred": "yes", "gold": "no", "probs": [0.9783847, 0.0216153]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": false, "conf": 0.9971857666969299, "p_gold": 0.0014083757996559143, "pred": "a file", "gold": "nothing (it does not exist)", "probs": [0.9971858, 0.0014084, 0.0005515, 0.0008542]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9873191118240356, "p_gold": 0.9873191118240356, "pred": "nothing (it does not exist)", "gold": "nothing (it does not exist)", "probs": [0.0090929, 0.001682, 0.9873191, 0.001906]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9890130758285522, "p_gold": 0.9890130758285522, "pred": "yes", "gold": "yes", "probs": [0.9890131, 0.0109869]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9968273043632507, "p_gold": 0.9968273043632507, "pred": "no", "gold": "no", "probs": [0.0031727, 0.9968273]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9978172779083252, "p_gold": 0.9978172779083252, "pred": "yes", "gold": "yes", "probs": [0.9978173, 0.0021827]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9980685114860535, "p_gold": 0.9980685114860535, "pred": "a file", "gold": "a file", "probs": [0.9980685, 0.0010978, 0.0004039, 0.0004299]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": true, "conf": 0.9953989386558533, "p_gold": 0.9953989386558533, "pred": "\"opal-6176 delta\"", "gold": "\"opal-6176 delta\"", "probs": [0.9953989, 0.0027959, 0.0018051]}
+{"world": "sess_shell", "qtype": "count", "steps": 1, "ok": true, "conf": 0.9987472295761108, "p_gold": 0.9987472295761108, "pred": "0", "gold": "0", "probs": [0.0005189, 0.9987472, 0.0002303, 0.000335, 0.0001685]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9883127808570862, "p_gold": 0.9883127808570862, "pred": "yes", "gold": "yes", "probs": [0.9883128, 0.0116873]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9980732202529907, "p_gold": 0.9980732202529907, "pred": "no", "gold": "no", "probs": [0.0019267, 0.9980732]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9987550973892212, "p_gold": 0.9987550973892212, "pred": "yes", "gold": "yes", "probs": [0.9987551, 0.0012448]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9988564252853394, "p_gold": 0.9988564252853394, "pred": "a file", "gold": "a file", "probs": [0.0003567, 0.9988564, 0.0003567, 0.0004302]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": true, "conf": 0.9964542388916016, "p_gold": 0.9964542388916016, "pred": "\"opal-6176 delta\"", "gold": "\"opal-6176 delta\"", "probs": [0.9964542, 0.0014981, 0.0020477]}
+{"world": "sess_shell", "qtype": "count", "steps": 1, "ok": true, "conf": 0.9063801169395447, "p_gold": 0.9063801169395447, "pred": "1", "gold": "1", "probs": [0.0008798, 0.0023916, 0.9063801, 0.0897438, 0.0006047]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9867772459983826, "p_gold": 0.9867772459983826, "pred": "yes", "gold": "yes", "probs": [0.9867772, 0.0132228]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9978172779083252, "p_gold": 0.9978172779083252, "pred": "no", "gold": "no", "probs": [0.0021827, 0.9978173]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9930243492126465, "p_gold": 0.9930243492126465, "pred": "nothing (it does not exist)", "gold": "nothing (it does not exist)", "probs": [0.0011627, 0.00432, 0.9930243, 0.001493]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.957912266254425, "p_gold": 0.957912266254425, "pred": "no", "gold": "no", "probs": [0.0420877, 0.9579123]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9924227595329285, "p_gold": 0.9924227595329285, "pred": "yes", "gold": "yes", "probs": [0.9924228, 0.0075772]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.985531210899353, "p_gold": 0.985531210899353, "pred": "a folder", "gold": "a folder", "probs": [0.0048583, 0.001084, 0.9855312, 0.0085265]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": false, "conf": 0.9740425944328308, "p_gold": 0.02595735713839531, "pred": "yes", "gold": "no", "probs": [0.9740426, 0.0259574]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.531209409236908, "p_gold": 0.531209409236908, "pred": "no", "gold": "no", "probs": [0.4687907, 0.5312094]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9433475732803345, "p_gold": 0.9433475732803345, "pred": "yes", "gold": "yes", "probs": [0.9433476, 0.0566524]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": false, "conf": 0.8872045874595642, "p_gold": 0.1127953976392746, "pred": "no", "gold": "yes", "probs": [0.1127954, 0.8872046]}
+{"world": "sess_shell", "qtype": "count", "steps": 1, "ok": true, "conf": 0.882522463798523, "p_gold": 0.882522463798523, "pred": "0", "gold": "0", "probs": [0.8825225, 0.0026387, 0.1122001, 0.0026387]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9968273043632507, "p_gold": 0.9968273043632507, "pred": "no", "gold": "no", "probs": [0.0031727, 0.9968273]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9984021782875061, "p_gold": 0.9984021782875061, "pred": "no", "gold": "no", "probs": [0.0015978, 0.9984022]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9994115829467773, "p_gold": 0.9994115829467773, "pred": "yes", "gold": "yes", "probs": [0.9994116, 0.0005884]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9997387528419495, "p_gold": 0.9997387528419495, "pred": "no", "gold": "no", "probs": [0.0002612, 0.9997388]}
+{"world": "sess_shell", "qtype": "count", "steps": 1, "ok": true, "conf": 0.9999243021011353, "p_gold": 0.9999243021011353, "pred": "1", "gold": "1", "probs": [3.54e-05, 0.9999243, 1.89e-05, 2.14e-05]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9830850958824158, "p_gold": 0.9830850958824158, "pred": "yes", "gold": "yes", "probs": [0.9830851, 0.0169149]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9970190525054932, "p_gold": 0.9970190525054932, "pred": "no", "gold": "no", "probs": [0.002981, 0.9970191]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9950946569442749, "p_gold": 0.9950946569442749, "pred": "yes", "gold": "yes", "probs": [0.9950947, 0.0049054]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9970372915267944, "p_gold": 0.9970372915267944, "pred": "nothing (it does not exist)", "gold": "nothing (it does not exist)", "probs": [0.0004866, 0.0005514, 0.9970373, 0.0019247]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": false, "conf": 0.9755768775939941, "p_gold": 0.024423090741038322, "pred": "yes", "gold": "no", "probs": [0.9755769, 0.0244231]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": false, "conf": 0.6791787147521973, "p_gold": 0.3208213150501251, "pred": "no", "gold": "yes", "probs": [0.3208213, 0.6791787]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": false, "conf": 0.622459352016449, "p_gold": 0.3775406777858734, "pred": "no", "gold": "yes", "probs": [0.3775407, 0.6224594]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": false, "conf": 0.9678527116775513, "p_gold": 0.014696067199110985, "pred": "nothing (it does not exist)", "gold": "a folder", "probs": [0.0129692, 0.0146961, 0.004482, 0.9678527]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.998498797416687, "p_gold": 0.998498797416687, "pred": "no", "gold": "no", "probs": [0.0015012, 0.9984988]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.957912266254425, "p_gold": 0.957912266254425, "pred": "yes", "gold": "yes", "probs": [0.9579123, 0.0420877]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9952929615974426, "p_gold": 0.9952929615974426, "pred": "a file", "gold": "a file", "probs": [0.995293, 0.001805, 0.0014964, 0.0014057]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9989012479782104, "p_gold": 0.9989012479782104, "pred": "no", "gold": "no", "probs": [0.0010987, 0.9989012]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9914224743843079, "p_gold": 0.9914224743843079, "pred": "yes", "gold": "yes", "probs": [0.9914225, 0.0085775]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9956285953521729, "p_gold": 0.9956285953521729, "pred": "nothing (it does not exist)", "gold": "nothing (it does not exist)", "probs": [0.9956286, 0.0035908, 0.000486, 0.0002948]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9908744096755981, "p_gold": 0.9908744096755981, "pred": "yes", "gold": "yes", "probs": [0.9908744, 0.0091256]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9985895752906799, "p_gold": 0.9985895752906799, "pred": "no", "gold": "no", "probs": [0.0014104, 0.9985896]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9986749291419983, "p_gold": 0.9986749291419983, "pred": "no", "gold": "no", "probs": [0.001325, 0.9986749]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.998498797416687, "p_gold": 0.998498797416687, "pred": "no", "gold": "no", "probs": [0.0015012, 0.9984988]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9924227595329285, "p_gold": 0.9924227595329285, "pred": "yes", "gold": "yes", "probs": [0.9924228, 0.0075772]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.999962329864502, "p_gold": 0.999962329864502, "pred": "no", "gold": "no", "probs": [3.76e-05, 0.9999623]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9991958737373352, "p_gold": 0.9991958737373352, "pred": "no", "gold": "no", "probs": [0.0008041, 0.9991959]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9982993006706238, "p_gold": 0.9982993006706238, "pred": "no", "gold": "no", "probs": [0.0017007, 0.9982993]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9929372668266296, "p_gold": 0.9929372668266296, "pred": "nothing (it does not exist)", "gold": "nothing (it does not exist)", "probs": [0.0008506, 0.9929373, 0.0048948, 0.0013174]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9933342933654785, "p_gold": 0.9933342933654785, "pred": "a file", "gold": "a file", "probs": [0.9933343, 0.0035825, 0.0014934, 0.0015897]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9950946569442749, "p_gold": 0.9950946569442749, "pred": "no", "gold": "no", "probs": [0.0049054, 0.9950947]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9928786158561707, "p_gold": 0.9928786158561707, "pred": "yes", "gold": "yes", "probs": [0.9928786, 0.0071214]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9486998319625854, "p_gold": 0.9486998319625854, "pred": "nothing (it does not exist)", "gold": "nothing (it does not exist)", "probs": [0.0367851, 0.9486998, 0.0077106, 0.0068046]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9959790706634521, "p_gold": 0.9959790706634521, "pred": "nothing (it does not exist)", "gold": "nothing (it does not exist)", "probs": [0.0004567, 0.9959791, 0.0005864, 0.0029779]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.8438951373100281, "p_gold": 0.8438951373100281, "pred": "no", "gold": "no", "probs": [0.1561049, 0.8438951]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.8438951373100281, "p_gold": 0.8438951373100281, "pred": "yes", "gold": "yes", "probs": [0.8438951, 0.1561049]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": false, "conf": 0.9796676635742188, "p_gold": 0.020332353189587593, "pred": "no", "gold": "yes", "probs": [0.0203324, 0.9796677]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": false, "conf": 0.5926666259765625, "p_gold": 0.4073334336280823, "pred": "yes", "gold": "no", "probs": [0.5926666, 0.4073334]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9991440773010254, "p_gold": 0.9991440773010254, "pred": "no", "gold": "no", "probs": [0.0008559, 0.9991441]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9980732202529907, "p_gold": 0.9980732202529907, "pred": "no", "gold": "no", "probs": [0.0019267, 0.9980732]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9916930794715881, "p_gold": 0.9916930794715881, "pred": "a file", "gold": "a file", "probs": [0.0015871, 0.0033599, 0.9916931, 0.0033599]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": true, "conf": 0.9965832829475403, "p_gold": 0.9965832829475403, "pred": "(empty)", "gold": "(empty)", "probs": [0.0010962, 0.9965833, 0.0023206]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9990890026092529, "p_gold": 0.9990890026092529, "pred": "no", "gold": "no", "probs": [0.0009111, 0.999089]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.997368335723877, "p_gold": 0.997368335723877, "pred": "no", "gold": "no", "probs": [0.0026317, 0.9973683]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9939841628074646, "p_gold": 0.9939841628074646, "pred": "a file", "gold": "a file", "probs": [0.0014039, 0.0010271, 0.9939842, 0.0035849]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": true, "conf": 0.9962050318717957, "p_gold": 0.9962050318717957, "pred": "\"fern-3734 basalt\"", "gold": "\"fern-3734 basalt\"", "probs": [0.996205, 0.0011664, 0.0026286]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9740425944328308, "p_gold": 0.9740425944328308, "pred": "yes", "gold": "yes", "probs": [0.9740426, 0.0259574]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9947799444198608, "p_gold": 0.9947799444198608, "pred": "no", "gold": "no", "probs": [0.0052201, 0.9947799]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9981897473335266, "p_gold": 0.9981897473335266, "pred": "yes", "gold": "yes", "probs": [0.9981897, 0.0018102]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9986045956611633, "p_gold": 0.9986045956611633, "pred": "a file", "gold": "a file", "probs": [0.0002609, 0.9986046, 0.0003796, 0.0007549]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9669140577316284, "p_gold": 0.9669140577316284, "pred": "yes", "gold": "yes", "probs": [0.9669141, 0.033086]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": false, "conf": 0.9875683188438416, "p_gold": 0.01243165135383606, "pred": "no", "gold": "yes", "probs": [0.0124317, 0.9875683]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9966233968734741, "p_gold": 0.9966233968734741, "pred": "yes", "gold": "yes", "probs": [0.9966234, 0.0033766]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": false, "conf": 0.978857159614563, "p_gold": 0.014863160438835621, "pred": "a file", "gold": "a folder", "probs": [0.0027494, 0.0035303, 0.9788572, 0.0148632]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9896718263626099, "p_gold": 0.9896718263626099, "pred": "no", "gold": "no", "probs": [0.0103282, 0.9896718]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.8933094143867493, "p_gold": 0.8933094143867493, "pred": "no", "gold": "no", "probs": [0.1066906, 0.8933094]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9673541784286499, "p_gold": 0.9673541784286499, "pred": "a folder", "gold": "a folder", "probs": [0.9673542, 0.0094836, 0.006518, 0.0166442]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.851128101348877, "p_gold": 0.851128101348877, "pred": "a link", "gold": "a link", "probs": [0.8511281, 0.0037027, 0.1305247, 0.0146445]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.970687747001648, "p_gold": 0.970687747001648, "pred": "no", "gold": "no", "probs": [0.0293122, 0.9706877]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9978172779083252, "p_gold": 0.9978172779083252, "pred": "no", "gold": "no", "probs": [0.0021827, 0.9978173]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9950946569442749, "p_gold": 0.9950946569442749, "pred": "yes", "gold": "yes", "probs": [0.9950947, 0.0049054]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9948531985282898, "p_gold": 0.9948531985282898, "pred": "nothing (it does not exist)", "gold": "nothing (it does not exist)", "probs": [0.0006637, 0.0006637, 0.0038194, 0.9948532]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": true, "conf": 0.9934467673301697, "p_gold": 0.9934467673301697, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.9934468, 0.0035829, 0.0029704]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.8933094143867493, "p_gold": 0.8933094143867493, "pred": "no", "gold": "no", "probs": [0.1066906, 0.8933094]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9890130758285522, "p_gold": 0.9890130758285522, "pred": "yes", "gold": "yes", "probs": [0.9890131, 0.0109869]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9956685304641724, "p_gold": 0.9956685304641724, "pred": "no", "gold": "no", "probs": [0.0043315, 0.9956685]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9685766696929932, "p_gold": 0.9685766696929932, "pred": "a folder", "gold": "a folder", "probs": [0.9685767, 0.0089203, 0.0201022, 0.0024009]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9994115829467773, "p_gold": 0.9994115829467773, "pred": "no", "gold": "no", "probs": [0.0005884, 0.9994116]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9970190525054932, "p_gold": 0.9970190525054932, "pred": "no", "gold": "no", "probs": [0.002981, 0.9970191]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9943548440933228, "p_gold": 0.9943548440933228, "pred": "nothing (it does not exist)", "gold": "nothing (it does not exist)", "probs": [0.0008002, 0.9943548, 0.0010275, 0.0038175]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.994857668876648, "p_gold": 0.994857668876648, "pred": "a file", "gold": "a file", "probs": [0.9948577, 0.0027944, 0.00132, 0.001028]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9975274205207825, "p_gold": 0.9975274205207825, "pred": "no", "gold": "no", "probs": [0.0024726, 0.9975274]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9937100410461426, "p_gold": 0.9937100410461426, "pred": "yes", "gold": "yes", "probs": [0.99371, 0.0062899]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9503403902053833, "p_gold": 0.9503403902053833, "pred": "nothing (it does not exist)", "gold": "nothing (it does not exist)", "probs": [0.0046848, 0.0032198, 0.041755, 0.9503404]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9952518939971924, "p_gold": 0.9952518939971924, "pred": "nothing (it does not exist)", "gold": "nothing (it does not exist)", "probs": [0.0006238, 0.0007524, 0.9952519, 0.003372]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9988304972648621, "p_gold": 0.9988304972648621, "pred": "no", "gold": "no", "probs": [0.0011695, 0.9988305]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9975274205207825, "p_gold": 0.9975274205207825, "pred": "no", "gold": "no", "probs": [0.0024726, 0.9975274]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9988304972648621, "p_gold": 0.9988304972648621, "pred": "yes", "gold": "yes", "probs": [0.9988305, 0.0011695]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": false, "conf": 0.970687747001648, "p_gold": 0.02931223064661026, "pred": "no", "gold": "yes", "probs": [0.0293122, 0.9706877]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": false, "conf": 0.985042929649353, "p_gold": 0.014957087114453316, "pred": "yes", "gold": "no", "probs": [0.9850429, 0.0149571]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": false, "conf": 0.9947799444198608, "p_gold": 0.005220125894993544, "pred": "yes", "gold": "no", "probs": [0.9947799, 0.0052201]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9976769089698792, "p_gold": 0.9976769089698792, "pred": "no", "gold": "no", "probs": [0.0023232, 0.9976769]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": false, "conf": 0.991105854511261, "p_gold": 0.005536272190511227, "pred": "\"meadow-2787 cedar\"", "gold": "(no such file)", "probs": [0.9911059, 0.0055363, 0.0033579]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9890130758285522, "p_gold": 0.9890130758285522, "pred": "yes", "gold": "yes", "probs": [0.9890131, 0.0109869]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9976769089698792, "p_gold": 0.9976769089698792, "pred": "no", "gold": "no", "probs": [0.0023232, 0.9976769]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9984021782875061, "p_gold": 0.9984021782875061, "pred": "yes", "gold": "yes", "probs": [0.9984022, 0.0015978]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9982993006706238, "p_gold": 0.9982993006706238, "pred": "yes", "gold": "yes", "probs": [0.9982993, 0.0017007]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": true, "conf": 0.9957261085510254, "p_gold": 0.9957261085510254, "pred": "\"meadow-2787 cedar\"", "gold": "\"meadow-2787 cedar\"", "probs": [0.9957261, 0.0024682, 0.0018057]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9859364032745361, "p_gold": 0.9859364032745361, "pred": "yes", "gold": "yes", "probs": [0.9859364, 0.0140636]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9980732202529907, "p_gold": 0.9980732202529907, "pred": "no", "gold": "no", "probs": [0.0019267, 0.9980732]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9931394457817078, "p_gold": 0.9931394457817078, "pred": "nothing (it does not exist)", "gold": "nothing (it does not exist)", "probs": [0.0012378, 0.0035818, 0.9931394, 0.0020409]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": false, "conf": 0.9867772459983826, "p_gold": 0.013222822919487953, "pred": "yes", "gold": "no", "probs": [0.9867772, 0.0132228]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9978172779083252, "p_gold": 0.9978172779083252, "pred": "no", "gold": "no", "probs": [0.0021827, 0.9978173]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9954091906547546, "p_gold": 0.9954091906547546, "pred": "nothing (it does not exist)", "gold": "nothing (it does not exist)", "probs": [0.0024674, 0.9954092, 0.0010949, 0.0010286]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9989012479782104, "p_gold": 0.9989012479782104, "pred": "no", "gold": "no", "probs": [0.0010987, 0.9989012]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9986749291419983, "p_gold": 0.9986749291419983, "pred": "no", "gold": "no", "probs": [0.001325, 0.9986749]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9923426508903503, "p_gold": 0.9923426508903503, "pred": "a file", "gold": "a file", "probs": [0.9923427, 0.0020392, 0.0035789, 0.0020392]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9953888654708862, "p_gold": 0.9953888654708862, "pred": "nothing (it does not exist)", "gold": "nothing (it does not exist)", "probs": [0.0006641, 0.0026265, 0.9953889, 0.0013207]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9970190525054932, "p_gold": 0.9970190525054932, "pred": "no", "gold": "no", "probs": [0.002981, 0.9970191]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9890130758285522, "p_gold": 0.9890130758285522, "pred": "no", "gold": "no", "probs": [0.0109869, 0.9890131]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9947110414505005, "p_gold": 0.9947110414505005, "pred": "a folder", "gold": "a folder", "probs": [0.0008005, 0.0016946, 0.0027939, 0.994711]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.990791916847229, "p_gold": 0.990791916847229, "pred": "nothing (it does not exist)", "gold": "nothing (it does not exist)", "probs": [0.0040491, 0.9907919, 0.0035734, 0.0015857]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9284088015556335, "p_gold": 0.9284088015556335, "pred": "no", "gold": "no", "probs": [0.0715912, 0.9284088]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9937100410461426, "p_gold": 0.9937100410461426, "pred": "yes", "gold": "yes", "probs": [0.99371, 0.0062899]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.939324676990509, "p_gold": 0.939324676990509, "pred": "a file", "gold": "a file", "probs": [0.0467662, 0.0067373, 0.0071718, 0.9393247]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9830850958824158, "p_gold": 0.9830850958824158, "pred": "no", "gold": "no", "probs": [0.0169149, 0.9830851]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9883127808570862, "p_gold": 0.9883127808570862, "pred": "yes", "gold": "yes", "probs": [0.9883128, 0.0116873]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9708032608032227, "p_gold": 0.9708032608032227, "pred": "a folder", "gold": "a folder", "probs": [0.9708033, 0.0039675, 0.0130088, 0.0122206]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9840936064720154, "p_gold": 0.9840936064720154, "pred": "no", "gold": "no", "probs": [0.0159064, 0.9840936]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.997368335723877, "p_gold": 0.997368335723877, "pred": "no", "gold": "no", "probs": [0.0026317, 0.9973683]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9956195950508118, "p_gold": 0.9956195950508118, "pred": "nothing (it does not exist)", "gold": "nothing (it does not exist)", "probs": [0.0005507, 0.0029768, 0.0008529, 0.9956196]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9940890073776245, "p_gold": 0.9940890073776245, "pred": "yes", "gold": "yes", "probs": [0.994089, 0.0059111]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9902915358543396, "p_gold": 0.9902915358543396, "pred": "no", "gold": "no", "probs": [0.0097085, 0.9902915]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9914224743843079, "p_gold": 0.9914224743843079, "pred": "yes", "gold": "yes", "probs": [0.9914225, 0.0085775]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9942559599876404, "p_gold": 0.9942559599876404, "pred": "nothing (it does not exist)", "gold": "nothing (it does not exist)", "probs": [0.994256, 0.0005166, 0.0046043, 0.0006231]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.998498797416687, "p_gold": 0.998498797416687, "pred": "no", "gold": "no", "probs": [0.0015012, 0.9984988]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9947799444198608, "p_gold": 0.9947799444198608, "pred": "no", "gold": "no", "probs": [0.0052201, 0.9947799]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.7310585379600525, "p_gold": 0.7310585379600525, "pred": "no", "gold": "no", "probs": [0.2689414, 0.7310585]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9688562154769897, "p_gold": 0.9688562154769897, "pred": "no", "gold": "no", "probs": [0.0311438, 0.9688562]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9665269255638123, "p_gold": 0.9665269255638123, "pred": "a folder", "gold": "a folder", "probs": [0.0042047, 0.0241965, 0.9665269, 0.0050719]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9968273043632507, "p_gold": 0.9968273043632507, "pred": "no", "gold": "no", "probs": [0.0031727, 0.9968273]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": false, "conf": 0.9099069833755493, "p_gold": 0.09009299427270889, "pred": "yes", "gold": "no", "probs": [0.909907, 0.090093]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9740425944328308, "p_gold": 0.9740425944328308, "pred": "yes", "gold": "yes", "probs": [0.9740426, 0.0259574]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9525741338729858, "p_gold": 0.9525741338729858, "pred": "no", "gold": "no", "probs": [0.0474259, 0.9525741]}
+{"world": "sess_shell", "qtype": "count", "steps": 1, "ok": true, "conf": 0.9172801971435547, "p_gold": 0.9172801971435547, "pred": "1", "gold": "1", "probs": [0.9172802, 0.0707331, 0.0058061, 0.0061806]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9980732202529907, "p_gold": 0.9980732202529907, "pred": "no", "gold": "no", "probs": [0.0019267, 0.9980732]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9924227595329285, "p_gold": 0.9924227595329285, "pred": "yes", "gold": "yes", "probs": [0.9924228, 0.0075772]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9988304972648621, "p_gold": 0.9988304972648621, "pred": "no", "gold": "no", "probs": [0.0011695, 0.9988305]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9928786158561707, "p_gold": 0.9928786158561707, "pred": "no", "gold": "no", "probs": [0.0071214, 0.9928786]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": true, "conf": 0.9989012479782104, "p_gold": 0.9989012479782104, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.0010987, 0.9989012]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9859364032745361, "p_gold": 0.9859364032745361, "pred": "yes", "gold": "yes", "probs": [0.9859364, 0.0140636]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9978172779083252, "p_gold": 0.9978172779083252, "pred": "no", "gold": "no", "probs": [0.0021827, 0.9978173]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9988304972648621, "p_gold": 0.9988304972648621, "pred": "no", "gold": "no", "probs": [0.0011695, 0.9988305]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": true, "conf": 0.9939515590667725, "p_gold": 0.9939515590667725, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.0024638, 0.0035847, 0.9939516]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.949669361114502, "p_gold": 0.949669361114502, "pred": "no", "gold": "no", "probs": [0.0503306, 0.9496694]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9940890073776245, "p_gold": 0.9940890073776245, "pred": "yes", "gold": "yes", "probs": [0.994089, 0.0059111]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9928786158561707, "p_gold": 0.9928786158561707, "pred": "yes", "gold": "yes", "probs": [0.9928786, 0.0071214]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9992903470993042, "p_gold": 0.9992903470993042, "pred": "no", "gold": "no", "probs": [0.0007097, 0.9992903]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9984021782875061, "p_gold": 0.9984021782875061, "pred": "no", "gold": "no", "probs": [0.0015978, 0.9984022]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.999480664730072, "p_gold": 0.999480664730072, "pred": "no", "gold": "no", "probs": [0.0005193, 0.9994807]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9951221346855164, "p_gold": 0.9951221346855164, "pred": "a file", "gold": "a file", "probs": [0.0010283, 0.0018046, 0.9951221, 0.0020449]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": true, "conf": 0.9905771017074585, "p_gold": 0.9905771017074585, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.0062701, 0.0031528, 0.9905771]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.8740772008895874, "p_gold": 0.8740772008895874, "pred": "no", "gold": "no", "probs": [0.1259228, 0.8740772]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9902915358543396, "p_gold": 0.9902915358543396, "pred": "yes", "gold": "yes", "probs": [0.9902915, 0.0097085]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": false, "conf": 0.8872045874595642, "p_gold": 0.1127953976392746, "pred": "no", "gold": "yes", "probs": [0.1127954, 0.8872046]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9860306978225708, "p_gold": 0.9860306978225708, "pred": "nothing (it does not exist)", "gold": "nothing (it does not exist)", "probs": [0.9860307, 0.009081, 0.0024441, 0.0024441]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": false, "conf": 0.9742379784584045, "p_gold": 0.017843792214989662, "pred": "(no such file)", "gold": "\"fern-2102 drift\"", "probs": [0.974238, 0.0178438, 0.0079181]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9724147915840149, "p_gold": 0.9724147915840149, "pred": "yes", "gold": "yes", "probs": [0.9724148, 0.0275853]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9966233968734741, "p_gold": 0.9966233968734741, "pred": "no", "gold": "no", "probs": [0.0033766, 0.9966234]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9990890026092529, "p_gold": 0.9990890026092529, "pred": "yes", "gold": "yes", "probs": [0.999089, 0.0009111]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9930538535118103, "p_gold": 0.9930538535118103, "pred": "a file", "gold": "a file", "probs": [0.9930539, 0.0021723, 0.0024615, 0.0023124]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": false, "conf": 0.9755768775939941, "p_gold": 0.024423090741038322, "pred": "yes", "gold": "no", "probs": [0.9755769, 0.0244231]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9953904151916504, "p_gold": 0.9953904151916504, "pred": "no", "gold": "no", "probs": [0.0046096, 0.9953904]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9989012479782104, "p_gold": 0.9989012479782104, "pred": "yes", "gold": "yes", "probs": [0.9989012, 0.0010987]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9945257902145386, "p_gold": 0.9945257902145386, "pred": "a file", "gold": "a file", "probs": [0.0014952, 0.9945258, 0.0018036, 0.0021755]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9989677667617798, "p_gold": 0.9989677667617798, "pred": "no", "gold": "no", "probs": [0.0010322, 0.9989678]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": false, "conf": 0.9875683188438416, "p_gold": 0.01243165135383606, "pred": "no", "gold": "yes", "probs": [0.0124317, 0.9875683]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.985042929649353, "p_gold": 0.985042929649353, "pred": "yes", "gold": "yes", "probs": [0.9850429, 0.0149571]}
+{"world": "sess_shell", "qtype": "count", "steps": 1, "ok": false, "conf": 0.9993560910224915, "p_gold": 0.00020333736028987914, "pred": "1", "gold": "0", "probs": [0.0002611, 0.0002033, 0.0001794, 0.9993561]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9914224743843079, "p_gold": 0.9914224743843079, "pred": "yes", "gold": "yes", "probs": [0.9914225, 0.0085775]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9979493021965027, "p_gold": 0.9979493021965027, "pred": "no", "gold": "no", "probs": [0.0020507, 0.9979493]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9971473813056946, "p_gold": 0.9971473813056946, "pred": "nothing (it does not exist)", "gold": "nothing (it does not exist)", "probs": [0.000379, 0.0018083, 0.0006652, 0.9971474]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9992903470993042, "p_gold": 0.9992903470993042, "pred": "no", "gold": "no", "probs": [0.0007097, 0.9992903]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": true, "conf": 0.9945821166038513, "p_gold": 0.9945821166038513, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.0027936, 0.0026243, 0.9945821]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9867772459983826, "p_gold": 0.9867772459983826, "pred": "yes", "gold": "yes", "probs": [0.9867772, 0.0132228]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9908744096755981, "p_gold": 0.9908744096755981, "pred": "no", "gold": "no", "probs": [0.0091256, 0.9908744]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.998498797416687, "p_gold": 0.998498797416687, "pred": "no", "gold": "no", "probs": [0.0015012, 0.9984988]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": true, "conf": 0.9943159222602844, "p_gold": 0.9943159222602844, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.0033688, 0.0023153, 0.9943159]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9981897473335266, "p_gold": 0.9981897473335266, "pred": "no", "gold": "no", "probs": [0.0018102, 0.9981897]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9924227595329285, "p_gold": 0.9924227595329285, "pred": "no", "gold": "no", "probs": [0.0075772, 0.9924228]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9999339580535889, "p_gold": 0.9999339580535889, "pred": "no", "gold": "no", "probs": [6.61e-05, 0.999934]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": true, "conf": 0.9988032579421997, "p_gold": 0.9988032579421997, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.0004875, 0.0007093, 0.9988033]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9553191661834717, "p_gold": 0.9553191661834717, "pred": "no", "gold": "no", "probs": [0.0446809, 0.9553192]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": false, "conf": 0.9648551344871521, "p_gold": 0.03514484688639641, "pred": "yes", "gold": "no", "probs": [0.9648551, 0.0351448]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9578605890274048, "p_gold": 0.9578605890274048, "pred": "nothing (it does not exist)", "gold": "nothing (it does not exist)", "probs": [0.0025274, 0.9578606, 0.0088216, 0.0307904]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9937002658843994, "p_gold": 0.9937002658843994, "pred": "a file", "gold": "a file", "probs": [0.0019183, 0.0019183, 0.0024631, 0.9937003]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9859364032745361, "p_gold": 0.9859364032745361, "pred": "no", "gold": "no", "probs": [0.0140636, 0.9859364]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9859364032745361, "p_gold": 0.9859364032745361, "pred": "yes", "gold": "yes", "probs": [0.9859364, 0.0140636]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9602492451667786, "p_gold": 0.9602492451667786, "pred": "nothing (it does not exist)", "gold": "nothing (it does not exist)", "probs": [0.0136972, 0.0187219, 0.0073316, 0.9602492]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": false, "conf": 0.973401665687561, "p_gold": 0.020202307030558586, "pred": "nothing (it does not exist)", "gold": "a file", "probs": [0.0202023, 0.0032979, 0.9734017, 0.0030981]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": false, "conf": 0.8354835510253906, "p_gold": 0.16451644897460938, "pred": "no", "gold": "yes", "probs": [0.1645164, 0.8354836]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9976769089698792, "p_gold": 0.9976769089698792, "pred": "no", "gold": "no", "probs": [0.0023232, 0.9976769]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9987550973892212, "p_gold": 0.9987550973892212, "pred": "yes", "gold": "yes", "probs": [0.9987551, 0.0012448]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.851952850818634, "p_gold": 0.851952850818634, "pred": "no", "gold": "no", "probs": [0.1480472, 0.8519529]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9979493021965027, "p_gold": 0.9979493021965027, "pred": "no", "gold": "no", "probs": [0.0020507, 0.9979493]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9988304972648621, "p_gold": 0.9988304972648621, "pred": "yes", "gold": "yes", "probs": [0.9988305, 0.0011695]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9971990585327148, "p_gold": 0.9971990585327148, "pred": "no", "gold": "no", "probs": [0.0028009, 0.9971991]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9986749291419983, "p_gold": 0.9986749291419983, "pred": "no", "gold": "no", "probs": [0.001325, 0.9986749]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9993333220481873, "p_gold": 0.9993333220481873, "pred": "yes", "gold": "yes", "probs": [0.9993333, 0.0006667]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9648551344871521, "p_gold": 0.9648551344871521, "pred": "no", "gold": "no", "probs": [0.0351448, 0.9648551]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9919379353523254, "p_gold": 0.9919379353523254, "pred": "yes", "gold": "yes", "probs": [0.9919379, 0.008062]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9465966820716858, "p_gold": 0.9465966820716858, "pred": "yes", "gold": "yes", "probs": [0.9465967, 0.0534033]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9648551344871521, "p_gold": 0.9648551344871521, "pred": "yes", "gold": "yes", "probs": [0.9648551, 0.0351448]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9981897473335266, "p_gold": 0.9981897473335266, "pred": "no", "gold": "no", "probs": [0.0018102, 0.9981897]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.991610586643219, "p_gold": 0.991610586643219, "pred": "a file", "gold": "a file", "probs": [0.001587, 0.9916106, 0.0019143, 0.0048882]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": true, "conf": 0.9881594181060791, "p_gold": 0.9881594181060791, "pred": "\"evorg-1093 echo\"", "gold": "\"evorg-1093 echo\"", "probs": [0.001792, 0.0062548, 0.9881594, 0.0037937]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9961755275726318, "p_gold": 0.9961755275726318, "pred": "no", "gold": "no", "probs": [0.0038245, 0.9961755]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9914224743843079, "p_gold": 0.9914224743843079, "pred": "yes", "gold": "yes", "probs": [0.9914225, 0.0085775]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9971632361412048, "p_gold": 0.9971632361412048, "pred": "nothing (it does not exist)", "gold": "nothing (it does not exist)", "probs": [0.0004035, 0.0018083, 0.9971632, 0.0006249]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": true, "conf": 0.9956339001655579, "p_gold": 0.9956339001655579, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.000624, 0.002046, 0.0016962, 0.9956339]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": false, "conf": 0.9883127808570862, "p_gold": 0.011687257327139378, "pred": "yes", "gold": "no", "probs": [0.9883128, 0.0116873]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9978172779083252, "p_gold": 0.9978172779083252, "pred": "no", "gold": "no", "probs": [0.0021827, 0.9978173]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.998498797416687, "p_gold": 0.998498797416687, "pred": "no", "gold": "no", "probs": [0.0015012, 0.9984988]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": false, "conf": 0.9883127808570862, "p_gold": 0.011687257327139378, "pred": "yes", "gold": "no", "probs": [0.9883128, 0.0116873]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": false, "conf": 0.9980732202529907, "p_gold": 0.0019267346942797303, "pred": "no", "gold": "yes", "probs": [0.0019267, 0.9980732]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": false, "conf": 0.9990302324295044, "p_gold": 0.0009697519126348197, "pred": "no", "gold": "yes", "probs": [0.0009698, 0.9990302]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9984021782875061, "p_gold": 0.9984021782875061, "pred": "no", "gold": "no", "probs": [0.0015978, 0.9984022]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.622459352016449, "p_gold": 0.622459352016449, "pred": "no", "gold": "no", "probs": [0.3775407, 0.6224594]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9783847332000732, "p_gold": 0.9783847332000732, "pred": "no", "gold": "no", "probs": [0.0216153, 0.9783847]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9896718263626099, "p_gold": 0.9896718263626099, "pred": "yes", "gold": "yes", "probs": [0.9896718, 0.0103282]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9648551344871521, "p_gold": 0.9648551344871521, "pred": "no", "gold": "no", "probs": [0.0351448, 0.9648551]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9896718263626099, "p_gold": 0.9896718263626099, "pred": "yes", "gold": "yes", "probs": [0.9896718, 0.0103282]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9820137619972229, "p_gold": 0.9820137619972229, "pred": "no", "gold": "no", "probs": [0.0179862, 0.9820138]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9808759689331055, "p_gold": 0.9808759689331055, "pred": "no", "gold": "no", "probs": [0.019124, 0.980876]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9859364032745361, "p_gold": 0.9859364032745361, "pred": "no", "gold": "no", "probs": [0.0140636, 0.9859364]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9928786158561707, "p_gold": 0.9928786158561707, "pred": "yes", "gold": "yes", "probs": [0.9928786, 0.0071214]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.8905695676803589, "p_gold": 0.8905695676803589, "pred": "a file", "gold": "a file", "probs": [0.0056371, 0.0038743, 0.0999191, 0.8905696]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": true, "conf": 0.7999302744865417, "p_gold": 0.7999302744865417, "pred": "\"vale-4709 echo\"", "gold": "\"vale-4709 echo\"", "probs": [0.7999303, 0.0100696, 0.1900001]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9959298968315125, "p_gold": 0.9959298968315125, "pred": "no", "gold": "no", "probs": [0.0040701, 0.9959299]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9928786158561707, "p_gold": 0.9928786158561707, "pred": "yes", "gold": "yes", "probs": [0.9928786, 0.0071214]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9899545907974243, "p_gold": 0.9899545907974243, "pred": "nothing (it does not exist)", "gold": "nothing (it does not exist)", "probs": [0.0075584, 0.0010889, 0.0013982, 0.9899546]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": true, "conf": 0.9951704144477844, "p_gold": 0.9951704144477844, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.9951704, 0.0012404, 0.0035891]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.997368335723877, "p_gold": 0.997368335723877, "pred": "no", "gold": "no", "probs": [0.0026317, 0.9973683]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9241418242454529, "p_gold": 0.9241418242454529, "pred": "no", "gold": "no", "probs": [0.0758582, 0.9241418]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9808759689331055, "p_gold": 0.9808759689331055, "pred": "yes", "gold": "yes", "probs": [0.980876, 0.019124]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9820428490638733, "p_gold": 0.9820428490638733, "pred": "nothing (it does not exist)", "gold": "nothing (it does not exist)", "probs": [0.0011499, 0.9820428, 0.0018958, 0.0149115]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9994115829467773, "p_gold": 0.9994115829467773, "pred": "no", "gold": "no", "probs": [0.0005884, 0.9994116]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9979493021965027, "p_gold": 0.9979493021965027, "pred": "no", "gold": "no", "probs": [0.0020507, 0.9979493]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9943861961364746, "p_gold": 0.9943861961364746, "pred": "a folder", "gold": "a folder", "probs": [0.001495, 0.001495, 0.9943862, 0.0026238]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9985895752906799, "p_gold": 0.9985895752906799, "pred": "no", "gold": "no", "probs": [0.0014104, 0.9985896]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9991440773010254, "p_gold": 0.9991440773010254, "pred": "no", "gold": "no", "probs": [0.0008559, 0.9991441]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9992734789848328, "p_gold": 0.9992734789848328, "pred": "a folder", "gold": "a folder", "probs": [0.9992735, 0.0002779, 0.0002453, 0.0002033]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9966233968734741, "p_gold": 0.9966233968734741, "pred": "no", "gold": "no", "probs": [0.0033766, 0.9966234]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9902915358543396, "p_gold": 0.9902915358543396, "pred": "yes", "gold": "yes", "probs": [0.9902915, 0.0097085]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9973403811454773, "p_gold": 0.9973403811454773, "pred": "nothing (it does not exist)", "gold": "nothing (it does not exist)", "probs": [0.0007083, 0.001097, 0.9973404, 0.0008544]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.999480664730072, "p_gold": 0.999480664730072, "pred": "no", "gold": "no", "probs": [0.0005193, 0.9994807]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9950946569442749, "p_gold": 0.9950946569442749, "pred": "yes", "gold": "yes", "probs": [0.9950947, 0.0049054]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": false, "conf": 0.9955525994300842, "p_gold": 0.0019218686502426863, "pred": "a folder", "gold": "nothing (it does not exist)", "probs": [0.0010287, 0.9955526, 0.0019219, 0.0014968]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": false, "conf": 0.7772998809814453, "p_gold": 0.22270014882087708, "pred": "(empty)", "gold": "(no such file)", "probs": [0.2227001, 0.7772999]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": false, "conf": 0.9362850189208984, "p_gold": 0.06371499598026276, "pred": "no", "gold": "yes", "probs": [0.063715, 0.936285]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.998498797416687, "p_gold": 0.998498797416687, "pred": "no", "gold": "no", "probs": [0.0015012, 0.9984988]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9973032474517822, "p_gold": 0.9973032474517822, "pred": "a file", "gold": "a file", "probs": [0.0013232, 0.0006653, 0.0007083, 0.9973032]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9890130758285522, "p_gold": 0.9890130758285522, "pred": "no", "gold": "no", "probs": [0.0109869, 0.9890131]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9908744096755981, "p_gold": 0.9908744096755981, "pred": "yes", "gold": "yes", "probs": [0.9908744, 0.0091256]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9980074763298035, "p_gold": 0.9980074763298035, "pred": "nothing (it does not exist)", "gold": "nothing (it does not exist)", "probs": [0.9980075, 0.0001792, 0.0015972, 0.0002162]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9896718263626099, "p_gold": 0.9896718263626099, "pred": "no", "gold": "no", "probs": [0.0103282, 0.9896718]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9982993006706238, "p_gold": 0.9982993006706238, "pred": "no", "gold": "no", "probs": [0.0017007, 0.9982993]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9971848130226135, "p_gold": 0.9971848130226135, "pred": "a file", "gold": "a file", "probs": [0.0004035, 0.0004867, 0.001925, 0.9971848]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9979493021965027, "p_gold": 0.9979493021965027, "pred": "no", "gold": "no", "probs": [0.0020507, 0.9979493]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": false, "conf": 0.9883127808570862, "p_gold": 0.011687257327139378, "pred": "no", "gold": "yes", "probs": [0.0116873, 0.9883128]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9520987868309021, "p_gold": 0.9520987868309021, "pred": "a folder", "gold": "a folder", "probs": [0.0287509, 0.0144569, 0.9520988, 0.0046935]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9991440773010254, "p_gold": 0.9991440773010254, "pred": "no", "gold": "no", "probs": [0.0008559, 0.9991441]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9979493021965027, "p_gold": 0.9979493021965027, "pred": "no", "gold": "no", "probs": [0.0020507, 0.9979493]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9944451451301575, "p_gold": 0.9944451451301575, "pred": "yes", "gold": "yes", "probs": [0.9944451, 0.0055549]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9982993006706238, "p_gold": 0.9982993006706238, "pred": "no", "gold": "no", "probs": [0.0017007, 0.9982993]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9919379353523254, "p_gold": 0.9919379353523254, "pred": "yes", "gold": "yes", "probs": [0.9919379, 0.008062]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9959298968315125, "p_gold": 0.9959298968315125, "pred": "no", "gold": "no", "probs": [0.0040701, 0.9959299]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.985042929649353, "p_gold": 0.985042929649353, "pred": "yes", "gold": "yes", "probs": [0.9850429, 0.0149571]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.997368335723877, "p_gold": 0.997368335723877, "pred": "no", "gold": "no", "probs": [0.0026317, 0.9973683]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9975274205207825, "p_gold": 0.9975274205207825, "pred": "no", "gold": "no", "probs": [0.0024726, 0.9975274]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": false, "conf": 0.9875683188438416, "p_gold": 0.01243165135383606, "pred": "yes", "gold": "no", "probs": [0.9875683, 0.0124317]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": false, "conf": 0.9979493021965027, "p_gold": 0.0020507434383034706, "pred": "no", "gold": "yes", "probs": [0.0020507, 0.9979493]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": false, "conf": 0.9987550973892212, "p_gold": 0.0012448433553799987, "pred": "no", "gold": "yes", "probs": [0.0012448, 0.9987551]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9933071732521057, "p_gold": 0.9933071732521057, "pred": "no", "gold": "no", "probs": [0.0066929, 0.9933072]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9919379353523254, "p_gold": 0.9919379353523254, "pred": "yes", "gold": "yes", "probs": [0.9919379, 0.008062]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9929619431495667, "p_gold": 0.9929619431495667, "pred": "nothing (it does not exist)", "gold": "nothing (it does not exist)", "probs": [0.9929619, 0.0048949, 0.0012376, 0.0009055]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9837570190429688, "p_gold": 0.9837570190429688, "pred": "nothing (it does not exist)", "gold": "nothing (it does not exist)", "probs": [0.007056, 0.0016759, 0.0075111, 0.983757]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": false, "conf": 0.9908744096755981, "p_gold": 0.00912563782185316, "pred": "yes", "gold": "no", "probs": [0.9908744, 0.0091256]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9944451451301575, "p_gold": 0.9944451451301575, "pred": "yes", "gold": "yes", "probs": [0.9944451, 0.0055549]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9968273043632507, "p_gold": 0.9968273043632507, "pred": "yes", "gold": "yes", "probs": [0.9968273, 0.0031727]}
+{"world": "sess_shell", "qtype": "count", "steps": 1, "ok": true, "conf": 0.8184406161308289, "p_gold": 0.8184406161308289, "pred": "0", "gold": "0", "probs": [0.0218107, 0.8184406, 0.104053, 0.0556956]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9924227595329285, "p_gold": 0.9924227595329285, "pred": "no", "gold": "no", "probs": [0.0075772, 0.9924228]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9933071732521057, "p_gold": 0.9933071732521057, "pred": "yes", "gold": "yes", "probs": [0.9933072, 0.0066929]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": false, "conf": 0.9896718263626099, "p_gold": 0.010328153148293495, "pred": "yes", "gold": "no", "probs": [0.9896718, 0.0103282]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9980732202529907, "p_gold": 0.9980732202529907, "pred": "no", "gold": "no", "probs": [0.0019267, 0.9980732]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9990302324295044, "p_gold": 0.9990302324295044, "pred": "no", "gold": "no", "probs": [0.0009698, 0.9990302]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9985617995262146, "p_gold": 0.9985617995262146, "pred": "nothing (it does not exist)", "gold": "nothing (it does not exist)", "probs": [0.0002032, 0.0008554, 0.9985618, 0.0003796]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": true, "conf": 0.9989677667617798, "p_gold": 0.9989677667617798, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.9989678, 0.0010322]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.970687747001648, "p_gold": 0.970687747001648, "pred": "no", "gold": "no", "probs": [0.0293122, 0.9706877]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9924227595329285, "p_gold": 0.9924227595329285, "pred": "yes", "gold": "yes", "probs": [0.9924228, 0.0075772]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9948045611381531, "p_gold": 0.9948045611381531, "pred": "a folder", "gold": "a folder", "probs": [0.9948046, 0.0007065, 0.0016948, 0.0027942]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.970687747001648, "p_gold": 0.970687747001648, "pred": "no", "gold": "no", "probs": [0.0293122, 0.9706877]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9919379353523254, "p_gold": 0.9919379353523254, "pred": "yes", "gold": "yes", "probs": [0.9919379, 0.008062]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9648551344871521, "p_gold": 0.9648551344871521, "pred": "yes", "gold": "yes", "probs": [0.9648551, 0.0351448]}
+{"world": "sess_shell", "qtype": "count", "steps": 1, "ok": true, "conf": 0.986638069152832, "p_gold": 0.986638069152832, "pred": "2", "gold": "2", "probs": [0.0035584, 0.9866381, 0.0062451, 0.0035584]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9989012479782104, "p_gold": 0.9989012479782104, "pred": "no", "gold": "no", "probs": [0.0010987, 0.9989012]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9982993006706238, "p_gold": 0.9982993006706238, "pred": "no", "gold": "no", "probs": [0.0017007, 0.9982993]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9950946569442749, "p_gold": 0.9950946569442749, "pred": "yes", "gold": "yes", "probs": [0.9950947, 0.0049054]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": false, "conf": 0.9284088015556335, "p_gold": 0.07159119844436646, "pred": "yes", "gold": "no", "probs": [0.9284088, 0.0715912]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": false, "conf": 0.9928786158561707, "p_gold": 0.00712142838165164, "pred": "yes", "gold": "no", "probs": [0.9928786, 0.0071214]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": false, "conf": 0.9669140577316284, "p_gold": 0.03308597952127457, "pred": "no", "gold": "yes", "probs": [0.033086, 0.9669141]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9241418242454529, "p_gold": 0.9241418242454529, "pred": "no", "gold": "no", "probs": [0.0758582, 0.9241418]}
+{"world": "sess_shell", "qtype": "count", "steps": 1, "ok": true, "conf": 0.6240625977516174, "p_gold": 0.6240625977516174, "pred": "1", "gold": "1", "probs": [0.0177033, 0.3340366, 0.0241975, 0.6240626]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9755768775939941, "p_gold": 0.9755768775939941, "pred": "yes", "gold": "yes", "probs": [0.9755769, 0.0244231]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": false, "conf": 0.9724147915840149, "p_gold": 0.027585284784436226, "pred": "no", "gold": "yes", "probs": [0.0275853, 0.9724148]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9654973745346069, "p_gold": 0.9654973745346069, "pred": "a folder", "gold": "a folder", "probs": [0.0094654, 0.9654974, 0.0213306, 0.0037067]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9940811991691589, "p_gold": 0.9940811991691589, "pred": "nothing (it does not exist)", "gold": "nothing (it does not exist)", "probs": [0.0031639, 0.0011639, 0.9940812, 0.0015909]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": true, "conf": 0.9883342981338501, "p_gold": 0.9883342981338501, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.0070888, 0.9883343, 0.0045769]}
+{"world": "sess_shell", "qtype": "count", "steps": 1, "ok": true, "conf": 0.999339759349823, "p_gold": 0.999339759349823, "pred": "2", "gold": "2", "probs": [0.9993398, 0.0001313, 0.0002779, 0.0001488, 0.0001022]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9796676635742188, "p_gold": 0.9796676635742188, "pred": "yes", "gold": "yes", "probs": [0.9796677, 0.0203324]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": false, "conf": 0.9908744096755981, "p_gold": 0.00912563782185316, "pred": "no", "gold": "yes", "probs": [0.0091256, 0.9908744]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9636523127555847, "p_gold": 0.9636523127555847, "pred": "a folder", "gold": "a folder", "probs": [0.9636523, 0.0241246, 0.0057301, 0.006493]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.99471515417099, "p_gold": 0.99471515417099, "pred": "nothing (it does not exist)", "gold": "nothing (it does not exist)", "probs": [0.0026247, 0.0011647, 0.9947152, 0.0014955]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": true, "conf": 0.9937648773193359, "p_gold": 0.9937648773193359, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.0021739, 0.9937649, 0.0040613]}
+{"world": "sess_shell", "qtype": "count", "steps": 1, "ok": true, "conf": 0.9979584217071533, "p_gold": 0.9979584217071533, "pred": "3", "gold": "3", "probs": [0.0006254, 0.0004299, 0.9979584, 0.0007087, 0.0002775]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9991440773010254, "p_gold": 0.9991440773010254, "pred": "no", "gold": "no", "probs": [0.0008559, 0.9991441]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9808759689331055, "p_gold": 0.9808759689331055, "pred": "no", "gold": "no", "probs": [0.019124, 0.980876]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9924227595329285, "p_gold": 0.9924227595329285, "pred": "no", "gold": "no", "probs": [0.0075772, 0.9924228]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": false, "conf": 0.7057850360870361, "p_gold": 0.29421496391296387, "pred": "no", "gold": "yes", "probs": [0.294215, 0.705785]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9940890073776245, "p_gold": 0.9940890073776245, "pred": "no", "gold": "no", "probs": [0.0059111, 0.994089]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9928786158561707, "p_gold": 0.9928786158561707, "pred": "yes", "gold": "yes", "probs": [0.9928786, 0.0071214]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9808759689331055, "p_gold": 0.9808759689331055, "pred": "no", "gold": "no", "probs": [0.019124, 0.980876]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9991440773010254, "p_gold": 0.9991440773010254, "pred": "no", "gold": "no", "probs": [0.0008559, 0.9991441]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.970687747001648, "p_gold": 0.970687747001648, "pred": "no", "gold": "no", "probs": [0.0293122, 0.9706877]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9914224743843079, "p_gold": 0.9914224743843079, "pred": "yes", "gold": "yes", "probs": [0.9914225, 0.0085775]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.970687747001648, "p_gold": 0.970687747001648, "pred": "yes", "gold": "yes", "probs": [0.9706877, 0.0293122]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9961755275726318, "p_gold": 0.9961755275726318, "pred": "no", "gold": "no", "probs": [0.0038245, 0.9961755]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9783847332000732, "p_gold": 0.9783847332000732, "pred": "no", "gold": "no", "probs": [0.0216153, 0.9783847]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9995417594909668, "p_gold": 0.9995417594909668, "pred": "yes", "gold": "yes", "probs": [0.9995418, 0.0004583]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9952155351638794, "p_gold": 0.9952155351638794, "pred": "a file", "gold": "a file", "probs": [0.0015927, 0.9952155, 0.0014962, 0.0016955]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": true, "conf": 0.9923801422119141, "p_gold": 0.9923801422119141, "pred": "\"meadow-3496 jade\"", "gold": "\"meadow-3496 jade\"", "probs": [0.0038099, 0.9923801, 0.0038099]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9993333220481873, "p_gold": 0.9993333220481873, "pred": "no", "gold": "no", "probs": [0.0006667, 0.9993333]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9859364032745361, "p_gold": 0.9859364032745361, "pred": "yes", "gold": "yes", "probs": [0.9859364, 0.0140636]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.999841570854187, "p_gold": 0.999841570854187, "pred": "yes", "gold": "yes", "probs": [0.9998416, 0.0001584]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.9991328120231628, "p_gold": 0.9991328120231628, "pred": "nothing (it does not exist)", "gold": "nothing (it does not exist)", "probs": [0.0001313, 0.0004581, 0.9991328, 0.0002779]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": true, "conf": 0.9996381998062134, "p_gold": 0.9996381998062134, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.9996382, 0.0002034, 0.0001584]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9989012479782104, "p_gold": 0.9989012479782104, "pred": "no", "gold": "no", "probs": [0.0010987, 0.9989012]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9985895752906799, "p_gold": 0.9985895752906799, "pred": "no", "gold": "no", "probs": [0.0014104, 0.9985896]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9994471669197083, "p_gold": 0.9994471669197083, "pred": "yes", "gold": "yes", "probs": [0.9994472, 0.0005528]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": true, "conf": 0.995028555393219, "p_gold": 0.995028555393219, "pred": "\"orbit-5887 flint\"", "gold": "\"orbit-5887 flint\"", "probs": [0.9950286, 0.0018045, 0.003167]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9979493021965027, "p_gold": 0.9979493021965027, "pred": "no", "gold": "no", "probs": [0.0020507, 0.9979493]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": false, "conf": 0.9755768775939941, "p_gold": 0.024423090741038322, "pred": "no", "gold": "yes", "probs": [0.0244231, 0.9755769]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9959298968315125, "p_gold": 0.9959298968315125, "pred": "yes", "gold": "yes", "probs": [0.9959299, 0.0040701]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9808759689331055, "p_gold": 0.9808759689331055, "pred": "yes", "gold": "yes", "probs": [0.980876, 0.019124]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9968273043632507, "p_gold": 0.9968273043632507, "pred": "no", "gold": "no", "probs": [0.0031727, 0.9968273]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9995121955871582, "p_gold": 0.9995121955871582, "pred": "yes", "gold": "yes", "probs": [0.9995122, 0.0004879]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.998498797416687, "p_gold": 0.998498797416687, "pred": "yes", "gold": "yes", "probs": [0.9984988, 0.0015012]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": true, "conf": 0.9986314177513123, "p_gold": 0.9986314177513123, "pred": "\"fjord-4759 hazel\"", "gold": "\"fjord-4759 hazel\"", "probs": [0.0004579, 0.9986314, 0.0009106]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9553191661834717, "p_gold": 0.9553191661834717, "pred": "yes", "gold": "yes", "probs": [0.9553192, 0.0446809]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.977022647857666, "p_gold": 0.977022647857666, "pred": "yes", "gold": "yes", "probs": [0.9770226, 0.0229774]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9982993006706238, "p_gold": 0.9982993006706238, "pred": "yes", "gold": "yes", "probs": [0.9982993, 0.0017007]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9840936064720154, "p_gold": 0.9840936064720154, "pred": "yes", "gold": "yes", "probs": [0.9840936, 0.0159064]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": false, "conf": 0.985042929649353, "p_gold": 0.014957087114453316, "pred": "yes", "gold": "no", "probs": [0.9850429, 0.0149571]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9924227595329285, "p_gold": 0.9924227595329285, "pred": "no", "gold": "no", "probs": [0.0075772, 0.9924228]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": false, "conf": 0.9932032823562622, "p_gold": 0.004320777487009764, "pred": "nothing (it does not exist)", "gold": "a file", "probs": [0.0012379, 0.0012379, 0.9932033, 0.0043208]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": false, "conf": 0.9975274205207825, "p_gold": 0.0024726232513785362, "pred": "no", "gold": "yes", "probs": [0.0024726, 0.9975274]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": false, "conf": 0.991357684135437, "p_gold": 0.0045908973552286625, "pred": "(no such file)", "gold": "\"ember-1925 flint\"", "probs": [0.0040515, 0.0045909, 0.9913577]}
+{"world": "sess_shell", "qtype": "count", "steps": 1, "ok": false, "conf": 0.9860251545906067, "p_gold": 0.007528394460678101, "pred": "0", "gold": "2", "probs": [0.0042896, 0.0021569, 0.0075284, 0.9860252]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9525741338729858, "p_gold": 0.9525741338729858, "pred": "no", "gold": "no", "probs": [0.0474259, 0.9525741]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": false, "conf": 0.9465966820716858, "p_gold": 0.0534033328294754, "pred": "yes", "gold": "no", "probs": [0.9465967, 0.0534033]}
+{"world": "sess_shell", "qtype": "kind", "steps": 1, "ok": true, "conf": 0.986242949962616, "p_gold": 0.986242949962616, "pred": "nothing (it does not exist)", "gold": "nothing (it does not exist)", "probs": [0.0026023, 0.0080157, 0.9862429, 0.003139]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": false, "conf": 0.9966233968734741, "p_gold": 0.003376612439751625, "pred": "no", "gold": "yes", "probs": [0.0033766, 0.9966234]}
+{"world": "sess_shell", "qtype": "content", "steps": 1, "ok": true, "conf": 0.9871008396148682, "p_gold": 0.9871008396148682, "pred": "(no such file)", "gold": "(no such file)", "probs": [0.006651, 0.9871008, 0.0062481]}
+{"world": "sess_shell", "qtype": "count", "steps": 1, "ok": false, "conf": 0.9734385013580322, "p_gold": 0.014780881814658642, "pred": "0", "gold": "2", "probs": [0.9734385, 0.0147809, 0.006982, 0.0047986]}
+{"world": "sess_shell", "qtype": "lost", "steps": 1, "ok": true, "conf": 0.9971990585327148, "p_gold": 0.9971990585327148, "pred": "no", "gold": "no", "probs": [0.0028009, 0.9971991]}
+{"world": "sess_shell", "qtype": "fails", "steps": 1, "ok": true, "conf": 0.9978172779083252, "p_gold": 0.9978172779083252, "pred": "no", "gold": "no", "probs": [0.0021827, 0.9978173]}
+{"world": "sess_shell", "qtype": "exists", "steps": 1, "ok": true, "conf": 0.9947799444198608, "p_gold": 0.9947799444198608, "pred": "yes", "gold": "yes", "probs": [0.9947799, 0.0052201]}

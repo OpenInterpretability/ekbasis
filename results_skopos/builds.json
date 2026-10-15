@@ -1,0 +1,23 @@
+{
+ "bf16": {
+  "repo": "caiovicentino1/Ekbasis-Skopos-27B",
+  "weights_bytes": 54713606768,
+  "files_bytes": 54743869867
+ },
+ "int4": {
+  "repo": "caiovicentino1/Ekbasis-Skopos-27B-INT4",
+  "weights_bytes": 18568390152,
+  "files_bytes": 18588502583
+ },
+ "fp8": {
+  "repo": "caiovicentino1/Ekbasis-Skopos-27B-FP8",
+  "weights_bytes": 30370928472,
+  "files_bytes": 30391204444
+ },
+ "mlx": {
+  "repo": "caiovicentino1/Ekbasis-Skopos-27B-MLX-4bit",
+  "weights_bytes": 15133043507,
+  "files_bytes": 15153294885
+ },
+ "read_on": "2026-10-15"
+}

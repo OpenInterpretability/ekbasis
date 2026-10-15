@@ -1,0 +1,258 @@
+{
+ "fac_val": {
+  "skopos": 0.9247,
+  "r2": 0.9249,
+  "base": 0.884,
+  "r2_minus_skopos": [
+   0.0003,
+   [
+    -0.0063,
+    0.007
+   ]
+  ],
+  "skopos_minus_base": [
+   0.0407,
+   [
+    0.0326,
+    0.0487
+   ]
+  ]
+ },
+ "git_long": {
+  "skopos": 0.9133,
+  "r2": 0.9267,
+  "base": 0.9067,
+  "r2_minus_skopos": [
+   0.0133,
+   [
+    -0.0011,
+    0.0278
+   ]
+  ],
+  "skopos_minus_base": [
+   0.0067,
+   [
+    -0.0078,
+    0.02
+   ]
+  ]
+ },
+ "git_long_val": {
+  "skopos": 0.9194,
+  "r2": 0.9439,
+  "base": 0.91,
+  "r2_minus_skopos": [
+   0.0244,
+   [
+    0.0144,
+    0.035
+   ]
+  ],
+  "skopos_minus_base": [
+   0.0094,
+   [
+    0.0006,
+    0.0189
+   ]
+  ]
+ },
+ "fhorizon": {
+  "skopos": 0.8676,
+  "r2": 0.8793,
+  "base": 0.8604,
+  "r2_minus_skopos": [
+   0.0116,
+   [
+    -0.0029,
+    0.0255
+   ]
+  ],
+  "skopos_minus_base": [
+   0.0073,
+   [
+    -0.0029,
+    0.0182
+   ]
+  ]
+ },
+ "latent_test": {
+  "skopos": 0.7931,
+  "r2": 0.7961,
+  "base": 0.7919,
+  "r2_minus_skopos": [
+   0.003,
+   [
+    -0.0053,
+    0.0116
+   ]
+  ],
+  "skopos_minus_base": [
+   0.0012,
+   [
+    -0.006,
+    0.0081
+   ]
+  ]
+ },
+ "git3_test_known": {
+  "skopos": 0.9845,
+  "r2": 0.9825,
+  "base": 0.9804,
+  "r2_minus_skopos": [
+   -0.002,
+   [
+    -0.0067,
+    0.0027
+   ]
+  ],
+  "skopos_minus_base": [
+   0.004,
+   [
+    -0.0007,
+    0.0094
+   ]
+  ]
+ },
+ "git3_test_held": {
+  "skopos": 0.9575,
+  "r2": 0.9538,
+  "base": 0.9519,
+  "r2_minus_skopos": [
+   -0.0037,
+   [
+    -0.0099,
+    0.0031
+   ]
+  ],
+  "skopos_minus_base": [
+   0.0055,
+   [
+    -0.0012,
+    0.0123
+   ]
+  ]
+ },
+ "guard_known": {
+  "skopos": 0.9603,
+  "r2": 0.9532,
+  "base": 0.9469,
+  "r2_minus_skopos": [
+   -0.0071,
+   [
+    -0.0114,
+    -0.0027
+   ]
+  ],
+  "skopos_minus_base": [
+   0.0134,
+   [
+    0.0089,
+    0.0183
+   ]
+  ]
+ },
+ "ftest_family": {
+  "skopos": 0.8343,
+  "r2": 0.8222,
+  "base": 0.8306,
+  "r2_minus_skopos": [
+   -0.012,
+   [
+    -0.0269,
+    0.0028
+   ]
+  ],
+  "skopos_minus_base": [
+   0.0037,
+   [
+    -0.0074,
+    0.0148
+   ]
+  ]
+ },
+ "m3val": {
+  "skopos": 0.9367,
+  "r2": 0.9267,
+  "base": 0.9133,
+  "r2_minus_skopos": [
+   -0.01,
+   [
+    -0.0367,
+    0.0167
+   ]
+  ],
+  "skopos_minus_base": [
+   0.0233,
+   [
+    0.0033,
+    0.0467
+   ]
+  ]
+ },
+ "fval_git3": {
+  "skopos": 0.9331,
+  "r2": 0.935,
+  "base": 0.9298,
+  "r2_minus_skopos": [
+   0.002,
+   [
+    -0.0072,
+    0.0112
+   ]
+  ],
+  "skopos_minus_base": [
+   0.0033,
+   [
+    -0.0046,
+    0.0112
+   ]
+  ]
+ },
+ "sess_val": {
+  "skopos": 0.9123,
+  "r2": 0.9137,
+  "base": 0.8904,
+  "r2_minus_skopos": [
+   0.0014,
+   [
+    -0.0082,
+    0.0123
+   ]
+  ],
+  "skopos_minus_base": [
+   0.0219,
+   [
+    0.011,
+    0.0342
+   ]
+  ]
+ },
+ "guard_0.2": {
+  "skopos": {
+   "flagged_at_0.2": 97.45,
+   "false_alarms_at_0.2": 4.29
+  },
+  "r2": {
+   "flagged_at_0.2": 95.37,
+   "false_alarms_at_0.2": 4.87
+  },
+  "base": {
+   "flagged_at_0.2": 95.71,
+   "false_alarms_at_0.2": 4.4
+  }
+ },
+ "neutral_auroc": {
+  "skopos": 0.8399,
+  "r2": 0.8345,
+  "base": 0.8331
+ },
+ "verdict": {
+  "suites_worse": [],
+  "gain_suites": [
+   "git_long_val"
+  ],
+  "guard_flagged_diff": -2.08,
+  "guard_fa_diff": 0.58,
+  "r2_replaces_skopos": false
+ }
+}

@@ -1,0 +1,22 @@
+{
+ "multi_test_trainfam (one prompt per question)": {
+  "n_changed": 902,
+  "acc_changed": 93.68070953436808,
+  "ci95_changed": [
+   92.01773835920177,
+   95.23281596452328
+  ],
+  "acc_all": 96.92603266090298,
+  "prompt_tokens_per_state": 1636.1083333333333
+ },
+ "multi_test_testfam (one prompt per question)": {
+  "n_changed": 1693,
+  "acc_changed": 81.45304193738924,
+  "ci95_changed": [
+   79.6219728292971,
+   83.34317779090372
+  ],
+  "acc_all": 84.25655976676384,
+  "prompt_tokens_per_state": 1443.8283333333334
+ }
+}
