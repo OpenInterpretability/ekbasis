@@ -1,0 +1,1368 @@
+{
+ "item": "PREREG_ADDENDUM A7",
+ "temperatures": {
+  "skopos_int4": 1.67,
+  "ekbasis27b_int4": 1.55
+ },
+ "groups": {
+  "T_all_all_items": {
+   "n": 7172,
+   "skopos_int4": {
+    "accuracy": 96.207473508087,
+    "conf_wrong_per100_raw": 1.8126045733407696,
+    "conf_wrong_per100_calibrated": 0.6274400446179588,
+    "ece_raw": 0.021494671825234634,
+    "ece_calibrated": 0.011374067702757108,
+    "share_of_wrong_at_ge_0.9_raw": 47.794117647058826,
+    "share_of_wrong_at_ge_0.9_calibrated": 16.544117647058822
+   },
+   "ekbasis27b_int4": {
+    "accuracy": 95.38482989403235,
+    "conf_wrong_per100_raw": 1.965978806469604,
+    "conf_wrong_per100_calibrated": 0.7947573898494144,
+    "ece_raw": 0.022881451716386718,
+    "ece_calibrated": 0.015930869146596235,
+    "share_of_wrong_at_ge_0.9_raw": 42.59818731117825,
+    "share_of_wrong_at_ge_0.9_calibrated": 17.220543806646525
+   },
+   "comparisons": [
+    {
+     "measure": "accuracy: Skopos INT4 - Ekbasis-27B INT4",
+     "value": 0.8226436140546554,
+     "ci95": [
+      0.3904071388733996,
+      1.254880089235911
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100, raw: Skopos - Ekbasis-27B",
+     "value": -0.15337423312883436,
+     "ci95": [
+      -0.4880089235917455,
+      0.16731734523145558
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100, calibrated (own T): Skopos - Ekbasis-27B",
+     "value": -0.16731734523145558,
+     "ci95": [
+      -0.36252091466815395,
+      0.013943112102621336
+     ]
+    },
+    {
+     "measure": "ECE, raw: Skopos - Ekbasis-27B",
+     "value": -0.0013867798911520839,
+     "ci95": [
+      -0.0056032436480488515,
+      0.0026551409777973226
+     ]
+    },
+    {
+     "measure": "ECE, calibrated (own T): Skopos - Ekbasis-27B",
+     "value": -0.004556801443839128,
+     "ci95": [
+      -0.009159567470380478,
+      -0.0007021673385685708
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100: Skopos calibrated - raw",
+     "value": -1.1851645287228108,
+     "ci95": [
+      -1.4500836586726158,
+      -0.9341885108756275
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100: Ekbasis-27B calibrated - raw",
+     "value": -1.1712214166201895,
+     "ci95": [
+      -1.4221974344673731,
+      -0.920245398773006
+     ]
+    },
+    {
+     "measure": "ECE: Skopos calibrated - raw",
+     "value": -0.010120604122477526,
+     "ci95": [
+      -0.014555071413881368,
+      -0.005523967011018021
+     ]
+    },
+    {
+     "measure": "ECE: Ekbasis-27B calibrated - raw",
+     "value": -0.0069505825697904824,
+     "ci95": [
+      -0.011490732652646773,
+      -0.0019275831550171728
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100: Skopos calibrated - Ekbasis-27B raw (the prediction)",
+     "value": -1.338538761851645,
+     "ci95": [
+      -1.6592303402119353,
+      -1.045733407696598
+     ]
+    }
+   ]
+  },
+  "T_all_clean": {
+   "n": 3019,
+   "skopos_int4": {
+    "accuracy": 97.48261013580655,
+    "conf_wrong_per100_raw": 1.093077177873468,
+    "conf_wrong_per100_calibrated": 0.29811195760185494,
+    "ece_raw": 0.01430218902717743,
+    "ece_calibrated": 0.013129967501085724,
+    "share_of_wrong_at_ge_0.9_raw": 43.421052631578945,
+    "share_of_wrong_at_ge_0.9_calibrated": 11.842105263157896
+   },
+   "ekbasis27b_int4": {
+    "accuracy": 96.7870155680689,
+    "conf_wrong_per100_raw": 1.3249420337860218,
+    "conf_wrong_per100_calibrated": 0.5631003643590593,
+    "ece_raw": 0.0169016769131539,
+    "ece_calibrated": 0.01734469643950269,
+    "share_of_wrong_at_ge_0.9_raw": 41.23711340206186,
+    "share_of_wrong_at_ge_0.9_calibrated": 17.52577319587629
+   },
+   "comparisons": [
+    {
+     "measure": "accuracy: Skopos INT4 - Ekbasis-27B INT4",
+     "value": 0.6955945677376576,
+     "ci95": [
+      0.06624710168931358,
+      1.2586949320967307
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100, raw: Skopos - Ekbasis-27B",
+     "value": -0.2318648559125538,
+     "ci95": [
+      -0.6955945677376616,
+      0.26498840675720436
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100, calibrated (own T): Skopos - Ekbasis-27B",
+     "value": -0.26498840675720436,
+     "ci95": [
+      -0.5631003643590593,
+      0.0
+     ]
+    },
+    {
+     "measure": "ECE, raw: Skopos - Ekbasis-27B",
+     "value": -0.0025994878859764703,
+     "ci95": [
+      -0.008495578114919472,
+      0.002587370523637701
+     ]
+    },
+    {
+     "measure": "ECE, calibrated (own T): Skopos - Ekbasis-27B",
+     "value": -0.004214728938416967,
+     "ci95": [
+      -0.009965834148777797,
+      0.001094070296449274
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100: Skopos calibrated - raw",
+     "value": -0.7949652202716131,
+     "ci95": [
+      -1.1262007287181186,
+      -0.4968532626697582
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100: Ekbasis-27B calibrated - raw",
+     "value": -0.7618416694269625,
+     "ci95": [
+      -1.093077177873468,
+      -0.46372971182510764
+     ]
+    },
+    {
+     "measure": "ECE: Skopos calibrated - raw",
+     "value": -0.001172221526091706,
+     "ci95": [
+      -0.005416183563067386,
+      0.003411143731591208
+     ]
+    },
+    {
+     "measure": "ECE: Ekbasis-27B calibrated - raw",
+     "value": 0.0004430195263487903,
+     "ci95": [
+      -0.005604078924513749,
+      0.00652557144141537
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100: Skopos calibrated - Ekbasis-27B raw (the prediction)",
+     "value": -1.0268300761841669,
+     "ci95": [
+      -1.4574362371646241,
+      -0.5962239152037099
+     ]
+    }
+   ]
+  },
+  "T_changed_all_items": {
+   "n": 2940,
+   "skopos_int4": {
+    "accuracy": 93.80952380952381,
+    "conf_wrong_per100_raw": 2.891156462585034,
+    "conf_wrong_per100_calibrated": 1.1564625850340136,
+    "ece_raw": 0.038539558220246926,
+    "ece_calibrated": 0.014222152181328261,
+    "share_of_wrong_at_ge_0.9_raw": 46.7032967032967,
+    "share_of_wrong_at_ge_0.9_calibrated": 18.681318681318682
+   },
+   "ekbasis27b_int4": {
+    "accuracy": 92.27891156462584,
+    "conf_wrong_per100_raw": 3.435374149659864,
+    "conf_wrong_per100_calibrated": 1.3265306122448979,
+    "ece_raw": 0.043237952124254145,
+    "ece_calibrated": 0.025739801526074402,
+    "share_of_wrong_at_ge_0.9_raw": 44.49339207048458,
+    "share_of_wrong_at_ge_0.9_calibrated": 17.180616740088105
+   },
+   "comparisons": [
+    {
+     "measure": "accuracy: Skopos INT4 - Ekbasis-27B INT4",
+     "value": 1.5306122448979664,
+     "ci95": [
+      0.7142857142857082,
+      2.3469387755102105
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100, raw: Skopos - Ekbasis-27B",
+     "value": -0.5442176870748301,
+     "ci95": [
+      -1.224489795918367,
+      0.1020408163265305
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100, calibrated (own T): Skopos - Ekbasis-27B",
+     "value": -0.17006802721088432,
+     "ci95": [
+      -0.54421768707483,
+      0.20408163265306123
+     ]
+    },
+    {
+     "measure": "ECE, raw: Skopos - Ekbasis-27B",
+     "value": -0.004698393904007218,
+     "ci95": [
+      -0.013026387503699097,
+      0.002902282223619407
+     ]
+    },
+    {
+     "measure": "ECE, calibrated (own T): Skopos - Ekbasis-27B",
+     "value": -0.011517649344746141,
+     "ci95": [
+      -0.02024962204309413,
+      -0.003527840199744503
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100: Skopos calibrated - raw",
+     "value": -1.7346938775510203,
+     "ci95": [
+      -2.2108843537414966,
+      -1.292517006802721
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100: Ekbasis-27B calibrated - raw",
+     "value": -2.108843537414966,
+     "ci95": [
+      -2.6530612244897958,
+      -1.598639455782313
+     ]
+    },
+    {
+     "measure": "ECE: Skopos calibrated - raw",
+     "value": -0.024317406038918667,
+     "ci95": [
+      -0.032734288864122954,
+      -0.015203703719070616
+     ]
+    },
+    {
+     "measure": "ECE: Ekbasis-27B calibrated - raw",
+     "value": -0.017498150598179742,
+     "ci95": [
+      -0.026117984266894403,
+      -0.00750902378335816
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100: Skopos calibrated - Ekbasis-27B raw (the prediction)",
+     "value": -2.2789115646258504,
+     "ci95": [
+      -2.891156462585034,
+      -1.6326530612244898
+     ]
+    }
+   ]
+  },
+  "T_changed_clean": {
+   "n": 1131,
+   "skopos_int4": {
+    "accuracy": 95.93280282935456,
+    "conf_wrong_per100_raw": 1.5915119363395225,
+    "conf_wrong_per100_calibrated": 0.5305039787798409,
+    "ece_raw": 0.02722691623298716,
+    "ece_calibrated": 0.02008645948446874,
+    "share_of_wrong_at_ge_0.9_raw": 39.130434782608695,
+    "share_of_wrong_at_ge_0.9_calibrated": 13.043478260869565
+   },
+   "ekbasis27b_int4": {
+    "accuracy": 95.13704686118479,
+    "conf_wrong_per100_raw": 2.033598585322723,
+    "conf_wrong_per100_calibrated": 0.8841732979664014,
+    "ece_raw": 0.026955521963216617,
+    "ece_calibrated": 0.027002725751058682,
+    "share_of_wrong_at_ge_0.9_raw": 41.81818181818182,
+    "share_of_wrong_at_ge_0.9_calibrated": 18.181818181818183
+   },
+   "comparisons": [
+    {
+     "measure": "accuracy: Skopos INT4 - Ekbasis-27B INT4",
+     "value": 0.7957559681697717,
+     "ci95": [
+      -0.3536693191865652,
+      1.9451812555260801
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100, raw: Skopos - Ekbasis-27B",
+     "value": -0.4420866489832007,
+     "ci95": [
+      -1.4146772767462426,
+      0.6189213085764809
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100, calibrated (own T): Skopos - Ekbasis-27B",
+     "value": -0.3536693191865605,
+     "ci95": [
+      -0.9725906277630415,
+      0.26525198938992034
+     ]
+    },
+    {
+     "measure": "ECE, raw: Skopos - Ekbasis-27B",
+     "value": 0.0002713942697705439,
+     "ci95": [
+      -0.011227512937179253,
+      0.010935286595549015
+     ]
+    },
+    {
+     "measure": "ECE, calibrated (own T): Skopos - Ekbasis-27B",
+     "value": -0.006916266266589942,
+     "ci95": [
+      -0.017483265336020466,
+      0.0051645552899476505
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100: Skopos calibrated - raw",
+     "value": -1.0610079575596816,
+     "ci95": [
+      -1.679929266136163,
+      -0.5305039787798408
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100: Ekbasis-27B calibrated - raw",
+     "value": -1.1494252873563218,
+     "ci95": [
+      -1.768346595932803,
+      -0.5305039787798409
+     ]
+    },
+    {
+     "measure": "ECE: Skopos calibrated - raw",
+     "value": -0.007140456748518421,
+     "ci95": [
+      -0.015982726117900883,
+      0.002994044306520359
+     ]
+    },
+    {
+     "measure": "ECE: Ekbasis-27B calibrated - raw",
+     "value": 4.7203787842065026e-05,
+     "ci95": [
+      -0.012278677630765185,
+      0.012108463806879459
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100: Skopos calibrated - Ekbasis-27B raw (the prediction)",
+     "value": -1.5030946065428823,
+     "ci95": [
+      -2.387267904509284,
+      -0.618921308576481
+     ]
+    }
+   ]
+  },
+  "H_all_all_items": {
+   "n": 2472,
+   "skopos_int4": {
+    "accuracy": 90.49352750809061,
+    "conf_wrong_per100_raw": 3.559870550161812,
+    "conf_wrong_per100_calibrated": 0.8090614886731392,
+    "ece_raw": 0.04926450654463349,
+    "ece_calibrated": 0.02181889286985891,
+    "share_of_wrong_at_ge_0.9_raw": 37.4468085106383,
+    "share_of_wrong_at_ge_0.9_calibrated": 8.51063829787234
+   },
+   "ekbasis27b_int4": {
+    "accuracy": 87.13592233009709,
+    "conf_wrong_per100_raw": 3.843042071197411,
+    "conf_wrong_per100_calibrated": 1.2135922330097086,
+    "ece_raw": 0.05830103946491912,
+    "ece_calibrated": 0.04396664648465924,
+    "share_of_wrong_at_ge_0.9_raw": 29.87421383647799,
+    "share_of_wrong_at_ge_0.9_calibrated": 9.433962264150944
+   },
+   "comparisons": [
+    {
+     "measure": "accuracy: Skopos INT4 - Ekbasis-27B INT4",
+     "value": 3.35760517799352,
+     "ci95": [
+      2.2653721682847845,
+      4.530744336569569
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100, raw: Skopos - Ekbasis-27B",
+     "value": -0.28317152103559895,
+     "ci95": [
+      -1.092233009708738,
+      0.5663430420711975
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100, calibrated (own T): Skopos - Ekbasis-27B",
+     "value": -0.40453074433656944,
+     "ci95": [
+      -0.889967637540453,
+      0.040453074433656866
+     ]
+    },
+    {
+     "measure": "ECE, raw: Skopos - Ekbasis-27B",
+     "value": -0.009036532920285632,
+     "ci95": [
+      -0.020746011627224496,
+      0.0013823272103733256
+     ]
+    },
+    {
+     "measure": "ECE, calibrated (own T): Skopos - Ekbasis-27B",
+     "value": -0.02214775361480033,
+     "ci95": [
+      -0.03183195620711846,
+      -0.007115530003405347
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100: Skopos calibrated - raw",
+     "value": -2.750809061488673,
+     "ci95": [
+      -3.438511326860841,
+      -2.144012944983819
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100: Ekbasis-27B calibrated - raw",
+     "value": -2.6294498381877025,
+     "ci95": [
+      -3.2766990291262137,
+      -2.0226537216828477
+     ]
+    },
+    {
+     "measure": "ECE: Skopos calibrated - raw",
+     "value": -0.02744561367477458,
+     "ci95": [
+      -0.037784990265092896,
+      -0.01145782459390808
+     ]
+    },
+    {
+     "measure": "ECE: Ekbasis-27B calibrated - raw",
+     "value": -0.014334392980259882,
+     "ci95": [
+      -0.027420058781561667,
+      -0.0036965878767802815
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100: Skopos calibrated - Ekbasis-27B raw (the prediction)",
+     "value": -3.033980582524272,
+     "ci95": [
+      -3.802588996763754,
+      -2.3058252427184467
+     ]
+    }
+   ]
+  },
+  "H_all_clean": {
+   "n": 1244,
+   "skopos_int4": {
+    "accuracy": 88.42443729903538,
+    "conf_wrong_per100_raw": 4.260450160771704,
+    "conf_wrong_per100_calibrated": 0.9646302250803859,
+    "ece_raw": 0.06319937656151703,
+    "ece_calibrated": 0.02980495419458766,
+    "share_of_wrong_at_ge_0.9_raw": 36.80555555555556,
+    "share_of_wrong_at_ge_0.9_calibrated": 8.333333333333334
+   },
+   "ekbasis27b_int4": {
+    "accuracy": 84.88745980707395,
+    "conf_wrong_per100_raw": 4.662379421221865,
+    "conf_wrong_per100_calibrated": 1.607717041800643,
+    "ece_raw": 0.07539630762126012,
+    "ece_calibrated": 0.04091616993532806,
+    "share_of_wrong_at_ge_0.9_raw": 30.851063829787233,
+    "share_of_wrong_at_ge_0.9_calibrated": 10.638297872340425
+   },
+   "comparisons": [
+    {
+     "measure": "accuracy: Skopos INT4 - Ekbasis-27B INT4",
+     "value": 3.536977491961423,
+     "ci95": [
+      1.8488745980707364,
+      5.305466237942127
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100, raw: Skopos - Ekbasis-27B",
+     "value": -0.401929260450161,
+     "ci95": [
+      -1.6881028938906755,
+      0.8842443729903531
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100, calibrated (own T): Skopos - Ekbasis-27B",
+     "value": -0.6430868167202571,
+     "ci95": [
+      -1.3665594855305467,
+      0.08038585209003213
+     ]
+    },
+    {
+     "measure": "ECE, raw: Skopos - Ekbasis-27B",
+     "value": -0.012196931059743094,
+     "ci95": [
+      -0.028261766024130344,
+      0.004598999684688687
+     ]
+    },
+    {
+     "measure": "ECE, calibrated (own T): Skopos - Ekbasis-27B",
+     "value": -0.0111112157407404,
+     "ci95": [
+      -0.025917386853469126,
+      0.010344979729477323
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100: Skopos calibrated - raw",
+     "value": -3.295819935691318,
+     "ci95": [
+      -4.340836012861736,
+      -2.3311897106109325
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100: Ekbasis-27B calibrated - raw",
+     "value": -3.054662379421222,
+     "ci95": [
+      -4.019292604501608,
+      -2.170418006430868
+     ]
+    },
+    {
+     "measure": "ECE: Skopos calibrated - raw",
+     "value": -0.03339442236692937,
+     "ci95": [
+      -0.04462263749047203,
+      -0.012835160134670884
+     ]
+    },
+    {
+     "measure": "ECE: Ekbasis-27B calibrated - raw",
+     "value": -0.03448013768593206,
+     "ci95": [
+      -0.049116846523242684,
+      -0.016433478871075997
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100: Skopos calibrated - Ekbasis-27B raw (the prediction)",
+     "value": -3.697749196141479,
+     "ci95": [
+      -4.903536977491961,
+      -2.572347266881029
+     ]
+    }
+   ]
+  },
+  "H_changed_all_items": {
+   "n": 1106,
+   "skopos_int4": {
+    "accuracy": 89.05967450271248,
+    "conf_wrong_per100_raw": 4.159132007233273,
+    "conf_wrong_per100_calibrated": 0.8137432188065099,
+    "ece_raw": 0.053911257155384265,
+    "ece_calibrated": 0.03527194948924956,
+    "share_of_wrong_at_ge_0.9_raw": 38.01652892561984,
+    "share_of_wrong_at_ge_0.9_calibrated": 7.43801652892562
+   },
+   "ekbasis27b_int4": {
+    "accuracy": 84.99095840867993,
+    "conf_wrong_per100_raw": 4.701627486437613,
+    "conf_wrong_per100_calibrated": 1.3562386980108498,
+    "ece_raw": 0.05937309683286927,
+    "ece_calibrated": 0.05097422554554945,
+    "share_of_wrong_at_ge_0.9_raw": 31.325301204819276,
+    "share_of_wrong_at_ge_0.9_calibrated": 9.036144578313253
+   },
+   "comparisons": [
+    {
+     "measure": "accuracy: Skopos INT4 - Ekbasis-27B INT4",
+     "value": 4.068716094032553,
+     "ci95": [
+      2.079566003616648,
+      5.967450271247728
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100, raw: Skopos - Ekbasis-27B",
+     "value": -0.5424954792043399,
+     "ci95": [
+      -1.8083182640144666,
+      0.7233273056057867
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100, calibrated (own T): Skopos - Ekbasis-27B",
+     "value": -0.5424954792043399,
+     "ci95": [
+      -1.3562386980108498,
+      0.18083182640144668
+     ]
+    },
+    {
+     "measure": "ECE, raw: Skopos - Ekbasis-27B",
+     "value": -0.005461839677485002,
+     "ci95": [
+      -0.028205787703014004,
+      0.009443583363626301
+     ]
+    },
+    {
+     "measure": "ECE, calibrated (own T): Skopos - Ekbasis-27B",
+     "value": -0.01570227605629989,
+     "ci95": [
+      -0.03545652237343162,
+      0.0063541198966143644
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100: Skopos calibrated - raw",
+     "value": -3.3453887884267632,
+     "ci95": [
+      -4.4303797468354436,
+      -2.350813743218806
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100: Ekbasis-27B calibrated - raw",
+     "value": -3.3453887884267632,
+     "ci95": [
+      -4.4303797468354436,
+      -2.3508137432188065
+     ]
+    },
+    {
+     "measure": "ECE: Skopos calibrated - raw",
+     "value": -0.018639307666134704,
+     "ci95": [
+      -0.03703346618612833,
+      0.00550094127057614
+     ]
+    },
+    {
+     "measure": "ECE: Ekbasis-27B calibrated - raw",
+     "value": -0.008398871287319816,
+     "ci95": [
+      -0.03137498587806184,
+      0.010902166237101052
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100: Skopos calibrated - Ekbasis-27B raw (the prediction)",
+     "value": -3.887884267631103,
+     "ci95": [
+      -5.15370705244123,
+      -2.7124773960216997
+     ]
+    }
+   ]
+  },
+  "H_changed_clean": {
+   "n": 627,
+   "skopos_int4": {
+    "accuracy": 87.5598086124402,
+    "conf_wrong_per100_raw": 5.2631578947368425,
+    "conf_wrong_per100_calibrated": 1.4354066985645932,
+    "ece_raw": 0.07289218255303848,
+    "ece_calibrated": 0.03918956366405646,
+    "share_of_wrong_at_ge_0.9_raw": 42.30769230769231,
+    "share_of_wrong_at_ge_0.9_calibrated": 11.538461538461538
+   },
+   "ekbasis27b_int4": {
+    "accuracy": 83.89154704944178,
+    "conf_wrong_per100_raw": 5.901116427432217,
+    "conf_wrong_per100_calibrated": 1.9138755980861244,
+    "ece_raw": 0.08157367313219806,
+    "ece_calibrated": 0.039124021577306344,
+    "share_of_wrong_at_ge_0.9_raw": 36.633663366336634,
+    "share_of_wrong_at_ge_0.9_calibrated": 11.881188118811881
+   },
+   "comparisons": [
+    {
+     "measure": "accuracy: Skopos INT4 - Ekbasis-27B INT4",
+     "value": 3.66826156299841,
+     "ci95": [
+      1.1164274322169092,
+      6.220095693779911
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100, raw: Skopos - Ekbasis-27B",
+     "value": -0.6379585326953743,
+     "ci95": [
+      -2.392344497607656,
+      1.27591706539075
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100, calibrated (own T): Skopos - Ekbasis-27B",
+     "value": -0.47846889952153115,
+     "ci95": [
+      -1.7543859649122808,
+      0.7974481658692185
+     ]
+    },
+    {
+     "measure": "ECE, raw: Skopos - Ekbasis-27B",
+     "value": -0.008681490579159581,
+     "ci95": [
+      -0.03324482598872283,
+      0.01519229297230594
+     ]
+    },
+    {
+     "measure": "ECE, calibrated (own T): Skopos - Ekbasis-27B",
+     "value": 6.55420867501158e-05,
+     "ci95": [
+      -0.03155747581705212,
+      0.02129880343222
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100: Skopos calibrated - raw",
+     "value": -3.8277511961722492,
+     "ci95": [
+      -5.422647527910685,
+      -2.392344497607655
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100: Ekbasis-27B calibrated - raw",
+     "value": -3.987240829346092,
+     "ci95": [
+      -5.422647527910686,
+      -2.5518341307814993
+     ]
+    },
+    {
+     "measure": "ECE: Skopos calibrated - raw",
+     "value": -0.03370261888898202,
+     "ci95": [
+      -0.05460071441931007,
+      -0.008746487341171241
+     ]
+    },
+    {
+     "measure": "ECE: Ekbasis-27B calibrated - raw",
+     "value": -0.042449651554891714,
+     "ci95": [
+      -0.06000763940423212,
+      -0.010469615913489272
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100: Skopos calibrated - Ekbasis-27B raw (the prediction)",
+     "value": -4.4657097288676235,
+     "ci95": [
+      -6.379585326953748,
+      -2.7113237639553427
+     ]
+    }
+   ]
+  },
+  "U_all_all_items": {
+   "n": 5364,
+   "skopos_int4": {
+    "accuracy": 85.34675615212528,
+    "conf_wrong_per100_raw": 4.7539149888143175,
+    "conf_wrong_per100_calibrated": 1.621923937360179,
+    "ece_raw": 0.07506106406224496,
+    "ece_calibrated": 0.0206114111330198,
+    "share_of_wrong_at_ge_0.9_raw": 32.44274809160305,
+    "share_of_wrong_at_ge_0.9_calibrated": 11.068702290076336
+   },
+   "ekbasis27b_int4": {
+    "accuracy": 85.21625652498136,
+    "conf_wrong_per100_raw": 3.6539895600298284,
+    "conf_wrong_per100_calibrated": 1.0999254287844893,
+    "ece_raw": 0.05961285967785169,
+    "ece_calibrated": 0.02167394562423012,
+    "share_of_wrong_at_ge_0.9_raw": 24.71626733921816,
+    "share_of_wrong_at_ge_0.9_calibrated": 7.440100882723834
+   },
+   "comparisons": [
+    {
+     "measure": "accuracy: Skopos INT4 - Ekbasis-27B INT4",
+     "value": 0.13049962714391938,
+     "ci95": [
+      -0.5219985085756917,
+      0.7829977628635447
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100, raw: Skopos - Ekbasis-27B",
+     "value": 1.099925428784489,
+     "ci95": [
+      0.652498135719612,
+      1.56599552572707
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100, calibrated (own T): Skopos - Ekbasis-27B",
+     "value": 0.5219985085756897,
+     "ci95": [
+      0.260999254287845,
+      0.7829977628635348
+     ]
+    },
+    {
+     "measure": "ECE, raw: Skopos - Ekbasis-27B",
+     "value": 0.015448204384393267,
+     "ci95": [
+      0.008550055676246969,
+      0.02204418634920534
+     ]
+    },
+    {
+     "measure": "ECE, calibrated (own T): Skopos - Ekbasis-27B",
+     "value": -0.0010625344912103193,
+     "ci95": [
+      -0.008347704026317786,
+      0.006902619603567511
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100: Skopos calibrated - raw",
+     "value": -3.1319910514541385,
+     "ci95": [
+      -3.5980611483967193,
+      -2.647278150633855
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100: Ekbasis-27B calibrated - raw",
+     "value": -2.5540641312453394,
+     "ci95": [
+      -2.9642058165548097,
+      -2.1252796420581657
+     ]
+    },
+    {
+     "measure": "ECE: Skopos calibrated - raw",
+     "value": -0.054449652929225156,
+     "ci95": [
+      -0.05598316657750828,
+      -0.04713902509642415
+     ]
+    },
+    {
+     "measure": "ECE: Ekbasis-27B calibrated - raw",
+     "value": -0.03793891405362157,
+     "ci95": [
+      -0.042923978577630514,
+      -0.029110700721039696
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100: Skopos calibrated - Ekbasis-27B raw (the prediction)",
+     "value": -2.0320656226696494,
+     "ci95": [
+      -2.479492915734527,
+      -1.5846383296047726
+     ]
+    }
+   ]
+  },
+  "U_all_clean": {
+   "n": 5364,
+   "skopos_int4": {
+    "accuracy": 85.34675615212528,
+    "conf_wrong_per100_raw": 4.7539149888143175,
+    "conf_wrong_per100_calibrated": 1.621923937360179,
+    "ece_raw": 0.07506106406224496,
+    "ece_calibrated": 0.0206114111330198,
+    "share_of_wrong_at_ge_0.9_raw": 32.44274809160305,
+    "share_of_wrong_at_ge_0.9_calibrated": 11.068702290076336
+   },
+   "ekbasis27b_int4": {
+    "accuracy": 85.21625652498136,
+    "conf_wrong_per100_raw": 3.6539895600298284,
+    "conf_wrong_per100_calibrated": 1.0999254287844893,
+    "ece_raw": 0.05961285967785169,
+    "ece_calibrated": 0.02167394562423012,
+    "share_of_wrong_at_ge_0.9_raw": 24.71626733921816,
+    "share_of_wrong_at_ge_0.9_calibrated": 7.440100882723834
+   },
+   "comparisons": [
+    {
+     "measure": "accuracy: Skopos INT4 - Ekbasis-27B INT4",
+     "value": 0.13049962714391938,
+     "ci95": [
+      -0.5219985085756917,
+      0.7829977628635447
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100, raw: Skopos - Ekbasis-27B",
+     "value": 1.099925428784489,
+     "ci95": [
+      0.652498135719612,
+      1.56599552572707
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100, calibrated (own T): Skopos - Ekbasis-27B",
+     "value": 0.5219985085756897,
+     "ci95": [
+      0.260999254287845,
+      0.7829977628635348
+     ]
+    },
+    {
+     "measure": "ECE, raw: Skopos - Ekbasis-27B",
+     "value": 0.015448204384393267,
+     "ci95": [
+      0.008550055676246969,
+      0.02204418634920534
+     ]
+    },
+    {
+     "measure": "ECE, calibrated (own T): Skopos - Ekbasis-27B",
+     "value": -0.0010625344912103193,
+     "ci95": [
+      -0.008347704026317786,
+      0.006902619603567511
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100: Skopos calibrated - raw",
+     "value": -3.1319910514541385,
+     "ci95": [
+      -3.5980611483967193,
+      -2.647278150633855
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100: Ekbasis-27B calibrated - raw",
+     "value": -2.5540641312453394,
+     "ci95": [
+      -2.9642058165548097,
+      -2.1252796420581657
+     ]
+    },
+    {
+     "measure": "ECE: Skopos calibrated - raw",
+     "value": -0.054449652929225156,
+     "ci95": [
+      -0.05598316657750828,
+      -0.04713902509642415
+     ]
+    },
+    {
+     "measure": "ECE: Ekbasis-27B calibrated - raw",
+     "value": -0.03793891405362157,
+     "ci95": [
+      -0.042923978577630514,
+      -0.029110700721039696
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100: Skopos calibrated - Ekbasis-27B raw (the prediction)",
+     "value": -2.0320656226696494,
+     "ci95": [
+      -2.479492915734527,
+      -1.5846383296047726
+     ]
+    }
+   ]
+  },
+  "U_changed_all_items": {
+   "n": 2700,
+   "skopos_int4": {
+    "accuracy": 84.55555555555556,
+    "conf_wrong_per100_raw": 4.814814814814815,
+    "conf_wrong_per100_calibrated": 1.8518518518518519,
+    "ece_raw": 0.0726677806446767,
+    "ece_calibrated": 0.013216738812753008,
+    "share_of_wrong_at_ge_0.9_raw": 31.17505995203837,
+    "share_of_wrong_at_ge_0.9_calibrated": 11.990407673860911
+   },
+   "ekbasis27b_int4": {
+    "accuracy": 84.92592592592592,
+    "conf_wrong_per100_raw": 3.185185185185185,
+    "conf_wrong_per100_calibrated": 0.8888888888888888,
+    "ece_raw": 0.05067488879507569,
+    "ece_calibrated": 0.028191720509530817,
+    "share_of_wrong_at_ge_0.9_raw": 21.13022113022113,
+    "share_of_wrong_at_ge_0.9_calibrated": 5.896805896805897
+   },
+   "comparisons": [
+    {
+     "measure": "accuracy: Skopos INT4 - Ekbasis-27B INT4",
+     "value": -0.3703703703703667,
+     "ci95": [
+      -1.3333333333333286,
+      0.5555555555555571
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100, raw: Skopos - Ekbasis-27B",
+     "value": 1.6296296296296298,
+     "ci95": [
+      0.9629629629629628,
+      2.2962962962962963
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100, calibrated (own T): Skopos - Ekbasis-27B",
+     "value": 0.962962962962963,
+     "ci95": [
+      0.5555555555555556,
+      1.4074074074074074
+     ]
+    },
+    {
+     "measure": "ECE, raw: Skopos - Ekbasis-27B",
+     "value": 0.021992891849601015,
+     "ci95": [
+      0.012491820835550366,
+      0.031655545805656875
+     ]
+    },
+    {
+     "measure": "ECE, calibrated (own T): Skopos - Ekbasis-27B",
+     "value": -0.014974981696777809,
+     "ci95": [
+      -0.02517206092121467,
+      -0.0008219837686664622
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100: Skopos calibrated - raw",
+     "value": -2.962962962962963,
+     "ci95": [
+      -3.5925925925925926,
+      -2.3333333333333335
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100: Ekbasis-27B calibrated - raw",
+     "value": -2.2962962962962963,
+     "ci95": [
+      -2.8888888888888893,
+      -1.7777777777777777
+     ]
+    },
+    {
+     "measure": "ECE: Skopos calibrated - raw",
+     "value": -0.05945104183192369,
+     "ci95": [
+      -0.06250410801184658,
+      -0.04268132943093442
+     ]
+    },
+    {
+     "measure": "ECE: Ekbasis-27B calibrated - raw",
+     "value": -0.02248316828554487,
+     "ci95": [
+      -0.0334266773224044,
+      -0.004320798360945129
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100: Skopos calibrated - Ekbasis-27B raw (the prediction)",
+     "value": -1.3333333333333333,
+     "ci95": [
+      -1.9629629629629628,
+      -0.7407407407407409
+     ]
+    }
+   ]
+  },
+  "U_changed_clean": {
+   "n": 2700,
+   "skopos_int4": {
+    "accuracy": 84.55555555555556,
+    "conf_wrong_per100_raw": 4.814814814814815,
+    "conf_wrong_per100_calibrated": 1.8518518518518519,
+    "ece_raw": 0.0726677806446767,
+    "ece_calibrated": 0.013216738812753008,
+    "share_of_wrong_at_ge_0.9_raw": 31.17505995203837,
+    "share_of_wrong_at_ge_0.9_calibrated": 11.990407673860911
+   },
+   "ekbasis27b_int4": {
+    "accuracy": 84.92592592592592,
+    "conf_wrong_per100_raw": 3.185185185185185,
+    "conf_wrong_per100_calibrated": 0.8888888888888888,
+    "ece_raw": 0.05067488879507569,
+    "ece_calibrated": 0.028191720509530817,
+    "share_of_wrong_at_ge_0.9_raw": 21.13022113022113,
+    "share_of_wrong_at_ge_0.9_calibrated": 5.896805896805897
+   },
+   "comparisons": [
+    {
+     "measure": "accuracy: Skopos INT4 - Ekbasis-27B INT4",
+     "value": -0.3703703703703667,
+     "ci95": [
+      -1.3333333333333286,
+      0.5555555555555571
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100, raw: Skopos - Ekbasis-27B",
+     "value": 1.6296296296296298,
+     "ci95": [
+      0.9629629629629628,
+      2.2962962962962963
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100, calibrated (own T): Skopos - Ekbasis-27B",
+     "value": 0.962962962962963,
+     "ci95": [
+      0.5555555555555556,
+      1.4074074074074074
+     ]
+    },
+    {
+     "measure": "ECE, raw: Skopos - Ekbasis-27B",
+     "value": 0.021992891849601015,
+     "ci95": [
+      0.012491820835550366,
+      0.031655545805656875
+     ]
+    },
+    {
+     "measure": "ECE, calibrated (own T): Skopos - Ekbasis-27B",
+     "value": -0.014974981696777809,
+     "ci95": [
+      -0.02517206092121467,
+      -0.0008219837686664622
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100: Skopos calibrated - raw",
+     "value": -2.962962962962963,
+     "ci95": [
+      -3.5925925925925926,
+      -2.3333333333333335
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100: Ekbasis-27B calibrated - raw",
+     "value": -2.2962962962962963,
+     "ci95": [
+      -2.8888888888888893,
+      -1.7777777777777777
+     ]
+    },
+    {
+     "measure": "ECE: Skopos calibrated - raw",
+     "value": -0.05945104183192369,
+     "ci95": [
+      -0.06250410801184658,
+      -0.04268132943093442
+     ]
+    },
+    {
+     "measure": "ECE: Ekbasis-27B calibrated - raw",
+     "value": -0.02248316828554487,
+     "ci95": [
+      -0.0334266773224044,
+      -0.004320798360945129
+     ]
+    },
+    {
+     "measure": "wrong at >= 0.9 per 100: Skopos calibrated - Ekbasis-27B raw (the prediction)",
+     "value": -1.3333333333333333,
+     "ci95": [
+      -1.9629629629629628,
+      -0.7407407407407409
+     ]
+    }
+   ]
+  }
+ },
+ "prediction": {
+  "all_items": {
+   "calibrated lowers confident errors in U, Skopos": {
+    "value": -3.1319910514541385,
+    "ci95": [
+     -3.5980611483967193,
+     -2.647278150633855
+    ],
+    "held": true
+   },
+   "calibrated lowers confident errors in U, Ekbasis-27B": {
+    "value": -2.5540641312453394,
+    "ci95": [
+     -2.9642058165548097,
+     -2.1252796420581657
+    ],
+    "held": true
+   },
+   "Skopos calibrated at or below Ekbasis-27B raw in U": {
+    "value": -2.0320656226696494,
+    "ci95": [
+     -2.479492915734527,
+     -1.5846383296047726
+    ],
+    "held": true
+   },
+   "fewer errors in T (Skopos INT4 vs Ekbasis-27B INT4)": {
+    "accuracy_diff": 0.8226436140546554,
+    "ci95": [
+     0.3904071388733996,
+     1.254880089235911
+    ],
+    "held": true
+   },
+   "fewer errors in H (Skopos INT4 vs Ekbasis-27B INT4)": {
+    "accuracy_diff": 3.35760517799352,
+    "ci95": [
+     2.2653721682847845,
+     4.530744336569569
+    ],
+    "held": true
+   },
+   "more confident errors in U (raw)": {
+    "value": 1.099925428784489,
+    "ci95": [
+     0.652498135719612,
+     1.56599552572707
+    ],
+    "held": true
+   }
+  },
+  "clean": {
+   "calibrated lowers confident errors in U, Skopos": {
+    "value": -3.1319910514541385,
+    "ci95": [
+     -3.5980611483967193,
+     -2.647278150633855
+    ],
+    "held": true
+   },
+   "calibrated lowers confident errors in U, Ekbasis-27B": {
+    "value": -2.5540641312453394,
+    "ci95": [
+     -2.9642058165548097,
+     -2.1252796420581657
+    ],
+    "held": true
+   },
+   "Skopos calibrated at or below Ekbasis-27B raw in U": {
+    "value": -2.0320656226696494,
+    "ci95": [
+     -2.479492915734527,
+     -1.5846383296047726
+    ],
+    "held": true
+   },
+   "fewer errors in T (Skopos INT4 vs Ekbasis-27B INT4)": {
+    "accuracy_diff": 0.6955945677376576,
+    "ci95": [
+     0.06624710168931358,
+     1.2586949320967307
+    ],
+    "held": true
+   },
+   "fewer errors in H (Skopos INT4 vs Ekbasis-27B INT4)": {
+    "accuracy_diff": 3.536977491961423,
+    "ci95": [
+     1.8488745980707364,
+     5.305466237942127
+    ],
+    "held": true
+   },
+   "more confident errors in U (raw)": {
+    "value": 1.099925428784489,
+    "ci95": [
+     0.652498135719612,
+     1.56599552572707
+    ],
+    "held": true
+   }
+  }
+ },
+ "not_run": [
+  {
+   "part": "A7 on Skopos bf16, and with it the pre-registered consistency check (bf16 here = A2 on >= 99%)",
+   "reason": "A7 on Skopos bf16 was not run. A bf16 run during the phase A battery was stopped because it shared the GPU (124 items in 12 min; DEVIATIONS_RUN.md). After the battery, the two INT4 builds ran first (they back the hosted API's scorecard and the switch made on 2026-10-16), and the evaluation machine was then retired by the owner's decision before a bf16 run. The pre-registered bf16 = A2 consistency check therefore did not run; for information, each INT4 build gives its own bf16's A2 answer on 97.6% (Skopos) and 97.2% (Ekbasis-27B) of items."
+  }
+ ],
+ "information_int4_vs_bf16_answers": {
+  "skopos_int4 vs Skopos bf16 in A2": {
+   "same_answer": 14654,
+   "n": 15008
+  },
+  "ekbasis27b_int4 vs Ekbasis-27B bf16 published": {
+   "same_answer": 14589,
+   "n": 15008
+  }
+ },
+ "run_conditions": [
+  "Both INT4 builds served alone on the RTX PRO 6000 after the production swap, with each folder's serve_vllm.sh + serve.py: Ekbasis-Skopos-27B-INT4 from /root/Skopos-R4-27B-INT4 (the release-read folder), Ekbasis-27B-INT4 from /root/Ekbasis-27B-INT4; 2026-10-16 14:35-15:08 UTC; 15,008 items each, 0 errors (scripts_main/ce_probs.py; log addendum/a7/a7_int4.log).",
+  "A7 on Skopos bf16 was not run: the reason is in not_run."
+ ],
+ "method": "PREREG_ADDENDUM A7 (appended 2026-10-16 02:39 UTC): confident errors with full probabilities, raw and at each build's"
+}

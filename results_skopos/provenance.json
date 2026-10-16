@@ -1,4 +1,28 @@
 {
+ "a7/a7_analyze.py": {
+  "sha256": "3126b9f117556dc57384036970a0a24d32215be62c119affc390a406b935d21d",
+  "source": "the release workspace prelaunch/A7/a7_analyze.py"
+ },
+ "a7/a7_int4.log": {
+  "sha256": "423f08229e02975267b3c05fba150336ccf8636f67e800064dc397819274dbe3",
+  "source": "the release workspace addendum/a7/a7_int4.log"
+ },
+ "a7/ce_a7.json": {
+  "sha256": "f8fe06fd4ae7f592039fb953e7b35fcb35f289ed08e2b6fd995a01fc6d2bde6c",
+  "source": "the release workspace results/ce_a7.json"
+ },
+ "a7/ce_a7_ekbasis_int4.jsonl": {
+  "sha256": "f3d49aa72f75b6fa795c8ccb469fe12aaa5e3e3967404456ef712313f5caf726",
+  "source": "the release workspace addendum/a7/ce_a7_ekbasis_int4.jsonl"
+ },
+ "a7/ce_a7_skopos_int4.jsonl": {
+  "sha256": "b512aac7714a6d09ee79d303471bc396643bc4ea961a0d300cc7c59e3d182edd",
+  "source": "the release workspace addendum/a7/ce_a7_skopos_int4.jsonl"
+ },
+ "a7/ce_probs.py": {
+  "sha256": "9c6f858f08654c7888a8969d36313a174db342c73dab1795de6503aa365e7214",
+  "source": "the release workspace scripts_main/ce_probs.py"
+ },
  "builds.json": {
   "sha256": "363aa1c6e536677782c3874a2b39e4c46ee4b3e3971b7e00fa97d706b2dba01d",
   "source": "the model repositories' file sizes (tools/build_sizes.py)"

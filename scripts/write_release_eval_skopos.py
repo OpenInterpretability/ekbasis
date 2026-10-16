@@ -131,6 +131,9 @@ w("# Ekbasis-Skopos-27B release evaluation — results\n")
 if not FINAL:
     w("> **Draft.** Results still to come are marked *pending*; the final version is written with `--final`, which "
       "refuses to build while any of them is missing.\n")
+_own = [f"`results_skopos/{d}/`" for d, f in (("a7", "a7/ce_a7.json"), ("jev_comparison", "jev_comparison/results.json"))
+        if os.path.exists(os.path.join(R, f))]
+OWN_FOLDERS = f" (addendum A7's and the Jev comparison's in {' and '.join(_own)})" if len(_own) == 2 else ""
 w(f"""**The release, Ekbasis-Skopos-27B, is R4 merged into the first Skopos.** The first Skopos is Ekbasis-27B trained
 further on executed scenarios (v49f) and interpolated halfway back to it; R4 is a LoRA trained on top of it, with real
 git sequences of several commands, the executed factory regenerated, and synthetic long sequences
@@ -144,7 +147,7 @@ calibration fit per build followed under an addendum registered before they ran
 ([prereg_skopos/PREREG_ADDENDUM.md](prereg_skopos/PREREG_ADDENDUM.md)). Every pre-registration's hash is in
 [prereg_skopos/PREREG_sha256.txt](prereg_skopos/PREREG_sha256.txt); the times are those of our seal log, a local file
 without an external timestamp (deviation 11). All results are reported, favourable or not; every prediction is in
-[`results_skopos/runs/`](results_skopos/README.md), except the quantized builds' answers on the fresh `ftest` items
+[`results_skopos/runs/`](results_skopos/README.md){OWN_FOLDERS}, except the quantized builds' answers on the fresh `ftest` items
 (summaries only; deviation 8), and `results_skopos/scripts/verify_summaries.py` recomputes the summaries from them.
 Every table on a set where the overlap audit flags items says whether its numbers are on all items or without the
 flagged ones. Deviations from the pre-registrations are listed at the end.
@@ -562,6 +565,85 @@ w("\nWithout the items the overlap audit flags (see the overlap section); the la
   "exclusion (`results_skopos/calib_fit_*.json`). Per split, and what a raw yes-probability becomes calibrated: the same "
   "files (`map_binary`).\n")
 
+# ------------------------------------------------------------------------------------------------------------- A7
+A7 = ld("a7/ce_a7.json")
+w("## Confident errors with every option's probability, INT4 against INT4 (addendum A7)\n")
+if A7:
+    TS, TE = A7["temperatures"]["skopos_int4"], A7["temperatures"]["ekbasis27b_int4"]
+    gA = A7["groups"]
+    w(f"""Registered in [prereg_skopos/PREREG_ADDENDUM.md](prereg_skopos/PREREG_ADDENDUM.md) A7, after the independent review
+and before any A7 request: the {CE['n']:,} items of the confident-errors test, one prompt per question, every
+option's probability saved, through each build's own server: Skopos INT4 and Ekbasis-27B INT4, the build the hosted API
+served until the switch. "Calibrated" is each build's `calibrated` field (T = {h(TS, 2)} for Skopos INT4, {h(TE, 2)} for
+Ekbasis-27B INT4); a monotone transform, so the answer, and accuracy, are the same raw and calibrated, and only the
+confidence moves. Paired bootstrap, 2,000 resamples, seed 20261015 (`results_skopos/a7/ce_a7.json`, from
+`results_skopos/a7/a7_analyze.py` on the per-item files `results_skopos/a7/ce_a7_*.jsonl`). A7 fixes no criterion: it
+decides only what the card and the scorecard may say. All items, Skopos INT4 / Ekbasis-27B INT4 (difference, 95% CI):
+""")
+    names_a7 = {"T": "Trained families", "H": "Trained families, held-out question types", "U": "**Never-trained families**"}
+
+    def a7_table(subset):
+        w("| Group | n | Accuracy: Skopos / Ekbasis-27B (difference, 95% CI) | Wrong at ≥ 0.9 per 100, raw | "
+          "Wrong at ≥ 0.9 per 100, calibrated | ECE, raw | ECE, calibrated |\n|---|---|---|---|---|---|---|")
+        for g, lab in names_a7.items():
+            for sub, sl in (("all", lab), ("changed", "… answers the actions change")):
+                d = gA[f"{g}_{sub}_{subset}"]
+                s_, e_ = d["skopos_int4"], d["ekbasis27b_int4"]
+                cmp_ = {c["measure"].split(":")[0]: c for c in d["comparisons"]}
+                cell = lambda k, m, nd: (f"{h(s_[k], nd)} / {h(e_[k], nd)} ({sg(cmp_[m]['value'], nd)} "
+                                          f"{ci(cmp_[m]['ci95'], nd)})")
+                w(f"| {sl} | {d['n']:,} | {cell('accuracy', 'accuracy', 2)} | "
+                  f"{cell('conf_wrong_per100_raw', 'wrong at >= 0.9 per 100, raw', 2)} | "
+                  f"{cell('conf_wrong_per100_calibrated', 'wrong at >= 0.9 per 100, calibrated (own T)', 2)} | "
+                  f"{cell('ece_raw', 'ECE, raw', 3)} | {cell('ece_calibrated', 'ECE, calibrated (own T)', 3)} |")
+
+    a7_table("all_items")
+    w("\nWithout the items the overlap audit flags (sensitivity, as in A2):\n")
+    a7_table("clean")
+    w("\nThe prediction of A7, each piece judged on its paired interval (\"lowers\", \"fewer\", \"more\": the interval entirely "
+      "on that side of zero; \"at or below\": its lower end at or below zero):\n")
+    measured_as = (("calibrated lowers", "wrong at ≥ 0.9 per 100, calibrated − raw"),
+                   ("Skopos calibrated at or below", "wrong at ≥ 0.9 per 100, Skopos calibrated − Ekbasis-27B raw"),
+                   ("fewer errors", "accuracy, Skopos − Ekbasis-27B (points; above 0 = fewer errors)"),
+                   ("more confident errors", "wrong at ≥ 0.9 per 100, raw, Skopos − Ekbasis-27B"))
+    w("| Piece | Measured as | All items | Without the items the overlap audit flags |\n|---|---|---|---|")
+    for piece in A7["prediction"]["all_items"]:
+        cells = []
+        for subset in ("all_items", "clean"):
+            x = A7["prediction"][subset][piece]
+            v = x.get("value", x.get("accuracy_diff"))
+            cells.append(f"{'**held**' if x['held'] else '**not held**'}: {sg(v, 2)} {ci(x['ci95'], 2)}")
+        w(f"| {piece} | {next(m for k, m in measured_as if piece.startswith(k))} | {cells[0]} | {cells[1]} |")
+    for subset, lab in (("all_items", "On all items"), ("clean", "Without the flagged items")):
+        no = [k for k, x in A7["prediction"][subset].items() if not x["held"]]
+        w(f"\n{lab}, the prediction " + ("holds in every piece." if not no else
+          "holds except: " + "; ".join(no) + "."))
+    u = gA["U_all_all_items"]
+    uc = next(c for c in u["comparisons"] if c["measure"].startswith("wrong at >= 0.9 per 100, calibrated (own T)"))
+    ue = next(c for c in u["comparisons"] if c["measure"].startswith("ECE, calibrated (own T)"))
+    if not ue["ci95"][0] <= 0 <= ue["ci95"][1]:
+        missing.append("A7: the text says Skopos' calibrated ECE in U is level with Ekbasis-27B's, which the interval no longer shows")
+    w(f"\nThe prediction compares Skopos calibrated with Ekbasis-27B raw. With both calibrated, in the never-trained families "
+      f"Skopos INT4 is wrong at confidence ≥ 0.9 on {h(u['skopos_int4']['conf_wrong_per100_calibrated'], 2)} per 100 answers "
+      f"against {h(u['ekbasis27b_int4']['conf_wrong_per100_calibrated'], 2)} ({sg(uc['value'], 2)} {ci(uc['ci95'], 2)}); "
+      f"its calibrated ECE there is level: {h(u['skopos_int4']['ece_calibrated'], 3)} against "
+      f"{h(u['ekbasis27b_int4']['ece_calibrated'], 3)} ({sg(ue['value'], 3)} {ci(ue['ci95'], 3)}).")
+    for e in A7.get("not_run", []):  # the reason as written in ce_a7.json, its note linked
+        w(f"\n**Not run.** " + e["reason"].replace("DEVIATIONS_RUN.md", "[DEVIATIONS_RUN.md](results_skopos/prelaunch/DEVIATIONS_RUN.md)"))
+    info = A7.get("information_int4_vs_bf16_answers", {})
+    lab = {"skopos_int4 vs Skopos bf16 in A2": "Skopos INT4 against Skopos bf16 (A2's run)",
+           "ekbasis27b_int4 vs Ekbasis-27B bf16 published": "Ekbasis-27B INT4 against Ekbasis-27B bf16 (its published run)"}
+    if info:
+        w("\nThe counts: " + "; ".join(f"{lab.get(k, k)}: {v['same_answer']:,} of {v['n']:,}" for k, v in info.items()) + ".")
+    conds = [c for c in A7.get("run_conditions", []) if "not_run" not in c]  # a note pointing to not_run: said above
+    if conds:
+        w("\nHow it ran:\n")
+    for c in conds:
+        w(f"- {c}")
+    w("")
+else:
+    w(pending("a7/ce_a7.json", "PREREG_ADDENDUM A7") + "\n")
+
 # ---------------------------------------------------------------------------------------------------------- neutral
 w("## Neutral ground: real agent turns\n")
 nb, ns, nr, na = NEU["base"]["pooled"], NEU["skopos"]["pooled"], NEU["r4"]["pooled"], NEU["aw"]["pooled"]
@@ -732,7 +814,8 @@ if JR and JMD:
              "ekbasis_hosted_replay": "Ekbasis, hosted API (the 2026-10-11 intent_check replay)"}
     star = lambda block, k: " ★" if block["jev_headline"]["variant"] == k else ""
     w(f"## Against a general-purpose calibrated evaluator (Jev; {'not pre-registered' if not meta['pre_registered'] else 'pre-registered'}, measured {meta['measured']})\n")
-    w(f"""Jev is TypeSafe AI's System One evaluation model ({meta['model']}; {meta['sdk']}). It was run zero-shot on the items
+    mid, how = meta["model"].split(" (", 1)
+    w(f"""Jev is TypeSafe AI's System One evaluation model (`{mid}`, {how.rstrip(")")}; `{meta['sdk']}`). It was run zero-shot on the items
 Ekbasis is published on, the release protocol and the five suites of the hosted scorecard, and put next to the per-item
 predictions Ekbasis-27B and Skopos published for the same items (not re-run). Each question went to Jev in two wordings:
 Ekbasis' own, and one rewritten in the style of TypeSafe's documentation; the headline row (★) of each set is the better
@@ -766,7 +849,7 @@ reproduces `results.json` from it).
       f"per 100):\n")
     w("| Suite | " + " | ".join(NAMES[c] for c in cols) + " |\n|---|" + "---|" * len(cols))
     for suite, b in SC.items():
-        cells = [(f"{h(b['systems'][c]['accuracy'])}% · {h(b['systems'][c]['confident_errors_per_100'], 2)}{star(b, c)}"
+        cells = [(f"{h(b['systems'][c]['accuracy'], 2)}% · {h(b['systems'][c]['confident_errors_per_100'], 2)}{star(b, c)}"
                   if c in b["systems"] else "—") for c in cols]
         w(f"| `{suite}` ({b['n']}) | " + " | ".join(cells) + " |")
     w(f"\n**Cost per million checks** (Jev: measured input tokens of the headline variant at US${h(price['Jev'], 3)} per million "
@@ -804,9 +887,10 @@ reproduces `results.json` from it).
 {h(max(ce_j), 2)} per 100 answers on the scorecard suites, against {h(min(ce_e), 2)} to {h(max(ce_e), 2)} for the Ekbasis
 builds. That comes from probabilities compressed toward the middle (mean confidence on git v3
 {h(RP['git_v3_all']['systems']['jev_A']['mean_conf'], 3)} and {h(RP['git_v3_all']['systems']['jev_B']['mean_conf'], 3)},
-against {h(min(RP['git_v3_all']['systems'][k]['mean_conf'] for k in ('ekbasis27b', 'skopos_bf16')), 3)} or more for
-Ekbasis), which also costs it accuracy and separation: on the guard it flags almost every command at 0.2
-({gk['false_alarms_at_0.2']} false alarms among {gk['n_safe']} safe ones, known types). It is cheaper per check
+against {h(min(RP['git_v3_all']['systems'][k]['mean_conf'] for k in ('ekbasis27b', 'ekbasis27b_int4', 'skopos_bf16', 'skopos_int4')), 3)}
+or more for the Ekbasis builds), which also costs it accuracy and separation: on the guard, at 0.2, it flags
+{gk['flagged_at_0.2']} of {gk['n_work_losing']} work-losing commands and {gk['false_alarms_at_0.2']} of {gk['n_safe']} safe ones
+(known types). It is cheaper per check
 (the table above) and needs no training for the task. {better}
 """)
 else:

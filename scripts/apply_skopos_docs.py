@@ -47,6 +47,12 @@ DATE = os.environ.get("RELEASE_DATE") or "⟨release date⟩"
 SWITCH = os.environ.get("SWITCH_DATE") or "⟨switch date⟩"
 SWITCH_TIME = os.environ.get("SWITCH_TIME") or "⟨HH:MM⟩"
 JEVR = ld("jev_comparison/results.json") if has("jev_comparison/results.json") else None  # added after the release
+A7R = has("a7/ce_a7.json")
+if A7R:
+    _no = {sub: [k for k, x in ld("a7/ce_a7.json")["prediction"][sub].items() if not x["held"]] for sub in ("all_items", "clean")}
+    A7_HELD = ("its prediction held in every piece, with and without the flagged items" if not any(_no.values()) else
+               "its prediction did not hold in every piece (" + "; ".join(f"{'all items' if k == 'all_items' else 'without the flagged items'}: "
+                                                              f"{', '.join(v)}" for k, v in _no.items() if v) + ")")
 SAME_DAY = not SWITCH.startswith("⟨") and SWITCH == DATE  # the owner's decision: the hosted switch on the release day
 gb = lambda b: h(B[b]["weights_bytes"] / 1e9)
 d_fresh = CF["changed"]["r4_minus_release"]
@@ -112,7 +118,21 @@ def runs_on(t, name):
 def wrap(text, width=120):
     """Re-wraps each paragraph (and each list item or block quote) at the width the documents use; tables untouched."""
     out = []
-    for para in text.split("\n\n"):
+    paras = []
+    for para in text.split("\n\n"):  # consecutive list items are wrapped one by one
+        lines = para.split("\n")
+        if lines[0].startswith("- ") and sum(l.startswith("- ") for l in lines) > 1:
+            items = []
+            for l in lines:
+                (items.append([l]) if l.startswith("- ") or not items else items[-1].append(l))
+            paras.append(("\n", ["\n".join(i) for i in items]))
+        else:
+            paras.append(("", [para]))
+    for sep, parts in paras:
+        if sep:
+            out.append("\n".join(wrap(x, width) for x in parts))
+            continue
+        para = parts[0]
         lines = para.split("\n")
         heads = []
         while lines and lines[0].startswith("#"):  # headings stay on their own lines
@@ -204,7 +224,11 @@ evaluation set of its lineage, as they ran, in [`generators/`](generators/README
   per-item predictions; with every per-item answer and a script that reproduces the numbers
   ([results_skopos/jev_comparison/](results_skopos/jev_comparison/METHOD.md), a section of
   [RELEASE_EVAL_SKOPOS.md](RELEASE_EVAL_SKOPOS.md)).
-""")} if JEVR else {}),
+""" + (f"""- **Addendum A7** (registered before any A7 request): confident errors with every option's probability on the {ld('ce_r4.json')['n']:,}
+  items, Ekbasis-Skopos-27B INT4 against Ekbasis-27B INT4, raw and at each build's calibrated temperature; {A7_HELD}; the bf16 part
+  was not run ([results_skopos/a7/](results_skopos/a7/ce_a7.json), a section of
+  [RELEASE_EVAL_SKOPOS.md](RELEASE_EVAL_SKOPOS.md)).
+""" if A7R else ""))} if JEVR else {}),
         **({"switch": (r"^# Changelog\n", f"""
 ## Hosted API — {SWITCH}
 

@@ -208,6 +208,29 @@ if (RES / "jev_comparison" / "scripts" / "recompute.py").exists():
     jev_ok = subprocess.run([PY, "-I", str(RES / "jev_comparison" / "scripts" / "recompute.py")], cwd=RES / "jev_comparison",
                             capture_output=True, text=True).returncode == 0
 
+# PREREG_ADDENDUM A7: a7_analyze.py as it ran, its inputs pointed at their copies here (a temporary folder with the
+# release workspace's layout); about 7 minutes (the ECE bootstraps)
+a7_ok = True
+if (RES / "a7" / "ce_a7.json").exists():
+    a7_pub = json.load(open(RES / "a7" / "ce_a7.json"))
+    A7W = W / "a7_layout"
+    lay = {"results/calib_fit_skopos_int4.json": RES / "calib_fit_skopos_int4.json",
+           "results/calib_fit_ekbasis_int4.json": RES / "calib_fit_ekbasis_int4.json",
+           "results/ce_r4_clean.json": RES / "overlap_audit" / "clean" / "ce_r4_clean.json"}
+    info = a7_pub.get("information_int4_vs_bf16_answers", {})
+    if "skopos_int4 vs Skopos bf16 in A2" in info:
+        lay["addendum/ce/preds.jsonl"] = RES / "runs" / "confident_errors" / "preds.jsonl"
+    if "ekbasis27b_int4 vs Ekbasis-27B bf16 published" in info:
+        lay["release_clean/code_eikos/ekbasis/results/confident_errors/preds.jsonl"] = RES.parent / "results" / "confident_errors" / "preds.jsonl"
+    for dst, src in lay.items():
+        (A7W / dst).parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy(src, A7W / dst)
+    notes = [x for n in a7_pub.get("run_conditions", []) for x in ("--note", n)]
+    r = subprocess.run([PY, "-I", str(RES / "a7" / "a7_analyze.py"), "--skopos", str(RES / "a7" / "ce_a7_skopos_int4.jsonl"),
+                        "--ekbasis", str(RES / "a7" / "ce_a7_ekbasis_int4.jsonl"), "--out", str(W / "ce_a7.json"),
+                        "--rs", str(A7W), "--dm", str(A7W)] + notes, capture_output=True, text=True)
+    a7_ok = r.returncode == 0 and not close(json.load(open(W / "ce_a7.json")), a7_pub)
+
 bad = 0
 for pub_name, got in checks:
     p = json.load(open(RES / pub_name.split(" ")[0]))
@@ -228,9 +251,10 @@ bad += not cc_ok
 for ok, what in ((gp_ok, "guard_paired.json (the guard's counts against Ekbasis-27B, McNemar and paired bootstrap)"),
                  (ece_ok, "ce_r4_ece.json (confident errors, ECE per group, paired bootstrap)"),
                  (g3_ok, "git3_by_type_paired.json (git v3 per question type against Ekbasis-27B)"),
-                 (jev_ok, "jev_comparison/results.json (its recompute.py, from the package's per-item files)")):
+                 (jev_ok, "jev_comparison/results.json (its recompute.py, from the package's per-item files)"),
+                 (a7_ok, "a7/ce_a7.json (PREREG_ADDENDUM A7, from the two INT4 builds' per-item probabilities)")):
     print(f"{'ok      ' if ok else 'DIFFERS '} {what}")
     bad += not ok
 shutil.rmtree(W)
-print(f"{len(checks) + 8 - bad} of {len(checks) + 8} summaries recomputed")
+print(f"{len(checks) + 9 - bad} of {len(checks) + 9} summaries recomputed")
 sys.exit(1 if bad else 0)
