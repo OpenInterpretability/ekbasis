@@ -442,7 +442,7 @@
   "source": "the pre-launch notes DEVIATIONS_RUN.md"
  },
  "prelaunch/RELEASE_DECISION.md": {
-  "sha256": "4411e95e84f5d13da85b2f9e5846002585a7a63f221447425a5a18c924d46bdf",
+  "sha256": "2365fd84bcca957d390c99621775b066a19894a16ec4b65b6fb9a86dd315d77e",
   "source": "the release workspace RELEASE_DECISION.md (the owner's decision)"
  },
  "prelaunch/code/P1/CHANGES.diff": {
@@ -450,7 +450,7 @@
   "source": "the battery's P1/CHANGES.diff"
  },
  "prelaunch/code/P1/compare.py": {
-  "sha256": "02b6d3a214fa6bf408cc90c6ce013e7120919e62c9030dccd798d81d840a567e",
+  "sha256": "43bdd1bb220d43a0a3a3841b76b391af14d3e5a921248be14acd340566097a3d",
   "source": "the battery's P1/compare.py"
  },
  "prelaunch/code/P1/release_eval_extra.py": {
@@ -546,7 +546,7 @@
   "source": "the battery's P12/intent/setup_client.sh"
  },
  "prelaunch/code/P12/preflight_substitute/compare.py": {
-  "sha256": "cb78166fe9d232c91aace20d9a3176c291488571f46e87a08979431971428d3c",
+  "sha256": "68a4734b1d16de0d9343ef64c335777e3febc87f3373c3898668f4f4b8e3b0b1",
   "source": "the battery's P12/preflight_substitute/compare.py"
  },
  "prelaunch/code/P12/preflight_substitute/replay_requests.py": {
@@ -602,7 +602,7 @@
   "source": "the battery's P5/CHANGES.diff"
  },
  "prelaunch/code/P5/compare.py": {
-  "sha256": "e302780bea47c2c4662f662a3ece56fea246c3c87bb2e5ff5079849a852f3c7f",
+  "sha256": "65c82422a5780a473e3b6ad09edd797d7ac44cd5849ee007cc755b09dd7b8e11",
   "source": "the battery's P5/compare.py"
  },
  "prelaunch/code/P5/run.sh": {
@@ -618,7 +618,7 @@
   "source": "the battery's P6/CHANGES.diff"
  },
  "prelaunch/code/P6/compare.py": {
-  "sha256": "1c7ae2f957006b597842d07cb99cca915fee80a33282f28eedae3c90025a1cee",
+  "sha256": "f638a162bb346e403299120feff1140121efdfe101055debc0da545cd67537a1",
   "source": "the battery's P6/compare.py"
  },
  "prelaunch/code/P6/pt_eval_api.py": {
@@ -650,7 +650,7 @@
   "source": "the battery's P8/CHANGES.diff"
  },
  "prelaunch/code/P8/compare.py": {
-  "sha256": "a9b299e6ac2520082f32eee64344714335e41f2aafb9532232c27c46aa055fe7",
+  "sha256": "c449d55d4874302ccd173c6d891d1158ae168acda7dc6f3a48d145f7d1caf0cf",
   "source": "the battery's P8/compare.py"
  },
  "prelaunch/code/P8/make_saved.py": {
@@ -785,6 +785,14 @@
   "sha256": "6383c6c1f95a5dc4283a2a8eb17c3ba76ea7633d6512a68c33c885f747801727",
   "source": "the pre-launch battery's prelaunch_out/compare/P12_intent_context.json"
  },
+ "prelaunch/compare/P12_preflight_substitute_bf16.json": {
+  "sha256": "c8ea258054ae936999d346ba13bb6b41ec96b7e12725e7238094d302d22712ec",
+  "source": "the pre-launch battery's prelaunch_out/compare/P12_preflight_substitute_bf16.json"
+ },
+ "prelaunch/compare/P1_identity.json": {
+  "sha256": "44e8e458c60ad0cf4b2ef7110d93a34e74cb0046f0cf5ccffafe14bd1825f795",
+  "source": "the pre-launch battery's prelaunch_out/compare/P1_identity.json"
+ },
  "prelaunch/compare/P2.json": {
   "sha256": "0848a098eb24ec5197fb8149b8ae62336b518302f7a478d1d1d483e73afa004c",
   "source": "the pre-launch battery's prelaunch_out/compare/P2.json"
@@ -797,9 +805,17 @@
   "sha256": "7db81959fc91e25fb42c344c2821a5594c4b5651ed88c29a995b559c9aa2b362",
   "source": "the pre-launch battery's prelaunch_out/compare/P4.json"
  },
+ "prelaunch/compare/P5.json": {
+  "sha256": "493eb40c18aab3f08b3f8eeb43cc75d1f4c23e5e6316f865d3cdcacd7506422e",
+  "source": "the pre-launch battery's prelaunch_out/compare/P5.json"
+ },
  "prelaunch/compare/P5_partial.json": {
   "sha256": "e6218c5237f247bee441877073e990b8d46dacaeca45f517044beb2a8d6054a7",
   "source": "the pre-launch battery's prelaunch_out/compare/P5_partial.json"
+ },
+ "prelaunch/compare/P6.json": {
+  "sha256": "bdbba5c3442deb84101b546f662baf89ebfb5c70f6a9a65cc2251d48b0338ae9",
+  "source": "the pre-launch battery's prelaunch_out/compare/P6.json"
  },
  "prelaunch/compare/P6_partial.json": {
   "sha256": "25c26f1bee040c2a23f0e38da9eb9318338d7ee1648d10900a85c13b5d9505d8",
@@ -817,6 +833,10 @@
   "sha256": "69972539288c6c81072882af4289b050b63f24fee17c6d8852b5487b602282ab",
   "source": "the pre-launch battery's prelaunch_out/compare/P8_context.json"
  },
+ "prelaunch/compare/P8_identity_phaseB.json": {
+  "sha256": "3d8c736b87cb65bd13e976c0eed4daf1f857cc954b6959f856478889358c6a8f",
+  "source": "the pre-launch battery's prelaunch_out/compare/P8_identity_phaseB.json"
+ },
  "prelaunch/compare/P8_same_machine.json": {
   "sha256": "0f2051a15ea001d9a1b65f805798f7b74ea6f1d234bb8054d8f137add7b29296",
   "source": "the pre-launch battery's prelaunch_out/compare/P8_same_machine.json"
@@ -826,8 +846,28 @@
   "source": "the pre-launch battery's prelaunch_out/compare/P9.json"
  },
  "prelaunch/compare/PENDING.json": {
-  "sha256": "536e1bb41e1277ddb3ea21b0464c79835dbc8e2c1e4693d388fb219cebd179f6",
+  "sha256": "01624ef3ea0697042d0ab32dcef3add41976c05480723c5d8d6d3af6f16f6ebf",
   "source": "the pre-launch battery's prelaunch_out/compare/PENDING.json"
+ },
+ "prelaunch/out/P1/ekbasis_bf16/preds_ftest_family.jsonl": {
+  "sha256": "fccdfdb9ed007e0d897988c8c5a7eb8fa9abcacb5b237be1d712bb43cd9fc549",
+  "source": "the battery's RTX output tree prelaunch_out/P1/ekbasis_bf16/preds_ftest_family.jsonl"
+ },
+ "prelaunch/out/P1/ekbasis_bf16/preds_git2_test_held_240.jsonl": {
+  "sha256": "b6c3ac2ff350924e5f3639da082332176fd1ccca1728cba18b9b971766bc5f87",
+  "source": "the battery's RTX output tree prelaunch_out/P1/ekbasis_bf16/preds_git2_test_held_240.jsonl"
+ },
+ "prelaunch/out/P1/ekbasis_bf16/preds_git2_test_known_240.jsonl": {
+  "sha256": "aadf773c4e79b97726cf95c8e0407e2b02bd68d0e568de9bf02c2c657550b8a9",
+  "source": "the battery's RTX output tree prelaunch_out/P1/ekbasis_bf16/preds_git2_test_known_240.jsonl"
+ },
+ "prelaunch/out/P1/ekbasis_bf16/report_server_side_extra.json": {
+  "sha256": "4b8067c371aa786dcbb5c51d6cb67774fa13b139b957414d80504ec1b5df4b58",
+  "source": "the battery's RTX output tree prelaunch_out/P1/ekbasis_bf16/report_server_side_extra.json"
+ },
+ "prelaunch/out/P1/ekbasis_bf16/run.log": {
+  "sha256": "8af1aa5fe9f2f175b6cd44dfc85d70816b3e4b1177c1cf71aef95f25c26404ad",
+  "source": "the battery's RTX output tree prelaunch_out/P1/ekbasis_bf16/run.log"
  },
  "prelaunch/out/P1/skopos_bf16/preds_ftest_family.jsonl": {
   "sha256": "19d4bcf2a4bea6aee737606b8ed7617a6f21f6df709e5326033ee853c3c238e1",
@@ -897,6 +937,10 @@
   "sha256": "e964a8edcf820fd6ce8fa35833f4014bf65da4a0917b8fc9b65ed9a77ce924ba",
   "source": "the battery's RTX output tree prelaunch_out/P12/intent/skopos_int4/run_replay.py"
  },
+ "prelaunch/out/P12/preflight_substitute/ekbasis_bf16.jsonl": {
+  "sha256": "adff474342948cb3fa04d4bcea182a853a9a72afebe67bc25d956a799a1657f4",
+  "source": "the battery's RTX output tree prelaunch_out/P12/preflight_substitute/ekbasis_bf16.jsonl"
+ },
  "prelaunch/out/P12/preflight_substitute/skopos_bf16.jsonl": {
   "sha256": "d61e5b59b070ad9b4e7a10b43ce21fbae2c5edb4e6aa93a6b499ee913adb105d",
   "source": "the battery's RTX output tree prelaunch_out/P12/preflight_substitute/skopos_bf16.jsonl"
@@ -940,6 +984,58 @@
  "prelaunch/out/P4/skopos_bf16/long_chain3_rules.out": {
   "sha256": "48d9107b9ca83488fa3759a2610ad22c1c83bb6cdcb86839cdd9d031a1c51d0d",
   "source": "the battery's RTX output tree prelaunch_out/P4/skopos_bf16/long_chain3_rules.out"
+ },
+ "prelaunch/out/P5/ekbasis_bf16/cq1.out": {
+  "sha256": "a92bb9fce3c26e7788e63d164045cdb06c7016f20e6ca3dcc43510a6173e633b",
+  "source": "the battery's RTX output tree prelaunch_out/P5/ekbasis_bf16/cq1.out"
+ },
+ "prelaunch/out/P5/ekbasis_bf16/cq16.out": {
+  "sha256": "53c4de38986bffdaaa7d682f88d5adade6bf240022312ae4a8487792e2749c1c",
+  "source": "the battery's RTX output tree prelaunch_out/P5/ekbasis_bf16/cq16.out"
+ },
+ "prelaunch/out/P5/ekbasis_bf16/cq_par1.jsonl": {
+  "sha256": "25be79317b8a14c0c266c7d9c1d0920e5b9fe8ce83b2d659d7cfd17d0752f495",
+  "source": "the battery's RTX output tree prelaunch_out/P5/ekbasis_bf16/cq_par1.jsonl"
+ },
+ "prelaunch/out/P5/ekbasis_bf16/cq_par1.meta.json": {
+  "sha256": "c62685f185bfe6d0cd5f5df32e6800f689758526fde0dca83d7321537ff71409",
+  "source": "the battery's RTX output tree prelaunch_out/P5/ekbasis_bf16/cq_par1.meta.json"
+ },
+ "prelaunch/out/P5/ekbasis_bf16/cq_par16.jsonl": {
+  "sha256": "138397ab2f3736989bbc490ca7c3d00821e6fd3a8dd52cb0a2663441f21a23dd",
+  "source": "the battery's RTX output tree prelaunch_out/P5/ekbasis_bf16/cq_par16.jsonl"
+ },
+ "prelaunch/out/P5/ekbasis_bf16/cq_par16.meta.json": {
+  "sha256": "a10ab9005e8a255c14c023cadfde18b145e11230bbd48558acd5fc28e08b277d",
+  "source": "the battery's RTX output tree prelaunch_out/P5/ekbasis_bf16/cq_par16.meta.json"
+ },
+ "prelaunch/out/P5/ekbasis_bf16/cqm1.out": {
+  "sha256": "f76b183651290b4301e3ed3ec14677ac3b7a7cda6657614085f0dc95c3685c9c",
+  "source": "the battery's RTX output tree prelaunch_out/P5/ekbasis_bf16/cqm1.out"
+ },
+ "prelaunch/out/P5/ekbasis_bf16/cqm16.out": {
+  "sha256": "61844efdf0a2c4634d430d347aba1e16b827d5a1330a53dcf15ccd10987392f5",
+  "source": "the battery's RTX output tree prelaunch_out/P5/ekbasis_bf16/cqm16.out"
+ },
+ "prelaunch/out/P5/ekbasis_bf16/cqm_par1.jsonl": {
+  "sha256": "a51fdf22d9cc85c15212ed6c015aacc72b532eeed34b5c356bdbb3d7027ccbbd",
+  "source": "the battery's RTX output tree prelaunch_out/P5/ekbasis_bf16/cqm_par1.jsonl"
+ },
+ "prelaunch/out/P5/ekbasis_bf16/cqm_par1.meta.json": {
+  "sha256": "49ddf0c07d429d3cd6fbebd10876fe511d320a128febed1504f139db319b206e",
+  "source": "the battery's RTX output tree prelaunch_out/P5/ekbasis_bf16/cqm_par1.meta.json"
+ },
+ "prelaunch/out/P5/ekbasis_bf16/cqm_par16.jsonl": {
+  "sha256": "95444126b9c9370bc67ebecfb6878d6ba62557dbb37f5dd56bbc5284cf58b663",
+  "source": "the battery's RTX output tree prelaunch_out/P5/ekbasis_bf16/cqm_par16.jsonl"
+ },
+ "prelaunch/out/P5/ekbasis_bf16/cqm_par16.meta.json": {
+  "sha256": "aba1b55fb76710a095185f3dd13240d8cfd44c6b3ee773c1d45264a45bb32ebf",
+  "source": "the battery's RTX output tree prelaunch_out/P5/ekbasis_bf16/cqm_par16.meta.json"
+ },
+ "prelaunch/out/P5/ekbasis_bf16/sum.out": {
+  "sha256": "00f6521fb026f7631d55080d9b9fde7f413bb260cd4d251b36ecdb3da5f8a8be",
+  "source": "the battery's RTX output tree prelaunch_out/P5/ekbasis_bf16/sum.out"
  },
  "prelaunch/out/P5/skopos_bf16/cq1.out": {
   "sha256": "3952617ad3291a3a2a4bc264a10531b412583591f0870887d806368ecf49ff77",
@@ -993,6 +1089,14 @@
   "sha256": "86d4833a2fa487497f65285907b9e17f79a339f5e7b4e8490c83f3b7b5f01dfd",
   "source": "the battery's RTX output tree prelaunch_out/P5/skopos_bf16/sum.out"
  },
+ "prelaunch/out/P6/ekbasis_bf16/pt.out": {
+  "sha256": "fcfe0f3debbf65e985ffbae8e89305dad0ef825396ab698f7af4d1b7b9e23696",
+  "source": "the battery's RTX output tree prelaunch_out/P6/ekbasis_bf16/pt.out"
+ },
+ "prelaunch/out/P6/ekbasis_bf16/pt_items.jsonl": {
+  "sha256": "df54df3330842ac9910113d7d9b49d7c01d460337df6ddbdc4fd0ef61205978d",
+  "source": "the battery's RTX output tree prelaunch_out/P6/ekbasis_bf16/pt_items.jsonl"
+ },
  "prelaunch/out/P6/skopos_bf16/pt.out": {
   "sha256": "bb4a03aef0dd6e95140fec0b6eb2034bb79663f4099138a02ad741e39f3ee7cb",
   "source": "the battery's RTX output tree prelaunch_out/P6/skopos_bf16/pt.out"
@@ -1008,6 +1112,30 @@
  "prelaunch/out/P7/skopos_bf16/image_chain.out": {
   "sha256": "2a31c211dff324486f1623f3c1814a8c0848a6d24d20b7ed56574fe3e6c2bd1c",
   "source": "the battery's RTX output tree prelaunch_out/P7/skopos_bf16/image_chain.out"
+ },
+ "prelaunch/out/P8/ekbasis_bf16/deviation.json": {
+  "sha256": "51a089b3f3813c1424873ecdd90fcfb5ae014fb7e73b0e7636a14c6eda75bf6a",
+  "source": "the battery's RTX output tree prelaunch_out/P8/ekbasis_bf16/deviation.json"
+ },
+ "prelaunch/out/P8/ekbasis_bf16/short_acc.out": {
+  "sha256": "7ba80d3ef09277cfbec6f80a224e78965c54921c8d14415774f9a4b0f3d438ce",
+  "source": "the battery's RTX output tree prelaunch_out/P8/ekbasis_bf16/short_acc.out"
+ },
+ "prelaunch/out/P8/ekbasis_bf16/short_eval_release.json": {
+  "sha256": "8595e9d9eccdb3809bbf83c842ab9ab5174383f8b6a8e4d3647b00427e0c01bb",
+  "source": "the battery's RTX output tree prelaunch_out/P8/ekbasis_bf16/short_eval_release.json"
+ },
+ "prelaunch/out/P8/ekbasis_bf16/short_eval_release_timing.json": {
+  "sha256": "7dba290407cb91af492d695599cf59e86d1b601a2b031d0030b6dbeb44d1a15a",
+  "source": "the battery's RTX output tree prelaunch_out/P8/ekbasis_bf16/short_eval_release_timing.json"
+ },
+ "prelaunch/out/P8/ekbasis_bf16/short_eval_saved.json": {
+  "sha256": "7a460f86038e5b5717877ce235608fefb4764e0d68623da06d3dbd5a8b47763d",
+  "source": "the battery's RTX output tree prelaunch_out/P8/ekbasis_bf16/short_eval_saved.json"
+ },
+ "prelaunch/out/P8/ekbasis_bf16/short_timing.out": {
+  "sha256": "049761e8c6af7e969c9585d6258e00c619bc5b5ea23c1c6d950bac4e166dbc6e",
+  "source": "the battery's RTX output tree prelaunch_out/P8/ekbasis_bf16/short_timing.out"
  },
  "prelaunch/out/P8/ekbasis_bf16_early/deviation.json": {
   "sha256": "51a089b3f3813c1424873ecdd90fcfb5ae014fb7e73b0e7636a14c6eda75bf6a",
@@ -1098,11 +1226,11 @@
   "source": "the battery's RTX output tree prelaunch_out/logs/pidfix.log"
  },
  "prelaunch/out/logs/served.txt": {
-  "sha256": "12a44f4209e8641c6e0ddd6843668ff40b82a116b28105eb0f28978513bf18c4",
+  "sha256": "d351c5decd802545e3d999250c2a4961e89e11d5f42853360a9ef416cdd4f996",
   "source": "the battery's RTX output tree prelaunch_out/logs/served.txt"
  },
  "prelaunch/out/run_all.log": {
-  "sha256": "49c50ce6559df519f04f2be0109206646de327740c1b54e8813dc41e24372df1",
+  "sha256": "f4b347aad3fd8ffa8c7092dc9156c0c7f17bd14a31d33e8796add8732fddc03f",
   "source": "the battery's RTX output tree prelaunch_out/run_all.log"
  },
  "prelaunch/references.tsv": {

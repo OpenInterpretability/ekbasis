@@ -16,6 +16,7 @@ ap = argparse.ArgumentParser()
 ap.add_argument("--skopos", required=True)
 ap.add_argument("--ekbasis", required=True, help="Ekbasis-27B re-run here")
 ap.add_argument("--out", required=True)
+ap.add_argument("--note", action="append", default=[], help="run conditions to record (repeatable)")
 a = ap.parse_args()
 L = lambda p: [json.loads(x) for x in open(p)]
 S, E = L(pathlib.Path(a.skopos) / "pt_items.jsonl"), L(pathlib.Path(a.ekbasis) / "pt_items.jsonl")
@@ -26,6 +27,6 @@ for lang, f in (("English", "en_ok"), ("Portuguese", "pt_ok")):
         idx = [k for k, r in enumerate(S) if r["changed"] and (fam == "all" or r["fam"] == fam)]
         recs.append(paired([S[k][f] for k in idx], [E[k][f] for k in idx], f"{lang}, {fam}: changed answers right ({len(idx)})"))
 ch = [k for k, r in enumerate(E) if r["changed"]]
-dump(a.out, {"item": "P6", "reference": "Ekbasis-27B re-run here (no published per-item answers)", "summary": summary(recs),
+dump(a.out, {"run_conditions": a.note, "item": "P6", "reference": "Ekbasis-27B re-run here (no published per-item answers)", "summary": summary(recs),
              "measures": recs, "ekbasis27b_rerun_vs_published_totals": {
                  "rerun": [sum(E[k]["en_ok"] for k in ch), sum(E[k]["pt_ok"] for k in ch)], "published": [77, 75], "of": len(ch)}})

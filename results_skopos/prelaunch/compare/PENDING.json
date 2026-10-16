@@ -77,49 +77,36 @@
    "item": "P5",
    "part": "speed pairing: Ekbasis-27B bf16 re-run on this machine (phase B); P5_partial.json stays as released",
    "file": "P5.json",
-   "can_block": false
+   "can_block": false,
+   "status": "done: accuracy 78 vs 79 and 75 vs 72 of 80 (counts, no flag); same-machine speed equal within 2%"
   },
   {
    "item": "P6",
    "part": "item pairing: Ekbasis-27B bf16 re-run (phase B; the release run kept no per-item answers); P6_partial.json stays as released",
    "file": "P6.json",
-   "can_block": false
+   "can_block": false,
+   "status": "done: English 78 vs 75, Portuguese 75 vs 74 of 90 (against the re-run); flag: English lamps 22 vs 24 of 30"
   },
   {
    "item": "P1",
    "part": "official identity re-run of Ekbasis-27B bf16 (phase B); P1.json unchanged",
    "file": "P1_identity.json",
-   "can_block": false
+   "can_block": false,
+   "status": "done: Ekbasis-27B re-run gives its published answers on 240/240"
   },
   {
    "item": "P8",
    "part": "official identity re-run of Ekbasis-27B bf16 (phase B); the early re-run is already in P8.json / P8_same_machine.json",
    "file": "P8_identity_phaseB.json",
-   "can_block": false
+   "can_block": false,
+   "status": "done: Ekbasis-27B re-run gives its published right/wrong on 240/240"
   },
   {
    "item": "P12",
-   "part": "intent replay same-machine control: Ekbasis-27B INT4 served here (phase E); P12_intent.json unchanged",
-   "file": "P12_intent_control.json",
-   "can_block": false
-  },
-  {
-   "item": "P12",
-   "part": "preflight SUBSTITUTE, bf16 (needs the phase B Ekbasis re-run) and INT4 (phases D and E); reported separately, never with published numbers",
-   "file": "P12_preflight_substitute_bf16.json, P12_preflight_substitute_int4.json",
-   "can_block": false
-  },
-  {
-   "item": "P11",
-   "part": "GPU memory caps (phase F)",
-   "file": "P11.json",
-   "can_block": false
-  },
-  {
-   "item": "P9",
-   "part": "Ekbasis-27B re-run on this machine (seconds, puzzle identity), only if run",
-   "file": "P9_identity.json",
-   "can_block": false
+   "part": "preflight SUBSTITUTE, bf16 pairing (needs the phase B Ekbasis-27B bf16 replay); reported separately, never with published numbers",
+   "file": "P12_preflight_substitute_bf16.json",
+   "can_block": false,
+   "status": "done (substitute, reported only)"
   }
  ],
  "not_run_as_published": [
@@ -127,6 +114,28 @@
    "item": "P12",
    "part": "preflight on 141 plans",
    "reason": "not run as published (plans' snapshots lost): /private/tmp/ekb_pc{,2}_94332945 hold 0 files"
+  }
+ ],
+ "not_run": [
+  {
+   "item": "P12",
+   "part": "intent replay same-machine control (Ekbasis-27B INT4 served on the evaluation machine, phase E); the rule's reference, the hosted published run, is in P12_intent.json",
+   "reason": "the evaluation machine was retired on 2026-10-16"
+  },
+  {
+   "item": "P12",
+   "part": "preflight SUBSTITUTE, INT4 pairing (needs Ekbasis-27B INT4 on the same requests, phase E); Skopos INT4's replay exists (prelaunch_out/P12/preflight_substitute/skopos_int4.jsonl) but has no Ekbasis-27B pair",
+   "reason": "the evaluation machine was retired on 2026-10-16"
+  },
+  {
+   "item": "P11",
+   "part": "GPU memory caps (phase F)",
+   "reason": "the evaluation machine was retired on 2026-10-16"
+  },
+  {
+   "item": "P9",
+   "part": "Ekbasis-27B re-run on this machine (seconds, puzzle identity); optional",
+   "reason": "the evaluation machine was retired on 2026-10-16"
   }
  ]
 }

@@ -1,0 +1,154 @@
+{
+ "run_conditions": [
+  "Both models served the same way on the same RTX PRO 6000 (the model folder's serve_vllm.sh + serve.py, the same flags).",
+  "Skopos bf16: P5 and the P8 timing ran alone on the GPU at the start of phase A (2026-10-16 01:52:50-02:08:12 UTC); Ekbasis-27B bf16: the same runner steps in phase B (files 13:46-13:51 UTC; phase B ended 13:54:40 UTC), alone on the GPU.",
+  "Accuracy is compared item by item (80 forecasts; counts); latency and throughput are same-machine measurements (not under the rule). P5_partial.json, written before release against the published per-item file, is unchanged."
+ ],
+ "item": "P5",
+ "reference": "Ekbasis-27B re-run on this machine (published speed_bf16/ for context)",
+ "summary": {
+  "release_blockers": [],
+  "flagged_worse_by_2": []
+ },
+ "measures": [
+  {
+   "measure": "one prompt per question: accuracy (80)",
+   "n": 80,
+   "skopos": 97.5,
+   "ekbasis27b": 98.75,
+   "difference": -1.25,
+   "higher_is_better": true,
+   "counts": [
+    78.0,
+    79.0
+   ],
+   "rule": "counts (n < 100)",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "state read once per step: accuracy (80)",
+   "n": 80,
+   "skopos": 93.75,
+   "ekbasis27b": 90.0,
+   "difference": 3.75,
+   "higher_is_better": true,
+   "counts": [
+    75.0,
+    72.0
+   ],
+   "rule": "counts (n < 100)",
+   "flag_worse_by_2": false
+  }
+ ],
+ "speed": {
+  "one prompt per question": {
+   "skopos": {
+    "accuracy_pct": 97.5,
+    "latency_median_of_8_s": 5.570255994796753,
+    "forecasts_per_min_at_16": 12.081124176052919,
+    "wrong_items": [
+     31,
+     59
+    ]
+   },
+   "ekbasis27b_here": {
+    "accuracy_pct": 98.75,
+    "latency_median_of_8_s": 5.659525632858276,
+    "forecasts_per_min_at_16": 12.014762119062082,
+    "wrong_items": [
+     59
+    ]
+   },
+   "ekbasis27b_published_old_rig": {
+    "accuracy_pct": 98.75,
+    "latency_median_of_8_s": 5.023478746414185,
+    "forecasts_per_min_at_16": 14.895427236772909,
+    "wrong_items": [
+     59
+    ]
+   }
+  },
+  "state read once per step": {
+   "skopos": {
+    "accuracy_pct": 93.75,
+    "latency_median_of_8_s": 3.301624059677124,
+    "forecasts_per_min_at_16": 23.030364354687766,
+    "wrong_items": [
+     11,
+     31,
+     35,
+     75,
+     79
+    ]
+   },
+   "ekbasis27b_here": {
+    "accuracy_pct": 90.0,
+    "latency_median_of_8_s": 3.3022923469543457,
+    "forecasts_per_min_at_16": 22.865953038248044,
+    "wrong_items": [
+     11,
+     19,
+     23,
+     27,
+     31,
+     35,
+     51,
+     79
+    ]
+   },
+   "ekbasis27b_published_old_rig": {
+    "accuracy_pct": 90.0,
+    "latency_median_of_8_s": 4.055483102798462,
+    "forecasts_per_min_at_16": 28.2415808974568,
+    "wrong_items": [
+     19,
+     23,
+     27,
+     31,
+     35,
+     51,
+     55,
+     79
+    ]
+   }
+  },
+  "one check (P8 timing)": {
+   "skopos": {
+    "timing_par1": {
+     "p50_s": 0.08075809478759766,
+     "p90_s": 0.08357381820678711,
+     "checks_per_s": 12.868369759538876
+    },
+    "timing_par16": {
+     "p50_s": 0.8394596576690674,
+     "p90_s": 1.0094239711761475,
+     "checks_per_s": 18.830323167972992
+    }
+   },
+   "ekbasis27b_here": {
+    "timing_par1": {
+     "p50_s": 0.08112859725952148,
+     "p90_s": 0.08404755592346191,
+     "checks_per_s": 12.81024664007688
+    },
+    "timing_par16": {
+     "p50_s": 0.845818042755127,
+     "p90_s": 1.0144591331481934,
+     "checks_per_s": 18.75027702599274
+    }
+   },
+   "ekbasis27b_published_old_rig": {
+    "timing_par1": {
+     "p50_s": 0.08781933784484863,
+     "p90_s": 0.09099411964416504,
+     "checks_per_s": 11.615091204096132
+    },
+    "timing_par16": {
+     "p50_s": 0.6850402355194092,
+     "p90_s": 0.8193099498748779,
+     "checks_per_s": 22.665809570156974
+    }
+   }
+  }
+ }
+}

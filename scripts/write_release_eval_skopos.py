@@ -825,6 +825,7 @@ if FINAL and PENDING is None:
 PEND = PENDING or {}
 FIN_B, FIN_C = PEND.get("final_before_release_can_block", []), PEND.get("final_before_release_counts_only", [])
 AFTER, NOTPUB = PEND.get("appended_after_release", []), PEND.get("not_run_as_published", [])
+NOTRUN = PEND.get("not_run", [])  # planned, and not run (the reason with each)
 files_of = lambda e: [f.strip() for f in e.get("file", "").split(",") if f.strip()]
 if PENDING is not None and sorted({e["item"] for e in FIN_B}, key=lambda k: int(k[1:])) != sorted(BLOCKING, key=lambda k: int(k[1:])):
     missing.append(f"PENDING.json's items that can block {sorted({e['item'] for e in FIN_B})} differ from {list(BLOCKING)}")
@@ -846,7 +847,7 @@ for k in PITEMS:
             seen.append((n, json.load(open(pfile(n)))))
     if seen:
         rule_files[k] = seen
-    elif FINAL and not [e for e in FIN_B + FIN_C + AFTER + NOTPUB if e["item"] == k]:
+    elif FINAL and not [e for e in FIN_B + FIN_C + AFTER + NOTPUB + NOTRUN if e["item"] == k]:
         missing.append(f"pre-launch item {k}: no compare file and not in PENDING.json (nothing may be left out silently)")
 not_run = [k for k in PITEMS if k not in rule_files]
 status = lambda k: ("pending" if any(not os.path.exists(pfile(f)) for e in FIN_B + FIN_C if e["item"] == k for f in files_of(e))
@@ -882,8 +883,13 @@ if PENDING and (RELEASE or not FINAL):
       f"under the rule; every item that can ({', '.join(BLOCKING)}) is final above.\n")
     if RELEASE:
         print("release build: appended on completion: " + ("; ".join(parts) or "nothing"))
+if FINAL and not RELEASE and AFTER:
+    w("**Appended after the release** (the battery's list, `results_skopos/prelaunch/compare/PENDING.json`): "
+      + "; ".join(f"{e['item']}: {e['part']} ({', '.join(f'`{f}`' for f in files_of(e))})" for e in AFTER) + ".\n")
 for e in NOTPUB:
     w(f"**Not run as published:** {e['item']}, {e['part']} — {e['reason']}.\n")
+for e in NOTRUN:
+    w(f"**Not run:** {e['item']}, {e['part']} — {e['reason']}.\n")
 DEC = os.path.join(PL, "RELEASE_DECISION.md")
 if os.path.exists(DEC):
     p8 = next(m for m in PDATA["P8"][0]["measures"] if m["measure"].startswith("para")) if "P8" in PDATA else None
@@ -916,14 +922,19 @@ def pnum(x, nd=2):
 
 for k, fname, d in [(k, n, d) for k, fs in rule_files.items() for n, d in fs]:
     part = "partial" if fname.endswith("_partial.json") else ""
-    w(f"### {k}. {PITEMS[k]}{'' if fname == k + '.json' else ' (`' + fname + '`)'}\n")
+    subst = any(str(m.get("rule", "")).startswith("SUBSTITUTE") for m in d.get("measures", []))
+    w(f"### {k}. {PITEMS[k]}{'' if fname == k + '.json' else ' (`' + fname + '`)'}"
+      f"{' — a substitute, not under the rule, never compared with published numbers' if subst else ''}\n")
     if d.get("status"):
         w(f"*{d['status']}*\n")
     if d.get("reference"):
         w(f"Reference: {d['reference']}.\n")
     if d.get("deviation"):
         w(f"Deviation: {d['deviation']}\n")
-    w("| Measure | n | Skopos | Ekbasis-27B | Difference | Paired 95% CI, or counts (Skopos / Ekbasis-27B) | Under the rule |\n|---|---|---|---|---|---|---|")
+    if not d.get("measures"):
+        w(f"No measure of its own: the rule's outcome is in `{d.get('rule_outcome_in', k + '.json')}`.\n")
+    else:
+        w("| Measure | n | Skopos | Ekbasis-27B | Difference | Paired 95% CI, or counts (Skopos / Ekbasis-27B) | Under the rule |\n|---|---|---|---|---|---|---|")
     for m in d.get("measures", []):
         diff = m.get("difference")
         if diff is None and isinstance(m.get("skopos"), (int, float)) and isinstance(m.get("ekbasis27b"), (int, float)):
@@ -939,7 +950,8 @@ for k, fname, d in [(k, n, d) for k, fs in rule_files.items() for n, d in fs]:
         if c == d.get("run_conditions", [])[0]:
             w("\nHow it ran:\n")
         w(f"- {c}")
-    other = [x for x in d if x not in ("item", "reference", "summary", "measures", "status", "deviation", "run_conditions")]
+    other = [x for x in d if x not in ("item", "reference", "summary", "measures", "status", "deviation", "run_conditions",
+                                       "rule_outcome_in")]
     w(("\nIn the file, also: " + ", ".join(f"`{x}`" for x in other) + f" (`results_skopos/prelaunch/compare/{fname}`).\n")
       if other else "")
 used = {n for fs in rule_files.values() for n, _ in fs} | {"PENDING.json"}

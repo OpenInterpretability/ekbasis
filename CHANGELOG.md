@@ -1,5 +1,17 @@
 # Changelog
 
+<!-- skopos:switch -->
+## Hosted API — 2026-10-16
+
+### Changed
+- Served model changed: the hosted API serves `ekbasis-skopos-27b-int4-v1.3` since 2026-10-16 14:29 UTC — on release
+  day, with less notice than the 14 days the model-change policy promises (owner decision,
+  [results_skopos/prelaunch/RELEASE_DECISION.md](results_skopos/prelaunch/RELEASE_DECISION.md)); Ekbasis-27B's weights
+  stay public. The prompt, readout, API, fields and client are the same; `calibrated.temperature` is 1.67 instead of
+  1.55.
+
+<!-- /skopos:switch -->
+
 <!-- skopos:entry -->
 ## Ekbasis-Skopos-27B (model) — 2026-10-16
 
@@ -20,13 +32,12 @@
   checks it is right on 113 of 120 against Ekbasis-27B's 117 (−3.3 points, paired 95% CI [−6.7, −0.8]), so the
   pre-registered rule fired; the exact test on the 4 discordant items does not reject (p = 0.125), and Ekbasis-27B
   re-run on the same machine reproduced its published answers (240/240) ([release
-  decision](results_skopos/prelaunch/RELEASE_DECISION.md)). Hosted API: as its model-change policy promises, this
-  version and its scorecard are posted at least 14 days before the served model changes; the hosted API serves
-  Ekbasis-27B-INT4 until 2026-10-30, then Ekbasis-Skopos-27B-INT4 (`calibrated.temperature` 1.67 instead of 1.55); the
-  switch gets its own entry here, with its date. Its evaluation, with its per-item predictions and pre-registrations:
-  [RELEASE_EVAL_SKOPOS.md](RELEASE_EVAL_SKOPOS.md), [results_skopos/](results_skopos/README.md),
-  [prereg_skopos/](prereg_skopos/PREREG_sha256.txt); its training code: [training/skopos/](training/skopos/README.md);
-  the generators behind every training kind and evaluation set, as they ran: [generators/](generators/README.md).
+  decision](results_skopos/prelaunch/RELEASE_DECISION.md)). Hosted API: it serves Ekbasis-Skopos-27B-INT4 since
+  2026-10-16, the release day, with less notice than its model-change policy promises (the entry above). Its evaluation,
+  with its per-item predictions and pre-registrations: [RELEASE_EVAL_SKOPOS.md](RELEASE_EVAL_SKOPOS.md),
+  [results_skopos/](results_skopos/README.md), [prereg_skopos/](prereg_skopos/PREREG_sha256.txt); its training code:
+  [training/skopos/](training/skopos/README.md); the generators behind every training kind and evaluation set, as they
+  ran: [generators/](generators/README.md).
 
 <!-- /skopos:entry -->
 

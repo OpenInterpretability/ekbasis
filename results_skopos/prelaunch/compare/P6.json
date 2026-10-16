@@ -1,0 +1,139 @@
+{
+ "run_conditions": [
+  "Both models served the same way on the same RTX PRO 6000 (the model folder's serve_vllm.sh + serve.py, the same flags). Skopos bf16 in phase A; Ekbasis-27B bf16 re-run in phase B (2026-10-16, ended 13:54:40 UTC), because the release run kept no per-item answers.",
+  "The re-run gives 75/90 English and 74/90 Portuguese against Ekbasis-27B's published 77 and 75: the published totals are not reproduced exactly on this machine; the item pairing uses the re-run (same machine, same script). P6_partial.json (counts against the published totals) is unchanged."
+ ],
+ "item": "P6",
+ "reference": "Ekbasis-27B re-run here (no published per-item answers)",
+ "summary": {
+  "release_blockers": [],
+  "flagged_worse_by_2": [
+   "English, toggles: changed answers right (30)"
+  ]
+ },
+ "measures": [
+  {
+   "measure": "English, all: changed answers right (90)",
+   "n": 90,
+   "skopos": 86.66666666666667,
+   "ekbasis27b": 83.33333333333333,
+   "difference": 3.333333333333343,
+   "higher_is_better": true,
+   "counts": [
+    78.0,
+    75.0
+   ],
+   "rule": "counts (n < 100)",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "English, machines: changed answers right (30)",
+   "n": 30,
+   "skopos": 90.0,
+   "ekbasis27b": 73.33333333333333,
+   "difference": 16.66666666666667,
+   "higher_is_better": true,
+   "counts": [
+    27.0,
+    22.0
+   ],
+   "rule": "counts (n < 100)",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "English, toggles: changed answers right (30)",
+   "n": 30,
+   "skopos": 73.33333333333333,
+   "ekbasis27b": 80.0,
+   "difference": -6.666666666666671,
+   "higher_is_better": true,
+   "counts": [
+    22.0,
+    24.0
+   ],
+   "rule": "counts (n < 100)",
+   "flag_worse_by_2": true
+  },
+  {
+   "measure": "English, jugs: changed answers right (30)",
+   "n": 30,
+   "skopos": 96.66666666666667,
+   "ekbasis27b": 96.66666666666667,
+   "difference": 0.0,
+   "higher_is_better": true,
+   "counts": [
+    29.0,
+    29.0
+   ],
+   "rule": "counts (n < 100)",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "Portuguese, all: changed answers right (90)",
+   "n": 90,
+   "skopos": 83.33333333333333,
+   "ekbasis27b": 82.22222222222223,
+   "difference": 1.1111111111111,
+   "higher_is_better": true,
+   "counts": [
+    75.0,
+    74.0
+   ],
+   "rule": "counts (n < 100)",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "Portuguese, machines: changed answers right (30)",
+   "n": 30,
+   "skopos": 73.33333333333333,
+   "ekbasis27b": 73.33333333333333,
+   "difference": 0.0,
+   "higher_is_better": true,
+   "counts": [
+    22.0,
+    22.0
+   ],
+   "rule": "counts (n < 100)",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "Portuguese, toggles: changed answers right (30)",
+   "n": 30,
+   "skopos": 76.66666666666667,
+   "ekbasis27b": 73.33333333333333,
+   "difference": 3.333333333333343,
+   "higher_is_better": true,
+   "counts": [
+    23.0,
+    22.0
+   ],
+   "rule": "counts (n < 100)",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "Portuguese, jugs: changed answers right (30)",
+   "n": 30,
+   "skopos": 100.0,
+   "ekbasis27b": 100.0,
+   "difference": 0.0,
+   "higher_is_better": true,
+   "counts": [
+    30.0,
+    30.0
+   ],
+   "rule": "counts (n < 100)",
+   "flag_worse_by_2": false
+  }
+ ],
+ "ekbasis27b_rerun_vs_published_totals": {
+  "rerun": [
+   75,
+   74
+  ],
+  "published": [
+   77,
+   75
+  ],
+  "of": 90
+ }
+}

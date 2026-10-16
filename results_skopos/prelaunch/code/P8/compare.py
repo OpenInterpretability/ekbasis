@@ -19,6 +19,8 @@ ap = argparse.ArgumentParser()
 ap.add_argument("--skopos", required=True)
 ap.add_argument("--ekbasis-rerun")
 ap.add_argument("--out", required=True)
+ap.add_argument("--note", action="append", default=[], help="run conditions to record (repeatable)")
+ap.add_argument("--identity-only", action="store_true", help="write only the re-run's identity block; the rule's measures stay in P8.json")
 a = ap.parse_args()
 pub = json.load(open(HERE.parent / "ref" / "release_eval" / "short_eval_release.json"))
 sk = json.load(open(pathlib.Path(a.skopos) / "short_eval_release.json"))
@@ -35,7 +37,12 @@ if a.ekbasis_rerun:
     R = json.load(open(pathlib.Path(a.ekbasis_rerun) / "short_eval_release.json"))["predictions"]
     ident = {"same_right_wrong_as_published": sum(x["ok"] == e["ok"] for x, e in zip(R, E)), "n": 240,
              "max_confidence_difference": max(abs(x["conf"] - e["conf"]) for x, e in zip(R, E))}
-dump(a.out, {"item": "P8", "reference": "ref/release_eval/short_eval_release.json (Ekbasis-27B, published)",
+if a.identity_only:  # the rule's measures and outcome are in P8.json; repeating them here would list its blockers/flags twice
+    dump(a.out, {"run_conditions": a.note, "item": "P8 identity re-run (Ekbasis-27B on this machine against its published answers)",
+                 "rule_outcome_in": "P8.json", "summary": {"release_blockers": [], "flagged_worse_by_2": []}, "measures": [],
+                 "ekbasis27b_rerun_identity": ident})
+    sys.exit()
+dump(a.out, {"run_conditions": a.note, "item": "P8", "reference": "ref/release_eval/short_eval_release.json (Ekbasis-27B, published)",
              "deviation": saved.get("deviation", DEVIATION),
              "summary": summary(recs), "measures": recs,
              "routing": {"skopos": sk["routing"], "ekbasis27b": pub["routing"]},

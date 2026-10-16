@@ -3,10 +3,11 @@
 number read from results_skopos/ (Ekbasis-27B stays documented: its sections are not changed). Each insert sits between
 <!-- skopos:<name> --> markers, so the script can be run again when the results are final. The wording of the README's
 blocks is that of the client-docs patch for this release; the release date (RELEASE_DATE) and the hosted API's
-switch date (SWITCH_DATE, at least 14 days later), YYYY-MM-DD, are left as placeholders until they are set, and
-tools/release_github.sh refuses to publish while one remains.
+switch date (SWITCH_DATE), YYYY-MM-DD, and the switch's time (SWITCH_TIME, HH:MM UTC), are left as placeholders until
+they are set, and the publishing tools refuse to publish while one remains. A switch on the release day (the owner's
+decision, against the 14 days the model-change policy promises) gets its own CHANGELOG entry that says so.
 
-  RELEASE_DATE=2026-10-16 SWITCH_DATE=2026-10-30 python scripts/apply_skopos_docs.py
+  RELEASE_DATE=2026-10-16 SWITCH_DATE=2026-10-16 SWITCH_TIME=14:30 python scripts/apply_skopos_docs.py
 """
 from __future__ import annotations
 
@@ -44,6 +45,8 @@ GATE = {b: ld(f"quant_gate_{b}.json") for b in ("fp8", "int4")}
 MAC = ld("runs/mlx_mac/mlx_mac_test.json") if has("runs/mlx_mac/mlx_mac_test.json") else None
 DATE = os.environ.get("RELEASE_DATE") or "⟨release date⟩"
 SWITCH = os.environ.get("SWITCH_DATE") or "⟨switch date⟩"
+SWITCH_TIME = os.environ.get("SWITCH_TIME") or "⟨HH:MM⟩"
+SAME_DAY = not SWITCH.startswith("⟨") and SWITCH == DATE  # the owner's decision: the hosted switch on the release day
 gb = lambda b: h(B[b]["weights_bytes"] / 1e9)
 d_fresh = CF["changed"]["r4_minus_release"]
 u = CE["groups"]["U_all"]
@@ -93,6 +96,9 @@ hosted = (f"Hosted API: as its model-change policy promises, this version and it
           f"before the served model changes; the hosted API serves Ekbasis-27B-INT4 until {SWITCH}, then "
           f"Ekbasis-Skopos-27B-INT4 (`calibrated.temperature` {h(TEMP['skopos'], 2)} instead of {h(TEMP['ekbasis'], 2)}); "
           f"the switch gets its own entry here, with its date")
+if SAME_DAY:
+    hosted = (f"Hosted API: it serves Ekbasis-Skopos-27B-INT4 since {SWITCH}, the release day, with less notice than its "
+              f"model-change policy promises (the entry above)")
 
 
 def runs_on(t, name):
@@ -188,6 +194,16 @@ evaluation set of its lineage, as they ran, in [`generators/`](generators/README
   [prereg_skopos/](prereg_skopos/PREREG_sha256.txt); its training code: [training/skopos/](training/skopos/README.md);
   the generators behind every training kind and evaluation set, as they ran: [generators/](generators/README.md).
 """),
+        **({"switch": (r"^# Changelog\n", f"""
+## Hosted API — {SWITCH}
+
+### Changed
+- Served model changed: the hosted API serves `ekbasis-skopos-27b-int4-v1.3` since {SWITCH} {SWITCH_TIME} UTC — on
+  release day, with less notice than the 14 days the model-change policy promises (owner decision,
+  [results_skopos/prelaunch/RELEASE_DECISION.md](results_skopos/prelaunch/RELEASE_DECISION.md)); Ekbasis-27B's weights
+  stay public. The prompt, readout, API, fields and client are the same; `calibrated.temperature` is
+  {h(TEMP['skopos'], 2)} instead of {h(TEMP['ekbasis'], 2)}.
+""")} if SAME_DAY else {}),
     },
 }
 
@@ -234,6 +250,8 @@ for rel in DOCS:
         new = new.replace("⟨release date⟩", DATE)
     if not SWITCH.startswith("⟨"):
         new = new.replace("⟨switch date⟩", SWITCH)
+    if not SWITCH_TIME.startswith("⟨"):
+        new = new.replace("⟨HH:MM⟩", SWITCH_TIME)
     if new != text:
         open(p, "w").write(new)
         print(f"{rel}: dates")

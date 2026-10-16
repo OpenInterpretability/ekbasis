@@ -1,0 +1,72 @@
+{
+ "run_conditions": [
+  "Both models served the same way on the same RTX PRO 6000 (the model folder's serve_vllm.sh + serve.py, the same flags). Skopos bf16 replay in phase A; Ekbasis-27B bf16 replay in phase B. SUBSTITUTE: the 423 requests recorded on 7 Oct with client 0.1.6 on the plans' snapshots, replayed unchanged; P12 preflight itself was not run as published (plans' snapshots lost). Never under the sealed rule."
+ ],
+ "item": "P12 preflight SUBSTITUTE (not the published measurement)",
+ "status": "P12 preflight: not run as published (plans' snapshots lost). This file is a substitute: report it separately, never in the same table as published numbers.",
+ "summary": {
+  "release_blockers": [],
+  "flagged_worse_by_2": []
+ },
+ "measures": [
+  {
+   "measure": "same first flagged step as the recorded bf16 verdict (141)",
+   "n": 141,
+   "skopos": 98.58156028368795,
+   "ekbasis27b": 100.0,
+   "difference": -1.4184397163120508,
+   "higher_is_better": true,
+   "ci95": [
+    -3.5460992907801483,
+    0.0
+   ],
+   "rule": "SUBSTITUTE, not under the sealed rule: reported only (paired bootstrap shown for information)",
+   "release_blocker": false
+  },
+  {
+   "measure": "steps with the recorded bf16 fails/not (410)",
+   "n": 410,
+   "skopos": 99.51219512195122,
+   "ekbasis27b": 100.0,
+   "difference": -0.48780487804877737,
+   "higher_is_better": true,
+   "ci95": [
+    -1.2195121951219505,
+    0.0
+   ],
+   "rule": "SUBSTITUTE, not under the sealed rule: reported only (paired bootstrap shown for information)",
+   "release_blocker": false
+  },
+  {
+   "measure": "same verdict as the recorded bf16 one, where determined for both (139 of 141)",
+   "n": 139,
+   "skopos": 99.28057553956835,
+   "ekbasis27b": 100.0,
+   "difference": -0.7194244604316538,
+   "higher_is_better": true,
+   "ci95": [
+    -2.1582733812949613,
+    0.0
+   ],
+   "rule": "SUBSTITUTE, not under the sealed rule: reported only (paired bootstrap shown for information)",
+   "release_blocker": false
+  }
+ ],
+ "undetermined": {
+  "skopos": 2,
+  "ekbasis27b": 1
+ },
+ "against the truth (determined confirmation plans)": {
+  "half-applied warned": [
+   59,
+   59,
+   81
+  ],
+  "needless warnings": [
+   3,
+   4,
+   55
+  ]
+ },
+ "first_step_skopos_vs_ekbasis_here_same": 139
+}

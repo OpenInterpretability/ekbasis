@@ -520,24 +520,32 @@ The measurements of Ekbasis-27B's release evaluation that had not yet run on Sko
 
 | Item | Measurement | Files | Status at this build | Release blockers | Flagged: Skopos worse by 2 or more |
 |---|---|---|---|---|---|
-| P1 | The 240-question git comparison | `P1.json` | done; after the release: official identity re-run of Ekbasis-27B bf16 (phase B); P1.json unchanged | none | seen command types: lost (40); seen command types: state (changed) (40) |
+| P1 | The 240-question git comparison | `P1.json`, `P1_identity.json` | done | none | seen command types: lost (40); seen command types: state (changed) (40) |
 | P2 | git v3 held-out tests per question type | `P2.json` | done | none | none |
 | P3 | Long chains (text, image, image and look again) | `P3.json` | done | none | none |
 | P4 | Predict, observe, correct (`long_chain3`): the rules compared, and 200 more chains | `P4.json` | done | none | rules, conf0.5: exact at the end (of 40); rules, until0.5: exact at the end (of 40); rules, check0.5: exact at the end (of 40) |
-| P5 | Speed (`speed_bench`): 80 forecasts of 10–30 actions | `P5_partial.json` | done; after the release: speed pairing | none | none |
-| P6 | Portuguese | `P6_partial.json` | done; after the release: item pairing | none | English, toggles: changed answers right (of 30) |
+| P5 | Speed (`speed_bench`): 80 forecasts of 10–30 actions | `P5.json`, `P5_partial.json` | done | none | none |
+| P6 | Portuguese | `P6.json`, `P6_partial.json` | done | none | English, toggles: changed answers right (30); English, toggles: changed answers right (of 30) |
 | P7 | Chains that start from an image | `P7.json` | done | none | start state read exactly, all (60); start state read exactly, jugs (30) |
-| P8 | Short checks, two wordings | `P8.json` | done; after the release: official identity re-run of Ekbasis-27B bf16 (phase B); the early re-run is already in P8.json / P8_same_machine.json | **para wording (120)** | none |
-| P9 | Planning by search, no LLM | `P9.json` | done; after the release: Ekbasis-27B re-run on this machine (seconds, puzzle identity), only if run | none | none |
+| P8 | Short checks, two wordings | `P8.json`, `P8_identity_phaseB.json` | done | **para wording (120)** | none |
+| P9 | Planning by search, no LLM | `P9.json` | done | none | none |
 | P10 | Real use on real repositories | `P10.json`, `P10_int4.json` | done | none | none |
-| P11 | GPU memory of each build | — | not run; after the release: GPU memory caps (phase F) |  |  |
-| P12 | Client suites on the INT4 build | `P12_intent.json` | done; after the release: intent replay same-machine control; preflight SUBSTITUTE, bf16 (needs the phase B Ekbasis re-run) and INT4 (phases D and E); reported separately, never with published numbers | none | none |
+| P11 | GPU memory of each build | — | not run |  |  |
+| P12 | Client suites on the INT4 build | `P12_intent.json`, `P12_preflight_substitute_bf16.json` | done | none | none |
 
 **Release blockers under the rule:** P8: para wording (120).
 
-**Running at release, appended on completion** (the battery's list, `results_skopos/prelaunch/compare/PENDING.json`): P5: speed pairing: Ekbasis-27B bf16 re-run on this machine (phase B); P5_partial.json stays as released; P6: item pairing: Ekbasis-27B bf16 re-run (phase B; the release run kept no per-item answers); P6_partial.json stays as released; P1: official identity re-run of Ekbasis-27B bf16 (phase B); P1.json unchanged; P8: official identity re-run of Ekbasis-27B bf16 (phase B); the early re-run is already in P8.json / P8_same_machine.json; P12: intent replay same-machine control: Ekbasis-27B INT4 served here (phase E); P12_intent.json unchanged; P12: preflight SUBSTITUTE, bf16 (needs the phase B Ekbasis re-run) and INT4 (phases D and E); reported separately, never with published numbers; P11: GPU memory caps (phase F); P9: Ekbasis-27B re-run on this machine (seconds, puzzle identity), only if run. These cannot block under the rule; every item that can (P1, P2, P4, P8, P9, P12) is final above.
+**Appended after the release** (the battery's list, `results_skopos/prelaunch/compare/PENDING.json`): P5: speed pairing: Ekbasis-27B bf16 re-run on this machine (phase B); P5_partial.json stays as released (`P5.json`); P6: item pairing: Ekbasis-27B bf16 re-run (phase B; the release run kept no per-item answers); P6_partial.json stays as released (`P6.json`); P1: official identity re-run of Ekbasis-27B bf16 (phase B); P1.json unchanged (`P1_identity.json`); P8: official identity re-run of Ekbasis-27B bf16 (phase B); the early re-run is already in P8.json / P8_same_machine.json (`P8_identity_phaseB.json`); P12: preflight SUBSTITUTE, bf16 pairing (needs the phase B Ekbasis-27B bf16 replay); reported separately, never with published numbers (`P12_preflight_substitute_bf16.json`).
 
 **Not run as published:** P12, preflight on 141 plans — not run as published (plans' snapshots lost): /private/tmp/ekb_pc{,2}_94332945 hold 0 files.
+
+**Not run:** P12, intent replay same-machine control (Ekbasis-27B INT4 served on the evaluation machine, phase E); the rule's reference, the hosted published run, is in P12_intent.json — the evaluation machine was retired on 2026-10-16.
+
+**Not run:** P12, preflight SUBSTITUTE, INT4 pairing (needs Ekbasis-27B INT4 on the same requests, phase E); Skopos INT4's replay exists (prelaunch_out/P12/preflight_substitute/skopos_int4.jsonl) but has no Ekbasis-27B pair — the evaluation machine was retired on 2026-10-16.
+
+**Not run:** P11, GPU memory caps (phase F) — the evaluation machine was retired on 2026-10-16.
+
+**Not run:** P9, Ekbasis-27B re-run on this machine (seconds, puzzle identity); optional — the evaluation machine was retired on 2026-10-16.
 
 **Release decision** ([`results_skopos/prelaunch/RELEASE_DECISION.md`](results_skopos/prelaunch/RELEASE_DECISION.md)): the owner decided to release with the P8 blocker declared. On the paraphrased short checks Skopos is right on 113 of 120 against Ekbasis-27B's published 117 (−3.3 points, paired 95% CI [−6.7, −0.8], entirely below zero), so the pre-registered rule fired; the exact McNemar test on the same pairs does not reject (p = 0.125: 4 items only Skopos gets wrong, 0 the other way); Ekbasis-27B re-run on the same machine reproduced its published answers item for item (240/240; `results_skopos/prelaunch/compare/P8_same_machine.json`), so it is not a serving or hardware artifact; and it is consistent with the declared limitation on confident errors in never-trained world families.
 
@@ -560,6 +568,17 @@ Reference: ref/release_eval/preds_git2_test_*_240.jsonl (Ekbasis-27B, published)
 | never-seen command types: state (changed) (40) | 40 | 80.00 | 82.50 | −2.50 | 32 / 33 | — |
 
 In the file, also: `ekbasis27b_rerun_identity`, `context_other_systems_published` (`results_skopos/prelaunch/compare/P1.json`).
+
+### P1. The 240-question git comparison (`P1_identity.json`)
+
+No measure of its own: the rule's outcome is in `P1.json`.
+
+
+How it ran:
+
+- Ekbasis-27B bf16 re-run in phase B on the evaluation machine (2026-10-16, phase B ended 13:54:40 UTC), with P1's script and items: its answers against its published ones. Both models served the same way on the same RTX PRO 6000 (the model folder's serve_vllm.sh + serve.py, the same flags).
+
+In the file, also: `ekbasis27b_rerun_identity` (`results_skopos/prelaunch/compare/P1_identity.json`).
 
 ### P2. git v3 held-out tests per question type
 
@@ -693,6 +712,23 @@ How it ran:
 
 In the file, also: `tables` (`results_skopos/prelaunch/compare/P4.json`).
 
+### P5. Speed (`speed_bench`): 80 forecasts of 10–30 actions
+
+Reference: Ekbasis-27B re-run on this machine (published speed_bf16/ for context).
+
+| Measure | n | Skopos | Ekbasis-27B | Difference | Paired 95% CI, or counts (Skopos / Ekbasis-27B) | Under the rule |
+|---|---|---|---|---|---|---|
+| one prompt per question: accuracy (80) | 80 | 97.50 | 98.75 | −1.25 | 78 / 79 | — |
+| state read once per step: accuracy (80) | 80 | 93.75 | 90.00 | +3.75 | 75 / 72 | — |
+
+How it ran:
+
+- Both models served the same way on the same RTX PRO 6000 (the model folder's serve_vllm.sh + serve.py, the same flags).
+- Skopos bf16: P5 and the P8 timing ran alone on the GPU at the start of phase A (2026-10-16 01:52:50-02:08:12 UTC); Ekbasis-27B bf16: the same runner steps in phase B (files 13:46-13:51 UTC; phase B ended 13:54:40 UTC), alone on the GPU.
+- Accuracy is compared item by item (80 forecasts; counts); latency and throughput are same-machine measurements (not under the rule). P5_partial.json, written before release against the published per-item file, is unchanged.
+
+In the file, also: `speed` (`results_skopos/prelaunch/compare/P5.json`).
+
 ### P5. Speed (`speed_bench`): 80 forecasts of 10–30 actions (`P5_partial.json`)
 
 *accuracy compared with Ekbasis-27B's published per-item files (counts, 80 < 100); latency and throughput NOT YET COMPARED: they need Ekbasis-27B re-run on this machine (phase B, P5/run.sh ekbasis_bf16); the old rig's times are shown only as context*
@@ -703,6 +739,28 @@ In the file, also: `tables` (`results_skopos/prelaunch/compare/P4.json`).
 | state read once per step: accuracy (80) | 80 | 93.75 | 90.00 | +3.75 | 75 / 72 | — |
 
 In the file, also: `speed` (`results_skopos/prelaunch/compare/P5_partial.json`).
+
+### P6. Portuguese
+
+Reference: Ekbasis-27B re-run here (no published per-item answers).
+
+| Measure | n | Skopos | Ekbasis-27B | Difference | Paired 95% CI, or counts (Skopos / Ekbasis-27B) | Under the rule |
+|---|---|---|---|---|---|---|
+| English, all: changed answers right (90) | 90 | 86.67 | 83.33 | +3.33 | 78 / 75 | — |
+| English, machines: changed answers right (30) | 30 | 90.00 | 73.33 | +16.67 | 27 / 22 | — |
+| English, toggles: changed answers right (30) | 30 | 73.33 | 80.00 | −6.67 | 22 / 24 | **flagged** |
+| English, jugs: changed answers right (30) | 30 | 96.67 | 96.67 | +0.00 | 29 / 29 | — |
+| Portuguese, all: changed answers right (90) | 90 | 83.33 | 82.22 | +1.11 | 75 / 74 | — |
+| Portuguese, machines: changed answers right (30) | 30 | 73.33 | 73.33 | +0.00 | 22 / 22 | — |
+| Portuguese, toggles: changed answers right (30) | 30 | 76.67 | 73.33 | +3.33 | 23 / 22 | — |
+| Portuguese, jugs: changed answers right (30) | 30 | 100.00 | 100.00 | +0.00 | 30 / 30 | — |
+
+How it ran:
+
+- Both models served the same way on the same RTX PRO 6000 (the model folder's serve_vllm.sh + serve.py, the same flags). Skopos bf16 in phase A; Ekbasis-27B bf16 re-run in phase B (2026-10-16, ended 13:54:40 UTC), because the release run kept no per-item answers.
+- The re-run gives 75/90 English and 74/90 Portuguese against Ekbasis-27B's published 77 and 75: the published totals are not reproduced exactly on this machine; the item pairing uses the re-run (same machine, same script). P6_partial.json (counts against the published totals) is unchanged.
+
+In the file, also: `ekbasis27b_rerun_vs_published_totals` (`results_skopos/prelaunch/compare/P6.json`).
 
 ### P6. Portuguese (`P6_partial.json`)
 
@@ -753,6 +811,18 @@ Deviation: P8 deviation (documented, approved 2026-10-15): the release read Qwen
 | para wording (120) | 120 | 94.17 | 97.50 | −3.33 | [−6.67, −0.83] | **release blocker** |
 
 In the file, also: `routing`, `calibration`, `qwen_published_context`, `ekbasis27b_rerun_identity` (`results_skopos/prelaunch/compare/P8.json`).
+
+### P8. Short checks, two wordings (`P8_identity_phaseB.json`)
+
+No measure of its own: the rule's outcome is in `P8.json`.
+
+
+How it ran:
+
+- The official phase B identity re-run of Ekbasis-27B bf16 (2026-10-16, phase B ended 13:54:40 UTC): its answers against its published ones. Both models served the same way on the same RTX PRO 6000 (the model folder's serve_vllm.sh + serve.py, the same flags).
+- It equals the early re-run (11:32-11:50 UTC, P8/ekbasis_bf16_early; in P8.json and P8_same_machine.json) in right/wrong on 240/240 items (confidences exactly equal on 64), so Skopos against it gives P8_same_machine.json's comparison exactly.
+
+In the file, also: `ekbasis27b_rerun_identity` (`results_skopos/prelaunch/compare/P8_identity_phaseB.json`).
 
 ### P9. Planning by search, no LLM
 
@@ -826,6 +896,22 @@ Reference: ref/intent_replay/{out,heldout/out}/answers.jsonl (Ekbasis-27B-INT4, 
 | held-out replay: benign runs with a false alarm (4 of 291 published) [n=291] | 291 | 0.69 | 1.37 | −0.69 | [−1.72, +0.00] | — |
 
 In the file, also: `extra`, `analysis_files` (`results_skopos/prelaunch/compare/P12_intent.json`).
+
+### P12. Client suites on the INT4 build (`P12_preflight_substitute_bf16.json`) — a substitute, not under the rule, never compared with published numbers
+
+*P12 preflight: not run as published (plans' snapshots lost). This file is a substitute: report it separately, never in the same table as published numbers.*
+
+| Measure | n | Skopos | Ekbasis-27B | Difference | Paired 95% CI, or counts (Skopos / Ekbasis-27B) | Under the rule |
+|---|---|---|---|---|---|---|
+| same first flagged step as the recorded bf16 verdict (141) | 141 | 98.58 | 100.00 | −1.42 | [−3.55, +0.00] | — |
+| steps with the recorded bf16 fails/not (410) | 410 | 99.51 | 100.00 | −0.49 | [−1.22, +0.00] | — |
+| same verdict as the recorded bf16 one, where determined for both (139 of 141) | 139 | 99.28 | 100.00 | −0.72 | [−2.16, +0.00] | — |
+
+How it ran:
+
+- Both models served the same way on the same RTX PRO 6000 (the model folder's serve_vllm.sh + serve.py, the same flags). Skopos bf16 replay in phase A; Ekbasis-27B bf16 replay in phase B. SUBSTITUTE: the 423 requests recorded on 7 Oct with client 0.1.6 on the plans' snapshots, replayed unchanged; P12 preflight itself was not run as published (plans' snapshots lost). Never under the sealed rule.
+
+In the file, also: `undetermined`, `against the truth (determined confirmation plans)`, `first_step_skopos_vs_ekbasis_here_same` (`results_skopos/prelaunch/compare/P12_preflight_substitute_bf16.json`).
 
 **P12 intent_check replay: context for P12_intent.json (the rule's outcome is there)** (`results_skopos/prelaunch/compare/P12_intent_context.json`)
 
