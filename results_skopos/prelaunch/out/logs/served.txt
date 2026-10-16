@@ -14,3 +14,13 @@ serve.py 1.3 ready at http://127.0.0.1:8603 (calib=True, sym=False, backend=vllm
 {"ok": true, "model": "/root/Skopos-R4-27B-INT4", "version": "1.3"}
 vllm 0.31.0 torch 2.13.0+cu130 transformers 5.17.0
 NVIDIA RTX PRO 6000 Blackwell Workstation Edition, 97887 MiB, 595.58.03
+== ekbasis_bf16 2026-10-16T13:39:31Z
+serve.py 1.3 ready at http://127.0.0.1:8603 (calib=True, sym=False, backend=vllm, verify=0, one pass up to 160 options, images=on, read_once=on)
+{"ok": true, "model": "/dev/shm/Ekbasis-27B", "version": "1.3"}
+vllm 0.31.0 torch 2.13.0+cu130 transformers 5.17.0
+NVIDIA RTX PRO 6000 Blackwell Workstation Edition, 97887 MiB, 595.58.03
+== ekbasis_int4 2026-10-16T13:57:09Z
+serve.py 1.3 ready at http://127.0.0.1:8603 (calib=True, sym=False, backend=vllm, verify=0, one pass up to 160 options, images=on, read_once=on)
+{"ok": true, "model": "/root/Ekbasis-27B-INT4", "version": "1.3"}
+vllm 0.31.0 torch 2.13.0+cu130 transformers 5.17.0
+NVIDIA RTX PRO 6000 Blackwell Workstation Edition, 97887 MiB, 595.58.03

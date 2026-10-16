@@ -19,6 +19,7 @@ ap.add_argument("--ekbasis", required=True, help="Ekbasis-27B re-run here (P5/ru
 ap.add_argument("--skopos-p8")
 ap.add_argument("--ekbasis-p8")
 ap.add_argument("--out", required=True)
+ap.add_argument("--note", action="append", default=[], help="run conditions to record (repeatable)")
 a = ap.parse_args()
 L = lambda p: [json.loads(x) for x in open(p)]
 PUB = HERE.parent / "ref" / "release_eval" / "speed_bf16"
@@ -45,5 +46,5 @@ if a.skopos_p8 and a.ekbasis_p8:
     t = lambda d: json.load(open(pathlib.Path(d) / "short_eval_release_timing.json"))
     tab["one check (P8 timing)"] = {"skopos": t(a.skopos_p8), "ekbasis27b_here": t(a.ekbasis_p8),
                                     "ekbasis27b_published_old_rig": json.load(open(PUB / "short_timing.json"))}
-dump(a.out, {"item": "P5", "reference": "Ekbasis-27B re-run on this machine (published speed_bf16/ for context)",
+dump(a.out, {"run_conditions": a.note, "item": "P5", "reference": "Ekbasis-27B re-run on this machine (published speed_bf16/ for context)",
              "summary": summary(recs), "measures": recs, "speed": tab})

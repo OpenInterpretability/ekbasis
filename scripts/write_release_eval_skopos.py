@@ -922,14 +922,19 @@ def pnum(x, nd=2):
 
 for k, fname, d in [(k, n, d) for k, fs in rule_files.items() for n, d in fs]:
     part = "partial" if fname.endswith("_partial.json") else ""
-    w(f"### {k}. {PITEMS[k]}{'' if fname == k + '.json' else ' (`' + fname + '`)'}\n")
+    subst = any(str(m.get("rule", "")).startswith("SUBSTITUTE") for m in d.get("measures", []))
+    w(f"### {k}. {PITEMS[k]}{'' if fname == k + '.json' else ' (`' + fname + '`)'}"
+      f"{' — a substitute, not under the rule, never compared with published numbers' if subst else ''}\n")
     if d.get("status"):
         w(f"*{d['status']}*\n")
     if d.get("reference"):
         w(f"Reference: {d['reference']}.\n")
     if d.get("deviation"):
         w(f"Deviation: {d['deviation']}\n")
-    w("| Measure | n | Skopos | Ekbasis-27B | Difference | Paired 95% CI, or counts (Skopos / Ekbasis-27B) | Under the rule |\n|---|---|---|---|---|---|---|")
+    if not d.get("measures"):
+        w(f"No measure of its own: the rule's outcome is in `{d.get('rule_outcome_in', k + '.json')}`.\n")
+    else:
+        w("| Measure | n | Skopos | Ekbasis-27B | Difference | Paired 95% CI, or counts (Skopos / Ekbasis-27B) | Under the rule |\n|---|---|---|---|---|---|---|")
     for m in d.get("measures", []):
         diff = m.get("difference")
         if diff is None and isinstance(m.get("skopos"), (int, float)) and isinstance(m.get("ekbasis27b"), (int, float)):
@@ -945,7 +950,8 @@ for k, fname, d in [(k, n, d) for k, fs in rule_files.items() for n, d in fs]:
         if c == d.get("run_conditions", [])[0]:
             w("\nHow it ran:\n")
         w(f"- {c}")
-    other = [x for x in d if x not in ("item", "reference", "summary", "measures", "status", "deviation", "run_conditions")]
+    other = [x for x in d if x not in ("item", "reference", "summary", "measures", "status", "deviation", "run_conditions",
+                                       "rule_outcome_in")]
     w(("\nIn the file, also: " + ", ".join(f"`{x}`" for x in other) + f" (`results_skopos/prelaunch/compare/{fname}`).\n")
       if other else "")
 used = {n for fs in rule_files.values() for n, _ in fs} | {"PENDING.json"}

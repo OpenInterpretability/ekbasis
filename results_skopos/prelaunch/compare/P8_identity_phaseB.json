@@ -1,0 +1,18 @@
+{
+ "run_conditions": [
+  "The official phase B identity re-run of Ekbasis-27B bf16 (2026-10-16, phase B ended 13:54:40 UTC): its answers against its published ones. Both models served the same way on the same RTX PRO 6000 (the model folder's serve_vllm.sh + serve.py, the same flags).",
+  "It equals the early re-run (11:32-11:50 UTC, P8/ekbasis_bf16_early; in P8.json and P8_same_machine.json) in right/wrong on 240/240 items (confidences exactly equal on 64), so Skopos against it gives P8_same_machine.json's comparison exactly."
+ ],
+ "item": "P8 identity re-run (Ekbasis-27B on this machine against its published answers)",
+ "rule_outcome_in": "P8.json",
+ "summary": {
+  "release_blockers": [],
+  "flagged_worse_by_2": []
+ },
+ "measures": [],
+ "ekbasis27b_rerun_identity": {
+  "same_right_wrong_as_published": 240,
+  "n": 240,
+  "max_confidence_difference": 0.11211323738098145
+ }
+}

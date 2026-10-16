@@ -1,0 +1,26 @@
+{
+ "run_conditions": [
+  "Ekbasis-27B bf16 re-run in phase B on the evaluation machine (2026-10-16, phase B ended 13:54:40 UTC), with P1's script and items: its answers against its published ones. Both models served the same way on the same RTX PRO 6000 (the model folder's serve_vllm.sh + serve.py, the same flags)."
+ ],
+ "item": "P1 identity re-run (Ekbasis-27B on this machine against its published answers)",
+ "rule_outcome_in": "P1.json",
+ "summary": {
+  "release_blockers": [],
+  "flagged_worse_by_2": []
+ },
+ "measures": [],
+ "ekbasis27b_rerun_identity": {
+  "git2_test_known": {
+   "same_answer_as_published": 120,
+   "n": 120,
+   "rerun_right": 115,
+   "published_right": 115
+  },
+  "git2_test_held": {
+   "same_answer_as_published": 120,
+   "n": 120,
+   "rerun_right": 103,
+   "published_right": 103
+  }
+ }
+}

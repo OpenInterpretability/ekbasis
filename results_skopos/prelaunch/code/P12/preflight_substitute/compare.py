@@ -16,6 +16,7 @@ ap = argparse.ArgumentParser()
 ap.add_argument("--skopos", required=True)
 ap.add_argument("--ekbasis", required=True)
 ap.add_argument("--out", required=True)
+ap.add_argument("--note", action="append", default=[], help="run conditions to record (repeatable)")
 a = ap.parse_args()
 REF = HERE.parents[1] / "ref" / "preflight"
 L = lambda p: [json.loads(x) for x in open(p)]
@@ -39,9 +40,13 @@ recs.append(paired(steps_s, steps_e, f"steps with the recorded bf16 fails/not ({
 det = [k for k in keys if S[k]["risky"] != "undetermined" and E[k]["risky"] != "undetermined"]
 recs.append(paired([S[k]["risky"] == bf[k]["risky"] for k in det], [E[k]["risky"] == bf[k]["risky"] for k in det],
                    f"same verdict as the recorded bf16 one, where determined for both ({len(det)} of 141)"))
+for m in recs:  # a substitute is reported only: never a blocker or a flag under the sealed rule
+    m["rule"] = "SUBSTITUTE, not under the sealed rule: reported only (" + m["rule"] + " shown for information)"
+    m["release_blocker"] = False
+    m.pop("flag_worse_by_2", None)
 half = [k for k in det if k in truth and truth[k]["half"]]
 safe = [k for k in det if k in truth and not truth[k]["half"]]
-dump(a.out, {"item": "P12 preflight SUBSTITUTE (not the published measurement)",
+dump(a.out, {"run_conditions": a.note, "item": "P12 preflight SUBSTITUTE (not the published measurement)",
              "status": ("P12 preflight: not run as published (plans' snapshots lost). This file is a substitute: report it "
                         "separately, never in the same table as published numbers."),
              "summary": summary(recs), "measures": recs,

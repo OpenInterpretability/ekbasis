@@ -19,6 +19,8 @@ ap = argparse.ArgumentParser()
 ap.add_argument("--skopos", required=True)
 ap.add_argument("--ekbasis-rerun")
 ap.add_argument("--out", required=True)
+ap.add_argument("--note", action="append", default=[], help="run conditions to record (repeatable)")
+ap.add_argument("--identity-only", action="store_true", help="write only the re-run's identity block; the rule's measures stay in P1.json")
 a = ap.parse_args()
 
 recs, both_s, both_e, ident = [], [], [], {}
@@ -42,6 +44,11 @@ recs.insert(0, paired(both_s, both_e, "both halves: all 240"))
 ctx = json.load(open(REF / "comparison_240.json"))
 ctx["Ekbasis-Skopos-27B (this run)"] = {"git_known": [sum(r["ok"] for r in L(pathlib.Path(a.skopos) / "preds_git2_test_known_240.jsonl")), 120],
                                        "git_held": [sum(r["ok"] for r in L(pathlib.Path(a.skopos) / "preds_git2_test_held_240.jsonl")), 120]}
-dump(a.out, {"item": "P1", "reference": "ref/release_eval/preds_git2_test_*_240.jsonl (Ekbasis-27B, published)",
+if a.identity_only:  # the rule's measures and outcome are in P1.json; repeating them here would list its blockers/flags twice
+    dump(a.out, {"run_conditions": a.note, "item": "P1 identity re-run (Ekbasis-27B on this machine against its published answers)",
+                 "rule_outcome_in": "P1.json", "summary": {"release_blockers": [], "flagged_worse_by_2": []}, "measures": [],
+                 "ekbasis27b_rerun_identity": ident})
+    sys.exit()
+dump(a.out, {"run_conditions": a.note, "item": "P1", "reference": "ref/release_eval/preds_git2_test_*_240.jsonl (Ekbasis-27B, published)",
              "summary": summary(recs), "measures": recs, "ekbasis27b_rerun_identity": ident or None,
              "context_other_systems_published": ctx})
