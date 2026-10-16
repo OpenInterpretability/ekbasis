@@ -1,0 +1,58 @@
+{
+ "item": "P10",
+ "reference": "ref/handoff/realuse_pm_pred_w4a5.json (Ekbasis-27B, the published run's predictions)",
+ "summary": {
+  "release_blockers": [],
+  "flagged_worse_by_2": []
+ },
+ "measures": [
+  {
+   "measure": "work-losing scenarios caught (of 28)",
+   "n": 28,
+   "skopos": 28,
+   "ekbasis27b": 28,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "false alarms (of 44)",
+   "n": 44,
+   "skopos": 0,
+   "ekbasis27b": 0,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "'will it fail?' right (of 96)",
+   "n": 96,
+   "skopos": 95,
+   "ekbasis27b": 92,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  }
+ ],
+ "median_seconds": {
+  "skopos": 0.93,
+  "ekbasis27b_published": 0.89,
+  "ekbasis27b_rerun_same_tunnel": null
+ },
+ "hook_decisions_that_differ [skopos, ekbasis27b]": {},
+ "ekbasis27b_rerun": null,
+ "checks": {
+  "hook_agrees_with_completed_git_check [skopos, ekbasis27b]": [
+   72,
+   72
+  ],
+  "git_check_seconds_max [skopos, ekbasis27b]": [
+   1.46,
+   1.19
+  ],
+  "reference_reproduces_real_use_summary.json": true
+ },
+ "run_conditions": [
+  "Ekbasis-Skopos-27B-INT4 (/root/Skopos-R4-27B-INT4) served on the RTX PRO 6000 (serve_vllm.sh + the folder's serve.py), reached from the Mac through a tunnel; P10 finished 2026-10-16 13:37:51 UTC (main thread); 72 predictions, 0 errors.",
+  "The INT4 server was kept up by the runner until this Mac step wrote its marker (prelaunch_notes/DEVIATIONS_RUN.md); per the main thread, P10 ran alone on the GPU. Its time (median 0.93 s per check, max 1.46 s) is context only: the published 0.89 s is Ekbasis-27B bf16 on the old rig through another tunnel.",
+  "Truth: re-executed on the base copies (P10/base_backup/) once for this Mac session, before the bf16 run (2026-10-15 23:24, 72/72 identical to the published truth.json); not repeated for the INT4 run. Client ekbasis 0.1.0, file hashes checked again before this run.",
+  "Reference: Ekbasis-27B's published run of the same 72 scenarios (bf16, the rig); counts, as P10 is under 100 items. Scored with stage_release_results.py's formulas (P10/compare.py)."
+ ]
+}

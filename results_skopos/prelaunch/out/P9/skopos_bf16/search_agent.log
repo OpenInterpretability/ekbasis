@@ -1,0 +1,13 @@
+Loading weights:   0%|          | 0/851 [00:00<?, ?it/s]Loading weights: 100%|██████████| 851/851 [00:00<00:00, 16367.17it/s]
+[transformers] `causal_conv1d_fn` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+
+== /root/v50p/prelaunch_out/P9/puzzles/agent: 180 puzzles; the model alone searches (beam 6); success = the plan works in the true simulator
+family     H   n |      skopos_bf16_agent | questions/puzzle (skopos_bf16_agent)
+jugs       3  30 |                 100.0% |       40
+jugs       5  30 |                 100.0% |       40
+toggles    3  30 |                 100.0% |       47
+toggles    5  30 |                 100.0% |       50
+machines   3  30 |                 100.0% |      180
+machines   5  30 |                 100.0% |      250
+all          180 |                 100.0% |      101
+seconds: {'skopos_bf16_agent': 1076}

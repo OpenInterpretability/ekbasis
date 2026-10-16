@@ -20,6 +20,7 @@ from paired import counts, dump, paired, summary  # noqa: E402
 ap = argparse.ArgumentParser()
 ap.add_argument("--skopos", required=True)
 ap.add_argument("--out", required=True)
+ap.add_argument("--note", action="append", default=[], help="run conditions to record (repeatable)")
 a = ap.parse_args()
 L = lambda p: [json.loads(x) for x in open(p)]
 REF = HERE.parent / "ref" / "release_eval"
@@ -92,4 +93,4 @@ for fam in ("jugs", "toggles", "machines", "cards"):
     recs.append(counts(f"never looking, {fam}: wrong steps (of {len(et)})", nl[-1]["wrong"][0], nl[-1]["wrong"][1], len(et), higher_is_better=False))
 tables["never looking, 40 fresh chains [skopos, ekbasis27b]"] = nl
 dump(a.out, {"item": "P4", "reference": "ref/release_eval/long_chain3*.jsonl (Ekbasis-27B, published)", "summary": summary(recs),
-             "measures": recs, "tables": tables})
+             "measures": recs, "tables": tables, "run_conditions": a.note})

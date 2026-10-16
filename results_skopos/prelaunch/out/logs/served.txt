@@ -1,0 +1,16 @@
+== skopos_bf16 2026-10-16T01:56:11Z
+serve.py 1.3 ready at http://127.0.0.1:8603 (calib=True, sym=False, backend=vllm, verify=0, one pass up to 160 options, images=on, read_once=on)
+{"ok": true, "model": "/root/Skopos-R4-27B", "version": "1.3"}
+vllm 0.31.0 torch 2.13.0+cu130 transformers 5.17.0
+NVIDIA RTX PRO 6000 Blackwell Workstation Edition, 97887 MiB, 595.58.03
+== ekbasis_bf16 2026-10-16T11:40:53Z (p8_swap2)
+serve.py 1.3 ready at http://127.0.0.1:8603 (calib=True, sym=False, backend=vllm, verify=0, one pass up to 160 options, images=on, read_once=on)
+{"ok": true, "model": "/dev/shm/Ekbasis-27B", "version": "1.3"}
+== skopos_bf16_resumed 2026-10-16T11:44:54Z (p8_swap2)
+serve.py 1.3 ready at http://127.0.0.1:8603 (calib=True, sym=False, backend=vllm, verify=0, one pass up to 160 options, images=on, read_once=on)
+{"ok": true, "model": "/root/Skopos-R4-27B", "version": "1.3"}
+== skopos_int4 2026-10-16T13:09:35Z
+serve.py 1.3 ready at http://127.0.0.1:8603 (calib=True, sym=False, backend=vllm, verify=0, one pass up to 160 options, images=on, read_once=on)
+{"ok": true, "model": "/root/Skopos-R4-27B-INT4", "version": "1.3"}
+vllm 0.31.0 torch 2.13.0+cu130 transformers 5.17.0
+NVIDIA RTX PRO 6000 Blackwell Workstation Edition, 97887 MiB, 595.58.03

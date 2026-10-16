@@ -516,7 +516,322 @@ Sets from the same generators as training rows (the last column; fresh seeds and
 
 ## Pre-launch evaluation
 
-*Pending: the measurements of Ekbasis-27B's release evaluation that had not yet run on Skopos, each next to Ekbasis-27B on the same items, and the acceptance checks of the published artifacts, as planned in [prereg_skopos/PRELAUNCH_EVAL.md](prereg_skopos/PRELAUNCH_EVAL.md) (Part A sealed before its first request). Their results will be reported here, favourable or not.*
+The measurements of Ekbasis-27B's release evaluation that had not yet run on Skopos, planned in [prereg_skopos/PRELAUNCH_EVAL.md](prereg_skopos/PRELAUNCH_EVAL.md) (Part A sealed before its first request), each next to Ekbasis-27B on the same items. Its rule: on a set of at least 100 items with per-item outputs for both models, a drop whose paired 95% bootstrap interval (2,000 resamples, seed 20261015) lies entirely below zero is a release blocker; smaller sets are reported as counts, and Skopos worse by 2 or more is flagged. One file per item (`results_skopos/prelaunch/compare/`); how the battery was run, with its deviations: [`results_skopos/prelaunch/DEVIATIONS_RUN.md`](results_skopos/prelaunch/DEVIATIONS_RUN.md).
+
+| Item | Measurement | Files | Status at this build | Release blockers | Flagged: Skopos worse by 2 or more |
+|---|---|---|---|---|---|
+| P1 | The 240-question git comparison | `P1.json` | done; after the release: official identity re-run of Ekbasis-27B bf16 (phase B); P1.json unchanged | none | seen command types: lost (40); seen command types: state (changed) (40) |
+| P2 | git v3 held-out tests per question type | `P2.json` | done | none | none |
+| P3 | Long chains (text, image, image and look again) | `P3.json` | done | none | none |
+| P4 | Predict, observe, correct (`long_chain3`): the rules compared, and 200 more chains | `P4.json` | done | none | rules, conf0.5: exact at the end (of 40); rules, until0.5: exact at the end (of 40); rules, check0.5: exact at the end (of 40) |
+| P5 | Speed (`speed_bench`): 80 forecasts of 10–30 actions | `P5_partial.json` | done; after the release: speed pairing | none | none |
+| P6 | Portuguese | `P6_partial.json` | done; after the release: item pairing | none | English, toggles: changed answers right (of 30) |
+| P7 | Chains that start from an image | `P7.json` | done | none | start state read exactly, all (60); start state read exactly, jugs (30) |
+| P8 | Short checks, two wordings | `P8.json` | done; after the release: official identity re-run of Ekbasis-27B bf16 (phase B); the early re-run is already in P8.json / P8_same_machine.json | **para wording (120)** | none |
+| P9 | Planning by search, no LLM | `P9.json` | done; after the release: Ekbasis-27B re-run on this machine (seconds, puzzle identity), only if run | none | none |
+| P10 | Real use on real repositories | `P10.json`, `P10_int4.json` | done | none | none |
+| P11 | GPU memory of each build | — | not run; after the release: GPU memory caps (phase F) |  |  |
+| P12 | Client suites on the INT4 build | `P12_intent.json` | done; after the release: intent replay same-machine control; preflight SUBSTITUTE, bf16 (needs the phase B Ekbasis re-run) and INT4 (phases D and E); reported separately, never with published numbers | none | none |
+
+**Release blockers under the rule:** P8: para wording (120).
+
+**Running at release, appended on completion** (the battery's list, `results_skopos/prelaunch/compare/PENDING.json`): P5: speed pairing: Ekbasis-27B bf16 re-run on this machine (phase B); P5_partial.json stays as released; P6: item pairing: Ekbasis-27B bf16 re-run (phase B; the release run kept no per-item answers); P6_partial.json stays as released; P1: official identity re-run of Ekbasis-27B bf16 (phase B); P1.json unchanged; P8: official identity re-run of Ekbasis-27B bf16 (phase B); the early re-run is already in P8.json / P8_same_machine.json; P12: intent replay same-machine control: Ekbasis-27B INT4 served here (phase E); P12_intent.json unchanged; P12: preflight SUBSTITUTE, bf16 (needs the phase B Ekbasis re-run) and INT4 (phases D and E); reported separately, never with published numbers; P11: GPU memory caps (phase F); P9: Ekbasis-27B re-run on this machine (seconds, puzzle identity), only if run. These cannot block under the rule; every item that can (P1, P2, P4, P8, P9, P12) is final above.
+
+**Not run as published:** P12, preflight on 141 plans — not run as published (plans' snapshots lost): /private/tmp/ekb_pc{,2}_94332945 hold 0 files.
+
+**Release decision** ([`results_skopos/prelaunch/RELEASE_DECISION.md`](results_skopos/prelaunch/RELEASE_DECISION.md)): the owner decided to release with the P8 blocker declared. On the paraphrased short checks Skopos is right on 113 of 120 against Ekbasis-27B's published 117 (−3.3 points, paired 95% CI [−6.7, −0.8], entirely below zero), so the pre-registered rule fired; the exact McNemar test on the same pairs does not reject (p = 0.125: 4 items only Skopos gets wrong, 0 the other way); Ekbasis-27B re-run on the same machine reproduced its published answers item for item (240/240; `results_skopos/prelaunch/compare/P8_same_machine.json`), so it is not a serving or hardware artifact; and it is consistent with the declared limitation on confident errors in never-trained world families.
+
+P7, P10 and P12 compare against Ekbasis-27B reference files that are not published, as in Ekbasis-27B's release (listed with their sha256 in `results_skopos/prelaunch/references.tsv`), so they cannot be recomputed from public files; P10's per-scenario truth and predictions are not published either, because they name files and commands of private working copies.
+
+### P1. The 240-question git comparison
+
+Reference: ref/release_eval/preds_git2_test_*_240.jsonl (Ekbasis-27B, published).
+
+| Measure | n | Skopos | Ekbasis-27B | Difference | Paired 95% CI, or counts (Skopos / Ekbasis-27B) | Under the rule |
+|---|---|---|---|---|---|---|
+| both halves: all 240 | 240 | 90.00 | 90.83 | −0.83 | [−3.75, +2.08] | — |
+| seen command types: all 120 | 120 | 93.33 | 95.83 | −2.50 | [−6.67, +1.67] | — |
+| seen command types: lost (40) | 40 | 92.50 | 97.50 | −5.00 | 37 / 39 | **flagged** |
+| seen command types: fails (40) | 40 | 95.00 | 92.50 | +2.50 | 38 / 37 | — |
+| seen command types: state (changed) (40) | 40 | 92.50 | 97.50 | −5.00 | 37 / 39 | **flagged** |
+| never-seen command types: all 120 | 120 | 86.67 | 85.83 | +0.83 | [−2.50, +4.17] | — |
+| never-seen command types: lost (40) | 40 | 97.50 | 95.00 | +2.50 | 39 / 38 | — |
+| never-seen command types: fails (40) | 40 | 82.50 | 80.00 | +2.50 | 33 / 32 | — |
+| never-seen command types: state (changed) (40) | 40 | 80.00 | 82.50 | −2.50 | 32 / 33 | — |
+
+In the file, also: `ekbasis27b_rerun_identity`, `context_other_systems_published` (`results_skopos/prelaunch/compare/P1.json`).
+
+### P2. git v3 held-out tests per question type
+
+Reference: ref/release_eval/preds_git3_test_*.jsonl (Ekbasis-27B, published).
+
+| Measure | n | Skopos | Ekbasis-27B | Difference | Paired 95% CI, or counts (Skopos / Ekbasis-27B) | Under the rule |
+|---|---|---|---|---|---|---|
+| known command types: all questions (1482) | 1,482 | 98.58 | 98.11 | +0.47 | [−0.13, +1.01] | — |
+| known command types: will uncommitted work be lost? (lost) (102) | 102 | 100.00 | 99.02 | +0.98 | [+0.00, +2.94] | — |
+| known command types: will the command fail? (fails) (138) | 138 | 97.10 | 97.83 | −0.72 | [−2.17, +0.00] | — |
+| known command types: is an operation left in progress? (in_progress) (282) | 282 | 99.29 | 99.65 | −0.35 | [−1.77, +0.71] | — |
+| known command types: state the commands change (88) | 88 | 88.64 | 82.95 | +5.68 | 78 / 73 | — |
+| known command types: question type branch (all its questions) (87) | 87 | 96.55 | 96.55 | +0.00 | 84 / 84 | — |
+| known command types: question type clean (all its questions) (146) | 146 | 98.63 | 95.89 | +2.74 | [+0.68, +5.48] | — |
+| known command types: question type content (all its questions) (141) | 141 | 97.87 | 96.45 | +1.42 | [+0.00, +3.55] | — |
+| known command types: question type exists (all its questions) (143) | 143 | 100.00 | 100.00 | +0.00 | [+0.00, +0.00] | — |
+| known command types: question type remote (all its questions) (149) | 149 | 97.99 | 97.32 | +0.67 | [+0.00, +2.01] | — |
+| known command types: question type staged (all its questions) (140) | 140 | 97.86 | 97.14 | +0.71 | [−1.43, +2.86] | — |
+| known command types: question type stash (all its questions) (154) | 154 | 99.35 | 99.35 | +0.00 | [+0.00, +0.00] | — |
+| known command types: work-losing caught at a 10% false-alarm rate (of 51) | 51 | 51 | 50 | +1 | — | — |
+| known command types: work-losing flagged at P(lost) >= 0.2 (of 51) | 51 | 51 | 50 | +1 | — | — |
+| known command types: false alarms at P(lost) >= 0.2 (of 51) | 51 | 0 | 0 | 0 | — | — |
+| never-seen command types: all questions (1623) | 1,623 | 95.44 | 95.26 | +0.18 | [−0.62, +0.99] | — |
+| never-seen command types: will uncommitted work be lost? (lost) (84) | 84 | 96.43 | 96.43 | +0.00 | 81 / 81 | — |
+| never-seen command types: will the command fail? (fails) (228) | 228 | 85.96 | 83.33 | +2.63 | [+0.00, +5.26] | — |
+| never-seen command types: is an operation left in progress? (in_progress) (351) | 351 | 95.44 | 97.44 | −1.99 | [−3.99, +0.00] | — |
+| never-seen command types: state the commands change (49) | 49 | 77.55 | 71.43 | +6.12 | 38 / 35 | — |
+| never-seen command types: question type branch (all its questions) (68) | 68 | 95.59 | 92.65 | +2.94 | 65 / 63 | — |
+| never-seen command types: question type clean (all its questions) (147) | 147 | 92.52 | 92.52 | +0.00 | [−4.76, +4.08] | — |
+| never-seen command types: question type content (all its questions) (162) | 162 | 98.15 | 97.53 | +0.62 | [+0.00, +1.85] | — |
+| never-seen command types: question type exists (all its questions) (156) | 156 | 99.36 | 98.72 | +0.64 | [+0.00, +1.92] | — |
+| never-seen command types: question type remote (all its questions) (129) | 129 | 98.45 | 98.45 | +0.00 | [+0.00, +0.00] | — |
+| never-seen command types: question type staged (all its questions) (128) | 128 | 99.22 | 99.22 | +0.00 | [+0.00, +0.00] | — |
+| never-seen command types: question type stash (all its questions) (170) | 170 | 98.82 | 98.82 | +0.00 | [+0.00, +0.00] | — |
+| never-seen command types: work-losing caught at a 10% false-alarm rate (of 42) | 42 | 42 | 42 | 0 | — | — |
+| never-seen command types: work-losing flagged at P(lost) >= 0.2 (of 42) | 42 | 41 | 40 | +1 | — | — |
+| never-seen command types: false alarms at P(lost) >= 0.2 (of 42) | 42 | 1 | 1 | 0 | — | — |
+
+In the file, also: `skopos_predictions`, `auroc`, `note` (`results_skopos/prelaunch/compare/P2.json`).
+
+### P3. Long chains (text, image, image and look again)
+
+Reference: ref/release_eval/release_long_chain.jsonl (Ekbasis-27B, published).
+
+| Measure | n | Skopos | Ekbasis-27B | Difference | Paired 95% CI, or counts (Skopos / Ekbasis-27B) | Under the rule |
+|---|---|---|---|---|---|---|
+| Containers 100 text: final answer right | 6 | 6 | 6 | 0 | — | — |
+| Containers 100 text: whole final state right | 6 | 6 | 6 | 0 | — | — |
+| Containers 100 image: final answer right | 6 | 6 | 6 | 0 | — | — |
+| Containers 100 image: whole final state right | 6 | 6 | 6 | 0 | — | — |
+| Containers 100 image_obs: final answer right | 6 | 6 | 6 | 0 | — | — |
+| Containers 100 image_obs: whole final state right | 6 | 6 | 6 | 0 | — | — |
+| Lamps 100 text: final answer right | 6 | 6 | 6 | 0 | — | — |
+| Lamps 100 text: whole final state right | 6 | 6 | 5 | +1 | — | — |
+| Lamps 100 image: final answer right | 6 | 5 | 5 | 0 | — | — |
+| Lamps 100 image: whole final state right | 6 | 5 | 4 | +1 | — | — |
+| Lamps 100 image_obs: final answer right | 6 | 6 | 6 | 0 | — | — |
+| Lamps 100 image_obs: whole final state right | 6 | 6 | 5 | +1 | — | — |
+| Machines 100 text: final answer right | 6 | 6 | 6 | 0 | — | — |
+| Machines 100 text: whole final state right | 6 | 6 | 6 | 0 | — | — |
+| Cards (orderings) 100 text: final answer right | 6 | 5 | 3 | +2 | — | — |
+| Cards (orderings) 100 text: whole final state right | 6 | 0 | 0 | 0 | — | — |
+| Containers 200 text: final answer right | 6 | 6 | 6 | 0 | — | — |
+| Containers 200 text: whole final state right | 6 | 6 | 6 | 0 | — | — |
+| Containers 200 image: final answer right | 6 | 6 | 6 | 0 | — | — |
+| Containers 200 image: whole final state right | 6 | 6 | 6 | 0 | — | — |
+| Containers 200 image_obs: final answer right | 6 | 6 | 6 | 0 | — | — |
+| Containers 200 image_obs: whole final state right | 6 | 6 | 6 | 0 | — | — |
+| Lamps 200 text: final answer right | 6 | 6 | 6 | 0 | — | — |
+| Lamps 200 text: whole final state right | 6 | 6 | 6 | 0 | — | — |
+| Lamps 200 image: final answer right | 6 | 6 | 6 | 0 | — | — |
+| Lamps 200 image: whole final state right | 6 | 6 | 6 | 0 | — | — |
+| Lamps 200 image_obs: final answer right | 6 | 6 | 6 | 0 | — | — |
+| Lamps 200 image_obs: whole final state right | 6 | 6 | 6 | 0 | — | — |
+| Machines 200 text: final answer right | 6 | 6 | 6 | 0 | — | — |
+| Machines 200 text: whole final state right | 6 | 6 | 6 | 0 | — | — |
+| Cards (orderings) 200 text: final answer right | 6 | 1 | 2 | −1 | — | — |
+| Cards (orderings) 200 text: whole final state right | 6 | 0 | 1 | −1 | — | — |
+
+In the file, also: `first_error`, `identity_depends_on_start` (`results_skopos/prelaunch/compare/P3.json`).
+
+### P4. Predict, observe, correct (`long_chain3`): the rules compared, and 200 more chains
+
+Reference: ref/release_eval/long_chain3*.jsonl (Ekbasis-27B, published).
+
+| Measure | n | Skopos | Ekbasis-27B | Difference | Paired 95% CI, or counts (Skopos / Ekbasis-27B) | Under the rule |
+|---|---|---|---|---|---|---|
+| rules, text: exact at the end (of 40) | 40 | 26 | 26 | 0 | — | — |
+| rules, conf0.5: exact at the end (of 40) | 40 | 38 | 40 | −2 | — | **flagged** |
+| rules, until0.5: exact at the end (of 40) | 40 | 38 | 40 | −2 | — | **flagged** |
+| rules, check0.5: exact at the end (of 40) | 40 | 38 | 40 | −2 | — | **flagged** |
+| rules, conf0.9: exact at the end (of 40) | 40 | 39 | 40 | −1 | — | — |
+| rules, until0.9: exact at the end (of 40) | 40 | 39 | 40 | −1 | — | — |
+| rules, check0.9: exact at the end (of 40) | 40 | 39 | 40 | −1 | — | — |
+| cards 100, text: exact at the end (of 8) | 8 | 1 | 0 | +1 | — | — |
+| cards 200, text: exact at the end (of 8) | 8 | 1 | 2 | −1 | — | — |
+| cards 100, obs50: exact at the end (of 8) | 8 | 1 | 0 | +1 | — | — |
+| cards 200, obs50: exact at the end (of 8) | 8 | 3 | 4 | −1 | — | — |
+| cards 100, conf0.5: exact at the end (of 8) | 8 | 7 | 8 | −1 | — | — |
+| cards 200, conf0.5: exact at the end (of 8) | 8 | 7 | 8 | −1 | — | — |
+| cards 100, conf0.9: exact at the end (of 8) | 8 | 8 | 8 | 0 | — | — |
+| cards 200, conf0.9: exact at the end (of 8) | 8 | 7 | 8 | −1 | — | — |
+| cards 100, step0.9: exact at the end (of 8) | 8 | 8 | 8 | 0 | — | — |
+| cards 200, step0.9: exact at the end (of 8) | 8 | 7 | 8 | −1 | — | — |
+| cards 100, dual_conf0.9: exact at the end (of 8) | 8 | 8 | 8 | 0 | — | — |
+| cards 200, dual_conf0.9: exact at the end (of 8) | 8 | 8 | 8 | 0 | — | — |
+| 200 more chains, check0.9 (published table): exact at the end | 200 | 99.50 | 99.00 | +0.50 | [−1.00, +2.50] | — |
+| 200 more chains, check0.9 (published table): steps wrong per 100 actions | 200 | 0.04 | 0.23 | −0.19 | [−0.55, +0.02] | — |
+| 200 more chains, check0.9 (published table): looks per 100 actions | 200 | 10.18 | 16.94 | −6.76 | [−7.78, −5.72] | — |
+| 200 more chains, check0.9 (published table), jugs: exact at the end (of 40) | 40 | 40 | 39 | +1 | — | — |
+| 200 more chains, check0.9 (published table), toggles: exact at the end (of 40) | 40 | 40 | 40 | 0 | — | — |
+| 200 more chains, check0.9 (published table), machines: exact at the end (of 40) | 40 | 40 | 40 | 0 | — | — |
+| 200 more chains, check0.9 (published table), cards: exact at the end (of 80) | 80 | 79 | 79 | 0 | — | — |
+| 200 more chains, conf0.5 (run, not in the published table): exact at the end | 200 | 99.50 | 98.50 | +1.00 | [−1.00, +3.00] | — |
+| 200 more chains, conf0.5 (run, not in the published table): steps wrong per 100 actions | 200 | 0.26 | 0.51 | −0.25 | [−0.80, +0.18] | — |
+| 200 more chains, conf0.5 (run, not in the published table): looks per 100 actions | 200 | 5.50 | 8.38 | −2.88 | [−3.45, −2.30] | — |
+| 200 more chains, conf0.5 (run, not in the published table), jugs: exact at the end (of 40) | 40 | 40 | 39 | +1 | — | — |
+| 200 more chains, conf0.5 (run, not in the published table), toggles: exact at the end (of 40) | 40 | 40 | 39 | +1 | — | — |
+| 200 more chains, conf0.5 (run, not in the published table), machines: exact at the end (of 40) | 40 | 40 | 40 | 0 | — | — |
+| 200 more chains, conf0.5 (run, not in the published table), cards: exact at the end (of 80) | 80 | 79 | 79 | 0 | — | — |
+| never looking, jugs: wrong steps (of 1200) | 1,200 | 0 | 0 | 0 | — | — |
+| never looking, toggles: wrong steps (of 1200) | 1,200 | 0 | 4 | −4 | — | — |
+| never looking, machines: wrong steps (of 1200) | 1,200 | 1 | 1 | 0 | — | — |
+| never looking, cards: wrong steps (of 2400) | 2,400 | 64 | 120 | −56 | — | — |
+
+How it ran:
+
+- Skopos bf16 served on the RTX PRO 6000 (serve_vllm.sh + the model folder's serve.py); the three long_chain3.py runs of the release (rules 368, fresh 400, fresh_text 40 chains; 611.7, 612.0 and 301.2 min) ran concurrently with the other phase A items, as in the release run; phase A ended 2026-10-16 12:20:36 UTC.
+- The P4 clients were paused (SIGSTOP) 11:32 to about 11:50 UTC while the server was swapped to Ekbasis-27B bf16 for the same-machine P8 control (same serve_vllm.sh + serve.py, same flags) and Skopos bf16 was served again; the chains kept their client-side state (prelaunch_notes/DEVIATIONS_RUN.md). Chains record outcomes, so the pause affects time, not answers.
+- Reference: Ekbasis-27B's published chains (results/release_eval/long_chain3*.jsonl), paired by (world, length, seed index); every chain's world size matched (identity check, 808 chains).
+
+In the file, also: `tables` (`results_skopos/prelaunch/compare/P4.json`).
+
+### P5. Speed (`speed_bench`): 80 forecasts of 10–30 actions (`P5_partial.json`)
+
+*accuracy compared with Ekbasis-27B's published per-item files (counts, 80 < 100); latency and throughput NOT YET COMPARED: they need Ekbasis-27B re-run on this machine (phase B, P5/run.sh ekbasis_bf16); the old rig's times are shown only as context*
+
+| Measure | n | Skopos | Ekbasis-27B | Difference | Paired 95% CI, or counts (Skopos / Ekbasis-27B) | Under the rule |
+|---|---|---|---|---|---|---|
+| one prompt per question: accuracy (80) | 80 | 97.50 | 98.75 | −1.25 | 78 / 79 | — |
+| state read once per step: accuracy (80) | 80 | 93.75 | 90.00 | +3.75 | 75 / 72 | — |
+
+In the file, also: `speed` (`results_skopos/prelaunch/compare/P5_partial.json`).
+
+### P6. Portuguese (`P6_partial.json`)
+
+*counts against Ekbasis-27B's published totals (release_pt.out: 76.7/73.3, 80.0/76.7, 100/100, all 85.6/83.3 of 30/30/30/90); the item-paired comparison awaits the Ekbasis-27B re-run (phase B); 90 < 100, so the rule is counts either way*
+
+| Measure | n | Skopos | Ekbasis-27B | Difference | Paired 95% CI, or counts (Skopos / Ekbasis-27B) | Under the rule |
+|---|---|---|---|---|---|---|
+| English, machines: changed answers right (of 30) | 30 | 27 | 23 | +4 | — | — |
+| Portuguese, machines: changed answers right (of 30) | 30 | 22 | 22 | 0 | — | — |
+| English, toggles: changed answers right (of 30) | 30 | 22 | 24 | −2 | — | **flagged** |
+| Portuguese, toggles: changed answers right (of 30) | 30 | 23 | 23 | 0 | — | — |
+| English, jugs: changed answers right (of 30) | 30 | 29 | 30 | −1 | — | — |
+| Portuguese, jugs: changed answers right (of 30) | 30 | 30 | 30 | 0 | — | — |
+| English, all: changed answers right (of 90) | 90 | 78 | 77 | +1 | — | — |
+| Portuguese, all: changed answers right (of 90) | 90 | 75 | 75 | 0 | — | — |
+
+### P7. Chains that start from an image
+
+Reference: ref/handoff/image_chain_w4a5.json (Ekbasis-27B, the release run's per-item file).
+
+| Measure | n | Skopos | Ekbasis-27B | Difference | Paired 95% CI, or counts (Skopos / Ekbasis-27B) | Under the rule |
+|---|---|---|---|---|---|---|
+| final answer from a text start, all (60) | 60 | 100.00 | 100.00 | +0.00 | 60 / 60 | — |
+| final answer from a text start, jugs (30) | 30 | 100.00 | 100.00 | +0.00 | 30 / 30 | — |
+| final answer from a text start, toggles (30) | 30 | 100.00 | 100.00 | +0.00 | 30 / 30 | — |
+| final answer from the image, all (60) | 60 | 100.00 | 100.00 | +0.00 | 60 / 60 | — |
+| final answer from the image, jugs (30) | 30 | 100.00 | 100.00 | +0.00 | 30 / 30 | — |
+| final answer from the image, toggles (30) | 30 | 100.00 | 100.00 | +0.00 | 30 / 30 | — |
+| final answer from the image + first action, all (60) | 60 | 100.00 | 100.00 | +0.00 | 60 / 60 | — |
+| final answer from the image + first action, jugs (30) | 30 | 100.00 | 100.00 | +0.00 | 30 / 30 | — |
+| final answer from the image + first action, toggles (30) | 30 | 100.00 | 100.00 | +0.00 | 30 / 30 | — |
+| start state read exactly, all (60) | 60 | 81.67 | 85.00 | −3.33 | 49 / 51 | **flagged** |
+| start state read exactly, jugs (30) | 30 | 66.67 | 73.33 | −6.67 | 20 / 22 | **flagged** |
+| start state read exactly, toggles (30) | 30 | 96.67 | 96.67 | +0.00 | 29 / 29 | — |
+
+In the file, also: `variables_read_pct` (`results_skopos/prelaunch/compare/P7.json`).
+
+### P8. Short checks, two wordings
+
+Reference: ref/release_eval/short_eval_release.json (Ekbasis-27B, published).
+
+Deviation: P8 deviation (documented, approved 2026-10-15): the release read Qwen3.8-27B's answers from /dev/shm/conseq/short_eval.json, which existed only on the old rig and is gone. It was replaced by a rebuilt stand-in (P8/make_saved.py): the same 240 items, regenerated by the same code with the same seed (the original wordings equal the Claude hand-off, 120 of 120); Qwen3.8-27B reasoning right on every item, as published (100% on both wordings), so the routing rule is exact; the 'Qwen3.8-27B at once' row is dropped because its per-item answers are gone (published: 80.8% / 80.8%).
+
+| Measure | n | Skopos | Ekbasis-27B | Difference | Paired 95% CI, or counts (Skopos / Ekbasis-27B) | Under the rule |
+|---|---|---|---|---|---|---|
+| both wordings (240) | 240 | 95.42 | 96.67 | −1.25 | [−3.33, +0.83] | — |
+| orig wording (120) | 120 | 96.67 | 95.83 | +0.83 | [−1.67, +4.17] | — |
+| para wording (120) | 120 | 94.17 | 97.50 | −3.33 | [−6.67, −0.83] | **release blocker** |
+
+In the file, also: `routing`, `calibration`, `qwen_published_context`, `ekbasis27b_rerun_identity` (`results_skopos/prelaunch/compare/P8.json`).
+
+### P9. Planning by search, no LLM
+
+Reference: ref/release_eval/search_w4a5rel_*.json (Ekbasis-27B, published).
+
+| Measure | n | Skopos | Ekbasis-27B | Difference | Paired 95% CI, or counts (Skopos / Ekbasis-27B) | Under the rule |
+|---|---|---|---|---|---|---|
+| both sets: plans that work (360) | 360 | 99.17 | 99.44 | −0.28 | [−0.83, +0.00] | — |
+| goals from 3-5-action plans: plans that work (180) | 180 | 100.00 | 100.00 | +0.00 | [+0.00, +0.00] | — |
+| goals from 8-12-action plans: plans that work (180) | 180 | 98.33 | 98.89 | −0.56 | [−1.67, +0.00] | — |
+
+How it ran:
+
+- Skopos bf16 (/root/Skopos-R4-27B) in PyTorch with no vLLM on the GPU (phase C, ended 2026-10-16 13:07:10 UTC, rc 0), search_eval.py as the release ran it (ONLY=base, RANK 64, BEAM 6, BS 48, no flash-linear-attention, the torch fallback as in the release run's log).
+- Puzzles regenerated by P9/gen_puzzles.py (llm_agent_gen.py, seed 202; N=30 HS=3,5 and HS=8,12); 180 per set; identity: every published question count is a multiple of its puzzle's actions x variables (360/360, offline).
+- Seconds are not comparable with the published ones (another host); the optional Ekbasis-27B re-run on this machine (seconds, identity) is deferred to after release (PENDING.json: P9_identity.json, only if run).
+
+In the file, also: `questions_and_seconds`, `ekbasis27b_rerun_identity`, `same_question_count_as_published` (`results_skopos/prelaunch/compare/P9.json`).
+
+### P10. Real use on real repositories
+
+Reference: ref/handoff/realuse_pm_pred_w4a5.json (Ekbasis-27B, the published run's predictions).
+
+| Measure | n | Skopos | Ekbasis-27B | Difference | Paired 95% CI, or counts (Skopos / Ekbasis-27B) | Under the rule |
+|---|---|---|---|---|---|---|
+| work-losing scenarios caught (of 28) | 28 | 28 | 28 | 0 | — | — |
+| false alarms (of 44) | 44 | 0 | 0 | 0 | — | — |
+| 'will it fail?' right (of 96) | 96 | 95 | 92 | +3 | — | — |
+
+How it ran:
+
+- Skopos bf16 served on the RTX PRO 6000 (vLLM serve_vllm.sh + the model folder's serve.py), reached from the Mac through a tunnel; P10 finished 2026-10-16 05:03 UTC (main thread).
+- Truth re-executed on the base copies (P10/base_backup/) before predicting: 72/72 scenarios identical to the published run's truth.json.
+- Client ekbasis 0.1.0 (venv_launch), file hashes checked against P10/client_venv_launch.sha256 before the run.
+- P10 ran while the phase A items shared the GPU: its time (median 66.0 s per check) is not comparable with the published 0.89 s; the answers are unaffected (every check completed, max 69.6 s, below the client's 120 s timeout; no errors).
+- The optional Ekbasis-27B bf16 same-tunnel timing control was not run (prelaunch_notes/DEVIATIONS_RUN.md): the comparison is against Ekbasis-27B's published run of the same 72 scenarios.
+- Scored with this compare (stage_release_results.py's formulas) and cross-checked with the published score.py (path changed only): Ekbasis-27B 28/28, 0/44, 92/96; Skopos 28/28, 0/44, 95/96.
+
+In the file, also: `median_seconds`, `hook_decisions_that_differ [skopos, ekbasis27b]`, `ekbasis27b_rerun`, `checks` (`results_skopos/prelaunch/compare/P10.json`).
+
+### P10. Real use on real repositories (`P10_int4.json`)
+
+Reference: ref/handoff/realuse_pm_pred_w4a5.json (Ekbasis-27B, the published run's predictions).
+
+| Measure | n | Skopos | Ekbasis-27B | Difference | Paired 95% CI, or counts (Skopos / Ekbasis-27B) | Under the rule |
+|---|---|---|---|---|---|---|
+| work-losing scenarios caught (of 28) | 28 | 28 | 28 | 0 | — | — |
+| false alarms (of 44) | 44 | 0 | 0 | 0 | — | — |
+| 'will it fail?' right (of 96) | 96 | 95 | 92 | +3 | — | — |
+
+How it ran:
+
+- Ekbasis-Skopos-27B-INT4 (/root/Skopos-R4-27B-INT4) served on the RTX PRO 6000 (serve_vllm.sh + the folder's serve.py), reached from the Mac through a tunnel; P10 finished 2026-10-16 13:37:51 UTC (main thread); 72 predictions, 0 errors.
+- The INT4 server was kept up by the runner until this Mac step wrote its marker (prelaunch_notes/DEVIATIONS_RUN.md); per the main thread, P10 ran alone on the GPU. Its time (median 0.93 s per check, max 1.46 s) is context only: the published 0.89 s is Ekbasis-27B bf16 on the old rig through another tunnel.
+- Truth: re-executed on the base copies (P10/base_backup/) once for this Mac session, before the bf16 run (2026-10-15 23:24, 72/72 identical to the published truth.json); not repeated for the INT4 run. Client ekbasis 0.1.0, file hashes checked again before this run.
+- Reference: Ekbasis-27B's published run of the same 72 scenarios (bf16, the rig); counts, as P10 is under 100 items. Scored with stage_release_results.py's formulas (P10/compare.py).
+
+In the file, also: `median_seconds`, `hook_decisions_that_differ [skopos, ekbasis27b]`, `ekbasis27b_rerun`, `checks` (`results_skopos/prelaunch/compare/P10_int4.json`).
+
+### P12. Client suites on the INT4 build (`P12_intent.json`)
+
+Reference: ref/intent_replay/{out,heldout/out}/answers.jsonl (Ekbasis-27B-INT4, hosted API, 11 Oct).
+
+| Measure | n | Skopos | Ekbasis-27B | Difference | Paired 95% CI, or counts (Skopos / Ekbasis-27B) | Under the rule |
+|---|---|---|---|---|---|---|
+| real successful attacks stopped, both replays (2,092 published) [n=2092] | 2,092 | 100.00 | 100.00 | +0.00 | [+0.00, +0.00] | — |
+| first replay: real attacks stopped (1,507 published) [n=1507] | 1,507 | 100.00 | 100.00 | +0.00 | [+0.00, +0.00] | — |
+| held-out replay: real attacks stopped (585 published) [n=585] | 585 | 100.00 | 100.00 | +0.00 | [+0.00, +0.00] | — |
+| benign runs with a false alarm, both replays (17 published: 13 of 776 + 4 of 291, each set's rule) [n=1067] | 1,067 | 0.66 | 1.59 | −0.94 | [−1.50, −0.37] | — |
+| first replay: benign runs with a false alarm (13 of 776 published) [n=776] | 776 | 0.64 | 1.68 | −1.03 | [−1.80, −0.39] | — |
+| held-out replay: benign runs with a false alarm (4 of 291 published) [n=291] | 291 | 0.69 | 1.37 | −0.69 | [−1.72, +0.00] | — |
+
+In the file, also: `extra`, `analysis_files` (`results_skopos/prelaunch/compare/P12_intent.json`).
+
+**P12 intent_check replay: context for P12_intent.json (the rule's outcome is there)** (`results_skopos/prelaunch/compare/P12_intent_context.json`)
+
+**P8 context (not part of the rule; the rule's outcome is in P8.json)** (`results_skopos/prelaunch/compare/P8_context.json`): The paired bootstrap of the sealed rule rests on 4 discordant items, all in one direction; the exact McNemar test on the same pairs gives p = 0.125. Reported as context only. The Ekbasis-27B identity re-run on this machine (phase B, P8/run.sh ekbasis_bf16) will show whether Ekbasis-27B reproduces its published 117/120 here.
+
+**P8 context: Skopos against Ekbasis-27B re-run on the SAME machine (context only; the rule's reference stays the published run, P8.json)** (`results_skopos/prelaunch/compare/P8_same_machine.json`)
 
 ## Deviations from the pre-registrations
 
