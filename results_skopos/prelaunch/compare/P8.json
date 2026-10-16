@@ -150,5 +150,9 @@
    "para": 100.0
   }
  },
- "ekbasis27b_rerun_identity": null
+ "ekbasis27b_rerun_identity": {
+  "same_right_wrong_as_published": 240,
+  "n": 240,
+  "max_confidence_difference": 0.11211323738098145
+ }
 }

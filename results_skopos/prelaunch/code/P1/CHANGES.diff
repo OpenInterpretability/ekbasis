@@ -1,0 +1,43 @@
+--- _orig/release_eval_extra.py
++++ P1/release_eval_extra.py
+@@ -1,3 +1,4 @@
++# PRELAUNCH PORT (P1) of _orig/release_eval_extra.py: every changed line is marked PORT; the full diff is CHANGES.diff in this folder.
+ """Pre-registered release evaluation, the parts release_eval.py left out (server side, exact release weights through the
+ System One API): ftest_family (primary 3; one question per state, so one prompt per question; scored on the answers the
+ actions change, with the pre-action answers of fac/gold0_ftest_family.jsonl, and on all answers), and the same 240 git
+@@ -7,12 +8,15 @@
+ from pathlib import Path
+ 
+ sys.argv = [sys.argv[0]]
+-sys.path.insert(0, "/root/decis/conseq")
++LIB = os.environ.get("LIB", os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "lib"))  # PORT: the rig folder /root/decis/conseq -> lib/ (identical copies)
++DATA = os.environ.get("DATA", "/root/prelaunch_data")  # PORT: the rig folder /dev/shm/conseq -> $DATA
++sys.path.insert(0, LIB)  # PORT
+ import git_llm_large as G
++G.D = Path(DATA)  # PORT: pick() reads $DATA/fac/<split>.jsonl (it read /dev/shm/conseq/fac)
+ 
+ URL, PAR = os.environ.get("URL", "http://127.0.0.1:8503"), int(os.environ.get("PAR", "48"))
+ OUT = Path(os.environ.get("OUT", "/dev/shm/conseq/release_eval"))
+-src = open("/root/decis/conseq/release_eval.py").read()
++src = open(os.path.join(LIB, "release_eval.py")).read()  # PORT
+ ns = {"__name__": "helpers"}
+ exec(compile(src[:src.index("report = {}")], "release_eval.py", "exec"), ns)  # post, answer, boot (no evaluation run)
+ post, answer, boot, norm = ns["post"], ns["answer"], ns["boot"], G.norm
+@@ -24,7 +28,7 @@
+ 
+ 
+ report = {}
+-rows = [json.loads(l) for l in open("/dev/shm/conseq/fac/ftest_family.jsonl")]
++rows = [json.loads(l) for l in open(f"{DATA}/fac/ftest_family.jsonl")]
+ t0 = time.time()
+ with cf.ThreadPoolExecutor(PAR) as ex:
+     preds = list(ex.map(ask, rows))
+@@ -39,7 +43,7 @@
+                                         "per_world": {w: f"{sum(v)}/{len(v)}" for w, v in sorted(per.items())},
+                                         "seconds": time.time() - t0}
+ print("ftest_family", json.dumps(report["ftest_family (all answers)"]), flush=True)
+-g0 = [json.loads(l) for l in open("/dev/shm/conseq/fac/gold0_ftest_family.jsonl")]
++g0 = [json.loads(l) for l in open(f"{DATA}/fac/gold0_ftest_family.jsonl")]
+ ch = [i for i, (r, g) in enumerate(zip(rows, g0)) if g["known"] and norm(g["gold0"]) != norm(r["gold"])]
+ un = [i for i, (r, g) in enumerate(zip(rows, g0)) if g["known"] and norm(g["gold0"]) == norm(r["gold"])]
+ per = collections.defaultdict(list)

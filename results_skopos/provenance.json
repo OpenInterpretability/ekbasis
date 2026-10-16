@@ -438,8 +438,332 @@
   "source": "release workspace results/overlap_audit_r4.json"
  },
  "prelaunch/DEVIATIONS_RUN.md": {
-  "sha256": "ee0d91c040f95bdb86cfe5662495b6f1554991f697921f53e24addc9aa75cdb4",
+  "sha256": "051d0a4cb551d92dfc0616d942f83961c243981f934fee4f04c2bc4c22ed27bc",
   "source": "the pre-launch notes DEVIATIONS_RUN.md"
+ },
+ "prelaunch/RELEASE_DECISION.md": {
+  "sha256": "4411e95e84f5d13da85b2f9e5846002585a7a63f221447425a5a18c924d46bdf",
+  "source": "the release workspace RELEASE_DECISION.md (the owner's decision)"
+ },
+ "prelaunch/code/P1/CHANGES.diff": {
+  "sha256": "ae9f763c1928db425809567261bb7f90d8bbae3abbccaf90f25003375bc9acca",
+  "source": "the battery's P1/CHANGES.diff"
+ },
+ "prelaunch/code/P1/compare.py": {
+  "sha256": "02b6d3a214fa6bf408cc90c6ce013e7120919e62c9030dccd798d81d840a567e",
+  "source": "the battery's P1/compare.py"
+ },
+ "prelaunch/code/P1/release_eval_extra.py": {
+  "sha256": "9f5cf245bf3021bafdffe91ada60c8e7167d6d07ef386f218a60261e1969896d",
+  "source": "the battery's P1/release_eval_extra.py"
+ },
+ "prelaunch/code/P1/run.sh": {
+  "sha256": "d0312ffab22331780b73eecdd50ceb46575cd9a4e6f6970b661ad425bad759e0",
+  "source": "the battery's P1/run.sh"
+ },
+ "prelaunch/code/P10/CHANGES.diff": {
+  "edits": [
+   "the Mac's home folder in paths replaced by <mac-scratch> or /Users/<user>"
+  ],
+  "sha256": "197df8ed2a6b58913dda5f1df4f358fadf5ea81f9dde27f02b6667c0b866a3cc",
+  "sha256_as_run": "b5aaedddec0fb2b5b8cc300ef5f4a158bbea9042290cf4c548b1e4ec3febbc6d",
+  "source": "the battery's P10/CHANGES.diff"
+ },
+ "prelaunch/code/P10/client_venv_launch.sha256": {
+  "sha256": "d3cedd990f080da3fda152ead97a49292970e3748b1a2eea9ad83129b16c2182",
+  "source": "the battery's P10/client_venv_launch.sha256"
+ },
+ "prelaunch/code/P10/compare.py": {
+  "sha256": "e0033eddfdf3691bb3a45f31046d8c17a02f80205b7c4823a4e2c11c627f9a34",
+  "source": "the battery's P10/compare.py"
+ },
+ "prelaunch/code/P10/realuse_guard.py": {
+  "edits": [
+   "the Mac's home folder in paths replaced by <mac-scratch> or /Users/<user>"
+  ],
+  "sha256": "adcabf19f822224416cd984bbc5b9b681fb77e59043631ec75463d1582b133f1",
+  "sha256_as_run": "7ed4614276434c23ddc5e675b2b6875efe2e4388fa70f340472a4ac512a640e2",
+  "source": "the battery's P10/realuse_guard.py"
+ },
+ "prelaunch/code/P10/run_mac.sh": {
+  "edits": [
+   "the Mac's home folder in paths replaced by <mac-scratch> or /Users/<user>"
+  ],
+  "sha256": "e155812aec8aa4e3e06eea1fb3da97e67b5aec1ab2fe2fa5859dba59e784204f",
+  "sha256_as_run": "bccc961053bc7d6c21168d4812a8f8293c24c937134d28f91ec1469f0e44efcf",
+  "source": "the battery's P10/run_mac.sh"
+ },
+ "prelaunch/code/P11/CHANGES.diff": {
+  "sha256": "35d96d07e59b62882b1c3769b22dc7708b8b3227ebc43a03c04709d64aaa775a",
+  "source": "the battery's P11/CHANGES.diff"
+ },
+ "prelaunch/code/P11/collect_memory_tests.py": {
+  "sha256": "4a781c7b5c981cc0be9bdc286b667aa4619ccd684212d5426bba70a55ba75e53",
+  "source": "the battery's P11/collect_memory_tests.py"
+ },
+ "prelaunch/code/P11/compare.py": {
+  "sha256": "f10c8a35d1dfcbea42ff099418fa11cb1179694217263f08c5a84686548f938b",
+  "source": "the battery's P11/compare.py"
+ },
+ "prelaunch/code/P11/mem_ceiling_test.sh": {
+  "sha256": "7080cec1a52f9d65adbf4273a8cf5849f5bde636f26959e319f5ce0fe7e0d012",
+  "source": "the battery's P11/mem_ceiling_test.sh"
+ },
+ "prelaunch/code/P11/mem_int4_24gb.sh": {
+  "sha256": "b110324d62fc26a5261279002b37f66230762f2386ce720013d1265ac705c515",
+  "source": "the battery's P11/mem_int4_24gb.sh"
+ },
+ "prelaunch/code/P11/run.sh": {
+  "sha256": "8e1f7bbbb21ec2469535c560d49e0f303050e98f7acb008a4f53b3569750a514",
+  "source": "the battery's P11/run.sh"
+ },
+ "prelaunch/code/P12/intent/analyze_replay.py": {
+  "sha256": "d5dce03c56fe6f6e606bdef81fa814ef5807c1c38734c6e50984f393fda44cb4",
+  "source": "the battery's P12/intent/analyze_replay.py"
+ },
+ "prelaunch/code/P12/intent/compare.py": {
+  "sha256": "438740392af9a20efa10833ddd54b05dba7316e408e21a52bf85743faea637de",
+  "source": "the battery's P12/intent/compare.py"
+ },
+ "prelaunch/code/P12/intent/heldout/analyze_heldout.py": {
+  "sha256": "941e6c60d00c5b2039cc230f6eb05aa99164086305f5c430ae9f3afa59a86d90",
+  "source": "the battery's P12/intent/heldout/analyze_heldout.py"
+ },
+ "prelaunch/code/P12/intent/heldout/dest_rules.py": {
+  "sha256": "31d410c82f9b547b8ddf728c59d2ffee2705c8e0e9dc7a5e3d359acecf38e109",
+  "source": "the battery's P12/intent/heldout/dest_rules.py"
+ },
+ "prelaunch/code/P12/intent/run.sh": {
+  "sha256": "35fb4c2c9098351feba32d53965f2b8cd3829cc0c7e3845fdecc086403796498",
+  "source": "the battery's P12/intent/run.sh"
+ },
+ "prelaunch/code/P12/intent/run_replay.py": {
+  "sha256": "e964a8edcf820fd6ce8fa35833f4014bf65da4a0917b8fc9b65ed9a77ce924ba",
+  "source": "the battery's P12/intent/run_replay.py"
+ },
+ "prelaunch/code/P12/intent/setup_client.sh": {
+  "sha256": "9303473ab471a3da641810be28ea4509ccd0da6ba1743c9930140d7d65b4b75a",
+  "source": "the battery's P12/intent/setup_client.sh"
+ },
+ "prelaunch/code/P12/preflight_substitute/compare.py": {
+  "sha256": "cb78166fe9d232c91aace20d9a3176c291488571f46e87a08979431971428d3c",
+  "source": "the battery's P12/preflight_substitute/compare.py"
+ },
+ "prelaunch/code/P12/preflight_substitute/replay_requests.py": {
+  "sha256": "04f5b9c4bb9e38bbcc274cd1c3f6d91c0004b36bb7f96aa84b195693c3e46c27",
+  "source": "the battery's P12/preflight_substitute/replay_requests.py"
+ },
+ "prelaunch/code/P12/preflight_substitute/run.sh": {
+  "sha256": "b3665ea8f0009f3da59e26aec9bf8d0ec267afbae4bb8f34cfc357c91846148e",
+  "source": "the battery's P12/preflight_substitute/run.sh"
+ },
+ "prelaunch/code/P2/compare.py": {
+  "sha256": "dc102579cb5285586007e3803d59eaaaba195f94dca7030d1ca17e7e5a3a3d2e",
+  "source": "the battery's P2/compare.py"
+ },
+ "prelaunch/code/P2/p2_git3_by_type.json": {
+  "sha256": "796a721a4f75e0b4e01ee6ad46a532375a415fff87e5222fdc0d31f04838a219",
+  "source": "the battery's P2/p2_git3_by_type.json"
+ },
+ "prelaunch/code/P3/CHANGES.diff": {
+  "sha256": "e1fdf1feb811a4b3494cdc95604ff1795eed3df12452582436321be8e03b9931",
+  "source": "the battery's P3/CHANGES.diff"
+ },
+ "prelaunch/code/P3/compare.py": {
+  "sha256": "e58848fe549a8a14f5227ed2feb22d605164d84846ee303748624bfc81db5e36",
+  "source": "the battery's P3/compare.py"
+ },
+ "prelaunch/code/P3/long_chain2.py": {
+  "sha256": "351f1882ca5ac756ea036929b701f0c664d24ecf5ad113652265e36b6638c357",
+  "source": "the battery's P3/long_chain2.py"
+ },
+ "prelaunch/code/P3/run.sh": {
+  "sha256": "9e9d5bfb57a290db0d1eb2407f245ac1b7a05f9726ec0f9a41513eaea1491fbc",
+  "source": "the battery's P3/run.sh"
+ },
+ "prelaunch/code/P4/CHANGES.diff": {
+  "sha256": "ffc08068ad24487a37cfeb8e631bffc372f67adf7d2c9b8bdb60ea7e2c5eeb78",
+  "source": "the battery's P4/CHANGES.diff"
+ },
+ "prelaunch/code/P4/compare.py": {
+  "sha256": "dbaddf8b83121e5f77641b2767656fc8bed3b5ef7b69f69e220cf5fa70959d49",
+  "source": "the battery's P4/compare.py"
+ },
+ "prelaunch/code/P4/long_chain3.py": {
+  "sha256": "0f58c5a9936928c0816e6c49a95249ba1b4184fa4af8e56d84e87833d684f3e6",
+  "source": "the battery's P4/long_chain3.py"
+ },
+ "prelaunch/code/P4/run.sh": {
+  "sha256": "76f10381d5afa16f1bbd404075c5fbc12b5594454c798a8fba2cb6c3b30966d4",
+  "source": "the battery's P4/run.sh"
+ },
+ "prelaunch/code/P5/CHANGES.diff": {
+  "sha256": "170756d0d1db9f26f4b53196f3ec312580133f3b9fc8e3dcb5e57c9bc6f0ea62",
+  "source": "the battery's P5/CHANGES.diff"
+ },
+ "prelaunch/code/P5/compare.py": {
+  "sha256": "e302780bea47c2c4662f662a3ece56fea246c3c87bb2e5ff5079849a852f3c7f",
+  "source": "the battery's P5/compare.py"
+ },
+ "prelaunch/code/P5/run.sh": {
+  "sha256": "f686acdca2ec4831d0cdd5a48fc8677fc2988ad4bb6ce0973e1922c0282c5f1e",
+  "source": "the battery's P5/run.sh"
+ },
+ "prelaunch/code/P5/speed_bench.py": {
+  "sha256": "cbb711336335a5864e01c999aa6e5dfc9ead2dbe6e5bbb666ca919142e1194e3",
+  "source": "the battery's P5/speed_bench.py"
+ },
+ "prelaunch/code/P6/CHANGES.diff": {
+  "sha256": "1a24e0628f1f2b3e165a0433f976a81fce1f5ae1636ed87213ed7f33b5699312",
+  "source": "the battery's P6/CHANGES.diff"
+ },
+ "prelaunch/code/P6/compare.py": {
+  "sha256": "1c7ae2f957006b597842d07cb99cca915fee80a33282f28eedae3c90025a1cee",
+  "source": "the battery's P6/compare.py"
+ },
+ "prelaunch/code/P6/pt_eval_api.py": {
+  "sha256": "50382275267f76b9dbcea3e0419ed955e45a9006cd541d150b0ec52bb7e40e7e",
+  "source": "the battery's P6/pt_eval_api.py"
+ },
+ "prelaunch/code/P6/run.sh": {
+  "sha256": "c5be1aa6c0efe9ee56e6727bac198ab13c274dfc72e1547138ac272dae34beef",
+  "source": "the battery's P6/run.sh"
+ },
+ "prelaunch/code/P7/CHANGES.diff": {
+  "sha256": "a1541a7061b249b74c788f9d2d927a3505f5f1c129575b3d6a139ad4a8b39488",
+  "source": "the battery's P7/CHANGES.diff"
+ },
+ "prelaunch/code/P7/compare.py": {
+  "sha256": "d5bdc33eb9f2f892c7944ce39fe6dbc68d0a1e108af78ceeec795c8e96248763",
+  "source": "the battery's P7/compare.py"
+ },
+ "prelaunch/code/P7/image_chain.py": {
+  "sha256": "d938e18e05bccbbd4a5d8b9df086ac9972ce45d1e6a5e7be73b5fad581a57f35",
+  "source": "the battery's P7/image_chain.py"
+ },
+ "prelaunch/code/P7/run.sh": {
+  "sha256": "1e51442fce1c903f39882d4fc8857e5aef8108ba622bd4b92ce096768184947c",
+  "source": "the battery's P7/run.sh"
+ },
+ "prelaunch/code/P8/CHANGES.diff": {
+  "sha256": "b1ccc5ef0be79698ac113ac492a8117da55cb5476e8be0f2ab96a8ce9f02c2fc",
+  "source": "the battery's P8/CHANGES.diff"
+ },
+ "prelaunch/code/P8/compare.py": {
+  "sha256": "a9b299e6ac2520082f32eee64344714335e41f2aafb9532232c27c46aa055fe7",
+  "source": "the battery's P8/compare.py"
+ },
+ "prelaunch/code/P8/make_saved.py": {
+  "sha256": "cc85250ecd1ace2371c97866e7d11f5ced1fd097514196ba5db0218e3a2477c9",
+  "source": "the battery's P8/make_saved.py"
+ },
+ "prelaunch/code/P8/run.sh": {
+  "sha256": "404843b81fb9daeb6c9d2bee9064b515dbfbf7baf2953ad9bc95f695a33e9805",
+  "source": "the battery's P8/run.sh"
+ },
+ "prelaunch/code/P8/short_eval_release.py": {
+  "sha256": "666b0869f55c70690f57cb75609468a25e5641e7486cc024b4fdd4172e1aa0fd",
+  "source": "the battery's P8/short_eval_release.py"
+ },
+ "prelaunch/code/P9/CHANGES.diff": {
+  "sha256": "285192a21f20b9a379eed1b0a583ba629fa975229d59520801588b26599fddeb",
+  "source": "the battery's P9/CHANGES.diff"
+ },
+ "prelaunch/code/P9/compare.py": {
+  "sha256": "72ffa1d0e8bf77e8f80d4db4b49182dd0fd5099320543b5109f1dd1d313cc48f",
+  "source": "the battery's P9/compare.py"
+ },
+ "prelaunch/code/P9/gen_puzzles.py": {
+  "sha256": "b78caa3e9136afea113ec17628953361027af28325e68e34f9dbb02e999720d4",
+  "source": "the battery's P9/gen_puzzles.py"
+ },
+ "prelaunch/code/P9/run.sh": {
+  "sha256": "423665306bcba30cdb33f220305184d07979ea1e3735789b1c8e22bffe42046d",
+  "source": "the battery's P9/run.sh"
+ },
+ "prelaunch/code/P9/search_eval.py": {
+  "sha256": "043c99287b0a1e624a13b0ebf3e3a0dc943dd524fd662b368c53dc7dd76410f8",
+  "source": "the battery's P9/search_eval.py"
+ },
+ "prelaunch/code/common/env.sh": {
+  "sha256": "d74492ef4340381248cba76315e4338b02f2edd5f6d3ec22b2eea4658b63c288",
+  "source": "the battery's common/env.sh"
+ },
+ "prelaunch/code/common/fetch_data.sh": {
+  "sha256": "94b04b9e4b4a0f912d94fd6b5a703e1c301e372257cfc967c2763363ebd1d0e3",
+  "source": "the battery's common/fetch_data.sh"
+ },
+ "prelaunch/code/common/identity_offline.json": {
+  "sha256": "ca3599609a8f432fb993556b84999ec85bf7ba5e7c65dab61703514a1240a272",
+  "source": "the battery's common/identity_offline.json"
+ },
+ "prelaunch/code/common/identity_offline.py": {
+  "sha256": "c0d2eba83a9c6f448487a2b28373a5b1a273b9b38f2efc2ba8f4a70ca8f5962c",
+  "source": "the battery's common/identity_offline.py"
+ },
+ "prelaunch/code/common/make_ports.py": {
+  "edits": [
+   "the Mac's home folder in paths replaced by <mac-scratch> or /Users/<user>"
+  ],
+  "sha256": "cd3fca1a6b699f7f213ac5e90f2ee4a7fcf8148d0fc7c4e5aeddb511cb7b0486",
+  "sha256_as_run": "a9b333164a7e48dd04a1038a342dd447eed33cef978214f9dbc562cfd53d00cf",
+  "source": "the battery's common/make_ports.py"
+ },
+ "prelaunch/code/common/paired.py": {
+  "sha256": "d6e52cdcce616158f70021ccc1ce4347e51ded7f69fabe853383e802c2d19bea",
+  "source": "the battery's common/paired.py"
+ },
+ "prelaunch/code/common/selftest.sh": {
+  "sha256": "2f3036997413479f61d249da391a8c97ab228fa6e9ea739e88db181b5e56ba87",
+  "source": "the battery's common/selftest.sh"
+ },
+ "prelaunch/code/common/serve.sh": {
+  "sha256": "7e620dfbb9cbaf722d1bce3f1cbef51db4b7b9cb76188c55b741e7ec63618059",
+  "source": "the battery's common/serve.sh"
+ },
+ "prelaunch/code/common/serve.sh.as_run_until_20261016": {
+  "sha256": "04e797d1cadd2e43ad5c0a3b1b14f372f1728f3b2c1d3131e431cd2dd26631ad",
+  "source": "the battery's common/serve.sh.as_run_until_20261016"
+ },
+ "prelaunch/code/lib/SHA256SUMS": {
+  "sha256": "d03656def9bfd9cd432a8461378415fd77f1066aa1c3e3f14e578c632ad85bd4",
+  "source": "the battery's lib/SHA256SUMS"
+ },
+ "prelaunch/code/lib/envs.py": {
+  "sha256": "7a3b8b1cdbef5bf4fb6f040eae4f8fd27c03e0627271fd37e6fdd7a0cbbb8eef",
+  "source": "the battery's lib/envs.py"
+ },
+ "prelaunch/code/lib/git_llm_large.py": {
+  "sha256": "36aa8ef350d0b0a546f2e5f0ae7133a9b3755462a20f6681325fa958b65d74a0",
+  "source": "the battery's lib/git_llm_large.py"
+ },
+ "prelaunch/code/lib/llm_agent_gen.py": {
+  "sha256": "7bb43626eae3aacbb7853eb870eadf0d4ae28dd4c803c1d97e22d874aa2d289e",
+  "source": "the battery's lib/llm_agent_gen.py"
+ },
+ "prelaunch/code/lib/llm_agent_gen_lib.py": {
+  "sha256": "ac59a67ce99dc988daac0f5cb5ce6adc80be5cf1ddcc6162d3c3201d4330d8d5",
+  "source": "the battery's lib/llm_agent_gen_lib.py"
+ },
+ "prelaunch/code/lib/pt_eval.py": {
+  "sha256": "dde24ef349ee7916e8c7080acc56887a21a506f1e683b40b88367950659ba304",
+  "source": "the battery's lib/pt_eval.py"
+ },
+ "prelaunch/code/lib/release_eval.py": {
+  "sha256": "bc857b14e95f424d72b2ac55b75cc80890fd4f871347e7f358a82f07209bbd96",
+  "source": "the battery's lib/release_eval.py"
+ },
+ "prelaunch/code/lib/robust_eval.py": {
+  "sha256": "1d31750c7c0e9bed8ce9171936be9beed582d42643de74b057dbebdb7e4cba8a",
+  "source": "the battery's lib/robust_eval.py"
+ },
+ "prelaunch/code/lib/worldgen.py": {
+  "sha256": "3edbba376d2d868dcdd30b652d6dc093fb744e8b6350e5fd83cbc59f6fa11bc8",
+  "source": "the battery's lib/worldgen.py"
+ },
+ "prelaunch/code/run_all.sh": {
+  "sha256": "971ab9b5322e0e2dd82fc32db61a2a0ff20ebd785762446bea7d4a544081666c",
+  "source": "the battery's run_all.sh"
  },
  "prelaunch/compare/P1.json": {
   "sha256": "161411fc6c3a4e55db4d0ddc3a0a9b6bdfee094d67ed585e0670029a4976b7cb",
@@ -448,6 +772,10 @@
  "prelaunch/compare/P10.json": {
   "sha256": "a61bd44857507f4626d75f0bddd175fc6427bbacf8ba7038b3107b19196aa4de",
   "source": "the pre-launch battery's prelaunch_out/compare/P10.json"
+ },
+ "prelaunch/compare/P2.json": {
+  "sha256": "0848a098eb24ec5197fb8149b8ae62336b518302f7a478d1d1d483e73afa004c",
+  "source": "the pre-launch battery's prelaunch_out/compare/P2.json"
  },
  "prelaunch/compare/P3.json": {
   "sha256": "2649c110449e92984930e2415d6d03d99178a096c4e14e5c0f6484910d258798",
@@ -466,12 +794,40 @@
   "source": "the pre-launch battery's prelaunch_out/compare/P7.json"
  },
  "prelaunch/compare/P8.json": {
-  "sha256": "a4ccffbd099acab9052992807628fae5d23eade3b115e4981682f3dc129c4f78",
+  "sha256": "bc56e41572102a45c5ed44cc62404f98d9e2dd272e8826d390fa34da385e835b",
   "source": "the pre-launch battery's prelaunch_out/compare/P8.json"
  },
  "prelaunch/compare/P8_context.json": {
-  "sha256": "e9a17da82c47452cd0ab0560fed391cffa0c315e36c2f6c28358dfc1d8744857",
+  "sha256": "69972539288c6c81072882af4289b050b63f24fee17c6d8852b5487b602282ab",
   "source": "the pre-launch battery's prelaunch_out/compare/P8_context.json"
+ },
+ "prelaunch/compare/P8_same_machine.json": {
+  "sha256": "0f2051a15ea001d9a1b65f805798f7b74ea6f1d234bb8054d8f137add7b29296",
+  "source": "the pre-launch battery's prelaunch_out/compare/P8_same_machine.json"
+ },
+ "prelaunch/compare/PENDING.json": {
+  "sha256": "0525464a9c9410c671753cbe2b7cde7b764ea24419ca60e960ea2a70ff18fe62",
+  "source": "the pre-launch battery's prelaunch_out/compare/PENDING.json"
+ },
+ "prelaunch/out/P8/ekbasis_bf16_early/deviation.json": {
+  "sha256": "51a089b3f3813c1424873ecdd90fcfb5ae014fb7e73b0e7636a14c6eda75bf6a",
+  "source": "the battery's prelaunch_out_partial/P8/ekbasis_bf16_early (the same-machine control)/deviation.json"
+ },
+ "prelaunch/out/P8/ekbasis_bf16_early/short_acc.out": {
+  "sha256": "d9ee70b10a43063d3313b3f64353f0dad2dba9c62d74f0a3e43ec215325f6955",
+  "source": "the battery's prelaunch_out_partial/P8/ekbasis_bf16_early (the same-machine control)/short_acc.out"
+ },
+ "prelaunch/out/P8/ekbasis_bf16_early/short_eval_release.json": {
+  "sha256": "af0948b4f1cc925af6a73322c5c93037a640bf45031e51e450c7719b8b22724e",
+  "source": "the battery's prelaunch_out_partial/P8/ekbasis_bf16_early (the same-machine control)/short_eval_release.json"
+ },
+ "prelaunch/out/P8/ekbasis_bf16_early/short_eval_saved.json": {
+  "sha256": "7a460f86038e5b5717877ce235608fefb4764e0d68623da06d3dbd5a8b47763d",
+  "source": "the battery's prelaunch_out_partial/P8/ekbasis_bf16_early (the same-machine control)/short_eval_saved.json"
+ },
+ "prelaunch/references.tsv": {
+  "sha256": "25d1bc837081b3c765f55900ad978d85fe26702218d0b9456623787efc894a16",
+  "source": "written by this stager from the battery's prelaunch/ref/"
  },
  "quant_gate_fp8.json": {
   "as_run_copy": "rtx/v50p/quant_gate_fp8.json",

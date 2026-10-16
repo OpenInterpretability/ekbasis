@@ -1,15 +1,82 @@
 {
  "item": "P8 context (not part of the rule; the rule's outcome is in P8.json)",
- "para_wording_120": {"skopos_right": 113, "ekbasis27b_right": 117, "discordant": {"skopos_only_wrong": 4, "ekbasis27b_only_wrong": 0},
-                      "skopos_only_wrong_items": [{"k": 23, "family": "machines", "skopos_conf": 0.673, "ekbasis27b_conf": 0.941},
-                                                  {"k": 41, "family": "machines", "skopos_conf": 0.999, "ekbasis27b_conf": 0.74},
-                                                  {"k": 121, "family": "toggles", "skopos_conf": 0.558, "ekbasis27b_conf": 0.537},
-                                                  {"k": 203, "family": "jugs", "skopos_conf": 0.859, "ekbasis27b_conf": 0.943}],
-                      "by_family_right [n, skopos, ekbasis27b]": {"machines": [40, 35, 37], "toggles": [40, 39, 40], "jugs": [40, 39, 40]},
-                      "exact_mcnemar_two_sided_p": 0.125},
- "orig_wording_120": {"skopos_right": 116, "ekbasis27b_right": 115, "discordant": {"skopos_only_wrong": 1, "ekbasis27b_only_wrong": 2}},
- "both_240": {"skopos_right": 229, "ekbasis27b_right": 232, "exact_mcnemar_two_sided_p": 0.453},
- "confident_errors_conf_ge_0.99": {"skopos": "4 of 211 (items 13 para, 14 orig, 41 para, 78 orig; all machines)", "ekbasis27b": "0 of 189"},
- "routing_below_0.99": {"skopos": "12.1% sent, 98.3% right", "ekbasis27b": "21.3% sent, 100% right"},
- "note": "The paired bootstrap of the sealed rule rests on 4 discordant items, all in one direction; the exact McNemar test on the same pairs gives p = 0.125. Reported as context only. The Ekbasis-27B identity re-run on this machine (phase B, P8/run.sh ekbasis_bf16) will show whether Ekbasis-27B reproduces its published 117/120 here."
+ "para_wording_120": {
+  "skopos_right": 113,
+  "ekbasis27b_right": 117,
+  "discordant": {
+   "skopos_only_wrong": 4,
+   "ekbasis27b_only_wrong": 0
+  },
+  "skopos_only_wrong_items": [
+   {
+    "k": 23,
+    "family": "machines",
+    "skopos_conf": 0.673,
+    "ekbasis27b_conf": 0.941
+   },
+   {
+    "k": 41,
+    "family": "machines",
+    "skopos_conf": 0.999,
+    "ekbasis27b_conf": 0.74
+   },
+   {
+    "k": 121,
+    "family": "toggles",
+    "skopos_conf": 0.558,
+    "ekbasis27b_conf": 0.537
+   },
+   {
+    "k": 203,
+    "family": "jugs",
+    "skopos_conf": 0.859,
+    "ekbasis27b_conf": 0.943
+   }
+  ],
+  "by_family_right [n, skopos, ekbasis27b]": {
+   "machines": [
+    40,
+    35,
+    37
+   ],
+   "toggles": [
+    40,
+    39,
+    40
+   ],
+   "jugs": [
+    40,
+    39,
+    40
+   ]
+  },
+  "exact_mcnemar_two_sided_p": 0.125
+ },
+ "orig_wording_120": {
+  "skopos_right": 116,
+  "ekbasis27b_right": 115,
+  "discordant": {
+   "skopos_only_wrong": 1,
+   "ekbasis27b_only_wrong": 2
+  }
+ },
+ "both_240": {
+  "skopos_right": 229,
+  "ekbasis27b_right": 232,
+  "exact_mcnemar_two_sided_p": 0.453
+ },
+ "confident_errors_conf_ge_0.99": {
+  "skopos": "4 of 211 (items 13 para, 14 orig, 41 para, 78 orig; all machines)",
+  "ekbasis27b": "0 of 189"
+ },
+ "routing_below_0.99": {
+  "skopos": "12.1% sent, 98.3% right",
+  "ekbasis27b": "21.3% sent, 100% right"
+ },
+ "note": "The paired bootstrap of the sealed rule rests on 4 discordant items, all in one direction; the exact McNemar test on the same pairs gives p = 0.125. Reported as context only. The Ekbasis-27B identity re-run on this machine (phase B, P8/run.sh ekbasis_bf16) will show whether Ekbasis-27B reproduces its published 117/120 here.",
+ "same_machine_ekbasis27b_rerun": {
+  "file": "P8_same_machine.json",
+  "same_right_wrong_as_published": "240/240",
+  "para_wording": "Skopos 113/120 vs Ekbasis-27B re-run here 117/120: the same 4 discordant items; paired CI [-6.67, -0.83] (identical to the published comparison, since the re-run is right/wrong on exactly the same items)"
+ }
 }

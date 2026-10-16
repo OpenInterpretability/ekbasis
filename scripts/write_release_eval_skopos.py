@@ -4,6 +4,9 @@ results_skopos/ (and Ekbasis-27B's reference files in results/); no number is ty
 
   python scripts/write_release_eval_skopos.py           draft: a result that has not run yet is marked "pending"
   python scripts/write_release_eval_skopos.py --final   exit 1, listing them, if any file the document cites is missing
+  python scripts/write_release_eval_skopos.py --final --release   the release build: as --final, except that pre-launch
+      items that cannot block under the sealed rule may still be running; they are listed as appended on completion,
+      from the battery's own list (results_skopos/prelaunch/compare/PENDING.json), which this mode requires
 """
 from __future__ import annotations
 
@@ -16,6 +19,7 @@ from decimal import ROUND_HALF_UP, Decimal
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 R = os.path.join(ROOT, "results_skopos")
 FINAL = "--final" in sys.argv
+RELEASE = FINAL and "--release" in sys.argv
 missing: list = []
 
 
@@ -809,25 +813,53 @@ w("The measurements of Ekbasis-27B's release evaluation that had not yet run on 
   "[`results_skopos/prelaunch/DEVIATIONS_RUN.md`](results_skopos/prelaunch/DEVIATIONS_RUN.md).\n")
 if not os.path.exists(os.path.join(PL, "DEVIATIONS_RUN.md")):
     missing.append("results_skopos/prelaunch/DEVIATIONS_RUN.md")
-PDATA, not_run = {}, []
+# Which file stands for what comes from the battery's own list, compare/PENDING.json: the files that must be final
+# before the release (those that can block under the sealed rule, at least 100 items with per-item outputs for both
+# models, and the count-only ones), what is appended after the release, and what was not run as published. A release
+# build (--release) needs every file of the first two lists; a full --final build needs the appended files too (but
+# those marked "only if run"); a draft shows whatever has landed.
+BLOCKING = ("P1", "P2", "P4", "P8", "P9", "P12")
+PENDING = json.load(open(pfile("PENDING.json"))) if os.path.exists(pfile("PENDING.json")) else None
+if FINAL and PENDING is None:
+    missing.append("results_skopos/prelaunch/compare/PENDING.json (the battery's list of which file stands for what)")
+PEND = PENDING or {}
+FIN_B, FIN_C = PEND.get("final_before_release_can_block", []), PEND.get("final_before_release_counts_only", [])
+AFTER, NOTPUB = PEND.get("appended_after_release", []), PEND.get("not_run_as_published", [])
+files_of = lambda e: [f.strip() for f in e.get("file", "").split(",") if f.strip()]
+if PENDING is not None and sorted({e["item"] for e in FIN_B}, key=lambda k: int(k[1:])) != sorted(BLOCKING, key=lambda k: int(k[1:])):
+    missing.append(f"PENDING.json's items that can block {sorted({e['item'] for e in FIN_B})} differ from {list(BLOCKING)}")
+need = [f for e in FIN_B + FIN_C for f in files_of(e)] if FINAL else []
+if FINAL and not RELEASE:
+    need += [f for e in AFTER if "only if run" not in e.get("part", "") for f in files_of(e)]
+for f in need:
+    if not os.path.exists(pfile(f)):
+        missing.append(f"results_skopos/prelaunch/compare/{f} (pre-launch)")
+rule_files = {}  # item -> [(file name, data)], the files that report an item's measures (not its context files)
 for k in PITEMS:
-    if os.path.exists(pfile(f"{k}.json")):
-        PDATA[k] = (json.load(open(pfile(f"{k}.json"))), "")
-    elif not FINAL and os.path.exists(pfile(f"{k}_partial.json")):
-        PDATA[k] = (json.load(open(pfile(f"{k}_partial.json"))), "partial")
-    else:
-        not_run.append(k)
-        missing.append(f"results_skopos/prelaunch/compare/{k}.json (pre-launch item {k})")
-w("| Item | Measurement | Status | Release blockers | Flagged: Skopos worse by 2 or more |\n|---|---|---|---|---|")
+    names = [f"{k}.json"] + [f for e in FIN_B + FIN_C + AFTER if e["item"] == k for f in files_of(e)]
+    if not FINAL:
+        names.append(f"{k}_partial.json")
+    seen = []
+    for n in dict.fromkeys(names):
+        if os.path.exists(pfile(n)) and not (n.endswith("_partial.json") and os.path.exists(pfile(n.replace("_partial", "")))):
+            seen.append((n, json.load(open(pfile(n)))))
+    if seen:
+        rule_files[k] = seen
+    elif FINAL and not [e for e in FIN_B + FIN_C + AFTER + NOTPUB if e["item"] == k]:
+        missing.append(f"pre-launch item {k}: no compare file and not in PENDING.json (nothing may be left out silently)")
+not_run = [k for k in PITEMS if k not in rule_files]
+status = lambda k: ("pending" if any(not os.path.exists(pfile(f)) for e in FIN_B + FIN_C if e["item"] == k for f in files_of(e))
+                    else "done" if k in rule_files else "not run")
+w("| Item | Measurement | Files | Status at this build | Release blockers | Flagged: Skopos worse by 2 or more |\n|---|---|---|---|---|---|")
 for k, title in PITEMS.items():
-    if k not in PDATA:
-        w(f"| {k} | {title} | *running or not run* | | |")
-        continue
-    d, part = PDATA[k]
-    sm = d.get("summary", {})
-    bl, fl = sm.get("release_blockers", []), sm.get("flagged_worse_by_2", [])
-    w(f"| {k} | {title} | {'*partial*' if part else 'done'} | {'**' + '; '.join(bl) + '**' if bl else 'none'} | "
-      f"{'; '.join(fl) if fl else 'none'} |")
+    fs = rule_files.get(k, [])
+    bl = [b for _, d in fs for b in d.get("summary", {}).get("release_blockers", [])]
+    fl = [x for _, d in fs for x in d.get("summary", {}).get("flagged_worse_by_2", [])]
+    later = [e["part"].split(":")[0] for e in AFTER if e["item"] == k and not all(os.path.exists(pfile(f)) for f in files_of(e))]
+    st = status(k) + (f"; after the release: {'; '.join(later)}" if later and RELEASE else "")
+    w(f"| {k} | {title} | {', '.join(f'`{n}`' for n, _ in fs) or '—'} | {st} | {'**' + '; '.join(bl) + '**' if bl else ('none' if fs else '')} | "
+      f"{'; '.join(fl) if fl else ('none' if fs else '')} |")
+PDATA = {k: (fs[0][1], "") for k, fs in rule_files.items()}  # the first file of each item, for the checks below
 # references the comparisons read that are not published (as in Ekbasis-27B's release): which items they leave
 # without a public recomputation
 REFS = os.path.join(PL, "references.tsv")
@@ -837,11 +869,38 @@ if os.path.exists(REFS):
 else:
     missing.append("results_skopos/prelaunch/references.tsv")
 keys_of = lambda r: {r, r.split("/")[0] + "/"} if r.split("/")[0] in ("intent_replay", "preflight") else {r}
-closed = sorted({k for k, (d, _) in PDATA.items() for r in unpub for x in keys_of(r) if x in json.dumps(d)},
+closed = sorted({k for k, fs in rule_files.items() for _, d in fs for r in unpub for x in keys_of(r) if x in json.dumps(d)},
                 key=lambda k: int(k[1:]))
-blockers = [(k, b) for k, (d, _) in PDATA.items() for b in d.get("summary", {}).get("release_blockers", [])]
+blockers = [(k, b) for k, fs in rule_files.items() for _, d in fs for b in d.get("summary", {}).get("release_blockers", [])]
 w("\n" + ("**Release blockers under the rule:** " + "; ".join(f"{k}: {b}" for k, b in blockers) + "."
           if blockers else "No release blocker under the rule" + (" in the items done so far." if not_run else ".")) + "\n")
+if PENDING and (RELEASE or not FINAL):
+    parts = [f"{x['item']}: {x['part']}" for x in AFTER if not all(os.path.exists(pfile(f)) for f in files_of(x))]
+    w(f"**Running at release, appended on completion** (the battery's list, "
+      f"`results_skopos/prelaunch/compare/PENDING.json`): {'; '.join(parts) if parts else 'nothing'}. These cannot block "
+      f"under the rule; every item that can ({', '.join(BLOCKING)}) is final above.\n")
+    if RELEASE:
+        print("release build: appended on completion: " + ("; ".join(parts) or "nothing"))
+for e in NOTPUB:
+    w(f"**Not run as published:** {e['item']}, {e['part']} — {e['reason']}.\n")
+DEC = os.path.join(PL, "RELEASE_DECISION.md")
+if os.path.exists(DEC):
+    p8 = next(m for m in PDATA["P8"][0]["measures"] if m["measure"].startswith("para")) if "P8" in PDATA else None
+    c8, s8 = (json.load(open(pfile(f))) if os.path.exists(pfile(f)) else None for f in ("P8_context.json", "P8_same_machine.json"))
+    if not (p8 and c8 and s8):
+        missing.append("P8.json, P8_context.json and P8_same_machine.json (the release decision cites them)")
+    else:
+        pc, dc = c8["para_wording_120"], c8["para_wording_120"]["discordant"]
+        w(f"**Release decision** ([`results_skopos/prelaunch/RELEASE_DECISION.md`](results_skopos/prelaunch/RELEASE_DECISION.md)): "
+          f"the owner decided to release with the P8 blocker declared. On the paraphrased short checks Skopos is right on "
+          f"{pc['skopos_right']} of {p8['n']} against Ekbasis-27B's published {pc['ekbasis27b_right']} "
+          f"({sg(p8['difference'], 1)} points, paired 95% CI {ci(p8['ci95'], 1)}, entirely below zero), so the pre-registered "
+          f"rule fired; the exact McNemar test on the same pairs does not reject (p = {h(pc['exact_mcnemar_two_sided_p'], 3)}: "
+          f"{dc['skopos_only_wrong']} items only Skopos gets wrong, {dc['ekbasis27b_only_wrong']} the other way); Ekbasis-27B "
+          f"re-run on the same machine reproduced its published answers item for item "
+          f"({s8['ekbasis27b_rerun_identity_vs_published']['same_right_wrong_as_published']}; "
+          f"`results_skopos/prelaunch/compare/P8_same_machine.json`), so it is not a serving or hardware artifact; and it is "
+          f"consistent with the declared limitation on confident errors in never-trained world families.\n")
 if closed:
     w(f"{', '.join(closed[:-1]) + ' and ' + closed[-1] if len(closed) > 1 else closed[0]} compare"
       f"{'' if len(closed) > 1 else 's'} against Ekbasis-27B reference files that are not published, as in "
@@ -854,8 +913,9 @@ def pnum(x, nd=2):
     return f"{x:,}" if isinstance(x, int) else (h(x, nd) if isinstance(x, float) else str(x))
 
 
-for k, (d, part) in PDATA.items():
-    w(f"### {k}. {PITEMS[k]}{' (partial)' if part else ''}\n")
+for k, fname, d in [(k, n, d) for k, fs in rule_files.items() for n, d in fs]:
+    part = "partial" if fname.endswith("_partial.json") else ""
+    w(f"### {k}. {PITEMS[k]}{'' if fname == k + '.json' else ' (`' + fname + '`)'}\n")
     if d.get("status"):
         w(f"*{d['status']}*\n")
     if d.get("reference"):
@@ -879,10 +939,11 @@ for k, (d, part) in PDATA.items():
             w("\nHow it ran:\n")
         w(f"- {c}")
     other = [x for x in d if x not in ("item", "reference", "summary", "measures", "status", "deviation", "run_conditions")]
-    w(("\nIn the file, also: " + ", ".join(f"`{x}`" for x in other) + f" (`results_skopos/prelaunch/compare/{k}{'_partial' if part else ''}.json`).\n")
+    w(("\nIn the file, also: " + ", ".join(f"`{x}`" for x in other) + f" (`results_skopos/prelaunch/compare/{fname}`).\n")
       if other else "")
-ctx = sorted(f for f in (os.listdir(PLC) if os.path.isdir(PLC) else []) if f.endswith(".json")
-             and f[:-5] not in PITEMS and not f.endswith("_partial.json"))
+used = {n for fs in rule_files.values() for n, _ in fs} | {"PENDING.json"}
+ctx = sorted(f for f in (os.listdir(PLC) if os.path.isdir(PLC) else []) if f.endswith(".json") and f not in used
+             and not (f.endswith("_partial.json") and os.path.exists(pfile(f.replace("_partial", "")))))
 for f in ctx:
     c = json.load(open(pfile(f)))
     w(f"**{c.get('item', f)}** (`results_skopos/prelaunch/compare/{f}`)" + (f": {c['note']}" if c.get("note") else "") + "\n")

@@ -30,7 +30,11 @@ from what an agent believes.
 > [RELEASE_EVAL_SKOPOS.md](https://github.com/OpenInterpretability/ekbasis/blob/main/RELEASE_EVAL_SKOPOS.md) and its
 > card. The numbers further down this page are Ekbasis-27B's. `ekbasis.verify`'s certified mode, certified on
 > Ekbasis-27B, carried over to Skopos INT4 in a pre-registered check (7 errors among 927 accepted answers;
-> [docs/VERIFY.md](https://github.com/OpenInterpretability/ekbasis/blob/main/docs/VERIFY.md)).
+> [docs/VERIFY.md](https://github.com/OpenInterpretability/ekbasis/blob/main/docs/VERIFY.md)). A pre-launch release
+> blocker is declared: on paraphrased short checks it is right on 113 of 120 against Ekbasis-27B's 117 (−3.3 points,
+> paired 95% CI [−6.7, −0.8]), so the pre-registered rule fired; the exact test on the 4 discordant items does not
+> reject (p = 0.125), and Ekbasis-27B re-run on the same machine reproduced its published answers (240/240) ([release
+> decision](https://github.com/OpenInterpretability/ekbasis/blob/main/results_skopos/prelaunch/RELEASE_DECISION.md)).
 
 <!-- /skopos:intro -->
 

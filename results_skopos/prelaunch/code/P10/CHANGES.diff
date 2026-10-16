@@ -1,0 +1,58 @@
+--- _orig/realuse/realuse_guard.py
++++ P10/realuse_guard.py
+@@ -1,3 +1,4 @@
++# PRELAUNCH PORT (P10) of _orig/realuse/realuse_guard.py: every changed line is marked PORT; the full diff is CHANGES.diff in this folder.
+ """Real-use test of the Ekbasis git guard (the Claude Code hook and the client's git.check) on our own repositories,
+ in the state they are really in (uncommitted work and all). Nothing runs in the real repositories: every scenario gets
+ a fresh full copy (remotes pointed at a local path, git hooks off), the model is asked BEFORE anything runs, then the
+@@ -15,7 +16,10 @@
+ import sys
+ import time
+ 
+-T = "<mac-scratch>/realuse2"
++T = os.environ["WORK"]  # PORT: scratch copies and per-run files (it was the realuse2 folder)
++BASE = os.environ.get("BASE", "<mac-scratch>/realuse2")  # PORT: the 4 Oct base copies
++OUTD = os.environ["OUT"]  # PORT: truth / predictions
++VENV = os.environ.get("CLIENT_VENV", "<mac-scratch>/venv_launch")  # PORT: the client that ran
+ REPOS = {"code_eikos": "/Volumes/SSD Major/news/decision_model/release_clean/code_eikos",
+          "openinterp_web": "/Volumes/SSD Major/news/openinterp_web"}
+ ENV = dict(os.environ, GIT_TERMINAL_PROMPT="0", GIT_EDITOR="true", GIT_PAGER="cat", PAGER="cat")
+@@ -29,8 +33,10 @@
+ 
+ def base_copy(name):
+     """One copy of the real repository per run: remotes pointed at a local path, hooks off, no signing prompts."""
+-    dst = f"{T}/base_{name}"
+-    if not os.path.isdir(dst):
++    dst = f"{BASE}/base_{name}"
++    if not os.path.isdir(dst):  # PORT: never rebuild from the live repositories (another state)
++        raise SystemExit(f"missing base copy {dst}: the 4 Oct repository state is gone, P10 cannot run as published")
++    if False:
+         subprocess.run(["rsync", "-a", "--exclude", "node_modules", "--exclude", ".next", REPOS[name] + "/", dst + "/"], check=True)
+         for r in sh("git remote", dst)[1].split():
+             sh(f"git remote set-url {r} /nonexistent/ekbasis-realuse-{r} && git remote set-url --push {r} /nonexistent/ekbasis-realuse-{r}", dst)
+@@ -136,10 +142,10 @@
+             f"v = G.check({sc['commands']!r}, repo={w!r})\n"
+             "print(json.dumps({'p_lost': v.p_lost, 'p_fail': v.p_fail, 'risky': v.risky}))")
+     t0 = time.time()
+-    p = subprocess.run([f"{T}/../venv_launch/bin/python", "-c", code], cwd="/tmp", env=env, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, timeout=300)
++    p = subprocess.run([f"{VENV}/bin/python", "-c", code], cwd="/tmp", env=env, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, timeout=300)
+     dt = time.time() - t0
+     hook_in = json.dumps({"hook_event_name": "PreToolUse", "tool_name": "Bash", "tool_input": {"command": " && ".join(sc["commands"])}, "cwd": w})
+-    h = subprocess.run([f"{T}/../venv_launch/bin/ekbasis-claude-hook"], input=hook_in, env=env, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, timeout=300)
++    h = subprocess.run([f"{VENV}/bin/ekbasis-claude-hook"], input=hook_in, env=env, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, timeout=300)
+     decision = json.loads(h.stdout)["hookSpecificOutput"]["permissionDecision"] if h.stdout.strip() else "allow"
+     shutil.rmtree(w, ignore_errors=True)
+     out = json.loads(p.stdout.strip().splitlines()[-1]) if p.returncode == 0 and p.stdout.strip() else {"error": p.stderr[-300:]}
+@@ -151,10 +157,10 @@
+     scs = [s for name in REPOS for s in scenarios(name)]
+     if sys.argv[1] == "truth":
+         res = [truth(s) for s in scs]
+-        json.dump(res, open(f"{T}/truth.json", "w"), indent=1)
++        json.dump(res, open(f"{OUTD}/truth.json", "w"), indent=1)
+         print(f"{len(res)} scenarios: {sum(r['lost'] for r in res)} lose work, {sum(any(r['fails']) for r in res)} have a failing command")
+     else:
+         name, url = sys.argv[2], sys.argv[3]
+         res = [predict(s, url) for s in scs]
+-        json.dump(res, open(f"{T}/pred_{name}.json", "w"), indent=1)
++        json.dump(res, open(f"{OUTD}/pred_{name}.json", "w"), indent=1)
+         print(f"{name}: {len(res)} predictions, {sum(r.get('hook') == 'ask' for r in res)} hook asks, errors {sum('error' in r for r in res)}")

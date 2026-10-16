@@ -1,0 +1,36 @@
+#!/bin/bash
+# PRELAUNCH PORT (P11) of _orig/mem_ceiling_test.sh: every changed line is marked PORT; the full diff is CHANGES.diff in this folder.
+# Does a build run on a smaller GPU? vLLM limited to a fraction of this 97.9 GB GPU (fraction = card GB x 0.85 / 97.9),
+# with serve_vllm.sh (max-model-len 16384) and MAX_NUM_SEQS; then 60 held-out git questions through serve.py, compared
+# with the same build at full memory. usage: mem_ceiling_test.sh <name> <model_dir> <fraction> <max_num_seqs> <ref_preds>
+set -u
+N=$1; M=$2; F=$3; S=$4; REF=$5; Q=$OUTROOT/P11; L=$Q/memtest_$N.log; G=$GPU  # PORT: output folder and GPU of this machine
+cd $M  # PORT: the build's own folder (its serve_vllm.sh is byte-identical to Ekbasis-27B's)
+setsid nohup bash -c "echo \$\$ > $Q/memtest_vllm.pid; exec env MAX_NUM_SEQS=$S CUDA_VISIBLE_DEVICES=$G VLLM_CACHE_ROOT=$Q/vllm_cache bash $M/serve_vllm.sh $M 30150 $F" > $L 2>&1 < /dev/null &
+sleep 3; VP=$(cat $Q/memtest_vllm.pid)
+ok=0; for i in $(seq 1 60); do curl -s -m 2 127.0.0.1:30150/health -o /dev/null && { ok=1; break; }; [ -d /proc/$VP ] || break; sleep 5; done
+echo "== $N fraction $F max_num_seqs $S: vLLM up=$ok"
+grep -E "Maximum concurrency|GPU KV cache size|Model loading took|CUDA out of memory|No available memory|Error" $L | sed "s/^.*\] //" | head -5
+if [ $ok = 1 ]; then
+  cd $M  # PORT: the build's own serve.py (the rig used serve 1.3 from its dev folder)
+  setsid nohup bash -c "echo \$\$ > $Q/memtest_api.pid; exec env CUDA_VISIBLE_DEVICES= $PY serve.py --model $M --vllm-url http://127.0.0.1:30150 --host 127.0.0.1 --port 8510" > $Q/memtest_api.log 2>&1 < /dev/null &
+  sleep 2; until curl -s -m 2 127.0.0.1:8510/health | grep -q ok; do sleep 2; done
+  $PY - "$REF" "$Q/answers_$N.jsonl" <<"PY"
+import json, sys, urllib.request
+import os
+rows = [json.loads(l) for l in open(os.environ["DATA"] + "/fac/git3_test_held.jsonl")][:60]  # PORT
+out = open(sys.argv[2], "w")  # PORT: per-item answers
+ref = [json.loads(l) for l in open(sys.argv[1])][:60]
+same = 0
+for k, (r, x) in enumerate(zip(rows, ref)):  # PORT: k for the per-item file
+    req = urllib.request.Request("http://127.0.0.1:8510/v1/systemone", data=json.dumps({"state": r["floor"], "questions": {"q": r["question"]}}).encode(), headers={"Content-Type": "application/json"})
+    a = json.load(urllib.request.urlopen(req, timeout=300))["answers"]["q"]
+    pred = ("yes" if a["value"] else "no") if r["question"]["type"] in ("noul", "boolean") else a["choice"]
+    same += pred == x["pred"]
+    out.write(json.dumps({"k": k, "pred": pred, "full_memory": x["pred"]}) + "\n")  # PORT
+print(f"   60 held-out git questions: {same}/60 same answer as at full memory")
+PY
+  P=$(cat $Q/memtest_api.pid); tr "\0" " " < /proc/$P/cmdline | grep -q "port 8510" && kill $P
+fi
+tr "\0" " " < /proc/$VP/cmdline 2>/dev/null | grep -q "port 30150" && kill $VP
+sleep 20

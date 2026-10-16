@@ -1,0 +1,410 @@
+{
+ "item": "P2",
+ "reference": "ref/release_eval/preds_git3_test_*.jsonl (Ekbasis-27B, published)",
+ "skopos_predictions": "the release read (results_skopos/runs/release_r4/, bf16 served on the RTX)",
+ "summary": {
+  "release_blockers": [],
+  "flagged_worse_by_2": []
+ },
+ "measures": [
+  {
+   "measure": "known command types: all questions (1482)",
+   "n": 1482,
+   "skopos": 98.582995951417,
+   "ekbasis27b": 98.110661268556,
+   "difference": 0.47233468286100333,
+   "higher_is_better": true,
+   "ci95": [
+    -0.13495276653171118,
+    1.0121457489878622
+   ],
+   "rule": "paired bootstrap",
+   "release_blocker": false
+  },
+  {
+   "measure": "known command types: will uncommitted work be lost? (lost) (102)",
+   "n": 102,
+   "skopos": 100.0,
+   "ekbasis27b": 99.01960784313725,
+   "difference": 0.9803921568627487,
+   "higher_is_better": true,
+   "ci95": [
+    0.0,
+    2.941176470588232
+   ],
+   "rule": "paired bootstrap",
+   "release_blocker": false
+  },
+  {
+   "measure": "known command types: will the command fail? (fails) (138)",
+   "n": 138,
+   "skopos": 97.10144927536231,
+   "ekbasis27b": 97.82608695652173,
+   "difference": -0.7246376811594217,
+   "higher_is_better": true,
+   "ci95": [
+    -2.173913043478265,
+    0.0
+   ],
+   "rule": "paired bootstrap",
+   "release_blocker": false
+  },
+  {
+   "measure": "known command types: is an operation left in progress? (in_progress) (282)",
+   "n": 282,
+   "skopos": 99.29078014184397,
+   "ekbasis27b": 99.64539007092199,
+   "difference": -0.35460992907802336,
+   "higher_is_better": true,
+   "ci95": [
+    -1.7730496453900741,
+    0.7092198581560325
+   ],
+   "rule": "paired bootstrap",
+   "release_blocker": false
+  },
+  {
+   "measure": "known command types: state the commands change (88)",
+   "n": 88,
+   "skopos": 88.63636363636364,
+   "ekbasis27b": 82.95454545454545,
+   "difference": 5.681818181818187,
+   "higher_is_better": true,
+   "counts": [
+    78.0,
+    73.0
+   ],
+   "rule": "counts (n < 100)",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "known command types: question type branch (all its questions) (87)",
+   "n": 87,
+   "skopos": 96.55172413793103,
+   "ekbasis27b": 96.55172413793103,
+   "difference": 0.0,
+   "higher_is_better": true,
+   "counts": [
+    84.0,
+    84.0
+   ],
+   "rule": "counts (n < 100)",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "known command types: question type clean (all its questions) (146)",
+   "n": 146,
+   "skopos": 98.63013698630137,
+   "ekbasis27b": 95.89041095890411,
+   "difference": 2.7397260273972535,
+   "higher_is_better": true,
+   "ci95": [
+    0.6849315068493098,
+    5.479452054794521
+   ],
+   "rule": "paired bootstrap",
+   "release_blocker": false
+  },
+  {
+   "measure": "known command types: question type content (all its questions) (141)",
+   "n": 141,
+   "skopos": 97.87234042553192,
+   "ekbasis27b": 96.45390070921985,
+   "difference": 1.418439716312065,
+   "higher_is_better": true,
+   "ci95": [
+    0.0,
+    3.5460992907801483
+   ],
+   "rule": "paired bootstrap",
+   "release_blocker": false
+  },
+  {
+   "measure": "known command types: question type exists (all its questions) (143)",
+   "n": 143,
+   "skopos": 100.0,
+   "ekbasis27b": 100.0,
+   "difference": 0.0,
+   "higher_is_better": true,
+   "ci95": [
+    0.0,
+    0.0
+   ],
+   "rule": "paired bootstrap",
+   "release_blocker": false
+  },
+  {
+   "measure": "known command types: question type remote (all its questions) (149)",
+   "n": 149,
+   "skopos": 97.98657718120805,
+   "ekbasis27b": 97.31543624161074,
+   "difference": 0.6711409395973078,
+   "higher_is_better": true,
+   "ci95": [
+    0.0,
+    2.013422818791952
+   ],
+   "rule": "paired bootstrap",
+   "release_blocker": false
+  },
+  {
+   "measure": "known command types: question type staged (all its questions) (140)",
+   "n": 140,
+   "skopos": 97.85714285714286,
+   "ekbasis27b": 97.14285714285714,
+   "difference": 0.7142857142857224,
+   "higher_is_better": true,
+   "ci95": [
+    -1.4285714285714306,
+    2.857142857142861
+   ],
+   "rule": "paired bootstrap",
+   "release_blocker": false
+  },
+  {
+   "measure": "known command types: question type stash (all its questions) (154)",
+   "n": 154,
+   "skopos": 99.35064935064935,
+   "ekbasis27b": 99.35064935064935,
+   "difference": 0.0,
+   "higher_is_better": true,
+   "ci95": [
+    0.0,
+    0.0
+   ],
+   "rule": "paired bootstrap",
+   "release_blocker": false
+  },
+  {
+   "measure": "known command types: work-losing caught at a 10% false-alarm rate (of 51)",
+   "n": 51,
+   "skopos": 51,
+   "ekbasis27b": 50,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "known command types: work-losing flagged at P(lost) >= 0.2 (of 51)",
+   "n": 51,
+   "skopos": 51,
+   "ekbasis27b": 50,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "known command types: false alarms at P(lost) >= 0.2 (of 51)",
+   "n": 51,
+   "skopos": 0,
+   "ekbasis27b": 0,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "never-seen command types: all questions (1623)",
+   "n": 1623,
+   "skopos": 95.44054220579174,
+   "ekbasis27b": 95.25569932224276,
+   "difference": 0.18484288354898126,
+   "higher_is_better": true,
+   "ci95": [
+    -0.6161429451632756,
+    0.9858287122612381
+   ],
+   "rule": "paired bootstrap",
+   "release_blocker": false
+  },
+  {
+   "measure": "never-seen command types: will uncommitted work be lost? (lost) (84)",
+   "n": 84,
+   "skopos": 96.42857142857143,
+   "ekbasis27b": 96.42857142857143,
+   "difference": 0.0,
+   "higher_is_better": true,
+   "counts": [
+    81.0,
+    81.0
+   ],
+   "rule": "counts (n < 100)",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "never-seen command types: will the command fail? (fails) (228)",
+   "n": 228,
+   "skopos": 85.96491228070175,
+   "ekbasis27b": 83.33333333333333,
+   "difference": 2.631578947368425,
+   "higher_is_better": true,
+   "ci95": [
+    0.0,
+    5.26315789473685
+   ],
+   "rule": "paired bootstrap",
+   "release_blocker": false
+  },
+  {
+   "measure": "never-seen command types: is an operation left in progress? (in_progress) (351)",
+   "n": 351,
+   "skopos": 95.44159544159544,
+   "ekbasis27b": 97.43589743589743,
+   "difference": -1.994301994301992,
+   "higher_is_better": true,
+   "ci95": [
+    -3.988603988603998,
+    0.0
+   ],
+   "rule": "paired bootstrap",
+   "release_blocker": false
+  },
+  {
+   "measure": "never-seen command types: state the commands change (49)",
+   "n": 49,
+   "skopos": 77.55102040816327,
+   "ekbasis27b": 71.42857142857143,
+   "difference": 6.122448979591837,
+   "higher_is_better": true,
+   "counts": [
+    38.0,
+    35.0
+   ],
+   "rule": "counts (n < 100)",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "never-seen command types: question type branch (all its questions) (68)",
+   "n": 68,
+   "skopos": 95.58823529411765,
+   "ekbasis27b": 92.6470588235294,
+   "difference": 2.941176470588246,
+   "higher_is_better": true,
+   "counts": [
+    65.0,
+    63.0
+   ],
+   "rule": "counts (n < 100)",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "never-seen command types: question type clean (all its questions) (147)",
+   "n": 147,
+   "skopos": 92.51700680272108,
+   "ekbasis27b": 92.51700680272108,
+   "difference": 0.0,
+   "higher_is_better": true,
+   "ci95": [
+    -4.761904761904759,
+    4.081632653061234
+   ],
+   "rule": "paired bootstrap",
+   "release_blocker": false
+  },
+  {
+   "measure": "never-seen command types: question type content (all its questions) (162)",
+   "n": 162,
+   "skopos": 98.14814814814815,
+   "ekbasis27b": 97.53086419753086,
+   "difference": 0.617283950617292,
+   "higher_is_better": true,
+   "ci95": [
+    0.0,
+    1.8518518518518619
+   ],
+   "rule": "paired bootstrap",
+   "release_blocker": false
+  },
+  {
+   "measure": "never-seen command types: question type exists (all its questions) (156)",
+   "n": 156,
+   "skopos": 99.35897435897436,
+   "ekbasis27b": 98.71794871794872,
+   "difference": 0.6410256410256494,
+   "higher_is_better": true,
+   "ci95": [
+    0.0,
+    1.923076923076934
+   ],
+   "rule": "paired bootstrap",
+   "release_blocker": false
+  },
+  {
+   "measure": "never-seen command types: question type remote (all its questions) (129)",
+   "n": 129,
+   "skopos": 98.44961240310077,
+   "ekbasis27b": 98.44961240310077,
+   "difference": 0.0,
+   "higher_is_better": true,
+   "ci95": [
+    0.0,
+    0.0
+   ],
+   "rule": "paired bootstrap",
+   "release_blocker": false
+  },
+  {
+   "measure": "never-seen command types: question type staged (all its questions) (128)",
+   "n": 128,
+   "skopos": 99.21875,
+   "ekbasis27b": 99.21875,
+   "difference": 0.0,
+   "higher_is_better": true,
+   "ci95": [
+    0.0,
+    0.0
+   ],
+   "rule": "paired bootstrap",
+   "release_blocker": false
+  },
+  {
+   "measure": "never-seen command types: question type stash (all its questions) (170)",
+   "n": 170,
+   "skopos": 98.82352941176471,
+   "ekbasis27b": 98.82352941176471,
+   "difference": 0.0,
+   "higher_is_better": true,
+   "ci95": [
+    0.0,
+    0.0
+   ],
+   "rule": "paired bootstrap",
+   "release_blocker": false
+  },
+  {
+   "measure": "never-seen command types: work-losing caught at a 10% false-alarm rate (of 42)",
+   "n": 42,
+   "skopos": 42,
+   "ekbasis27b": 42,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "never-seen command types: work-losing flagged at P(lost) >= 0.2 (of 42)",
+   "n": 42,
+   "skopos": 41,
+   "ekbasis27b": 40,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "never-seen command types: false alarms at P(lost) >= 0.2 (of 42)",
+   "n": 42,
+   "skopos": 1,
+   "ekbasis27b": 1,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  }
+ ],
+ "auroc": {
+  "known command types": {
+   "auroc_p_lost [skopos, ekbasis27b]": [
+    1.0,
+    0.998077662437524
+   ]
+  },
+  "never-seen command types": {
+   "auroc_p_lost [skopos, ekbasis27b]": [
+    0.9914965986394558,
+    0.9889455782312925
+   ]
+  }
+ },
+ "note": "Supersedes the main thread's P2/p2_git3_by_type.json for the report: the same per-item files, with the rule's split (paired bootstrap only where n >= 100, counts otherwise) and the RELEASE_EVAL groups."
+}

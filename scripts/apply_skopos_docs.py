@@ -77,6 +77,18 @@ against = (
 certified = (f"`ekbasis.verify`'s certified mode, certified on Ekbasis-27B, carried over to Skopos INT4 in a pre-registered "
              f"check ({CC['errors_among_accepted']} errors among {CC['accepted']:,} accepted answers; "
              f"[docs/VERIFY.md](docs/VERIFY.md))")
+# The release decision (the owner's record): the pre-launch P8 blocker, declared wherever the results are summarized
+blocker = ""
+if has("prelaunch/RELEASE_DECISION.md"):
+    p8 = next(m for m in ld("prelaunch/compare/P8.json")["measures"] if m["measure"].startswith("para"))
+    c8 = ld("prelaunch/compare/P8_context.json")["para_wording_120"]
+    s8 = ld("prelaunch/compare/P8_same_machine.json")["ekbasis27b_rerun_identity_vs_published"]
+    blocker = (f"A pre-launch release blocker is declared: on paraphrased short checks it is right on {c8['skopos_right']} of "
+               f"{p8['n']} against Ekbasis-27B's {c8['ekbasis27b_right']} ({sg(p8['difference'])} points, paired 95% CI "
+               f"[{sg(p8['ci95'][0])}, {sg(p8['ci95'][1])}]), so the pre-registered rule fired; the exact test on the "
+               f"{c8['discordant']['skopos_only_wrong'] + c8['discordant']['ekbasis27b_only_wrong']} discordant items does "
+               f"not reject (p = {h(c8['exact_mcnemar_two_sided_p'], 3)}), and Ekbasis-27B re-run on the same machine "
+               f"reproduced its published answers ({s8['same_right_wrong_as_published']}) (DECISION_LINK)")
 hosted = (f"Hosted API: as its model-change policy promises, this version and its scorecard are posted at least 14 days "
           f"before the served model changes; the hosted API serves Ekbasis-27B-INT4 until {SWITCH}, then "
           f"Ekbasis-Skopos-27B-INT4 (`calibrated.temperature` {h(TEMP['skopos'], 2)} instead of {h(TEMP['ekbasis'], 2)}); "
@@ -127,7 +139,7 @@ BLOCKS = {
 > **New ({DATE}): [Ekbasis-Skopos-27B]({HF}/Ekbasis-Skopos-27B)**, the next version, trained further on executed shell,
 > git, SQLite, PostgreSQL and Python scenarios. Against Ekbasis-27B on the same items: {against}. Same prompt, readout,
 > API and client; its evaluation is in [RELEASE_EVAL_SKOPOS.md]({GH}/RELEASE_EVAL_SKOPOS.md) and its card. The numbers
-> further down this page are Ekbasis-27B's. {certified.replace("(docs/VERIFY.md)", f"({GH}/docs/VERIFY.md)")}.
+> further down this page are Ekbasis-27B's. {certified.replace("(docs/VERIFY.md)", f"({GH}/docs/VERIFY.md)")}.{(" " + blocker.replace("DECISION_LINK", f"[release decision]({GH}/results_skopos/prelaunch/RELEASE_DECISION.md)") + ".") if blocker else ""}
 """),
         "builds": (r"^## Builds\n",
                    f"""
@@ -171,7 +183,7 @@ evaluation set of its lineage, as they ran, in [`generators/`](generators/README
 - **Ekbasis-Skopos-27B, the recommended model** ([card]({HF}/Ekbasis-Skopos-27B); bf16, FP8 and INT4 builds{", MLX" if mlx_ok else "; MLX after its test on an Apple-silicon Mac"}):
   Ekbasis-27B trained further on executed shell, git, SQLite, PostgreSQL and Python scenarios. Against Ekbasis-27B on
   the same items: {against}. The client, the API and the prompts are unchanged: serve the new weights with their own
-  `serve.py`, or keep Ekbasis-27B. {certified}. {hosted}. Its evaluation, with its per-item predictions and pre-registrations:
+  `serve.py`, or keep Ekbasis-27B. {certified}. {blocker.replace("DECISION_LINK", "[release decision](results_skopos/prelaunch/RELEASE_DECISION.md)") + ". " if blocker else ""}{hosted}. Its evaluation, with its per-item predictions and pre-registrations:
   [RELEASE_EVAL_SKOPOS.md](RELEASE_EVAL_SKOPOS.md), [results_skopos/](results_skopos/README.md),
   [prereg_skopos/](prereg_skopos/PREREG_sha256.txt); its training code: [training/skopos/](training/skopos/README.md);
   the generators behind every training kind and evaluation set, as they ran: [generators/](generators/README.md).
