@@ -73,6 +73,7 @@ da727ae30117c9aa26dd87e5aab9103abed2bcd78af2e360358126c1acc49c65  fhorizon.jsonl
 79b3268ab7fad7fb16d6a061fbeb71b282c243b6fa021d3c3463760af0cc00bc  latent_test.jsonl  (built after that seal from the LATENT trajectories; its hash was added to the seal log then)
 b084582640ac0a87c24e3b21be975eb43be18b661f0183a7f1b4f9577fdd9f48  generators/v50/gen_git_long.py  (2026-10-14T23:57:35Z)
 bf20cfabad739b75e7c927c8c0f6f59f9f1227001b4ad4ed97609a4d2955fec9  git_long.jsonl  (2026-10-14T23:57:35Z; evaluation set, in the dataset)
+6d93fdc7cd41d72e9421230b9bb67bf8b93098af6565641edf112c122b06438e  prereg_skopos/PRELAUNCH_EVAL.md  (2026-10-15T23:36:26Z, the pre-launch evaluation plan; Part A sealed before any of its requests)
 # Ekbasis-27B's, unchanged, which this release's protocol reuses: PREREG_release_eval.md, PREREG_quantized.md,
 # PREREG_confident_errors.md and git_battery3.py (T3c) in ../PREREG_sha256.txt. The copy of git_battery3.py in
 # results_skopos/scripts/ is as run but for line 8 (the training machine's address replaced; see its README).
