@@ -1,0 +1,16 @@
+1400 requests, 0 done, 1400 to run (0 scenarios excluded by the audit); server {'ok': True, 'model': '/root/Skopos-R4-27B-INT4', 'version': '1.3'}; client 0.1.41; 8 workers
+100/1400 scenarios
+200/1400 scenarios
+300/1400 scenarios
+400/1400 scenarios
+500/1400 scenarios
+600/1400 scenarios
+700/1400 scenarios
+800/1400 scenarios
+900/1400 scenarios
+1000/1400 scenarios
+1100/1400 scenarios
+1200/1400 scenarios
+1300/1400 scenarios
+1400/1400 scenarios
+CARRYOVER RUN DONE

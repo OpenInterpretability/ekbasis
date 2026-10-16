@@ -1,0 +1,11 @@
+{
+ "tag": "skopos-int4",
+ "url_host": "127.0.0.1:8603",
+ "health": {
+  "ok": true,
+  "model": "/root/Skopos-R4-27B-INT4",
+  "version": "1.3"
+ },
+ "client": "0.1.41",
+ "started_utc": "2026-10-16T00:59:01Z"
+}

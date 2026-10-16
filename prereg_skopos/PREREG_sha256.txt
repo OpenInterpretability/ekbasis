@@ -55,6 +55,9 @@ f73c231b662359d06e864f17f8d0869977aaee26f8f181529fb5e0da3cf622e6  prereg_skopos/
 091707ef6843af868f9da95306e51ad0c2dfefbbeb589e92d5f305e88af28515  prereg_skopos/PREREG_ADDENDUM.md  (2026-10-15T23:23:23Z, A5 header time typo fixed; still before any A5/A6 request)
   d8a01ee19fecfc912a3a78f0164c7e38ffd6cdccc96900d1ac308803dc26ced3  (first seal 2026-10-15T22:52:40Z, A1-A4, before any of their requests)
   12f6616899278ccd4f699105c78075bc6bca01254b851a6f467dcd98f6652bec  (2026-10-15T23:23:14Z, A5-A6 appended, A1-A4 text unchanged)
+472e3bca7aafc83fe5cd552141a21e4641ad4382846f2615e85c5e941fb5fcfc  prereg_skopos/PREREG_CERTIFIED_CARRYOVER.md  (2026-10-16T00:56:11Z, title: 'DRAFT' removed, no other change; still before step 1 and any request)
+  fa86c896a676a78b7621163737944693d38471af6070700799c6edbb80bc6c26  (first seal 2026-10-16T00:56:03Z, before step 1 and any request)
+ab089f363dcbad4f1f055dbb1f294cd5b28126761cbcdd34869c5c892cd91642  results_skopos/certified_carryover/MANIFEST.sha256  (2026-10-16T00:56:03Z, its code and data, sealed with it; the large data files are published gzipped and decompress to the listed bytes; confirm_code/ is in results/client_0.1.4 and client_0.1.5, identical)
 # V50's pilot (2026-10-14; candidates/v50p_pilot/), sealed in its own seal log; with the files the Skopos lineage reads:
 cc159e1e33acd1d797c73907c6ff7d1c8bc7cbd64dd2275315bb489afb2b8651  prereg_skopos/v50p/PREREG.md  (2026-10-14T17:21:16Z, before any training)
 f6a9695787a85bde8417d253ff59c987176d5c73d72af5ebfcc84094a3b63d54  prereg_skopos/v50p/ADDENDUM_DOSE.md  (2026-10-14T21:39:34Z, after the pilot's result, before the dose arm)

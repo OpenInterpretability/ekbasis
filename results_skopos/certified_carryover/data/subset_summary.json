@@ -1,0 +1,46 @@
+{
+ "n_per_suite": {
+  "rules_stress": 600,
+  "sql_wild": 200,
+  "shell_wild": 200,
+  "git_wild": 200,
+  "accumulation": 200
+ },
+ "pattern": [
+  "rules_stress",
+  "rules_stress",
+  "rules_stress",
+  "sql_wild",
+  "shell_wild",
+  "git_wild",
+  "accumulation"
+ ],
+ "scenarios": 1400,
+ "per_suite": {
+  "rules_stress": {
+   "rows": 600,
+   "scenarios": 600,
+   "states_per_scenario>1": 0
+  },
+  "sql_wild": {
+   "rows": 436,
+   "scenarios": 200,
+   "states_per_scenario>1": 0
+  },
+  "shell_wild": {
+   "rows": 907,
+   "scenarios": 200,
+   "states_per_scenario>1": 0
+  },
+  "git_wild": {
+   "rows": 638,
+   "scenarios": 200,
+   "states_per_scenario>1": 0
+  },
+  "accumulation": {
+   "rows": 200,
+   "scenarios": 200,
+   "states_per_scenario>1": 0
+  }
+ }
+}

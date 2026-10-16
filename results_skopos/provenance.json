@@ -191,6 +191,86 @@
   "sha256": "ba0bb3808eac2ef1683b4fed1b636650811ca64fd51565d4ad2dddd78760fee9",
   "source": "release workspace results/ce_r4.json"
  },
+ "certified_carryover/MANIFEST.sha256": {
+  "sha256": "ab089f363dcbad4f1f055dbb1f294cd5b28126761cbcdd34869c5c892cd91642",
+  "source": "the release workspace certified_carryover/MANIFEST.sha256"
+ },
+ "certified_carryover/analyze_carryover.py": {
+  "sha256": "33c465aba2f43a9ba804f887af5383aa4c1d99c9e6132a6b47a6f107515b8642",
+  "source": "the release workspace certified_carryover/analyze_carryover.py"
+ },
+ "certified_carryover/data/carryover_audit_items.jsonl.gz": {
+  "sha256": "2cc3846e23d18ff664e414c2ee700328e5492ac1d19ad42b0bf18027b50e7cc4",
+  "sha256_uncompressed": "ac43a519e88a5c503470b213f716c5d93c27ed9be355bf8c3c9a25d46d539d87",
+  "source": "the release workspace certified_carryover/data/carryover_audit_items.jsonl, gzipped"
+ },
+ "certified_carryover/data/dev_family_counts.json": {
+  "sha256": "2e5e9af19c16e57814d875be8ed04c95cbf7b31fcf5fdb76b234a8643c4de0e7",
+  "source": "the release workspace certified_carryover/data/dev_family_counts.json"
+ },
+ "certified_carryover/data/extra_bf16.jsonl.gz": {
+  "sha256": "88bfcb78af1b8455f491952d8c29e13d8bfc5473fbb5cd3bf0b85b179b5513a8",
+  "sha256_uncompressed": "e319ea74f962f46480a148e7e990058a6f1bf998fb7588ca2ef2b5dd3eba064a",
+  "source": "the release workspace certified_carryover/data/extra_bf16.jsonl, gzipped"
+ },
+ "certified_carryover/data/fresh_rows_bf16.jsonl.gz": {
+  "sha256": "59e2e27595055f6739dbd937cc384e7d6469eeb5315e87f9b3f520fdd1a55f8d",
+  "sha256_uncompressed": "0130df16ec8a2f31a475001ebfb6605530a48883242c5f720dcc918e6a02579f",
+  "source": "the release workspace certified_carryover/data/fresh_rows_bf16.jsonl, gzipped"
+ },
+ "certified_carryover/data/mlx_raw_t2.jsonl": {
+  "sha256": "263a1de5b06ab2237a125b69a146297f844f2a58dab65c94c989018b03185186",
+  "source": "the release workspace certified_carryover/data/mlx_raw_t2.jsonl"
+ },
+ "certified_carryover/data/overlap_excluded.json": {
+  "sha256": "0690e4e4c01e18ab339e1646dc29d3976105628015e122b9e95541c35daadacd",
+  "source": "the release workspace certified_carryover/data/overlap_excluded.json"
+ },
+ "certified_carryover/data/subset_requests.jsonl.gz": {
+  "sha256": "999a7ccf285b1d14713eace3896ff2ee649bcdc65969c7a115c52ef57e5f65ba",
+  "sha256_uncompressed": "6cd779a9ea0621977a9e8bbe294faeaac3ae8226dc4876dcf95914c94041e8b9",
+  "source": "the release workspace certified_carryover/data/subset_requests.jsonl, gzipped"
+ },
+ "certified_carryover/data/subset_summary.json": {
+  "sha256": "0c240a071b840e51dc19e3998a7e29ed03b243b785cab35a17d9da677e17120e",
+  "source": "the release workspace certified_carryover/data/subset_summary.json"
+ },
+ "certified_carryover/overlap_step.py": {
+  "sha256": "16772e611e43fc534b8b2504a7784c440b62c338de27513f00fbf0cd984eb95b",
+  "source": "the release workspace certified_carryover/overlap_step.py"
+ },
+ "certified_carryover/results/skopos-int4_analysis_stdout.json": {
+  "sha256": "329c75c1b1c88eaab73e3d77f4003b5d9a3aa144d941453dbd401052550e97a2",
+  "source": "the release workspace certified_carryover/results/skopos-int4_analysis_stdout.json"
+ },
+ "certified_carryover/results/skopos-int4_meta.json": {
+  "sha256": "de6b4ea50372836a0891b08ad5afa14c97244b6a13085c716cb8ff632dde956f",
+  "source": "the release workspace certified_carryover/results/skopos-int4_meta.json"
+ },
+ "certified_carryover/results/skopos-int4_raw.jsonl": {
+  "sha256": "5dc0e56fd52e012d845fadfcb06eed32120d2f5da9205aa706786d82e893d0c3",
+  "source": "the release workspace certified_carryover/results/skopos-int4_raw.jsonl"
+ },
+ "certified_carryover/results/skopos-int4_run.log": {
+  "sha256": "869508a4bd26d475b5d05491ffb8fac46c09cb92a023469b8b4f0f232c62976f",
+  "source": "the release workspace certified_carryover/results/skopos-int4_run.log"
+ },
+ "certified_carryover/results/skopos-int4_summary.json": {
+  "sha256": "f192c5a49891fc6657258dc9de7fabf288fb84214630799fc42ed7672eebdf77",
+  "source": "the release workspace certified_carryover/results/skopos-int4_summary.json"
+ },
+ "certified_carryover/run_carryover.py": {
+  "sha256": "f2bffb0bce0789507e8713d2f7fdd985457542bbcdfab9a2d3d67e61e4a94878",
+  "source": "the release workspace certified_carryover/run_carryover.py"
+ },
+ "certified_carryover/run_carryover.sh": {
+  "sha256": "9cc94336bca7b89d8c3eb9f88887558b1f33b0723700c0cbc44946381711bf51",
+  "source": "the release workspace certified_carryover/run_carryover.sh"
+ },
+ "certified_carryover_skopos_int4.json": {
+  "sha256": "f192c5a49891fc6657258dc9de7fabf288fb84214630799fc42ed7672eebdf77",
+  "source": "release workspace results/certified_carryover_skopos_int4.json"
+ },
  "confirm_ftest_fresh.json": {
   "as_run_copy": "rtx/v50p/confirm_r4/CONFIRM_FTEST.json",
   "sha256": "686261605e9d22aad87c717a55890704e842986ca1511dd3196aeda5531dd30a",
@@ -227,6 +307,10 @@
  "neutral.json": {
   "sha256": "67479c3b788f48b92271f9f4bdc5bba0f3e7b9ce8c04d12d8b651a93e816118f",
   "source": "release workspace results/neutral.json"
+ },
+ "overlap_audit/REPORT_D8.md": {
+  "sha256": "497932b790826a27f18610ba1ee000a3bae3b96fb404f4adcdfe67559954e14b",
+  "source": "the audit workspace audit/out/REPORT_D8.md"
  },
  "overlap_audit/audit_overlap_skopos.py": {
   "sha256": "cd1d59b9e4e6a36f9d369c611f0bb0849072efcf047e38268c609052b83b168c",

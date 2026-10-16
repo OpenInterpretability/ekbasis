@@ -458,6 +458,46 @@ for k, lab in (("text", "The state as text"), ("image", "The state as an image")
 w(f"\nImage ability **{'preserved' if IMG['preserved'] else 'not preserved'}** by the registered reading (Skopos − "
   "Ekbasis-27B ≥ −2.0 points on the image and the read prompts).\n")
 
+# ------------------------------------------------------------------------------------------- certified mode carry-over
+CC = ld("certified_carryover_skopos_int4.json")
+CCB = json.load(open(os.path.join(R, "certified_carryover_skopos_bf16.json"))) if os.path.exists(
+    os.path.join(R, "certified_carryover_skopos_bf16.json")) else None  # secondary: reported when it has run
+w("## Certified mode with Skopos\n")
+if CC:
+    L2, L1 = CC["model"]["a02"]["L2"], CC["model"]["a02"]["L1"]
+    ref = CC["ekbasis27b_bf16_same_scenarios"]["a02"]["L2"]
+    mlx = CC["mlx_t2_common_scenarios"]["model_a02"]["L2"]
+    cr = CC["criteria"]
+    pr = CC["paired_rows_vs_ekbasis27b"]["all"]
+    yn = lambda x: "**holds**" if x else "**fails**"
+    w(f"""`ekbasis.verify`'s certified mode acts on a confident answer without checking it only where a Learn-then-Test
+certificate holds; its thresholds were certified on Ekbasis-27B. A check registered before any request
+([PREREG_CERTIFIED_CARRYOVER.md](prereg_skopos/PREREG_CERTIFIED_CARRYOVER.md)) ran the same client (thresholds
+unchanged) on Skopos INT4, served, over confirm-3's fresh scenarios: {CC['scenarios_done']:,} scenarios,
+{CC['rows']:,} questions, {CC['units']:,} confident units ({CC['scenarios_excluded_overlap']} scenarios excluded by the
+overlap audit, {CC['requests_failed']} failed requests; `results_skopos/certified_carryover_skopos_int4.json`, code and
+data in `results_skopos/certified_carryover/`). A check that the certificate carries over, not a new certificate.
+
+| L2, α = 2% (the certified mode) | Accepted (of the units) | Errors among accepted | Weighted to confirm-3's mix | 95% upper bound (raw) | Verified share |
+|---|---|---|---|---|---|
+| **Skopos INT4** | {L2['accepted']:,} of {L2['units']:,} | {L2['errors_among_accepted']} ({h(100 * L2['error_rate_among_accepted'], 2)}%) | {h(100 * L2['error_rate_among_accepted_weighted'], 2)}% | {h(100 * L2['cp95_upper_overall'], 2)}% | {h(100 * L2['verified_share'])}% |
+| Ekbasis-27B bf16, the same scenarios | {ref['accepted']:,} of {ref['units']:,} | {ref['errors_among_accepted']} ({h(100 * ref['error_rate_among_accepted'], 2)}%) | {h(100 * ref['error_rate_among_accepted_weighted'], 2) + '%' if 'error_rate_among_accepted_weighted' in ref else '—'} | {h(100 * ref['cp95_upper_overall'], 2) + '%' if 'cp95_upper_overall' in ref else '—'} | {h(100 * ref['verified_share'])}% |
+| Ekbasis-27B MLX (T2's answers), the scenarios both runs completed | {mlx['accepted']:,} of {mlx['units']:,} | {mlx['errors_among_accepted']} ({h(100 * mlx['error_rate_among_accepted'], 2)}%) | {h(100 * mlx['error_rate_among_accepted_weighted'], 2) + '%' if 'error_rate_among_accepted_weighted' in mlx else '—'} | {h(100 * mlx['cp95_upper_overall'], 2) + '%' if 'cp95_upper_overall' in mlx else '—'} | {h(100 * mlx['verified_share'])}% |
+
+Criteria: C2 (L2: weighted error among accepted ≤ 2% and no node significantly above) {yn(cr['C2_certified_mode_L2_a02'])};
+C2+ (and the raw 95% upper bound ≤ 2%) {yn(cr['C2plus_L2_cp95_upper_le_2pct'])}; C1 (L1, α = 2%: {L1['errors_among_accepted']}
+errors among {L1['accepted']:,} accepted) {yn(cr['C1_L1_a02'])}. Paired with Ekbasis-27B on the same {pr['rows']:,} questions:
+the same answer on {pr['agree']:,}; right {pr['model_correct']:,} against {pr['bf16_correct']:,}; wrong at confidence ≥ 0.9
+{pr['model_confident_wrong']} against {pr['bf16_confident_wrong']}.""")
+    if CCB:
+        cb = CCB["criteria"]
+        w(f"\nThe bf16 build (secondary): C2 {yn(cb['C2_certified_mode_L2_a02'])}, C2+ {yn(cb['C2plus_L2_cp95_upper_le_2pct'])} "
+          "(`results_skopos/certified_carryover_skopos_bf16.json`).\n")
+    else:
+        w("\nThe same check on the bf16 build (secondary) has not run yet.\n")
+else:
+    w(pending("certified_carryover_skopos_int4.json", "PREREG_CERTIFIED_CARRYOVER.md") + "\n")
+
 # ---------------------------------------------------------------------------------------------------------- latency
 LS, LE = ld("latency_skopos_int4.json"), ld("latency_ekbasis_int4.json")
 w("## Latency and cost (INT4)\n")

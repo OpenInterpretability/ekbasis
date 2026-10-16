@@ -286,6 +286,30 @@ in INT4 through the same serving, images sent as a client sends them (`results_s
 
 Image ability **preserved** by the registered reading (Skopos − Ekbasis-27B ≥ −2.0 points on the image and the read prompts).
 
+## Certified mode with Skopos
+
+`ekbasis.verify`'s certified mode acts on a confident answer without checking it only where a Learn-then-Test
+certificate holds; its thresholds were certified on Ekbasis-27B. A check registered before any request
+([PREREG_CERTIFIED_CARRYOVER.md](prereg_skopos/PREREG_CERTIFIED_CARRYOVER.md)) ran the same client (thresholds
+unchanged) on Skopos INT4, served, over confirm-3's fresh scenarios: 1,400 scenarios,
+2,781 questions, 1,321 confident units (0 scenarios excluded by the
+overlap audit, 0 failed requests; `results_skopos/certified_carryover_skopos_int4.json`, code and
+data in `results_skopos/certified_carryover/`). A check that the certificate carries over, not a new certificate.
+
+| L2, α = 2% (the certified mode) | Accepted (of the units) | Errors among accepted | Weighted to confirm-3's mix | 95% upper bound (raw) | Verified share |
+|---|---|---|---|---|---|
+| **Skopos INT4** | 927 of 1,321 | 7 (0.76%) | 0.74% | 1.41% | 29.8% |
+| Ekbasis-27B bf16, the same scenarios | 886 of 1,336 | 5 (0.56%) | 0.47% | 1.18% | 33.7% |
+| Ekbasis-27B MLX (T2's answers), the scenarios both runs completed | 710 of 1,020 | 6 (0.85%) | 0.90% | 1.66% | 30.4% |
+
+Criteria: C2 (L2: weighted error among accepted ≤ 2% and no node significantly above) **holds**;
+C2+ (and the raw 95% upper bound ≤ 2%) **holds**; C1 (L1, α = 2%: 4
+errors among 539 accepted) **holds**. Paired with Ekbasis-27B on the same 2,781 questions:
+the same answer on 2,613; right 2,554 against 2,485; wrong at confidence ≥ 0.9
+154 against 233.
+
+The same check on the bf16 build (secondary) has not run yet.
+
 ## Latency and cost (INT4)
 
 Both INT4 builds served the same way on the same RTX PRO 6000 (vLLM and `serve.py`, nothing else on the GPU), on
