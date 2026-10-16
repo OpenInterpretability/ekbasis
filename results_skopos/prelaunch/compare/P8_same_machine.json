@@ -1,0 +1,79 @@
+{
+ "item": "P8 context: Skopos against Ekbasis-27B re-run on the SAME machine (context only; the rule's reference stays the published run, P8.json)",
+ "ekbasis27b_run": "prelaunch_out_partial/P8/ekbasis_bf16_early (run early, P4 paused, server swapped and restored: prelaunch_notes/DEVIATIONS_RUN.md); phase B's official re-run is kept separately when it lands",
+ "ekbasis27b_rerun_identity_vs_published": {
+  "same_right_wrong_as_published": "240/240",
+  "accuracy_rerun [orig, para]": [
+   95.83333333333333,
+   97.5
+  ],
+  "accuracy_published [orig, para]": [
+   95.83333333333333,
+   97.5
+  ],
+  "confidence_equal_to_2_3_4_decimals_and_exactly": [
+   216,
+   179,
+   124,
+   64
+  ],
+  "confidence_abs_difference": {
+   "median": 4.750490188598633e-05,
+   "max": 0.11211323738098145,
+   "within_0.001": 203,
+   "within_0.01": 228
+  },
+  "largest_confidence_difference": "item 12 (orig, machines): 0.547 here vs 0.659 published, wrong in both",
+  "calibration_rerun_conf_ge_0.99": "190 answers, 100% right (published: 189, 100%)"
+ },
+ "summary": {
+  "release_blockers": [
+   "para wording (120)"
+  ],
+  "flagged_worse_by_2": []
+ },
+ "measures": [
+  {
+   "measure": "both wordings (240)",
+   "n": 240,
+   "skopos": 95.41666666666667,
+   "ekbasis27b": 96.66666666666667,
+   "difference": -1.25,
+   "higher_is_better": true,
+   "ci95": [
+    -3.333333333333343,
+    0.8333333333333286
+   ],
+   "rule": "paired bootstrap",
+   "release_blocker": false
+  },
+  {
+   "measure": "orig wording (120)",
+   "n": 120,
+   "skopos": 96.66666666666667,
+   "ekbasis27b": 95.83333333333333,
+   "difference": 0.8333333333333428,
+   "higher_is_better": true,
+   "ci95": [
+    -1.6666666666666714,
+    4.166666666666657
+   ],
+   "rule": "paired bootstrap",
+   "release_blocker": false
+  },
+  {
+   "measure": "para wording (120)",
+   "n": 120,
+   "skopos": 94.16666666666667,
+   "ekbasis27b": 97.5,
+   "difference": -3.3333333333333286,
+   "higher_is_better": true,
+   "ci95": [
+    -6.666666666666671,
+    -0.8333333333333286
+   ],
+   "rule": "paired bootstrap",
+   "release_blocker": true
+  }
+ ]
+}

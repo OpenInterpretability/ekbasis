@@ -1,5 +1,35 @@
 # Changelog
 
+<!-- skopos:entry -->
+## Ekbasis-Skopos-27B (model) — 2026-10-16
+
+### Added
+- **Ekbasis-Skopos-27B, the recommended model** ([card](https://huggingface.co/caiovicentino1/Ekbasis-Skopos-27B); bf16,
+  FP8 and INT4 builds; MLX after its test on an Apple-silicon Mac): Ekbasis-27B trained further on executed shell, git,
+  SQLite, PostgreSQL and Python scenarios. Against Ekbasis-27B on the same items: the git guard raises fewer false
+  alarms on the held-out command types, 26/799 instead of 49/799 (paired McNemar p = 5.6 × 10⁻⁶; these command types are
+  held out of the git sandbox's training rows but appear in Skopos' factory rows), and flags as many work-losing
+  commands; on the known types, 27 instead of 37 of 863 is within chance. On 3,014 fresh answers of never-trained world
+  families the actions change, +1.6 points [+0.7, +2.5]: the pre-registered release read failed this criterion on
+  `ftest_family`, and a confirmation registered after that result (before any fresh item existed), by trainer readout,
+  did not confirm the loss. Its largest gains are in-distribution (the generators it was trained on), and in world
+  families it never saw more of its errors come with confidence ≥ 0.9 (4.49 vs 3.75 per 100). The client, the API and
+  the prompts are unchanged: serve the new weights with their own `serve.py`, or keep Ekbasis-27B. `ekbasis.verify`'s
+  certified mode, certified on Ekbasis-27B, carried over to Skopos INT4 in a pre-registered check (7 errors among 927
+  accepted answers; [docs/VERIFY.md](docs/VERIFY.md)). A pre-launch release blocker is declared: on paraphrased short
+  checks it is right on 113 of 120 against Ekbasis-27B's 117 (−3.3 points, paired 95% CI [−6.7, −0.8]), so the
+  pre-registered rule fired; the exact test on the 4 discordant items does not reject (p = 0.125), and Ekbasis-27B
+  re-run on the same machine reproduced its published answers (240/240) ([release
+  decision](results_skopos/prelaunch/RELEASE_DECISION.md)). Hosted API: as its model-change policy promises, this
+  version and its scorecard are posted at least 14 days before the served model changes; the hosted API serves
+  Ekbasis-27B-INT4 until 2026-10-30, then Ekbasis-Skopos-27B-INT4 (`calibrated.temperature` 1.67 instead of 1.55); the
+  switch gets its own entry here, with its date. Its evaluation, with its per-item predictions and pre-registrations:
+  [RELEASE_EVAL_SKOPOS.md](RELEASE_EVAL_SKOPOS.md), [results_skopos/](results_skopos/README.md),
+  [prereg_skopos/](prereg_skopos/PREREG_sha256.txt); its training code: [training/skopos/](training/skopos/README.md);
+  the generators behind every training kind and evaluation set, as they ran: [generators/](generators/README.md).
+
+<!-- /skopos:entry -->
+
 ## [0.1.41] — 2026-10-15
 
 ### Added

@@ -166,6 +166,30 @@ scenario.
 - **Cost on that Mac.** Each confident answer the certified mode checks costs two extra requests (one for git and
   shell): about 7 s (median 6.6 s), and about 4 s for git and shell.
 
+## On Ekbasis-Skopos-27B (2026-10-16)
+
+The thresholds above belong to Ekbasis-27B (w4a5). The same check as for the MLX build was run on Ekbasis-Skopos-27B,
+served by vLLM and `serve.py` (INT4, and bf16), with the thresholds unchanged and client 0.1.41, pre-registered before
+the first request (`prereg_skopos/PREREG_CERTIFIED_CARRYOVER.md`): all 1,400 scenarios of the MLX
+check's stratified subset of confirm-3, none of them overlapping Skopos' training (the release's overlap audit), one
+confident answer per scenario.
+
+| Rule (α = 2%) | Errors among accepted answers | Verified (raw / at confirm-3's mix) | Confident errors caught | Node above 2% |
+|---|---|---|---|---|
+| **`certified`** (L2), Skopos INT4 | **0.76%** (7 of 927; at confirm-3's mix 0.74%; 95% upper bound 1.41%) | 29.8% / 22.0% | 91.5% | none |
+| `certified` (L2), Skopos bf16 | 0.64% (6 of 935; at confirm-3's mix 0.59%; 95% upper bound 1.26%) | 29.9% / 22.0% | 93.6% | none |
+| `certified` (L2), Ekbasis-27B bf16 on the same 1,400 scenarios (confirm-3's answers) | 0.56% (5 of 886; at confirm-3's mix 0.47%; 95% upper bound 1.18%) | 33.7% / 25.4% | — | none |
+
+- **What this is.** It checks empirically, on fresh items, that the certificate carries over to Skopos. It is not a new certificate.
+- **The paired reference** is Ekbasis-27B on the same scenarios (the last row): Skopos accepts more answers and errs
+  slightly more often among them. Confirm-3's own rate (above) is on a different, larger set.
+- **Small samples outside rules.** As for the MLX build, the result rests on the total; each suite's own bound stays wide.
+  "Node above 2%" tests 43 nodes with a median of 16 accepted answers each (5 to 108), corrected for their number, so it
+  has little power on a single node: the highest for Skopos INT4 has 2 errors among 12 accepted (p = 0.023 before the
+  correction).
+- Numbers: `results_skopos/certified_carryover_skopos_{int4,bf16}.json` and
+  `results_skopos/certified_carryover_reference_rows.json`.
+
 ## Overlap with training
 
 The items of the development set (29,029 rows), of the first test (28,723: 19,825 in the five suites + 8,898

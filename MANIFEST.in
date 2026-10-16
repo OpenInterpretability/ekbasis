@@ -2,3 +2,4 @@
 # (git clone), and results*/, paper/, assets* are records, not code.
 prune tests
 prune training
+prune generators

@@ -1,0 +1,34 @@
+--- _orig/short_eval_release.py
++++ P8/short_eval_release.py
+@@ -1,3 +1,4 @@
++# PRELAUNCH PORT (P8) of _orig/short_eval_release.py: every changed line is marked PORT; the full diff is CHANGES.diff in this folder.
+ """Short checks (1-3 actions, one question the actions change; the items of short_eval.py: robust_eval 'orig' and 'para',
+ seed 77) on the exact release weights through the System One API, and the routing rule recomputed with the Qwen3.8-27B
+ answers saved by short_eval.py on the same items (the LLM does not depend on the release).
+@@ -5,7 +6,7 @@
+   time   latency one request at a time and throughput at 16 in parallel, on one GPU (env CQ_URL)"""
+ import concurrent.futures as cf, json, os, random, sys, time, urllib.request
+ sys.argv, MODE = [sys.argv[0]], sys.argv[1]
+-sys.path.insert(0, "/root/decis/conseq")
++sys.path.insert(0, os.environ.get("LIB", os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "lib")))  # PORT
+ import robust_eval as R
+ from worldgen import Jugs, Machines, Toggles
+ 
+@@ -15,7 +16,7 @@
+ rng = random.Random(77)
+ items = [(fam, gold, name, text, q) for F in (Machines, Toggles, Jugs) for fam, gold, v in R.items(F, rng, 40)
+          for name, (text, q) in v.items() if name in ("orig", "para")]
+-saved = json.load(open("/dev/shm/conseq/short_eval.json"))
++saved = json.load(open(os.environ["SAVED_JSON"]))  # PORT: the rig-only /dev/shm/conseq/short_eval.json, rebuilt by make_saved.py
+ assert [tuple(x) for x in saved["items"]] == [it[:3] for it in items], "items differ from short_eval.py's"
+ 
+ 
+@@ -35,7 +36,7 @@
+     acc = lambda rs, v: 100 * sum(r["ok"] for r, it in zip(rs, items) if it[2] == v) / sum(1 for it in items if it[2] == v)
+     rep["items"] = len(items)
+     rep["accuracy"] = {name: {v: acc(rs, v) for v in ("orig", "para")}
+-                       for name, rs in (("Ekbasis (release)", res), ("Qwen3.8-27B at once", nothink), ("Qwen3.8-27B thinking", think))}
++                       for name, rs in (("Ekbasis (release)", res), ("Qwen3.8-27B thinking", think))}  # PORT: no at-once row (its per-item answers were rig-only)
+     rep["qwen_thinking_tokens_per_item"] = sum(r["tok"] for r in think) / len(items)
+     rep["routing"] = []
+     for t in (0.5, 0.9, 0.95, 0.99):

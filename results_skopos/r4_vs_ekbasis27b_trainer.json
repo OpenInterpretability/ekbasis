@@ -1,0 +1,149 @@
+{
+ "method": "Skopos (R4) against Ekbasis-27B, trainer readout, on the sets of PREREG_R4.md: the same per-item predictions and the",
+ "sets": {
+  "fac_val": {
+   "n": 3983,
+   "r4": 0.9402,
+   "ekbasis27b": 0.884,
+   "r4_minus_ekbasis27b": [
+    0.0562,
+    [
+     0.0475,
+     0.0655
+    ]
+   ]
+  },
+  "git_long": {
+   "n": 900,
+   "r4": 0.9322,
+   "ekbasis27b": 0.9067,
+   "r4_minus_ekbasis27b": [
+    0.0256,
+    [
+     0.0111,
+     0.0389
+    ]
+   ]
+  },
+  "git_long_val": {
+   "n": 1800,
+   "r4": 0.9456,
+   "ekbasis27b": 0.91,
+   "r4_minus_ekbasis27b": [
+    0.0356,
+    [
+     0.0256,
+     0.0467
+    ]
+   ]
+  },
+  "fhorizon": {
+   "n": 1375,
+   "r4": 0.8676,
+   "ekbasis27b": 0.8604,
+   "r4_minus_ekbasis27b": [
+    0.0073,
+    [
+     -0.0058,
+     0.0211
+    ]
+   ]
+  },
+  "latent_test": {
+   "n": 4320,
+   "r4": 0.8137,
+   "ekbasis27b": 0.7919,
+   "r4_minus_ekbasis27b": [
+    0.0218,
+    [
+     0.0139,
+     0.0301
+    ]
+   ]
+  },
+  "sess_val": {
+   "n": 730,
+   "r4": 0.9315,
+   "ekbasis27b": 0.8904,
+   "r4_minus_ekbasis27b": [
+    0.0411,
+    [
+     0.0247,
+     0.0575
+    ]
+   ]
+  },
+  "git3_test_known": {
+   "n": 1482,
+   "r4": 0.9852,
+   "ekbasis27b": 0.9804,
+   "r4_minus_ekbasis27b": [
+    0.0047,
+    [
+     -0.0013,
+     0.0101
+    ]
+   ]
+  },
+  "git3_test_held": {
+   "n": 1623,
+   "r4": 0.9532,
+   "ekbasis27b": 0.9519,
+   "r4_minus_ekbasis27b": [
+    0.0012,
+    [
+     -0.0068,
+     0.0092
+    ]
+   ]
+  },
+  "guard_known": {
+   "n": 4486,
+   "r4": 0.9639,
+   "ekbasis27b": 0.9469,
+   "r4_minus_ekbasis27b": [
+    0.0169,
+    [
+     0.0116,
+     0.0225
+    ]
+   ]
+  },
+  "ftest_family": {
+   "n": 1080,
+   "r4": 0.8343,
+   "ekbasis27b": 0.8306,
+   "r4_minus_ekbasis27b": [
+    0.0037,
+    [
+     -0.0102,
+     0.0176
+    ]
+   ]
+  },
+  "m3val": {
+   "n": 300,
+   "r4": 0.93,
+   "ekbasis27b": 0.9133,
+   "r4_minus_ekbasis27b": [
+    0.0167,
+    [
+     -0.01,
+     0.0433
+    ]
+   ]
+  },
+  "fval_git3": {
+   "n": 1524,
+   "r4": 0.9409,
+   "ekbasis27b": 0.9298,
+   "r4_minus_ekbasis27b": [
+    0.0112,
+    [
+     0.0026,
+     0.0203
+    ]
+   ]
+  }
+ }
+}

@@ -1,0 +1,138 @@
+{
+ "T": 1.67,
+ "fval_git3": {
+  "T1": {
+   "n": 1524,
+   "acc": 0.9344,
+   "ece": 0.0358,
+   "conf_err_per100": 2.95,
+   "brier": 0.1035
+  },
+  "Tfit": {
+   "n": 1524,
+   "acc": 0.9344,
+   "ece": 0.0109,
+   "conf_err_per100": 1.38,
+   "brier": 0.098
+  }
+ },
+ "m3val": {
+  "T1": {
+   "n": 300,
+   "acc": 0.9333,
+   "ece": 0.0478,
+   "conf_err_per100": 3.33,
+   "brier": 0.116
+  },
+  "Tfit": {
+   "n": 300,
+   "acc": 0.9333,
+   "ece": 0.0219,
+   "conf_err_per100": 2.0,
+   "brier": 0.1077
+  }
+ },
+ "git_long": {
+  "T1": {
+   "n": 900,
+   "acc": 0.9278,
+   "ece": 0.056,
+   "conf_err_per100": 4.67,
+   "brier": 0.1216
+  },
+  "Tfit": {
+   "n": 900,
+   "acc": 0.9278,
+   "ece": 0.0266,
+   "conf_err_per100": 2.44,
+   "brier": 0.1088
+  }
+ },
+ "guard_known": {
+  "T1": {
+   "n": 800,
+   "acc": 0.9712,
+   "ece": 0.0202,
+   "conf_err_per100": 2.5,
+   "brier": 0.0534
+  },
+  "Tfit": {
+   "n": 800,
+   "acc": 0.9712,
+   "ece": 0.025,
+   "conf_err_per100": 1.0,
+   "brier": 0.0515
+  }
+ },
+ "fac_val": {
+  "T1": {
+   "n": 782,
+   "acc": 0.9565,
+   "ece": 0.029,
+   "conf_err_per100": 2.56,
+   "brier": 0.0749
+  },
+  "Tfit": {
+   "n": 782,
+   "acc": 0.9565,
+   "ece": 0.018,
+   "conf_err_per100": 1.66,
+   "brier": 0.0708
+  }
+ },
+ "test_pooled": {
+  "T1": {
+   "n": 2482,
+   "acc": 0.9508,
+   "ece": 0.0346,
+   "conf_err_per100": 3.3,
+   "brier": 0.0849
+  },
+  "Tfit": {
+   "n": 2482,
+   "acc": 0.9508,
+   "ece": 0.0147,
+   "conf_err_per100": 1.73,
+   "brier": 0.0783
+  }
+ },
+ "map_binary": {
+  "0.5": 0.5,
+  "0.7": 0.624,
+  "0.8": 0.696,
+  "0.9": 0.788,
+  "0.95": 0.854,
+  "0.99": 0.94,
+  "0.999": 0.984
+ },
+ "clean": {
+  "audit": "audit/out/overlap.json",
+  "rule": "identical OR near (the exclusion used for the clean numbers)",
+  "excluded_n": {
+   "fac_val": 18
+  },
+  "excluded_ids": {
+   "fac_val": [
+    909,
+    919,
+    930,
+    936,
+    944,
+    953,
+    959,
+    971,
+    974,
+    982,
+    994,
+    1000,
+    1002,
+    1011,
+    1022,
+    1029,
+    1040,
+    3460
+   ]
+  },
+  "note": "T kept as published (fit sets have no flagged item); test splits recomputed"
+ }
+}

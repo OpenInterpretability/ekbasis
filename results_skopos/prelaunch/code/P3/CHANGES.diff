@@ -1,0 +1,34 @@
+--- _orig/long_chain2.py
++++ P3/long_chain2.py
+@@ -1,3 +1,4 @@
++# PRELAUNCH PORT (P3) of _orig/long_chain2.py: every changed line is marked PORT; the full diff is CHANGES.diff in this folder.
+ """Very long chains: 100 and 200 actions, one action per step, every variable asked at every step (System One API, one
+ question per prompt), the next state rebuilt from the answers. Worlds: containers, lamps, machines, cards.
+   text       start from the true state in text, never look again
+@@ -8,7 +9,7 @@
+ and whether the final answer depends on the start at all (the same chain run from another start). env: CQ_URL, N (per
+ world and length, 8), PAR (16), OBS (50)."""
+ import base64, concurrent.futures as cf, io, json, os, random, sys, time, urllib.request
+-sys.path.insert(0, "/root/decis/conseq")
++sys.path.insert(0, os.environ.get("LIB", os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "lib")))  # PORT
+ from envs import qchoice
+ from PIL import Image, ImageDraw
+ from scipy.optimize import linear_sum_assignment
+@@ -127,7 +128,7 @@
+                      [uri(draw(w, truth[t]))])
+         if first_err is None and not all(value(w, S, k) == value(w, truth[t], k) for k, _ in keys_qs):
+             first_err = t
+-    return {"fam": fam, "len": length, "mode": mode, "final_ok": value(w, S, key) == value(w, truth[-1], key),
++    return {"fam": fam, "len": length, "i": i, "mode": mode, "final_ok": value(w, S, key) == value(w, truth[-1], key),
+             "state_ok": all(value(w, S, k) == value(w, truth[-1], k) for k, _ in keys_qs), "first_err": first_err,
+             "start_ok": start_ok, "depends_on_start": value(w, so, key) != value(w, truth[-1], key), "seconds": time.time() - t0}
+ 
+@@ -146,7 +147,7 @@
+             print(f"[{(time.time() - t0) / 60:5.1f} min] {r['fam']:8s} {r['len']:3d} {r['mode']:9s} final {'ok' if r['final_ok'] else 'WRONG':5s} "
+                   f"whole state {'ok' if r['state_ok'] else 'wrong':5s} exact until {r['first_err'] if r['first_err'] is not None else 'the end'} "
+                   f"(answer depends on start: {r['depends_on_start']})", flush=True)
+-json.dump(res, open("/dev/shm/conseq/long_chain.json", "w"))
++json.dump(res, open(os.environ["OUT_JSON"], "w"))  # PORT: it wrote /dev/shm/conseq/long_chain.json
+ print(f"{len(res)} chains in {(time.time() - t0) / 60:.1f} min (Ekbasis V41, one question per prompt, {N} items per world and length)")
+ print(f"{'world':9s} {'len':>4s} {'mode':>10s} | {'final ans':>9s} {'whole state':>11s} {'exact until (median step)':>26s} {'ans depends on start':>21s} {'s/item':>7s}")
+ for L in (100, 200):

@@ -1,0 +1,57 @@
+{
+ "method": "The larger guard set (release read, served bf16): Skopos against Ekbasis-27B on the same items, paired. For each split",
+ "splits": {
+  "guard_known:flagged": {
+   "n": 863,
+   "skopos": 837,
+   "ekbasis": 828,
+   "skopos_only": 18,
+   "ekbasis_only": 9,
+   "diff_pts": 1.0428736964078795,
+   "ci95_pts": [
+    -0.23174971031286212,
+    2.317497103128621
+   ],
+   "mcnemar_p": 0.12207812070846558
+  },
+  "guard_known:false_alarms": {
+   "n": 863,
+   "skopos": 27,
+   "ekbasis": 37,
+   "skopos_only": 8,
+   "ekbasis_only": 18,
+   "diff_pts": -1.1587485515643106,
+   "ci95_pts": [
+    -2.317497103128621,
+    0.0
+   ],
+   "mcnemar_p": 0.07551869750022888
+  },
+  "guard_held:flagged": {
+   "n": 799,
+   "skopos": 776,
+   "ekbasis": 767,
+   "skopos_only": 20,
+   "ekbasis_only": 11,
+   "diff_pts": 1.1264080100125156,
+   "ci95_pts": [
+    -0.1251564455569462,
+    2.5031289111389237
+   ],
+   "mcnemar_p": 0.14961278438568115
+  },
+  "guard_held:false_alarms": {
+   "n": 799,
+   "skopos": 26,
+   "ekbasis": 49,
+   "skopos_only": 2,
+   "ekbasis_only": 25,
+   "diff_pts": -2.8785982478097623,
+   "ci95_pts": [
+    -4.130162703379224,
+    -1.6270337922403004
+   ],
+   "mcnemar_p": 5.647540092468262e-06
+  }
+ }
+}

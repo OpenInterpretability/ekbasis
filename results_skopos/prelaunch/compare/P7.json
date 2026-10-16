@@ -1,0 +1,185 @@
+{
+ "item": "P7",
+ "reference": "ref/handoff/image_chain_w4a5.json (Ekbasis-27B, the release run's per-item file)",
+ "summary": {
+  "release_blockers": [],
+  "flagged_worse_by_2": [
+   "start state read exactly, all (60)",
+   "start state read exactly, jugs (30)"
+  ]
+ },
+ "measures": [
+  {
+   "measure": "final answer from a text start, all (60)",
+   "n": 60,
+   "skopos": 100.0,
+   "ekbasis27b": 100.0,
+   "difference": 0.0,
+   "higher_is_better": true,
+   "counts": [
+    60.0,
+    60.0
+   ],
+   "rule": "counts (n < 100)",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "final answer from a text start, jugs (30)",
+   "n": 30,
+   "skopos": 100.0,
+   "ekbasis27b": 100.0,
+   "difference": 0.0,
+   "higher_is_better": true,
+   "counts": [
+    30.0,
+    30.0
+   ],
+   "rule": "counts (n < 100)",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "final answer from a text start, toggles (30)",
+   "n": 30,
+   "skopos": 100.0,
+   "ekbasis27b": 100.0,
+   "difference": 0.0,
+   "higher_is_better": true,
+   "counts": [
+    30.0,
+    30.0
+   ],
+   "rule": "counts (n < 100)",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "final answer from the image, all (60)",
+   "n": 60,
+   "skopos": 100.0,
+   "ekbasis27b": 100.0,
+   "difference": 0.0,
+   "higher_is_better": true,
+   "counts": [
+    60.0,
+    60.0
+   ],
+   "rule": "counts (n < 100)",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "final answer from the image, jugs (30)",
+   "n": 30,
+   "skopos": 100.0,
+   "ekbasis27b": 100.0,
+   "difference": 0.0,
+   "higher_is_better": true,
+   "counts": [
+    30.0,
+    30.0
+   ],
+   "rule": "counts (n < 100)",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "final answer from the image, toggles (30)",
+   "n": 30,
+   "skopos": 100.0,
+   "ekbasis27b": 100.0,
+   "difference": 0.0,
+   "higher_is_better": true,
+   "counts": [
+    30.0,
+    30.0
+   ],
+   "rule": "counts (n < 100)",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "final answer from the image + first action, all (60)",
+   "n": 60,
+   "skopos": 100.0,
+   "ekbasis27b": 100.0,
+   "difference": 0.0,
+   "higher_is_better": true,
+   "counts": [
+    60.0,
+    60.0
+   ],
+   "rule": "counts (n < 100)",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "final answer from the image + first action, jugs (30)",
+   "n": 30,
+   "skopos": 100.0,
+   "ekbasis27b": 100.0,
+   "difference": 0.0,
+   "higher_is_better": true,
+   "counts": [
+    30.0,
+    30.0
+   ],
+   "rule": "counts (n < 100)",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "final answer from the image + first action, toggles (30)",
+   "n": 30,
+   "skopos": 100.0,
+   "ekbasis27b": 100.0,
+   "difference": 0.0,
+   "higher_is_better": true,
+   "counts": [
+    30.0,
+    30.0
+   ],
+   "rule": "counts (n < 100)",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "start state read exactly, all (60)",
+   "n": 60,
+   "skopos": 81.66666666666667,
+   "ekbasis27b": 85.0,
+   "difference": -3.3333333333333286,
+   "higher_is_better": true,
+   "counts": [
+    49.0,
+    51.0
+   ],
+   "rule": "counts (n < 100)",
+   "flag_worse_by_2": true
+  },
+  {
+   "measure": "start state read exactly, jugs (30)",
+   "n": 30,
+   "skopos": 66.66666666666667,
+   "ekbasis27b": 73.33333333333333,
+   "difference": -6.666666666666657,
+   "higher_is_better": true,
+   "counts": [
+    20.0,
+    22.0
+   ],
+   "rule": "counts (n < 100)",
+   "flag_worse_by_2": true
+  },
+  {
+   "measure": "start state read exactly, toggles (30)",
+   "n": 30,
+   "skopos": 96.66666666666667,
+   "ekbasis27b": 96.66666666666667,
+   "difference": 0.0,
+   "higher_is_better": true,
+   "counts": [
+    29.0,
+    29.0
+   ],
+   "rule": "counts (n < 100)",
+   "flag_worse_by_2": false
+  }
+ ],
+ "variables_read_pct": {
+  "skopos": 93.65079365079364,
+  "ekbasis27b": 94.76190476190476
+ }
+}

@@ -1,0 +1,60 @@
+{
+ "values_bf16_build": {
+  "git3": [
+   96.94041867954911,
+   96.87600644122384
+  ],
+  "ece_git3": [
+   0.023023580449022907,
+   0.023497974661429374
+  ],
+  "multi_single": [
+   81.51210868281157,
+   81.68930891907856
+  ],
+  "multi_read_once": [
+   78.67690490253987,
+   78.49970466627289
+  ],
+  "ftest_changed": [
+   80.28616852146264,
+   80.44515103338632
+  ],
+  "guard_known": {
+   "flagged": [
+    96.98725376593279,
+    96.75550405561994
+   ],
+   "false_alarms": [
+    3.1286210892236386,
+    3.1286210892236386
+   ]
+  },
+  "guard_held": {
+   "flagged": [
+    97.12140175219024,
+    96.87108886107634
+   ],
+   "false_alarms": [
+    3.254067584480601,
+    3.254067584480601
+   ]
+  },
+  "agreement": 98.56861457649376,
+  "agreement_conf09": 99.94907053730583
+ },
+ "checks": {
+  "1 git3": true,
+  "2 ECE": true,
+  "1 multi single": true,
+  "1 multi read_once": true,
+  "1 ftest": true,
+  "3 guard_known flagged": true,
+  "3 guard_known false alarms": true,
+  "3 guard_held flagged": true,
+  "3 guard_held false alarms": true,
+  "4 agreement >= 97": true,
+  "4 agreement conf>=0.9 >= 99": true
+ },
+ "pass": true
+}

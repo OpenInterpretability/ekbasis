@@ -1,0 +1,132 @@
+{
+ "written_by": "ws-eval, 2026-10-16 (update as items land)",
+ "rule": "PRELAUNCH_EVAL.md Part A: on >= 100 items with per-item outputs for both models, paired 95% bootstrap (2,000, seed 20261015); entirely on the worse side = release blocker; smaller sets are counts, worse by 2 or more flagged",
+ "final_before_release_can_block": [
+  {
+   "item": "P1",
+   "file": "P1.json",
+   "status": "done"
+  },
+  {
+   "item": "P2",
+   "file": "P2.json",
+   "status": "done"
+  },
+  {
+   "item": "P8",
+   "file": "P8.json",
+   "status": "done: blocker on the paraphrased wording, declared (RELEASE_DECISION.md); context in P8_context.json, P8_same_machine.json"
+  },
+  {
+   "item": "P4",
+   "part": "200 more chains (check0.9, conf0.5): exact at the end, steps wrong per 100 actions",
+   "file": "P4.json",
+   "status": "done: no blocker (exact 199/200 vs 198/200 check0.9, 199/200 vs 197/200 conf0.5; steps wrong per 100 actions lower, CIs cross 0); flagged counts: rules compared at 0.5 (conf, until, check), exact 38/40 vs 40/40"
+  },
+  {
+   "item": "P9",
+   "part": "plans that work, 360 / 180 / 180 (Skopos run; reference = published per-puzzle file)",
+   "file": "P9.json",
+   "status": "done: no blocker (360: 357 vs 358, CI [-0.83, 0.00]; agent 180/180 vs 180/180; agent_hard 177 vs 178, CI [-1.67, 0.00]: one discordant puzzle, containers H12; the upper bounds touch 0, not entirely below)"
+  },
+  {
+   "item": "P12",
+   "part": "intent_check replay, Skopos INT4 against the hosted Ekbasis-27B published run",
+   "file": "P12_intent.json",
+   "status": "done: no blocker (real attacks stopped 2,092/2,092 vs 2,092/2,092; benign false alarms 7/1,067 vs 17/1,067, fewer); context in P12_intent_context.json"
+  }
+ ],
+ "final_before_release_counts_only": [
+  {
+   "item": "P3",
+   "file": "P3.json",
+   "status": "done"
+  },
+  {
+   "item": "P7",
+   "file": "P7.json",
+   "status": "done"
+  },
+  {
+   "item": "P10",
+   "part": "bf16",
+   "file": "P10.json",
+   "status": "done"
+  },
+  {
+   "item": "P10",
+   "part": "INT4",
+   "file": "P10_int4.json",
+   "status": "done: no flag"
+  },
+  {
+   "item": "P5",
+   "part": "accuracy against the published per-item file",
+   "file": "P5_partial.json",
+   "status": "done"
+  },
+  {
+   "item": "P6",
+   "part": "counts against the published totals",
+   "file": "P6_partial.json",
+   "status": "done"
+  }
+ ],
+ "appended_after_release": [
+  {
+   "item": "P5",
+   "part": "speed pairing: Ekbasis-27B bf16 re-run on this machine (phase B); P5_partial.json stays as released",
+   "file": "P5.json",
+   "can_block": false
+  },
+  {
+   "item": "P6",
+   "part": "item pairing: Ekbasis-27B bf16 re-run (phase B; the release run kept no per-item answers); P6_partial.json stays as released",
+   "file": "P6.json",
+   "can_block": false
+  },
+  {
+   "item": "P1",
+   "part": "official identity re-run of Ekbasis-27B bf16 (phase B); P1.json unchanged",
+   "file": "P1_identity.json",
+   "can_block": false
+  },
+  {
+   "item": "P8",
+   "part": "official identity re-run of Ekbasis-27B bf16 (phase B); the early re-run is already in P8.json / P8_same_machine.json",
+   "file": "P8_identity_phaseB.json",
+   "can_block": false
+  },
+  {
+   "item": "P12",
+   "part": "intent replay same-machine control: Ekbasis-27B INT4 served here (phase E); P12_intent.json unchanged",
+   "file": "P12_intent_control.json",
+   "can_block": false
+  },
+  {
+   "item": "P12",
+   "part": "preflight SUBSTITUTE, bf16 (needs the phase B Ekbasis re-run) and INT4 (phases D and E); reported separately, never with published numbers",
+   "file": "P12_preflight_substitute_bf16.json, P12_preflight_substitute_int4.json",
+   "can_block": false
+  },
+  {
+   "item": "P11",
+   "part": "GPU memory caps (phase F)",
+   "file": "P11.json",
+   "can_block": false
+  },
+  {
+   "item": "P9",
+   "part": "Ekbasis-27B re-run on this machine (seconds, puzzle identity), only if run",
+   "file": "P9_identity.json",
+   "can_block": false
+  }
+ ],
+ "not_run_as_published": [
+  {
+   "item": "P12",
+   "part": "preflight on 141 plans",
+   "reason": "not run as published (plans' snapshots lost): /private/tmp/ekb_pc{,2}_94332945 hold 0 files"
+  }
+ ]
+}

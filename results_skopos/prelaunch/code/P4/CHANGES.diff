@@ -1,0 +1,16 @@
+--- _orig/long_chain3.py
++++ P4/long_chain3.py
+@@ -1,3 +1,4 @@
++# PRELAUNCH PORT (P4) of _orig/long_chain3.py: every changed line is marked PORT; the full diff is CHANGES.diff in this folder.
+ """Long chains, the fixes for errors that never fade: predict, observe, correct. One action per step, every variable asked
+ at every step (System One API), the next state rebuilt from the answers (cards: the most probable VALID ordering, by
+ assignment, as in long_chain2.py); the chains and seeds of long_chain2.py (i < 6) plus more.
+@@ -21,7 +22,7 @@
+ against silent errors for any threshold, offline)."""
+ import concurrent.futures as cf, json, math, os, random, re, sys, threading, time, urllib.request
+ MINE_LOCK = threading.Lock()
+-sys.path.insert(0, "/root/decis/conseq")
++sys.path.insert(0, os.environ.get("LIB", os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "lib")))  # PORT
+ from envs import qchoice, qnoul
+ from scipy.optimize import linear_sum_assignment
+ from worldgen import Cards, Jugs, Machines, Toggles

@@ -1,0 +1,6 @@
+# PLAN_v49b.md Addendum D: the image gate informs and does not block (Caio), hashed 2026-10-07T21:02:47Z,
+# before any read of img49b_fresh or img49b_val (img/fresh49b and img/val49b do not exist; the fresh stage has not started)
+d8efc70440fcf2006d763d07c45030e15774f26ec8098ae22b148fb16ebd56b4  Addendum D text
+77aa948272eb5e28bbdd4bee9fcc75b594ea460c4da2ca64ed9113959b06e871  PLAN_v49b.md
+bc7bf1b04f1ea6a285024308a2c3d448e3d0ef095d21167551e049a6b69c2ca9  v49b/make_fresh_spec.py
+dd8725635fc86ba6191cc4b1c7c7147b95095ac4dbd45da09cfa29eef3aab03e  img/gate_img49b.py

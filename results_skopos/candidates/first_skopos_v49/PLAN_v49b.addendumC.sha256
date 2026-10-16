@@ -1,0 +1,16 @@
+# PLAN_v49b.md Addendum C (image gate on fresh image sets)
+# first version hashed 2026-10-07T20:29:37Z, superseded before any read of the new image sets (text kept in v49b/PLAN_v49b.addendumC_v1.txt):
+#   56b1c4946bbb1e5391cecd7830bdb159f07e248ff1d29639a82f8db3bdb1a3cd  Addendum C text, first version
+# revised version, hashed 2026-10-07T20:41:27Z, before any read of the new image sets
+eaf0661d971a0a32f3e06a3a1befebd966bfd52d5f7e95eac5d530159d0890fa  Addendum C text
+fea362a7251cb6891de32120a08666689c7634d8afe8b56bd4042bacb1e6b348  PLAN_v49b.md
+1b092cd9954aec4c7265e0f04b0d0d7b1d8a5a0afd27fa0b0d0bdf21dbc8acbf  img/img_firewall.py
+349f4b224a154d8ea4af6d2e575b573bbc8ad542047803fc2039dfbfa9675582  img/image_readout.py
+d57a31a35cbd8c84574338a0792092adb822aa5f23363c33109b0cc8ff0cb073  img/calibrate_img.py
+652c8de16ac824120e7bff034e2c37d290d8d55cae3480d193ae72b60c72a46a  img/paired_null_img.py
+9a2e58cc1de9893e2d2b99661a459bdd8015a9ab6c0d5763b798830a2a88f64b  img/cal_img_spec.json
+224a734abb755df9e75438add5e74dd6dd8b7f9632467794c676ef7623792f5f  v49b/make_fresh_spec.py
+8e86d9ab2dee6119e7d82e42d132d5727547f38eabb6c5a3e19600a9ec176eda  img/data/img49b_val_exclude.json
+4ddd0a1666003a5cb5f2098ce81b208e314a51b6d79677f2ca1e4a0d6e5ac8c3  img/data/img49b_fresh_exclude.json
+9c3fd37fffa9b30407d3eea2e34813d4f61604898f490652dfae076044490d5b  img/data/img49b_counts.json
+56b1c4946bbb1e5391cecd7830bdb159f07e248ff1d29639a82f8db3bdb1a3cd  v49b/PLAN_v49b.addendumC_v1.txt

@@ -73,6 +73,14 @@ model-index:
 
 **Papers:** [Look When Unsure, Check When Sure](https://doi.org/10.5281/zenodo.23146970) · DOI [10.5281/zenodo.23146970](https://doi.org/10.5281/zenodo.23146970) · [When Does a Consequence Model Make AI Agents Safer?](https://doi.org/10.5281/zenodo.23197341) · DOI [10.5281/zenodo.23197341](https://doi.org/10.5281/zenodo.23197341) · **Code:** [github.com/OpenInterpretability/ekbasis](https://github.com/OpenInterpretability/ekbasis) · **Site:** [openinterp.org/ekbasis](https://openinterp.org/ekbasis)
 
+<!-- skopos:intro -->
+> **A newer version is recommended: [Ekbasis-Skopos-27B](https://huggingface.co/caiovicentino1/Ekbasis-Skopos-27B)**,
+> the same kind of model trained further on what real tools did, with the same API and client
+> ([RELEASE_EVAL_SKOPOS.md](https://github.com/OpenInterpretability/ekbasis/blob/main/RELEASE_EVAL_SKOPOS.md)). This
+> card describes Ekbasis-27B as it was released; its weights and builds stay available.
+
+<!-- /skopos:intro -->
+
 **What happens if I run this?** Given the current state and an action, Ekbasis-27B predicts what the action will do —
 *will this lose work? will it fail? what will X be afterwards?* — as **calibrated, typed answers**, in **one forward
 pass** (~0.1 s), without generating text. It was trained on **what actions actually did** (simulated worlds and real

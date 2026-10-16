@@ -1,0 +1,95 @@
+{
+ "P1": {
+  "git2_test_known": {
+   "rows_as_published": true,
+   "golds_as_published": true
+  },
+  "git2_test_held": {
+   "rows_as_published": true,
+   "golds_as_published": true
+  }
+ },
+ "P3": {
+  "depends_on_start_per_world_and_length": true,
+  "detail [regenerated x modes, published]": {
+   "cards 100": [
+    4,
+    4
+   ],
+   "cards 200": [
+    6,
+    6
+   ],
+   "jugs 100": [
+    0,
+    0
+   ],
+   "jugs 200": [
+    0,
+    0
+   ],
+   "machines 100": [
+    0,
+    0
+   ],
+   "machines 200": [
+    0,
+    0
+   ],
+   "toggles 100": [
+    9,
+    9
+   ],
+   "toggles 200": [
+    3,
+    3
+   ]
+  }
+ },
+ "P4": {
+  "chains_checked": 808,
+  "n_vars_as_published": true,
+  "mismatches": []
+ },
+ "P5": {
+  "items_as_published": true,
+  "n": 80
+ },
+ "P6": {
+  "items": 180,
+  "changed": 90,
+  "printed_example_equal": true
+ },
+ "P7": {
+  "items_as_release_run": true,
+  "n": 60
+ },
+ "P9": {
+  "agent": {
+   "puzzles": 180,
+   "per_family_and_H": {
+    "jugs H3": 30,
+    "jugs H5": 30,
+    "toggles H3": 30,
+    "toggles H5": 30,
+    "machines H3": 30,
+    "machines H5": 30
+   },
+   "question_counts_multiple_of_actions_x_variables": "180/180",
+   "solved_at_first_depth_exactly": 107
+  },
+  "agent_hard": {
+   "puzzles": 180,
+   "per_family_and_H": {
+    "jugs H8": 30,
+    "jugs H12": 30,
+    "toggles H8": 30,
+    "toggles H12": 30,
+    "machines H8": 30,
+    "machines H12": 30
+   },
+   "question_counts_multiple_of_actions_x_variables": "180/180",
+   "solved_at_first_depth_exactly": 106
+  }
+ }
+}

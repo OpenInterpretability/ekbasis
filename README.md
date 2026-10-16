@@ -16,6 +16,28 @@ from what an agent believes.
 > results, every prediction, how this checkpoint was chosen, which measurements were pre-registered
 > ([PREREG_release_eval.md](https://github.com/OpenInterpretability/ekbasis/blob/main/PREREG_release_eval.md), [paper/prereg/](https://github.com/OpenInterpretability/ekbasis/tree/main/paper/prereg/)) and the deviations.
 
+<!-- skopos:intro -->
+> **New (2026-10-16): [Ekbasis-Skopos-27B](https://huggingface.co/caiovicentino1/Ekbasis-Skopos-27B)**, the next
+> version, trained further on executed shell, git, SQLite, PostgreSQL and Python scenarios. Against Ekbasis-27B on the
+> same items: the git guard raises fewer false alarms on the held-out command types, 26/799 instead of 49/799 (paired
+> McNemar p = 5.6 × 10⁻⁶; these command types are held out of the git sandbox's training rows but appear in Skopos'
+> factory rows), and flags as many work-losing commands; on the known types, 27 instead of 37 of 863 is within chance.
+> On 3,014 fresh answers of never-trained world families the actions change, +1.6 points [+0.7, +2.5]: the
+> pre-registered release read failed this criterion on `ftest_family`, and a confirmation registered after that result
+> (before any fresh item existed), by trainer readout, did not confirm the loss. Its largest gains are in-distribution
+> (the generators it was trained on), and in world families it never saw more of its errors come with confidence ≥ 0.9
+> (4.49 vs 3.75 per 100). Same prompt, readout, API and client; its evaluation is in
+> [RELEASE_EVAL_SKOPOS.md](https://github.com/OpenInterpretability/ekbasis/blob/main/RELEASE_EVAL_SKOPOS.md) and its
+> card. The numbers further down this page are Ekbasis-27B's. `ekbasis.verify`'s certified mode, certified on
+> Ekbasis-27B, carried over to Skopos INT4 in a pre-registered check (7 errors among 927 accepted answers;
+> [docs/VERIFY.md](https://github.com/OpenInterpretability/ekbasis/blob/main/docs/VERIFY.md)). A pre-launch release
+> blocker is declared: on paraphrased short checks it is right on 113 of 120 against Ekbasis-27B's 117 (−3.3 points,
+> paired 95% CI [−6.7, −0.8]), so the pre-registered rule fired; the exact test on the 4 discordant items does not
+> reject (p = 0.125), and Ekbasis-27B re-run on the same machine reproduced its published answers (240/240) ([release
+> decision](https://github.com/OpenInterpretability/ekbasis/blob/main/results_skopos/prelaunch/RELEASE_DECISION.md)).
+
+<!-- /skopos:intro -->
+
 ## Install
 
 The client needs a server: the hosted API (`EKBASIS_URL=https://openinterp.org/api/v1` and `EKBASIS_API_KEY=ekb_…`,
@@ -119,10 +141,12 @@ is a prototype that asks too often to keep on.
    Python environment where vLLM is installed:
 
    ```bash
-   hf download caiovicentino1/Ekbasis-27B --local-dir Ekbasis-27B
-   bash Ekbasis-27B/serve_vllm.sh Ekbasis-27B 8001             # vLLM on 127.0.0.1:8001
-   python Ekbasis-27B/serve.py --model Ekbasis-27B --vllm-url http://127.0.0.1:8001 --port 8000
+   hf download caiovicentino1/Ekbasis-Skopos-27B --local-dir Ekbasis-Skopos-27B
+   bash Ekbasis-Skopos-27B/serve_vllm.sh Ekbasis-Skopos-27B 8001             # vLLM on 127.0.0.1:8001
+   python Ekbasis-Skopos-27B/serve.py --model Ekbasis-Skopos-27B --vllm-url http://127.0.0.1:8001 --port 8000
    ```
+
+   The previous version, `caiovicentino1/Ekbasis-27B`, is served the same way.
 
 2. **Install the client** (standard library only, Python ≥ 3.9), anywhere that can reach the server:
 
@@ -149,8 +173,22 @@ is a prototype that asks too often to keep on.
 
 ## Builds
 
-Every build that works is released, so each machine runs the one that fits; each build's card shows its quality
-against bf16 on the same evaluation (the gate was pre-registered in `PREREG_quantized.md`).
+<!-- skopos:builds -->
+**Ekbasis-Skopos-27B** (recommended): each build's card shows its quality against bf16 on the same evaluation (the gate
+of `PREREG_quantized.md`) and ships its own `calibrated_temperature`. Memory needs are those measured for Ekbasis-27B's
+builds, which have the same architecture and sizes.
+
+| Build | Size | Runs on | Against bf16 |
+|---|---|---|---|
+| [Ekbasis-Skopos-27B](https://huggingface.co/caiovicentino1/Ekbasis-Skopos-27B) (bf16) | 54.7 GB | GPUs with 80 GB | the reference |
+| [Ekbasis-Skopos-27B-FP8](https://huggingface.co/caiovicentino1/Ekbasis-Skopos-27B-FP8) | 30.4 GB | GPUs with 48 GB | quantization gate passed: same answer as bf16 on 98.6% |
+| [Ekbasis-Skopos-27B-INT4](https://huggingface.co/caiovicentino1/Ekbasis-Skopos-27B-INT4) | 18.6 GB | GPUs with 32 GB | quantization gate passed: same answer as bf16 on 97.4% |
+
+**Ekbasis-27B** (the previous version): every build that works is released, so each machine runs the one that fits; each
+build's card shows its quality against bf16 on the same evaluation (the gate was pre-registered in
+`PREREG_quantized.md`).
+
+<!-- /skopos:builds -->
 
 | Build | Size | Runs on | Speed (one RTX PRO 6000) |
 |---|---|---|---|
@@ -924,6 +962,14 @@ The code that trained Ekbasis-27B is in [`training/`](training/): the trainer (c
 JEPA-style hindsight term), the six stages of the lineage with their exact recipes, and the interpolation that is the
 release. The training rows are the `lineage` config of
 [ekbasis-data](https://huggingface.co/datasets/caiovicentino1/ekbasis-data).
+
+<!-- skopos:training -->
+Ekbasis-Skopos-27B's two further stages, its interpolation, merges and quantized builds are in
+[`training/skopos/`](training/skopos/README.md); the programs that computed the answers of every training row and
+evaluation set of its lineage, as they ran, in [`generators/`](generators/README.md); the rows in
+[ekbasis-skopos-data](https://huggingface.co/datasets/caiovicentino1/ekbasis-skopos-data).
+
+<!-- /skopos:training -->
 
 ## Citation
 

@@ -1,0 +1,62 @@
+## Addendum C (2026-10-07 ~20:35 UTC): the image gate on fresh, larger image sets, before any fresh image read
+
+**Disclosure, first.** This addendum was written after seeing v49f_w50's image readout on the old small sets
+(120 single-step items, 60 chains):
+- one chain fewer correct from the image start;
+- three chains fewer with the whole start read right;
+- 95% CIs including 0.
+
+Under 3.3's registered bounds (−1.0 point), one chain of 60 (1.67 points) already fails. **The protection of this
+addendum is that the image decision moves to fresh data that no model has read.** It applies to every candidate. The
+coordinator decided it, extending the principle Caio approved for V49b.
+
+**What changes.**
+- Section 3.3's image no-regression is decided on the fresh image sets below.
+- The old 120 items and 60 chains become reported diagnostics.
+- The results already read on the old sets (w4a5, v49f_w50) stay reported as they are.
+
+**The fresh image sets.**
+- **Generators:** image_eval.py's and image_chain.py's, as `img/image_readout.py` runs them, with new seeds.
+- **Definition:** each set is a seed, a size and an exclusion list.
+- **Firewall** (`img/img_firewall.py`), applied to the text prompt of each item and chain (rules, state in text, every
+  action):
+  - against v48/firewall_cal.py over every training file of the lineage (identical or word 8-gram near-duplicate);
+  - against the old image sets (identical);
+  - for the decision set, against the calibration set (identical).
+- **Exclusions:** in `img/data/img49b_{val,fresh}_exclude.json`; counts in `img/data/img49b_counts.json`.
+
+| Set | Single step | Chains (10–20 actions) |
+|---|---|---|
+| **img49b_val** (calibration only) | Random(49301): 300 generated, 296 kept (4 flagged by the lineage firewall) | seeds 48000+i: 150, all kept |
+| **img49b_fresh** (the decision) | Random(49303): 600 generated, **594** kept (6 flagged) | seeds 49000+i: **300**, all kept |
+
+**What is read** (`FRESH=1`, about 40 min of GPU per model):
+- single step with the adapter on, the image and read prompts;
+- chains from the image start, including the start read.
+
+**The gate, for each candidate against w4a5 on the same fresh rows:**
+- single-step image accuracy ≥ base − tol_img;
+- single-step read accuracy ≥ base − tol_read;
+- chain accuracy from the image start ≥ base − tol_chain;
+- whole-start read rate ≥ base − tol_start;
+- ECE of the image answers ≤ base + tol_ece_img;
+- ECE of the read answers ≤ base + tol_ece_read.
+
+**The tolerances: Addendum A's procedure, frozen before any candidate reads img49b_fresh.**
+- **Source:** w4a5's read of img49b_val.
+- **Rate metrics:** two independent Binomial(n, p̂) draws at the fresh size, with p̂ = (k+1)/(m+2) from w4a5's val
+  counts. The Laplace correction keeps a 100% base rate from giving a zero-width null.
+  - The tolerance is max(1.0, the 95th percentile of the drop), from 100,000 pairs.
+  - n is 594 for the two single-step accuracies and 300 for the two chain metrics.
+- **ECE:** two independent resamples of w4a5's val rows at the fresh size. tol = max(0.02, the 95th percentile), from
+  10,000 pairs.
+- **RNG:** `default_rng(9)`. Script: `img/calibrate_img.py`.
+- **Result:** a no-change candidate fails each component at most 5% of the time.
+- **Freezing:** the numbers are frozen in an appendix to this addendum, hashed before any candidate reads the fresh
+  set.
+
+**Order.**
+1. After the V49b selection reads, w4a5 reads img49b_val.
+2. Calibration.
+3. The frozen numbers, hashed.
+4. In the fresh stage, w4a5 and every selected candidate read img49b_fresh.

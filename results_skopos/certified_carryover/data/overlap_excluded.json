@@ -1,0 +1,8 @@
+{
+ "source": "audit/out/overlap.json",
+ "audit_sha256": "7dfb1657b5f8e51f9f3808ef2ef69477ff3ff71ff70f06f39ae82cdac0f7bd56",
+ "rule": "identical prompts (also against the hindsight prompt), and near-duplicates at word 8-gram Jaccard >= 0.5 against one training text after removing each set's own layout (Ekbasis-27B's audit rule, exact best match)",
+ "questions_flagged": 0,
+ "questions": 2781,
+ "scenarios": []
+}

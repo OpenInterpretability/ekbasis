@@ -1,0 +1,4 @@
+cq_par1.jsonl        acc 100.0% {'jugs': '100%', 'machines': '100%', 'toggles': '100%', 'cards': '100%'} | latency p50    5.6s p90    9.0s |   10.6 items/min at 1 parallel | generated      0 tok/item, read  27198
+cq_par16.jsonl       acc  97.5% {'jugs': '100%', 'machines': '100%', 'toggles': '100%', 'cards': '90%'} | latency p50   74.4s p90  107.7s |   12.1 items/min at 16 parallel | generated      0 tok/item, read  27856
+cqm_par1.jsonl       acc 100.0% {'jugs': '100%', 'machines': '100%', 'toggles': '100%', 'cards': '100%'} | latency p50    3.3s p90    6.2s |   17.6 items/min at 1 parallel | generated      0 tok/item, read  13601
+cqm_par16.jsonl      acc  93.8% {'jugs': '100%', 'machines': '100%', 'toggles': '100%', 'cards': '75%'} | latency p50   38.5s p90   54.1s |   23.0 items/min at 16 parallel | generated      0 tok/item, read  13646

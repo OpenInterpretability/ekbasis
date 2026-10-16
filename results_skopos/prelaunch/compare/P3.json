@@ -1,0 +1,495 @@
+{
+ "item": "P3",
+ "reference": "ref/release_eval/release_long_chain.jsonl (Ekbasis-27B, published)",
+ "summary": {
+  "release_blockers": [],
+  "flagged_worse_by_2": [],
+  "identity_check_failed_cells": []
+ },
+ "measures": [
+  {
+   "measure": "Containers 100 text: final answer right",
+   "n": 6,
+   "skopos": 6,
+   "ekbasis27b": 6,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "Containers 100 text: whole final state right",
+   "n": 6,
+   "skopos": 6,
+   "ekbasis27b": 6,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "Containers 100 image: final answer right",
+   "n": 6,
+   "skopos": 6,
+   "ekbasis27b": 6,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "Containers 100 image: whole final state right",
+   "n": 6,
+   "skopos": 6,
+   "ekbasis27b": 6,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "Containers 100 image_obs: final answer right",
+   "n": 6,
+   "skopos": 6,
+   "ekbasis27b": 6,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "Containers 100 image_obs: whole final state right",
+   "n": 6,
+   "skopos": 6,
+   "ekbasis27b": 6,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "Lamps 100 text: final answer right",
+   "n": 6,
+   "skopos": 6,
+   "ekbasis27b": 6,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "Lamps 100 text: whole final state right",
+   "n": 6,
+   "skopos": 6,
+   "ekbasis27b": 5,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "Lamps 100 image: final answer right",
+   "n": 6,
+   "skopos": 5,
+   "ekbasis27b": 5,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "Lamps 100 image: whole final state right",
+   "n": 6,
+   "skopos": 5,
+   "ekbasis27b": 4,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "Lamps 100 image_obs: final answer right",
+   "n": 6,
+   "skopos": 6,
+   "ekbasis27b": 6,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "Lamps 100 image_obs: whole final state right",
+   "n": 6,
+   "skopos": 6,
+   "ekbasis27b": 5,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "Machines 100 text: final answer right",
+   "n": 6,
+   "skopos": 6,
+   "ekbasis27b": 6,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "Machines 100 text: whole final state right",
+   "n": 6,
+   "skopos": 6,
+   "ekbasis27b": 6,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "Cards (orderings) 100 text: final answer right",
+   "n": 6,
+   "skopos": 5,
+   "ekbasis27b": 3,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "Cards (orderings) 100 text: whole final state right",
+   "n": 6,
+   "skopos": 0,
+   "ekbasis27b": 0,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "Containers 200 text: final answer right",
+   "n": 6,
+   "skopos": 6,
+   "ekbasis27b": 6,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "Containers 200 text: whole final state right",
+   "n": 6,
+   "skopos": 6,
+   "ekbasis27b": 6,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "Containers 200 image: final answer right",
+   "n": 6,
+   "skopos": 6,
+   "ekbasis27b": 6,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "Containers 200 image: whole final state right",
+   "n": 6,
+   "skopos": 6,
+   "ekbasis27b": 6,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "Containers 200 image_obs: final answer right",
+   "n": 6,
+   "skopos": 6,
+   "ekbasis27b": 6,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "Containers 200 image_obs: whole final state right",
+   "n": 6,
+   "skopos": 6,
+   "ekbasis27b": 6,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "Lamps 200 text: final answer right",
+   "n": 6,
+   "skopos": 6,
+   "ekbasis27b": 6,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "Lamps 200 text: whole final state right",
+   "n": 6,
+   "skopos": 6,
+   "ekbasis27b": 6,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "Lamps 200 image: final answer right",
+   "n": 6,
+   "skopos": 6,
+   "ekbasis27b": 6,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "Lamps 200 image: whole final state right",
+   "n": 6,
+   "skopos": 6,
+   "ekbasis27b": 6,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "Lamps 200 image_obs: final answer right",
+   "n": 6,
+   "skopos": 6,
+   "ekbasis27b": 6,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "Lamps 200 image_obs: whole final state right",
+   "n": 6,
+   "skopos": 6,
+   "ekbasis27b": 6,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "Machines 200 text: final answer right",
+   "n": 6,
+   "skopos": 6,
+   "ekbasis27b": 6,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "Machines 200 text: whole final state right",
+   "n": 6,
+   "skopos": 6,
+   "ekbasis27b": 6,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "Cards (orderings) 200 text: final answer right",
+   "n": 6,
+   "skopos": 1,
+   "ekbasis27b": 2,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "Cards (orderings) 200 text: whole final state right",
+   "n": 6,
+   "skopos": 0,
+   "ekbasis27b": 1,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  }
+ ],
+ "first_error": [
+  {
+   "cell": "Containers 100 text",
+   "first_error_median": {
+    "skopos": "-",
+    "ekbasis27b": "-"
+   }
+  },
+  {
+   "cell": "Containers 100 image",
+   "first_error_median": {
+    "skopos": "-",
+    "ekbasis27b": "-"
+   }
+  },
+  {
+   "cell": "Containers 100 image_obs",
+   "first_error_median": {
+    "skopos": 50,
+    "ekbasis27b": 50
+   }
+  },
+  {
+   "cell": "Lamps 100 text",
+   "first_error_median": {
+    "skopos": "-",
+    "ekbasis27b": "-"
+   }
+  },
+  {
+   "cell": "Lamps 100 image",
+   "first_error_median": {
+    "skopos": "-",
+    "ekbasis27b": "-"
+   }
+  },
+  {
+   "cell": "Lamps 100 image_obs",
+   "first_error_median": {
+    "skopos": "-",
+    "ekbasis27b": "-"
+   }
+  },
+  {
+   "cell": "Machines 100 text",
+   "first_error_median": {
+    "skopos": "-",
+    "ekbasis27b": "-"
+   }
+  },
+  {
+   "cell": "Cards (orderings) 100 text",
+   "first_error_median": {
+    "skopos": 42,
+    "ekbasis27b": 44
+   }
+  },
+  {
+   "cell": "Containers 200 text",
+   "first_error_median": {
+    "skopos": "-",
+    "ekbasis27b": "-"
+   }
+  },
+  {
+   "cell": "Containers 200 image",
+   "first_error_median": {
+    "skopos": "-",
+    "ekbasis27b": "-"
+   }
+  },
+  {
+   "cell": "Containers 200 image_obs",
+   "first_error_median": {
+    "skopos": "-",
+    "ekbasis27b": "-"
+   }
+  },
+  {
+   "cell": "Lamps 200 text",
+   "first_error_median": {
+    "skopos": "-",
+    "ekbasis27b": "-"
+   }
+  },
+  {
+   "cell": "Lamps 200 image",
+   "first_error_median": {
+    "skopos": "-",
+    "ekbasis27b": "-"
+   }
+  },
+  {
+   "cell": "Lamps 200 image_obs",
+   "first_error_median": {
+    "skopos": "-",
+    "ekbasis27b": "-"
+   }
+  },
+  {
+   "cell": "Machines 200 text",
+   "first_error_median": {
+    "skopos": "-",
+    "ekbasis27b": "-"
+   }
+  },
+  {
+   "cell": "Cards (orderings) 200 text",
+   "first_error_median": {
+    "skopos": 38,
+    "ekbasis27b": 18
+   }
+  }
+ ],
+ "identity_depends_on_start": [
+  {
+   "cell": "Containers 100 text",
+   "depends_on_start": [
+    0,
+    0
+   ]
+  },
+  {
+   "cell": "Containers 100 image",
+   "depends_on_start": [
+    0,
+    0
+   ]
+  },
+  {
+   "cell": "Containers 100 image_obs",
+   "depends_on_start": [
+    0,
+    0
+   ]
+  },
+  {
+   "cell": "Lamps 100 text",
+   "depends_on_start": [
+    3,
+    3
+   ]
+  },
+  {
+   "cell": "Lamps 100 image",
+   "depends_on_start": [
+    3,
+    3
+   ]
+  },
+  {
+   "cell": "Lamps 100 image_obs",
+   "depends_on_start": [
+    3,
+    3
+   ]
+  },
+  {
+   "cell": "Machines 100 text",
+   "depends_on_start": [
+    0,
+    0
+   ]
+  },
+  {
+   "cell": "Cards (orderings) 100 text",
+   "depends_on_start": [
+    4,
+    4
+   ]
+  },
+  {
+   "cell": "Containers 200 text",
+   "depends_on_start": [
+    0,
+    0
+   ]
+  },
+  {
+   "cell": "Containers 200 image",
+   "depends_on_start": [
+    0,
+    0
+   ]
+  },
+  {
+   "cell": "Containers 200 image_obs",
+   "depends_on_start": [
+    0,
+    0
+   ]
+  },
+  {
+   "cell": "Lamps 200 text",
+   "depends_on_start": [
+    1,
+    1
+   ]
+  },
+  {
+   "cell": "Lamps 200 image",
+   "depends_on_start": [
+    1,
+    1
+   ]
+  },
+  {
+   "cell": "Lamps 200 image_obs",
+   "depends_on_start": [
+    1,
+    1
+   ]
+  },
+  {
+   "cell": "Machines 200 text",
+   "depends_on_start": [
+    0,
+    0
+   ]
+  },
+  {
+   "cell": "Cards (orderings) 200 text",
+   "depends_on_start": [
+    6,
+    6
+   ]
+  }
+ ]
+}

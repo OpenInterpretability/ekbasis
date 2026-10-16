@@ -1,0 +1,79 @@
+{
+ "text_all": {
+  "n": 395,
+  "skopos": 91.9,
+  "ekbasis": 89.62,
+  "diff": 2.28,
+  "ci": [
+   -0.51,
+   5.06
+  ]
+ },
+ "text_changed": {
+  "n": 198,
+  "skopos": 88.38,
+  "ekbasis": 85.35,
+  "diff": 3.03,
+  "ci": [
+   -1.52,
+   7.58
+  ]
+ },
+ "image_all": {
+  "n": 395,
+  "skopos": 79.75,
+  "ekbasis": 78.73,
+  "diff": 1.01,
+  "ci": [
+   -2.03,
+   4.05
+  ]
+ },
+ "image_changed": {
+  "n": 198,
+  "skopos": 73.74,
+  "ekbasis": 72.73,
+  "diff": 1.01,
+  "ci": [
+   -4.04,
+   6.57
+  ]
+ },
+ "read_all": {
+  "n": 395,
+  "skopos": 94.18,
+  "ekbasis": 91.9,
+  "diff": 2.28,
+  "ci": [
+   0.51,
+   4.3
+  ]
+ },
+ "read_changed": {
+  "n": 198,
+  "skopos": 94.95,
+  "ekbasis": 90.91,
+  "diff": 4.04,
+  "ci": [
+   1.01,
+   7.58
+  ]
+ },
+ "preserved": true,
+ "clean": {
+  "audit": "audit/out/overlap.json",
+  "rule": "identical OR near (the exclusion used for the clean numbers)",
+  "excluded_n": {
+   "image_fresh": 5
+  },
+  "excluded_ids": {
+   "image_fresh": [
+    51,
+    94,
+    246,
+    322,
+    377
+   ]
+  }
+ }
+}

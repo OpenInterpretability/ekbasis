@@ -1,0 +1,10 @@
+40 chains in 301.2 min (http://127.0.0.1:8603/v1/systemone, 16 chains per world, length and mode)
+world     len        mode | final ans  whole state  looks/chain  wrong steps/chain
+cards      100         text |       62%          12%          0.0               62.6
+cards      200         text |       38%          25%          0.0              116.5
+toggles    100         text |      100%         100%          0.0                0.0
+toggles    200         text |      100%         100%          0.0                0.0
+machines   100         text |      100%         100%          0.0                0.0
+machines   200         text |      100%         100%          0.0                3.8
+jugs       100         text |      100%         100%          0.0                0.0
+jugs       200         text |      100%         100%          0.0                0.0

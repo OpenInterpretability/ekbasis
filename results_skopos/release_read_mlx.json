@@ -1,0 +1,46 @@
+{
+ "release": {
+  "git_v3_all": 96.61835748792271,
+  "ece_git_v3_10bins": 0.024135897758502365,
+  "ece_git_v3_15bins": 0.02387429598640893,
+  "multi_testfam_single": 81.15770821027762,
+  "multi_testfam_read_once": 78.02717070289427,
+  "multi_trainfam_single": 92.35033259423503,
+  "multi_trainfam_read_once": 91.46341463414635,
+  "ftest_changed": 81.87599364069952,
+  "guard_known": [
+   828,
+   863,
+   37,
+   863
+  ],
+  "guard_held": [
+   767,
+   799,
+   49,
+   799
+  ]
+ },
+ "candidate": {
+  "git_v3_all": 96.94041867954911,
+  "ece_git_v3_10bins": 0.021618846994667148,
+  "multi_testfam_single": 81.45304193738924,
+  "multi_testfam_read_once": null,
+  "multi_trainfam_single": 93.68070953436808,
+  "multi_trainfam_read_once": null,
+  "ftest_changed": 81.08108108108108,
+  "guard_known": [
+   836,
+   863,
+   36,
+   863
+  ],
+  "guard_held": [
+   785,
+   799,
+   38,
+   799
+  ]
+ },
+ "source": "MLX build served by mlx_serve.py (MLX CUDA backend on Linux), 2 servers, read-once not measured (the MLX server answers it as one prompt per question); values from mlx_run/ and quant_gate_mlx.json"
+}

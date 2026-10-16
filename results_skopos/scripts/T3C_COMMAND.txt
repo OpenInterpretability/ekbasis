@@ -1,0 +1,8 @@
+PREREG_ADDENDUM.md A1, as run 2026-10-15 22:59-23:07 UTC (Mac, Python 3.9 system interpreter):
+  ssh -f -N -L 18603:127.0.0.1:8603 -p <rtx port> root@<rtx host>            # tunnel to the served bf16 (serve.py on 8603)
+  cd decision_model/conseq
+  EKBASIS_URL=http://127.0.0.1:18603 python3 release_eval_t3c.py <RS>/addendum/t3c_scr <RS>/results/t3c_r4.json
+  python3 rescore_inj_truth.py <RS>/addendum/t3c_scr <RS>/results/t3c_r4.json       # the reference's truth correction
+Client: the copy imported by release_eval_t3c.py (decision_model/release_clean/code_eikos/ekbasis, the one that ran
+Ekbasis-27B's release evaluation). Clone: pallets/itsdangerous at 672971d (addendum/t3c_pinned_commit.txt), prepared as
+real_git_eval.py does (repo_src + bare origin.git).

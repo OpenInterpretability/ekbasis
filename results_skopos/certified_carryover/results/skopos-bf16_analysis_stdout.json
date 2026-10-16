@@ -1,0 +1,160 @@
+{
+ "tag": "skopos-bf16",
+ "dry_bf16": false,
+ "scenarios_requested": 1400,
+ "scenarios_excluded_overlap": 0,
+ "excluded_source": "audit/out/overlap.json",
+ "scenarios_done": 1400,
+ "requests_failed": 0,
+ "rows": 2781,
+ "units": 1333,
+ "unit_errors": 94,
+ "per_suite_scenarios": {
+  "rules_stress": 600,
+  "git_wild": 200,
+  "sql_wild": 200,
+  "accumulation": 200,
+  "shell_wild": 200
+ },
+ "per_domain_rule_units": {
+  "overall": {
+   "recall": 0.8803,
+   "share": 0.1913
+  },
+  "per_suite": {
+   "rules_stress": {
+    "recall": 0.7857,
+    "share": 0.083
+   },
+   "sql_wild": {
+    "recall": 0.9167,
+    "share": 0.3604
+   },
+   "shell_wild": {
+    "recall": 0.9412,
+    "share": 0.25
+   },
+   "git_wild": {
+    "recall": 0.8333,
+    "share": 0.25
+   },
+   "accumulation": {
+    "recall": 0.9333,
+    "share": 0.3228
+   }
+  }
+ },
+ "paired_rows_vs_ekbasis27b": {
+  "all": {
+   "rows": 2781,
+   "agree": 2612,
+   "model_correct": 2549,
+   "bf16_correct": 2485,
+   "model_confident": 2626,
+   "model_confident_wrong": 168,
+   "bf16_confident_wrong": 233
+  },
+  "accumulation": {
+   "rows": 200,
+   "agree": 185,
+   "model_correct": 167,
+   "bf16_correct": 160,
+   "model_confident": 158,
+   "model_confident_wrong": 15,
+   "bf16_confident_wrong": 25
+  },
+  "git_wild": {
+   "rows": 638,
+   "agree": 582,
+   "model_correct": 576,
+   "bf16_correct": 554,
+   "model_confident": 602,
+   "model_confident_wrong": 52,
+   "bf16_confident_wrong": 69
+  },
+  "rules_stress": {
+   "rows": 600,
+   "agree": 592,
+   "model_correct": 578,
+   "bf16_correct": 576,
+   "model_confident": 578,
+   "model_confident_wrong": 14,
+   "bf16_confident_wrong": 16
+  },
+  "shell_wild": {
+   "rows": 907,
+   "agree": 863,
+   "model_correct": 846,
+   "bf16_correct": 826,
+   "model_confident": 881,
+   "model_confident_wrong": 48,
+   "bf16_confident_wrong": 73
+  },
+  "sql_wild": {
+   "rows": 436,
+   "agree": 390,
+   "model_correct": 382,
+   "bf16_correct": 369,
+   "model_confident": 407,
+   "model_confident_wrong": 39,
+   "bf16_confident_wrong": 50
+  }
+ },
+ "criteria": {
+  "C2_certified_mode_L2_a02": true,
+  "C1_L1_a02": true,
+  "C2plus_L2_cp95_upper_le_2pct": true
+ },
+ "model": {
+  "L1": {
+   "units": 1333,
+   "accepted": 542,
+   "verified_share": 0.5934,
+   "errors_among_accepted": 3,
+   "error_rate_among_accepted": 0.00554,
+   "cp95_upper_overall": 0.01424,
+   "errors_caught_share": 0.9681,
+   "error_rate_among_accepted_weighted": 0.00585,
+   "verified_share_weighted": 0.3965,
+   "no_node_significantly_above": true
+  },
+  "L2": {
+   "units": 1333,
+   "accepted": 935,
+   "verified_share": 0.2986,
+   "errors_among_accepted": 6,
+   "error_rate_among_accepted": 0.00642,
+   "cp95_upper_overall": 0.01263,
+   "errors_caught_share": 0.9362,
+   "error_rate_among_accepted_weighted": 0.00586,
+   "verified_share_weighted": 0.2197,
+   "no_node_significantly_above": true
+  }
+ },
+ "ekbasis27b_bf16_same_scenarios": {
+  "L1": {
+   "units": 1336,
+   "accepted": 506,
+   "verified_share": 0.6213,
+   "errors_among_accepted": 2,
+   "error_rate_among_accepted": 0.00395,
+   "cp95_upper_overall": 0.01239,
+   "errors_caught_share": 0.9826,
+   "error_rate_among_accepted_weighted": 0.00413,
+   "verified_share_weighted": 0.427,
+   "no_node_significantly_above": true
+  },
+  "L2": {
+   "units": 1336,
+   "accepted": 886,
+   "verified_share": 0.3368,
+   "errors_among_accepted": 5,
+   "error_rate_among_accepted": 0.00564,
+   "cp95_upper_overall": 0.01183,
+   "errors_caught_share": 0.9565,
+   "error_rate_among_accepted_weighted": 0.00468,
+   "verified_share_weighted": 0.2541,
+   "no_node_significantly_above": true
+  }
+ }
+}

@@ -1,0 +1,779 @@
+{
+ "item": "P4",
+ "reference": "ref/release_eval/long_chain3*.jsonl (Ekbasis-27B, published)",
+ "summary": {
+  "release_blockers": [],
+  "flagged_worse_by_2": [
+   "rules, conf0.5: exact at the end (of 40)",
+   "rules, until0.5: exact at the end (of 40)",
+   "rules, check0.5: exact at the end (of 40)"
+  ]
+ },
+ "measures": [
+  {
+   "measure": "rules, text: exact at the end (of 40)",
+   "n": 40,
+   "skopos": 26,
+   "ekbasis27b": 26,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "rules, conf0.5: exact at the end (of 40)",
+   "n": 40,
+   "skopos": 38,
+   "ekbasis27b": 40,
+   "rule": "counts",
+   "flag_worse_by_2": true
+  },
+  {
+   "measure": "rules, until0.5: exact at the end (of 40)",
+   "n": 40,
+   "skopos": 38,
+   "ekbasis27b": 40,
+   "rule": "counts",
+   "flag_worse_by_2": true
+  },
+  {
+   "measure": "rules, check0.5: exact at the end (of 40)",
+   "n": 40,
+   "skopos": 38,
+   "ekbasis27b": 40,
+   "rule": "counts",
+   "flag_worse_by_2": true
+  },
+  {
+   "measure": "rules, conf0.9: exact at the end (of 40)",
+   "n": 40,
+   "skopos": 39,
+   "ekbasis27b": 40,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "rules, until0.9: exact at the end (of 40)",
+   "n": 40,
+   "skopos": 39,
+   "ekbasis27b": 40,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "rules, check0.9: exact at the end (of 40)",
+   "n": 40,
+   "skopos": 39,
+   "ekbasis27b": 40,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "cards 100, text: exact at the end (of 8)",
+   "n": 8,
+   "skopos": 1,
+   "ekbasis27b": 0,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "cards 200, text: exact at the end (of 8)",
+   "n": 8,
+   "skopos": 1,
+   "ekbasis27b": 2,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "cards 100, obs50: exact at the end (of 8)",
+   "n": 8,
+   "skopos": 1,
+   "ekbasis27b": 0,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "cards 200, obs50: exact at the end (of 8)",
+   "n": 8,
+   "skopos": 3,
+   "ekbasis27b": 4,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "cards 100, conf0.5: exact at the end (of 8)",
+   "n": 8,
+   "skopos": 7,
+   "ekbasis27b": 8,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "cards 200, conf0.5: exact at the end (of 8)",
+   "n": 8,
+   "skopos": 7,
+   "ekbasis27b": 8,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "cards 100, conf0.9: exact at the end (of 8)",
+   "n": 8,
+   "skopos": 8,
+   "ekbasis27b": 8,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "cards 200, conf0.9: exact at the end (of 8)",
+   "n": 8,
+   "skopos": 7,
+   "ekbasis27b": 8,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "cards 100, step0.9: exact at the end (of 8)",
+   "n": 8,
+   "skopos": 8,
+   "ekbasis27b": 8,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "cards 200, step0.9: exact at the end (of 8)",
+   "n": 8,
+   "skopos": 7,
+   "ekbasis27b": 8,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "cards 100, dual_conf0.9: exact at the end (of 8)",
+   "n": 8,
+   "skopos": 8,
+   "ekbasis27b": 8,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "cards 200, dual_conf0.9: exact at the end (of 8)",
+   "n": 8,
+   "skopos": 8,
+   "ekbasis27b": 8,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "200 more chains, check0.9 (published table): exact at the end",
+   "n": 200,
+   "skopos": 99.5,
+   "ekbasis27b": 99.0,
+   "difference": 0.5,
+   "higher_is_better": true,
+   "ci95": [
+    -1.0,
+    2.5
+   ],
+   "rule": "paired bootstrap",
+   "release_blocker": false
+  },
+  {
+   "measure": "200 more chains, check0.9 (published table): steps wrong per 100 actions",
+   "n": 200,
+   "skopos": 0.04,
+   "ekbasis27b": 0.23,
+   "difference": -0.19,
+   "higher_is_better": false,
+   "ci95": [
+    -0.5463576158940397,
+    0.023569023569023573
+   ],
+   "rule": "paired bootstrap",
+   "release_blocker": false
+  },
+  {
+   "measure": "200 more chains, check0.9 (published table): looks per 100 actions",
+   "n": 200,
+   "skopos": 10.18,
+   "ekbasis27b": 16.94333333333333,
+   "difference": -6.763333333333332,
+   "higher_is_better": false,
+   "ci95": [
+    -7.7845117845117855,
+    -5.718120805369129
+   ],
+   "rule": "paired bootstrap",
+   "release_blocker": false,
+   "note": "a cost (looks), reported with its interval; not an error measure"
+  },
+  {
+   "measure": "200 more chains, check0.9 (published table), jugs: exact at the end (of 40)",
+   "n": 40,
+   "skopos": 40,
+   "ekbasis27b": 39,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "200 more chains, check0.9 (published table), toggles: exact at the end (of 40)",
+   "n": 40,
+   "skopos": 40,
+   "ekbasis27b": 40,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "200 more chains, check0.9 (published table), machines: exact at the end (of 40)",
+   "n": 40,
+   "skopos": 40,
+   "ekbasis27b": 40,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "200 more chains, check0.9 (published table), cards: exact at the end (of 80)",
+   "n": 80,
+   "skopos": 79,
+   "ekbasis27b": 79,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "200 more chains, conf0.5 (run, not in the published table): exact at the end",
+   "n": 200,
+   "skopos": 99.5,
+   "ekbasis27b": 98.5,
+   "difference": 1.0,
+   "higher_is_better": true,
+   "ci95": [
+    -1.0,
+    3.0
+   ],
+   "rule": "paired bootstrap",
+   "release_blocker": false
+  },
+  {
+   "measure": "200 more chains, conf0.5 (run, not in the published table): steps wrong per 100 actions",
+   "n": 200,
+   "skopos": 0.25666666666666665,
+   "ekbasis27b": 0.5066666666666667,
+   "difference": -0.25000000000000006,
+   "higher_is_better": false,
+   "ci95": [
+    -0.8033333333333332,
+    0.17763157894736845
+   ],
+   "rule": "paired bootstrap",
+   "release_blocker": false
+  },
+  {
+   "measure": "200 more chains, conf0.5 (run, not in the published table): looks per 100 actions",
+   "n": 200,
+   "skopos": 5.496666666666667,
+   "ekbasis27b": 8.376666666666667,
+   "difference": -2.88,
+   "higher_is_better": false,
+   "ci95": [
+    -3.4493243243243237,
+    -2.295302013422819
+   ],
+   "rule": "paired bootstrap",
+   "release_blocker": false,
+   "note": "a cost (looks), reported with its interval; not an error measure"
+  },
+  {
+   "measure": "200 more chains, conf0.5 (run, not in the published table), jugs: exact at the end (of 40)",
+   "n": 40,
+   "skopos": 40,
+   "ekbasis27b": 39,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "200 more chains, conf0.5 (run, not in the published table), toggles: exact at the end (of 40)",
+   "n": 40,
+   "skopos": 40,
+   "ekbasis27b": 39,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "200 more chains, conf0.5 (run, not in the published table), machines: exact at the end (of 40)",
+   "n": 40,
+   "skopos": 40,
+   "ekbasis27b": 40,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "200 more chains, conf0.5 (run, not in the published table), cards: exact at the end (of 80)",
+   "n": 80,
+   "skopos": 79,
+   "ekbasis27b": 79,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "never looking, jugs: wrong steps (of 1200)",
+   "n": 1200,
+   "skopos": 0,
+   "ekbasis27b": 0,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "never looking, toggles: wrong steps (of 1200)",
+   "n": 1200,
+   "skopos": 0,
+   "ekbasis27b": 4,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "never looking, machines: wrong steps (of 1200)",
+   "n": 1200,
+   "skopos": 1,
+   "ekbasis27b": 1,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "never looking, cards: wrong steps (of 2400)",
+   "n": 2400,
+   "skopos": 64,
+   "ekbasis27b": 120,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  }
+ ],
+ "tables": {
+  "rules_compared [skopos, ekbasis27b]": [
+   {
+    "rule": "text",
+    "chains": 40,
+    "exact": [
+     26,
+     26
+    ],
+    "wrong_steps_per_100_actions": [
+     25.083333333333332,
+     28.066666666666666
+    ],
+    "looks_per_100_actions": [
+     0.0,
+     0.0
+    ]
+   },
+   {
+    "rule": "conf0.5",
+    "chains": 40,
+    "exact": [
+     38,
+     40
+    ],
+    "wrong_steps_per_100_actions": [
+     0.5333333333333333,
+     0.7166666666666667
+    ],
+    "looks_per_100_actions": [
+     5.55,
+     8.783333333333333
+    ]
+   },
+   {
+    "rule": "until0.5",
+    "chains": 40,
+    "exact": [
+     38,
+     40
+    ],
+    "wrong_steps_per_100_actions": [
+     0.6166666666666667,
+     0.7333333333333333
+    ],
+    "looks_per_100_actions": [
+     6.233333333333333,
+     9.616666666666667
+    ]
+   },
+   {
+    "rule": "check0.5",
+    "chains": 40,
+    "exact": [
+     38,
+     40
+    ],
+    "wrong_steps_per_100_actions": [
+     0.5333333333333333,
+     0.6666666666666666
+    ],
+    "looks_per_100_actions": [
+     7.95,
+     11.166666666666666
+    ]
+   },
+   {
+    "rule": "conf0.9",
+    "chains": 40,
+    "exact": [
+     39,
+     40
+    ],
+    "wrong_steps_per_100_actions": [
+     0.016666666666666666,
+     0.45
+    ],
+    "looks_per_100_actions": [
+     8.783333333333333,
+     15.85
+    ]
+   },
+   {
+    "rule": "until0.9",
+    "chains": 40,
+    "exact": [
+     39,
+     40
+    ],
+    "wrong_steps_per_100_actions": [
+     0.016666666666666666,
+     0.31666666666666665
+    ],
+    "looks_per_100_actions": [
+     9.416666666666666,
+     16.516666666666666
+    ]
+   },
+   {
+    "rule": "check0.9",
+    "chains": 40,
+    "exact": [
+     39,
+     40
+    ],
+    "wrong_steps_per_100_actions": [
+     0.016666666666666666,
+     0.3
+    ],
+    "looks_per_100_actions": [
+     10.983333333333333,
+     17.333333333333332
+    ]
+   }
+  ],
+  "cards [skopos, ekbasis27b]": [
+   {
+    "rule": "text",
+    "exact_100 (of 8)": [
+     1,
+     0
+    ],
+    "looks_per_100_100": [
+     0.0,
+     0.0
+    ],
+    "exact_200 (of 8)": [
+     1,
+     2
+    ],
+    "looks_per_100_200": [
+     0.0,
+     0.0
+    ]
+   },
+   {
+    "rule": "obs50",
+    "exact_100 (of 8)": [
+     1,
+     0
+    ],
+    "looks_per_100_100": [
+     1.0,
+     1.0
+    ],
+    "exact_200 (of 8)": [
+     3,
+     4
+    ],
+    "looks_per_100_200": [
+     1.5,
+     1.5
+    ]
+   },
+   {
+    "rule": "conf0.5",
+    "exact_100 (of 8)": [
+     7,
+     8
+    ],
+    "looks_per_100_100": [
+     16.0,
+     26.375
+    ],
+    "exact_200 (of 8)": [
+     7,
+     8
+    ],
+    "looks_per_100_200": [
+     12.75,
+     18.625
+    ]
+   },
+   {
+    "rule": "conf0.9",
+    "exact_100 (of 8)": [
+     8,
+     8
+    ],
+    "looks_per_100_100": [
+     24.0,
+     39.875
+    ],
+    "exact_200 (of 8)": [
+     7,
+     8
+    ],
+    "looks_per_100_200": [
+     20.1875,
+     31.4375
+    ]
+   },
+   {
+    "rule": "step0.9",
+    "exact_100 (of 8)": [
+     8,
+     8
+    ],
+    "looks_per_100_100": [
+     21.75,
+     36.75
+    ],
+    "exact_200 (of 8)": [
+     7,
+     8
+    ],
+    "looks_per_100_200": [
+     17.9375,
+     26.9375
+    ]
+   },
+   {
+    "rule": "dual_conf0.9",
+    "exact_100 (of 8)": [
+     8,
+     8
+    ],
+    "looks_per_100_100": [
+     14.625,
+     20.375
+    ],
+    "exact_200 (of 8)": [
+     8,
+     8
+    ],
+    "looks_per_100_200": [
+     10.8125,
+     15.1875
+    ]
+   }
+  ],
+  "200 more chains, check0.9 (published table) per world [skopos, ekbasis27b]": [
+   {
+    "world": "jugs",
+    "chains": 40,
+    "exact": [
+     40,
+     39
+    ],
+    "wrong_steps_per_100_actions": [
+     0.13333333333333333,
+     0.43333333333333335
+    ],
+    "looks_per_100_actions": [
+     2.7,
+     2.7333333333333334
+    ]
+   },
+   {
+    "world": "toggles",
+    "chains": 40,
+    "exact": [
+     40,
+     40
+    ],
+    "wrong_steps_per_100_actions": [
+     0.0,
+     0.7
+    ],
+    "looks_per_100_actions": [
+     2.683333333333333,
+     3.6166666666666667
+    ]
+   },
+   {
+    "world": "machines",
+    "chains": 40,
+    "exact": [
+     40,
+     40
+    ],
+    "wrong_steps_per_100_actions": [
+     0.03333333333333333,
+     0.0
+    ],
+    "looks_per_100_actions": [
+     2.683333333333333,
+     7.0
+    ]
+   },
+   {
+    "world": "cards",
+    "chains": 80,
+    "exact": [
+     79,
+     79
+    ],
+    "wrong_steps_per_100_actions": [
+     0.016666666666666666,
+     0.008333333333333333
+    ],
+    "looks_per_100_actions": [
+     21.416666666666668,
+     35.68333333333333
+    ]
+   }
+  ],
+  "200 more chains, conf0.5 (run, not in the published table) per world [skopos, ekbasis27b]": [
+   {
+    "world": "jugs",
+    "chains": 40,
+    "exact": [
+     40,
+     39
+    ],
+    "wrong_steps_per_100_actions": [
+     0.13333333333333333,
+     0.6
+    ],
+    "looks_per_100_actions": [
+     0.016666666666666666,
+     0.016666666666666666
+    ]
+   },
+   {
+    "world": "toggles",
+    "chains": 40,
+    "exact": [
+     40,
+     39
+    ],
+    "wrong_steps_per_100_actions": [
+     0.0,
+     1.6166666666666667
+    ],
+    "looks_per_100_actions": [
+     0.0,
+     0.13333333333333333
+    ]
+   },
+   {
+    "world": "machines",
+    "chains": 40,
+    "exact": [
+     40,
+     40
+    ],
+    "wrong_steps_per_100_actions": [
+     0.25,
+     0.25
+    ],
+    "looks_per_100_actions": [
+     0.0,
+     0.7833333333333333
+    ]
+   },
+   {
+    "world": "cards",
+    "chains": 80,
+    "exact": [
+     79,
+     79
+    ],
+    "wrong_steps_per_100_actions": [
+     0.45,
+     0.03333333333333333
+    ],
+    "looks_per_100_actions": [
+     13.733333333333333,
+     20.475
+    ]
+   }
+  ],
+  "never looking, 40 fresh chains [skopos, ekbasis27b]": [
+   {
+    "world": "jugs",
+    "steps": [
+     1200,
+     1200
+    ],
+    "wrong": [
+     0,
+     0
+    ],
+    "wrong_at_p>=0.9": [
+     0,
+     0
+    ]
+   },
+   {
+    "world": "toggles",
+    "steps": [
+     1200,
+     1200
+    ],
+    "wrong": [
+     0,
+     4
+    ],
+    "wrong_at_p>=0.9": [
+     0,
+     4
+    ]
+   },
+   {
+    "world": "machines",
+    "steps": [
+     1200,
+     1200
+    ],
+    "wrong": [
+     1,
+     1
+    ],
+    "wrong_at_p>=0.9": [
+     1,
+     0
+    ]
+   },
+   {
+    "world": "cards",
+    "steps": [
+     2400,
+     2400
+    ],
+    "wrong": [
+     64,
+     120
+    ],
+    "wrong_at_p>=0.9": [
+     0,
+     0
+    ]
+   }
+  ]
+ },
+ "run_conditions": [
+  "Skopos bf16 served on the RTX PRO 6000 (serve_vllm.sh + the model folder's serve.py); the three long_chain3.py runs of the release (rules 368, fresh 400, fresh_text 40 chains; 611.7, 612.0 and 301.2 min) ran concurrently with the other phase A items, as in the release run; phase A ended 2026-10-16 12:20:36 UTC.",
+  "The P4 clients were paused (SIGSTOP) 11:32 to about 11:50 UTC while the server was swapped to Ekbasis-27B bf16 for the same-machine P8 control (same serve_vllm.sh + serve.py, same flags) and Skopos bf16 was served again; the chains kept their client-side state (prelaunch_notes/DEVIATIONS_RUN.md). Chains record outcomes, so the pause affects time, not answers.",
+  "Reference: Ekbasis-27B's published chains (results/release_eval/long_chain3*.jsonl), paired by (world, length, seed index); every chain's world size matched (identity check, 808 chains)."
+ ]
+}

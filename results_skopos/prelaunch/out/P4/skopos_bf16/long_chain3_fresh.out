@@ -1,0 +1,18 @@
+400 chains in 612.0 min (http://127.0.0.1:8603/v1/systemone, 48 chains per world, length and mode)
+world     len        mode | final ans  whole state  looks/chain  wrong steps/chain
+cards      100      conf0.5 |      100%         100%         13.7                0.9
+cards      100     check0.9 |      100%         100%         21.5                0.0
+cards      200      conf0.5 |      100%          98%         27.5                0.5
+cards      200     check0.9 |      100%          98%         42.8                0.1
+toggles    100      conf0.5 |      100%         100%          0.0                0.0
+toggles    100     check0.9 |      100%         100%          3.0                0.0
+toggles    200      conf0.5 |      100%         100%          0.0                0.0
+toggles    200     check0.9 |      100%         100%          5.0                0.0
+machines   100      conf0.5 |      100%         100%          0.0                0.0
+machines   100     check0.9 |      100%         100%          3.0                0.0
+machines   200      conf0.5 |      100%         100%          0.0                0.8
+machines   200     check0.9 |      100%         100%          5.0                0.1
+jugs       100      conf0.5 |      100%         100%          0.0                0.0
+jugs       100     check0.9 |      100%         100%          3.0                0.0
+jugs       200      conf0.5 |      100%         100%          0.1                0.4
+jugs       200     check0.9 |      100%         100%          5.0                0.4
