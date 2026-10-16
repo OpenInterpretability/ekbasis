@@ -10,8 +10,10 @@ The first Skopos (`v49f_w50`), on which the release was trained, is an unrelease
 privately; it is reproducible with [`training/skopos/`](../../training/skopos/README.md). How it was chosen among the
 V49 runs is in [`first_skopos_v49/`](first_skopos_v49/): PLAN_v49 with its addenda and notes, PLAN_v49b (a second
 selection registered after V49's quick readouts, with its disclosure), each with the hash files written when it was
-sealed, the run definitions, the data report and the V49b selection. The verdict file of V49b's decision reads is not
-among the files we kept.
+sealed, the run definitions, the data report and the V49b selection. The fresh sets PLAN_v49b decided on
+(`ce49b_fresh_all`, `g3_fresh49b`, `ho_rules_fresh49b`, `multi_fresh49b`) are in ekbasis-skopos-data (config
+`first_skopos_selection`; their sha256 equal the ones PLAN_v49b froze). The verdict file of V49b's decision reads is
+not among the files we kept.
 
 | Candidate | Question | Pre-registered rule | Outcome | Decision |
 |---|---|---|---|---|
