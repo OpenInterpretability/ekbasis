@@ -210,7 +210,18 @@ for fname, blocks in BLOCKS.items():
     open(path, "w").write(t)
     print(f"{fname}: {', '.join(blocks)}")
 
-if not DATE.startswith("⟨"):  # docs/VERIFY.md's Skopos section carries the date too
-    p = os.path.join(ROOT, "docs", "VERIFY.md")
+# The dates outside the blocks (docs/VERIFY.md's Skopos section, and any other document that carries them), once set.
+# The pre-registrations and results are never touched.
+DOCS = ["README.md", "CHANGELOG.md", "MODEL_CARD.md", "scorecard/README.md"] + \
+       sorted(os.path.join("docs", f) for f in os.listdir(os.path.join(ROOT, "docs")) if f.endswith(".md"))
+for rel in DOCS:
+    p = os.path.join(ROOT, rel)
     text = open(p).read()
-    open(p, "w").write(text.replace("⟨release date⟩", DATE))
+    new = text
+    if not DATE.startswith("⟨"):
+        new = new.replace("⟨release date⟩", DATE)
+    if not SWITCH.startswith("⟨"):
+        new = new.replace("⟨switch date⟩", SWITCH)
+    if new != text:
+        open(p, "w").write(new)
+        print(f"{rel}: dates")

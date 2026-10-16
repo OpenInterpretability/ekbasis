@@ -184,8 +184,11 @@ w(f"""1. **The first Skopos** (`v49f_w50`): Ekbasis-27B's release adapter traine
    the never-trained world families (`ftest_fresh`, below) and the real agent turns of the neutral suite. Those families
    were never in training rows, but they entered selection on validation data: the first Skopos' λ was chosen on
    `ce49b_val_all`, whose never-trained group is cards, machines, tally, timers and track (the three families of
-   `ftest_fresh` among them). Every stage kept its last step, so `fval_git3`, the validation set named in each recipe
-   (it includes track and tally items), chose no checkpoint; it is part of the calibration fit set.
+   `ftest_fresh` among them). Each stage's checkpoint rule was the best step on `fval_git3`, which includes Track and
+   Tally items (never-trained families); in both stages that was the last step (the first Skopos had a single
+   checkpoint; R4's best was its last, step 1,200), and `fval_git3` is also part of the calibration fit set.
+   Ekbasis-27B's last two stages (V42, r4a) named `fval_git3` as well, each saving a single checkpoint
+   ([training/run_lineage.sh](training/run_lineage.sh)).
 """)
 IND = {"fac_val", "git_long", "git_long_val", "sess_val", "fhorizon"}  # same generators as training rows, fresh seeds
 EX4 = CMP4C["clean"]["excluded_n"]
@@ -426,7 +429,7 @@ w("Fresh `ftest` items: each build served, against Ekbasis-27B bf16 by the train
 w("| Build | Gate against the bf16 | Same answer as the bf16 (all / where the bf16 is ≥ 0.9 sure) | git v3 | Never-trained worlds, one prompt / read once | `ftest_family` changed | Guard false alarms, known · held-out | Fresh `ftest` items, changed: the build served vs Ekbasis-27B bf16 (trainer) |\n|---|---|---|---|---|---|---|---|")
 w(f"| bf16 | — | — | {h(SK['git_v3_all'], 2)}% | {h(SK['multi_testfam_single'], 2)}% / {h(SK['multi_testfam_read_once'], 2)}% | "
   f"{h(SK['ftest_changed'], 2)}% | {SK['guard_known'][2]} · {SK['guard_held'][2]} | {sg(CF['changed']['r4_minus_release'][0], 2)} "
-  f"{ci(CF['changed']['r4_minus_release'][1], 2)} |")
+  f"{ci(CF['changed']['r4_minus_release'][1], 2)} (trainer vs trainer: the confirmation) |")
 for b, (rr, gate) in BUILDS.items():
     c = rr["candidate"]
     fails = [CHECK[k.split(" ", 1)[1]] for k, v in gate["checks"].items() if not v]
@@ -562,8 +565,9 @@ w(f"""[AgentWorldBench](https://huggingface.co/datasets/Qwen/AgentWorldBench) (Q
 (Terminal-Bench keystrokes and SWE tool calls) with the environment's real observation. One question before each
 action, *will it fail?*, on {nr['n']} turns ({nr['fails']} fail), the label read from the observation
 ([PREREG_NEUTRAL.md](prereg_skopos/PREREG_NEUTRAL.md); `results_skopos/neutral.json`; bootstrap clustered by
-trajectory). Evaluation only: these trajectories come from other agents and are never trained on; only their ids and
-our labels are published (`results_skopos/runs/neutral_items.jsonl`: {N_ITEMS} of the {nr['n']} rows; {nr['n'] - N_ITEMS} are
+trajectory). Evaluation only: these trajectories come from other agents and no Ekbasis stage was trained on them (the
+Qwen base's pretraining is not covered by that statement or by the overlap audit); only their ids and our labels are
+published (`results_skopos/runs/neutral_items.jsonl`: {N_ITEMS} of the {nr['n']} rows; {nr['n'] - N_ITEMS} are
 withheld, as in the dataset, because its privacy scan flags their trajectory ids; `generators/v50/build_awb_neutral.py`
 rebuilds the whole suite from the upstream dataset).
 
@@ -587,8 +591,10 @@ w(f"The three Ekbasis models rank failing actions about equally well: their AURO
 # ------------------------------------------------------------------------------------------------------------ images
 w("## Images\n")
 w(f"""The state can be a picture. R4's training was text only, so its image ability was checked
-([PREREG_IMAGE.md](prereg_skopos/PREREG_IMAGE.md)): {IMG['image_all']['n']} fresh items (lamps drawn as bulbs,
-containers with the water level; 1–3 actions), half with an answer the actions change, three prompts each, both models
+([PREREG_IMAGE.md](prereg_skopos/PREREG_IMAGE.md)): {IMG['image_all']['n']} new items from world families it was
+trained on (only the image modality is untrained; lamps drawn as bulbs, containers with the water level; 1–3 actions;
+the published drawings were regenerated, so their pixels may differ from those the models saw), half with an answer the
+actions change, three prompts each, both models
 in INT4 through the same serving, images sent as a client sends them (`results_skopos/image_compare.json`). The table
 reports the {IMGC['image_all']['n']} items left without the {IMGC['clean']['excluded_n']['image_fresh']} the overlap audit
 flags (decision D8; `results_skopos/overlap_audit/clean/image_compare_clean.json`), with all {IMG['image_all']['n']}

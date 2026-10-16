@@ -51,8 +51,11 @@ flagged ones. Deviations from the pre-registrations are listed at the end.
    the never-trained world families (`ftest_fresh`, below) and the real agent turns of the neutral suite. Those families
    were never in training rows, but they entered selection on validation data: the first Skopos' λ was chosen on
    `ce49b_val_all`, whose never-trained group is cards, machines, tally, timers and track (the three families of
-   `ftest_fresh` among them). Every stage kept its last step, so `fval_git3`, the validation set named in each recipe
-   (it includes track and tally items), chose no checkpoint; it is part of the calibration fit set.
+   `ftest_fresh` among them). Each stage's checkpoint rule was the best step on `fval_git3`, which includes Track and
+   Tally items (never-trained families); in both stages that was the last step (the first Skopos had a single
+   checkpoint; R4's best was its last, step 1,200), and `fval_git3` is also part of the calibration fit set.
+   Ekbasis-27B's last two stages (V42, r4a) named `fval_git3` as well, each saving a single checkpoint
+   ([training/run_lineage.sh](training/run_lineage.sh)).
 
 | Suite | Items | Ekbasis-27B | first Skopos | **Skopos (R4)** | Skopos − first Skopos, 95% CI | Skopos − Ekbasis-27B, 95% CI | All items, before the D8 exclusion: Ekbasis-27B / first Skopos / Skopos |
 |---|---|---|---|---|---|---|---|
@@ -242,7 +245,7 @@ Fresh `ftest` items: each build served, against Ekbasis-27B bf16 by the trainer'
 
 | Build | Gate against the bf16 | Same answer as the bf16 (all / where the bf16 is ≥ 0.9 sure) | git v3 | Never-trained worlds, one prompt / read once | `ftest_family` changed | Guard false alarms, known · held-out | Fresh `ftest` items, changed: the build served vs Ekbasis-27B bf16 (trainer) |
 |---|---|---|---|---|---|---|---|
-| bf16 | — | — | 96.94% | 81.51% / 78.68% | 80.29% | 27 · 26 | +1.63 [+0.70, +2.52] |
+| bf16 | — | — | 96.94% | 81.51% / 78.68% | 80.29% | 27 · 26 | +1.63 [+0.70, +2.52] (trainer vs trainer: the confirmation) |
 | INT4 | passes | 97.44% / 99.87% | 96.78% | 81.51% / 77.91% | 80.45% | 25 · 25 | +1.73 [+0.80, +2.65] |
 | FP8 | passes | 98.57% / 99.95% | 96.88% | 81.69% / 78.50% | 80.45% | 27 · 26 | +1.43 [+0.56, +2.29] |
 | MLX | misses guard false alarms (known), guard false alarms (held-out), agreement ≥ 97% | 95.86% / 99.36% | 96.94% | 81.45% / not measured | 81.08% | 36 · 38 | not run |
@@ -326,8 +329,9 @@ Without the items the overlap audit flags (see the overlap section); the last co
 (Terminal-Bench keystrokes and SWE tool calls) with the environment's real observation. One question before each
 action, *will it fail?*, on 455 turns (54 fail), the label read from the observation
 ([PREREG_NEUTRAL.md](prereg_skopos/PREREG_NEUTRAL.md); `results_skopos/neutral.json`; bootstrap clustered by
-trajectory). Evaluation only: these trajectories come from other agents and are never trained on; only their ids and
-our labels are published (`results_skopos/runs/neutral_items.jsonl`: 445 of the 455 rows; 10 are
+trajectory). Evaluation only: these trajectories come from other agents and no Ekbasis stage was trained on them (the
+Qwen base's pretraining is not covered by that statement or by the overlap audit); only their ids and our labels are
+published (`results_skopos/runs/neutral_items.jsonl`: 445 of the 455 rows; 10 are
 withheld, as in the dataset, because its privacy scan flags their trajectory ids; `generators/v50/build_awb_neutral.py`
 rebuilds the whole suite from the upstream dataset).
 
@@ -343,8 +347,10 @@ The three Ekbasis models rank failing actions about equally well: their AUROCs d
 ## Images
 
 The state can be a picture. R4's training was text only, so its image ability was checked
-([PREREG_IMAGE.md](prereg_skopos/PREREG_IMAGE.md)): 400 fresh items (lamps drawn as bulbs,
-containers with the water level; 1–3 actions), half with an answer the actions change, three prompts each, both models
+([PREREG_IMAGE.md](prereg_skopos/PREREG_IMAGE.md)): 400 new items from world families it was
+trained on (only the image modality is untrained; lamps drawn as bulbs, containers with the water level; 1–3 actions;
+the published drawings were regenerated, so their pixels may differ from those the models saw), half with an answer the
+actions change, three prompts each, both models
 in INT4 through the same serving, images sent as a client sends them (`results_skopos/image_compare.json`). The table
 reports the 395 items left without the 5 the overlap audit
 flags (decision D8; `results_skopos/overlap_audit/clean/image_compare_clean.json`), with all 400
