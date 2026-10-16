@@ -442,7 +442,7 @@
   "source": "the pre-launch notes DEVIATIONS_RUN.md"
  },
  "prelaunch/RELEASE_DECISION.md": {
-  "sha256": "4411e95e84f5d13da85b2f9e5846002585a7a63f221447425a5a18c924d46bdf",
+  "sha256": "2365fd84bcca957d390c99621775b066a19894a16ec4b65b6fb9a86dd315d77e",
   "source": "the release workspace RELEASE_DECISION.md (the owner's decision)"
  },
  "prelaunch/code/P1/CHANGES.diff": {

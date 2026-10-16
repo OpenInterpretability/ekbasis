@@ -825,6 +825,7 @@ if FINAL and PENDING is None:
 PEND = PENDING or {}
 FIN_B, FIN_C = PEND.get("final_before_release_can_block", []), PEND.get("final_before_release_counts_only", [])
 AFTER, NOTPUB = PEND.get("appended_after_release", []), PEND.get("not_run_as_published", [])
+NOTRUN = PEND.get("not_run", [])  # planned, and not run (the reason with each)
 files_of = lambda e: [f.strip() for f in e.get("file", "").split(",") if f.strip()]
 if PENDING is not None and sorted({e["item"] for e in FIN_B}, key=lambda k: int(k[1:])) != sorted(BLOCKING, key=lambda k: int(k[1:])):
     missing.append(f"PENDING.json's items that can block {sorted({e['item'] for e in FIN_B})} differ from {list(BLOCKING)}")
@@ -846,7 +847,7 @@ for k in PITEMS:
             seen.append((n, json.load(open(pfile(n)))))
     if seen:
         rule_files[k] = seen
-    elif FINAL and not [e for e in FIN_B + FIN_C + AFTER + NOTPUB if e["item"] == k]:
+    elif FINAL and not [e for e in FIN_B + FIN_C + AFTER + NOTPUB + NOTRUN if e["item"] == k]:
         missing.append(f"pre-launch item {k}: no compare file and not in PENDING.json (nothing may be left out silently)")
 not_run = [k for k in PITEMS if k not in rule_files]
 status = lambda k: ("pending" if any(not os.path.exists(pfile(f)) for e in FIN_B + FIN_C if e["item"] == k for f in files_of(e))
@@ -882,8 +883,13 @@ if PENDING and (RELEASE or not FINAL):
       f"under the rule; every item that can ({', '.join(BLOCKING)}) is final above.\n")
     if RELEASE:
         print("release build: appended on completion: " + ("; ".join(parts) or "nothing"))
+if FINAL and not RELEASE and AFTER:
+    w("**Appended after the release** (the battery's list, `results_skopos/prelaunch/compare/PENDING.json`): "
+      + "; ".join(f"{e['item']}: {e['part']} ({', '.join(f'`{f}`' for f in files_of(e))})" for e in AFTER) + ".\n")
 for e in NOTPUB:
     w(f"**Not run as published:** {e['item']}, {e['part']} — {e['reason']}.\n")
+for e in NOTRUN:
+    w(f"**Not run:** {e['item']}, {e['part']} — {e['reason']}.\n")
 DEC = os.path.join(PL, "RELEASE_DECISION.md")
 if os.path.exists(DEC):
     p8 = next(m for m in PDATA["P8"][0]["measures"] if m["measure"].startswith("para")) if "P8" in PDATA else None

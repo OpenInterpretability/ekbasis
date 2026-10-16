@@ -30,3 +30,14 @@ What was shown to Caio before the decision:
 - The remaining pre-launch items that can block (P4 long chains, P9 planning by search, P12 intent replay) are completed
   and checked before any public step; another blocker goes back to Caio before anything is published.
 - Release date 2026-10-16; hosted API switch 2026-10-30 (the 14-day model-change policy); MLX build not released.
+
+## Second decision — the hosted switch on release day
+**2026-10-16, ~14:05 UTC (11:05 BRT). Decided by Caio: the hosted API switches to Ekbasis-Skopos-27B-INT4 today, not
+on 2026-10-30.** The hosted Ekbasis-27B-INT4 is retired from the API (the 5090 holds one model); its weights stay public.
+This is shorter notice than the 14 days the published model-change policy promises; the policies page, the changelog,
+the cards and the announcement say so plainly, with the time of the switch. The switch follows repos/PRODUCTION_SWAP.md:
+a staging rehearsal on the RTX PRO 6000 with production's stack (smoke, 500-item equivalence, release-protocol subset)
+first; /root/Ekbasis-27B-INT4 kept on the 5090 as the rollback. After the launch is checked and everything is backed up
+on Hugging Face and GitHub, the RTX PRO 6000 is shut down; pre-launch items that had not run by then (phases E and F:
+the Ekbasis-27B INT4 same-machine controls, the preflight substitute, P11 memory caps; A7 unless it runs before) are
+reported as not run.
