@@ -39,22 +39,22 @@ recomputes the summaries from them. Deviations from the pre-registrations are li
    their training rows (selection on top of in-distribution data). The independent evidence is the fresh items of the
    never-trained world families (`ftest_fresh`, below) and the real agent turns of the neutral suite.
 
-| Suite | Ekbasis-27B | first Skopos | **Skopos (R4)** | Skopos − first Skopos, 95% CI | Skopos − Ekbasis-27B, 95% CI |
-|---|---|---|---|---|---|
-| Executed factory scenarios (shell, SQL, Python, git) † | 88.4 | 92.5 | **94.0** | +1.6 [+1.0, +2.2] | +5.6 [+4.8, +6.6] |
-| Real git sequences, 5–12 commands † | 90.7 | 91.3 | **93.2** | +1.9 [+0.7, +3.1] | +2.6 [+1.1, +3.9] |
-| Same, validation twin † | 91.0 | 91.9 | **94.6** | +2.6 [+1.6, +3.6] | +3.6 [+2.6, +4.7] |
-| Agent sessions (shell, read as a transcript) † | 89.0 | 91.2 | **93.2** | +1.9 [+0.7, +3.3] | +4.1 [+2.5, +5.8] |
-| Latent-state worlds | 79.2 | 79.3 | **81.4** | +2.1 [+1.3, +2.8] | +2.2 [+1.4, +3.0] |
-| Synthetic horizons, 1–20 actions † | 86.0 | 86.8 | **86.8** | +0.0 [−1.3, +1.3] | +0.7 [−0.6, +2.1] |
-| git v3, known command types | 98.0 | 98.5 | **98.5** | +0.1 [−0.4, +0.5] | +0.5 [−0.1, +1.0] |
-| git v3, held-out command types | 95.2 | 95.8 | **95.3** | −0.4 [−1.1, +0.3] | +0.1 [−0.7, +0.9] |
-| The guard, known command types (all questions) | 94.7 | 96.0 | **96.4** | +0.4 [+0.0, +0.8] | +1.7 [+1.2, +2.3] |
-| Never-trained families (`ftest_family`) | 83.1 | 83.4 | **83.4** | +0.0 [−1.5, +1.4] | +0.4 [−1.0, +1.8] |
-| Factory-3 worlds (validation) | 91.3 | 93.7 | **93.0** | −0.7 [−2.7, +1.3] | +1.7 [−1.0, +4.3] |
-| git v3 (validation) | 93.0 | 93.3 | **94.1** | +0.8 [+0.0, +1.6] | +1.1 [+0.3, +2.0] |
+| Suite | Items | Ekbasis-27B | first Skopos | **Skopos (R4)** | Skopos − first Skopos, 95% CI | Skopos − Ekbasis-27B, 95% CI | All items, before the D8 exclusion: Ekbasis-27B / first Skopos / Skopos |
+|---|---|---|---|---|---|---|---|
+| Executed factory scenarios (shell, SQL, Python, git) † | 3,878 of 3,983 | 88.1 | 92.3 | **93.9** | +1.6 [+1.0, +2.2] | +5.7 [+4.8, +6.7] | 88.4 / 92.5 / 94.0 |
+| Real git sequences, 5–12 commands † | 900 | 90.7 | 91.3 | **93.2** | +1.9 [+0.7, +3.1] | +2.6 [+1.1, +3.9] | no item flagged |
+| Same, validation twin † | 1,800 | 91.0 | 91.9 | **94.6** | +2.6 [+1.6, +3.6] | +3.6 [+2.6, +4.7] | no item flagged |
+| Agent sessions (shell, read as a transcript) † | 730 | 89.0 | 91.2 | **93.2** | +1.9 [+0.7, +3.3] | +4.1 [+2.5, +5.8] | no item flagged |
+| Latent-state worlds | 4,320 | 79.2 | 79.3 | **81.4** | +2.1 [+1.3, +2.8] | +2.2 [+1.4, +3.0] | no item flagged |
+| Synthetic horizons, 1–20 actions † | 828 of 1,375 | 87.2 | 88.6 | **87.9** | −0.7 [−2.5, +0.9] | +0.7 [−1.1, +2.3] | 86.0 / 86.8 / 86.8 |
+| git v3, known command types | 1,482 | 98.0 | 98.5 | **98.5** | +0.1 [−0.4, +0.5] | +0.5 [−0.1, +1.0] | no item flagged |
+| git v3, held-out command types | 1,623 | 95.2 | 95.8 | **95.3** | −0.4 [−1.1, +0.3] | +0.1 [−0.7, +0.9] | no item flagged |
+| The guard, known command types (all questions) | 4,486 | 94.7 | 96.0 | **96.4** | +0.4 [+0.0, +0.8] | +1.7 [+1.2, +2.3] | no item flagged |
+| Never-trained families (`ftest_family`) | 1,080 | 83.1 | 83.4 | **83.4** | +0.0 [−1.5, +1.4] | +0.4 [−1.0, +1.8] | no item flagged |
+| Factory-3 worlds (validation) | 300 | 91.3 | 93.7 | **93.0** | −0.7 [−2.7, +1.3] | +1.7 [−1.0, +4.3] | no item flagged |
+| git v3 (validation) | 1,524 | 93.0 | 93.3 | **94.1** | +0.8 [+0.0, +1.6] | +1.1 [+0.3, +2.0] | no item flagged |
 
-Paired bootstrap by item (2,000 resamples, seed 20261015); the last column, descriptive, from `results_skopos/r4_vs_ekbasis27b_trainer.json` (the same predictions and bootstrap). † In-distribution: the same generators as training rows, with fresh seeds and firewalls.
+Paired bootstrap by item (2,000 resamples, seed 20261015), without the items the overlap audit flags (105 in `fac_val`, 547 in `fhorizon`; decision D8, see the overlap section): `results_skopos/overlap_audit/clean/r4_vs_skopos_v49f_clean.json`, and for the Skopos − Ekbasis-27B column (descriptive, the same predictions and bootstrap) `…/clean/r4_vs_ekbasis27b_trainer_clean.json`. The selection read all items (`results_skopos/r4_vs_skopos_v49f.json`, the last column). † In-distribution: the same generators as training rows, with fresh seeds and firewalls.
 The served model gives the trainer's answer on 498 of 500 items (`results_skopos/served_equivalence_bf16.json`, addendum A6; an earlier run of the same check was printed, not saved).
 
 ## The release read
@@ -216,38 +216,44 @@ The pre-registered test of Ekbasis-27B ([PREREG_confident_errors.md](PREREG_conf
 15,008 questions, one prompt per question, through the served bf16 (addendum A2; `results_skopos/ce_r4.json`,
 paired bootstrap against Ekbasis-27B's published predictions, 2,000 resamples, seed 20261015). The items were read from
 ekbasis-data's `raw/ce_items.jsonl`, which stores yes/no answers as booleans, while `results/confident_errors/items.jsonl`
-and `confident_errors.py` use the strings yes/no: the answers were re-scored with that normalization (deviation 4). Its confirmatory
-question (confirmed for Skopos, confirmed for
-Ekbasis-27B): are wrong answers more often confident (≥ 0.9) in the families it was trained on than in those it never
-saw? 49.0% against 31.5% (+17.5
-points, [+10.6, +24.7]; Ekbasis-27B 48.4% against 25.1%, +23.3
+and `confident_errors.py` use the strings yes/no: the answers were re-scored with that normalization (deviation 4).
+The numbers below are on the 9,627 questions left without the 5,381 the overlap
+audit flags, all in trained families (decision D8; `results_skopos/overlap_audit/clean/ce_r4_clean.json`), with the
+all-items numbers beside them. Its confirmatory question (confirmed
+for Skopos, confirmed for Ekbasis-27B; on all items confirmed and confirmed): are wrong answers more
+often confident (≥ 0.9) in the families it was trained on than in those it never saw? 48.6% against
+31.5% (+17.1 points, [+4.8, +29.0]; all items 49.0% against
+31.5%, +17.5 [+10.6, +24.7]); Ekbasis-27B 50.0% against
+25.1%, +24.9 [+14.0, +35.9] (all items +23.3
 [+16.8, +30.1]).
 
-| Group | n | Error rate: Skopos / Ekbasis-27B (difference, 95% CI) | Wrong at confidence ≥ 0.9, per 100 answers (difference, 95% CI) |
-|---|---|---|---|
-| Trained families | 7,172 | 3.64 / 4.27 (−0.63 [−1.03, −0.22]) | 1.78 / 2.06 (−0.28 [−0.59, +0.03]) |
-| … answers the actions change | 2,940 | 6.02 / 7.24 (−1.22 [−2.01, −0.48]) | 2.96 / 3.54 (−0.58 [−1.16, +0.03]) |
-| Trained families, held-out question types | 2,472 | 9.71 / 11.77 (−2.06 [−3.11, −0.97]) | 3.64 / 4.00 (−0.36 [−1.21, +0.44]) |
-| … answers the actions change | 1,106 | 10.58 / 13.65 (−3.07 [−4.88, −1.36]) | 3.80 / 4.88 (−1.08 [−2.44, +0.18]) |
-| **Never-trained families** | 5,364 | 14.26 / 14.93 (−0.67 [−1.30, −0.06]) | 4.49 / 3.75 (+0.75 [+0.28, +1.23]) |
-| … answers the actions change | 2,700 | 14.85 / 14.67 (+0.19 [−0.70, +1.15]) | 4.22 / 3.04 (+1.19 [+0.52, +1.89]) |
+| Group | n | Error rate: Skopos / Ekbasis-27B (difference, 95% CI) | Wrong at confidence ≥ 0.9, per 100 answers (difference, 95% CI) | All items, before the D8 exclusion: n · error rate · wrong at ≥ 0.9 per 100, Skopos / Ekbasis-27B |
+|---|---|---|---|---|
+| Trained families | 3,019 | 2.32 / 2.91 (−0.60 [−1.13, −0.03]) | 1.13 / 1.46 (−0.33 [−0.79, +0.17]) | 7,172 · 3.64 / 4.27 · 1.78 / 2.06 |
+| … answers the actions change | 1,131 | 3.54 / 4.42 (−0.88 [−1.95, +0.18]) | 1.59 / 2.39 (−0.80 [−1.77, +0.18]) | 2,940 · 6.02 / 7.24 · 2.96 / 3.54 |
+| Trained families, held-out question types | 1,244 | 11.66 / 13.59 (−1.93 [−3.62, −0.24]) | 4.02 / 5.06 (−1.05 [−2.41, +0.32]) | 2,472 · 9.71 / 11.77 · 3.64 / 4.00 |
+| … answers the actions change | 627 | 12.28 / 14.67 (−2.39 [−4.94, +0.00]) | 4.78 / 6.70 (−1.91 [−3.99, +0.16]) | 1,106 · 10.58 / 13.65 · 3.80 / 4.88 |
+| **Never-trained families** | 5,364 | 14.26 / 14.93 (−0.67 [−1.30, −0.06]) | 4.49 / 3.75 (+0.75 [+0.28, +1.23]) | no item flagged |
+| … answers the actions change | 2,700 | 14.85 / 14.67 (+0.19 [−0.70, +1.15]) | 4.22 / 3.04 (+1.19 [+0.52, +1.89]) | no item flagged |
+
+Without the items the overlap audit flags (decision D8; see the overlap section); the last column, all items, before that exclusion (`results_skopos/ce_r4.json`).
 
 In the never-trained families **more of Skopos' wrong answers come with high confidence**: +0.75 per 100 answers [+0.28, +1.23], +1.19 [+0.52, +1.89] on the answers the actions change.
-The registered prediction (within ±1 point of Ekbasis-27B in every group) was not met: Trained families (changed answers), errors: −1.22; Trained families, held-out question types, errors: −2.06; Trained families, held-out question types (changed answers), errors: −3.07; Trained families, held-out question types (changed answers), confident errors: −1.08; Never-trained families (changed answers), confident errors: +1.19. Numbers without the items that overlap the training rows: see the overlap section.
+The registered prediction (within ±1 point of Ekbasis-27B in every group) was not met: Trained families, held-out question types, errors: −1.93; Trained families, held-out question types, confident errors: −1.05; Trained families, held-out question types (changed answers), errors: −2.39; Trained families, held-out question types (changed answers), confident errors: −1.91; Never-trained families (changed answers), confident errors: +1.19; on all items it was not met either: Trained families (changed answers), errors: −1.22; Trained families, held-out question types, errors: −2.06; Trained families, held-out question types (changed answers), errors: −3.07; Trained families, held-out question types (changed answers), confident errors: −1.08; Never-trained families (changed answers), confident errors: +1.19.
 
 ## Calibration per build
 
-One global temperature per build, fitted on validation only (`fval_git3` + `m3val`, negative log-likelihood of the right option), then applied to 2,500 test items from sets of the training generators (`git_long` 900, `guard_known` 800, `fac_val` 800), each build scored through its own server (addendum A3; INT4 was fitted before it, as Ekbasis-27B-INT4 was for the hosted API's `calibrated` field, T = 1.55).
+One global temperature per build, fitted on validation only (`fval_git3` + `m3val`, negative log-likelihood of the right option), then applied to 2,500 test items from sets of the training generators (`git_long` 900, `guard_known` 800, `fac_val` 800), each build scored through its own server (addendum A3; INT4 was fitted before it, as Ekbasis-27B-INT4 was for the hosted API's `calibrated` field, T = 1.55). The table reports the 2,482 test items left without the 18 of `fac_val` that the overlap audit flags (decision D8; `results_skopos/overlap_audit/clean/calib_fit_*_clean.json`; the temperatures are unchanged, since no validation item is flagged), with the all-items values beside them.
 
-| Build | Temperature | Accuracy | ECE raw → calibrated | Wrong at ≥ 0.9, per 100: raw → calibrated | Brier raw → calibrated |
-|---|---|---|---|---|---|
-| Skopos bf16 | 1.62 | 95.2% | 0.034 → 0.011 | 3.24 → 1.96 | 0.0837 → 0.0776 |
-| Skopos INT4 | 1.67 | 95.1% | 0.034 → 0.015 | 3.28 → 1.72 | 0.0843 → 0.0778 |
-| Skopos FP8 | 1.64 | 95.4% | 0.031 → 0.012 | 3.08 → 1.72 | 0.0803 → 0.0752 |
-| Skopos MLX | 1.65 | 94.5% | 0.037 → 0.017 | 3.68 → 1.84 | 0.0946 → 0.0878 |
-| Ekbasis-27B INT4 | 1.55 | 91.1% | 0.068 → 0.036 | 6.24 → 3.88 | 0.1553 → 0.1416 |
+| Build | Temperature | Accuracy | ECE raw → calibrated | Wrong at ≥ 0.9, per 100: raw → calibrated | Brier raw → calibrated | All items, before the D8 exclusion: accuracy · ECE raw → calibrated |
+|---|---|---|---|---|---|---|
+| Skopos bf16 | 1.62 | 95.2% | 0.034 → 0.011 | 3.26 → 1.97 | 0.0843 → 0.0782 | 95.2% · 0.034 → 0.011 |
+| Skopos INT4 | 1.67 | 95.1% | 0.035 → 0.015 | 3.30 → 1.73 | 0.0849 → 0.0783 | 95.1% · 0.034 → 0.015 |
+| Skopos FP8 | 1.64 | 95.4% | 0.031 → 0.012 | 3.10 → 1.73 | 0.0809 → 0.0757 | 95.4% · 0.031 → 0.012 |
+| Skopos MLX | 1.65 | 94.5% | 0.037 → 0.017 | 3.71 → 1.85 | 0.0953 → 0.0883 | 94.5% · 0.037 → 0.017 |
+| Ekbasis-27B INT4 | 1.55 | 91.0% | 0.069 → 0.037 | 6.29 → 3.91 | 0.1564 → 0.1426 | 91.1% · 0.068 → 0.036 |
 
-Per split, and what a raw yes-probability becomes calibrated: the same files (`map_binary`).
+Without the items the overlap audit flags (see the overlap section); the last column, all items, before that exclusion (`results_skopos/calib_fit_*.json`). Per split, and what a raw yes-probability becomes calibrated: the same files (`map_binary`).
 
 ## Neutral ground: real agent turns
 
@@ -276,15 +282,18 @@ Skopos ranks failing actions first at least as well as the other two (AUROC), bu
 The state can be a picture. R4's training was text only, so its image ability was checked
 ([PREREG_IMAGE.md](prereg_skopos/PREREG_IMAGE.md)): 400 fresh items (lamps drawn as bulbs,
 containers with the water level; 1–3 actions), half with an answer the actions change, three prompts each, both models
-in INT4 through the same serving, images sent as a client sends them (`results_skopos/image_compare.json`).
+in INT4 through the same serving, images sent as a client sends them (`results_skopos/image_compare.json`). The table
+reports the 395 items left without the 5 the overlap audit
+flags (decision D8; `results_skopos/overlap_audit/clean/image_compare_clean.json`), with all 400
+beside them.
 
-| Prompt | Skopos INT4 | Ekbasis-27B INT4 | Difference, 95% CI | Changed answers: Skopos / Ekbasis-27B |
-|---|---|---|---|---|
-| The state as text | 92.0% | 89.8% | +2.25 [−0.50, +5.00] | 88.5% / 85.5% |
-| The state as an image | 80.0% | 79.0% | +1.00 [−2.00, +4.25] | 74.0% / 73.0% |
-| Read the final state from an image | 94.2% | 92.0% | +2.25 [+0.50, +4.25] | 95.0% / 91.0% |
+| Prompt | Skopos INT4 | Ekbasis-27B INT4 | Difference, 95% CI | Changed answers: Skopos / Ekbasis-27B | All items, before the D8 exclusion: Skopos / Ekbasis-27B (difference) |
+|---|---|---|---|---|---|
+| The state as text | 91.9% | 89.6% | +2.28 [−0.51, +5.06] | 88.4% / 85.4% | 92.0% / 89.8% (+2.25) |
+| The state as an image | 79.8% | 78.7% | +1.01 [−2.03, +4.05] | 73.7% / 72.7% | 80.0% / 79.0% (+1.00) |
+| Read the final state from an image | 94.2% | 91.9% | +2.28 [+0.51, +4.30] | 95.0% / 90.9% | 94.2% / 92.0% (+2.25) |
 
-Image ability **preserved** by the registered reading (Skopos − Ekbasis-27B ≥ −2.0 points on the image and the read prompts).
+Without the items the overlap audit flags (see the overlap section); the last column, all items, before that exclusion. Image ability **preserved** by the registered reading (Skopos − Ekbasis-27B ≥ −2.0 points on the image and the read prompts); on all items, **preserved**.
 
 ## Certified mode with Skopos
 
@@ -424,6 +433,10 @@ Accuracy on the flagged items and on the rest (`flagged_vs_clean`):
 | image (text prompt) | 100.0% / 100.0% (5) | 91.9% / 89.6% (395) |
 
 Sets from the same generators as training rows (the last column; fresh seeds and firewalls) measure in-distribution generalization, not transfer.
+
+## Pre-launch evaluation
+
+*Pending: the measurements of Ekbasis-27B's release evaluation that have not yet run on Skopos, each next to Ekbasis-27B on the same items, and the acceptance checks of the published artifacts. Their results will be reported here, favourable or not.*
 
 ## Deviations from the pre-registrations
 

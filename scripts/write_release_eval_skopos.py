@@ -81,6 +81,13 @@ CAL = {b: ld(f"calib_fit_skopos_{b}.json") for b in ("bf16", "int4", "fp8", "mlx
 CAL_EKB = ld("calib_fit_ekbasis_int4.json")
 BUILDS = {b: (ld(f"release_read_{b}.json"), ld(f"quant_gate_{b}.json")) for b in ("int4", "fp8", "mlx")}
 FRESH = {b: ld(f"ftest_fresh_{b}.json") for b in ("int4", "fp8")}
+# The same summaries without the items the overlap audit flags (decision D8): the tables print these, as the model
+# cards do, with the all-items value beside them.
+CL = lambda f: ld(f"overlap_audit/clean/{f}_clean.json")
+CMP4C, VSEC, IMGC, CEC = CL("r4_vs_skopos_v49f"), CL("r4_vs_ekbasis27b_trainer"), CL("image_compare"), CL("ce_r4")
+CALC = {b: CL(f"calib_fit_skopos_{b}") for b in CAL}
+CALC_EKB = CL("calib_fit_ekbasis_int4")
+ALLCOL = "All items, before the D8 exclusion"
 MACP = os.path.join(R, "runs", "mlx_mac", "mlx_mac_test.json")  # not an input: without a pass, MLX is not released
 MAC = json.load(open(MACP)) if os.path.exists(MACP) else None
 MLX_IN = bool(MAC and MAC.get("pass"))
@@ -147,17 +154,24 @@ w(f"""1. **The first Skopos** (`v49f_w50`): Ekbasis-27B's release adapter traine
    never-trained world families (`ftest_fresh`, below) and the real agent turns of the neutral suite.
 """)
 IND = {"fac_val", "git_long", "git_long_val", "sess_val", "fhorizon"}  # same generators as training rows, fresh seeds
-w("| Suite | Ekbasis-27B | first Skopos | **Skopos (R4)** | Skopos − first Skopos, 95% CI | Skopos − Ekbasis-27B, 95% CI |\n|---|---|---|---|---|---|")
+EX4 = CMP4C["clean"]["excluded_n"]
+w(f"| Suite | Items | Ekbasis-27B | first Skopos | **Skopos (R4)** | Skopos − first Skopos, 95% CI | Skopos − Ekbasis-27B, 95% CI | "
+  f"{ALLCOL}: Ekbasis-27B / first Skopos / Skopos |\n|---|---|---|---|---|---|---|---|")
 for s, name in SUITE.items():
-    if s in CMP4:
-        d = CMP4[s]
-        e = VSE["sets"].get(s) if VSE else None
+    if s in CMP4C:
+        d, a, ex = CMP4C[s], CMP4[s], EX4.get(s, 0)
+        e = VSEC["sets"].get(s)
         et = f"{sg(100 * e['r4_minus_ekbasis27b'][0])} {ci(e['r4_minus_ekbasis27b'][1], 1, 100)}" if e else "—"
-        w(f"| {name}{' †' if s in IND else ''} | {h(100 * d['base'])} | {h(100 * d['skopos'])} | **{h(100 * d['r2'])}** | "
-          f"{sg(100 * d['r2_minus_skopos'][0])} {ci(d['r2_minus_skopos'][1], 1, 100)} | {et} |")
-w("\nPaired bootstrap by item (2,000 resamples, seed 20261015); the last column, descriptive, from "
-  "`results_skopos/r4_vs_ekbasis27b_trainer.json` (the same predictions and bootstrap). † In-distribution: the same "
-  "generators as training rows, with fresh seeds and firewalls.")
+        n = f"{d['n']:,} of {d['n'] + ex:,}" if ex else f"{d['n']:,}"
+        al = f"{h(100 * a['base'])} / {h(100 * a['skopos'])} / {h(100 * a['r2'])}" if ex else "no item flagged"
+        w(f"| {name}{' †' if s in IND else ''} | {n} | {h(100 * d['base'])} | {h(100 * d['skopos'])} | **{h(100 * d['r2'])}** | "
+          f"{sg(100 * d['r2_minus_skopos'][0])} {ci(d['r2_minus_skopos'][1], 1, 100)} | {et} | {al} |")
+w("\nPaired bootstrap by item (2,000 resamples, seed 20261015), without the items the overlap audit flags ("
+  + ", ".join(f"{n:,} in `{s}`" for s, n in EX4.items()) + "; decision D8, see the overlap section): "
+  "`results_skopos/overlap_audit/clean/r4_vs_skopos_v49f_clean.json`, and for the Skopos − Ekbasis-27B column "
+  "(descriptive, the same predictions and bootstrap) `…/clean/r4_vs_ekbasis27b_trainer_clean.json`. The selection read "
+  "all items (`results_skopos/r4_vs_skopos_v49f.json`, the last column). † In-distribution: the same generators as "
+  "training rows, with fresh seeds and firewalls.")
 if SEQ:
     n_same = SEQ.get("same", SEQ.get("same_answer"))
     if n_same is None or "n" not in SEQ:
@@ -363,59 +377,80 @@ else:
 # ------------------------------------------------------------------------------------------------- confident errors
 w("## Confident errors in familiar worlds\n")
 if CE:
-    pS, pE = CE["primary_skopos"], CE["primary_ekbasis"]
+    pS, pE = CEC["primary_skopos"], CEC["primary_ekbasis"]
+    aS, aE = CE["primary_skopos"], CE["primary_ekbasis"]
     w(f"""The pre-registered test of Ekbasis-27B ([PREREG_confident_errors.md](PREREG_confident_errors.md)), the same
 {CE['n']:,} questions, one prompt per question, through the served bf16 (addendum A2; `results_skopos/ce_r4.json`,
 paired bootstrap against Ekbasis-27B's published predictions, 2,000 resamples, seed 20261015). The items were read from
 ekbasis-data's `raw/ce_items.jsonl`, which stores yes/no answers as booleans, while `results/confident_errors/items.jsonl`
-and `confident_errors.py` use the strings yes/no: the answers were re-scored with that normalization (deviation 4). Its confirmatory
-question ({'confirmed' if pS['verdict'] == 'confirmed' else 'not confirmed'} for Skopos, {pE['verdict']} for
-Ekbasis-27B): are wrong answers more often confident (≥ 0.9) in the families it was trained on than in those it never
-saw? {h(pS['share_T'])}% against {h(pS['share_U'])}% ({sg(pS['difference_points'])}
-points, {ci(pS['ci95'])}; Ekbasis-27B {h(pE['share_T'])}% against {h(pE['share_U'])}%, {sg(pE['difference_points'])}
-{ci(pE['ci95'])}).
+and `confident_errors.py` use the strings yes/no: the answers were re-scored with that normalization (deviation 4).
+The numbers below are on the {CEC['n']:,} questions left without the {CEC['clean']['excluded_n']['ce_items']:,} the overlap
+audit flags, all in trained families (decision D8; `results_skopos/overlap_audit/clean/ce_r4_clean.json`), with the
+all-items numbers beside them. Its confirmatory question ({'confirmed' if pS['verdict'] == 'confirmed' else 'not confirmed'}
+for Skopos, {pE['verdict']} for Ekbasis-27B; on all items {aS['verdict']} and {aE['verdict']}): are wrong answers more
+often confident (≥ 0.9) in the families it was trained on than in those it never saw? {h(pS['share_T'])}% against
+{h(pS['share_U'])}% ({sg(pS['difference_points'])} points, {ci(pS['ci95'])}; all items {h(aS['share_T'])}% against
+{h(aS['share_U'])}%, {sg(aS['difference_points'])} {ci(aS['ci95'])}); Ekbasis-27B {h(pE['share_T'])}% against
+{h(pE['share_U'])}%, {sg(pE['difference_points'])} {ci(pE['ci95'])} (all items {sg(aE['difference_points'])}
+{ci(aE['ci95'])}).
 
-| Group | n | Error rate: Skopos / Ekbasis-27B (difference, 95% CI) | Wrong at confidence ≥ 0.9, per 100 answers (difference, 95% CI) |
-|---|---|---|---|""")
+| Group | n | Error rate: Skopos / Ekbasis-27B (difference, 95% CI) | Wrong at confidence ≥ 0.9, per 100 answers (difference, 95% CI) | {ALLCOL}: n · error rate · wrong at ≥ 0.9 per 100, Skopos / Ekbasis-27B |
+|---|---|---|---|---|""")
     names = {"T": "Trained families", "H": "Trained families, held-out question types", "U": "**Never-trained families**"}
     for g, lab in names.items():
         for sub, sl in (("all", lab), ("changed", "… answers the actions change")):
-            d = CE["groups"][f"{g}_{sub}"]
+            d, a = CEC["groups"][f"{g}_{sub}"], CE["groups"][f"{g}_{sub}"]
+            al = (f"{a['n']:,} · {h(a['error_skopos'], 2)} / {h(a['error_ekbasis'], 2)} · {h(a['conf_wrong_per100_skopos'], 2)} / "
+                  f"{h(a['conf_wrong_per100_ekbasis'], 2)}") if a["n"] != d["n"] else "no item flagged"
             w(f"| {sl} | {d['n']:,} | {h(d['error_skopos'], 2)} / {h(d['error_ekbasis'], 2)} ({sg(d['error_diff'], 2)} "
               f"{ci(d['error_diff_ci'], 2)}) | {h(d['conf_wrong_per100_skopos'], 2)} / {h(d['conf_wrong_per100_ekbasis'], 2)} "
-              f"({sg(d['conf_wrong_diff'], 2)} {ci(d['conf_wrong_diff_ci'], 2)}) |")
-    u, uc = CE["groups"]["U_all"], CE["groups"]["U_changed"]
+              f"({sg(d['conf_wrong_diff'], 2)} {ci(d['conf_wrong_diff_ci'], 2)}) | {al} |")
+    w("\nWithout the items the overlap audit flags (decision D8; see the overlap section); the last column, all items, "
+      "before that exclusion (`results_skopos/ce_r4.json`).")
+    u, uc = CEC["groups"]["U_all"], CEC["groups"]["U_changed"]
     w("")
     if u["conf_wrong_diff_ci"][0] > 0:
         w(f"In the never-trained families **more of Skopos' wrong answers come with high confidence**: "
           f"{sg(u['conf_wrong_diff'], 2)} per 100 answers {ci(u['conf_wrong_diff_ci'], 2)}, {sg(uc['conf_wrong_diff'], 2)} "
           f"{ci(uc['conf_wrong_diff_ci'], 2)} on the answers the actions change.")
-    beyond = [f"{names[g.split('_')[0]].strip('*')}{' (changed answers)' if g.endswith('changed') else ''}, "
-              f"{m}: {sg(d[k], 2)}" for g, d in CE["groups"].items()
-              for m, k in (("errors", "error_diff"), ("confident errors", "conf_wrong_diff")) if abs(d[k]) > 1]
+    beyond = lambda C: [f"{names[g.split('_')[0]].strip('*')}{' (changed answers)' if g.endswith('changed') else ''}, "
+                        f"{m}: {sg(d[k], 2)}" for g, d in C["groups"].items()
+                        for m, k in (("errors", "error_diff"), ("confident errors", "conf_wrong_diff")) if abs(d[k]) > 1]
+    bc, ba = beyond(CEC), beyond(CE)
     w("The registered prediction (within ±1 point of Ekbasis-27B in every group) " +
-      ("held." if not beyond else "was not met: " + "; ".join(beyond) + ".") +
-      " Numbers without the items that overlap the training rows: see the overlap section.\n")
+      ("held" if not bc else "was not met: " + "; ".join(bc)) + "; on all items it " +
+      ("held." if not ba else ("was not met either: " if bc else "was not met: ") + "; ".join(ba) + ".") + "\n")
 else:
     w(pending("ce_r4.json", "addendum A2") + "\n")
 
 # ------------------------------------------------------------------------------------------------------ calibration
 w("## Calibration per build\n")
+TEST_SPLITS = ("git_long", "guard_known", "fac_val")
+c0, a0 = CALC["bf16"], CAL["bf16"]
 w("One global temperature per build, fitted on validation only (`fval_git3` + `m3val`, negative log-likelihood of the "
-  "right option), then applied to 2,500 test items from sets of the training generators (`git_long` 900, "
-  "`guard_known` 800, `fac_val` 800), each build "
+  f"right option), then applied to {sum(a0[s]['T1']['n'] for s in TEST_SPLITS):,} test items from sets of the training "
+  "generators (" + ", ".join(f"`{s}` {a0[s]['T1']['n']:,}" for s in TEST_SPLITS) + "), each build "
   "scored through its own server (addendum A3; INT4 was fitted before it, as Ekbasis-27B-INT4 was for the hosted API's "
-  f"`calibrated` field, T = {h(CAL_EKB['T'], 2)}).\n")
-w("| Build | Temperature | Accuracy | ECE raw → calibrated | Wrong at ≥ 0.9, per 100: raw → calibrated | Brier raw → calibrated |\n|---|---|---|---|---|---|")
-for b, d in list(CAL.items()) + [("Ekbasis-27B INT4", CAL_EKB)]:
+  f"`calibrated` field, T = {h(CAL_EKB['T'], 2)}). The table reports the {c0['test_pooled']['T1']['n']:,} test items left "
+  "without the " + ", ".join(f"{n:,} of `{s}`" for s, n in c0["clean"]["excluded_n"].items()) + " that the overlap "
+  "audit flags (decision D8; `results_skopos/overlap_audit/clean/calib_fit_*_clean.json`; the temperatures are unchanged, "
+  "since no validation item is flagged), with the all-items values beside them.\n")
+w(f"| Build | Temperature | Accuracy | ECE raw → calibrated | Wrong at ≥ 0.9, per 100: raw → calibrated | Brier raw → calibrated | "
+  f"{ALLCOL}: accuracy · ECE raw → calibrated |\n|---|---|---|---|---|---|---|")
+for b, d in list(CALC.items()) + [("Ekbasis-27B INT4", CALC_EKB)]:
     lab = f"Skopos {b.upper() if b != 'bf16' else 'bf16'}" if not b.startswith("Ekbasis") else b
+    a = CAL_EKB if b.startswith("Ekbasis") else CAL[b]
     if d is None:
-        w(f"| {lab} | {pending(f'calib_fit_skopos_{b}.json', 'addendum A3')} | | | | |")
+        w(f"| {lab} | {pending(f'overlap_audit/clean/calib_fit_skopos_{b}_clean.json', 'addendum A3')} | | | | | |")
         continue
     t1, tf = d["test_pooled"]["T1"], d["test_pooled"]["Tfit"]
+    a1, af = a["test_pooled"]["T1"], a["test_pooled"]["Tfit"]
     w(f"| {lab} | {h(d['T'], 2)} | {h(100 * t1['acc'])}% | {h(t1['ece'], 3)} → {h(tf['ece'], 3)} | "
-      f"{h(t1['conf_err_per100'], 2)} → {h(tf['conf_err_per100'], 2)} | {h(t1['brier'], 4)} → {h(tf['brier'], 4)} |")
-w("\nPer split, and what a raw yes-probability becomes calibrated: the same files (`map_binary`).\n")
+      f"{h(t1['conf_err_per100'], 2)} → {h(tf['conf_err_per100'], 2)} | {h(t1['brier'], 4)} → {h(tf['brier'], 4)} | "
+      f"{h(100 * a1['acc'])}% · {h(a1['ece'], 3)} → {h(af['ece'], 3)} |")
+w("\nWithout the items the overlap audit flags (see the overlap section); the last column, all items, before that "
+  "exclusion (`results_skopos/calib_fit_*.json`). Per split, and what a raw yes-probability becomes calibrated: the same "
+  "files (`map_binary`).\n")
 
 # ---------------------------------------------------------------------------------------------------------- neutral
 w("## Neutral ground: real agent turns\n")
@@ -448,15 +483,21 @@ w("## Images\n")
 w(f"""The state can be a picture. R4's training was text only, so its image ability was checked
 ([PREREG_IMAGE.md](prereg_skopos/PREREG_IMAGE.md)): {IMG['image_all']['n']} fresh items (lamps drawn as bulbs,
 containers with the water level; 1–3 actions), half with an answer the actions change, three prompts each, both models
-in INT4 through the same serving, images sent as a client sends them (`results_skopos/image_compare.json`).
+in INT4 through the same serving, images sent as a client sends them (`results_skopos/image_compare.json`). The table
+reports the {IMGC['image_all']['n']} items left without the {IMGC['clean']['excluded_n']['image_fresh']} the overlap audit
+flags (decision D8; `results_skopos/overlap_audit/clean/image_compare_clean.json`), with all {IMG['image_all']['n']}
+beside them.
 
-| Prompt | Skopos INT4 | Ekbasis-27B INT4 | Difference, 95% CI | Changed answers: Skopos / Ekbasis-27B |
-|---|---|---|---|---|""")
+| Prompt | Skopos INT4 | Ekbasis-27B INT4 | Difference, 95% CI | Changed answers: Skopos / Ekbasis-27B | {ALLCOL}: Skopos / Ekbasis-27B (difference) |
+|---|---|---|---|---|---|""")
 for k, lab in (("text", "The state as text"), ("image", "The state as an image"), ("read", "Read the final state from an image")):
-    a, c = IMG[f"{k}_all"], IMG[f"{k}_changed"]
-    w(f"| {lab} | {h(a['skopos'])}% | {h(a['ekbasis'])}% | {sg(a['diff'], 2)} {ci(a['ci'], 2)} | {h(c['skopos'])}% / {h(c['ekbasis'])}% |")
-w(f"\nImage ability **{'preserved' if IMG['preserved'] else 'not preserved'}** by the registered reading (Skopos − "
-  "Ekbasis-27B ≥ −2.0 points on the image and the read prompts).\n")
+    a, c, r = IMGC[f"{k}_all"], IMGC[f"{k}_changed"], IMG[f"{k}_all"]
+    w(f"| {lab} | {h(a['skopos'])}% | {h(a['ekbasis'])}% | {sg(a['diff'], 2)} {ci(a['ci'], 2)} | {h(c['skopos'])}% / {h(c['ekbasis'])}% | "
+      f"{h(r['skopos'])}% / {h(r['ekbasis'])}% ({sg(r['diff'], 2)}) |")
+w(f"\nWithout the items the overlap audit flags (see the overlap section); the last column, all items, before that "
+  f"exclusion. Image ability **{'preserved' if IMGC['preserved'] else 'not preserved'}** by the registered reading "
+  f"(Skopos − Ekbasis-27B ≥ −2.0 points on the image and the read prompts); on all items, "
+  f"**{'preserved' if IMG['preserved'] else 'not preserved'}**.\n")
 
 # ------------------------------------------------------------------------------------------- certified mode carry-over
 CC = ld("certified_carryover_skopos_int4.json")
@@ -617,6 +658,17 @@ else:
     w(pending("overlap_audit/recomputed.json", "the numbers without overlap") + "\n")
 w("Sets from the same generators as training rows (the last column; fresh seeds and firewalls) measure "
   "in-distribution generalization, not transfer.\n")
+
+# --------------------------------------------------------------------------------------------- pre-launch evaluation
+PL = os.path.join(R, "prelaunch")  # the pre-launch evaluation's results, once they exist
+w("## Pre-launch evaluation\n")
+if os.path.isdir(PL) and os.listdir(PL):
+    missing.append("results_skopos/prelaunch/ has results that this section does not report yet")
+else:
+    w("*Pending: the measurements of Ekbasis-27B's release evaluation that have not yet run on Skopos, each next to "
+      "Ekbasis-27B on the same items, and the acceptance checks of the published artifacts. Their results will be "
+      "reported here, favourable or not.*\n")
+    print("note: the pre-launch evaluation section is pending (results_skopos/prelaunch/ is empty)")
 
 # -------------------------------------------------------------------------------------------------------- deviations
 w("## Deviations from the pre-registrations\n")
