@@ -227,7 +227,7 @@
   "source": "the release workspace certified_carryover/data/mlx_raw_t2.jsonl"
  },
  "certified_carryover/data/overlap_excluded.json": {
-  "sha256": "0690e4e4c01e18ab339e1646dc29d3976105628015e122b9e95541c35daadacd",
+  "sha256": "6a5b2a3515c142617f641553d3e9833849bf5e45ffd858bae1d0f0182b9de031",
   "source": "the release workspace certified_carryover/data/overlap_excluded.json"
  },
  "certified_carryover/data/subset_requests.jsonl.gz": {
@@ -360,6 +360,10 @@
   "sha256": "277635aca9e484c175f906528bddec071a5c296ea6c0cb5414dc6e6a49bfc21d",
   "source": "the audit workspace audit/audit_overlap_skopos.py"
  },
+ "overlap_audit/build_scorecard_items.py": {
+  "sha256": "d26874bdac183467c4774db565938b1d09aad662d6606999ff27eed38f46792c",
+  "source": "the audit workspace audit/build_scorecard_items.py"
+ },
  "overlap_audit/clean/calib_fit_ekbasis_int4_clean.json": {
   "sha256": "6a3a1f6b2b0f01106c99ae7968ee0827502638d5f6653b1dd45dc52ddcb2d347",
   "source": "the audit workspace audit/out/clean/calib_fit_ekbasis_int4_clean.json"
@@ -413,7 +417,7 @@
   "source": "the audit workspace audit/out/clean/release_read_mlx_clean.json"
  },
  "overlap_audit/overlap.json": {
-  "sha256": "0b8226e0c3cb236adc683b8ab06f9bae37acfd6c4726bc5fd3dd15d6cd043b0d",
+  "sha256": "7dfb1657b5f8e51f9f3808ef2ef69477ff3ff71ff70f06f39ae82cdac0f7bd56",
   "source": "the audit workspace audit/out/overlap.json"
  },
  "overlap_audit/overlap_run.log": {
@@ -425,7 +429,7 @@
   "source": "the audit workspace audit/recompute_without_overlap.py"
  },
  "overlap_audit/recomputed.json": {
-  "sha256": "4cee04b61985720676a7d26c3cda189dc7d875912421a71397a1808cd2c8f26a",
+  "sha256": "b09ef3fbf361de8c586815d6001dbd66b41c428a45bf9ba8ad348cf6d94a2397",
   "source": "the audit workspace audit/out/recomputed.json"
  },
  "overlap_audit_r4.json": {

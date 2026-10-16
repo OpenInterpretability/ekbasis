@@ -20,5 +20,8 @@ python3 scorecard/scorecard.py report                      # every run side by s
 
 Suites: `git3_known`, `git3_held` (the release's git sets, real git), `guard_held` (the larger guard set, held-out
 command types), `worlds` (world families never trained), `intent` (agent steps from the published-attack replay), and
-the chains. None of their items is in the training data. Rule of use: a change ships when the scorecard shows no
-quality loss beyond noise and the time, cost or quality it targets moved the way it was meant to.
+the chains. None of their items is in the training data of Ekbasis-27B or Ekbasis-Skopos-27B (no identical prompt or
+near-duplicate; the D8 overlap audit). For Skopos, the held-out command types of git3_held and guard_held are held out
+of the git sandbox's training rows, but its factory rows contain those commands in other repositories. Rule of use: a
+change ships when the scorecard shows no quality loss beyond noise and the time, cost or quality it targets moved the
+way it was meant to.

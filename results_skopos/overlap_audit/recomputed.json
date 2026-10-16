@@ -83,6 +83,30 @@
   "certified_carryover": {
    "primary": 0,
    "sensitivity": 0
+  },
+  "scorecard_git3_known": {
+   "primary": 0,
+   "sensitivity": 11
+  },
+  "scorecard_git3_held": {
+   "primary": 0,
+   "sensitivity": 2
+  },
+  "scorecard_guard_held": {
+   "primary": 0,
+   "sensitivity": 1
+  },
+  "scorecard_worlds": {
+   "primary": 0,
+   "sensitivity": 0
+  },
+  "scorecard_intent": {
+   "primary": 0,
+   "sensitivity": 0
+  },
+  "scorecard_chains": {
+   "primary": 0,
+   "sensitivity": 0
   }
  },
  "release_protocol": {
