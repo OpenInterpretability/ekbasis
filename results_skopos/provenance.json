@@ -1009,22 +1009,6 @@
   "sha256": "2a31c211dff324486f1623f3c1814a8c0848a6d24d20b7ed56574fe3e6c2bd1c",
   "source": "the battery's RTX output tree prelaunch_out/P7/skopos_bf16/image_chain.out"
  },
- "prelaunch/out/P8/ekbasis_bf16/deviation.json": {
-  "sha256": "51a089b3f3813c1424873ecdd90fcfb5ae014fb7e73b0e7636a14c6eda75bf6a",
-  "source": "the battery's RTX output tree prelaunch_out/P8/ekbasis_bf16/deviation.json"
- },
- "prelaunch/out/P8/ekbasis_bf16/short_acc.out": {
-  "sha256": "d9ee70b10a43063d3313b3f64353f0dad2dba9c62d74f0a3e43ec215325f6955",
-  "source": "the battery's RTX output tree prelaunch_out/P8/ekbasis_bf16/short_acc.out"
- },
- "prelaunch/out/P8/ekbasis_bf16/short_eval_release.json": {
-  "sha256": "af0948b4f1cc925af6a73322c5c93037a640bf45031e51e450c7719b8b22724e",
-  "source": "the battery's RTX output tree prelaunch_out/P8/ekbasis_bf16/short_eval_release.json"
- },
- "prelaunch/out/P8/ekbasis_bf16/short_eval_saved.json": {
-  "sha256": "7a460f86038e5b5717877ce235608fefb4764e0d68623da06d3dbd5a8b47763d",
-  "source": "the battery's RTX output tree prelaunch_out/P8/ekbasis_bf16/short_eval_saved.json"
- },
  "prelaunch/out/P8/ekbasis_bf16_early/deviation.json": {
   "sha256": "51a089b3f3813c1424873ecdd90fcfb5ae014fb7e73b0e7636a14c6eda75bf6a",
   "source": "the battery's RTX output tree prelaunch_out/P8/ekbasis_bf16_early/deviation.json"
