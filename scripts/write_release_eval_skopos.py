@@ -828,9 +828,26 @@ for k, title in PITEMS.items():
     bl, fl = sm.get("release_blockers", []), sm.get("flagged_worse_by_2", [])
     w(f"| {k} | {title} | {'*partial*' if part else 'done'} | {'**' + '; '.join(bl) + '**' if bl else 'none'} | "
       f"{'; '.join(fl) if fl else 'none'} |")
+# references the comparisons read that are not published (as in Ekbasis-27B's release): which items they leave
+# without a public recomputation
+REFS = os.path.join(PL, "references.tsv")
+unpub = []
+if os.path.exists(REFS):
+    unpub = [ln.split("\t")[0] for ln in open(REFS).read().splitlines()[1:] if ln.split("\t")[-1].startswith("not published")]
+else:
+    missing.append("results_skopos/prelaunch/references.tsv")
+keys_of = lambda r: {r, r.split("/")[0] + "/"} if r.split("/")[0] in ("intent_replay", "preflight") else {r}
+closed = sorted({k for k, (d, _) in PDATA.items() for r in unpub for x in keys_of(r) if x in json.dumps(d)},
+                key=lambda k: int(k[1:]))
 blockers = [(k, b) for k, (d, _) in PDATA.items() for b in d.get("summary", {}).get("release_blockers", [])]
 w("\n" + ("**Release blockers under the rule:** " + "; ".join(f"{k}: {b}" for k, b in blockers) + "."
           if blockers else "No release blocker under the rule" + (" in the items done so far." if not_run else ".")) + "\n")
+if closed:
+    w(f"{', '.join(closed[:-1]) + ' and ' + closed[-1] if len(closed) > 1 else closed[0]} compare"
+      f"{'' if len(closed) > 1 else 's'} against Ekbasis-27B reference files that are not published, as in "
+      "Ekbasis-27B's release (listed with their sha256 in `results_skopos/prelaunch/references.tsv`), so "
+      f"{'they' if len(closed) > 1 else 'it'} cannot be recomputed from public files; P10's per-scenario truth and "
+      "predictions are not published either, because they name files and commands of private working copies.\n")
 
 
 def pnum(x, nd=2):
