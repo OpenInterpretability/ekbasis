@@ -239,6 +239,26 @@
   "sha256": "16772e611e43fc534b8b2504a7784c440b62c338de27513f00fbf0cd984eb95b",
   "source": "the release workspace certified_carryover/overlap_step.py"
  },
+ "certified_carryover/results/skopos-bf16_analysis_stdout.json": {
+  "sha256": "0aa0d6eba7b341ab73b21e07382a5e2dee264c173220eb47d14320c934e4d865",
+  "source": "the release workspace certified_carryover/results/skopos-bf16_analysis_stdout.json"
+ },
+ "certified_carryover/results/skopos-bf16_meta.json": {
+  "sha256": "c217bcf03ed2fb91a19d1adf7b5bf755d78c912bfeeb5f78dc8139221e3f900a",
+  "source": "the release workspace certified_carryover/results/skopos-bf16_meta.json"
+ },
+ "certified_carryover/results/skopos-bf16_raw.jsonl": {
+  "sha256": "189dbd77459df1cc78f8072af472bd3aadeb7d207fd7a465148dc3d4c60e8659",
+  "source": "the release workspace certified_carryover/results/skopos-bf16_raw.jsonl"
+ },
+ "certified_carryover/results/skopos-bf16_run.log": {
+  "sha256": "47c91d26d242c1ce6eee675451b899d44e233fbe7c0aea8efc2f55a6880e384d",
+  "source": "the release workspace certified_carryover/results/skopos-bf16_run.log"
+ },
+ "certified_carryover/results/skopos-bf16_summary.json": {
+  "sha256": "340774af891a03c96d454300e56e6de1040ced120d15ca056b6bb91cd97bcb47",
+  "source": "the release workspace certified_carryover/results/skopos-bf16_summary.json"
+ },
  "certified_carryover/results/skopos-int4_analysis_stdout.json": {
   "sha256": "329c75c1b1c88eaab73e3d77f4003b5d9a3aa144d941453dbd401052550e97a2",
   "source": "the release workspace certified_carryover/results/skopos-int4_analysis_stdout.json"
@@ -266,6 +286,10 @@
  "certified_carryover/run_carryover.sh": {
   "sha256": "9cc94336bca7b89d8c3eb9f88887558b1f33b0723700c0cbc44946381711bf51",
   "source": "the release workspace certified_carryover/run_carryover.sh"
+ },
+ "certified_carryover_skopos_bf16.json": {
+  "sha256": "340774af891a03c96d454300e56e6de1040ced120d15ca056b6bb91cd97bcb47",
+  "source": "release workspace results/certified_carryover_skopos_bf16.json"
  },
  "certified_carryover_skopos_int4.json": {
   "sha256": "f192c5a49891fc6657258dc9de7fabf288fb84214630799fc42ed7672eebdf77",

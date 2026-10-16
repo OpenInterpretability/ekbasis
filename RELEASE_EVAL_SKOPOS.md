@@ -296,11 +296,11 @@ unchanged) on Skopos INT4, served, over confirm-3's fresh scenarios: 1,400 scena
 overlap audit, 0 failed requests; `results_skopos/certified_carryover_skopos_int4.json`, code and
 data in `results_skopos/certified_carryover/`). A check that the certificate carries over, not a new certificate.
 
-| L2, α = 2% (the certified mode) | Accepted (of the units) | Errors among accepted | Weighted to confirm-3's mix | 95% upper bound (raw) | Verified share |
+| L2, α = 2% (the certified mode) | Accepted (of the units) | Errors among accepted | Weighted to confirm-3's mix | 95% upper bound (raw) | Verified: raw / weighted |
 |---|---|---|---|---|---|
-| **Skopos INT4** | 927 of 1,321 | 7 (0.76%) | 0.74% | 1.41% | 29.8% |
-| Ekbasis-27B bf16, the same scenarios | 886 of 1,336 | 5 (0.56%) | 0.47% | 1.18% | 33.7% |
-| Ekbasis-27B MLX (T2's answers), the scenarios both runs completed | 710 of 1,020 | 6 (0.85%) | 0.90% | 1.66% | 30.4% |
+| **Skopos INT4** | 927 of 1,321 | 7 (0.76%) | 0.74% | 1.41% | 29.8% / 22.0% |
+| Ekbasis-27B bf16, the same scenarios | 886 of 1,336 | 5 (0.56%) | 0.47% | 1.18% | 33.7% / 25.4% |
+| Ekbasis-27B MLX (T2's answers), the scenarios both runs completed | 710 of 1,020 | 6 (0.85%) | 0.90% | 1.66% | 30.4% / 22.5% |
 
 Criteria: C2 (L2: weighted error among accepted ≤ 2% and no node significantly above) **holds**;
 C2+ (and the raw 95% upper bound ≤ 2%) **holds**; C1 (L1, α = 2%: 4
@@ -308,7 +308,7 @@ errors among 539 accepted) **holds**. Paired with Ekbasis-27B on the same 2,781 
 the same answer on 2,613; right 2,554 against 2,485; wrong at confidence ≥ 0.9
 154 against 233.
 
-The same check on the bf16 build (secondary) has not run yet.
+The bf16 build (secondary; `results_skopos/certified_carryover_skopos_bf16.json`): 6 errors among 935 accepted (0.59% weighted; 95% upper bound 1.26%; verified 22.0% weighted): C2 **holds**, C2+ **holds**, C1 **holds**.
 
 ## Latency and cost (INT4)
 
