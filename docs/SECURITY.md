@@ -110,7 +110,8 @@ Measured on 292 fresh scenarios: no line of any file's content reached a prompt.
 - **Command parsing**: the hook reads `&&`, `||`, `;`, `|`, quotes, here-documents, `cd` (anywhere since 0.1.3),
   `pushd`/`popd`, subshells and `git -C`. Since 0.1.2,
   `bash -c`, `eval`, aliases, subshells, variables in a git command and lines it cannot follow are "cannot foresee" (a
-  confirmation) instead of passing unchecked; a script or program that does the damage itself (`python x.py`,
+  confirmation) instead of passing unchecked (since 0.1.42 a variable set earlier on the same line to a known value is
+  read with it; a value from outside the line is never guessed); a script or program that does the damage itself (`python x.py`,
   `make clean`, an npm script) is not seen.
 - **Domain**: git, and shell file commands as a prototype. Other commands get no opinion, which is not approval.
 - **File and branch names** are still shown to the model (measured above; adversarial training is on the roadmap).

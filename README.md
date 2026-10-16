@@ -652,8 +652,8 @@ The agent studies behind this section, on demo apps, on real self-hosted Gitea, 
   the reason; it stays silent otherwise. Since 0.1.2 it **fails closed**: when it cannot foresee a line (the server
   cannot be reached or does not answer within `EKBASIS_HOOK_DEADLINE`, the repository cannot be read, git is pointed at
   another repository, the line changes folder in a way the hook does not follow, or it has parts the hook cannot
-  evaluate: subshells, variables in a git command, nested shells, aliases), Claude Code asks you to confirm and says
-  why. `EKBASIS_FAIL_OPEN=1` restores 0.1.1's silence. The hook answers in JSON and exits 0, since in Claude Code an
+  evaluate: subshells, variables in a git command other than one set earlier on the same line to a known value, nested
+  shells, aliases), Claude Code asks you to confirm and says why. `EKBASIS_FAIL_OPEN=1` restores 0.1.1's silence. The hook answers in JSON and exits 0, since in Claude Code an
   exit code other than 2 does not block. The hook is a warning layer that can be wrong, not a security boundary: keep
   Claude Code's own confirmations, backups and least privilege. In `.claude/settings.json` (one project) or
   `~/.claude/settings.json` (all):
@@ -717,7 +717,8 @@ The agent studies behind this section, on demo apps, on real self-hosted Gitea, 
   (`>` emptying a file it also reads, `;` after a failed `cd`, rsync's trailing slash, `cp -r SRC/.`, a link with a
   trailing slash, xargs and spaces, `tar -x`, commands that refuse and change nothing, `rm -f`, `cp -u`). Same exit
   codes and the same fail-closed rule as `git-check`; a line with variables in its paths, subshells or nested shells is
-  "cannot foresee". In the Claude Code hook it is opt-in (`EKBASIS_SHELL_GUARD=1`) for lines that can change files
+  "cannot foresee" (since 0.1.42 a variable set earlier on the same line to a known value, `D=build; rm -rf "$D"`, is
+  read with it; one from the environment, set twice or set by command substitution is not). In the Claude Code hook it is opt-in (`EKBASIS_SHELL_GUARD=1`) for lines that can change files
   (since 0.1.3 also the shell part of lines with git). Measured on 292 fresh scenarios of 46 command forms it was not designed on (bash on Linux, the truth
   from running them): content lost right 91.4%, 93.2% of the losses flagged with 11.9% false alarms, failures right
   96.2%, against 54.8% for a list of destructive commands (82.0% flagged, 67.9% false alarms). What it misses: see
@@ -764,7 +765,9 @@ The agent studies behind this section, on demo apps, on real self-hosted Gitea, 
     add (a backup copy, a new folder, CREATE TABLE), on their own; a plan that fails atomically (`sqlite3 -bail` inside
     `BEGIN ... COMMIT`).
   - **When it cannot foresee** (loops, conditionals, functions, other dot-commands, variables it cannot resolve), it says
-    nothing: it is an extra check (`--fail-closed` / `EKBASIS_PREFLIGHT_FAIL_CLOSED=1` warns instead).
+    nothing: it is an extra check (`--fail-closed` / `EKBASIS_PREFLIGHT_FAIL_CLOSED=1` warns instead). Since 0.1.42 a
+    step that runs code given inline to an interpreter (`python3 -c`, `python3 - <<'EOF'`) or runs on another machine
+    (ssh, scp/rsync to a host) is never named as the failing one; the other steps of the line are still judged.
 
   In the Claude Code hook it is opt-in: `EKBASIS_PREFLIGHT=1`. In headless runs an "ask" is a denial, so the warning
   says so, and the same command run again in the same session goes through (`EKBASIS_PREFLIGHT_REPEAT=0`: always warn).

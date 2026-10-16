@@ -54,6 +54,13 @@ EKBASIS_REMOTE_CHECK (0: do not read the remote with git ls-remote before forced
 EKBASIS_REQUEST (1: experimental, give the guards the last message the user typed; 0.1.23),
 EKBASIS_GUARD_REPEAT (1: warn once, the same command run again goes through; 0.1.24).
 
+0.1.42: a variable set earlier on the same line to a known value (`G=/repo; git -C "$G" status`, `D=build; rm -rf
+"$D"`) is read with that value by the git guard and the shell guard (ekbasis.shell.resolve); any other variable (from the
+environment, set twice, exported, read, set in a loop or a condition, or by command substitution) is still not guessed:
+"cannot foresee", as before. Preflight never names as failing a step that runs code given inline to an interpreter or
+runs on another machine (the other steps are still judged), and says nothing on loops and conditions written on one
+line (it cannot judge them).
+
 Safer route: when the hook warns about git commands, it also offers the alternative with the same intent that Ekbasis
 checked and found safe (ekbasis.safer), e.g. `git stash push && git reset --hard`, or says that none passed. It is
 searched last, in the time the deadline leaves; when the search cannot finish, the warning goes out without a route.
@@ -220,7 +227,7 @@ def plan_line(command: str, cwd: str) -> Plan:
     the line cannot be judged (structure the hook does not follow, variables in git commands, git in a nested shell,
     git through xargs unless it only lists or safely deletes, a folder it cannot tell)."""
     toks, problems = S.lex(command, parens=True)
-    items = _scoped(toks)
+    items = _scoped(S.resolve(toks))   # 0.1.42: variables set earlier on the line to a known value are read with it
     gitlike = bool(GIT_WORD.search(command))
     plan = Plan()
     depth, balanced = 0, True

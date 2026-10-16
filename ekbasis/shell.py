@@ -11,7 +11,7 @@ shell rules are added only for the command forms that need them (shell_notes), t
 Nothing is executed. The guard reads the folder (names, sizes, and file contents only to compute the fingerprints) and,
 on Linux, `ls --version` and `bash --version` once, to name the versions. Lines with variables, command substitution,
 subshells, here-documents or brace expansion are not evaluated: the state says so, and the listing may miss what those
-parts touch.
+parts touch. Since 0.1.42 a variable set earlier on the same line to a known value is read with it (resolve()).
 """
 from __future__ import annotations
 
@@ -157,6 +157,7 @@ class Word:
     dynamic: bool = False     # a $ or ` the shell would expand (the guard does not)
     start: int = -1           # where it is in the line (0.1.3; -1 for a here-document delimiter)
     end: int = -1
+    values: tuple = ()        # 0.1.42: (name, value) of the variables set earlier on the line that it was read with
 
 
 @dataclass
@@ -337,9 +338,161 @@ def lex(line: str, parens: bool = False):
     return toks, problems
 
 
-def parse(line: str) -> Parsed:
-    """The simple commands of a command line, with their redirections and the operators that join them."""
-    toks, problems = lex(line)
+# ---------------------------------------------------------------- variables set on the line itself (0.1.42)
+
+NAME = re.compile(r"[A-Za-z_][A-Za-z0-9_]*")
+PLAIN_VALUE = re.compile(r"[A-Za-z0-9_./@%+=:,-]+")   # a value that an unquoted $NAME passes on unchanged (no split, no glob)
+OPENS = {"for", "while", "until", "select", "if", "case", "{"}
+CLOSES = {"done", "fi", "esac", "}"}
+SETS_NAMES = {"read", "unset", "export", "local", "declare", "typeset", "readonly", "mapfile", "readarray", "getopts",
+              "printf", "let"}
+
+
+def _ref(raw: str, i: int, env: dict):
+    """The value of the reference $NAME or ${NAME} at raw[i] (a "$") and where it ends; None for anything else ($1, $?,
+    ${NAME:-x}, $(...), a name not in env)."""
+    m = re.compile(r"\$\{(" + NAME.pattern + r")\}|\$(" + NAME.pattern + r")").match(raw, i)
+    if not m:
+        return None
+    name = m.group(1) or m.group(2)
+    return (name, env[name], m.end()) if name in env else None
+
+
+def _expand_raw(raw: str, env: dict, assign: bool = False):
+    """A word as typed, with $NAME / ${NAME} replaced by env's values, quotes removed: (text, glob, [(name, value)]),
+    or None when some part stays unknown (another variable or parameter, a substitution, a value an unquoted reference
+    would split or turn into a pattern, a ~ in an assignment's value)."""
+    out, used, glob, i, n = [], [], False, 0, len(raw)
+    while i < n:
+        c = raw[i]
+        if c == "\\":
+            out.append(raw[i + 1] if i + 1 < n else "\\")
+            i += 2
+        elif c == "'":
+            j = raw.find("'", i + 1)
+            if j < 0:
+                return None
+            out.append(raw[i + 1:j])
+            i = j + 1
+        elif c == '"':
+            j = i + 1
+            while j < n and raw[j] != '"':
+                d = raw[j]
+                if d == "\\" and j + 1 < n and raw[j + 1] in '$`"\\\n':
+                    out.append("" if raw[j + 1] == "\n" else raw[j + 1])
+                    j += 2
+                elif d == "`":
+                    return None
+                elif d == "$":
+                    r = _ref(raw, j, env)
+                    if r is None:
+                        return None
+                    used.append(r[:2])
+                    out.append(r[1])
+                    j = r[2]
+                else:
+                    out.append(d)
+                    j += 1
+            if j >= n:
+                return None
+            i = j + 1
+        elif c == "`":
+            return None
+        elif c == "$":
+            r = _ref(raw, i, env)
+            if r is None or (not assign and not PLAIN_VALUE.fullmatch(r[1])):
+                return None
+            used.append(r[:2])
+            out.append(r[1])
+            i = r[2]
+        else:
+            if assign and c == "~" and (i == 0 or raw[i - 1] == ":"):
+                return None
+            glob = glob or (c in "*?[" and not assign)
+            out.append(c)
+            i += 1
+    return "".join(out), glob, used
+
+
+def resolve(toks: list) -> list:
+    """0.1.42: the tokens of lex(line, parens=True) with each $NAME or ${NAME} replaced by its value when NAME is set
+    earlier on the same line to a value known there: a command made only of NAME=value words (a literal, quoted or not,
+    or names already known), run unconditionally in this shell (at the top level, first or after ; or a new line, not
+    in a pipeline, a subshell, a group, a loop or a condition, not in the background), and the only place the line sets
+    NAME. Every other variable stays unknown, as before: one from the environment, one set twice or set by export, read,
+    for, local and the like, one used before it is set, and every variable of a line with eval, source or a function.
+    A word read this way is no longer dynamic, and its `values` names the variables it was read with. Values from
+    outside the line are never guessed."""
+    if not any(isinstance(t, Word) and t.dynamic for t in toks):
+        return toks
+    cmds, start, joined, depth = [], 0, "", 0
+    for i, t in enumerate(toks + [("op", ";", "")]):
+        if isinstance(t, tuple) and t[1] in CONTROL + ("(", ")"):
+            if start < i:
+                cmds.append({"a": start, "b": i, "joined": joined, "depth": depth,
+                             "after": t[1] if i < len(toks) else ""})
+            if t[1] in ("(", ")"):
+                depth += 1 if t[1] == "(" else -1
+                if depth < 0:
+                    return toks
+            joined, start = t[1], i + 1
+    if depth != 0:
+        return toks
+    sets, plain_at, nest = {}, {}, 0
+    for c in cmds:
+        span = toks[c["a"]:c["b"]]
+        ws = [t for t in span if isinstance(t, Word)]
+        texts = [w.text for w in ws]
+        first = texts[0] if ws and not ws[0].dynamic else ""
+        nxt2 = toks[c["b"] + 1] if c["b"] + 1 < len(toks) else None
+        if first in ("eval", "source", ".", "function") or (
+                len(ws) == 1 and c["after"] == "(" and isinstance(nxt2, tuple) and nxt2[1] == ")"):
+            return toks   # code the line does not show could set any name: eval, source, a function
+        if first in CLOSES:
+            nest -= 1
+        only_assign = bool(ws) and all(ASSIGN.match(x) for x in texts) and len(ws) == len(span)
+        for w in ws:
+            m = ASSIGN.match(w.text)
+            if m:
+                name = w.text[:m.end() - 1]
+                sets[name] = sets.get(name, 0) + 1
+                if only_assign and nest == 0 and c["depth"] == 0 and c["joined"] in ("", ";", "\n") and \
+                        c["after"] not in ("|", "|&", "&", "("):
+                    plain_at.setdefault(name, w)
+            for r in re.finditer(r"\$\{(" + NAME.pattern + r")[^}A-Za-z0-9_]", w.raw):
+                sets[r.group(1)] = sets.get(r.group(1), 0) + 2   # ${NAME:=x}, ${NAME[i]} and the like
+        if first in SETS_NAMES or first in ("for", "select"):
+            for x in texts[1:]:
+                if NAME.fullmatch(x):
+                    sets[x] = sets.get(x, 0) + 2
+        if first in OPENS:
+            nest += 1
+    if "IFS" in sets:
+        return toks
+    known = {n: w for n, w in plain_at.items() if sets.get(n) == 1}
+    env, out = {}, list(toks)
+    for i, t in enumerate(toks):
+        if not isinstance(t, Word) or (i and isinstance(toks[i - 1], tuple) and toks[i - 1][1] == "<<"):
+            continue   # (a here-document's delimiter)
+        if t.dynamic:
+            r = _expand_raw(t.raw, env)
+            if r is not None:
+                out[i] = Word(r[0], t.raw, r[1], t.quoted, False, t.start, t.end, tuple(r[2]))
+        for name, w in known.items():
+            if w is t:
+                v = _expand_raw(t.raw[len(name) + 1:], env, assign=True)
+                if v is not None and "~" not in v[0]:
+                    env[name] = v[0]
+    return out
+
+
+def parse(line: str, resolve_names: bool = True) -> Parsed:
+    """The simple commands of a command line, with their redirections and the operators that join them. Variables set
+    earlier on the line to a known value are read with it (resolve(); resolve_names=False: as typed)."""
+    toks, problems = lex(line, parens=True)
+    if resolve_names:
+        toks = resolve(toks)
+    toks = [t for t in toks if not (isinstance(t, tuple) and t[1] in ("(", ")"))]
     cmds, words, redirs, joined = [], [], [], ""
     i = 0
     while i < len(toks):
@@ -882,6 +1035,9 @@ class _Reader:
                 self.unread.append(f"command {k}: {p}")
             args_w = s.words[at + 1:]
             self.dynamic_parts(k, name, s, at, args_w)
+            for w in list(s.words) + [rd.target for rd in s.redirects if rd.target is not None]:
+                for var, val in w.values:   # 0.1.42: a variable set earlier on the line, read with its value
+                    self.facts.append(f"in command {k}, ${var} is {_q(val)} (set earlier on the line)")
             if name == "find":
                 for i, w in enumerate(args_w[:-1]):
                     if w.text in FIND_PATTERN_ARGS and args_w[i + 1].glob and not args_w[i + 1].quoted:

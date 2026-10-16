@@ -57,6 +57,34 @@
 
 <!-- /skopos:entry -->
 
+## [0.1.42] — 2026-10-16
+
+### Changed
+- **The guards read a variable set earlier on the same line.** The git guard and the shell guard read `$NAME` or
+  `${NAME}` with its value when the line itself sets NAME before, to a known value (`G=/repo; git -C "$G" status`,
+  `D=build; rm -rf "$D"`): a command made only of NAME=value words (a literal, quoted or not, or names already known),
+  run unconditionally at the top level, and the only place the line sets NAME. Every other variable is still not
+  guessed and stays "cannot foresee": one from the environment, one set twice, used before it is set, exported, read,
+  set in a loop, a condition, a pipeline or a subshell, set by command substitution, and every variable of a line with
+  eval, source or a function. The shell guard's state names the values it used.
+- **Preflight does not guess at a step it cannot read.** A step that runs code given inline to an interpreter
+  (`python3 -c`, `python3 - <<'EOF'`, `node -e`, ...) or runs on another machine (ssh, scp or rsync to or from a host)
+  is never named as the failing one; the other steps of the line are still judged, and when none of them changes
+  anything the line is "cannot judge": silent, or one warning with `EKBASIS_PREFLIGHT_FAIL_CLOSED=1`.
+
+### Fixed
+- Preflight cut a loop or a condition written on one line (`for f in a b; do ...; done`) at its `;` into commands
+  named `for`, `do`, `done`, `case`, `esac`, which code then found "not installed" and decided as failing ("checked in
+  code"). Such a line is now "cannot judge", as in scripts. Code also no longer decides as failing a redirection into a
+  folder that an earlier step of the line creates (`mkdir -p out; ... > out/log`), nor a command given by its path
+  (`./node_modules/.bin/tsc`) as "not installed".
+
+Measured by replaying the 687 commands of one Claude Code session's hook log through 0.1.41 and 0.1.42 (log mode, the
+hosted API, shell guard and preflight on, same state): lines flagged 299 → 137; preflight warnings 171 → 52 (on commands
+that really failed: 6 → 3, and the 3 kept name the step that failed); "could not foresee" from the shell guard 64 → 19
+and from the git guard 76 → 15. Each flag that went away because a variable was read was checked again with the work at
+stake put back: 0.1.42 flags all 15 of those lines.
+
 ## [0.1.41] — 2026-10-15
 
 ### Added
