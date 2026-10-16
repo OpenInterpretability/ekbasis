@@ -127,5 +127,9 @@ multi-token-prediction layer stay in bf16. INT4 is calibrated on 256 items of R4
 - **v49f's replay rows.** Of v49f's 12,342 replay rows, 7,423 are not redistributed (ekbasis-data's card says why), so
   a rerun of v49f reads the 190,853-row `ftrain_mixG3` R4 read, not the 198,276 rows v49f read; R4 already read only the
   4,919 replay rows that are redistributed.
+- **31 FX rows** of v49f's 17,625 `floorFX` rows are withheld by the dataset's privacy scan (26 converted CWM rows and
+  5 `sql_collation_affinity` rows; the dataset's card lists them), so a rerun of v49f reads 17,594.
+- **R4's training file is rebuilt exactly:** `stage_files_skopos.py`'s `ftrain_r2.jsonl` is byte-identical to the file
+  R4 read (sha256 f1500d57f84f6a8a69862fc3c217f1bcfb94c141efff92723aa31adb6570c6bf, checked by the dataset's build).
 - Sampling and GPU arithmetic are not deterministic across hardware and library versions: expect close numbers, not the
   same weights. The release's own weights are on Hugging Face.
