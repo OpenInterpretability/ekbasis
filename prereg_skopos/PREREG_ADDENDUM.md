@@ -58,3 +58,21 @@ price). Reported, no criterion. The hosted API runs on a different GPU (RTX 5090
 ## A6 — Served = trainer equivalence of the bf16, saved per item (appended, same time)
 `equiv_r4.py` (the 500 items: git_long 300, guard_known 200) re-run against the served bf16 with its per-item output
 saved (`results/served_equivalence_bf16.json`); the earlier run (499/500) was printed, not saved. Reported, no criterion.
+
+## A7 — Confident errors with full probabilities: the calibrated field in unfamiliar worlds, and INT4 for the scorecard (appended 2026-10-16 02:39 UTC, after the independent review, before any A7 request)
+Why: the card advised reading `calibrated` in unfamiliar domains, but A2 kept only each answer's top confidence, so the
+calibrated field's effect on the never-trained families was never measured (review #4); and the hosted-API scorecard
+needs confident errors of the INT4 build against Ekbasis-27B's INT4 (review #5).
+- Items: the same 15,008 (A2). One prompt per question through each build's own server (`/v1/systemone`), saving every
+  option's probability. Builds: Skopos bf16 (served by the running battery's server, phase A), Skopos INT4 and
+  Ekbasis-27B INT4 (each served alone on the RTX after the battery, same scripts).
+- Reported per group (trained families T, held-out question types H, never-trained families U; all answers and answers
+  the actions change), raw and at each build's own calibrated temperature (bf16 1.62, Skopos INT4 1.67, Ekbasis-27B
+  INT4 1.55 — the hosted one): accuracy, wrong at confidence ≥ 0.9 per 100, ECE; paired bootstrap (2,000, seed
+  20261015) of Skopos − Ekbasis-27B (INT4 vs INT4) and of calibrated − raw within each build. With and without the
+  overlap audit's flagged items.
+- Consistency check: Skopos bf16's raw answers here must equal A2's on ≥ 99% of items (same build, same items); if not,
+  investigated before use.
+- Prediction: the calibrated temperature lowers confidently wrong answers in U for every build (T > 1 flattens), so
+  Skopos calibrated is at or below Ekbasis-27B raw there; the INT4 builds repeat A2's pattern (fewer errors in T/H, more
+  confident errors in U). No criterion: this decides only what the card and the scorecard may say.
