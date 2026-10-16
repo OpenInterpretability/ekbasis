@@ -5,18 +5,18 @@
 
 ### Added
 - **Ekbasis-Skopos-27B, the recommended model** ([card](https://huggingface.co/caiovicentino1/Ekbasis-Skopos-27B); bf16,
-  FP8 and INT4 builds; MLX after its test on an Apple-silicon Mac): Ekbasis-27B trained further on what real tools did.
-  Against Ekbasis-27B, on the same items: the git guard, served, raises fewer false alarms on the guard set's held-out
-  command types (held out of the git sandbox's training rows; 26 of 799 instead of 49) and catches more lost work (97.1%
-  instead of 96.0%); on 5,385 fresh items of world families it never saw, +1.63 points on the answers the actions change
-  (95% CI +0.70 to +2.52); executed shell, SQL, Python and git scenarios 94.0% instead of 88.4%, real git sequences of
-  5–12 commands 93.2% instead of 90.7% (these two are in-distribution sets, on which the candidates were selected). In
-  world families it never saw, more of its wrong answers come with high confidence (+0.75 per 100 answers). The client,
-  the API and the prompts are unchanged: serve the new weights with their own `serve.py`, or keep Ekbasis-27B. Its
-  evaluation, with every prediction and pre-registration: [RELEASE_EVAL_SKOPOS.md](RELEASE_EVAL_SKOPOS.md),
-  [results_skopos/](results_skopos/README.md), [prereg_skopos/](prereg_skopos/PREREG_sha256.txt); its training code:
-  [training/skopos/](training/skopos/README.md); the generators behind every training kind and evaluation set, as they
-  ran: [generators/](generators/README.md).
+  FP8 and INT4 builds; MLX after its test on an Apple-silicon Mac): Ekbasis-27B trained further on executed shell, git,
+  SQLite, PostgreSQL and Python scenarios. Against Ekbasis-27B on the same items: false alarms of the git guard 26/799
+  instead of 49/799 on the held-out command types (held out of the git sandbox's training rows), and 27 instead of 37 of
+  863 on known types; never-trained world families +1.6 points [+0.7, +2.5] on 3,014 fresh answers the actions change.
+  Its largest gains are in-distribution (the generators it was trained on), and in world families it never saw more of
+  its errors come with confidence ≥ 0.9 (4.49 vs 3.75 per 100). The client, the API and the prompts are unchanged: serve
+  the new weights with their own `serve.py`, or keep Ekbasis-27B. `ekbasis.verify`'s certified mode, certified on
+  Ekbasis-27B, carried over to Skopos INT4 in a pre-registered check (7 errors among 927 accepted answers;
+  [docs/VERIFY.md](docs/VERIFY.md)). Its evaluation, with every prediction and pre-registration:
+  [RELEASE_EVAL_SKOPOS.md](RELEASE_EVAL_SKOPOS.md), [results_skopos/](results_skopos/README.md),
+  [prereg_skopos/](prereg_skopos/PREREG_sha256.txt); its training code: [training/skopos/](training/skopos/README.md);
+  the generators behind every training kind and evaluation set, as they ran: [generators/](generators/README.md).
 
 <!-- /skopos:entry -->
 

@@ -135,6 +135,18 @@ precedents and neighbors.
   released model.
 - Pallets (2011–). *itsdangerous* (BSD-3-Clause). GitHub. https://github.com/pallets/itsdangerous — the real
   repository the git scenarios run on.
+- Ragsdale, J., & Boppana, R. (2026). *ShIOEnv: A Command Evaluation Environment for Grammar-Constrained Synthesis and
+  Execution Behavior Modeling*. arXiv:2505.18374. Dataset *ShIO-bash-26.1* (CC BY 4.0):
+  https://huggingface.co/datasets/jragsdale1/ShIO-bash-26.1 — 600 command lines rewritten and
+  re-executed in our sandbox for Ekbasis-Skopos-27B's training (ShIO's labels unused).
+- Marin Community (2026). *SWE-rebench V2 CodeWorldModeling Traces* (CC BY 4.0, and each source repository's license).
+  https://huggingface.co/datasets/marin-community/swe-rebench-v2-CodeWorldModeling — 2,000 rows from
+  312 permissively licensed repositories, converted to questions for Ekbasis-Skopos-27B's training
+  (the values its tracer recorded).
+- Badertdinov, I., Nekrashevich, M., Shevtsov, A., & Golubev, A. (2026). *SWE-rebench V2: Language-Agnostic SWE Task
+  Collection at Scale*. arXiv:2602.23866 (Nebius; CC BY 4.0) — the source of the traces above.
+- Qwen (2026). *AgentWorldBench* (Apache-2.0). https://huggingface.co/datasets/Qwen/AgentWorldBench — 455 agent
+  turns, evaluation only (Ekbasis-Skopos-27B's neutral-ground test; ids and our labels published, not the trajectories).
 
 ## Tools
 

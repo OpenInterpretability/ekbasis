@@ -166,6 +166,22 @@ scenario.
 - **Cost on that Mac.** Each confident answer the certified mode checks costs two extra requests (one for git and
   shell): about 7 s (median 6.6 s), and about 4 s for git and shell.
 
+## On Ekbasis-Skopos-27B (⟨release date⟩)
+
+The thresholds above belong to Ekbasis-27B (w4a5). The same check as for the MLX build was run on Ekbasis-Skopos-27B,
+served by vLLM and `serve.py` (INT4, and bf16), with the thresholds unchanged and client 0.1.41, pre-registered before
+the first request (`prereg_skopos/PREREG_CERTIFIED_CARRYOVER.md`): all 1,400 scenarios of the MLX
+check's stratified subset of confirm-3, none of them overlapping Skopos' training (the release's overlap audit), one
+confident answer per scenario.
+
+| Rule (α = 2%) | Errors among accepted answers | Verified (raw / at confirm-3's mix) | Confident errors caught | Node above 2% |
+|---|---|---|---|---|
+| **`certified`** (L2), Skopos INT4 | **0.76%** (7 of 927; at confirm-3's mix 0.74%; 95% upper bound 1.41%) | 29.8% / 22.0% | 91.5% | none |
+| `certified` (L2), Skopos bf16 | 0.64% (6 of 935; at confirm-3's mix 0.59%; 95% upper bound 1.26%) | 29.9% / 22.0% | 93.6% | none |
+
+- **What this is.** It checks empirically, on fresh items, that the certificate carries over to Skopos. It is not a new certificate.
+- **Small samples outside rules.** As for the MLX build, the result rests on the total; each suite's own bound stays wide.
+
 ## Overlap with training
 
 The items of the development set (29,029 rows), of the first test (28,723: 19,825 in the five suites + 8,898
