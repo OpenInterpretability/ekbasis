@@ -465,36 +465,50 @@ CCB = json.load(open(os.path.join(R, "certified_carryover_skopos_bf16.json"))) i
 w("## Certified mode with Skopos\n")
 if CC:
     L2, L1 = CC["model"]["a02"]["L2"], CC["model"]["a02"]["L1"]
-    ref = CC["ekbasis27b_bf16_same_scenarios"]["a02"]["L2"]
-    mlx = CC["mlx_t2_common_scenarios"]["model_a02"]["L2"]
+    RR = ld("certified_carryover_reference_rows.json")
     cr = CC["criteria"]
     pr = CC["paired_rows_vs_ekbasis27b"]["all"]
     yn = lambda x: "**holds**" if x else "**fails**"
     w(f"""`ekbasis.verify`'s certified mode acts on a confident answer without checking it only where a Learn-then-Test
 certificate holds; its thresholds were certified on Ekbasis-27B. A check registered before any request
 ([PREREG_CERTIFIED_CARRYOVER.md](prereg_skopos/PREREG_CERTIFIED_CARRYOVER.md)) ran the same client (thresholds
-unchanged) on Skopos INT4, served, over confirm-3's fresh scenarios: {CC['scenarios_done']:,} scenarios,
-{CC['rows']:,} questions, {CC['units']:,} confident units ({CC['scenarios_excluded_overlap']} scenarios excluded by the
-overlap audit, {CC['requests_failed']} failed requests; `results_skopos/certified_carryover_skopos_int4.json`, code and
+unchanged) on Skopos INT4 (primary) and bf16, served, over confirm-3's fresh scenarios: {CC['scenarios_done']:,} scenarios,
+{CC['rows']:,} questions, {CC['units']:,} confident units for INT4 ({CC['scenarios_excluded_overlap']} scenarios excluded by
+the overlap audit, {CC['requests_failed']} failed requests; `results_skopos/certified_carryover_skopos_int4.json`, code and
 data in `results_skopos/certified_carryover/`). A check that the certificate carries over, not a new certificate.
 
-| L2, α = 2% (the certified mode) | Accepted (of the units) | Errors among accepted | Weighted to confirm-3's mix | 95% upper bound (raw) | Verified: raw / weighted |
-|---|---|---|---|---|---|
-| **Skopos INT4** | {L2['accepted']:,} of {L2['units']:,} | {L2['errors_among_accepted']} ({h(100 * L2['error_rate_among_accepted'], 2)}%) | {h(100 * L2['error_rate_among_accepted_weighted'], 2)}% | {h(100 * L2['cp95_upper_overall'], 2)}% | {h(100 * L2['verified_share'])}% / {h(100 * L2['verified_share_weighted'])}% |
-| Ekbasis-27B bf16, the same scenarios | {ref['accepted']:,} of {ref['units']:,} | {ref['errors_among_accepted']} ({h(100 * ref['error_rate_among_accepted'], 2)}%) | {h(100 * ref['error_rate_among_accepted_weighted'], 2) + '%' if 'error_rate_among_accepted_weighted' in ref else '—'} | {h(100 * ref['cp95_upper_overall'], 2) + '%' if 'cp95_upper_overall' in ref else '—'} | {h(100 * ref['verified_share'])}% / {h(100 * ref['verified_share_weighted'])}% |
-| Ekbasis-27B MLX (T2's answers), the scenarios both runs completed | {mlx['accepted']:,} of {mlx['units']:,} | {mlx['errors_among_accepted']} ({h(100 * mlx['error_rate_among_accepted'], 2)}%) | {h(100 * mlx['error_rate_among_accepted_weighted'], 2) + '%' if 'error_rate_among_accepted_weighted' in mlx else '—'} | {h(100 * mlx['cp95_upper_overall'], 2) + '%' if 'cp95_upper_overall' in mlx else '—'} | {h(100 * mlx['verified_share'])}% / {h(100 * mlx['verified_share_weighted'])}% |
-
-Criteria: C2 (L2: weighted error among accepted ≤ 2% and no node significantly above) {yn(cr['C2_certified_mode_L2_a02'])};
-C2+ (and the raw 95% upper bound ≤ 2%) {yn(cr['C2plus_L2_cp95_upper_le_2pct'])}; C1 (L1, α = 2%: {L1['errors_among_accepted']}
-errors among {L1['accepted']:,} accepted) {yn(cr['C1_L1_a02'])}. Paired with Ekbasis-27B on the same {pr['rows']:,} questions:
-the same answer on {pr['agree']:,}; right {pr['model_correct']:,} against {pr['bf16_correct']:,}; wrong at confidence ≥ 0.9
-{pr['model_confident_wrong']} against {pr['bf16_confident_wrong']}.""")
+The rate behind each unit's score depends on the rows its family-rate stream has seen, so every row below names its
+scenarios and its stream. The last two rows are the numbers `docs/VERIFY.md` publishes for the MLX check (WS-MAC T2,
+which completed {RR['t2_scenarios']:,} of the scenarios); they are recomputed here from T2's own answers by the check's
+analysis code and equal the published ones (`results_skopos/certified_carryover_reference_rows.json`,
+`results_skopos/scripts/certified_reference_rows.py`).
+""")
+    w("| L2, α = 2% (the certified mode) | Scenarios · family-rate stream | Accepted (of the units) | Errors among accepted | Weighted to confirm-3's mix | 95% upper bound | Verified: raw / weighted |\n|---|---|---|---|---|---|---|")
+    def row(label, scen, stream, b):
+        return (f"| {label} | {scen} · {stream} | {b['accepted']:,} of {b['units']:,} | {b['errors_among_accepted']} "
+                f"({h(100 * b['error_rate_among_accepted'], 2)}%) | {h(100 * b['error_rate_among_accepted_weighted'], 2)}% | "
+                f"{h(100 * b['cp95_upper_overall'], 2)}% | {h(100 * b['verified_share'])}% / {h(100 * b['verified_share_weighted'])}% |")
+    n_all, n_t2 = f"all {CC['scenarios_done']:,}", f"T2's {RR['t2_scenarios']:,}"
+    w(row("**Skopos INT4**", n_all, "its own rows", RR["skopos-int4"]["all_scenarios"]["L2_a02"]))
+    if "skopos-bf16" in RR:
+        w(row("Skopos bf16", n_all, "its own rows", RR["skopos-bf16"]["all_scenarios"]["L2_a02"]))
+    w(row("Ekbasis-27B bf16 (confirm-3's answers)", n_all, "confirm-3's whole fresh stream", RR["ekbasis27b_bf16_skopos-int4_scenarios"]["L2_a02"]))
+    w(row("Skopos INT4", n_t2, "its own rows there", RR["skopos-int4"]["t2_scenarios"]["L2_a02"]))
+    if "skopos-bf16" in RR:
+        w(row("Skopos bf16", n_t2, "its own rows there", RR["skopos-bf16"]["t2_scenarios"]["L2_a02"]))
+    w(row("Ekbasis-27B bf16, as in docs/VERIFY.md", n_t2, "confirm-3's whole fresh stream", RR["ekbasis27b_bf16_t2_scenarios"]["L2_a02"]))
+    w(row("Ekbasis-27B MLX (T2), as in docs/VERIFY.md", n_t2, "its own rows there", RR["mlx_t2_as_published"]["L2_a02"]))
+    w(f"""
+`docs/VERIFY.md` quotes the raw rates of the last two rows. Criteria (pre-registered, on all scenarios): C2 (L2: weighted
+error among accepted ≤ 2% and no node significantly above) {yn(cr['C2_certified_mode_L2_a02'])}; C2+ (and the raw 95%
+upper bound ≤ 2%) {yn(cr['C2plus_L2_cp95_upper_le_2pct'])}; C1 (L1, α = 2%: {L1['errors_among_accepted']} errors among
+{L1['accepted']:,} accepted) {yn(cr['C1_L1_a02'])}. Paired with Ekbasis-27B on the same {pr['rows']:,} questions, Skopos INT4
+gives the same answer on {pr['agree']:,}; right {pr['model_correct']:,} against {pr['bf16_correct']:,}; wrong at confidence
+≥ 0.9 {pr['model_confident_wrong']} against {pr['bf16_confident_wrong']}.""")
     if CCB:
         cb, b2 = CCB["criteria"], CCB["model"]["a02"]["L2"]
-        w(f"\nThe bf16 build (secondary; `results_skopos/certified_carryover_skopos_bf16.json`): {b2['errors_among_accepted']} "
-          f"errors among {b2['accepted']:,} accepted ({h(100 * b2['error_rate_among_accepted_weighted'], 2)}% weighted; 95% upper "
-          f"bound {h(100 * b2['cp95_upper_overall'], 2)}%; verified {h(100 * b2['verified_share_weighted'])}% weighted): "
-          f"C2 {yn(cb['C2_certified_mode_L2_a02'])}, C2+ {yn(cb['C2plus_L2_cp95_upper_le_2pct'])}, C1 {yn(cb['C1_L1_a02'])}.\n")
+        w(f"\nThe bf16 build (secondary; `results_skopos/certified_carryover_skopos_bf16.json`): C2 "
+          f"{yn(cb['C2_certified_mode_L2_a02'])}, C2+ {yn(cb['C2plus_L2_cp95_upper_le_2pct'])}, C1 {yn(cb['C1_L1_a02'])}.\n")
     else:
         w("\nThe same check on the bf16 build (secondary) has not run yet.\n")
 else:

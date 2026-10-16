@@ -291,24 +291,35 @@ Image ability **preserved** by the registered reading (Skopos − Ekbasis-27B �
 `ekbasis.verify`'s certified mode acts on a confident answer without checking it only where a Learn-then-Test
 certificate holds; its thresholds were certified on Ekbasis-27B. A check registered before any request
 ([PREREG_CERTIFIED_CARRYOVER.md](prereg_skopos/PREREG_CERTIFIED_CARRYOVER.md)) ran the same client (thresholds
-unchanged) on Skopos INT4, served, over confirm-3's fresh scenarios: 1,400 scenarios,
-2,781 questions, 1,321 confident units (0 scenarios excluded by the
-overlap audit, 0 failed requests; `results_skopos/certified_carryover_skopos_int4.json`, code and
+unchanged) on Skopos INT4 (primary) and bf16, served, over confirm-3's fresh scenarios: 1,400 scenarios,
+2,781 questions, 1,321 confident units for INT4 (0 scenarios excluded by
+the overlap audit, 0 failed requests; `results_skopos/certified_carryover_skopos_int4.json`, code and
 data in `results_skopos/certified_carryover/`). A check that the certificate carries over, not a new certificate.
 
-| L2, α = 2% (the certified mode) | Accepted (of the units) | Errors among accepted | Weighted to confirm-3's mix | 95% upper bound (raw) | Verified: raw / weighted |
-|---|---|---|---|---|---|
-| **Skopos INT4** | 927 of 1,321 | 7 (0.76%) | 0.74% | 1.41% | 29.8% / 22.0% |
-| Ekbasis-27B bf16, the same scenarios | 886 of 1,336 | 5 (0.56%) | 0.47% | 1.18% | 33.7% / 25.4% |
-| Ekbasis-27B MLX (T2's answers), the scenarios both runs completed | 710 of 1,020 | 6 (0.85%) | 0.90% | 1.66% | 30.4% / 22.5% |
+The rate behind each unit's score depends on the rows its family-rate stream has seen, so every row below names its
+scenarios and its stream. The last two rows are the numbers `docs/VERIFY.md` publishes for the MLX check (WS-MAC T2,
+which completed 1,081 of the scenarios); they are recomputed here from T2's own answers by the check's
+analysis code and equal the published ones (`results_skopos/certified_carryover_reference_rows.json`,
+`results_skopos/scripts/certified_reference_rows.py`).
 
-Criteria: C2 (L2: weighted error among accepted ≤ 2% and no node significantly above) **holds**;
-C2+ (and the raw 95% upper bound ≤ 2%) **holds**; C1 (L1, α = 2%: 4
-errors among 539 accepted) **holds**. Paired with Ekbasis-27B on the same 2,781 questions:
-the same answer on 2,613; right 2,554 against 2,485; wrong at confidence ≥ 0.9
-154 against 233.
+| L2, α = 2% (the certified mode) | Scenarios · family-rate stream | Accepted (of the units) | Errors among accepted | Weighted to confirm-3's mix | 95% upper bound | Verified: raw / weighted |
+|---|---|---|---|---|---|---|
+| **Skopos INT4** | all 1,400 · its own rows | 927 of 1,321 | 7 (0.76%) | 0.74% | 1.41% | 29.8% / 22.0% |
+| Skopos bf16 | all 1,400 · its own rows | 935 of 1,333 | 6 (0.64%) | 0.59% | 1.26% | 29.9% / 22.0% |
+| Ekbasis-27B bf16 (confirm-3's answers) | all 1,400 · confirm-3's whole fresh stream | 886 of 1,336 | 5 (0.56%) | 0.47% | 1.18% | 33.7% / 25.4% |
+| Skopos INT4 | T2's 1,081 · its own rows there | 710 of 1,020 | 6 (0.85%) | 0.90% | 1.66% | 30.4% / 22.5% |
+| Skopos bf16 | T2's 1,081 · its own rows there | 720 of 1,030 | 6 (0.83%) | 0.76% | 1.64% | 30.1% / 22.4% |
+| Ekbasis-27B bf16, as in docs/VERIFY.md | T2's 1,081 · confirm-3's whole fresh stream | 686 of 1,036 | 5 (0.73%) | 0.60% | 1.53% | 33.8% / 25.8% |
+| Ekbasis-27B MLX (T2), as in docs/VERIFY.md | T2's 1,081 · its own rows there | 666 of 1,028 | 1 (0.15%) | 0.21% | 0.71% | 35.2% / 26.7% |
 
-The bf16 build (secondary; `results_skopos/certified_carryover_skopos_bf16.json`): 6 errors among 935 accepted (0.59% weighted; 95% upper bound 1.26%; verified 22.0% weighted): C2 **holds**, C2+ **holds**, C1 **holds**.
+`docs/VERIFY.md` quotes the raw rates of the last two rows. Criteria (pre-registered, on all scenarios): C2 (L2: weighted
+error among accepted ≤ 2% and no node significantly above) **holds**; C2+ (and the raw 95%
+upper bound ≤ 2%) **holds**; C1 (L1, α = 2%: 4 errors among
+539 accepted) **holds**. Paired with Ekbasis-27B on the same 2,781 questions, Skopos INT4
+gives the same answer on 2,613; right 2,554 against 2,485; wrong at confidence
+≥ 0.9 154 against 233.
+
+The bf16 build (secondary; `results_skopos/certified_carryover_skopos_bf16.json`): C2 **holds**, C2+ **holds**, C1 **holds**.
 
 ## Latency and cost (INT4)
 

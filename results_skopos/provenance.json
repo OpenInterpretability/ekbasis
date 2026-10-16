@@ -287,6 +287,10 @@
   "sha256": "9cc94336bca7b89d8c3eb9f88887558b1f33b0723700c0cbc44946381711bf51",
   "source": "the release workspace certified_carryover/run_carryover.sh"
  },
+ "certified_carryover_reference_rows.json": {
+  "sha256": "086fb9316eee4e8e8fcd53d32eb8b78eab4812b4d6a047c3ce95ad912db71beb",
+  "source": "scripts/certified_reference_rows.py (written for publication) on the certified_carryover/ data and runs"
+ },
  "certified_carryover_skopos_bf16.json": {
   "sha256": "340774af891a03c96d454300e56e6de1040ced120d15ca056b6bb91cd97bcb47",
   "source": "release workspace results/certified_carryover_skopos_bf16.json"

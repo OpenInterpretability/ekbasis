@@ -120,6 +120,17 @@ if (RES / "r4_vs_ekbasis27b_trainer.json").exists():
         mine = [round(sum(dd) / len(dd), 4), [round(v[50], 4), round(v[1949], 4)]]
         vse_ok &= mine == d["r4_minus_ekbasis27b"] and len(a) == d["n"]
 
+# certified-mode carry-over: the reference rows' own-build lines equal the run summaries' (same code, same rows)
+cc_ok = True
+if (RES / "certified_carryover_reference_rows.json").exists():
+    rr = json.load(open(RES / "certified_carryover_reference_rows.json"))
+    for b in ("int4", "bf16"):
+        f = RES / f"certified_carryover_skopos_{b}.json"
+        if f.exists() and f"skopos-{b}" in rr:
+            s = json.load(open(f))["model"]["a02"]["L2"]
+            mine = rr[f"skopos-{b}"]["all_scenarios"]["L2_a02"]
+            cc_ok &= all(s[k] == v for k, v in mine.items())
+
 # T3c: release_eval_t3c.py's summary, recomputed from its own per-scenario rows (lost flagged at 0.2; right at 0.5)
 t3c_ok = True
 if (RES / "t3c_r4.json").exists():
@@ -148,6 +159,8 @@ print(f"{'ok      ' if t3c_ok else 'DIFFERS '} t3c_r4.json (primary summary from
 bad += not t3c_ok
 print(f"{'ok      ' if vse_ok else 'DIFFERS '} r4_vs_ekbasis27b_trainer.json (R4 − Ekbasis-27B, paired bootstrap)")
 bad += not vse_ok
+print(f"{'ok      ' if cc_ok else 'DIFFERS '} certified_carryover_reference_rows.json (its Skopos lines = the run summaries)")
+bad += not cc_ok
 shutil.rmtree(W)
-print(f"{len(checks) + 3 - bad} of {len(checks) + 3} summaries recomputed")
+print(f"{len(checks) + 4 - bad} of {len(checks) + 4} summaries recomputed")
 sys.exit(1 if bad else 0)

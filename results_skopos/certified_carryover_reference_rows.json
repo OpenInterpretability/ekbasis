@@ -1,0 +1,128 @@
+{
+ "definition": "The reference rows of the certified-mode carry-over check, each on its stated scenario set and family-rate stream,",
+ "t2_scenarios": 1081,
+ "mlx_t2_as_published": {
+  "scenarios": 1081,
+  "family_rate": "streamed over the MLX build's own rows on T2's scenarios",
+  "L2_a02": {
+   "units": 1028,
+   "accepted": 666,
+   "errors_among_accepted": 1,
+   "error_rate_among_accepted": 0.0015,
+   "error_rate_among_accepted_weighted": 0.00209,
+   "cp95_upper_overall": 0.0071,
+   "verified_share": 0.3521,
+   "verified_share_weighted": 0.2667,
+   "no_node_significantly_above": true
+  }
+ },
+ "ekbasis27b_bf16_t2_scenarios": {
+  "scenarios": 1081,
+  "family_rate": "streamed over confirm-3's whole fresh stream",
+  "L2_a02": {
+   "units": 1036,
+   "accepted": 686,
+   "errors_among_accepted": 5,
+   "error_rate_among_accepted": 0.00729,
+   "error_rate_among_accepted_weighted": 0.00604,
+   "cp95_upper_overall": 0.01526,
+   "verified_share": 0.3378,
+   "verified_share_weighted": 0.2576,
+   "no_node_significantly_above": true
+  }
+ },
+ "skopos-int4": {
+  "all_scenarios": {
+   "scenarios": 1400,
+   "family_rate": "streamed over this run's rows",
+   "L2_a02": {
+    "units": 1321,
+    "accepted": 927,
+    "errors_among_accepted": 7,
+    "error_rate_among_accepted": 0.00755,
+    "error_rate_among_accepted_weighted": 0.0074,
+    "cp95_upper_overall": 0.01414,
+    "verified_share": 0.2983,
+    "verified_share_weighted": 0.2197,
+    "no_node_significantly_above": true
+   }
+  },
+  "t2_scenarios": {
+   "scenarios": 1081,
+   "family_rate": "streamed over this run's rows on T2's scenarios",
+   "L2_a02": {
+    "units": 1020,
+    "accepted": 710,
+    "errors_among_accepted": 6,
+    "error_rate_among_accepted": 0.00845,
+    "error_rate_among_accepted_weighted": 0.00902,
+    "cp95_upper_overall": 0.01661,
+    "verified_share": 0.3039,
+    "verified_share_weighted": 0.2245,
+    "no_node_significantly_above": true
+   }
+  }
+ },
+ "ekbasis27b_bf16_skopos-int4_scenarios": {
+  "scenarios": 1400,
+  "family_rate": "streamed over confirm-3's whole fresh stream",
+  "L2_a02": {
+   "units": 1336,
+   "accepted": 886,
+   "errors_among_accepted": 5,
+   "error_rate_among_accepted": 0.00564,
+   "error_rate_among_accepted_weighted": 0.00468,
+   "cp95_upper_overall": 0.01183,
+   "verified_share": 0.3368,
+   "verified_share_weighted": 0.2541,
+   "no_node_significantly_above": true
+  }
+ },
+ "skopos-bf16": {
+  "all_scenarios": {
+   "scenarios": 1400,
+   "family_rate": "streamed over this run's rows",
+   "L2_a02": {
+    "units": 1333,
+    "accepted": 935,
+    "errors_among_accepted": 6,
+    "error_rate_among_accepted": 0.00642,
+    "error_rate_among_accepted_weighted": 0.00586,
+    "cp95_upper_overall": 0.01263,
+    "verified_share": 0.2986,
+    "verified_share_weighted": 0.2197,
+    "no_node_significantly_above": true
+   }
+  },
+  "t2_scenarios": {
+   "scenarios": 1081,
+   "family_rate": "streamed over this run's rows on T2's scenarios",
+   "L2_a02": {
+    "units": 1030,
+    "accepted": 720,
+    "errors_among_accepted": 6,
+    "error_rate_among_accepted": 0.00833,
+    "error_rate_among_accepted_weighted": 0.00755,
+    "cp95_upper_overall": 0.01638,
+    "verified_share": 0.301,
+    "verified_share_weighted": 0.2235,
+    "no_node_significantly_above": true
+   }
+  }
+ },
+ "ekbasis27b_bf16_skopos-bf16_scenarios": {
+  "scenarios": 1400,
+  "family_rate": "streamed over confirm-3's whole fresh stream",
+  "L2_a02": {
+   "units": 1336,
+   "accepted": 886,
+   "errors_among_accepted": 5,
+   "error_rate_among_accepted": 0.00564,
+   "error_rate_among_accepted_weighted": 0.00468,
+   "cp95_upper_overall": 0.01183,
+   "verified_share": 0.3368,
+   "verified_share_weighted": 0.2541,
+   "no_node_significantly_above": true
+  }
+ }
+}
