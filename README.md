@@ -19,11 +19,14 @@ from what an agent believes.
 <!-- skopos:intro -->
 > **New (⟨release date⟩): [Ekbasis-Skopos-27B](https://huggingface.co/caiovicentino1/Ekbasis-Skopos-27B)**, the next
 > version, trained further on executed shell, git, SQLite, PostgreSQL and Python scenarios. Against Ekbasis-27B on the
-> same items: false alarms of the git guard 26/799 instead of 49/799 on the held-out command types (held out of the git
-> sandbox's training rows), and 27 instead of 37 of 863 on known types; never-trained world families +1.6 points [+0.7,
-> +2.5] on 3,014 fresh answers the actions change. Its largest gains are in-distribution (the generators it was trained
-> on), and in world families it never saw more of its errors come with confidence ≥ 0.9 (4.49 vs 3.75 per 100). Same
-> prompt, readout, API and client; its evaluation is in
+> same items: the git guard raises fewer false alarms on the held-out command types, 26/799 instead of 49/799 (paired
+> McNemar p = 5.6 × 10⁻⁶; these command types are held out of the git sandbox's training rows but appear in Skopos'
+> factory rows), and flags as many work-losing commands; on the known types, 27 instead of 37 of 863 is within chance.
+> On 3,014 fresh answers of never-trained world families the actions change, +1.6 points [+0.7, +2.5]: the
+> pre-registered release read failed this criterion on `ftest_family`, and a confirmation registered after that result
+> (before any fresh item existed), by trainer readout, did not confirm the loss. Its largest gains are in-distribution
+> (the generators it was trained on), and in world families it never saw more of its errors come with confidence ≥ 0.9
+> (4.49 vs 3.75 per 100). Same prompt, readout, API and client; its evaluation is in
 > [RELEASE_EVAL_SKOPOS.md](https://github.com/OpenInterpretability/ekbasis/blob/main/RELEASE_EVAL_SKOPOS.md) and its
 > card. The numbers further down this page are Ekbasis-27B's. `ekbasis.verify`'s certified mode, certified on
 > Ekbasis-27B, carried over to Skopos INT4 in a pre-registered check (7 errors among 927 accepted answers;

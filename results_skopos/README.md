@@ -11,7 +11,8 @@ pre-registrations and their hashes are in [`../prereg_skopos/`](../prereg_skopos
 the dataset's `raw/` files with the scripts that produced them (two of which read their item files from a fixed folder,
 pointed at yours in a temporary copy), and compares them with the files here: equal to 1e-9. It covers the selection
 reads, the release read of the bf16, INT4 and FP8 builds, the three quantization gates, the fresh confirmation, the
-neutral suite, the image check, the calibration fits and T3c. The MLX build's release read (`release_read_mlx.json`)
+neutral suite, the image check, the calibration fits, T3c, and the three comparisons added after the independent
+review (the guard paired, confident errors' ECE per group, git v3 per question type). The MLX build's release read (`release_read_mlx.json`)
 was assembled by hand from `runs/release_r4_mlx/` and `quant_gate_mlx.json` because the MLX server does not answer
 read-once; its values equal what `compare_release.py` computes from those files (checked when this folder was staged;
 the read-once fields are left empty).
@@ -31,6 +32,9 @@ the read-once fields are left empty).
 | Images | `image_compare.json` | `image/` (each item's three answers, both models) | `run_image.sh`; the items and the scoring: `../generators/v50/image_served.py` | `PREREG_IMAGE.md` |
 | Overlap with the training data (decision D8) | `overlap_audit/overlap.json` (every evaluation set against every training row of the lineage: identical and near-duplicate prompts), `overlap_audit/recomputed.json` (every published number without the flagged items), `overlap_audit/clean/` (each summary file recomputed without the flagged items, named after it); the audit's report, `overlap_audit/REPORT_D8.md`; the earlier check of identical states: `overlap_audit_r4.json` (its script was not saved) | | `overlap_audit/audit_overlap_skopos.py`, `overlap_audit/recompute_without_overlap.py` | |
 | Certified mode with Skopos (does Ekbasis-27B's certificate carry over?) | `certified_carryover_skopos_int4.json`, `certified_carryover_skopos_bf16.json`; every reference row with its scenario set and family-rate stream, including the two numbers `docs/VERIFY.md` publishes for T2: `certified_carryover_reference_rows.json` (`scripts/certified_reference_rows.py`, with the analysis' own functions); T2's published summary, `certified_carryover/published_t2_summary.json` | `certified_carryover/results/` (per scenario) | `certified_carryover/` (run_carryover.py, analyze_carryover.py, overlap_step.py, run_carryover.sh; its `MANIFEST.sha256` was sealed with the pre-registration; the large data files are gzipped and decompress to the listed bytes; `confirm_code/` is `../results/client_0.1.4/` and `client_0.1.5/`, identical) | `PREREG_CERTIFIED_CARRYOVER.md` |
+| The guard against Ekbasis-27B, paired (added after the independent review) | `guard_paired.json` (exact McNemar and paired bootstrap per count) | `release_r4/`; Ekbasis-27B's `../results/release_eval/guard_larger_set/` | `guard_paired.py` | — |
+| Confident errors, ECE per group (registered in A2, computed after the independent review) | `ce_r4_ece.json` (all items and without the flagged items) | `confident_errors/`; Ekbasis-27B's `../results/confident_errors/` | `ce_ece_by_group.py` | `PREREG_ADDENDUM.md` A2 |
+| git v3 per question type against Ekbasis-27B (added after the independent review) | `git3_by_type_paired.json` | `release_r4/`; Ekbasis-27B's `../results/release_eval/` | `git3_by_type_paired.py` | — |
 | Latency and cost, INT4 | `latency_skopos_int4.json`, `latency_ekbasis_int4.json` | `latency/mac_items.json` (the 200 fixed items, also A4's) | `run_addendum_a5a6.sh`, `latency_suite.py` | `PREREG_ADDENDUM.md` A5 |
 | Served against trainer, bf16, per item | `served_equivalence_bf16.json` | in the file (`items`) | `run_addendum_a5a6.sh`, `equiv_r4_save.py` (`equiv_r4.py` with the per-item save; the first, printed run: `equiv_r4.py`) | `PREREG_ADDENDUM.md` A6 |
 | Context, not a Skopos read | `frontier_agentworld.json` (Qwen-AgentWorld against Ekbasis-27B and R1 on our typed questions; its per-item answers are not published) | | | `ADDENDUM_FRONTIER.md` |
@@ -52,7 +56,8 @@ hindsight prompt, which no number uses).
 
 As run, with where each copy comes from. Two lines differ from the copies that ran: the training machine's SSH address
 in `git_battery3.py` and `git_battery3_inj.py` (`RIG`, used only by their `model` subcommand, which T3c does not use).
-`verify_summaries.py` and `ftest_paired.py` were written for this folder. `r4_vs_ekbasis.py` (R4 against Ekbasis-27B on
+`verify_summaries.py`, `ftest_paired.py`, `certified_reference_rows.py` and `git3_by_type_paired.py` were written for
+this folder. `r4_vs_ekbasis.py` (R4 against Ekbasis-27B on
 the selection suites, descriptive) reads the per-item files from the private research backup they were copied from.
 
 <!-- provenance:start -->
@@ -69,6 +74,7 @@ the selection suites, descriptive) reads the per-item files from the private res
 | `analyze_r4.py` | `e30041775e000202…` | the same | nothing | identical |
 | `analyze_skopos.py` | `27525c8371cd756f…` | the same | nothing | identical |
 | `cascade.py` | `896b750b1bdbdd5f…` | the same | nothing | identical |
+| `ce_ece_by_group.py` | `cf82ce7bc9b89173…` | the same | nothing | — |
 | `ce_rescore_and_compare.py` | `8cebf2a56ddb9e80…` | the same | nothing | — |
 | `compare_release.py` | `c4f4b4e05e5c856c…` | the same | nothing | identical |
 | `confident_errors.py` | `9950c209a518a4e6…` | the same | nothing | — |
@@ -83,6 +89,7 @@ the selection suites, descriptive) reads the per-item files from the private res
 | `git_battery3.py` | `0bdc6a3368297b94…` | `8cd23681a46a2283…` | line 8: the training machine's SSH port and address replaced by placeholders | — |
 | `git_battery3_inj.py` | `760710f5fe40ff0f…` | `8a7ece82070e5e64…` | line 8: the training machine's SSH port and address replaced by placeholders | — |
 | `guard_big_served_rtx.py` | `a1cbdd61652a0bbd…` | the same | nothing | identical |
+| `guard_paired.py` | `c754d4e9c4b6fa57…` | the same | nothing | — |
 | `latency_suite.py` | `739fc8cdeb2eb933…` | the same | nothing | — |
 | `quant_gate.py` | `62353bc4cbe734a7…` | the same | nothing | identical |
 | `r4_vs_ekbasis.py` | `d82fc6fe63345c28…` | the same | nothing | — |

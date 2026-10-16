@@ -144,6 +144,64 @@ if (RES / "t3c_r4.json").exists():
             "fails_right": f"{sum(fails)}/{len(fails)}"}
     t3c_ok = mine == t["primary_summary"]
 
+# Added after the independent review (Part C). The guard's counts paired against Ekbasis-27B (guard_paired.py read
+# the items from ekbasis-data; the predictions carry the same gold): exact McNemar and the paired bootstrap, here.
+def mcnemar(b, c):
+    n = b + c
+    return 1.0 if n == 0 else min(1.0, 2 * sum(math.comb(n, i) for i in range(min(b, c) + 1)) / 2 ** n)
+
+
+gp_ok = True
+if (RES / "guard_paired.json").exists():
+    pub = json.load(open(RES / "guard_paired.json"))["splits"]
+    for split in ("guard_known", "guard_held"):
+        S = [json.loads(l) for l in open(W / "release_r4" / f"preds_{split}.jsonl")]
+        E = [json.loads(l) for l in open(W / "release_ref" / "guard_larger_set" / f"preds_{split}.jsonl")]
+        lost = [i for i, r in enumerate(S) if r["qtype"] == "lost"]
+        for what, idx in (("flagged", [i for i in lost if S[i]["gold"] == "yes"]),
+                          ("false_alarms", [i for i in lost if S[i]["gold"] == "no"])):
+            a = [int(S[i]["p_yes"] >= 0.2) for i in idx]
+            e = [int(E[i]["p_yes"] >= 0.2) for i in idx]
+            b, c = sum(x > y for x, y in zip(a, e)), sum(x < y for x, y in zip(a, e))
+            d, n = [x - y for x, y in zip(a, e)], len(idx)
+            rng = random.Random(20261015)
+            v = sorted(100 * sum(d[rng.randrange(n)] for _ in range(n)) / n for _ in range(2000))
+            mine = {"n": n, "skopos": sum(a), "ekbasis": sum(e), "skopos_only": b, "ekbasis_only": c,
+                    "diff_pts": 100 * sum(d) / n, "ci95_pts": [v[50], v[1949]], "mcnemar_p": mcnemar(b, c)}
+            gp_ok &= not close(mine, pub[f"{split}:{what}"])
+
+# Confident errors, ECE per group (ce_ece_by_group.py): 10 equal-width bins on the answer's confidence, paired bootstrap
+ece_ok = True
+if (RES / "ce_r4_ece.json").exists():
+    S = [json.loads(l) for l in open(W / "confident_errors" / "preds.jsonl")]
+    E = [json.loads(l) for l in open(RES.parent / "results" / "confident_errors" / "preds.jsonl")]
+    flagged = set(json.load(open(RES / "overlap_audit" / "clean" / "ce_r4_clean.json"))["clean"]["excluded_ids"]["ce_items"])
+
+    def ece(P, I):
+        bins = {}
+        for i in I:
+            bins.setdefault(min(9, int(P[i]["conf"] * 10)), []).append(i)
+        return sum(len(v) / len(I) * abs(sum(P[i]["ok"] for i in v) / len(v) - sum(P[i]["conf"] for i in v) / len(v))
+                   for v in bins.values())
+
+    for key, d in json.load(open(RES / "ce_r4_ece.json"))["groups"].items():
+        g, s, subset = key[0], key.split("_")[1], key.split("_", 2)[2]
+        I = [i for i, p in enumerate(S) if p["group"] == g and (s == "all" or p["changed"]) and (subset == "all_items" or i not in flagged)]
+        rng, vals = random.Random(20261015), []
+        for _ in range(2000):
+            smp = [I[rng.randrange(len(I))] for _ in range(len(I))]
+            vals.append(ece(S, smp) - ece(E, smp))
+        vals.sort()
+        mine = {"n": len(I), "ece_skopos": ece(S, I), "ece_ekbasis": ece(E, I), "diff_ci": [vals[50], vals[1949]]}
+        mine["diff"] = mine["ece_skopos"] - mine["ece_ekbasis"]
+        ece_ok &= not close(mine, d)
+
+# git v3 per question type against Ekbasis-27B (git3_by_type_paired.py, written for publication)
+g3_ok = True
+if (RES / "git3_by_type_paired.json").exists():
+    run([HERE / "git3_by_type_paired.py", W / "release_r4", W / "release_ref", W / "git3_by_type.json"])
+    g3_ok = not close(json.load(open(W / "git3_by_type.json")), json.load(open(RES / "git3_by_type_paired.json")))
+
 bad = 0
 for pub_name, got in checks:
     p = json.load(open(RES / pub_name.split(" ")[0]))
@@ -161,6 +219,11 @@ print(f"{'ok      ' if vse_ok else 'DIFFERS '} r4_vs_ekbasis27b_trainer.json (R4
 bad += not vse_ok
 print(f"{'ok      ' if cc_ok else 'DIFFERS '} certified_carryover_reference_rows.json (its Skopos lines = the run summaries)")
 bad += not cc_ok
+for ok, what in ((gp_ok, "guard_paired.json (the guard's counts against Ekbasis-27B, McNemar and paired bootstrap)"),
+                 (ece_ok, "ce_r4_ece.json (confident errors, ECE per group, paired bootstrap)"),
+                 (g3_ok, "git3_by_type_paired.json (git v3 per question type against Ekbasis-27B)")):
+    print(f"{'ok      ' if ok else 'DIFFERS '} {what}")
+    bad += not ok
 shutil.rmtree(W)
-print(f"{len(checks) + 4 - bad} of {len(checks) + 4} summaries recomputed")
+print(f"{len(checks) + 7 - bad} of {len(checks) + 7} summaries recomputed")
 sys.exit(1 if bad else 0)

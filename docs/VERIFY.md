@@ -178,9 +178,17 @@ confident answer per scenario.
 |---|---|---|---|---|
 | **`certified`** (L2), Skopos INT4 | **0.76%** (7 of 927; at confirm-3's mix 0.74%; 95% upper bound 1.41%) | 29.8% / 22.0% | 91.5% | none |
 | `certified` (L2), Skopos bf16 | 0.64% (6 of 935; at confirm-3's mix 0.59%; 95% upper bound 1.26%) | 29.9% / 22.0% | 93.6% | none |
+| `certified` (L2), Ekbasis-27B bf16 on the same 1,400 scenarios (confirm-3's answers) | 0.56% (5 of 886; at confirm-3's mix 0.47%; 95% upper bound 1.18%) | 33.7% / 25.4% | — | none |
 
 - **What this is.** It checks empirically, on fresh items, that the certificate carries over to Skopos. It is not a new certificate.
+- **The paired reference** is Ekbasis-27B on the same scenarios (the last row): Skopos accepts more answers and errs
+  slightly more often among them. Confirm-3's own rate (above) is on a different, larger set.
 - **Small samples outside rules.** As for the MLX build, the result rests on the total; each suite's own bound stays wide.
+  "Node above 2%" tests 43 nodes with a median of 16 accepted answers each (5 to 108), corrected for their number, so it
+  has little power on a single node: the highest for Skopos INT4 has 2 errors among 12 accepted (p = 0.023 before the
+  correction).
+- Numbers: `results_skopos/certified_carryover_skopos_{int4,bf16}.json` and
+  `results_skopos/certified_carryover_reference_rows.json`.
 
 ## Overlap with training
 

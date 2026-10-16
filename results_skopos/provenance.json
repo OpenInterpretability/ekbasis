@@ -191,6 +191,10 @@
   "sha256": "ba0bb3808eac2ef1683b4fed1b636650811ca64fd51565d4ad2dddd78760fee9",
   "source": "release workspace results/ce_r4.json"
  },
+ "ce_r4_ece.json": {
+  "sha256": "4561327dafe3a6d847cb54bbcc0593bb7a9887b12c9b064ad682aac5962a7bc5",
+  "source": "release workspace results/ce_r4_ece.json"
+ },
  "certified_carryover/MANIFEST.sha256": {
   "sha256": "ab089f363dcbad4f1f055dbb1f294cd5b28126761cbcdd34869c5c892cd91642",
   "source": "the release workspace certified_carryover/MANIFEST.sha256"
@@ -323,6 +327,14 @@
   "sha256": "270b07fb27e764e596509b12df6e3b7168f23258912d542a484515f5a7fd6f89",
   "source": "release workspace results/ftest_fresh_int4.json"
  },
+ "git3_by_type_paired.json": {
+  "sha256": "c1da440232f055b7ca65ff277b954c10c794c2a74f96fc5ad24fcc970b6de4c0",
+  "source": "scripts/git3_by_type_paired.py (written for publication) on runs/release_r4/ and ../results/release_eval/ (equal to the pre-launch evaluation's P2 table)"
+ },
+ "guard_paired.json": {
+  "sha256": "6cfe3ecab98a39778496c7cf3dc32ddba98373fc17b32a56495edee1952fdab3",
+  "source": "release workspace results/guard_paired.json"
+ },
  "image_compare.json": {
   "as_run_copy": "rtx/v50p/image_compare.json",
   "sha256": "06b7a2ddea7ffb5f9c6a12f8f5da0c2faacef93462bc3bb616a50fc54cb9bdfa",
@@ -345,7 +357,7 @@
   "source": "the audit workspace audit/out/REPORT_D8.md"
  },
  "overlap_audit/audit_overlap_skopos.py": {
-  "sha256": "cd1d59b9e4e6a36f9d369c611f0bb0849072efcf047e38268c609052b83b168c",
+  "sha256": "277635aca9e484c175f906528bddec071a5c296ea6c0cb5414dc6e6a49bfc21d",
   "source": "the audit workspace audit/audit_overlap_skopos.py"
  },
  "overlap_audit/clean/calib_fit_ekbasis_int4_clean.json": {
@@ -401,11 +413,11 @@
   "source": "the audit workspace audit/out/clean/release_read_mlx_clean.json"
  },
  "overlap_audit/overlap.json": {
-  "sha256": "c1019f3a26f3e412c889cf081d1b9ef19c29cc5e1d67f345e4b66296c594c5d3",
+  "sha256": "0b8226e0c3cb236adc683b8ab06f9bae37acfd6c4726bc5fd3dd15d6cd043b0d",
   "source": "the audit workspace audit/out/overlap.json"
  },
  "overlap_audit/overlap_run.log": {
-  "sha256": "0810d294bccbfbf39b661b62e1212e3a619b18fd5d67c3507c3832a67c003d4b",
+  "sha256": "dda74242a2f7ae732f03ab1fda437260e12202520c35102d8c3c352c1d8ab822",
   "source": "the audit workspace audit/out/overlap_run.log"
  },
  "overlap_audit/recompute_without_overlap.py": {

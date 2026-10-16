@@ -62,6 +62,11 @@
   "source": "local copy (Mac)",
   "training_machine_copy": "identical"
  },
+ "ce_ece_by_group.py": {
+  "sha256": "cf82ce7bc9b89173e4dd15cd13805c78bdb56a12bc9b233b1d0edd14f6c27d99",
+  "sha256_as_run": "cf82ce7bc9b89173e4dd15cd13805c78bdb56a12bc9b233b1d0edd14f6c27d99",
+  "source": "the release workspace's copy (scripts_main/)"
+ },
  "ce_rescore_and_compare.py": {
   "sha256": "8cebf2a56ddb9e80187de59dbc2b07f0b2508986866b996eded6461284f1b4df",
   "sha256_as_run": "8cebf2a56ddb9e80187de59dbc2b07f0b2508986866b996eded6461284f1b4df",
@@ -143,6 +148,11 @@
   "sha256_as_run": "a1cbdd61652a0bbd99cd68638584137ac3c60f18d6105a4526f93a5fd6eacff8",
   "source": "the RTX machine's backed-up copy",
   "training_machine_copy": "identical"
+ },
+ "guard_paired.py": {
+  "sha256": "c754d4e9c4b6fa57e8efc7e3d0b011af4912a080f0b714e28801d4559e19fee1",
+  "sha256_as_run": "c754d4e9c4b6fa57e8efc7e3d0b011af4912a080f0b714e28801d4559e19fee1",
+  "source": "the release workspace's copy (scripts_main/)"
  },
  "latency_suite.py": {
   "sha256": "739fc8cdeb2eb933fcaf112aeb0c4bd67cb604020bd5c5d4ed0646905d8655ff",

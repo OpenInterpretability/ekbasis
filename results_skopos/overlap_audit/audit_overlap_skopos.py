@@ -93,6 +93,9 @@ EVAL = [  # (name, path or None for generated) — every set any Skopos document
     ("ce_items", f"{RAW}/ce_items.jsonl"), ("image_fresh", None),
     # PREREG_CERTIFIED_CARRYOVER.md step 1: one row per question, floor = the text the client sends (overlap_step.py export)
     ("certified_carryover", f"{RS}/certified_carryover/data/carryover_audit_items.jsonl"),
+    # the hosted-API scorecard (ekbasis repository scorecard/scorecard.py at 941968e), rebuilt by build_scorecard_items.py
+    *[(f"scorecard_{x}", f"{HF}/scorecard/items/{x}.jsonl")
+      for x in ("git3_known", "git3_held", "guard_held", "worlds", "intent", "chains")],
 ]
 # Where each set comes from (task 3 of D8; generator code read in DM/conseq, DM/mission/V50P|V50R/scripts, the RTX copies under
 # audit/hf/rtx, and checked against the training files above). in_distribution = same generator as training rows, unseen seeds.
@@ -126,10 +129,19 @@ DISTRIBUTION = {
     "certified_carryover": (False, "confirm-3's frozen fresh items (capability suites shell_wild, git_wild, sql_wild, rules_stress, "
                                    "accumulation; PREREG_CERTIFIED_CARRYOVER.md), firewalled at build against Ekbasis-27B's lineage only; "
                                    "no training generator makes them (the F factory was firewalled against these suites, F/OVERLAP.md)"),
+    "scorecard_git3_known": (True, "400 of git3_test_known (scorecard.py's sample): gitbox3 known types, as git3_test_known"),
+    "scorecard_git3_held": (False, "400 of git3_test_held: held out of the gitbox3 rows; the command types are in Skopos' factory rows"),
+    "scorecard_guard_held": (False, "400 of guard_held: as guard_held"),
+    "scorecard_worlds": (False, "400 of ftest_family: never-trained families (cards, timers, machines)"),
+    "scorecard_intent": (False, "300 agent steps of the published-attack replay (ekbasis-cookbook studies/llm-judge-intent, 250 attack / "
+                                "250 benign source rows); no training kind of the lineage uses this agent-step layout"),
+    "scorecard_chains": (True, "MIXED: simulate's step prompts on two hand-written worlds; jugs is a trained worldgen family "
+                               "(other wording), the elevator resembles worldgen Track (a never-trained family)"),
     "image_fresh": (True, "worldgen Toggles/Jugs = trained families (kind floor), 1-3 actions; the image modality was not in V45-R4 training"),
 }
-LABEL = {n: ("mixed" if n in ("fval_git3", "ce_items", "image_fresh") else
-             "held_out_of_the_generator_not_of_training" if n in ("git3_test_held", "guard_held") else
+LABEL = {n: ("mixed" if n in ("fval_git3", "ce_items", "image_fresh", "scorecard_chains") else
+             "held_out_of_the_generator_not_of_training" if n in ("git3_test_held", "guard_held", "scorecard_git3_held",
+                                                                  "scorecard_guard_held") else
              "in_distribution" if v[0] else "held_out") for n, v in DISTRIBUTION.items()}
 SETS = [n for n, _ in EVAL]
 SID = {n: i for i, n in enumerate(SETS)}

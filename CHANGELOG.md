@@ -6,14 +6,20 @@
 ### Added
 - **Ekbasis-Skopos-27B, the recommended model** ([card](https://huggingface.co/caiovicentino1/Ekbasis-Skopos-27B); bf16,
   FP8 and INT4 builds; MLX after its test on an Apple-silicon Mac): Ekbasis-27B trained further on executed shell, git,
-  SQLite, PostgreSQL and Python scenarios. Against Ekbasis-27B on the same items: false alarms of the git guard 26/799
-  instead of 49/799 on the held-out command types (held out of the git sandbox's training rows), and 27 instead of 37 of
-  863 on known types; never-trained world families +1.6 points [+0.7, +2.5] on 3,014 fresh answers the actions change.
-  Its largest gains are in-distribution (the generators it was trained on), and in world families it never saw more of
-  its errors come with confidence ≥ 0.9 (4.49 vs 3.75 per 100). The client, the API and the prompts are unchanged: serve
-  the new weights with their own `serve.py`, or keep Ekbasis-27B. `ekbasis.verify`'s certified mode, certified on
-  Ekbasis-27B, carried over to Skopos INT4 in a pre-registered check (7 errors among 927 accepted answers;
-  [docs/VERIFY.md](docs/VERIFY.md)). Its evaluation, with every prediction and pre-registration:
+  SQLite, PostgreSQL and Python scenarios. Against Ekbasis-27B on the same items: the git guard raises fewer false
+  alarms on the held-out command types, 26/799 instead of 49/799 (paired McNemar p = 5.6 × 10⁻⁶; these command types are
+  held out of the git sandbox's training rows but appear in Skopos' factory rows), and flags as many work-losing
+  commands; on the known types, 27 instead of 37 of 863 is within chance. On 3,014 fresh answers of never-trained world
+  families the actions change, +1.6 points [+0.7, +2.5]: the pre-registered release read failed this criterion on
+  `ftest_family`, and a confirmation registered after that result (before any fresh item existed), by trainer readout,
+  did not confirm the loss. Its largest gains are in-distribution (the generators it was trained on), and in world
+  families it never saw more of its errors come with confidence ≥ 0.9 (4.49 vs 3.75 per 100). The client, the API and
+  the prompts are unchanged: serve the new weights with their own `serve.py`, or keep Ekbasis-27B. `ekbasis.verify`'s
+  certified mode, certified on Ekbasis-27B, carried over to Skopos INT4 in a pre-registered check (7 errors among 927
+  accepted answers; [docs/VERIFY.md](docs/VERIFY.md)). Hosted API: as its model-change policy promises, this version and
+  its scorecard are posted at least 14 days before the served model changes; the hosted API serves Ekbasis-27B-INT4
+  until ⟨switch date⟩, then Ekbasis-Skopos-27B-INT4 (`calibrated.temperature` 1.67 instead of 1.55); the switch gets its
+  own entry here, with its date. Its evaluation, with its per-item predictions and pre-registrations:
   [RELEASE_EVAL_SKOPOS.md](RELEASE_EVAL_SKOPOS.md), [results_skopos/](results_skopos/README.md),
   [prereg_skopos/](prereg_skopos/PREREG_sha256.txt); its training code: [training/skopos/](training/skopos/README.md);
   the generators behind every training kind and evaluation set, as they ran: [generators/](generators/README.md).

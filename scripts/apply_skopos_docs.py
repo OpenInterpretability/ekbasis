@@ -2,10 +2,11 @@
 """Introduces Ekbasis-Skopos-27B in README.md, MODEL_CARD.md and CHANGELOG.md as the recommended model, with every
 number read from results_skopos/ (Ekbasis-27B stays documented: its sections are not changed). Each insert sits between
 <!-- skopos:<name> --> markers, so the script can be run again when the results are final. The wording of the README's
-blocks is that of the client-docs patch for this release; the release date is RELEASE_DATE (YYYY-MM-DD), left as a
-placeholder that tools/release_github.sh refuses to publish until it is set.
+blocks is that of the client-docs patch for this release; the release date (RELEASE_DATE) and the hosted API's
+switch date (SWITCH_DATE, at least 14 days later), YYYY-MM-DD, are left as placeholders until they are set, and
+tools/release_github.sh refuses to publish while one remains.
 
-  RELEASE_DATE=2026-10-16 python scripts/apply_skopos_docs.py
+  RELEASE_DATE=2026-10-16 SWITCH_DATE=2026-10-30 python scripts/apply_skopos_docs.py
 """
 from __future__ import annotations
 
@@ -34,29 +35,52 @@ def sg(x, nd=1):
 RR = ld("release_read_bf16.json")
 REL, SK = RR["release"], RR["candidate"]
 CF = ld("confirm_ftest_fresh.json")
-CEC = ld("overlap_audit/clean/ce_r4_clean.json")  # never-trained families: no item flagged, the same as ce_r4.json
+CE = ld("ce_r4.json")  # all items, the registered primary; never-trained families have no flagged item
+GP = ld("guard_paired.json")["splits"]
 CC = ld("certified_carryover_skopos_int4.json")["model"]["a02"]["L2"]
+TEMP = {"skopos": ld("calib_fit_skopos_int4.json")["T"], "ekbasis": ld("calib_fit_ekbasis_int4.json")["T"]}
 B = ld("builds.json")
 GATE = {b: ld(f"quant_gate_{b}.json") for b in ("fp8", "int4")}
 MAC = ld("runs/mlx_mac/mlx_mac_test.json") if has("runs/mlx_mac/mlx_mac_test.json") else None
 DATE = os.environ.get("RELEASE_DATE") or "⟨release date⟩"
+SWITCH = os.environ.get("SWITCH_DATE") or "⟨switch date⟩"
 gb = lambda b: h(B[b]["weights_bytes"] / 1e9)
 d_fresh = CF["changed"]["r4_minus_release"]
-u = CEC["groups"]["U_all"]
+u = CE["groups"]["U_all"]
 mlx_ok = bool(MAC and MAC.get("pass"))
 
+
+def pv(p):
+    """A p-value as printed: two significant digits, powers of ten below 0.001."""
+    if p >= 0.001:
+        return f"{p:.2g}"
+    m, e = f"{p:.1e}".split("e")
+    return f"{m} × 10" + "".join("⁻⁰¹²³⁴⁵⁶⁷⁸⁹"["-0123456789".index(c)] for c in str(int(e)))
+
+
+hfa, kfa = GP["guard_held:false_alarms"], GP["guard_known:false_alarms"]
+flag_ns = all(GP[k]["mcnemar_p"] >= 0.05 for k in ("guard_known:flagged", "guard_held:flagged"))
 against = (
-    f"false alarms of the git guard {SK['guard_held'][2]}/{SK['guard_held'][3]} instead of "
-    f"{REL['guard_held'][2]}/{REL['guard_held'][3]} on the held-out command types (held out of the git sandbox's training "
-    f"rows), and {SK['guard_known'][2]} instead of {REL['guard_known'][2]} of {SK['guard_known'][3]} on known types; "
-    f"never-trained world families {sg(d_fresh[0])} points [{sg(d_fresh[1][0])}, {sg(d_fresh[1][1])}] on "
-    f"{CF['changed']['n']:,} fresh answers the actions change. Its largest gains are in-distribution (the generators it "
-    f"was trained on)" + (f", and in world families it never saw more of its errors come with confidence ≥ 0.9 "
-                          f"({h(u['conf_wrong_per100_skopos'], 2)} vs {h(u['conf_wrong_per100_ekbasis'], 2)} per 100)"
-                          if u["conf_wrong_diff_ci"][0] > 0 else ""))
+    f"the git guard raises fewer false alarms on the held-out command types, {hfa['skopos']}/{hfa['n']} instead of "
+    f"{hfa['ekbasis']}/{hfa['n']} (paired McNemar p = {pv(hfa['mcnemar_p'])}; these command types are held out of the git "
+    f"sandbox's training rows but appear in Skopos' factory rows)"
+    + (", and flags as many work-losing commands" if flag_ns else "")
+    + f"; on the known types, {kfa['skopos']} instead of {kfa['ekbasis']} of {kfa['n']} is "
+    + ("within chance" if kfa["mcnemar_p"] >= 0.05 else f"beyond chance (p = {pv(kfa['mcnemar_p'])})")
+    + f". On {CF['changed']['n']:,} fresh answers of never-trained world families the actions change, "
+    f"{sg(d_fresh[0])} points [{sg(d_fresh[1][0])}, {sg(d_fresh[1][1])}]: the pre-registered release read failed this "
+    f"criterion on `ftest_family`, and a confirmation registered after that result (before any fresh item existed), by "
+    f"trainer readout, did not confirm the loss. Its largest gains are in-distribution (the generators it was trained "
+    f"on)" + (f", and in world families it never saw more of its errors come with confidence ≥ 0.9 "
+              f"({h(u['conf_wrong_per100_skopos'], 2)} vs {h(u['conf_wrong_per100_ekbasis'], 2)} per 100)"
+              if u["conf_wrong_diff_ci"][0] > 0 else ""))
 certified = (f"`ekbasis.verify`'s certified mode, certified on Ekbasis-27B, carried over to Skopos INT4 in a pre-registered "
              f"check ({CC['errors_among_accepted']} errors among {CC['accepted']:,} accepted answers; "
              f"[docs/VERIFY.md](docs/VERIFY.md))")
+hosted = (f"Hosted API: as its model-change policy promises, this version and its scorecard are posted at least 14 days "
+          f"before the served model changes; the hosted API serves Ekbasis-27B-INT4 until {SWITCH}, then "
+          f"Ekbasis-Skopos-27B-INT4 (`calibrated.temperature` {h(TEMP['skopos'], 2)} instead of {h(TEMP['ekbasis'], 2)}); "
+          f"the switch gets its own entry here, with its date")
 
 
 def runs_on(t, name):
@@ -147,7 +171,7 @@ evaluation set of its lineage, as they ran, in [`generators/`](generators/README
 - **Ekbasis-Skopos-27B, the recommended model** ([card]({HF}/Ekbasis-Skopos-27B); bf16, FP8 and INT4 builds{", MLX" if mlx_ok else "; MLX after its test on an Apple-silicon Mac"}):
   Ekbasis-27B trained further on executed shell, git, SQLite, PostgreSQL and Python scenarios. Against Ekbasis-27B on
   the same items: {against}. The client, the API and the prompts are unchanged: serve the new weights with their own
-  `serve.py`, or keep Ekbasis-27B. {certified}. Its evaluation, with every prediction and pre-registration:
+  `serve.py`, or keep Ekbasis-27B. {certified}. {hosted}. Its evaluation, with its per-item predictions and pre-registrations:
   [RELEASE_EVAL_SKOPOS.md](RELEASE_EVAL_SKOPOS.md), [results_skopos/](results_skopos/README.md),
   [prereg_skopos/](prereg_skopos/PREREG_sha256.txt); its training code: [training/skopos/](training/skopos/README.md);
   the generators behind every training kind and evaluation set, as they ran: [generators/](generators/README.md).
