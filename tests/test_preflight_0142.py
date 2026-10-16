@@ -116,7 +116,7 @@ class TestCannotJudge(unittest.TestCase):
         for line in self.lines(LOOPS):
             plan = PF.plan_line(line, self.box)
             facts = PF.shell_facts(plan)[1]
-            self.assertFalse([x for x in facts if "is not installed" in x], line)
+            self.assertFalse([x for x in facts if any(f"`{w}` is not installed" in x for w in PF.CONTROL_WORDS)], line)
 
     def test_a_script_file_and_a_local_chain_are_still_judged(self):
         line = "cp a.json dry/a.json; python3 build.py; rm -f a.json"

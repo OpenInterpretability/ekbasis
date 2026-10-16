@@ -128,7 +128,7 @@ class TestLogLines(Base):
         line = f'RS="{self.repo}"; mkdir -p "$RS/prelaunch_out" && cp results.json "$RS/prelaunch_out/"'
         v = S.inspect([line], self.tmp)
         self.assertEqual(v.unread, [])
-        self.assertIn(os.path.join(self.repo, "prelaunch_out"), v.touched)
+        self.assertTrue(any(t.endswith(os.path.join("release skopos", "prelaunch_out")) for t in v.touched), v.touched)
         self.assertIn(f'$RS is "{self.repo}" (set earlier on the line)', v.state)
 
     def test_two_names_one_built_from_the_other(self):
