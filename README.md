@@ -20,12 +20,13 @@ from what an agent believes.
 > **Ekbasis-Skopos-27B is the recommended model** ([card](https://huggingface.co/caiovicentino1/Ekbasis-Skopos-27B),
 > [RELEASE_EVAL_SKOPOS.md](https://github.com/OpenInterpretability/ekbasis/blob/main/RELEASE_EVAL_SKOPOS.md)):
 > Ekbasis-27B trained further on what real tools did, with the same prompt, readout, API and client. Against
-> Ekbasis-27B, on the same items: the git guard, served, raises fewer false alarms on command types it never trained on
-> (26 of 799 instead of 49) and catches more lost work (97.1% instead of 96.0%); on 5,385 fresh items of world families
-> it never saw, +1.63 points on the answers the actions change (95% CI +0.70 to +2.52); executed shell, SQL, Python and
-> git scenarios 94.0% instead of 88.4%, real git sequences of 5–12 commands 93.2% instead of 90.7%. In world families it
-> never saw, more of its wrong answers come with high confidence (+0.75 per 100 answers). Ekbasis-27B and its builds
-> stay available; the measurements on this page are Ekbasis-27B's unless a section says otherwise.
+> Ekbasis-27B, on the same items: the git guard, served, raises fewer false alarms on the guard set's held-out command
+> types (held out of the git sandbox's training rows; 26 of 799 instead of 49) and catches more lost work (97.1% instead
+> of 96.0%); on 5,385 fresh items of world families it never saw, +1.63 points on the answers the actions change (95% CI
+> +0.70 to +2.52); executed shell, SQL, Python and git scenarios 94.0% instead of 88.4%, real git sequences of 5–12
+> commands 93.2% instead of 90.7% (these two are in-distribution sets, on which the candidates were selected). In world
+> families it never saw, more of its wrong answers come with high confidence (+0.75 per 100 answers). Ekbasis-27B and
+> its builds stay available; the measurements on this page are Ekbasis-27B's unless a section says otherwise.
 
 <!-- /skopos:intro -->
 

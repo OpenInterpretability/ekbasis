@@ -100,6 +100,11 @@
   "source": "the RTX machine's backed-up copy",
   "training_machine_copy": "identical"
  },
+ "equiv_r4_save.py": {
+  "sha256": "3600f86fb1ee1dc2951af97b7954cb6308ef1b856c99047170863533b67a1716",
+  "sha256_as_run": "3600f86fb1ee1dc2951af97b7954cb6308ef1b856c99047170863533b67a1716",
+  "source": "the release workspace's copy (scripts_main/)"
+ },
  "fit_T.py": {
   "sha256": "4f74987e88cfe94cbf67c624762d38166ebb472de1f6b5a2e235a11f20e6c781",
   "sha256_as_run": "4f74987e88cfe94cbf67c624762d38166ebb472de1f6b5a2e235a11f20e6c781",
@@ -139,6 +144,11 @@
   "source": "the RTX machine's backed-up copy",
   "training_machine_copy": "identical"
  },
+ "latency_suite.py": {
+  "sha256": "739fc8cdeb2eb933fcaf112aeb0c4bd67cb604020bd5c5d4ed0646905d8655ff",
+  "sha256_as_run": "739fc8cdeb2eb933fcaf112aeb0c4bd67cb604020bd5c5d4ed0646905d8655ff",
+  "source": "the release workspace's copy (scripts_main/)"
+ },
  "quant_gate.py": {
   "sha256": "62353bc4cbe734a76e3728569e958adad268f4d4bb80b9ba94cf425917de140b",
   "sha256_as_run": "62353bc4cbe734a76e3728569e958adad268f4d4bb80b9ba94cf425917de140b",
@@ -171,6 +181,11 @@
   "sha256": "b0c1bce9905dcadbc7ebcc39b2add1c9c0b54e66c23d5747c6e13f273823c4eb",
   "sha256_as_run": "b0c1bce9905dcadbc7ebcc39b2add1c9c0b54e66c23d5747c6e13f273823c4eb",
   "source": "local copy (Mac)"
+ },
+ "run_addendum_a5a6.sh": {
+  "sha256": "f61c1d9509a7d1d0797bb50f205e9b0ed8e38829854c242502c36dbb6147eab7",
+  "sha256_as_run": "f61c1d9509a7d1d0797bb50f205e9b0ed8e38829854c242502c36dbb6147eab7",
+  "source": "the release workspace's copy (scripts_main/)"
  },
  "run_addendum_bf16.sh": {
   "sha256": "768dd6ac0f22d5045b8ab550c0da2fc78bda07fe9dde14458ea3e31e2faf5e4e",

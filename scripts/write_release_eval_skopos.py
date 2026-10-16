@@ -141,6 +141,10 @@ w(f"""1. **The first Skopos** (`v49f_w50`): Ekbasis-27B's release adapter traine
    false alarms {h(g4["r2"]["false_alarms_at_0.2"], 2)}% against {h(g4["skopos"]["false_alarms_at_0.2"], 2)}%, and gains
    with an interval above zero on {", ".join(f"`{s}`" for s in v4["gain_suites"])} (`results_skopos/r4_vs_skopos_v49f.json`;
    in this file the key `r2` means R4). Trainer readout.
+
+   R1 → R2 → R4 were each selected on `fac_val`, `git_long` and `git_long_val`, sets drawn from the same generators as
+   their training rows (selection on top of in-distribution data). The independent evidence is the fresh items of the
+   never-trained world families (`ftest_fresh`, below) and the real agent turns of the neutral suite.
 """)
 IND = {"fac_val", "git_long", "git_long_val", "sess_val", "fhorizon"}  # same generators as training rows, fresh seeds
 w("| Suite | Ekbasis-27B | first Skopos | **Skopos (R4)** | Skopos − first Skopos, 95% CI | Skopos − Ekbasis-27B, 95% CI |\n|---|---|---|---|---|---|")
@@ -194,6 +198,7 @@ if t3:
 else:
     w(f"| Fresh real-repository scenarios (T3c) | {of(t3r['work_losing_flagged'])} · {of(t3r['false_alarms'])} · {of(t3r['fails_right'])} | "
       f"{pending('t3c_r4.json', 'A1')} | |")
+w("\nHeld-out command types: held out of the git sandbox's training rows (see the git v3 section).")
 fb = FP["bf16"]
 fw = fb["by_world"]
 cw = CF["changed_by_world"]
@@ -261,11 +266,13 @@ else:
     w(pending("t3c_r4.json", "addendum A1") + "\n")
 
 # ---------------------------------------------------------------------------------------------------- git v3 in detail
-w("## git v3 held-out tests\n")
-w("Repositories built and commands executed in a sandbox; \"held\" = command types never seen in training (`rebase`, "
-  "`restore --source`). 95% bootstrap intervals (`results_skopos/release_read_bf16_report.json`).\n")
+w("## git v3 test sets\n")
+w("Repositories built and commands executed in a sandbox; \"held-out\" = command types held out of the git sandbox's "
+  "training rows (`rebase`, `restore --source`); Skopos' factory rows do contain `git rebase <branch>` and "
+  "`git restore --source=<ref> <file>`, so for Skopos these are not unseen commands. 95% bootstrap intervals "
+  "(`results_skopos/release_read_bf16_report.json`).\n")
 gk, gh = REP["git3_test_known"], REP["git3_test_held"]
-w("| | Known command types | Never-seen command types |\n|---|---|---|")
+w("| | Known command types | Held-out command types |\n|---|---|---|")
 for q, lab in (("all", "All questions"), ("lost", "Will uncommitted work be lost?"), ("fails", "Will the command fail?"),
                ("in_progress", "Is an operation left in progress?"), ("changed state", "State the commands change")):
     f = lambda d: f"{h(d['acc'])}% [{h(d['ci95'][0])}–{h(d['ci95'][1])}] ({d['n']:,})"
@@ -300,10 +307,11 @@ states (identical states; see the overlap section).
 # ------------------------------------------------------------------------------------------------------- the guard
 w("## The guard on the larger set\n")
 w("20,000 new examples per split from the git generator, from repository states no earlier set contains, balanced like "
-  "the git v3 test sets (Ekbasis-27B's `PLAN_guard_set.md`). Through the exact release weights, served "
+  "the git v3 test sets, with the same held-out command types (Ekbasis-27B's `PLAN_guard_set.md`). Through the exact "
+  "release weights, served "
   "(`results_skopos/release_read_bf16_guard.json`):\n")
 gK, gH = GUARD["guard_known"], GUARD["guard_held"]
-w("| | Known command types | Never-seen command types |\n|---|---|---|")
+w("| | Known command types | Held-out command types |\n|---|---|---|")
 w(f"| Work-losing commands flagged at P(lost) ≥ 0.2 | {gK['flagged_at_0.2']} of {gK['work_losing']} ({h(pct([gK['flagged_at_0.2'], gK['work_losing']], 0))}%) | "
   f"{gH['flagged_at_0.2']} of {gH['work_losing']} ({h(pct([gH['flagged_at_0.2'], gH['work_losing']], 0))}%) |")
 w(f"| False alarms on safe commands of the same kinds | {gK['false_alarms_at_0.2']} of {gK['safe']} ({h(pct([gK['false_alarms_at_0.2'], gK['safe']], 0))}%) | "
@@ -394,7 +402,8 @@ else:
 # ------------------------------------------------------------------------------------------------------ calibration
 w("## Calibration per build\n")
 w("One global temperature per build, fitted on validation only (`fval_git3` + `m3val`, negative log-likelihood of the "
-  "right option), then applied to 2,500 held-out items (`git_long` 900, `guard_known` 800, `fac_val` 800), each build "
+  "right option), then applied to 2,500 test items from sets of the training generators (`git_long` 900, "
+  "`guard_known` 800, `fac_val` 800), each build "
   "scored through its own server (addendum A3; INT4 was fitted before it, as Ekbasis-27B-INT4 was for the hosted API's "
   f"`calibrated` field, T = {h(CAL_EKB['T'], 2)}).\n")
 w("| Build | Temperature | Accuracy | ECE raw → calibrated | Wrong at ≥ 0.9, per 100: raw → calibrated | Brier raw → calibrated |\n|---|---|---|---|---|---|")

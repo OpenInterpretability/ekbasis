@@ -35,6 +35,10 @@ recomputes the summaries from them. Deviations from the pre-registrations are li
    with an interval above zero on `fac_val`, `git_long`, `git_long_val` (`results_skopos/r4_vs_skopos_v49f.json`;
    in this file the key `r2` means R4). Trainer readout.
 
+   R1 → R2 → R4 were each selected on `fac_val`, `git_long` and `git_long_val`, sets drawn from the same generators as
+   their training rows (selection on top of in-distribution data). The independent evidence is the fresh items of the
+   never-trained world families (`ftest_fresh`, below) and the real agent turns of the neutral suite.
+
 | Suite | Ekbasis-27B | first Skopos | **Skopos (R4)** | Skopos − first Skopos, 95% CI | Skopos − Ekbasis-27B, 95% CI |
 |---|---|---|---|---|---|
 | Executed factory scenarios (shell, SQL, Python, git) † | 88.4 | 92.5 | **94.0** | +1.6 [+1.0, +2.2] | +5.6 [+4.8, +6.6] |
@@ -68,6 +72,8 @@ The served model gives the trainer's answer on 498 of 500 items (`results_skopos
 | The guard, larger set, known command types: work-losing flagged of 863 / false alarms of 863 | 828 / 37 | 837 / 27 | holds / holds |
 | The guard, larger set, held-out command types: work-losing flagged of 799 / false alarms of 799 | 767 / 49 | 776 / 26 | holds / holds |
 | Fresh real-repository scenarios (T3c): work-losing flagged / false alarms / "fails?" right | 3 of 3 · 1 of 13 · 16 of 17 | 3 of 3 · 1 of 13 · 17 of 17 | holds (addendum A1) |
+
+Held-out command types: held out of the git sandbox's training rows (see the git v3 section).
 
 **The failed criterion and its confirmation.** On `ftest_family`'s 629 answers the actions change,
 Skopos was −1.59 points from Ekbasis-27B, past the 1-point limit, with a paired interval across zero
@@ -138,11 +144,11 @@ from the client through a tunnel to the served bf16 (`results_skopos/t3c_r4.json
 
 Commit messages are shown only with `commit_text="message"`, not the default.
 
-## git v3 held-out tests
+## git v3 test sets
 
-Repositories built and commands executed in a sandbox; "held" = command types never seen in training (`rebase`, `restore --source`). 95% bootstrap intervals (`results_skopos/release_read_bf16_report.json`).
+Repositories built and commands executed in a sandbox; "held-out" = command types held out of the git sandbox's training rows (`rebase`, `restore --source`); Skopos' factory rows do contain `git rebase <branch>` and `git restore --source=<ref> <file>`, so for Skopos these are not unseen commands. 95% bootstrap intervals (`results_skopos/release_read_bf16_report.json`).
 
-| | Known command types | Never-seen command types |
+| | Known command types | Held-out command types |
 |---|---|---|
 | All questions | 98.6% [98.0–99.1] (1,482) | 95.4% [94.5–96.4] (1,623) |
 | Will uncommitted work be lost? | 100.0% [100.0–100.0] (102) | 96.4% [91.7–100.0] (84) |
@@ -171,9 +177,9 @@ states (identical states; see the overlap section).
 
 ## The guard on the larger set
 
-20,000 new examples per split from the git generator, from repository states no earlier set contains, balanced like the git v3 test sets (Ekbasis-27B's `PLAN_guard_set.md`). Through the exact release weights, served (`results_skopos/release_read_bf16_guard.json`):
+20,000 new examples per split from the git generator, from repository states no earlier set contains, balanced like the git v3 test sets, with the same held-out command types (Ekbasis-27B's `PLAN_guard_set.md`). Through the exact release weights, served (`results_skopos/release_read_bf16_guard.json`):
 
-| | Known command types | Never-seen command types |
+| | Known command types | Held-out command types |
 |---|---|---|
 | Work-losing commands flagged at P(lost) ≥ 0.2 | 837 of 863 (97.0%) | 776 of 799 (97.1%) |
 | False alarms on safe commands of the same kinds | 27 of 863 (3.1%) | 26 of 799 (3.3%) |
@@ -231,7 +237,7 @@ The registered prediction (within ±1 point of Ekbasis-27B in every group) was n
 
 ## Calibration per build
 
-One global temperature per build, fitted on validation only (`fval_git3` + `m3val`, negative log-likelihood of the right option), then applied to 2,500 held-out items (`git_long` 900, `guard_known` 800, `fac_val` 800), each build scored through its own server (addendum A3; INT4 was fitted before it, as Ekbasis-27B-INT4 was for the hosted API's `calibrated` field, T = 1.55).
+One global temperature per build, fitted on validation only (`fval_git3` + `m3val`, negative log-likelihood of the right option), then applied to 2,500 test items from sets of the training generators (`git_long` 900, `guard_known` 800, `fac_val` 800), each build scored through its own server (addendum A3; INT4 was fitted before it, as Ekbasis-27B-INT4 was for the hosted API's `calibrated` field, T = 1.55).
 
 | Build | Temperature | Accuracy | ECE raw → calibrated | Wrong at ≥ 0.9, per 100: raw → calibrated | Brier raw → calibrated |
 |---|---|---|---|---|---|
@@ -250,7 +256,7 @@ Per split, and what a raw yes-probability becomes calibrated: the same files (`m
 action, *will it fail?*, on 455 turns (54 fail), the label read from the observation
 ([PREREG_NEUTRAL.md](prereg_skopos/PREREG_NEUTRAL.md); `results_skopos/neutral.json`; bootstrap clustered by
 trajectory). Evaluation only: these trajectories come from other agents and are never trained on; only their ids and
-our labels are published (`results_skopos/runs/neutral_items.jsonl`: 444 of the 455 rows; 11 are
+our labels are published (`results_skopos/runs/neutral_items.jsonl`: 445 of the 455 rows; 10 are
 withheld, as in the dataset, because its privacy scan flags their trajectory ids; `generators/v50/build_awb_neutral.py`
 rebuilds the whole suite from the upstream dataset).
 

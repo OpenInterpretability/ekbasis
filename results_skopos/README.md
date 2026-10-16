@@ -27,10 +27,11 @@ the read-once fields are left empty).
 | The builds (INT4, FP8, MLX) | `release_read_{int4,fp8,mlx}.json`, `quant_gate_{int4,fp8,mlx}.json` | `release_r4_int4/`, `release_r4_fp8/`, `release_r4_mlx/` | `run_int4_r4.sh`, `run_fp8.sh`, `run_mlx_gate.sh`, `run_mlx_gate2.sh`, `run_mlx_gate3.sh`, `equiv_mlx.py`, `quant_gate.py`; the builds: `../training/skopos/quantize/` | `PREREG_R4_RELEASE_READ.md`; the gate: `../PREREG_quantized.md` |
 | Confident errors (15,008 items) | `ce_r4.json` | `confident_errors/` (predictions re-scored and as first scored, because ekbasis-data's `raw/ce_items.jsonl` stores yes/no answers as booleans where `confident_errors.py` compares strings; the analysis) | `run_addendum_bf16.sh`, `confident_errors_rtx_path.py` (`confident_errors.py` with the research machine's import path, as it ran), `ce_rescore_and_compare.py`, `../paper/analysis/confident_errors_analyze.py`; `confident_errors.py`, `confident_errors_report.py` (Ekbasis-27B's) | `PREREG_ADDENDUM.md` A2 (`../PREREG_confident_errors.md`) |
 | Calibration, per build | `calib_fit_skopos_{int4,bf16,fp8,mlx}.json`, `calib_fit_ekbasis_int4.json` | `calibration/` (every option's probability per item) | `../generators/v50/build_calib_items.py`, `score_skopos_int4.py` (INT4), `score_prod.py` (Ekbasis-27B-INT4), `score_calib_build.py` and `run_addendum_builds.sh` (the other builds), `fit_T.py` | `PREREG_ADDENDUM.md` A3 (INT4: fitted before it) |
-| Neutral ground: AgentWorldBench turns | `neutral.json` | `neutral_base/`, `neutral_skopos/`, `neutral_r4/`, `neutral_r2/`; `neutral_items.jsonl` (ids, our labels, a hash of each prompt, and `i`, the row's line in the predictions; the rows the dataset withholds are withheld here too, see below) | `run_neutral.sh`, `run_neutral_ek.sh`, `analyze_neutral.py`; the suite: `../generators/v50/build_awb_neutral.py` | `PREREG_NEUTRAL.md` |
+| Neutral ground: AgentWorldBench turns | `neutral.json` | `neutral_base/`, `neutral_skopos/`, `neutral_r4/`, `neutral_r2/`; `neutral_items.jsonl` (ids, our labels, and `i`, the row's line in the predictions; the rows the dataset withholds are withheld here too, see below; the dataset's `raw/awb_neutral_ids.jsonl` adds a hash of each full row, `row_id`, to check a rebuild) | `run_neutral.sh`, `run_neutral_ek.sh`, `analyze_neutral.py`; the suite: `../generators/v50/build_awb_neutral.py` | `PREREG_NEUTRAL.md` |
 | Images | `image_compare.json` | `image/` (each item's three answers, both models) | `run_image.sh`; the items and the scoring: `../generators/v50/image_served.py` | `PREREG_IMAGE.md` |
 | Overlap with the training data (decision D8) | `overlap_audit/overlap.json` (every evaluation set against every training row of the lineage: identical and near-duplicate prompts), `overlap_audit/recomputed.json` (every published number without the flagged items), `overlap_audit/clean/` (each summary file recomputed without the flagged items, named after it); the earlier check of identical states: `overlap_audit_r4.json` (its script was not saved) | | `overlap_audit/audit_overlap_skopos.py`, `overlap_audit/recompute_without_overlap.py` | |
-| Latency and cost, INT4 | `latency_skopos_int4.json`, `latency_ekbasis_int4.json` | | | `PREREG_ADDENDUM.md` A5 |
+| Latency and cost, INT4 | `latency_skopos_int4.json`, `latency_ekbasis_int4.json` | `latency/mac_items.json` (the 200 fixed items, also A4's) | `run_addendum_a5a6.sh`, `latency_suite.py` | `PREREG_ADDENDUM.md` A5 |
+| Served against trainer, bf16, per item | `served_equivalence_bf16.json` | in the file (`items`) | `run_addendum_a5a6.sh`, `equiv_r4_save.py` (`equiv_r4.py` with the per-item save; the first, printed run: `equiv_r4.py`) | `PREREG_ADDENDUM.md` A6 |
 | Context, not a Skopos read | `frontier_agentworld.json` (Qwen-AgentWorld against Ekbasis-27B and R1 on our typed questions; its per-item answers are not published) | | | `ADDENDUM_FRONTIER.md` |
 
 **The neutral suite's withheld rows.** The dataset's privacy scan flags some AgentWorldBench trajectory ids (long
@@ -74,18 +75,21 @@ the selection suites, descriptive) reads the per-item files from the private res
 | `confident_errors_rtx_path.py` | `d15da8a4c739f01b…` | the same | nothing | — |
 | `equiv_mlx.py` | `08917661a642b11f…` | the same | nothing | identical |
 | `equiv_r4.py` | `7b73c9ebf99c0f0e…` | the same | nothing | identical |
+| `equiv_r4_save.py` | `3600f86fb1ee1dc2…` | the same | nothing | — |
 | `fit_T.py` | `4f74987e88cfe94c…` | the same | nothing | — |
 | `frontier_eval.py` | `d1d3f976ece2edb9…` | the same | nothing | identical |
 | `ftest_fresh_served.py` | `5270920b7165f7d7…` | the same | nothing | identical |
 | `git_battery3.py` | `0bdc6a3368297b94…` | `8cd23681a46a2283…` | line 8: the training machine's SSH port and address replaced by placeholders | — |
 | `git_battery3_inj.py` | `760710f5fe40ff0f…` | `8a7ece82070e5e64…` | line 8: the training machine's SSH port and address replaced by placeholders | — |
 | `guard_big_served_rtx.py` | `a1cbdd61652a0bbd…` | the same | nothing | identical |
+| `latency_suite.py` | `739fc8cdeb2eb933…` | the same | nothing | — |
 | `quant_gate.py` | `62353bc4cbe734a7…` | the same | nothing | identical |
 | `r4_vs_ekbasis.py` | `d82fc6fe63345c28…` | the same | nothing | — |
 | `release_eval.py` | `bc857b14e95f424d…` | the same | nothing | identical |
 | `release_eval_extra_rtx.py` | `9904fd09afbdf306…` | the same | nothing | identical |
 | `release_eval_t3c.py` | `56660ab6331afa37…` | the same | nothing | — |
 | `rescore_inj_truth.py` | `b0c1bce9905dcadb…` | the same | nothing | — |
+| `run_addendum_a5a6.sh` | `f61c1d9509a7d1d0…` | the same | nothing | — |
 | `run_addendum_bf16.sh` | `768dd6ac0f22d504…` | the same | nothing | — |
 | `run_addendum_builds.sh` | `38b7c5bc830184af…` | the same | nothing | — |
 | `run_confirm_ftest.sh` | `2e61f9a25fbee6e3…` | the same | nothing | identical |

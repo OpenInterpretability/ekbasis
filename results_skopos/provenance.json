@@ -550,6 +550,10 @@
   "sha256": "36ad475c33daecc3166da106c3725843350425ed4af16cd859301b17cf4cc7e3",
   "source": "rtx/v50p/image_skopos_int4.json"
  },
+ "runs/latency/mac_items.json": {
+  "sha256": "451601abe77e798ac9bb72eb7e57d0e35908ca318cc0ac64220bfe3504e7909b",
+  "source": "release workspace scripts_main/mac_items.json"
+ },
  "runs/m5_base/preds_git_long_floor.jsonl": {
   "sha256": "eb578da6e9d992bbc54926a8e3138c08a3934f5ffd7d34d487add5e89b7973b3",
   "source": "rtx/v50p/m5_base/preds_git_long_floor.jsonl"
@@ -583,8 +587,8 @@
   "source": "rtx/v50p/neutral_base/summary.json"
  },
  "runs/neutral_items.jsonl": {
-  "sha256": "8362a20c29b1c26ce8725a09a5c57699382a34f974c4cfa8c5e43f1bfe2d6abc",
-  "source": "derived from awb_neutral.jsonl (sha256 3719e060e2174b93429dbb22887cd052ab5f935e4e38682a26b41aba313d116b): ids, labels, prompt hashes; 444 rows, 11 withheld as in ekbasis-skopos-data (positions [49, 230, 345, 346, 347, 348, 349, 386, 387, 388, 389])"
+  "sha256": "7d2953ead52e9a3128d94af3efb0d1e01fc8d4f7dbf3f6f236519025d58efc5f",
+  "source": "derived from awb_neutral.jsonl (sha256 3719e060e2174b93429dbb22887cd052ab5f935e4e38682a26b41aba313d116b): ids and labels; 445 rows, 10 withheld as in ekbasis-skopos-data (positions [49, 345, 346, 347, 348, 349, 386, 387, 388, 389])"
  },
  "runs/neutral_r1/preds_awb_neutral_floor.jsonl": {
   "sha256": "4b6497ab7ee952e45bd58e379f7df2daac00c13ef75ffc1a0d1404bb26e8842c",

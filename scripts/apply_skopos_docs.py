@@ -42,13 +42,14 @@ d_fresh = CF["changed"]["r4_minus_release"]
 u = CE["groups"]["U_all"] if CE else None
 
 headline = (
-    f"the git guard, served, raises fewer false alarms on command types it never trained on ({SK['guard_held'][2]} of "
+    f"the git guard, served, raises fewer false alarms on the guard set's held-out command types (held out of the git "
+    f"sandbox's training rows; {SK['guard_held'][2]} of "
     f"{SK['guard_held'][3]} instead of {REL['guard_held'][2]}) and catches more lost work ({h(pct(SK['guard_held']))}% instead "
     f"of {h(pct(REL['guard_held']))}%); on {CF['all']['n']:,} fresh items of world families it never saw, "
     f"{sg(d_fresh[0], 2)} points on the answers the actions change (95% CI {sg(d_fresh[1][0], 2)} to {sg(d_fresh[1][1], 2)}); "
     f"executed shell, SQL, Python and git scenarios {h(100 * H2H['fac_val']['r2'])}% instead of "
     f"{h(100 * H2H['fac_val']['base'])}%, real git sequences of 5–12 commands {h(100 * H2H['git_long']['r2'])}% instead of "
-    f"{h(100 * H2H['git_long']['base'])}%")
+    f"{h(100 * H2H['git_long']['base'])}% (these two are in-distribution sets, on which the candidates were selected)")
 limit = (f" In world families it never saw, more of its wrong answers come with high confidence ({sg(u['conf_wrong_diff'], 2)} "
          f"per 100 answers)." if u and u["conf_wrong_diff_ci"][0] > 0 else "")
 mlx_ok = bool(MAC and MAC.get("pass"))
