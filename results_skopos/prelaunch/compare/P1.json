@@ -1,0 +1,240 @@
+{
+ "item": "P1",
+ "reference": "ref/release_eval/preds_git2_test_*_240.jsonl (Ekbasis-27B, published)",
+ "summary": {
+  "release_blockers": [],
+  "flagged_worse_by_2": [
+   "seen command types: lost (40)",
+   "seen command types: state (changed) (40)"
+  ]
+ },
+ "measures": [
+  {
+   "measure": "both halves: all 240",
+   "n": 240,
+   "skopos": 90.0,
+   "ekbasis27b": 90.83333333333333,
+   "difference": -0.8333333333333286,
+   "higher_is_better": true,
+   "ci95": [
+    -3.75,
+    2.0833333333333286
+   ],
+   "rule": "paired bootstrap",
+   "release_blocker": false
+  },
+  {
+   "measure": "seen command types: all 120",
+   "n": 120,
+   "skopos": 93.33333333333333,
+   "ekbasis27b": 95.83333333333333,
+   "difference": -2.5,
+   "higher_is_better": true,
+   "ci95": [
+    -6.666666666666671,
+    1.6666666666666714
+   ],
+   "rule": "paired bootstrap",
+   "release_blocker": false
+  },
+  {
+   "measure": "seen command types: lost (40)",
+   "n": 40,
+   "skopos": 92.5,
+   "ekbasis27b": 97.5,
+   "difference": -5.0,
+   "higher_is_better": true,
+   "counts": [
+    37.0,
+    39.0
+   ],
+   "rule": "counts (n < 100)",
+   "flag_worse_by_2": true
+  },
+  {
+   "measure": "seen command types: fails (40)",
+   "n": 40,
+   "skopos": 95.0,
+   "ekbasis27b": 92.5,
+   "difference": 2.5,
+   "higher_is_better": true,
+   "counts": [
+    38.0,
+    37.0
+   ],
+   "rule": "counts (n < 100)",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "seen command types: state (changed) (40)",
+   "n": 40,
+   "skopos": 92.5,
+   "ekbasis27b": 97.5,
+   "difference": -5.0,
+   "higher_is_better": true,
+   "counts": [
+    37.0,
+    39.0
+   ],
+   "rule": "counts (n < 100)",
+   "flag_worse_by_2": true
+  },
+  {
+   "measure": "never-seen command types: all 120",
+   "n": 120,
+   "skopos": 86.66666666666667,
+   "ekbasis27b": 85.83333333333333,
+   "difference": 0.8333333333333428,
+   "higher_is_better": true,
+   "ci95": [
+    -2.5,
+    4.166666666666671
+   ],
+   "rule": "paired bootstrap",
+   "release_blocker": false
+  },
+  {
+   "measure": "never-seen command types: lost (40)",
+   "n": 40,
+   "skopos": 97.5,
+   "ekbasis27b": 95.0,
+   "difference": 2.5,
+   "higher_is_better": true,
+   "counts": [
+    39.0,
+    38.0
+   ],
+   "rule": "counts (n < 100)",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "never-seen command types: fails (40)",
+   "n": 40,
+   "skopos": 82.5,
+   "ekbasis27b": 80.0,
+   "difference": 2.5,
+   "higher_is_better": true,
+   "counts": [
+    33.0,
+    32.0
+   ],
+   "rule": "counts (n < 100)",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "never-seen command types: state (changed) (40)",
+   "n": 40,
+   "skopos": 80.0,
+   "ekbasis27b": 82.5,
+   "difference": -2.5,
+   "higher_is_better": true,
+   "counts": [
+    32.0,
+    33.0
+   ],
+   "rule": "counts (n < 100)",
+   "flag_worse_by_2": false
+  }
+ ],
+ "ekbasis27b_rerun_identity": null,
+ "context_other_systems_published": {
+  "Claude Fable 5.1": {
+   "git_known": [
+    116,
+    120,
+    120
+   ],
+   "git_held": [
+    110,
+    120,
+    120
+   ]
+  },
+  "Claude Haiku 4.5": {
+   "git_known": [
+    93,
+    120,
+    120
+   ],
+   "git_held": [
+    73,
+    120,
+    111
+   ]
+  },
+  "Claude Opus 5.5": {
+   "git_known": [
+    117,
+    120,
+    120
+   ],
+   "git_held": [
+    107,
+    120,
+    120
+   ]
+  },
+  "Claude Sonnet 5.5": {
+   "git_known": [
+    115,
+    120,
+    120
+   ],
+   "git_held": [
+    113,
+    120,
+    120
+   ]
+  },
+  "Qwen3.8-27B reasoning": {
+   "git_known": [
+    104,
+    120
+   ],
+   "git_held": [
+    72,
+    120
+   ]
+  },
+  "Qwen3.8-27B answering at once": {
+   "git_known": [
+    86,
+    120
+   ],
+   "git_held": [
+    79,
+    120
+   ]
+  },
+  "Eikos-27B (no consequence training)": {
+   "git_known": [
+    96,
+    120
+   ],
+   "git_held": [
+    88,
+    120
+   ]
+  },
+  "Ekbasis-27B": {
+   "git_known": [
+    115,
+    120
+   ],
+   "git_held": [
+    103,
+    120
+   ]
+  },
+  "Ekbasis-Skopos-27B (this run)": {
+   "git_known": [
+    112,
+    120
+   ],
+   "git_held": [
+    104,
+    120
+   ]
+  }
+ }
+}

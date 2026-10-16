@@ -1,0 +1,60 @@
+{
+ "item": "P10",
+ "reference": "ref/handoff/realuse_pm_pred_w4a5.json (Ekbasis-27B, the published run's predictions)",
+ "summary": {
+  "release_blockers": [],
+  "flagged_worse_by_2": []
+ },
+ "measures": [
+  {
+   "measure": "work-losing scenarios caught (of 28)",
+   "n": 28,
+   "skopos": 28,
+   "ekbasis27b": 28,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "false alarms (of 44)",
+   "n": 44,
+   "skopos": 0,
+   "ekbasis27b": 0,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "'will it fail?' right (of 96)",
+   "n": 96,
+   "skopos": 95,
+   "ekbasis27b": 92,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  }
+ ],
+ "median_seconds": {
+  "skopos": 66.04,
+  "ekbasis27b_published": 0.89,
+  "ekbasis27b_rerun_same_tunnel": null
+ },
+ "hook_decisions_that_differ [skopos, ekbasis27b]": {},
+ "ekbasis27b_rerun": null,
+ "checks": {
+  "hook_agrees_with_completed_git_check [skopos, ekbasis27b]": [
+   72,
+   72
+  ],
+  "git_check_seconds_max [skopos, ekbasis27b]": [
+   69.64,
+   1.19
+  ],
+  "reference_reproduces_real_use_summary.json": true
+ },
+ "run_conditions": [
+  "Skopos bf16 served on the RTX PRO 6000 (vLLM serve_vllm.sh + the model folder's serve.py), reached from the Mac through a tunnel; P10 finished 2026-10-16 05:03 UTC (main thread).",
+  "Truth re-executed on the base copies (P10/base_backup/) before predicting: 72/72 scenarios identical to the published run's truth.json.",
+  "Client ekbasis 0.1.0 (venv_launch), file hashes checked against P10/client_venv_launch.sha256 before the run.",
+  "P10 ran while the phase A items shared the GPU: its time (median 66.0 s per check) is not comparable with the published 0.89 s; the answers are unaffected (every check completed, max 69.6 s, below the client's 120 s timeout; no errors).",
+  "The optional Ekbasis-27B bf16 same-tunnel timing control was not run (prelaunch_notes/DEVIATIONS_RUN.md): the comparison is against Ekbasis-27B's published run of the same 72 scenarios.",
+  "Scored with this compare (stage_release_results.py's formulas) and cross-checked with the published score.py (path changed only): Ekbasis-27B 28/28, 0/44, 92/96; Skopos 28/28, 0/44, 95/96."
+ ]
+}

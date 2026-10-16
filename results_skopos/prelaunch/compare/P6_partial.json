@@ -1,0 +1,76 @@
+{
+ "item": "P6 (PARTIAL)",
+ "status": "counts against Ekbasis-27B's published totals (release_pt.out: 76.7/73.3, 80.0/76.7, 100/100, all 85.6/83.3 of 30/30/30/90); the item-paired comparison awaits the Ekbasis-27B re-run (phase B); 90 < 100, so the rule is counts either way",
+ "summary": {
+  "release_blockers": [],
+  "flagged_worse_by_2": [
+   "English, toggles: changed answers right (of 30)"
+  ]
+ },
+ "measures": [
+  {
+   "measure": "English, machines: changed answers right (of 30)",
+   "n": 30,
+   "skopos": 27,
+   "ekbasis27b": 23,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "Portuguese, machines: changed answers right (of 30)",
+   "n": 30,
+   "skopos": 22,
+   "ekbasis27b": 22,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "English, toggles: changed answers right (of 30)",
+   "n": 30,
+   "skopos": 22,
+   "ekbasis27b": 24,
+   "rule": "counts",
+   "flag_worse_by_2": true
+  },
+  {
+   "measure": "Portuguese, toggles: changed answers right (of 30)",
+   "n": 30,
+   "skopos": 23,
+   "ekbasis27b": 23,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "English, jugs: changed answers right (of 30)",
+   "n": 30,
+   "skopos": 29,
+   "ekbasis27b": 30,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "Portuguese, jugs: changed answers right (of 30)",
+   "n": 30,
+   "skopos": 30,
+   "ekbasis27b": 30,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "English, all: changed answers right (of 90)",
+   "n": 90,
+   "skopos": 78,
+   "ekbasis27b": 77,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  },
+  {
+   "measure": "Portuguese, all: changed answers right (of 90)",
+   "n": 90,
+   "skopos": 75,
+   "ekbasis27b": 75,
+   "rule": "counts",
+   "flag_worse_by_2": false
+  }
+ ]
+}

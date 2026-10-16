@@ -786,16 +786,91 @@ w("Sets from the same generators as training rows (the last column; fresh seeds 
   "in-distribution generalization, not transfer.\n")
 
 # --------------------------------------------------------------------------------------------- pre-launch evaluation
-PL = os.path.join(R, "prelaunch")  # the pre-launch evaluation's results, once they exist
+# One file per item of PRELAUNCH_EVAL.md Part A (results_skopos/prelaunch/compare/P<n>.json, as the battery wrote them),
+# and how the battery was run (results_skopos/prelaunch/DEVIATIONS_RUN.md). A draft shows an item that has no file yet
+# as running or not run; --final refuses while any item's file is missing.
+PL = os.path.join(R, "prelaunch")
+PLC = os.path.join(PL, "compare")
+PITEMS = {"P1": "The 240-question git comparison", "P2": "git v3 held-out tests per question type",
+          "P3": "Long chains (text, image, image and look again)",
+          "P4": "Predict, observe, correct (`long_chain3`): the rules compared, and 200 more chains",
+          "P5": "Speed (`speed_bench`): 80 forecasts of 10–30 actions", "P6": "Portuguese",
+          "P7": "Chains that start from an image", "P8": "Short checks, two wordings", "P9": "Planning by search, no LLM",
+          "P10": "Real use on real repositories", "P11": "GPU memory of each build",
+          "P12": "Client suites on the INT4 build"}
+pfile = lambda name: os.path.join(PLC, name)
 w("## Pre-launch evaluation\n")
-if os.path.isdir(PL) and os.listdir(PL):
-    missing.append("results_skopos/prelaunch/ has results that this section does not report yet")
-else:
-    w("*Pending: the measurements of Ekbasis-27B's release evaluation that had not yet run on Skopos, each next to "
-      "Ekbasis-27B on the same items, and the acceptance checks of the published artifacts, as planned in "
-      "[prereg_skopos/PRELAUNCH_EVAL.md](prereg_skopos/PRELAUNCH_EVAL.md) (Part A sealed before its first request). "
-      "Their results will be reported here, favourable or not.*\n")
-    print("note: the pre-launch evaluation section is pending (results_skopos/prelaunch/ is empty)")
+w("The measurements of Ekbasis-27B's release evaluation that had not yet run on Skopos, planned in "
+  "[prereg_skopos/PRELAUNCH_EVAL.md](prereg_skopos/PRELAUNCH_EVAL.md) (Part A sealed before its first request), each "
+  "next to Ekbasis-27B on the same items. Its rule: on a set of at least 100 items with per-item outputs for both "
+  "models, a drop whose paired 95% bootstrap interval (2,000 resamples, seed 20261015) lies entirely below zero is a "
+  "release blocker; smaller sets are reported as counts, and Skopos worse by 2 or more is flagged. One file per item "
+  "(`results_skopos/prelaunch/compare/`); how the battery was run, with its deviations: "
+  "[`results_skopos/prelaunch/DEVIATIONS_RUN.md`](results_skopos/prelaunch/DEVIATIONS_RUN.md).\n")
+if not os.path.exists(os.path.join(PL, "DEVIATIONS_RUN.md")):
+    missing.append("results_skopos/prelaunch/DEVIATIONS_RUN.md")
+PDATA, not_run = {}, []
+for k in PITEMS:
+    if os.path.exists(pfile(f"{k}.json")):
+        PDATA[k] = (json.load(open(pfile(f"{k}.json"))), "")
+    elif not FINAL and os.path.exists(pfile(f"{k}_partial.json")):
+        PDATA[k] = (json.load(open(pfile(f"{k}_partial.json"))), "partial")
+    else:
+        not_run.append(k)
+        missing.append(f"results_skopos/prelaunch/compare/{k}.json (pre-launch item {k})")
+w("| Item | Measurement | Status | Release blockers | Flagged: Skopos worse by 2 or more |\n|---|---|---|---|---|")
+for k, title in PITEMS.items():
+    if k not in PDATA:
+        w(f"| {k} | {title} | *running or not run* | | |")
+        continue
+    d, part = PDATA[k]
+    sm = d.get("summary", {})
+    bl, fl = sm.get("release_blockers", []), sm.get("flagged_worse_by_2", [])
+    w(f"| {k} | {title} | {'*partial*' if part else 'done'} | {'**' + '; '.join(bl) + '**' if bl else 'none'} | "
+      f"{'; '.join(fl) if fl else 'none'} |")
+blockers = [(k, b) for k, (d, _) in PDATA.items() for b in d.get("summary", {}).get("release_blockers", [])]
+w("\n" + ("**Release blockers under the rule:** " + "; ".join(f"{k}: {b}" for k, b in blockers) + "."
+          if blockers else "No release blocker under the rule" + (" in the items done so far." if not_run else ".")) + "\n")
+
+
+def pnum(x, nd=2):
+    return f"{x:,}" if isinstance(x, int) else (h(x, nd) if isinstance(x, float) else str(x))
+
+
+for k, (d, part) in PDATA.items():
+    w(f"### {k}. {PITEMS[k]}{' (partial)' if part else ''}\n")
+    if d.get("status"):
+        w(f"*{d['status']}*\n")
+    if d.get("reference"):
+        w(f"Reference: {d['reference']}.\n")
+    if d.get("deviation"):
+        w(f"Deviation: {d['deviation']}\n")
+    w("| Measure | n | Skopos | Ekbasis-27B | Difference | Paired 95% CI, or counts (Skopos / Ekbasis-27B) | Under the rule |\n|---|---|---|---|---|---|---|")
+    for m in d.get("measures", []):
+        diff = m.get("difference")
+        if diff is None and isinstance(m.get("skopos"), (int, float)) and isinstance(m.get("ekbasis27b"), (int, float)):
+            diff = m["skopos"] - m["ekbasis27b"]
+        cic = (ci(m["ci95"], 2) if "ci95" in m else
+               (" / ".join(pnum(c, 0) if float(c).is_integer() else pnum(c) for c in m["counts"]) if "counts" in m else "—"))
+        ints = isinstance(m.get("skopos"), int) and isinstance(m.get("ekbasis27b"), int)
+        outcome = ("**release blocker**" if m.get("release_blocker") else
+                   "**flagged**" if m.get("flag_worse_by_2") else "—")
+        w(f"| {m.get('measure', '')} | {pnum(m.get('n', ''))} | {pnum(m.get('skopos', ''))} | {pnum(m.get('ekbasis27b', ''))} | "
+          f"{(sg(diff, 0) if diff else '0') if ints else sg(diff, 2) if isinstance(diff, (int, float)) else '—'} | {cic} | {outcome} |")
+    for c in d.get("run_conditions", []):
+        if c == d.get("run_conditions", [])[0]:
+            w("\nHow it ran:\n")
+        w(f"- {c}")
+    other = [x for x in d if x not in ("item", "reference", "summary", "measures", "status", "deviation", "run_conditions")]
+    w(("\nIn the file, also: " + ", ".join(f"`{x}`" for x in other) + f" (`results_skopos/prelaunch/compare/{k}{'_partial' if part else ''}.json`).\n")
+      if other else "")
+ctx = sorted(f for f in (os.listdir(PLC) if os.path.isdir(PLC) else []) if f.endswith(".json")
+             and f[:-5] not in PITEMS and not f.endswith("_partial.json"))
+for f in ctx:
+    c = json.load(open(pfile(f)))
+    w(f"**{c.get('item', f)}** (`results_skopos/prelaunch/compare/{f}`)" + (f": {c['note']}" if c.get("note") else "") + "\n")
+if not_run:
+    print(f"note: pre-launch items without a result yet: {', '.join(not_run)}")
 
 # -------------------------------------------------------------------------------------------------------- deviations
 w("## Deviations from the pre-registrations\n")

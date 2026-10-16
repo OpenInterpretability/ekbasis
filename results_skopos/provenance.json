@@ -437,6 +437,42 @@
   "sha256": "59af1cc6de6c888b3eddc457a322d9bf1b754bf03d365f87118f0b8dd0d79b48",
   "source": "release workspace results/overlap_audit_r4.json"
  },
+ "prelaunch/DEVIATIONS_RUN.md": {
+  "sha256": "ee0d91c040f95bdb86cfe5662495b6f1554991f697921f53e24addc9aa75cdb4",
+  "source": "the pre-launch notes DEVIATIONS_RUN.md"
+ },
+ "prelaunch/compare/P1.json": {
+  "sha256": "161411fc6c3a4e55db4d0ddc3a0a9b6bdfee094d67ed585e0670029a4976b7cb",
+  "source": "the pre-launch battery's prelaunch_out/compare/P1.json"
+ },
+ "prelaunch/compare/P10.json": {
+  "sha256": "a61bd44857507f4626d75f0bddd175fc6427bbacf8ba7038b3107b19196aa4de",
+  "source": "the pre-launch battery's prelaunch_out/compare/P10.json"
+ },
+ "prelaunch/compare/P3.json": {
+  "sha256": "2649c110449e92984930e2415d6d03d99178a096c4e14e5c0f6484910d258798",
+  "source": "the pre-launch battery's prelaunch_out/compare/P3.json"
+ },
+ "prelaunch/compare/P5_partial.json": {
+  "sha256": "e6218c5237f247bee441877073e990b8d46dacaeca45f517044beb2a8d6054a7",
+  "source": "the pre-launch battery's prelaunch_out/compare/P5_partial.json"
+ },
+ "prelaunch/compare/P6_partial.json": {
+  "sha256": "25c26f1bee040c2a23f0e38da9eb9318338d7ee1648d10900a85c13b5d9505d8",
+  "source": "the pre-launch battery's prelaunch_out/compare/P6_partial.json"
+ },
+ "prelaunch/compare/P7.json": {
+  "sha256": "80368c8d9af6e40387e121362c32440c0959a4f982e19b173cabb52052cc73a0",
+  "source": "the pre-launch battery's prelaunch_out/compare/P7.json"
+ },
+ "prelaunch/compare/P8.json": {
+  "sha256": "a4ccffbd099acab9052992807628fae5d23eade3b115e4981682f3dc129c4f78",
+  "source": "the pre-launch battery's prelaunch_out/compare/P8.json"
+ },
+ "prelaunch/compare/P8_context.json": {
+  "sha256": "e9a17da82c47452cd0ab0560fed391cffa0c315e36c2f6c28358dfc1d8744857",
+  "source": "the pre-launch battery's prelaunch_out/compare/P8_context.json"
+ },
  "quant_gate_fp8.json": {
   "as_run_copy": "rtx/v50p/quant_gate_fp8.json",
   "sha256": "e2cd4f7bf5c55aab2fb668322bdde716bcdb846ff659102fe08fe9fcbfd162f8",
