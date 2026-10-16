@@ -44,6 +44,15 @@ The client needs a server: the hosted API (`EKBASIS_URL=https://openinterp.org/a
 key at [openinterp.org/console](https://openinterp.org/console)) or your own, with the open weights
 ([Quick start](#quick-start)).
 
+**What leaves your machine** (to the server you choose): the state of each check, as text. For the guards that is the
+command line, with credentials typed on it replaced (since 0.1.42: known key prefixes, Authorization and Cookie
+headers, passwords in URLs, `--password`/`--token` values, values of `*TOKEN*`/`*SECRET*`/`*PASSWORD*`-like names,
+private keys and long random-looking strings; `EKBASIS_REDACT=0` turns it off), and a listing of what the line could
+touch: names, sizes, ages and short fingerprints keyed anew for each check, never file contents; for git, the
+repository's state (branches, the names of changed files, commit subjects). Redaction is a safety net with limits
+([docs/SECURITY.md](docs/SECURITY.md)): a short or unusual secret without a known prefix or name can pass. The hook's
+log (log mode) stays on your machine and holds the redacted line.
+
 - **Command line and Python** (standard library only, Python ≥ 3.9): `ekbasis`, `ekbasis-claude-hook`, and
   `ekbasis-mcp` with the `mcp` extra.
 

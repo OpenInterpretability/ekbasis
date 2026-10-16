@@ -59,6 +59,17 @@
 
 ## [0.1.42] — 2026-10-16
 
+### Security
+- **Credentials typed on a command line no longer leave the machine or land in the logs.** The state the client sends
+  (`Ekbasis.ask`: the hook, the CLI, the MCP tools and the Python API) held the command line as typed, and so did the
+  hook's log in log mode: `printf '%s' 'vck_…' > f`, `export TOKEN=…`, `curl -H "Authorization: Bearer …"`,
+  `https://user:token@…` or `--password=…` reached the server and the disk. Every state sent, the hook's log and
+  messages, and the monitor's log now go through `ekbasis.redact.redact_line`, which replaces credential-looking values
+  with placeholders made of letters, digits and underscores (`REDACTED_1`, `vck_REDACTED_2`) and keeps quotes, spaces,
+  redirections and paths, so the guards read the line the same way. The hook's log records `"redacted": n`.
+  `EKBASIS_REDACT=0` turns it off. What it recognizes, and what it does not, is in
+  [docs/SECURITY.md](docs/SECURITY.md#what-leaves-the-machine-and-credentials-on-the-command-line-0142).
+
 ### Changed
 - **The guards read a variable set earlier on the same line.** The git guard and the shell guard read `$NAME` or
   `${NAME}` with its value when the line itself sets NAME before, to a known value (`G=/repo; git -C "$G" status`,

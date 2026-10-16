@@ -105,6 +105,36 @@ many lines a pattern written in the command matches in the files it names (the c
 files, folders and archive members, which can themselves be sensitive: run the server where you would run the agent.
 Measured on 292 fresh scenarios: no line of any file's content reached a prompt.
 
+## What leaves the machine, and credentials on the command line (0.1.42)
+
+What the client sends to the server you set (the hosted API or your own) is the state of each check, as text: for the
+guards, the command line itself, a listing of the paths it could touch (names, types, sizes, ages, links, short keyed
+fingerprints; never contents) and, for git, the repository's state (branches, changed file names, commit subjects,
+stash messages). The hook's log (EKBASIS_GUARD_MODE=log) and the monitor's log stay on your machine.
+
+Until 0.1.41 the command line went verbatim: a secret typed on it (`printf '%s' 'vck_…' > f`, `export TOKEN=…`,
+`curl -H "Authorization: Bearer …"`, `git remote set-url origin https://user:token@…`, `--password=…`) reached the
+server and the local logs. Since 0.1.42 every state the client sends (`Ekbasis.ask`, so the hook, the CLI, the MCP
+tools and the Python API alike) and both logs go through `ekbasis.redact.redact_line`, which replaces credential-looking
+values with a placeholder made of letters, digits and underscores (`REDACTED_1`, `vck_REDACTED_2`): the same value gets
+the same placeholder, and quotes, spaces, redirections and paths stay where they are, so the guards read the line the
+same way. It replaces: tokens with a known prefix (sk-ant-, sk-, sk_live_, vck_, hf_, ghp_/gho_/ghs_, github_pat_,
+xox?-, AKIA/ASIA, glpat-, npm_, pypi-AgE, AIza, JWTs), private key blocks, Authorization/X-Api-Key/X-Auth-Token/Cookie
+header values, passwords in URLs, the values of --password/--token/--api-key/--secret and similar options, the values of
+assignments and JSON/YAML keys whose name contains token, secret, passw, api_key, auth (not author), credential or
+private_key (8 characters or more, not a number, a boolean or a path), and, as a last resort, words of 32 or more
+characters that look random (mixed case, digits, high entropy). A variable or a substitution (`$TOKEN`,
+`$(cat key)`) is not a secret on the line and stays. Paths, file names, git refs, commit ids, sha256 sums and UUIDs are
+never taken for keys. On the 687 commands of the session log behind 0.1.42 it changed no line (none still holds a
+credential). On 14 of those lines with made-up credentials put on them (a key in a file, a Bearer token, an exported
+token), each run through the hook with and without redaction on the hosted API, every decision and every kind of
+warning was the same; the probabilities moved by up to 17 points, as much as repeated runs of an unchanged line move.
+
+Its limits: a secret without a known prefix that is short, all one case or hexadecimal, and is not the value of one of
+those names, headers or options, passes; so does one split across words or encoded. It is a safety net, not a reason to
+type secrets on a command line: read them from a file or the environment instead (`$(cat ~/.config/x/key)`), which the
+line then shows only as a reference. `EKBASIS_REDACT=0` turns redaction off (for example with your own server).
+
 ## Known gaps
 
 - **Command parsing**: the hook reads `&&`, `||`, `;`, `|`, quotes, here-documents, `cd` (anywhere since 0.1.3),

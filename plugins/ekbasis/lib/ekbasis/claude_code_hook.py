@@ -83,6 +83,7 @@ from . import preflight as PF
 from . import prompts as P
 from . import recover as R
 from . import safer as SF
+from .redact import redact
 from . import shell as S
 from .client import CannotJudge, Ekbasis
 
@@ -376,7 +377,8 @@ def _log_path() -> str:
 def _shadow(decision: str, reason: str = "") -> None:
     """EKBASIS_GUARD_MODE=log: never block; append what the hook would have done to a local JSONL file (this machine
     only; nothing is sent anywhere) so a trial period shows what it would have stopped before it may stop anything."""
-    rec = {"t": round(time.time(), 3), "decision": decision, "reason": reason, **_LOG_CTX}
+    reason = redact(reason)[0]   # 0.1.42: no credential typed on the line in the log (main redacts the command; "redacted":
+    rec = {"t": round(time.time(), 3), "decision": decision, "reason": reason, **_LOG_CTX}   # how many values it replaced)
     try:
         path = _log_path()
         os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
@@ -403,6 +405,7 @@ REPEAT_NOTE = (" If this loss is what the user asked for, or the work is already
 def _decide(reason: str) -> None:
     if _log_mode():
         return _shadow("ask", reason)
+    reason = redact(reason)[0]
     mode = "deny" if os.environ.get("EKBASIS_GUARD_MODE") == "deny" else "ask"
     print(json.dumps({"hookSpecificOutput": {"hookEventName": "PreToolUse", "permissionDecision": mode,
                                              "permissionDecisionReason": reason}}))
@@ -413,7 +416,7 @@ def _cannot_judge(why: str, session: str | None = None, rkey: str | None = None)
         _shadow("ask_cannot_foresee", why)
         return 0
     if os.environ.get("EKBASIS_FAIL_OPEN") == "1":
-        print(f"ekbasis hook: cannot foresee ({why}); EKBASIS_FAIL_OPEN=1: letting it through", file=sys.stderr)
+        print(f"ekbasis hook: cannot foresee ({redact(why)[0]}); EKBASIS_FAIL_OPEN=1: letting it through", file=sys.stderr)
         return 0
     again = ""
     if _repeat_on() and session and rkey:
@@ -610,7 +613,8 @@ def main() -> int:
             return 0
         line = (data.get("tool_input") or {}).get("command", "")
         cwd = data.get("cwd") or os.getcwd()
-        _LOG_CTX.update(command=line, cwd=cwd, session=data.get("session_id"))
+        logged, n = redact(line)
+        _LOG_CTX.update(command=logged, cwd=cwd, session=data.get("session_id"), redacted=n)
         session = data.get("session_id")
         rkey = "guard:" + hashlib.sha256(f"{os.path.realpath(cwd)}\0{line}".encode()).hexdigest()[:32]
         if _repeat_on() and session and _seen_any(session, rkey):

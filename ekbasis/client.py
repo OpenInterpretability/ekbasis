@@ -17,6 +17,7 @@ from pathlib import Path
 
 
 from ._version import __version__
+from .redact import redact_line
 
 
 class EkbasisError(RuntimeError):
@@ -239,7 +240,7 @@ class Ekbasis:
         """Every question about the same state, answered in one request (the server batches them; read_once=True reads
         the state once for all of them, on models trained for it). images: data URIs or base64 strings (vLLM backend)."""
         _check_questions(questions)
-        body = {"state": state, "questions": questions}
+        body = {"state": redact_line(state), "questions": questions}   # 0.1.42: credentials on a command line stay here
         if read_once:
             body["read_once"] = True
         if images:
@@ -258,7 +259,7 @@ class Ekbasis:
             raise ValueError("no request id: pass one, or make a call to the hosted API first")
         body = {"request_id": rid, "verdict": verdict}
         if note:
-            body["note"] = str(note)[:500]
+            body["note"] = redact_line(str(note))[:500]
         headers = {"Content-Type": "application/json", "User-Agent": USER_AGENT}
         if self.api_key:
             headers["Authorization"] = f"Bearer {self.api_key}"
