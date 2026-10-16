@@ -839,9 +839,10 @@ for k in PITEMS:
     names = [f"{k}.json"] + [f for e in FIN_B + FIN_C + AFTER if e["item"] == k for f in files_of(e)]
     if not FINAL:
         names.append(f"{k}_partial.json")
-    seen = []
+    seen, listed = [], {f for e in FIN_B + FIN_C + AFTER for f in files_of(e)}
     for n in dict.fromkeys(names):
-        if os.path.exists(pfile(n)) and not (n.endswith("_partial.json") and os.path.exists(pfile(n.replace("_partial", "")))):
+        superseded = n.endswith("_partial.json") and n not in listed and os.path.exists(pfile(n.replace("_partial", "")))
+        if os.path.exists(pfile(n)) and not superseded:  # a released partial file stays, beside what is appended later
             seen.append((n, json.load(open(pfile(n)))))
     if seen:
         rule_files[k] = seen
@@ -943,7 +944,7 @@ for k, fname, d in [(k, n, d) for k, fs in rule_files.items() for n, d in fs]:
       if other else "")
 used = {n for fs in rule_files.values() for n, _ in fs} | {"PENDING.json"}
 ctx = sorted(f for f in (os.listdir(PLC) if os.path.isdir(PLC) else []) if f.endswith(".json") and f not in used
-             and not (f.endswith("_partial.json") and os.path.exists(pfile(f.replace("_partial", "")))))
+             and not f.endswith("_partial.json"))
 for f in ctx:
     c = json.load(open(pfile(f)))
     w(f"**{c.get('item', f)}** (`results_skopos/prelaunch/compare/{f}`)" + (f": {c['note']}" if c.get("note") else "") + "\n")
