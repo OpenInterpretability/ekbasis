@@ -17,7 +17,7 @@ from what an agent believes.
 > ([PREREG_release_eval.md](https://github.com/OpenInterpretability/ekbasis/blob/main/PREREG_release_eval.md), [paper/prereg/](https://github.com/OpenInterpretability/ekbasis/tree/main/paper/prereg/)) and the deviations.
 
 <!-- skopos:intro -->
-> **New (⟨release date⟩): [Ekbasis-Skopos-27B](https://huggingface.co/caiovicentino1/Ekbasis-Skopos-27B)**, the next
+> **New (2026-10-16): [Ekbasis-Skopos-27B](https://huggingface.co/caiovicentino1/Ekbasis-Skopos-27B)**, the next
 > version, trained further on executed shell, git, SQLite, PostgreSQL and Python scenarios. Against Ekbasis-27B on the
 > same items: the git guard raises fewer false alarms on the held-out command types, 26/799 instead of 49/799 (paired
 > McNemar p = 5.6 × 10⁻⁶; these command types are held out of the git sandbox's training rows but appear in Skopos'

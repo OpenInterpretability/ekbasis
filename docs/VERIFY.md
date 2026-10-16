@@ -166,7 +166,7 @@ scenario.
 - **Cost on that Mac.** Each confident answer the certified mode checks costs two extra requests (one for git and
   shell): about 7 s (median 6.6 s), and about 4 s for git and shell.
 
-## On Ekbasis-Skopos-27B (⟨release date⟩)
+## On Ekbasis-Skopos-27B (2026-10-16)
 
 The thresholds above belong to Ekbasis-27B (w4a5). The same check as for the MLX build was run on Ekbasis-Skopos-27B,
 served by vLLM and `serve.py` (INT4, and bf16), with the thresholds unchanged and client 0.1.41, pre-registered before

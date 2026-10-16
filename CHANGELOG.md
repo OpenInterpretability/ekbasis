@@ -1,7 +1,7 @@
 # Changelog
 
 <!-- skopos:entry -->
-## [Unreleased] — Ekbasis-Skopos-27B (model)
+## Ekbasis-Skopos-27B (model) — 2026-10-16
 
 ### Added
 - **Ekbasis-Skopos-27B, the recommended model** ([card](https://huggingface.co/caiovicentino1/Ekbasis-Skopos-27B); bf16,
@@ -22,9 +22,9 @@
   re-run on the same machine reproduced its published answers (240/240) ([release
   decision](results_skopos/prelaunch/RELEASE_DECISION.md)). Hosted API: as its model-change policy promises, this
   version and its scorecard are posted at least 14 days before the served model changes; the hosted API serves
-  Ekbasis-27B-INT4 until ⟨switch date⟩, then Ekbasis-Skopos-27B-INT4 (`calibrated.temperature` 1.67 instead of 1.55);
-  the switch gets its own entry here, with its date. Its evaluation, with its per-item predictions and
-  pre-registrations: [RELEASE_EVAL_SKOPOS.md](RELEASE_EVAL_SKOPOS.md), [results_skopos/](results_skopos/README.md),
+  Ekbasis-27B-INT4 until 2026-10-30, then Ekbasis-Skopos-27B-INT4 (`calibrated.temperature` 1.67 instead of 1.55); the
+  switch gets its own entry here, with its date. Its evaluation, with its per-item predictions and pre-registrations:
+  [RELEASE_EVAL_SKOPOS.md](RELEASE_EVAL_SKOPOS.md), [results_skopos/](results_skopos/README.md),
   [prereg_skopos/](prereg_skopos/PREREG_sha256.txt); its training code: [training/skopos/](training/skopos/README.md);
   the generators behind every training kind and evaluation set, as they ran: [generators/](generators/README.md).
 
