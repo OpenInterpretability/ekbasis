@@ -425,11 +425,12 @@ def cstats(rs, T):
             "brier": round(br / len(rs), 4)}
 
 
-def fit_and_test(R, rule):
+def fit_and_test(R, rule, T=None):
+    """fit_T.py on the items a rule keeps; T given = keep that build's published temperature (no refit)."""
     keep = [r for r in R if r["i"] not in excl(rule, r["split"])]
     fit = [r for r in keep if r["set"] == "fit"]
     grid = [round(0.5 + 0.01 * k, 2) for k in range(251)]
-    T = min(grid, key=lambda t: nll(fit, t))
+    T = T if T is not None else min(grid, key=lambda t: nll(fit, t))
     test = [r for r in keep if r["set"] == "test"]
     out = {"T": T}
     for sp in ("fval_git3", "m3val", "git_long", "guard_known", "fac_val"):  # fit_T.py's layout and order
@@ -450,8 +451,9 @@ def section_calibration():
         R = [r for r in L(path) if "probs" in r]
         pub = json.load(open(f"{RES}/calib_fit_{name}.json"))
         r3 = run3(lambda rule: fit_and_test(R, rule))
+        r3["primary_published_T"] = fit_and_test(R, "primary", T=pub["T"])  # the twin: test splits only, T as published
         rep = all(r3["all"][k] == pub[k] for k in pub)
-        out[name] = {"source": f"results/calib_fit_{name}.json ({os.path.relpath(path, RS)})", "reproduced": rep, **r3}
+        out[name] = {"source": f"results/calib_fit_{name}.json", "scores": os.path.relpath(path, RS), "reproduced": rep, **r3}
     for r in RULES:  # the card's comparison: Skopos vs Ekbasis-27B on the same test items
         s, e = out["skopos_int4"][r]["test_pooled"], out["ekbasis_int4"][r]["test_pooled"]
         out.setdefault("comparison", {})[r] = {
@@ -755,6 +757,15 @@ def main():
                 "confident errors, A2 prediction (+-1 point in every group)": {r: ce[r]["prediction_within_1pt_every_group"] for r in RULES}}}
         json.dump(OV, open(f"{HERE}/out/overlap.json", "w"))
         write_clean_twins(out)
+    print("written", "out/recomputed.json" if not only else "out/recomputed_partial.json")
+
+
+def clean_field(ids, extra=None):
+    o = {"audit": "audit/out/overlap.json", "rule": OV["rules"]["flagged"], "excluded_n": {k: len(v) for k, v in ids.items()},
+         "excluded_ids": ids}
+    if extra:
+        o["note"] = extra
+    return o
 
 
 def write_clean_twins(out):
@@ -762,7 +773,7 @@ def write_clean_twins(out):
     original file's schema, recomputed without them (the card generator reads `_clean` twins from results/)."""
     d = f"{HERE}/out/clean"
     os.makedirs(d, exist_ok=True)
-    note = "D8 overlap audit: recomputed without the items audit/out/overlap.json flags (identical or near-duplicate); see audit/REPORT.md"
+    ids = lambda sets: {x: sorted(excl("primary", x)) for x in sets if excl("primary", x)}
     w = lambda f, v: json.dump(v, open(f"{d}/{f}", "w"), indent=1)
     h = out["h2h"]["r4_vs_skopos_v49f"]["primary"]
     pub = json.load(open(f"{RES}/r4_vs_skopos_v49f.json"))
@@ -770,24 +781,30 @@ def write_clean_twins(out):
     twin["neutral_auroc"] = pub["neutral_auroc"]
     twin["verdict"] = {**{k: h["verdict"][k] for k in ("suites_worse", "gain_suites", "guard_flagged_diff", "guard_fa_diff")},
                        "r4_replaces_skopos": h["verdict"]["replaces_skopos"]}
-    w("r4_vs_skopos_v49f_clean.json", {**twin, "audit_note": note})
+    w("r4_vs_skopos_v49f_clean.json", {**twin, "clean": clean_field(ids(H2H_SUITES))})
     pub = json.load(open(f"{RES}/r4_vs_ekbasis27b_trainer.json"))
-    w("r4_vs_ekbasis27b_trainer_clean.json", {"method": pub["method"], "sets": out["vs_ekbasis27b_trainer"]["primary"], "audit_note": note})
-    w("image_compare_clean.json", {**out["image"]["primary"], "audit_note": note})
+    w("r4_vs_ekbasis27b_trainer_clean.json", {"method": pub["method"], "sets": out["vs_ekbasis27b_trainer"]["primary"],
+                                              "clean": clean_field(ids(pub["sets"]))})
+    w("image_compare_clean.json", {**out["image"]["primary"], "clean": clean_field(ids(["image_fresh"]))})
     for k, v in out["calibration_int4"].items():
-        if isinstance(v, dict) and "primary" in v:
-            w(f"calib_fit_{k}_clean.json", {**v["primary"], "audit_note": note})
+        if isinstance(v, dict) and "primary_published_T" in v:
+            ex = {sp: sorted(excl("primary", sp)) for sp in ("fval_git3", "m3val", "git_long", "guard_known", "fac_val")}
+            R = [r for r in L(f"{RS}/{v['scores']}") if "probs" in r]
+            ex_items = {sp: sorted(r["i"] for r in R if r["split"] == sp and r["i"] in set(ids)) for sp, ids in ex.items()}
+            w(f"calib_fit_{k}_clean.json", {**v["primary_published_T"],
+                                            "clean": clean_field({sp: ids for sp, ids in ex_items.items() if ids},
+                                                                 "T kept as published (fit sets have no flagged item); test splits recomputed")})
     pub = json.load(open(f"{RES}/ce_r4.json"))
     ce = out["confident_errors"]["primary"]
     w("ce_r4_clean.json", {"n": sum(v["n"] for k, v in ce["groups"].items() if k.endswith("_all")), "deviation": pub["deviation"],
                            "groups": ce["groups"], "primary_skopos": ce["primary_skopos"], "primary_ekbasis": ce["primary_ekbasis"],
-                           "audit_note": note})
+                           "clean": clean_field(ids(["ce_items"]))})
     for tag, v in out["release_protocol"].items():
         r = v["primary"]
         w(f"release_read_{tag}_clean.json", {"release": r["release"], "candidate": r["candidate"], "checks": r["checks"],
-                                             "pass": r["pass"], "audit_note": note})
+                                             "pass": r["pass"], "clean": clean_field(ids(["git3_test_known", "git3_test_held",
+                                             "multi_test_testfam", "multi_test_trainfam", "ftest_family", "guard_known", "guard_held"]))})
     print("clean twins written to out/clean/", sorted(os.listdir(d)))
-    print("written", "out/recomputed.json" if not only else "out/recomputed_partial.json")
 
 
 if __name__ == "__main__":

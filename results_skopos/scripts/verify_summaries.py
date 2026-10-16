@@ -2,9 +2,12 @@
 computed them (unchanged; compare_release.py and quant_gate.py read their item files from a constant, FAC, which is
 pointed at your copy of the dataset in a temporary copy of the script), and compares each with the published file
 (floats to 1e-9). Written for publication; it trains nothing and asks no model.
-    python3 verify_summaries.py <dir with the dataset's raw/ files>
+    python3 verify_summaries.py <dir with the dataset's raw/ files> [--awb <awb_neutral.jsonl rebuilt>]
 The raw files read: git3_test_known, git3_test_held, multi_test_testfam, multi_test_trainfam, ftest_family,
-gold0_ftest_family, guard_known, guard_held, ftest_fresh (ekbasis-skopos-data, raw/)."""
+gold0_ftest_family, guard_known, guard_held, ftest_fresh (ekbasis-skopos-data, raw/). The neutral suite's analysis
+clusters by trajectory, and 10 of its 455 rows are withheld from runs/neutral_items.jsonl (as in the dataset): it is
+recomputed only with the full suite, rebuilt from Qwen/AgentWorldBench by generators/v50/build_awb_neutral.py (--awb);
+the other analyses read only each row's label, which the per-item predictions carry."""
 import json
 import math
 import random
@@ -15,6 +18,7 @@ import tempfile
 from pathlib import Path
 
 RAW = Path(sys.argv[1]).resolve()
+AWB = Path(sys.argv[sys.argv.index("--awb") + 1]).resolve() if "--awb" in sys.argv else None
 HERE = Path(__file__).resolve().parent
 RES = HERE.parent
 W = Path(tempfile.mkdtemp(prefix="skopos_verify_"))
@@ -54,17 +58,24 @@ shutil.copytree(RES / "runs", W, dirs_exist_ok=True)
 (W / "data").mkdir()
 for f in ("guard_known", "ftest_fresh"):
     shutil.copy(RAW / f"{f}.jsonl", W / "data" / f"{f}.jsonl")
-shutil.copy(W / "neutral_items.jsonl", W / "data" / "awb_neutral.jsonl")  # ids, labels, trajectories: all the analyses read
+# the labels in the suite's order, from the predictions (each carries its gold): what analyze_skopos/analyze_r4 read
+with open(W / "data" / "awb_neutral.jsonl", "w") as f:
+    for line in open(W / "neutral_base" / "preds_awb_neutral_floor.jsonl"):
+        p = json.loads(line)
+        f.write(json.dumps({"world": p["world"], "gold": p["gold"] == "yes"}) + "\n")
 
 checks = []
 run([HERE / "analyze_skopos.py", W]); checks.append(("skopos_v49f_vs_r2.json", W / "skopos_eval/SKOPOS_CMP.json"))
 run([HERE / "analyze_r4.py", W]); checks.append(("runs/run_r4/R4_RESULTS.json", W / "run_r4/R4_RESULTS.json"))
 run([HERE / "analyze_confirm_ftest.py", W]); checks.append(("confirm_ftest_fresh.json", W / "confirm_r4/CONFIRM_FTEST.json"))
-(W / "neutral.out.json").write_text(run([HERE / "analyze_neutral.py", W / "data/awb_neutral.jsonl",
-                                         f"base={W}/neutral_base/preds_awb_neutral_floor.jsonl",
-                                         f"skopos={W}/neutral_skopos/preds_awb_neutral_floor.jsonl",
-                                         f"r4={W}/neutral_r4/preds_awb_neutral_floor.jsonl"]))
-checks.append(("neutral.json (without AgentWorld)", W / "neutral.out.json"))
+if AWB:
+    (W / "neutral.out.json").write_text(run([HERE / "analyze_neutral.py", AWB,
+                                             f"base={W}/neutral_base/preds_awb_neutral_floor.jsonl",
+                                             f"skopos={W}/neutral_skopos/preds_awb_neutral_floor.jsonl",
+                                             f"r4={W}/neutral_r4/preds_awb_neutral_floor.jsonl"]))
+    checks.append(("neutral.json (without AgentWorld)", W / "neutral.out.json"))
+else:
+    print("skipped  neutral.json: needs the full suite (--awb), 10 of its rows are withheld here")
 cmp = with_fac("compare_release.py")
 for b, f in (("release_r4", "release_read_bf16.json"), ("release_r4_int4", "release_read_int4.json"),
              ("release_r4_fp8", "release_read_fp8.json")):

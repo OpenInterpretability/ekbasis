@@ -7,7 +7,7 @@ folders the runs wrote them to (the analysis scripts read these names); `scripts
 them. Ekbasis-27B's own predictions, the reference of every comparison, are in [`../results/`](../results/). The
 pre-registrations and their hashes are in [`../prereg_skopos/`](../prereg_skopos/).
 
-**Recomputable.** `python3 scripts/verify_summaries.py <raw dir>` recomputes the summaries from the per-item files and
+**Recomputable.** `python3 scripts/verify_summaries.py <raw dir> [--awb <rebuilt suite>]` recomputes the summaries from the per-item files and
 the dataset's `raw/` files with the scripts that produced them (two of which read their item files from a fixed folder,
 pointed at yours in a temporary copy), and compares them with the files here: equal to 1e-9. It covers the selection
 reads, the release read of the bf16, INT4 and FP8 builds, the three quantization gates, the fresh confirmation, the
@@ -27,11 +27,18 @@ the read-once fields are left empty).
 | The builds (INT4, FP8, MLX) | `release_read_{int4,fp8,mlx}.json`, `quant_gate_{int4,fp8,mlx}.json` | `release_r4_int4/`, `release_r4_fp8/`, `release_r4_mlx/` | `run_int4_r4.sh`, `run_fp8.sh`, `run_mlx_gate.sh`, `run_mlx_gate2.sh`, `run_mlx_gate3.sh`, `equiv_mlx.py`, `quant_gate.py`; the builds: `../training/skopos/quantize/` | `PREREG_R4_RELEASE_READ.md`; the gate: `../PREREG_quantized.md` |
 | Confident errors (15,008 items) | `ce_r4.json` | `confident_errors/` (predictions re-scored and as first scored, because ekbasis-data's `raw/ce_items.jsonl` stores yes/no answers as booleans where `confident_errors.py` compares strings; the analysis) | `run_addendum_bf16.sh`, `confident_errors_rtx_path.py` (`confident_errors.py` with the research machine's import path, as it ran), `ce_rescore_and_compare.py`, `../paper/analysis/confident_errors_analyze.py`; `confident_errors.py`, `confident_errors_report.py` (Ekbasis-27B's) | `PREREG_ADDENDUM.md` A2 (`../PREREG_confident_errors.md`) |
 | Calibration, per build | `calib_fit_skopos_{int4,bf16,fp8,mlx}.json`, `calib_fit_ekbasis_int4.json` | `calibration/` (every option's probability per item) | `../generators/v50/build_calib_items.py`, `score_skopos_int4.py` (INT4), `score_prod.py` (Ekbasis-27B-INT4), `score_calib_build.py` and `run_addendum_builds.sh` (the other builds), `fit_T.py` | `PREREG_ADDENDUM.md` A3 (INT4: fitted before it) |
-| Neutral ground: AgentWorldBench turns | `neutral.json` | `neutral_base/`, `neutral_skopos/`, `neutral_r4/`, `neutral_r2/`; `neutral_items.jsonl` (ids, our labels, a hash of each prompt) | `run_neutral.sh`, `run_neutral_ek.sh`, `analyze_neutral.py`; the suite: `../generators/v50/build_awb_neutral.py` | `PREREG_NEUTRAL.md` |
+| Neutral ground: AgentWorldBench turns | `neutral.json` | `neutral_base/`, `neutral_skopos/`, `neutral_r4/`, `neutral_r2/`; `neutral_items.jsonl` (ids, our labels, a hash of each prompt, and `i`, the row's line in the predictions; the rows the dataset withholds are withheld here too, see below) | `run_neutral.sh`, `run_neutral_ek.sh`, `analyze_neutral.py`; the suite: `../generators/v50/build_awb_neutral.py` | `PREREG_NEUTRAL.md` |
 | Images | `image_compare.json` | `image/` (each item's three answers, both models) | `run_image.sh`; the items and the scoring: `../generators/v50/image_served.py` | `PREREG_IMAGE.md` |
 | Overlap with the training data (decision D8) | `overlap_audit/overlap.json` (every evaluation set against every training row of the lineage: identical and near-duplicate prompts), `overlap_audit/recomputed.json` (every published number without the flagged items), `overlap_audit/clean/`; the earlier check of identical states: `overlap_audit_r4.json` (its script was not saved) | | `overlap_audit/audit_overlap_skopos.py`, `overlap_audit/recompute_without_overlap.py` | |
 | Latency and cost, INT4 | `latency_skopos_int4.json`, `latency_ekbasis_int4.json` | | | `PREREG_ADDENDUM.md` A5 |
 | Context, not a Skopos read | `frontier_agentworld.json` (Qwen-AgentWorld against Ekbasis-27B and R1 on our typed questions; its per-item answers are not published) | | | `ADDENDUM_FRONTIER.md` |
+
+**The neutral suite's withheld rows.** The dataset's privacy scan flags some AgentWorldBench trajectory ids (long
+numbers that pass a payment-card checksum), and a flagged row is withheld, never edited: those rows are withheld from
+`runs/neutral_items.jsonl` too (provenance.json gives their positions). No published file carries their ids; the
+per-item predictions keep one line per row of the suite, without ids. `generators/v50/build_awb_neutral.py` rebuilds
+the whole suite from Qwen/AgentWorldBench, which `verify_summaries.py --awb` needs to recompute `neutral.json` (its
+bootstrap is clustered by trajectory).
 
 Names in the files: `skopos` (in `skopos_eval/`, `neutral_skopos/` and the selection files) is the **first Skopos**
 (`v49f_w50`), an unreleased intermediate checkpoint, archived privately; `r4` is **Ekbasis-Skopos-27B**; `base` and `release` are

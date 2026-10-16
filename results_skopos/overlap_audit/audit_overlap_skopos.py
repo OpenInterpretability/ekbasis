@@ -91,6 +91,8 @@ EVAL = [  # (name, path or None for generated) — every set any Skopos document
     ("sess_val", f"{V50}/sess_val.jsonl"), ("fhorizon", f"{V50}/fhorizon.jsonl"), ("latent_test", f"{V50}/latent_test.jsonl"),
     ("awb_neutral", f"{V50}/awb_neutral.jsonl"), ("fval_git3", f"{V50}/fval_git3.jsonl"), ("m3val", f"{V50}/m3val.jsonl"),
     ("ce_items", f"{RAW}/ce_items.jsonl"), ("image_fresh", None),
+    # PREREG_CERTIFIED_CARRYOVER.md step 1: one row per question, floor = the text the client sends (overlap_step.py export)
+    ("certified_carryover", f"{RS}/certified_carryover/data/carryover_audit_items.jsonl"),
 ]
 # Where each set comes from (task 3 of D8; generator code read in DM/conseq, DM/mission/V50P|V50R/scripts, the RTX copies under
 # audit/hf/rtx, and checked against the training files above). in_distribution = same generator as training rows, unseen seeds.
@@ -121,6 +123,9 @@ DISTRIBUTION = {
     "m3val": (True, "conseq/gen_m3only.py, factory-3 items like floor3 (seed 71 vs 65)"),
     "ce_items": (True, "MIXED: group T trained families (in-distribution), H trained families with the held question type, U never-trained "
                        "families (conseq/confident_errors.py)"),
+    "certified_carryover": (False, "confirm-3's frozen fresh items (capability suites shell_wild, git_wild, sql_wild, rules_stress, "
+                                   "accumulation; PREREG_CERTIFIED_CARRYOVER.md), firewalled at build against Ekbasis-27B's lineage only; "
+                                   "no training generator makes them (the F factory was firewalled against these suites, F/OVERLAP.md)"),
     "image_fresh": (True, "worldgen Toggles/Jugs = trained families (kind floor), 1-3 actions; the image modality was not in V45-R4 training"),
 }
 LABEL = {n: ("mixed" if n in ("fval_git3", "ce_items", "image_fresh") else
@@ -631,7 +636,7 @@ def main():
                                  "group": rows[i].get("group"), "how": how, "J": round(jv, 4), "train": ref,
                                  "train_id": tr.get("id"), "train_kind": tr.get("kind"), **st})
         by = {}
-        gk = "group" if n == "ce_items" else "world"
+        gk = "group" if n == "ce_items" else "suite" if n == "certified_carryover" else "world"
         for g in sorted({str(r.get(gk)) for r in rows}):
             gi = [i for i, r in enumerate(rows) if str(r.get(gk)) == g]
             gs = set(gi)

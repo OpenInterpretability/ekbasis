@@ -81,7 +81,10 @@ CAL = {b: ld(f"calib_fit_skopos_{b}.json") for b in ("bf16", "int4", "fp8", "mlx
 CAL_EKB = ld("calib_fit_ekbasis_int4.json")
 BUILDS = {b: (ld(f"release_read_{b}.json"), ld(f"quant_gate_{b}.json")) for b in ("int4", "fp8", "mlx")}
 FRESH = {b: ld(f"ftest_fresh_{b}.json") for b in ("int4", "fp8")}
-MAC = ld("runs/mlx_mac/mlx_mac_test.json")
+MACP = os.path.join(R, "runs", "mlx_mac", "mlx_mac_test.json")  # not an input: without a pass, MLX is not released
+MAC = json.load(open(MACP)) if os.path.exists(MACP) else None
+MLX_IN = bool(MAC and MAC.get("pass"))
+N_ITEMS = sum(1 for _ in open(os.path.join(R, "runs", "neutral_items.jsonl")))
 SCEN = re.findall(r'^    \("([^"]+)",', ld("scripts/git_battery3.py") or "", re.M)  # the scenarios' names, in order
 SEQ = ld("served_equivalence_bf16.json")
 PIN = (ld("runs/t3c/t3c_pinned_commit.txt") or "").strip()
@@ -156,7 +159,8 @@ if SEQ:
     if n_same is None or "n" not in SEQ:
         missing.append("served_equivalence_bf16.json: expected keys n and same")
     w(f"The served model gives the trainer's answer on {n_same} of {SEQ.get('n')} items "
-      "(`results_skopos/served_equivalence_bf16.json`, addendum A6).\n")
+      "(`results_skopos/served_equivalence_bf16.json`, addendum A6; an earlier run of the same check was printed, not "
+      "saved).\n")
 else:
     w("Served against trainer, item by item: " + pending("served_equivalence_bf16.json", "addendum A6") + "\n")
 
@@ -341,12 +345,12 @@ of the guard (known {h(mg['guard_known']['false_alarms'][0], 2)}% → {h(mg['gua
 {h(mg['guard_held']['false_alarms'][0], 2)}% → {h(mg['guard_held']['false_alarms'][1], 2)}%) and agreement with the bf16
 ({h(mg['agreement'], 2)}%, the gate asks 97%); it was read on Linux with MLX's CUDA backend, read-once not measured
 (the MLX server answers it one prompt per question). Under Ekbasis-27B's rule a build ships with its differences on
-its card; this one ships only after the test on Apple hardware of addendum A4:
+its card, and this one only after a test on Apple hardware (addendum A4).
 """)
-if MAC:
-    w(f"`results_skopos/runs/mlx_mac/mlx_mac_test.json`: {json.dumps(MAC)[:300]}\n")
+if MLX_IN:
+    w("It passed that test (`results_skopos/runs/mlx_mac/mlx_mac_test.json`) and is part of the release.\n")
 else:
-    w(pending("runs/mlx_mac/mlx_mac_test.json", "addendum A4, the MLX build on an Apple-silicon Mac") + "\n")
+    w("**The MLX build is not part of this release:** its test on Apple hardware has not passed yet.\n")
 
 # ------------------------------------------------------------------------------------------------- confident errors
 w("## Confident errors in familiar worlds\n")
@@ -412,7 +416,9 @@ w(f"""[AgentWorldBench](https://huggingface.co/datasets/Qwen/AgentWorldBench) (Q
 action, *will it fail?*, on {nr['n']} turns ({nr['fails']} fail), the label read from the observation
 ([PREREG_NEUTRAL.md](prereg_skopos/PREREG_NEUTRAL.md); `results_skopos/neutral.json`; bootstrap clustered by
 trajectory). Evaluation only: these trajectories come from other agents and are never trained on; only their ids and
-our labels are published (`results_skopos/runs/neutral_items.jsonl`).
+our labels are published (`results_skopos/runs/neutral_items.jsonl`: {N_ITEMS} of the {nr['n']} rows; {nr['n'] - N_ITEMS} are
+withheld, as in the dataset, because its privacy scan flags their trajectory ids; `generators/v50/build_awb_neutral.py`
+rebuilds the whole suite from the upstream dataset).
 
 | | AUROC of P(fail) | Balanced accuracy at 0.5 | Recall at 10% false alarms |
 |---|---|---|---|
@@ -527,7 +533,7 @@ w(f"""1. **The release read failed one criterion** (`ftest_family`, {sg(fb['diff
    says so); the rule was registered before, unchanged.
 6. **The neutral suite's Ekbasis runs** were rerun at evaluation batch 6 after running out of memory at 48; unparsed
    AgentWorld answers count as wrong (fixed before any Ekbasis score; both in PREREG_NEUTRAL.md's notes).
-7. **The MLX build** misses {n_miss} gate checks (above); it is not released before addendum A4 passes.
+7. **The MLX build** misses {n_miss} gate checks (above); {"it passed the test on Apple hardware (A4)" if MLX_IN else "it is not part of this release, which A4's test on Apple hardware would have to pass first"}.
 8. **Not kept:** the builds' per-item answers on the fresh `ftest` items (only their summaries), and the first run
    of the served-equals-trainer check (printed; rerun under A6).
 9. **Training** (not an evaluation deviation, listed for completeness): v49f restarted at micro-batch 4 after running

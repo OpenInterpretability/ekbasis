@@ -19,6 +19,10 @@
   "sha256": "26229e44a1423c79b9206457b22167067e0fa999a4aca8ef797a62f6a732477a",
   "source": "release workspace results/calib_fit_skopos_int4.json"
  },
+ "calib_fit_skopos_mlx.json": {
+  "sha256": "ec3b3d8d821f436ee553fc60348f8de656fe7eaee0bd2c57576d0d90af2a3c4c",
+  "source": "release workspace results/calib_fit_skopos_mlx.json"
+ },
  "candidates/first_skopos_v49/PLAN_v49.addendumA.sha256": {
   "sha256": "df03f103fdc36b8d168eca66579e2f19a2f5d9e7138954b27fbbeaec0d8f286a",
   "source": "the research write-up PLAN_v49.addendumA.sha256"
@@ -212,28 +216,36 @@
   "sha256": "06b7a2ddea7ffb5f9c6a12f8f5da0c2faacef93462bc3bb616a50fc54cb9bdfa",
   "source": "release workspace results/image_compare.json"
  },
+ "latency_ekbasis_int4.json": {
+  "sha256": "79df6c4d2f7a3a261dd3e71517a70c3caec9fcd39feb6da880a86d475d94057d",
+  "source": "release workspace results/latency_ekbasis_int4.json"
+ },
+ "latency_skopos_int4.json": {
+  "sha256": "ba6870e3add97c5a4c467bc3f5252b3f0ac8dc7feb45c88cd4567d0387c1d484",
+  "source": "release workspace results/latency_skopos_int4.json"
+ },
  "neutral.json": {
   "sha256": "67479c3b788f48b92271f9f4bdc5bba0f3e7b9ce8c04d12d8b651a93e816118f",
   "source": "release workspace results/neutral.json"
  },
  "overlap_audit/audit_overlap_skopos.py": {
-  "sha256": "30abf6a31fd451be76b710ebbc953d686de5d7896a0a0d1b1b25a64d01653c37",
+  "sha256": "cd1d59b9e4e6a36f9d369c611f0bb0849072efcf047e38268c609052b83b168c",
   "source": "the audit workspace audit/audit_overlap_skopos.py"
  },
  "overlap_audit/overlap.json": {
-  "sha256": "f4a848eff73f96b93a19e2378c198d590c5d82e83cb1bfc103d81a7502c9b589",
+  "sha256": "b1d3cfd0a3ff397ac50e0b583df46df8e839b37f279871af562d735d7c697a23",
   "source": "the audit workspace audit/out/overlap.json"
  },
  "overlap_audit/overlap_run.log": {
-  "sha256": "718e25ae3f13a81e180bd6e605ab384ed0c94f8bb3f23a2b61624dbe1f620b7e",
+  "sha256": "0810d294bccbfbf39b661b62e1212e3a619b18fd5d67c3507c3832a67c003d4b",
   "source": "the audit workspace audit/out/overlap_run.log"
  },
  "overlap_audit/recompute_without_overlap.py": {
-  "sha256": "d4e58e236dd72bd2ee0fdef656cc66d27278e08797f15d7d4a3085088f0fa48e",
+  "sha256": "acf72ae9e73c4faac632954de41107c19e2ee23fb4a0e9e3474192fb24d41638",
   "source": "the audit workspace audit/recompute_without_overlap.py"
  },
  "overlap_audit/recomputed.json": {
-  "sha256": "d1b88ebad0d7e89377eb92ead6ea7625465169b3ef181da25bb95238c8074ef7",
+  "sha256": "d3c3dafa33829bf7a94d485b9e20af92392b8e1fe9e8e5b12529c1f71e278162",
   "source": "the audit workspace audit/out/recomputed.json"
  },
  "overlap_audit_r4.json": {
@@ -418,6 +430,10 @@
   "sha256": "566cb2d836aa320e08de02f4b1945da47c7f59b76cfa2f170f15f1c43866f44a",
   "source": "rtx/v50p/calib_scores_skopos_int4.jsonl"
  },
+ "runs/calibration/calib_scores_skopos_mlx.jsonl": {
+  "sha256": "532eeee8982b26bc406ae7d4d86e14b4eebd0efe8570c92dfdf1335e6402e349",
+  "source": "release workspace addendum/calib_scores_skopos_mlx.jsonl"
+ },
  "runs/confident_errors/preds.jsonl": {
   "sha256": "c17e3638cbadd89de0c8c1e7cab1e6fdbf0e0a1bf191a533ccb1943b2e2de197",
   "source": "release workspace addendum/ce/preds.jsonl"
@@ -515,8 +531,8 @@
   "source": "rtx/v50p/neutral_base/summary.json"
  },
  "runs/neutral_items.jsonl": {
-  "sha256": "13a91377f21dad4c01120ed209c0cadcf749a3a2f29e96094bf01a0734663cde",
-  "source": "derived from awb_neutral.jsonl (sha256 3719e060e2174b93429dbb22887cd052ab5f935e4e38682a26b41aba313d116b): ids, labels, prompt hashes"
+  "sha256": "d795f791fd6a53c57ddc1e5a5d5711c95e262cf9b871533665f8c6ef3ad5e390",
+  "source": "derived from awb_neutral.jsonl (sha256 3719e060e2174b93429dbb22887cd052ab5f935e4e38682a26b41aba313d116b): ids, labels, prompt hashes; 445 rows, 10 withheld as in ekbasis-skopos-data (positions [49, 345, 346, 347, 348, 349, 386, 387, 388, 389])"
  },
  "runs/neutral_r1/preds_awb_neutral_floor.jsonl": {
   "sha256": "4b6497ab7ee952e45bd58e379f7df2daac00c13ef75ffc1a0d1404bb26e8842c",
@@ -1145,6 +1161,10 @@
  "runs/t3c/t3c_r4.log": {
   "sha256": "2e7b223640ae0c0dad79d1eaf3be435ea0c1d48311feb5b1c67c5f0df60977f7",
   "source": "release workspace addendum/t3c_r4.log"
+ },
+ "served_equivalence_bf16.json": {
+  "sha256": "c872b55a8307db5f9af4ec77fcaafe0f643965adef16f6827aa064f29eb7d9c8",
+  "source": "release workspace results/served_equivalence_bf16.json"
  },
  "skopos_v49f_vs_r2.json": {
   "as_run_copy": "rtx/v50p/skopos_eval/SKOPOS_CMP.json",

@@ -53,7 +53,7 @@ recomputes the summaries from them. Deviations from the pre-registrations are li
 | git v3 (validation) | 93.0 | 93.3 | **94.1** | +0.8 [+0.0, +1.6] | +1.1 [+0.3, +2.0] |
 
 Paired bootstrap by item (2,000 resamples, seed 20261015); the last column, descriptive, from `results_skopos/r4_vs_ekbasis27b_trainer.json` (the same predictions and bootstrap). † In-distribution: the same generators as training rows, with fresh seeds and firewalls.
-Served against trainer, item by item: *Pending: addendum A6 (`results_skopos/served_equivalence_bf16.json` not yet written).*
+The served model gives the trainer's answer on 498 of 500 items (`results_skopos/served_equivalence_bf16.json`, addendum A6; an earlier run of the same check was printed, not saved).
 
 ## The release read
 
@@ -202,9 +202,9 @@ of the guard (known 3.13% → 4.17%, held-out
 3.25% → 4.76%) and agreement with the bf16
 (95.86%, the gate asks 97%); it was read on Linux with MLX's CUDA backend, read-once not measured
 (the MLX server answers it one prompt per question). Under Ekbasis-27B's rule a build ships with its differences on
-its card; this one ships only after the test on Apple hardware of addendum A4:
+its card, and this one only after a test on Apple hardware (addendum A4).
 
-*Pending: addendum A4, the MLX build on an Apple-silicon Mac (`results_skopos/runs/mlx_mac/mlx_mac_test.json` not yet written).*
+**The MLX build is not part of this release:** its test on Apple hardware has not passed yet.
 
 ## Confident errors in familiar worlds
 
@@ -240,7 +240,7 @@ One global temperature per build, fitted on validation only (`fval_git3` + `m3va
 | Skopos bf16 | 1.62 | 95.2% | 0.034 → 0.011 | 3.24 → 1.96 | 0.0837 → 0.0776 |
 | Skopos INT4 | 1.67 | 95.1% | 0.034 → 0.015 | 3.28 → 1.72 | 0.0843 → 0.0778 |
 | Skopos FP8 | 1.64 | 95.4% | 0.031 → 0.012 | 3.08 → 1.72 | 0.0803 → 0.0752 |
-| Skopos MLX | *Pending: addendum A3 (`results_skopos/calib_fit_skopos_mlx.json` not yet written).* | | | | |
+| Skopos MLX | 1.65 | 94.5% | 0.037 → 0.017 | 3.68 → 1.84 | 0.0946 → 0.0878 |
 | Ekbasis-27B INT4 | 1.55 | 91.1% | 0.068 → 0.036 | 6.24 → 3.88 | 0.1553 → 0.1416 |
 
 Per split, and what a raw yes-probability becomes calibrated: the same files (`map_binary`).
@@ -252,7 +252,9 @@ Per split, and what a raw yes-probability becomes calibrated: the same files (`m
 action, *will it fail?*, on 455 turns (54 fail), the label read from the observation
 ([PREREG_NEUTRAL.md](prereg_skopos/PREREG_NEUTRAL.md); `results_skopos/neutral.json`; bootstrap clustered by
 trajectory). Evaluation only: these trajectories come from other agents and are never trained on; only their ids and
-our labels are published (`results_skopos/runs/neutral_items.jsonl`).
+our labels are published (`results_skopos/runs/neutral_items.jsonl`: 445 of the 455 rows; 10 are
+withheld, as in the dataset, because its privacy scan flags their trajectory ids; `generators/v50/build_awb_neutral.py`
+rebuilds the whole suite from the upstream dataset).
 
 | | AUROC of P(fail) | Balanced accuracy at 0.5 | Recall at 10% false alarms |
 |---|---|---|---|
@@ -282,7 +284,14 @@ Image ability **preserved** by the registered reading (Skopos − Ekbasis-27B �
 
 ## Latency and cost (INT4)
 
-*Pending: addendum A5 (`results_skopos/latency_skopos_int4.json` not yet written).*
+Both INT4 builds served the same way on the same RTX PRO 6000 (vLLM and `serve.py`, nothing else on the GPU), on
+200 fixed items (addendum A5; `results_skopos/latency_*_int4.json`). The hosted API runs on another GPU.
+
+| | Skopos INT4 | Ekbasis-27B INT4 |
+|---|---|---|
+| One at a time: median / 90th percentile | 0.064 s / 0.068 s | 0.064 s / 0.068 s |
+| 16 in parallel: requests per second | 19.0 | 19.0 |
+| Input tokens per request: mean / median | 302 / 299 | 302 / 299 |
 
 ## Overlap with the training data
 
@@ -329,6 +338,8 @@ without overlap; the sensitivity rule also removes the set's layout from the tra
 | `fval_git3` | 1,524 | 0 | 0 | 0 | 47 | yes |
 | `m3val` | 300 | 0 | 0 | 0 | 0 | yes |
 | `ce_items` | 15,008 | 174 | 5,207 | 5,381 | 5,697 | yes |
+| `image_fresh` | 400 | 0 | 5 | 5 | 21 | yes |
+| `certified_carryover` | 2,781 | 0 | 0 | 0 | 0 | no |
 | `image` | 400 | 0 | 5 | 5 | 21 | yes |
 
 **Every published number recomputed without the flagged items** (`results_skopos/overlap_audit/recomputed.json`):
@@ -363,7 +374,7 @@ Sets from the same generators as training rows (the last column; fresh seeds and
    says so); the rule was registered before, unchanged.
 6. **The neutral suite's Ekbasis runs** were rerun at evaluation batch 6 after running out of memory at 48; unparsed
    AgentWorld answers count as wrong (fixed before any Ekbasis score; both in PREREG_NEUTRAL.md's notes).
-7. **The MLX build** misses 3 gate checks (above); it is not released before addendum A4 passes.
+7. **The MLX build** misses 3 gate checks (above); it is not part of this release, which A4's test on Apple hardware would have to pass first.
 8. **Not kept:** the builds' per-item answers on the fresh `ftest` items (only their summaries), and the first run
    of the served-equals-trainer check (printed; rerun under A6).
 9. **Training** (not an evaluation deviation, listed for completeness): v49f restarted at micro-batch 4 after running
