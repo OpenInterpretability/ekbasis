@@ -232,8 +232,60 @@
   "sha256": "cd1d59b9e4e6a36f9d369c611f0bb0849072efcf047e38268c609052b83b168c",
   "source": "the audit workspace audit/audit_overlap_skopos.py"
  },
+ "overlap_audit/clean/calib_fit_ekbasis_int4_clean.json": {
+  "sha256": "6a3a1f6b2b0f01106c99ae7968ee0827502638d5f6653b1dd45dc52ddcb2d347",
+  "source": "the audit workspace audit/out/clean/calib_fit_ekbasis_int4_clean.json"
+ },
+ "overlap_audit/clean/calib_fit_skopos_bf16_clean.json": {
+  "sha256": "002173cad5250d18a28d14a58f5f9679ce4a8f2246db55c942cde02fc6a64bc6",
+  "source": "the audit workspace audit/out/clean/calib_fit_skopos_bf16_clean.json"
+ },
+ "overlap_audit/clean/calib_fit_skopos_fp8_clean.json": {
+  "sha256": "a1fc291a2485d5b7f1107f1018db807567381b7bede1872f82fae4f1c79fd3ba",
+  "source": "the audit workspace audit/out/clean/calib_fit_skopos_fp8_clean.json"
+ },
+ "overlap_audit/clean/calib_fit_skopos_int4_clean.json": {
+  "sha256": "7ec5ae77494739e059b07bf292a2a946c3cd73c019fd9c1fc898d498a439a25b",
+  "source": "the audit workspace audit/out/clean/calib_fit_skopos_int4_clean.json"
+ },
+ "overlap_audit/clean/calib_fit_skopos_mlx_clean.json": {
+  "sha256": "dc5f23a9617c77a68678723e859a080de56f0d26dd65370c3eef1c822d1598dd",
+  "source": "the audit workspace audit/out/clean/calib_fit_skopos_mlx_clean.json"
+ },
+ "overlap_audit/clean/ce_r4_clean.json": {
+  "sha256": "c2da310c2739e4dbea83ce2c694efa203b3b61e28def169911a1c2a08a25d5d0",
+  "source": "the audit workspace audit/out/clean/ce_r4_clean.json"
+ },
+ "overlap_audit/clean/image_compare_clean.json": {
+  "sha256": "1bde2003075a78bf1d6ab0e501308702a50cf561e03ea604c2b82bfc282b5f3c",
+  "source": "the audit workspace audit/out/clean/image_compare_clean.json"
+ },
+ "overlap_audit/clean/r4_vs_ekbasis27b_trainer_clean.json": {
+  "sha256": "9416e5951761ce17c35b5ab825df0e58863d2a0297d42a32ab6741ff9b66d6af",
+  "source": "the audit workspace audit/out/clean/r4_vs_ekbasis27b_trainer_clean.json"
+ },
+ "overlap_audit/clean/r4_vs_skopos_v49f_clean.json": {
+  "sha256": "7036bf2e4e4c3b431ed4fc42f27903fd914d58f31dfe6c58b76c6624f34383f9",
+  "source": "the audit workspace audit/out/clean/r4_vs_skopos_v49f_clean.json"
+ },
+ "overlap_audit/clean/release_read_bf16_clean.json": {
+  "sha256": "7a5156c191773f3b315df00c76d35e5ed08716ffdbac15cc97f5f9ace55aa9a9",
+  "source": "the audit workspace audit/out/clean/release_read_bf16_clean.json"
+ },
+ "overlap_audit/clean/release_read_fp8_clean.json": {
+  "sha256": "95b75146ec6c732ab3e9895e7ab83cc49b69ea30862360095b71831f94600b50",
+  "source": "the audit workspace audit/out/clean/release_read_fp8_clean.json"
+ },
+ "overlap_audit/clean/release_read_int4_clean.json": {
+  "sha256": "385fe6124ec7f4ae75738405d2006958cc2682e141e7efa19f9996f4c5ec4a00",
+  "source": "the audit workspace audit/out/clean/release_read_int4_clean.json"
+ },
+ "overlap_audit/clean/release_read_mlx_clean.json": {
+  "sha256": "8a220cf6adcefb70e1b3ae7f092bbfab71c2c33a0fde6352a7f60b11b6cc960f",
+  "source": "the audit workspace audit/out/clean/release_read_mlx_clean.json"
+ },
  "overlap_audit/overlap.json": {
-  "sha256": "b1d3cfd0a3ff397ac50e0b583df46df8e839b37f279871af562d735d7c697a23",
+  "sha256": "c1019f3a26f3e412c889cf081d1b9ef19c29cc5e1d67f345e4b66296c594c5d3",
   "source": "the audit workspace audit/out/overlap.json"
  },
  "overlap_audit/overlap_run.log": {
@@ -245,7 +297,7 @@
   "source": "the audit workspace audit/recompute_without_overlap.py"
  },
  "overlap_audit/recomputed.json": {
-  "sha256": "d3c3dafa33829bf7a94d485b9e20af92392b8e1fe9e8e5b12529c1f71e278162",
+  "sha256": "4cee04b61985720676a7d26c3cda189dc7d875912421a71397a1808cd2c8f26a",
   "source": "the audit workspace audit/out/recomputed.json"
  },
  "overlap_audit_r4.json": {
@@ -531,8 +583,8 @@
   "source": "rtx/v50p/neutral_base/summary.json"
  },
  "runs/neutral_items.jsonl": {
-  "sha256": "d795f791fd6a53c57ddc1e5a5d5711c95e262cf9b871533665f8c6ef3ad5e390",
-  "source": "derived from awb_neutral.jsonl (sha256 3719e060e2174b93429dbb22887cd052ab5f935e4e38682a26b41aba313d116b): ids, labels, prompt hashes; 445 rows, 10 withheld as in ekbasis-skopos-data (positions [49, 345, 346, 347, 348, 349, 386, 387, 388, 389])"
+  "sha256": "8362a20c29b1c26ce8725a09a5c57699382a34f974c4cfa8c5e43f1bfe2d6abc",
+  "source": "derived from awb_neutral.jsonl (sha256 3719e060e2174b93429dbb22887cd052ab5f935e4e38682a26b41aba313d116b): ids, labels, prompt hashes; 444 rows, 11 withheld as in ekbasis-skopos-data (positions [49, 230, 345, 346, 347, 348, 349, 386, 387, 388, 389])"
  },
  "runs/neutral_r1/preds_awb_neutral_floor.jsonl": {
   "sha256": "4b6497ab7ee952e45bd58e379f7df2daac00c13ef75ffc1a0d1404bb26e8842c",

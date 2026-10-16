@@ -511,8 +511,20 @@ if REC:
           + ", ".join(f"{n:,} in the {names_g[g]}" for g, n in byg.items()) + ")"
           + ("; nothing in the never-trained families, so their numbers stand" if not byg.get("U") else "")
           + f" (never-trained families, wrong at ≥ 0.9: {sg(ceU['conf_wrong_diff'], 2)} per 100 {ci(ceU['conf_wrong_diff_ci'], 2)}).")
+    if "vs_ekbasis27b_trainer" in REC:
+        vp, va = REC["vs_ekbasis27b_trainer"]["primary"], REC["vs_ekbasis27b_trainer"]["all"]
+        moved = [s for s in vp if vp[s]["n"] != va[s]["n"]]
+        w("- Skopos against Ekbasis-27B (descriptive), on the sets that lose items: " + "; ".join(
+            f"`{s}` {sg(100 * vp[s]['r4_minus_ekbasis27b'][0])} {ci(vp[s]['r4_minus_ekbasis27b'][1], 1, 100)} on {vp[s]['n']:,} items "
+            f"(all items {sg(100 * va[s]['r4_minus_ekbasis27b'][0])})" for s in moved) + ".")
     for k, v in REC["unchanged_by_construction"].items():
         w(f"- {k}: {v}.")
+    if "flagged_vs_clean" in REC:
+        w("\nAccuracy on the flagged items and on the rest (`flagged_vs_clean`):\n")
+        w("| Set | Flagged items: Skopos / Ekbasis-27B | The rest: Skopos / Ekbasis-27B |\n|---|---|---|")
+        for s, d in REC["flagged_vs_clean"].items():
+            w(f"| {s} | {h(d['skopos_flagged'])}% / {h(d['ekbasis27b_flagged'])}% ({d['flagged_n']:,}) | "
+              f"{h(d['skopos_clean'])}% / {h(d['ekbasis27b_clean'])}% ({d['clean_n']:,}) |")
     w("")
 else:
     w(pending("overlap_audit/recomputed.json", "the numbers without overlap") + "\n")

@@ -1,7 +1,5 @@
 # Ekbasis-Skopos-27B release evaluation — results
 
-> **Draft.** Results still to come are marked *pending*; the final version is written with `--final`, which refuses to build while any of them is missing.
-
 **The release, Ekbasis-Skopos-27B, is R4 merged into the first Skopos.** The first Skopos is Ekbasis-27B trained
 further on executed scenarios (v49f) and interpolated halfway back to it; R4 is a LoRA trained on top of it, with real
 git sequences of several commands, the executed factory regenerated, and synthetic long sequences
@@ -252,7 +250,7 @@ Per split, and what a raw yes-probability becomes calibrated: the same files (`m
 action, *will it fail?*, on 455 turns (54 fail), the label read from the observation
 ([PREREG_NEUTRAL.md](prereg_skopos/PREREG_NEUTRAL.md); `results_skopos/neutral.json`; bootstrap clustered by
 trajectory). Evaluation only: these trajectories come from other agents and are never trained on; only their ids and
-our labels are published (`results_skopos/runs/neutral_items.jsonl`: 445 of the 455 rows; 10 are
+our labels are published (`results_skopos/runs/neutral_items.jsonl`: 444 of the 455 rows; 11 are
 withheld, as in the dataset, because its privacy scan flags their trajectory ids; `generators/v50/build_awb_neutral.py`
 rebuilds the whole suite from the upstream dataset).
 
@@ -353,10 +351,22 @@ without overlap; the sensitivity rule also removes the set's layout from the tra
 - Images: preserved under both rules (image prompts +1.01 [−2.03, +4.05] on 395 items).
 - Quantization gates: each build's pass or miss holds.
 - Confident errors: 5,381 items flagged (4,153 in the trained families, 1,228 in the trained families with held-out question types); nothing in the never-trained families, so their numbers stand (never-trained families, wrong at ≥ 0.9: +0.75 per 100 [+0.28, +1.23]).
+- Skopos against Ekbasis-27B (descriptive), on the sets that lose items: `fac_val` +5.7 [+4.8, +6.7] on 3,878 items (all items +5.6); `fhorizon` +0.7 [−1.1, +2.3] on 828 items (all items +0.7).
 - neutral.json (awb_neutral): 0 items flagged under either rule: every number unchanged.
 - ftest_fresh_int4.json / ftest_fresh_fp8.json: ftest_fresh: 0 items flagged under either rule: unchanged.
 - t3c_r4.json: real-repository scenarios (pallets/itsdangerous), not dataset items: outside the audit.
 - mlx_mac_test / served equivalence: agreement between builds, not accuracy on a set: not affected by overlap.
+
+Accuracy on the flagged items and on the rest (`flagged_vs_clean`):
+
+| Set | Flagged items: Skopos / Ekbasis-27B | The rest: Skopos / Ekbasis-27B |
+|---|---|---|
+| fac_val | 100.0% / 98.1% (105) | 93.9% / 88.1% (3,878) |
+| fhorizon | 85.0% / 84.3% (547) | 87.9% / 87.2% (828) |
+| multi_test_trainfam (share of a state's questions right) | 97.0% / 95.9% (291) | 97.8% / 96.3% (309) |
+| ce_items group T | 95.4% / 94.8% (4,153) | 97.7% / 97.1% (3,019) |
+| ce_items group H | 92.3% / 90.1% (1,228) | 88.3% / 86.4% (1,244) |
+| image (text prompt) | 100.0% / 100.0% (5) | 91.9% / 89.6% (395) |
 
 Sets from the same generators as training rows (the last column; fresh seeds and firewalls) measure in-distribution generalization, not transfer.
 
