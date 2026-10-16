@@ -1,0 +1,38 @@
+{
+ "release:git3_test_known": {
+  "mean": 298.8663967611336,
+  "median": 296.0
+ },
+ "release:git3_test_held": {
+  "mean": 302.4374614910659,
+  "median": 300
+ },
+ "release:guard_known": {
+  "mean": 317.1871378910776,
+  "median": 317.0
+ },
+ "release:guard_held": {
+  "mean": 321.7215269086358,
+  "median": 321.0
+ },
+ "scorecard:git3_known": {
+  "mean": 299.79,
+  "median": 296.0
+ },
+ "scorecard:git3_held": {
+  "mean": 302.5875,
+  "median": 300.0
+ },
+ "scorecard:guard_held": {
+  "mean": 299.105,
+  "median": 296.0
+ },
+ "scorecard:worlds": {
+  "mean": 248.6625,
+  "median": 237.0
+ },
+ "scorecard:intent": {
+  "mean": 1084.6666666666667,
+  "median": 935.0
+ }
+}

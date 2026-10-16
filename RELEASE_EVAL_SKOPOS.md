@@ -426,6 +426,82 @@ Both INT4 builds served the same way on the same RTX PRO 6000 (vLLM and `serve.p
 | 16 in parallel: requests per second | 19.0 | 19.0 |
 | Input tokens per request: mean / median | 302 / 299 | 302 / 299 |
 
+## Against a general-purpose calibrated evaluator (Jev; not pre-registered, measured 2026-10-16)
+
+Jev is TypeSafe AI's System One evaluation model (typesafe-ai/jev (Vercel AI Gateway, zero data retention); ai@7.0.120 experimental_evaluate). It was run zero-shot on the items
+Ekbasis is published on, the release protocol and the five suites of the hosted scorecard, and put next to the per-item
+predictions Ekbasis-27B and Skopos published for the same items (not re-run). Each question went to Jev in two wordings:
+Ekbasis' own, and one rewritten in the style of TypeSafe's documentation; the headline row (★) of each set is the better
+of the two by a rule fixed before scoring (accuracy; AUROC of P(lost) on the guard sets), which favours Jev slightly.
+This compares Jev out of the box with models trained for the task; it does not measure what Jev could do after
+adaptation. The package, with every per-item answer and its own method and results:
+[`results_skopos/jev_comparison/`](results_skopos/jev_comparison/METHOD.md) (`python3 -I scripts/recompute.py`
+reproduces `results.json` from it).
+
+**Release protocol, git v3** (accuracy, all question types):
+
+| System | Known (1,482) | Held-out (1,623) | All (3,105) | Mean confidence, all |
+|---|---|---|---|---|
+| Jev, Ekbasis' question | 89.7% | 88.0% | 88.8% | 0.852 |
+| Jev, Jev-style question ★ | 90.4% | 89.5% | 90.0% | 0.839 |
+| Ekbasis-27B (bf16) | 98.1% | 95.3% | 96.6% | 0.990 |
+| Ekbasis-27B INT4 | 98.0% | 95.0% | 96.4% | 0.989 |
+| Skopos (bf16) | 98.6% | 95.4% | 96.9% | 0.992 |
+| Skopos INT4 | 98.4% | 95.3% | 96.8% | 0.992 |
+
+**The guard, larger set, known command types** ("lost" questions: 863 work-losing, 863 safe). The last column holds each system at the false-alarm rate Ekbasis-27B has at 0.2 (4.3%):
+
+| System | AUROC of P(lost) | Work-losing flagged at 0.2 | False alarms at 0.2 | Work-losing caught at the matched false-alarm rate |
+|---|---|---|---|---|
+| Jev, Ekbasis' question ★ | 0.879 | 860 of 863 | 733 of 863 | 45.3% (threshold 0.760) |
+| Jev, Jev-style question | 0.853 | 863 of 863 | 796 of 863 | 33.6% (threshold 0.780) |
+| Ekbasis-27B (bf16) | 0.982 | 828 of 863 | 37 of 863 | 95.9% (threshold 0.212) |
+| Skopos (bf16) | 0.992 | 837 of 863 | 27 of 863 | 97.3% (threshold 0.060) |
+| Skopos INT4 | 0.992 | 836 of 863 | 25 of 863 | 97.3% (threshold 0.064) |
+
+**The guard, larger set, held-out command types** ("lost" questions: 799 work-losing, 799 safe). The last column holds each system at the false-alarm rate Ekbasis-27B has at 0.2 (6.1%):
+
+| System | AUROC of P(lost) | Work-losing flagged at 0.2 | False alarms at 0.2 | Work-losing caught at the matched false-alarm rate |
+|---|---|---|---|---|
+| Jev, Ekbasis' question ★ | 0.871 | 799 of 799 | 748 of 799 | 43.7% (threshold 0.720) |
+| Jev, Jev-style question | 0.821 | 799 of 799 | 784 of 799 | 32.4% (threshold 0.730) |
+| Ekbasis-27B (bf16) | 0.985 | 767 of 799 | 49 of 799 | 96.2% (threshold 0.173) |
+| Skopos (bf16) | 0.993 | 776 of 799 | 26 of 799 | 98.7% (threshold 0.042) |
+| Skopos INT4 | 0.993 | 778 of 799 | 25 of 799 | 98.9% (threshold 0.045) |
+
+**The hosted scorecard's suites** (as `scorecard/scorecard.py` builds them; accuracy · wrong at confidence ≥ 0.9 per 100):
+
+| Suite | Jev, Ekbasis' question | Jev, Jev-style question | Ekbasis-27B INT4 | Skopos INT4 | Ekbasis-27B (bf16) | Skopos (bf16) | Ekbasis, hosted API (the 2026-10-11 intent_check replay) |
+|---|---|---|---|---|---|---|---|
+| `git3_known` (400) | 90.0% · 0.75 | 91.5% · 0.50 ★ | 97.8% · 2.25 | 98.3% · 1.25 | 97.8% · 2.00 | 98.3% · 1.50 | — |
+| `git3_held` (400) | 89.8% · 0.25 | 92.0% · 0.25 ★ | 95.5% · 3.75 | 95.3% · 3.75 | 95.8% · 4.00 | 95.0% · 4.25 | — |
+| `guard_held` (400) | 74.5% · 0.00 ★ | 73.8% · 0.00 | — | 86.8% · 10.75 | 83.3% · 14.50 | 87.3% · 9.75 | — |
+| `worlds` (400) | 74.8% · 0.75 ★ | 73.5% · 0.00 | 83.5% · 4.75 | 83.8% · 7.50 | 84.0% · 4.00 | 83.5% · 8.00 | — |
+| `intent` (300) | 100.0% · 0.00 ★ | 100.0% · 0.00 | — | — | — | — | 100.0% · 0.00 |
+
+**Cost per million checks** (Jev: measured input tokens of the headline variant at US$0.042 per million input tokens; Ekbasis: estimated input tokens at its hosted price, US$0.30; output is free for both; prices and the estimate as in the package's RESULTS.md and METHOD.md):
+
+| Set | Jev: tokens per check · US$ per 1M checks | Ekbasis: tokens per check (estimate) · US$ per 1M checks |
+|---|---|---|
+| release `git3_test_known` | 522.1 · 21.93 | 298.9 · 89.66 |
+| release `git3_test_held` | 526.2 · 22.10 | 302.4 · 90.73 |
+| release `guard_known` | 494.1 · 20.75 | 317.2 · 95.16 |
+| release `guard_held` | 499.2 · 20.97 | 321.7 · 96.52 |
+| scorecard `git3_known` | 523.4 · 21.98 | 299.8 · 89.94 |
+| scorecard `git3_held` | 526.7 · 22.12 | 302.6 · 90.78 |
+| scorecard `guard_held` | 475.9 · 19.99 | 299.1 · 89.73 |
+| scorecard `worlds` | 443.4 · 18.62 | 248.7 · 74.60 |
+| scorecard `intent` | 1256.4 · 52.77 | 1084.7 · 325.40 |
+
+**Where Jev is strong.** It makes very few confident errors: wrong at confidence ≥ 0.9, 0.00 to
+0.75 per 100 answers on the scorecard suites, against 1.25 to 14.50 for the Ekbasis
+builds. That comes from probabilities compressed toward the middle (mean confidence on git v3
+0.852 and 0.839,
+against 0.990 or more for
+Ekbasis), which also costs it accuracy and separation: on the guard it flags almost every command at 0.2
+(733 false alarms among 863 safe ones, known types). It is cheaper per check
+(the table above) and needs no training for the task. Ekbasis is more accurate on every set here, except `intent` (where Jev ties or leads); on the guard it separates work-losing from safe commands better (AUROC).
+
 ## Overlap with the training data
 
 A first check counted, per evaluation set, the items whose state is identical to a state of the training rows (`results_skopos/overlap_audit_r4.json`; its script was not saved, so which training files it covered cannot be shown here; the redone audit below replaces it):

@@ -46,6 +46,7 @@ MAC = ld("runs/mlx_mac/mlx_mac_test.json") if has("runs/mlx_mac/mlx_mac_test.jso
 DATE = os.environ.get("RELEASE_DATE") or "⟨release date⟩"
 SWITCH = os.environ.get("SWITCH_DATE") or "⟨switch date⟩"
 SWITCH_TIME = os.environ.get("SWITCH_TIME") or "⟨HH:MM⟩"
+JEVR = ld("jev_comparison/results.json") if has("jev_comparison/results.json") else None  # added after the release
 SAME_DAY = not SWITCH.startswith("⟨") and SWITCH == DATE  # the owner's decision: the hosted switch on the release day
 gb = lambda b: h(B[b]["weights_bytes"] / 1e9)
 d_fresh = CF["changed"]["r4_minus_release"]
@@ -194,6 +195,16 @@ evaluation set of its lineage, as they ran, in [`generators/`](generators/README
   [prereg_skopos/](prereg_skopos/PREREG_sha256.txt); its training code: [training/skopos/](training/skopos/README.md);
   the generators behind every training kind and evaluation set, as they ran: [generators/](generators/README.md).
 """),
+        **({"results": (r"^# Changelog\n", f"""
+## Results — {JEVR['meta']['measured']}
+
+### Added
+- **Jev against Ekbasis-27B and Ekbasis-Skopos-27B** (not pre-registered, measured {JEVR['meta']['measured']}): TypeSafe AI's
+  general-purpose evaluator, zero-shot, on the release protocol and the hosted scorecard's suites, next to the published
+  per-item predictions; with every per-item answer and a script that reproduces the numbers
+  ([results_skopos/jev_comparison/](results_skopos/jev_comparison/METHOD.md), a section of
+  [RELEASE_EVAL_SKOPOS.md](RELEASE_EVAL_SKOPOS.md)).
+""")} if JEVR else {}),
         **({"switch": (r"^# Changelog\n", f"""
 ## Hosted API — {SWITCH}
 

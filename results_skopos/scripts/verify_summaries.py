@@ -202,6 +202,12 @@ if (RES / "git3_by_type_paired.json").exists():
     run([HERE / "git3_by_type_paired.py", W / "release_r4", W / "release_ref", W / "git3_by_type.json"])
     g3_ok = not close(json.load(open(W / "git3_by_type.json")), json.load(open(RES / "git3_by_type_paired.json")))
 
+# Jev against Ekbasis (not pre-registered): the package's own recompute.py, on the package as published
+jev_ok = True
+if (RES / "jev_comparison" / "scripts" / "recompute.py").exists():
+    jev_ok = subprocess.run([PY, "-I", str(RES / "jev_comparison" / "scripts" / "recompute.py")], cwd=RES / "jev_comparison",
+                            capture_output=True, text=True).returncode == 0
+
 bad = 0
 for pub_name, got in checks:
     p = json.load(open(RES / pub_name.split(" ")[0]))
@@ -221,9 +227,10 @@ print(f"{'ok      ' if cc_ok else 'DIFFERS '} certified_carryover_reference_rows
 bad += not cc_ok
 for ok, what in ((gp_ok, "guard_paired.json (the guard's counts against Ekbasis-27B, McNemar and paired bootstrap)"),
                  (ece_ok, "ce_r4_ece.json (confident errors, ECE per group, paired bootstrap)"),
-                 (g3_ok, "git3_by_type_paired.json (git v3 per question type against Ekbasis-27B)")):
+                 (g3_ok, "git3_by_type_paired.json (git v3 per question type against Ekbasis-27B)"),
+                 (jev_ok, "jev_comparison/results.json (its recompute.py, from the package's per-item files)")):
     print(f"{'ok      ' if ok else 'DIFFERS '} {what}")
     bad += not ok
 shutil.rmtree(W)
-print(f"{len(checks) + 7 - bad} of {len(checks) + 7} summaries recomputed")
+print(f"{len(checks) + 8 - bad} of {len(checks) + 8} summaries recomputed")
 sys.exit(1 if bad else 0)

@@ -1,5 +1,17 @@
 # Changelog
 
+<!-- skopos:results -->
+## Results — 2026-10-16
+
+### Added
+- **Jev against Ekbasis-27B and Ekbasis-Skopos-27B** (not pre-registered, measured 2026-10-16): TypeSafe AI's
+  general-purpose evaluator, zero-shot, on the release protocol and the hosted scorecard's suites, next to the published
+  per-item predictions; with every per-item answer and a script that reproduces the numbers
+  ([results_skopos/jev_comparison/](results_skopos/jev_comparison/METHOD.md), a section of
+  [RELEASE_EVAL_SKOPOS.md](RELEASE_EVAL_SKOPOS.md)).
+
+<!-- /skopos:results -->
+
 <!-- skopos:switch -->
 ## Hosted API — 2026-10-16
 

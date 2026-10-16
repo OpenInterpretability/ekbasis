@@ -12,7 +12,7 @@ the dataset's `raw/` files with the scripts that produced them (two of which rea
 pointed at yours in a temporary copy), and compares them with the files here: equal to 1e-9. It covers the selection
 reads, the release read of the bf16, INT4 and FP8 builds, the three quantization gates, the fresh confirmation, the
 neutral suite, the image check, the calibration fits, T3c, and the three comparisons added after the independent
-review (the guard paired, confident errors' ECE per group, git v3 per question type). The MLX build's release read (`release_read_mlx.json`)
+review (the guard paired, confident errors' ECE per group, git v3 per question type), and the Jev comparison (its own `recompute.py`). The MLX build's release read (`release_read_mlx.json`)
 was assembled by hand from `runs/release_r4_mlx/` and `quant_gate_mlx.json` because the MLX server does not answer
 read-once; its values equal what `compare_release.py` computes from those files (checked when this folder was staged;
 the read-once fields are left empty).
@@ -38,6 +38,7 @@ the read-once fields are left empty).
 | Pre-launch evaluation (the release evaluation's remaining measurements, Skopos next to Ekbasis-27B) | `prelaunch/compare/`: each item's comparison as the battery wrote it, `PENDING.json` (which file stands for what, and what was appended after the release), context files; `prelaunch/RELEASE_DECISION.md` (the owner's decision, with the P8 blocker declared) | `prelaunch/out/` (the battery's outputs; P10's per-scenario truth and predictions are not published: they name files and commands of private working copies) | `prelaunch/code/` (the battery as it ran; the Mac's home folder in four files replaced, see `provenance.json`); `prelaunch/references.tsv` (every Ekbasis-27B reference with its sha256 and its published copy, or not published as in Ekbasis-27B's release) | `PRELAUNCH_EVAL.md` (Part A); how it ran: `prelaunch/DEVIATIONS_RUN.md` |
 | Latency and cost, INT4 | `latency_skopos_int4.json`, `latency_ekbasis_int4.json` | `latency/mac_items.json` (the 200 fixed items, also A4's) | `run_addendum_a5a6.sh`, `latency_suite.py` | `PREREG_ADDENDUM.md` A5 |
 | Served against trainer, bf16, per item | `served_equivalence_bf16.json` | in the file (`items`) | `run_addendum_a5a6.sh`, `equiv_r4_save.py` (`equiv_r4.py` with the per-item save; the first, printed run: `equiv_r4.py`) | `PREREG_ADDENDUM.md` A6 |
+| Against a general-purpose calibrated evaluator (Jev; not pre-registered, measured 2026-10-16) | `jev_comparison/results.json` (with the package's own `RESULTS.md` and `METHOD.md`) | `jev_comparison/preds/` (Jev's answer to every item, both wordings), `jev_comparison/items.jsonl`, `sets.json`, `sanity/`; the other systems: their published per-item predictions in `runs/` and `../results/` (read at 4d4e268) | `jev_comparison/scripts/` (`run_jev.mjs` asked Jev, `analyze_full.py` computes, `recompute.py` checks) | — |
 | Context, not a Skopos read | `frontier_agentworld.json` (Qwen-AgentWorld against Ekbasis-27B and R1 on our typed questions; its per-item answers are not published) | | | `ADDENDUM_FRONTIER.md` |
 
 **The neutral suite's withheld rows.** The dataset's privacy scan flags some AgentWorldBench trajectory ids (long

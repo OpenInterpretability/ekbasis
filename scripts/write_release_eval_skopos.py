@@ -719,6 +719,99 @@ if LS and LE:
 else:
     w(pending("latency_skopos_int4.json", "addendum A5") + "\n")
 
+# ------------------------------------------------------------------------------------------------- against Jev
+JR = ld("jev_comparison/results.json")
+JMD = ld("jev_comparison/RESULTS.md")
+if JR and JMD:
+    meta, RP, SC = JR["meta"], JR["release_protocol"], JR["scorecard"]
+    price = {k: float(re.search(rf"(?:^|\. ){k}: US\$([0-9.]+) per million input tokens", JMD, flags=re.M).group(1))
+             for k in ("Jev", "Ekbasis hosted")}
+    ekb_tok = ld("jev_comparison/ekbasis_tokens_estimate.json")
+    NAMES = {"jev_A": "Jev, Ekbasis' question", "jev_B": "Jev, Jev-style question", "ekbasis27b": "Ekbasis-27B (bf16)",
+             "ekbasis27b_int4": "Ekbasis-27B INT4", "skopos_bf16": "Skopos (bf16)", "skopos_int4": "Skopos INT4",
+             "ekbasis_hosted_replay": "Ekbasis, hosted API (the 2026-10-11 intent_check replay)"}
+    star = lambda block, k: " ★" if block["jev_headline"]["variant"] == k else ""
+    w(f"## Against a general-purpose calibrated evaluator (Jev; {'not pre-registered' if not meta['pre_registered'] else 'pre-registered'}, measured {meta['measured']})\n")
+    w(f"""Jev is TypeSafe AI's System One evaluation model ({meta['model']}; {meta['sdk']}). It was run zero-shot on the items
+Ekbasis is published on, the release protocol and the five suites of the hosted scorecard, and put next to the per-item
+predictions Ekbasis-27B and Skopos published for the same items (not re-run). Each question went to Jev in two wordings:
+Ekbasis' own, and one rewritten in the style of TypeSafe's documentation; the headline row (★) of each set is the better
+of the two by a rule fixed before scoring (accuracy; AUROC of P(lost) on the guard sets), which favours Jev slightly.
+This compares Jev out of the box with models trained for the task; it does not measure what Jev could do after
+adaptation. The package, with every per-item answer and its own method and results:
+[`results_skopos/jev_comparison/`](results_skopos/jev_comparison/METHOD.md) (`python3 -I scripts/recompute.py`
+reproduces `results.json` from it).
+
+**Release protocol, git v3** (accuracy, all question types):
+
+| System | Known ({RP['git3_test_known']['n']:,}) | Held-out ({RP['git3_test_held']['n']:,}) | All ({RP['git_v3_all']['n']:,}) | Mean confidence, all |
+|---|---|---|---|---|""")
+    for k in RP["git_v3_all"]["systems"]:
+        a = RP["git_v3_all"]["systems"][k]
+        w(f"| {NAMES[k]}{star(RP['git_v3_all'], k)} | {h(RP['git3_test_known']['systems'][k]['acc'])}% | "
+          f"{h(RP['git3_test_held']['systems'][k]['acc'])}% | {h(a['acc'])}% | {h(a['mean_conf'], 3)} |")
+    for split, lab in (("guard_known", "known"), ("guard_held", "held-out")):
+        sysd = RP[split]["systems"]
+        ref = sysd["ekbasis27b"]
+        w(f"\n**The guard, larger set, {lab} command types** (\"lost\" questions: {ref['n_work_losing']} work-losing, "
+          f"{ref['n_safe']} safe). The last column holds each system at the false-alarm rate Ekbasis-27B has at 0.2 "
+          f"({h(ref['matched_fa_target_pct'])}%):\n")
+        w("| System | AUROC of P(lost) | Work-losing flagged at 0.2 | False alarms at 0.2 | Work-losing caught at the matched false-alarm rate |\n|---|---|---|---|---|")
+        for k, d in sysd.items():
+            w(f"| {NAMES[k]}{star(RP[split], k)} | {h(d['auroc'], 3)} | {d['flagged_at_0.2']} of {d['n_work_losing']} | "
+              f"{d['false_alarms_at_0.2']} of {d['n_safe']} | {h(d['flagged_pct_at_matched_threshold'])}% "
+              f"(threshold {h(d['matched_threshold'], 3)}) |")
+    cols = ["jev_A", "jev_B", "ekbasis27b_int4", "skopos_int4", "ekbasis27b", "skopos_bf16", "ekbasis_hosted_replay"]
+    w(f"\n**The hosted scorecard's suites** (as `scorecard/scorecard.py` builds them; accuracy · wrong at confidence ≥ 0.9 "
+      f"per 100):\n")
+    w("| Suite | " + " | ".join(NAMES[c] for c in cols) + " |\n|---|" + "---|" * len(cols))
+    for suite, b in SC.items():
+        cells = [(f"{h(b['systems'][c]['accuracy'])}% · {h(b['systems'][c]['confident_errors_per_100'], 2)}{star(b, c)}"
+                  if c in b["systems"] else "—") for c in cols]
+        w(f"| `{suite}` ({b['n']}) | " + " | ".join(cells) + " |")
+    w(f"\n**Cost per million checks** (Jev: measured input tokens of the headline variant at US${h(price['Jev'], 3)} per million "
+      f"input tokens; Ekbasis: estimated input tokens at its hosted price, US${h(price['Ekbasis hosted'], 2)}; output is free for "
+      f"both; prices and the estimate as in the package's RESULTS.md and METHOD.md):\n")
+    w("| Set | Jev: tokens per check · US$ per 1M checks | Ekbasis: tokens per check (estimate) · US$ per 1M checks |\n|---|---|---|")
+    for grp, sets in (("release", RP), ("scorecard", SC)):
+        for name, b in sets.items():
+            key = f"{grp}:{name}"
+            if key not in ekb_tok or "jev_cost" not in b:
+                continue
+            jc = b["jev_cost"][b["jev_headline"]["variant"]]
+            et = ekb_tok[key]["mean"]
+            w(f"| {grp} `{name}` | {h(jc['input_tokens_per_check'])} · {h(jc['input_tokens_per_check'] * price['Jev'], 2)} | "
+              f"{h(et)} · {h(et * price['Ekbasis hosted'], 2)} |")
+    ce_j = [b["systems"][c]["confident_errors_per_100"] for b in SC.values() for c in ("jev_A", "jev_B")]
+    ce_e = [b["systems"][c]["confident_errors_per_100"] for b in SC.values() for c in ("ekbasis27b", "ekbasis27b_int4", "skopos_bf16", "skopos_int4") if c in b["systems"]]
+    gk = RP["guard_known"]["systems"][RP["guard_known"]["jev_headline"]["variant"]]
+    EKB = ("ekbasis27b", "ekbasis27b_int4", "skopos_bf16", "skopos_int4", "ekbasis_hosted_replay")
+    acc_sets = [(n, b["systems"], "acc") for n, b in RP.items() if n.startswith("git")] + \
+               [(n, b["systems"], "accuracy") for n, b in SC.items()]
+    jev_ahead = [n for n, sy, m in acc_sets if max(sy[c][m] for c in ("jev_A", "jev_B")) >= min(sy[c][m] for c in EKB if c in sy)]
+    auroc_ok = all(max(b["systems"][c]["auroc"] for c in ("jev_A", "jev_B")) < min(b["systems"][c]["auroc"] for c in EKB if c in b["systems"])
+                   for n, b in RP.items() if n.startswith("guard"))
+    cheaper = all(b["jev_cost"][b["jev_headline"]["variant"]]["input_tokens_per_check"] * price["Jev"] <
+                  ekb_tok[f"{g}:{n}"]["mean"] * price["Ekbasis hosted"]
+                  for g, sets in (("release", RP), ("scorecard", SC)) for n, b in sets.items() if f"{g}:{n}" in ekb_tok and "jev_cost" in b)
+    better = ("Ekbasis is more accurate on every set here" + (", except " + ", ".join(f"`{n}`" for n in jev_ahead)
+              + " (where Jev ties or leads)" if jev_ahead else "") + ("; on the guard it separates work-losing from safe "
+              "commands better (AUROC)." if auroc_ok else "."))
+    if not cheaper:
+        missing.append("jev_comparison: the text says Jev is cheaper per check, which the numbers no longer show")
+    w(f"""
+**Where Jev is strong.** It makes very few confident errors: wrong at confidence ≥ 0.9, {h(min(ce_j), 2)} to
+{h(max(ce_j), 2)} per 100 answers on the scorecard suites, against {h(min(ce_e), 2)} to {h(max(ce_e), 2)} for the Ekbasis
+builds. That comes from probabilities compressed toward the middle (mean confidence on git v3
+{h(RP['git_v3_all']['systems']['jev_A']['mean_conf'], 3)} and {h(RP['git_v3_all']['systems']['jev_B']['mean_conf'], 3)},
+against {h(min(RP['git_v3_all']['systems'][k]['mean_conf'] for k in ('ekbasis27b', 'skopos_bf16')), 3)} or more for
+Ekbasis), which also costs it accuracy and separation: on the guard it flags almost every command at 0.2
+({gk['false_alarms_at_0.2']} false alarms among {gk['n_safe']} safe ones, known types). It is cheaper per check
+(the table above) and needs no training for the task. {better}
+""")
+else:
+    w("## Against a general-purpose calibrated evaluator (Jev)\n\n" + pending("jev_comparison/results.json", "the Jev comparison") + "\n")
+
 # ---------------------------------------------------------------------------------------------------------- overlap
 w("## Overlap with the training data\n")
 w("A first check counted, per evaluation set, the items whose state is identical to a state of the training rows "
