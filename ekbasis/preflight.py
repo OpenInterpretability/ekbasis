@@ -39,9 +39,12 @@ zsh or ./script; chains joined by &&, ||, ; or new lines. Where the sqlite3 comm
 `sqlite3` command fails before any statement runs: for a line made only of sqlite3 calls preflight says so, by code,
 without a warning (nothing changes), and in a longer line that step fails like any command that is not installed.
 `check_sql` (the Python API, for SQL you run some other way) asks Ekbasis when there is no sqlite3 shell to run a copy
-with. What it cannot follow (loops, conditionals, functions, other dot-commands, variables it cannot resolve) is "cannot
-judge": by default preflight then says nothing, since it is an extra check (`fail_closed=True` turns it into a
-warning).
+with. What it cannot follow (loops, conditionals, functions, other dot-commands, variables it cannot resolve; since
+0.1.42 loops and conditions on one line too) is "cannot judge": by default preflight then says nothing, since it is an
+extra check (`fail_closed=True` turns it into a warning). A step it cannot judge on its own (0.1.42: code given inline to
+an interpreter, as in `python3 -c`, `python3 - <<EOF` or `node -e`, and commands that run on another machine, ssh or
+scp/rsync to or from a host) is never named as the failing step; the other steps are still judged, and when none of
+them changes anything the line is "cannot judge".
 
 What the model reads, when it is asked: for SQL, the schema, foreign keys, CHECK constraints and the rows of the tables
 the statements name (up to `row_cap` per table; bigger tables: a count, the first rows and per-column facts); rows go
@@ -128,6 +131,7 @@ class Step:
     sql: list | None = None      # a sqlite3 call: its statements (Step objects)
     db: str | None = None        # a sqlite3 call: its database
     bail: bool = False           # a sqlite3 call with -bail / .bail on
+    opaque: str = ""             # 0.1.42: why preflight does not judge this step (U_INLINE, U_REMOTE); "" when it does
 
     @property
     def writes(self) -> bool:
@@ -189,8 +193,8 @@ class PreflightVerdict:
     def message(self) -> str:
         pl = self.plan
         if self.cannot_judge:
-            return ("Ekbasis preflight could not check this multi-step change (" + "; ".join(pl.unread) + "). If a "
-                    "step fails midway, the steps before it stay applied.")
+            return ("Ekbasis preflight could not check this multi-step change (" + "; ".join(not_judged(pl)) + "). If "
+                    "a step fails midway, the steps before it stay applied.")
         k, n = self.first, len(pl.steps)
         step = pl.steps[k - 1].text.replace("\n", " ")
         short = step if len(step) <= 160 else step[:157] + "..."
@@ -215,6 +219,10 @@ class PreflightVerdict:
             out.append(f"Step{'s' if len(self.runs_after) > 1 else ''} {_spans(self.runs_after)} would still run "
                        f"(because {what}){tail}.")
         out.append("The change would be left half applied.")
+        opq = [k for k, st in enumerate(pl.steps, 1) if st.opaque]
+        if opq:
+            out.append(f"Step{'s' if len(opq) > 1 else ''} {_spans(opq)} {'were' if len(opq) > 1 else 'was'} not judged "
+                       f"({'; '.join(dict.fromkeys(pl.steps[k - 1].opaque for k in opq))}).")
         return " ".join(out)
 
     def summary(self) -> str:
@@ -227,7 +235,8 @@ class PreflightVerdict:
                + f"; P(some step fails) {100 * self.p_any:.0f}%)"]
         for i, (s, p) in enumerate(zip(pl.steps, self.p_fail), 1):
             mark = " <- first failure" if i == self.first else ""
-            tag = " (code)" if i in self.by_code else (" (number followed)" if i in self.by_numbers else "")
+            tag = " (code)" if i in self.by_code else (" (number followed)" if i in self.by_numbers else
+                                                         (" (not judged)" if s.opaque else ""))
             t = s.text.replace("\n", " ")
             out.append(f"  {100 * p:3.0f}% fails  {i:2d}. [{s.effect}] {t if len(t) <= 100 else t[:97] + '...'}{tag}{mark}")
         if self.error:
@@ -237,6 +246,15 @@ class PreflightVerdict:
         if pl.unread:
             out.append("  ! not followed: " + "; ".join(pl.unread))
         return "\n".join(out)
+
+
+def not_judged(plan: Plan) -> list:
+    """What preflight did not follow or judge on this plan: the plan's unread parts, then each opaque step's reason."""
+    opq = {}
+    for k, st in enumerate(plan.steps, 1):
+        if st.opaque:
+            opq.setdefault(st.opaque, []).append(k)
+    return list(plan.unread) + [f"step{'s' if len(ks) > 1 else ''} {_spans(ks)}: {why}" for why, ks in opq.items()]
 
 
 def _spans(ks: list) -> str:
@@ -817,6 +835,74 @@ def _rewrite_groups(line: str, cwd: str, virtual: dict) -> tuple[str, list]:
         notes.append("group")
 
 
+# 0.1.42: parts of a line preflight cannot judge. A step that runs code it does not see (an interpreter given its program
+# with -c / -e or on its input) or that runs on another machine was judged as an ordinary command before (most often
+# "likely to fail"): such a step is now never named as the failing one (Step.opaque), while the other steps of the
+# line are still judged; when no other step could be, the line is "cannot judge". A loop or a condition written on one
+# line was cut at its ; into commands named for, do, done ..., which code then found "not installed": the whole line
+# is "cannot judge", as for scripts.
+U_CONTROL = "control flow or functions on the line (if, for, while, case, function)"
+U_INLINE = "code given inline, which preflight does not read: python -c, a program on standard input or in a here-document"
+U_REMOTE = "a command that runs on another machine or copies to or from one: ssh, scp, rsync host:"
+CONTROL_WORDS = {"if", "then", "elif", "else", "fi", "for", "while", "until", "do", "done", "case", "esac", "select",
+                 "function", "{", "}"}
+INTERPRETERS = re.compile(r"(?:(python|pypy)(?:\d+(?:\.\d+)*)?|(node|nodejs)|(ruby)|(perl)|(php)|(bash|sh|zsh|dash|ksh))$")
+TIMEOUT_VALUE = {"-s", "--signal", "-k", "--kill-after"}
+REMOTE_OPERAND = re.compile(r"^(?:[^@/\s:]+@)?[A-Za-z0-9_.\[\]-]+::?(?!//)|^rsync://")
+
+
+def _unwrap(sc) -> tuple[str, list]:
+    """The command a simple command runs and its argument words, past assignments, reserved words and the commands that
+    run another one: sudo, env, nohup, time, command, exec, `nice [-n N]`, `timeout [options] DURATION`."""
+    words, i = list(sc.words), 0
+    while i < len(words):
+        t = words[i].text
+        if S.ASSIGN.match(t) or (t in S.RESERVED and not words[i].dynamic):
+            i += 1
+        elif t in ("timeout", "nice") or t in S.PREFIXES or t == "sudo":
+            i += 1
+            while i < len(words) and (words[i].text.startswith("-") or (t == "env" and S.ASSIGN.match(words[i].text))):
+                i += 2 if words[i].text in TIMEOUT_VALUE | {"-n", "-u", "-g"} else 1
+            i += 1 if t == "timeout" else 0      # the duration
+        else:
+            return os.path.basename(t), words[i + 1:]
+    return "", []
+
+
+def _inline_or_remote(sc) -> str | None:
+    """U_INLINE or U_REMOTE for one simple command, or None."""
+    name, args = _unwrap(sc)
+    texts = [w.text for w in args]
+    pos = [t for t in texts if not t.startswith("-")]
+    if name in ("ssh", "mosh", "autossh", "sftp") and pos:
+        return U_REMOTE
+    if name in ("scp", "rsync") and any(REMOTE_OPERAND.match(t) for t in pos):
+        return U_REMOTE
+    m = INTERPRETERS.match(name or "")
+    if not m:
+        return None
+    python, node, ruby, perl, php, shell = m.groups()
+    inline = {"node": ("e", "p"), "ruby": ("e",), "perl": ("e", "E"), "php": ("r",), "shell": ("c", "s")}
+    letters = ("c",) if python else inline["node" if node else "ruby" if ruby else "perl" if perl else "php" if php else
+                                              "shell"]
+    i = 0
+    while i < len(texts) and texts[i].startswith("-") and texts[i] != "-":
+        t = texts[i]
+        if t in ("--eval", "--print") and node:
+            return U_INLINE
+        if t == "--":
+            i += 1
+            break
+        if not t.startswith("--") and any(x in t[1:] for x in letters):
+            return U_INLINE
+        if python and t in ("-m",):
+            return None          # a module: a program on disk, like a script
+        i += 2 if (python and t in ("-W", "-X")) else 1
+    if i >= len(texts) or texts[i] == "-":
+        return U_INLINE          # no program named: it is read from the input (a here-document, a pipe, < file)
+    return None
+
+
 def _pipelines(ps) -> list:
     out = []
     for sc in ps.commands:
@@ -996,6 +1082,7 @@ def _shell_steps(lines_or_pipes, line: str, cwd0: str, bodies: dict, virtual: di
         effect, ctx = READ, False
         piped = None
         sql_call = None
+        opaque = ""
         if len(simples) == 2:
             n0, a0, _ = S.command_name(list(simples[0].words))
             files = [w.text for w in simples[0].words[a0 + 1:] if not w.text.startswith("-")]
@@ -1006,6 +1093,11 @@ def _shell_steps(lines_or_pipes, line: str, cwd0: str, bodies: dict, virtual: di
                 except CannotJudge:
                     piped = None
         for sc in simples:
+            w0 = sc.words[0] if sc.words else None
+            if w0 is not None and not w0.dynamic and not w0.quoted and (
+                    w0.text in CONTROL_WORDS or (len(sc.words) > 1 and sc.words[1].text == "{")):
+                unread.append(U_CONTROL)
+            opaque = opaque or _inline_or_remote(sc) or ""
             call = _sqlite_call(sc, cwd, bodies, piped if sc is simples[-1] else None, virtual) \
                 if S.command_name(list(sc.words))[0] == "sqlite3" else None
             if call is not None:
@@ -1013,7 +1105,7 @@ def _shell_steps(lines_or_pipes, line: str, cwd0: str, bodies: dict, virtual: di
                 continue
             e, c = shell_effect(sc, cwd)
             effect, ctx = _max(effect, e), ctx or c
-        step = Step(text=text, effect=effect, joined_by=joined, ctx=ctx, cwd=cwd)
+        step = Step(text=text, effect=effect, joined_by=joined, ctx=ctx, cwd=cwd, opaque=opaque)
         if sql_call is not None:
             db, sql, bail, un = sql_call
             sub = _sql_plan(db, sql, bail, un, cwd, "sqlite3")
@@ -1514,7 +1606,19 @@ def shell_facts(plan: Plan) -> tuple[dict, list]:
     """({step index (1-based): the fact that makes it fail}, [fact lines for the state]). Only for paths no earlier
     step of the plan names (an earlier step could change them)."""
     import glob as _glob
-    fails, lines, named = {}, [], set()
+    fails, lines, named, made = {}, [], set(), set()
+
+    def made_above(p):
+        """0.1.42: p or a folder above it is named by an earlier command that can create it (mkdir -p out; ... >
+        out/log): whether it exists then is not known now."""
+        while True:
+            if p in made:
+                return True
+            up = os.path.dirname(p)
+            if up == p:
+                return False
+            p = up
+
     for k, s in enumerate(plan.steps, 1):
         cwd = s.cwd or plan.cwd
         for sc in S.parse(s.text).commands:
@@ -1543,7 +1647,7 @@ def shell_facts(plan: Plan) -> tuple[dict, list]:
                         parts.append(cur)
                         cur = os.path.dirname(cur)
                     blocker = next((x for x in reversed(parts) if os.path.exists(x) and not os.path.isdir(x)), None)
-                    if blocker:
+                    if blocker and blocker not in named:
                         fact = f"{os.path.relpath(blocker, cwd)} is a file, so `mkdir {w.text}` fails"
                     elif os.path.isdir(p) and "-p" not in [a.text for a in args]:
                         fact = f"{w.text} already exists, so `mkdir {w.text}` (without -p) fails"
@@ -1587,7 +1691,7 @@ def shell_facts(plan: Plan) -> tuple[dict, list]:
                     if not any("c" in w.text.lstrip("-") for w in args[:1] + [a for a in args if a.text.startswith("-")
                                                                                 and not a.text.startswith("--")]):
                         arc = None
-                if arc is not None and not arc.dynamic and fresh(arc.text):
+                if arc is not None and not arc.dynamic and fresh(arc.text) and not made_above(os.path.dirname(full(arc.text))):
                     parent = os.path.dirname(full(arc.text))
                     if not os.path.isdir(parent):
                         what = "is a file" if os.path.exists(parent) else "does not exist"
@@ -1610,20 +1714,24 @@ def shell_facts(plan: Plan) -> tuple[dict, list]:
                     continue
                 p = full(r.target.text)
                 parent = os.path.dirname(p)
-                if fresh(r.target.text):
+                if fresh(r.target.text) and not made_above(parent):
                     if not os.path.isdir(parent):
                         fact = f"{os.path.relpath(parent, cwd)} is not a folder, so writing {r.target.text} fails"
                     elif not os.access(parent, os.W_OK) and not (os.path.exists(p) and os.access(p, os.W_OK)):
                         fact = f"{os.path.relpath(parent, cwd)}/ is read-only for you, so writing {r.target.text} fails"
-            if not fact and name and name not in SHELL_BUILTINS and os.sep not in name and not shutil.which(name):
+            if not fact and name and name not in SHELL_BUILTINS and name not in CONTROL_WORDS and \
+                    os.sep not in sc.words[at].text and not shutil.which(name):   # (0.1.42: ./node_modules/.bin/tsc is a path)
                 fact = f"`{name}` is not installed here (command not found), so that command fails"
             if fact and k not in fails:
                 fails[k] = fact
                 lines.append(fact)
+            creates = name not in CTX and name not in DESTROY_CMDS and shell_effect(sc, cwd)[0] != READ
             for w in args:
                 if not w.dynamic:
                     named.add(full(w.text.rstrip("/")))
                     named.add(full(w.text))
+                    if creates:
+                        made.add(full(w.text.rstrip("/")))
             for r in sc.redirects:
                 if r.target is not None:
                     named.add(full(r.target.text))
@@ -1702,10 +1810,11 @@ def _model_shell(plan: Plan, client, rows: bool, numbers: bool, where: str | Non
         return client.ask(_shell_prompt(v, sub, shell_facts(sub)[1]), {"f": S.shell_fails(k)})["f"].p_yes
 
     if walk and n > 1:
-        with cf.ThreadPoolExecutor(min(8, n - 1)) as ex:
-            w = [0.0] + list(ex.map(one, range(2, n + 1)))
-        req += n - 1
-        p = [max(a, b) for a, b in zip(p, w)]
+        ks = [k for k in range(2, n + 1) if not plan.steps[k - 1].opaque]
+        with cf.ThreadPoolExecutor(min(8, max(1, len(ks)))) as ex:
+            w = dict(zip(ks, ex.map(one, ks)))
+        req += len(ks)
+        p = [max(a, w.get(k, 0.0)) for k, a in enumerate(p, 1)]
     # sqlite3 calls inside the chain: judged as SQL with their database's state
     for k, s in enumerate(plan.steps, 1):
         if s.sql and s.db:
@@ -1720,6 +1829,10 @@ def _model_shell(plan: Plan, client, rows: bool, numbers: bool, where: str | Non
     for k, fact in fails.items():
         p[k - 1] = 1.0
         by_code.append(k)
+    for k, st in enumerate(plan.steps, 1):   # 0.1.42: never named as the failing step (code it does not read, or
+        if st.opaque:                        # another machine)
+            p[k - 1] = 0.0
+            by_code = [x for x in by_code if x != k]
     return p, prompt, sorted(by_code), [], req, p_lost
 
 
@@ -1736,6 +1849,11 @@ def check_plan(plan: Plan, client: Ekbasis | None = None, fail_threshold: float 
     if plan.unread:
         return PreflightVerdict(plan, [0.0] * n, 0.0, None, risky=fail_closed, cannot_judge=True,
                                 reasons=["cannot foresee: " + "; ".join(plan.unread)])
+    opaque = [k for k, st in enumerate(plan.steps, 1) if st.opaque]
+    if opaque and not any(st.writes for st in plan.steps if not st.opaque):
+        # 0.1.42: only steps it does not judge change anything: no judged failure could leave a change half done
+        return PreflightVerdict(plan, [0.0] * n, 0.0, None, risky=fail_closed, cannot_judge=True,
+                                reasons=["cannot foresee: " + "; ".join(not_judged(plan))])
     if plan.kind == "sql" and plan.sqlite3_line and not sqlite_cli():
         return PreflightVerdict(plan, [0.0] * n, 0.0, None, by="code", copy_note=(
             "the sqlite3 command-line tool is not installed here, so the line fails before any statement runs and "
@@ -1795,6 +1913,11 @@ def check_plan(plan: Plan, client: Ekbasis | None = None, fail_threshold: float 
                 v.reason, v.reason_p = str(a.value), a.confidence
         v.reasons.append(f"step {v.first} {'failed on a copy' if v.by == 'copy' else 'likely fails'}: "
                          f"{plan.steps[v.first - 1].text[:120]}")
+    elif opaque:
+        # 0.1.42: the steps it judged are fine, the others were not judged: as for the parts it cannot follow, say
+        # nothing unless fail_closed
+        v.cannot_judge, v.risky = True, fail_closed
+        v.reasons.append("cannot foresee: " + "; ".join(not_judged(plan)))
     v.ms = v.ms or 1000 * (time.monotonic() - t0)
     return v
 

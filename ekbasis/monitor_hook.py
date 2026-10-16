@@ -22,6 +22,7 @@ import time
 from . import prompts as P
 from .claude_code_hook import user_request
 from .client import CannotJudge, Ekbasis
+from .redact import redact_line
 
 READ_ONLY = {"Read", "Glob", "Grep", "LS", "WebSearch", "TodoWrite", "TodoRead", "NotebookRead", "ExitPlanMode",
              "BashOutput", "ListMcpResourcesTool", "ReadMcpResourceTool"}
@@ -75,7 +76,7 @@ def _log(entry: dict) -> None:
     try:
         os.makedirs(os.path.dirname(path), exist_ok=True)
         with open(path, "a", encoding="utf-8") as f:
-            f.write(json.dumps(entry) + "\n")
+            f.write(redact_line(json.dumps(entry)) + "\n")   # 0.1.42: no credential typed in a call stays in the log
     except OSError:
         pass
 

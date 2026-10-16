@@ -54,6 +54,13 @@ EKBASIS_REMOTE_CHECK (0: do not read the remote with git ls-remote before forced
 EKBASIS_REQUEST (1: experimental, give the guards the last message the user typed; 0.1.23),
 EKBASIS_GUARD_REPEAT (1: warn once, the same command run again goes through; 0.1.24).
 
+0.1.42: a variable set earlier on the same line to a known value (`G=/repo; git -C "$G" status`, `D=build; rm -rf
+"$D"`) is read with that value by the git guard and the shell guard (ekbasis.shell.resolve); any other variable (from the
+environment, set twice, exported, read, set in a loop or a condition, or by command substitution) is still not guessed:
+"cannot foresee", as before. Preflight never names as failing a step that runs code given inline to an interpreter or
+runs on another machine (the other steps are still judged), and says nothing on loops and conditions written on one
+line (it cannot judge them).
+
 Safer route: when the hook warns about git commands, it also offers the alternative with the same intent that Ekbasis
 checked and found safe (ekbasis.safer), e.g. `git stash push && git reset --hard`, or says that none passed. It is
 searched last, in the time the deadline leaves; when the search cannot finish, the warning goes out without a route.
@@ -76,6 +83,7 @@ from . import preflight as PF
 from . import prompts as P
 from . import recover as R
 from . import safer as SF
+from .redact import redact
 from . import shell as S
 from .client import CannotJudge, Ekbasis
 
@@ -220,7 +228,7 @@ def plan_line(command: str, cwd: str) -> Plan:
     the line cannot be judged (structure the hook does not follow, variables in git commands, git in a nested shell,
     git through xargs unless it only lists or safely deletes, a folder it cannot tell)."""
     toks, problems = S.lex(command, parens=True)
-    items = _scoped(toks)
+    items = _scoped(S.resolve(toks))   # 0.1.42: variables set earlier on the line to a known value are read with it
     gitlike = bool(GIT_WORD.search(command))
     plan = Plan()
     depth, balanced = 0, True
@@ -369,7 +377,8 @@ def _log_path() -> str:
 def _shadow(decision: str, reason: str = "") -> None:
     """EKBASIS_GUARD_MODE=log: never block; append what the hook would have done to a local JSONL file (this machine
     only; nothing is sent anywhere) so a trial period shows what it would have stopped before it may stop anything."""
-    rec = {"t": round(time.time(), 3), "decision": decision, "reason": reason, **_LOG_CTX}
+    reason = redact(reason)[0]   # 0.1.42: no credential typed on the line in the log (main redacts the command; "redacted":
+    rec = {"t": round(time.time(), 3), "decision": decision, "reason": reason, **_LOG_CTX}   # how many values it replaced)
     try:
         path = _log_path()
         os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
@@ -396,6 +405,7 @@ REPEAT_NOTE = (" If this loss is what the user asked for, or the work is already
 def _decide(reason: str) -> None:
     if _log_mode():
         return _shadow("ask", reason)
+    reason = redact(reason)[0]
     mode = "deny" if os.environ.get("EKBASIS_GUARD_MODE") == "deny" else "ask"
     print(json.dumps({"hookSpecificOutput": {"hookEventName": "PreToolUse", "permissionDecision": mode,
                                              "permissionDecisionReason": reason}}))
@@ -406,7 +416,7 @@ def _cannot_judge(why: str, session: str | None = None, rkey: str | None = None)
         _shadow("ask_cannot_foresee", why)
         return 0
     if os.environ.get("EKBASIS_FAIL_OPEN") == "1":
-        print(f"ekbasis hook: cannot foresee ({why}); EKBASIS_FAIL_OPEN=1: letting it through", file=sys.stderr)
+        print(f"ekbasis hook: cannot foresee ({redact(why)[0]}); EKBASIS_FAIL_OPEN=1: letting it through", file=sys.stderr)
         return 0
     again = ""
     if _repeat_on() and session and rkey:
@@ -603,7 +613,8 @@ def main() -> int:
             return 0
         line = (data.get("tool_input") or {}).get("command", "")
         cwd = data.get("cwd") or os.getcwd()
-        _LOG_CTX.update(command=line, cwd=cwd, session=data.get("session_id"))
+        logged, n = redact(line)
+        _LOG_CTX.update(command=logged, cwd=cwd, session=data.get("session_id"), redacted=n)
         session = data.get("session_id")
         rkey = "guard:" + hashlib.sha256(f"{os.path.realpath(cwd)}\0{line}".encode()).hexdigest()[:32]
         if _repeat_on() and session and _seen_any(session, rkey):

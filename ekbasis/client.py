@@ -17,6 +17,7 @@ from pathlib import Path
 
 
 from ._version import __version__
+from .redact import redact, redact_line
 
 
 class EkbasisError(RuntimeError):
@@ -165,6 +166,45 @@ class Answer:
 QUESTION_TYPES = ("noul", "choice", "score")
 
 
+def _redact_questions(questions: dict) -> tuple[dict, dict]:
+    """0.1.42: every string of the questions as sent (instructions, which recap() fills with the caller's rules, and the
+    criteria's labels and descriptions, which callers such as the MCP tool write), credentials replaced (ekbasis.redact).
+    Returns (the questions to send, {question: {label as sent: the caller's label}}) so that answers come back with the
+    caller's labels. "type" is never touched."""
+    out, labels = {}, {}
+    for name, q in questions.items():
+        sent = {}
+        for k, v in q.items():
+            if k == "type":
+                sent[k] = v
+            elif k == "criteria" and isinstance(v, dict):
+                keys = [str(x) for x in v]
+                red = redact("\n".join(keys))[0].split("\n")   # one pass: distinct values, distinct placeholders
+                if len(red) != len(keys) or len(set(red)) != len(red):
+                    red = [x if redact(x)[1] == 0 else f"REDACTED_LABEL_{i + 1}" for i, x in enumerate(keys)]
+                sent[k] = {r: redact_line(d) if isinstance(d, str) else d for r, d in zip(red, v.values())}
+                labels[name] = {r: orig for r, orig in zip(red, v) if r != str(orig)}
+            elif isinstance(v, str):
+                sent[k] = redact_line(v)
+            elif isinstance(v, list):
+                sent[k] = [redact_line(x) if isinstance(x, str) else x for x in v]
+            else:
+                sent[k] = v
+        out[name] = sent
+    return out, {n: m for n, m in labels.items() if m}
+
+
+def _restore_labels(a: "Answer", m: dict) -> "Answer":
+    """The answer with the caller's labels where a label was redacted before sending."""
+    if not m:
+        return a
+    a.value = m.get(a.value, a.value) if isinstance(a.value, str) else a.value
+    a.probabilities = {m.get(k, k): p for k, p in a.probabilities.items()}
+    if a.calibrated is not None:
+        a.calibrated.probabilities = {m.get(k, k): p for k, p in a.calibrated.probabilities.items()}
+    return a
+
+
 def _check_questions(questions) -> None:
     """Refuse a malformed question before sending it. The server reads the question from `instructions` and ignores any
     other field, so a question in `question` (or with no text) would get one same answer whatever it asked."""
@@ -239,13 +279,14 @@ class Ekbasis:
         """Every question about the same state, answered in one request (the server batches them; read_once=True reads
         the state once for all of them, on models trained for it). images: data URIs or base64 strings (vLLM backend)."""
         _check_questions(questions)
-        body = {"state": state, "questions": questions}
+        sent, labels = _redact_questions(questions)   # 0.1.42: credentials typed in a line, rules or question stay here
+        body = {"state": redact_line(state), "questions": sent}
         if read_once:
             body["read_once"] = True
         if images:
             body["images"] = list(images)
         d = self._call("/v1/systemone", body)
-        return {k: Answer.from_api(v) for k, v in d["answers"].items()}
+        return {k: _restore_labels(Answer.from_api(v), labels.get(k, {})) for k, v in d["answers"].items()}
 
     def feedback(self, verdict: str, request_id: str | None = None, note: str | None = None, retry_s: float = 2.0) -> dict:
         """Tell the hosted API how an answer turned out: "correct", "wrong", "prevented_harm" (it stopped a real
@@ -258,7 +299,7 @@ class Ekbasis:
             raise ValueError("no request id: pass one, or make a call to the hosted API first")
         body = {"request_id": rid, "verdict": verdict}
         if note:
-            body["note"] = str(note)[:500]
+            body["note"] = redact_line(str(note))[:500]
         headers = {"Content-Type": "application/json", "User-Agent": USER_AGENT}
         if self.api_key:
             headers["Authorization"] = f"Bearer {self.api_key}"
