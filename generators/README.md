@@ -19,16 +19,42 @@ precaution, not a sandbox. **Run them only in a disposable container or virtual 
 access to a network you care about, and nothing mounted that you would mind losing.
 
 ```
-docker run --rm -it --network none -v "$PWD/generators:/gen:ro" -v "$PWD/out:/out" python:3.12 bash
-apt-get update && apt-get install -y git      # and postgresql-16 for fx_pg.py; download_ext.py needs the network
-pip install numpy pyarrow scipy pillow huggingface_hub
-export PYTHONPATH=/gen/conseq:/gen/factory     # or /gen/fx for FX's copies of the factory modules
+# Dockerfile: the image is built with the network, the generators run without it
+FROM python:3.12-slim
+RUN apt-get update && apt-get install -y --no-install-recommends git rsync python3   # + postgresql-16 (apt.postgresql.org) for fx_pg.py
+RUN pip install numpy pyarrow scipy pillow huggingface_hub psycopg2-binary
+```
+
+```
+mkdir client011 && git archive b6682c2 ekbasis | tar -x -C client011    # the client 0.1.1 that gitfam.py imports
+docker build -t generators .
+docker run --rm -it --network none --shm-size 10g -v "$PWD/generators:/gen:ro" \
+    -v "$PWD/client011:/root/decis/mission/F/client011:ro" -v "$PWD/out:/out" generators bash
+export PYTHONPATH=/gen/conseq:/gen/factory SANDBOX_USER=65534    # /gen/fx instead of /gen/factory for FX's copies
 cd /gen/factory && python3 run_family.py gitfam 100000 20 /out/git.jsonl 4
 ```
 
+- Run them as root inside the container: the executors drop every command to `nobody` with `setpriv`
+  (`conseq/gitbox*.py` only when `SANDBOX_USER` is set, as it was on our machines). The scripts in `prep_v45_v49/` and
+  `v50/` look for the modules at their machines' paths; `PYTHONPATH` finds them here.
+- The sandboxes live under `/dev/shm`, and `fx/fx_run.py` stops when less than 8 GB is free there or in its output
+  folder: hence `--shm-size` (Docker's default is 64 MB).
+- `factory/gitfam.py` and `fx/gitfam.py` import the Ekbasis client 0.1.1 from `/root/decis/mission/F/client011`: the
+  `ekbasis/` folder of this repository at commit `b6682c2`.
+- `pyfam.py` and `fx_py_new.py` run their harness with `/usr/bin/python3`, the distribution's Python.
+- `fx_pg.py` connects to a PostgreSQL 16 cluster that it does not start: Unix socket in `/dev/shm/fx/pg/sock`, port
+  54329, role `fx` (for example `initdb -D /dev/shm/fx/pg/data -U fx --auth=trust`, then
+  `pg_ctl -D /dev/shm/fx/pg/data -o "-p 54329 -k /dev/shm/fx/pg/sock -c listen_addresses=''" start`, both as the
+  `postgres` user).
+- The network is needed only by `fx/download_ext.py`, which writes to `/root/decis/mission/FX/ext` (the ShIO families read
+  their commands there), and by `fx/fx_ext_cwm.py`, which streams its shards from the Hub.
+
 Each script's docstring gives its command line. Seeds are written in the scripts (or in the command lines recorded
 below), so a run reproduces the same items given the same tool versions: execution truth depends on the installed git,
-coreutils, SQLite and PostgreSQL.
+coreutils, SQLite and PostgreSQL. Two things change on a rerun even then: `conseq/gitbox*.py` do not fix commit dates
+(the factory's `gitfam.py` does), so the commit hashes that appear in conflict markers change; and in the side-effect
+families (`fx_side.py`) the options offered beside the answer are drawn from Python sets of strings, whose order changes
+with hash randomization (the run scripts do not set `PYTHONHASHSEED`).
 
 ## What produced what
 
@@ -87,7 +113,7 @@ against every evaluation file; v49f's FX rows and v49_anchor2 went through it).
 
 - `fx_apps.py` (the self-hosted apps Vikunja and Memos) and its app containers: every Vikunja family was dropped by the
   firewall before v49f, and Memos was an evaluation readout outside this release. `fx_side.py` imports it only for
-  se_vikunja.
+  se_vikunja and mm_side_effects.
 - `fx_ext_webworld.py`: WebWorld was excluded from training (our data rule).
 - F's GUI family (`gui.mjs`), quarantined and never trained; factory 2 (`worldgen2.py`), not in any lineage file.
 - The files that only assembled Ekbasis-27B's earlier stage files from these rows (mixing and balancing, 2–3 October);
