@@ -4,7 +4,7 @@
 ## Hosted API — 2026-10-16
 
 ### Changed
-- Served model changed: the hosted API serves `ekbasis-skopos-27b-int4-v1.3` since 2026-10-16 ⟨HH:MM⟩ UTC — on release
+- Served model changed: the hosted API serves `ekbasis-skopos-27b-int4-v1.3` since 2026-10-16 14:29 UTC — on release
   day, with less notice than the 14 days the model-change policy promises (owner decision,
   [results_skopos/prelaunch/RELEASE_DECISION.md](results_skopos/prelaunch/RELEASE_DECISION.md)); Ekbasis-27B's weights
   stay public. The prompt, readout, API, fields and client are the same; `calibrated.temperature` is 1.67 instead of
