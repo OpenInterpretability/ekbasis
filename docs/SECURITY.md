@@ -114,8 +114,10 @@ stash messages). The hook's log (EKBASIS_GUARD_MODE=log) and the monitor's log s
 
 Until 0.1.41 the command line went verbatim: a secret typed on it (`printf '%s' 'vck_…' > f`, `export TOKEN=…`,
 `curl -H "Authorization: Bearer …"`, `git remote set-url origin https://user:token@…`, `--password=…`) reached the
-server and the local logs. Since 0.1.42 every state the client sends (`Ekbasis.ask`, so the hook, the CLI, the MCP
-tools and the Python API alike) and both logs go through `ekbasis.redact.redact_line`, which replaces credential-looking
+server and the local logs. Since 0.1.42 every state and every question the client sends (`Ekbasis.ask`, so the hook,
+the CLI, the MCP tools and the Python API alike; in questions, the instructions, which `recap()` fills with your rules,
+and choice labels and descriptions, a redacted label coming back as yours in the answer) and both logs go through
+`ekbasis.redact.redact_line`, which replaces credential-looking
 values with a placeholder made of letters, digits and underscores (`REDACTED_1`, `vck_REDACTED_2`): the same value gets
 the same placeholder, and quotes, spaces, redirections and paths stay where they are, so the guards read the line the
 same way. It replaces: tokens with a known prefix (sk-ant-, sk-, sk_live_, vck_, hf_, ghp_/gho_/ghs_, github_pat_,

@@ -66,7 +66,9 @@
   `https://user:token@…` or `--password=…` reached the server and the disk. Every state sent, the hook's log and
   messages, and the monitor's log now go through `ekbasis.redact.redact_line`, which replaces credential-looking values
   with placeholders made of letters, digits and underscores (`REDACTED_1`, `vck_REDACTED_2`) and keeps quotes, spaces,
-  redirections and paths, so the guards read the line the same way. The hook's log records `"redacted": n`.
+  redirections and paths, so the guards read the line the same way. The questions are redacted too (their
+  instructions, which `recap()` fills with your rules, and choice labels and descriptions; a redacted label comes back
+  as yours in the answer). The hook's log records `"redacted": n`.
   `EKBASIS_REDACT=0` turns it off. What it recognizes, and what it does not, is in
   [docs/SECURITY.md](docs/SECURITY.md#what-leaves-the-machine-and-credentials-on-the-command-line-0142).
 

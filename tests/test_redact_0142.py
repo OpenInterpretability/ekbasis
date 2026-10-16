@@ -125,6 +125,35 @@ class TestWhatLeaves(unittest.TestCase):
         self.assertIn("ghp_REDACTED_1", sent["state"])
         self.assertIn("rm -rf build", sent["state"])
 
+    def test_questions_are_redacted_too(self):
+        # a recap()'d question carries the caller's rules; an MCP-style choice question carries the caller's criteria
+        from ekbasis import prompts as P
+        sent = {}
+        label = f"hf_{FAKE}"
+
+        def fake_call(path, body=None):
+            sent.update(body)
+            crit = list(body["questions"]["b"]["criteria"])
+            return {"answers": {
+                "a": {"type": "noul", "value": False, "confidence": 0.9, "probability": 0.1},
+                "b": {"type": "choice", "choice": crit[0], "confidence": 0.8,
+                      "probabilities": {crit[0]: 0.8, crit[1]: 0.2},
+                      "calibrated": {"temperature": 1.5, "confidence": 0.7,
+                                     "probabilities": {crit[0]: 0.7, crit[1]: 0.3}}}}}
+        questions = {
+            "a": P.recap(P.yes_no("Is the deploy key printed?"), f"The deploy key is vck_{FAKE}; never print it."),
+            "b": {"type": "choice", "instructions": "Which token does the job use?",
+                  "criteria": {label: "the old token", "other": f"one that starts like sk-ant-api03-{FAKE}"}}}
+        c = Ekbasis(url="http://127.0.0.1:9")
+        with mock.patch.object(c, "_call", fake_call):
+            ans = c.ask("State: a CI job.", questions)
+        self.assertNotIn(FAKE, json.dumps(sent))
+        self.assertIn("vck_REDACTED_1", sent["questions"]["a"]["instructions"])
+        self.assertEqual(sent["questions"]["a"]["type"], "noul")
+        self.assertEqual(ans["b"].value, label)                       # the caller's label comes back
+        self.assertEqual(set(ans["b"].probabilities), {label, "other"})
+        self.assertEqual(set(ans["b"].calibrated.probabilities), {label, "other"})
+
     def test_hook_log_and_messages(self):
         d = tempfile.mkdtemp()
         log = os.path.join(d, "hook_log.jsonl")
