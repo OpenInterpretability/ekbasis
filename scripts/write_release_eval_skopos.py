@@ -477,11 +477,13 @@ unchanged) on Skopos INT4 (primary) and bf16, served, over confirm-3's fresh sce
 the overlap audit, {CC['requests_failed']} failed requests; `results_skopos/certified_carryover_skopos_int4.json`, code and
 data in `results_skopos/certified_carryover/`). A check that the certificate carries over, not a new certificate.
 
-The rate behind each unit's score depends on the rows its family-rate stream has seen, so every row below names its
-scenarios and its stream. The last two rows are the numbers `docs/VERIFY.md` publishes for the MLX check (WS-MAC T2,
-which completed {RR['t2_scenarios']:,} of the scenarios); they are recomputed here from T2's own answers by the check's
-analysis code and equal the published ones (`results_skopos/certified_carryover_reference_rows.json`,
-`results_skopos/scripts/certified_reference_rows.py`).
+Each unit's score uses the family's error rate as it stands when the unit comes up: every stream starts warm from
+WS-P's development history (`results_skopos/certified_carryover/data/dev_family_counts.json`) and then updates online
+over the rows it is given, in confirm-3's hashed order. So a row's numbers depend on its scenario set and on whose rows
+drive its stream; every row below names both. Ekbasis-27B bf16's stream is confirm-3's whole fresh set (its answers),
+as confirm-3 and T2 scored it. WS-MAC T2, the MLX check in `docs/VERIFY.md`, completed {RR['t2_scenarios']:,} of these
+scenarios; the rows on those scenarios are recomputed by the check's own analysis functions
+(`results_skopos/scripts/certified_reference_rows.py` → `results_skopos/certified_carryover_reference_rows.json`).
 """)
     w("| L2, α = 2% (the certified mode) | Scenarios · family-rate stream | Accepted (of the units) | Errors among accepted | Weighted to confirm-3's mix | 95% upper bound | Verified: raw / weighted |\n|---|---|---|---|---|---|---|")
     def row(label, scen, stream, b):
@@ -498,8 +500,28 @@ analysis code and equal the published ones (`results_skopos/certified_carryover_
         w(row("Skopos bf16", n_t2, "its own rows there", RR["skopos-bf16"]["t2_scenarios"]["L2_a02"]))
     w(row("Ekbasis-27B bf16, as in docs/VERIFY.md", n_t2, "confirm-3's whole fresh stream", RR["ekbasis27b_bf16_t2_scenarios"]["L2_a02"]))
     w(row("Ekbasis-27B MLX (T2), as in docs/VERIFY.md", n_t2, "its own rows there", RR["mlx_t2_as_published"]["L2_a02"]))
+    T2 = ld("certified_carryover/published_t2_summary.json")
+    C3 = ld("../results/client_0.1.5/results/confirm3/confirm3.json")
+    if T2 and C3:
+        same = lambda mine, pub: all(mine[k] == pub[k] for k in ("units", "accepted", "errors_among_accepted",
+                                                                   "error_rate_among_accepted_weighted", "cp95_upper_overall"))
+        rep_ok = same(RR["mlx_t2_as_published"]["L2_a02"], T2["mlx"]["a02"]["L2"]) and \
+            same(RR["ekbasis27b_bf16_t2_scenarios"]["L2_a02"], T2["bf16_same_scenarios"]["a02"]["L2"])
+        c3, t2m, t2b = C3["ltt"]["a02"]["L2"], T2["mlx"]["a02"]["L2"], T2["bf16_same_scenarios"]["a02"]["L2"]
+        w(f"""
+**The published references, with their definitions.** The certificate's own confirmation (confirm-3, Ekbasis-27B bf16,
+its whole fresh test of {C3['n_units']:,} units): {c3['errors_among_accepted']} errors among {c3['accepted']:,} accepted
+({h(100 * c3['error_rate_among_accepted'], 2)}%; `results/client_0.1.5/results/confirm3/confirm3.json`). WS-MAC T2, the MLX
+build on its {RR['t2_scenarios']:,} completed scenarios, family rate streamed over the MLX build's own rows there:
+{t2m['errors_among_accepted']} error among {t2m['accepted']:,} accepted ({h(100 * t2m['error_rate_among_accepted_weighted'], 3)}%
+weighted, 95% upper bound {h(100 * t2m['cp95_upper_overall'], 2)}%); Ekbasis-27B bf16 on the same scenarios, confirm-3's whole
+fresh stream: {t2b['errors_among_accepted']} among {t2b['accepted']:,} ({h(100 * t2b['error_rate_among_accepted_weighted'], 3)}%
+weighted) (`results_skopos/certified_carryover/published_t2_summary.json`, the file behind `docs/VERIFY.md`'s MLX numbers,
+which quote the raw rates). The check's analysis code recomputes both T2 rows from T2's own answers
+{'exactly (units, accepted, errors, weighted rate, upper bound)' if rep_ok else '**with differences**'}: the last two rows
+of the table.""")
     w(f"""
-`docs/VERIFY.md` quotes the raw rates of the last two rows. Criteria (pre-registered, on all scenarios): C2 (L2: weighted
+Criteria (pre-registered, on all scenarios): C2 (L2: weighted
 error among accepted ≤ 2% and no node significantly above) {yn(cr['C2_certified_mode_L2_a02'])}; C2+ (and the raw 95%
 upper bound ≤ 2%) {yn(cr['C2plus_L2_cp95_upper_le_2pct'])}; C1 (L1, α = 2%: {L1['errors_among_accepted']} errors among
 {L1['accepted']:,} accepted) {yn(cr['C1_L1_a02'])}. Paired with Ekbasis-27B on the same {pr['rows']:,} questions, Skopos INT4

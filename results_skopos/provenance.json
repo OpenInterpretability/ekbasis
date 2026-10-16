@@ -239,6 +239,10 @@
   "sha256": "16772e611e43fc534b8b2504a7784c440b62c338de27513f00fbf0cd984eb95b",
   "source": "the release workspace certified_carryover/overlap_step.py"
  },
+ "certified_carryover/published_t2_summary.json": {
+  "sha256": "726bb34e832b4f23ad385ba64cb51ae96c25a8660f4d1b19acb9faf945bd885c",
+  "source": "WS-MAC T2's results/t2_summary.json, the file docs/VERIFY.md's MLX numbers come from"
+ },
  "certified_carryover/results/skopos-bf16_analysis_stdout.json": {
   "sha256": "0aa0d6eba7b341ab73b21e07382a5e2dee264c173220eb47d14320c934e4d865",
   "source": "the release workspace certified_carryover/results/skopos-bf16_analysis_stdout.json"

@@ -296,11 +296,13 @@ unchanged) on Skopos INT4 (primary) and bf16, served, over confirm-3's fresh sce
 the overlap audit, 0 failed requests; `results_skopos/certified_carryover_skopos_int4.json`, code and
 data in `results_skopos/certified_carryover/`). A check that the certificate carries over, not a new certificate.
 
-The rate behind each unit's score depends on the rows its family-rate stream has seen, so every row below names its
-scenarios and its stream. The last two rows are the numbers `docs/VERIFY.md` publishes for the MLX check (WS-MAC T2,
-which completed 1,081 of the scenarios); they are recomputed here from T2's own answers by the check's
-analysis code and equal the published ones (`results_skopos/certified_carryover_reference_rows.json`,
-`results_skopos/scripts/certified_reference_rows.py`).
+Each unit's score uses the family's error rate as it stands when the unit comes up: every stream starts warm from
+WS-P's development history (`results_skopos/certified_carryover/data/dev_family_counts.json`) and then updates online
+over the rows it is given, in confirm-3's hashed order. So a row's numbers depend on its scenario set and on whose rows
+drive its stream; every row below names both. Ekbasis-27B bf16's stream is confirm-3's whole fresh set (its answers),
+as confirm-3 and T2 scored it. WS-MAC T2, the MLX check in `docs/VERIFY.md`, completed 1,081 of these
+scenarios; the rows on those scenarios are recomputed by the check's own analysis functions
+(`results_skopos/scripts/certified_reference_rows.py` → `results_skopos/certified_carryover_reference_rows.json`).
 
 | L2, α = 2% (the certified mode) | Scenarios · family-rate stream | Accepted (of the units) | Errors among accepted | Weighted to confirm-3's mix | 95% upper bound | Verified: raw / weighted |
 |---|---|---|---|---|---|---|
@@ -312,7 +314,19 @@ analysis code and equal the published ones (`results_skopos/certified_carryover_
 | Ekbasis-27B bf16, as in docs/VERIFY.md | T2's 1,081 · confirm-3's whole fresh stream | 686 of 1,036 | 5 (0.73%) | 0.60% | 1.53% | 33.8% / 25.8% |
 | Ekbasis-27B MLX (T2), as in docs/VERIFY.md | T2's 1,081 · its own rows there | 666 of 1,028 | 1 (0.15%) | 0.21% | 0.71% | 35.2% / 26.7% |
 
-`docs/VERIFY.md` quotes the raw rates of the last two rows. Criteria (pre-registered, on all scenarios): C2 (L2: weighted
+**The published references, with their definitions.** The certificate's own confirmation (confirm-3, Ekbasis-27B bf16,
+its whole fresh test of 12,667 units): 36 errors among 9,259 accepted
+(0.39%; `results/client_0.1.5/results/confirm3/confirm3.json`). WS-MAC T2, the MLX
+build on its 1,081 completed scenarios, family rate streamed over the MLX build's own rows there:
+1 error among 666 accepted (0.209%
+weighted, 95% upper bound 0.71%); Ekbasis-27B bf16 on the same scenarios, confirm-3's whole
+fresh stream: 5 among 686 (0.604%
+weighted) (`results_skopos/certified_carryover/published_t2_summary.json`, the file behind `docs/VERIFY.md`'s MLX numbers,
+which quote the raw rates). The check's analysis code recomputes both T2 rows from T2's own answers
+exactly (units, accepted, errors, weighted rate, upper bound): the last two rows
+of the table.
+
+Criteria (pre-registered, on all scenarios): C2 (L2: weighted
 error among accepted ≤ 2% and no node significantly above) **holds**; C2+ (and the raw 95%
 upper bound ≤ 2%) **holds**; C1 (L1, α = 2%: 4 errors among
 539 accepted) **holds**. Paired with Ekbasis-27B on the same 2,781 questions, Skopos INT4
