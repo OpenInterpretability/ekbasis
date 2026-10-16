@@ -13,7 +13,7 @@ calibration fit per build followed under an addendum registered before they ran
 ([prereg_skopos/PREREG_ADDENDUM.md](prereg_skopos/PREREG_ADDENDUM.md)). Every pre-registration's hash is in
 [prereg_skopos/PREREG_sha256.txt](prereg_skopos/PREREG_sha256.txt); the times are those of our seal log, a local file
 without an external timestamp (deviation 11). All results are reported, favourable or not; every prediction is in
-[`results_skopos/runs/`](results_skopos/README.md), except the quantized builds' answers on the fresh `ftest` items
+[`results_skopos/runs/`](results_skopos/README.md) (addendum A7's and the Jev comparison's in `results_skopos/a7/` and `results_skopos/jev_comparison/`), except the quantized builds' answers on the fresh `ftest` items
 (summaries only; deviation 8), and `results_skopos/scripts/verify_summaries.py` recomputes the summaries from them.
 Every table on a set where the overlap audit flags items says whether its numbers are on all items or without the
 flagged ones. Deviations from the pre-registrations are listed at the end.
@@ -323,6 +323,62 @@ One global temperature per build, fitted on validation only (`fval_git3` + `m3va
 
 Without the items the overlap audit flags (see the overlap section); the last column, all items, before that exclusion (`results_skopos/calib_fit_*.json`). Per split, and what a raw yes-probability becomes calibrated: the same files (`map_binary`).
 
+## Confident errors with every option's probability, INT4 against INT4 (addendum A7)
+
+Registered in [prereg_skopos/PREREG_ADDENDUM.md](prereg_skopos/PREREG_ADDENDUM.md) A7, after the independent review
+and before any A7 request: the 15,008 items of the confident-errors test, one prompt per question, every
+option's probability saved, through each build's own server: Skopos INT4 and Ekbasis-27B INT4, the build the hosted API
+served until the switch. "Calibrated" is each build's `calibrated` field (T = 1.67 for Skopos INT4, 1.55 for
+Ekbasis-27B INT4); a monotone transform, so the answer, and accuracy, are the same raw and calibrated, and only the
+confidence moves. Paired bootstrap, 2,000 resamples, seed 20261015 (`results_skopos/a7/ce_a7.json`, from
+`results_skopos/a7/a7_analyze.py` on the per-item files `results_skopos/a7/ce_a7_*.jsonl`). A7 fixes no criterion: it
+decides only what the card and the scorecard may say. All items, Skopos INT4 / Ekbasis-27B INT4 (difference, 95% CI):
+
+| Group | n | Accuracy: Skopos / Ekbasis-27B (difference, 95% CI) | Wrong at ≥ 0.9 per 100, raw | Wrong at ≥ 0.9 per 100, calibrated | ECE, raw | ECE, calibrated |
+|---|---|---|---|---|---|---|
+| Trained families | 7,172 | 96.21 / 95.38 (+0.82 [+0.39, +1.25]) | 1.81 / 1.97 (−0.15 [−0.49, +0.17]) | 0.63 / 0.79 (−0.17 [−0.36, +0.01]) | 0.021 / 0.023 (−0.001 [−0.006, +0.003]) | 0.011 / 0.016 (−0.005 [−0.009, −0.001]) |
+| … answers the actions change | 2,940 | 93.81 / 92.28 (+1.53 [+0.71, +2.35]) | 2.89 / 3.44 (−0.54 [−1.22, +0.10]) | 1.16 / 1.33 (−0.17 [−0.54, +0.20]) | 0.039 / 0.043 (−0.005 [−0.013, +0.003]) | 0.014 / 0.026 (−0.012 [−0.020, −0.004]) |
+| Trained families, held-out question types | 2,472 | 90.49 / 87.14 (+3.36 [+2.27, +4.53]) | 3.56 / 3.84 (−0.28 [−1.09, +0.57]) | 0.81 / 1.21 (−0.40 [−0.89, +0.04]) | 0.049 / 0.058 (−0.009 [−0.021, +0.001]) | 0.022 / 0.044 (−0.022 [−0.032, −0.007]) |
+| … answers the actions change | 1,106 | 89.06 / 84.99 (+4.07 [+2.08, +5.97]) | 4.16 / 4.70 (−0.54 [−1.81, +0.72]) | 0.81 / 1.36 (−0.54 [−1.36, +0.18]) | 0.054 / 0.059 (−0.005 [−0.028, +0.009]) | 0.035 / 0.051 (−0.016 [−0.035, +0.006]) |
+| **Never-trained families** | 5,364 | 85.35 / 85.22 (+0.13 [−0.52, +0.78]) | 4.75 / 3.65 (+1.10 [+0.65, +1.57]) | 1.62 / 1.10 (+0.52 [+0.26, +0.78]) | 0.075 / 0.060 (+0.015 [+0.009, +0.022]) | 0.021 / 0.022 (−0.001 [−0.008, +0.007]) |
+| … answers the actions change | 2,700 | 84.56 / 84.93 (−0.37 [−1.33, +0.56]) | 4.81 / 3.19 (+1.63 [+0.96, +2.30]) | 1.85 / 0.89 (+0.96 [+0.56, +1.41]) | 0.073 / 0.051 (+0.022 [+0.012, +0.032]) | 0.013 / 0.028 (−0.015 [−0.025, −0.001]) |
+
+Without the items the overlap audit flags (sensitivity, as in A2):
+
+| Group | n | Accuracy: Skopos / Ekbasis-27B (difference, 95% CI) | Wrong at ≥ 0.9 per 100, raw | Wrong at ≥ 0.9 per 100, calibrated | ECE, raw | ECE, calibrated |
+|---|---|---|---|---|---|---|
+| Trained families | 3,019 | 97.48 / 96.79 (+0.70 [+0.07, +1.26]) | 1.09 / 1.32 (−0.23 [−0.70, +0.26]) | 0.30 / 0.56 (−0.26 [−0.56, +0.00]) | 0.014 / 0.017 (−0.003 [−0.008, +0.003]) | 0.013 / 0.017 (−0.004 [−0.010, +0.001]) |
+| … answers the actions change | 1,131 | 95.93 / 95.14 (+0.80 [−0.35, +1.95]) | 1.59 / 2.03 (−0.44 [−1.41, +0.62]) | 0.53 / 0.88 (−0.35 [−0.97, +0.27]) | 0.027 / 0.027 (+0.000 [−0.011, +0.011]) | 0.020 / 0.027 (−0.007 [−0.017, +0.005]) |
+| Trained families, held-out question types | 1,244 | 88.42 / 84.89 (+3.54 [+1.85, +5.31]) | 4.26 / 4.66 (−0.40 [−1.69, +0.88]) | 0.96 / 1.61 (−0.64 [−1.37, +0.08]) | 0.063 / 0.075 (−0.012 [−0.028, +0.005]) | 0.030 / 0.041 (−0.011 [−0.026, +0.010]) |
+| … answers the actions change | 627 | 87.56 / 83.89 (+3.67 [+1.12, +6.22]) | 5.26 / 5.90 (−0.64 [−2.39, +1.28]) | 1.44 / 1.91 (−0.48 [−1.75, +0.80]) | 0.073 / 0.082 (−0.009 [−0.033, +0.015]) | 0.039 / 0.039 (+0.000 [−0.032, +0.021]) |
+| **Never-trained families** | 5,364 | 85.35 / 85.22 (+0.13 [−0.52, +0.78]) | 4.75 / 3.65 (+1.10 [+0.65, +1.57]) | 1.62 / 1.10 (+0.52 [+0.26, +0.78]) | 0.075 / 0.060 (+0.015 [+0.009, +0.022]) | 0.021 / 0.022 (−0.001 [−0.008, +0.007]) |
+| … answers the actions change | 2,700 | 84.56 / 84.93 (−0.37 [−1.33, +0.56]) | 4.81 / 3.19 (+1.63 [+0.96, +2.30]) | 1.85 / 0.89 (+0.96 [+0.56, +1.41]) | 0.073 / 0.051 (+0.022 [+0.012, +0.032]) | 0.013 / 0.028 (−0.015 [−0.025, −0.001]) |
+
+The prediction of A7, each piece judged on its paired interval ("lowers", "fewer", "more": the interval entirely on that side of zero; "at or below": its lower end at or below zero):
+
+| Piece | Measured as | All items | Without the items the overlap audit flags |
+|---|---|---|---|
+| calibrated lowers confident errors in U, Skopos | wrong at ≥ 0.9 per 100, calibrated − raw | **held**: −3.13 [−3.60, −2.65] | **held**: −3.13 [−3.60, −2.65] |
+| calibrated lowers confident errors in U, Ekbasis-27B | wrong at ≥ 0.9 per 100, calibrated − raw | **held**: −2.55 [−2.96, −2.13] | **held**: −2.55 [−2.96, −2.13] |
+| Skopos calibrated at or below Ekbasis-27B raw in U | wrong at ≥ 0.9 per 100, Skopos calibrated − Ekbasis-27B raw | **held**: −2.03 [−2.48, −1.58] | **held**: −2.03 [−2.48, −1.58] |
+| fewer errors in T (Skopos INT4 vs Ekbasis-27B INT4) | accuracy, Skopos − Ekbasis-27B (points; above 0 = fewer errors) | **held**: +0.82 [+0.39, +1.25] | **held**: +0.70 [+0.07, +1.26] |
+| fewer errors in H (Skopos INT4 vs Ekbasis-27B INT4) | accuracy, Skopos − Ekbasis-27B (points; above 0 = fewer errors) | **held**: +3.36 [+2.27, +4.53] | **held**: +3.54 [+1.85, +5.31] |
+| more confident errors in U (raw) | wrong at ≥ 0.9 per 100, raw, Skopos − Ekbasis-27B | **held**: +1.10 [+0.65, +1.57] | **held**: +1.10 [+0.65, +1.57] |
+
+On all items, the prediction holds in every piece.
+
+Without the flagged items, the prediction holds in every piece.
+
+The prediction compares Skopos calibrated with Ekbasis-27B raw. With both calibrated, in the never-trained families Skopos INT4 is wrong at confidence ≥ 0.9 on 1.62 per 100 answers against 1.10 (+0.52 [+0.26, +0.78]); its calibrated ECE there is level: 0.021 against 0.022 (−0.001 [−0.008, +0.007]).
+
+**Not run.** A7 on Skopos bf16 was not run. A bf16 run during the phase A battery was stopped because it shared the GPU (124 items in 12 min; [DEVIATIONS_RUN.md](results_skopos/prelaunch/DEVIATIONS_RUN.md)). After the battery, the two INT4 builds ran first (they back the hosted API's scorecard and the switch made on 2026-10-16), and the evaluation machine was then retired by the owner's decision before a bf16 run. The pre-registered bf16 = A2 consistency check therefore did not run; for information, each INT4 build gives its own bf16's A2 answer on 97.6% (Skopos) and 97.2% (Ekbasis-27B) of items.
+
+The counts: Skopos INT4 against Skopos bf16 (A2's run): 14,654 of 15,008; Ekbasis-27B INT4 against Ekbasis-27B bf16 (its published run): 14,589 of 15,008.
+
+How it ran:
+
+- Both INT4 builds served alone on the RTX PRO 6000 after the production swap, with each folder's serve_vllm.sh + serve.py: Ekbasis-Skopos-27B-INT4 from /root/Skopos-R4-27B-INT4 (the release-read folder), Ekbasis-27B-INT4 from /root/Ekbasis-27B-INT4; 2026-10-16 14:35-15:08 UTC; 15,008 items each, 0 errors (scripts_main/ce_probs.py; log addendum/a7/a7_int4.log).
+
 ## Neutral ground: real agent turns
 
 [AgentWorldBench](https://huggingface.co/datasets/Qwen/AgentWorldBench) (Qwen, Apache-2.0): real turns of agents
@@ -425,6 +481,83 @@ Both INT4 builds served the same way on the same RTX PRO 6000 (vLLM and `serve.p
 | One at a time: median / 90th percentile | 0.064 s / 0.068 s | 0.064 s / 0.068 s |
 | 16 in parallel: requests per second | 19.0 | 19.0 |
 | Input tokens per request: mean / median | 302 / 299 | 302 / 299 |
+
+## Against a general-purpose calibrated evaluator (Jev; not pre-registered, measured 2026-10-16)
+
+Jev is TypeSafe AI's System One evaluation model (`typesafe-ai/jev`, Vercel AI Gateway, zero data retention; `ai@7.0.120 experimental_evaluate`). It was run zero-shot on the items
+Ekbasis is published on, the release protocol and the five suites of the hosted scorecard, and put next to the per-item
+predictions Ekbasis-27B and Skopos published for the same items (not re-run). Each question went to Jev in two wordings:
+Ekbasis' own, and one rewritten in the style of TypeSafe's documentation; the headline row (★) of each set is the better
+of the two by a rule fixed before scoring (accuracy; AUROC of P(lost) on the guard sets), which favours Jev slightly.
+This compares Jev out of the box with models trained for the task; it does not measure what Jev could do after
+adaptation. The package, with every per-item answer and its own method and results:
+[`results_skopos/jev_comparison/`](results_skopos/jev_comparison/METHOD.md) (`python3 -I scripts/recompute.py`
+reproduces `results.json` from it).
+
+**Release protocol, git v3** (accuracy, all question types):
+
+| System | Known (1,482) | Held-out (1,623) | All (3,105) | Mean confidence, all |
+|---|---|---|---|---|
+| Jev, Ekbasis' question | 89.7% | 88.0% | 88.8% | 0.852 |
+| Jev, Jev-style question ★ | 90.4% | 89.5% | 90.0% | 0.839 |
+| Ekbasis-27B (bf16) | 98.1% | 95.3% | 96.6% | 0.990 |
+| Ekbasis-27B INT4 | 98.0% | 95.0% | 96.4% | 0.989 |
+| Skopos (bf16) | 98.6% | 95.4% | 96.9% | 0.992 |
+| Skopos INT4 | 98.4% | 95.3% | 96.8% | 0.992 |
+
+**The guard, larger set, known command types** ("lost" questions: 863 work-losing, 863 safe). The last column holds each system at the false-alarm rate Ekbasis-27B has at 0.2 (4.3%):
+
+| System | AUROC of P(lost) | Work-losing flagged at 0.2 | False alarms at 0.2 | Work-losing caught at the matched false-alarm rate |
+|---|---|---|---|---|
+| Jev, Ekbasis' question ★ | 0.879 | 860 of 863 | 733 of 863 | 45.3% (threshold 0.760) |
+| Jev, Jev-style question | 0.853 | 863 of 863 | 796 of 863 | 33.6% (threshold 0.780) |
+| Ekbasis-27B (bf16) | 0.982 | 828 of 863 | 37 of 863 | 95.9% (threshold 0.212) |
+| Skopos (bf16) | 0.992 | 837 of 863 | 27 of 863 | 97.3% (threshold 0.060) |
+| Skopos INT4 | 0.992 | 836 of 863 | 25 of 863 | 97.3% (threshold 0.064) |
+
+**The guard, larger set, held-out command types** ("lost" questions: 799 work-losing, 799 safe). The last column holds each system at the false-alarm rate Ekbasis-27B has at 0.2 (6.1%):
+
+| System | AUROC of P(lost) | Work-losing flagged at 0.2 | False alarms at 0.2 | Work-losing caught at the matched false-alarm rate |
+|---|---|---|---|---|
+| Jev, Ekbasis' question ★ | 0.871 | 799 of 799 | 748 of 799 | 43.7% (threshold 0.720) |
+| Jev, Jev-style question | 0.821 | 799 of 799 | 784 of 799 | 32.4% (threshold 0.730) |
+| Ekbasis-27B (bf16) | 0.985 | 767 of 799 | 49 of 799 | 96.2% (threshold 0.173) |
+| Skopos (bf16) | 0.993 | 776 of 799 | 26 of 799 | 98.7% (threshold 0.042) |
+| Skopos INT4 | 0.993 | 778 of 799 | 25 of 799 | 98.9% (threshold 0.045) |
+
+**The hosted scorecard's suites** (as `scorecard/scorecard.py` builds them; accuracy · wrong at confidence ≥ 0.9 per 100):
+
+| Suite | Jev, Ekbasis' question | Jev, Jev-style question | Ekbasis-27B INT4 | Skopos INT4 | Ekbasis-27B (bf16) | Skopos (bf16) | Ekbasis, hosted API (the 2026-10-11 intent_check replay) |
+|---|---|---|---|---|---|---|---|
+| `git3_known` (400) | 90.00% · 0.75 | 91.50% · 0.50 ★ | 97.75% · 2.25 | 98.25% · 1.25 | 97.75% · 2.00 | 98.25% · 1.50 | — |
+| `git3_held` (400) | 89.75% · 0.25 | 92.00% · 0.25 ★ | 95.50% · 3.75 | 95.25% · 3.75 | 95.75% · 4.00 | 95.00% · 4.25 | — |
+| `guard_held` (400) | 74.50% · 0.00 ★ | 73.75% · 0.00 | — | 86.75% · 10.75 | 83.25% · 14.50 | 87.25% · 9.75 | — |
+| `worlds` (400) | 74.75% · 0.75 ★ | 73.50% · 0.00 | 83.50% · 4.75 | 83.75% · 7.50 | 84.00% · 4.00 | 83.50% · 8.00 | — |
+| `intent` (300) | 100.00% · 0.00 ★ | 100.00% · 0.00 | — | — | — | — | 100.00% · 0.00 |
+
+**Cost per million checks** (Jev: measured input tokens of the headline variant at US$0.042 per million input tokens; Ekbasis: estimated input tokens at its hosted price, US$0.30; output is free for both; prices and the estimate as in the package's RESULTS.md and METHOD.md):
+
+| Set | Jev: tokens per check · US$ per 1M checks | Ekbasis: tokens per check (estimate) · US$ per 1M checks |
+|---|---|---|
+| release `git3_test_known` | 522.1 · 21.93 | 298.9 · 89.66 |
+| release `git3_test_held` | 526.2 · 22.10 | 302.4 · 90.73 |
+| release `guard_known` | 494.1 · 20.75 | 317.2 · 95.16 |
+| release `guard_held` | 499.2 · 20.97 | 321.7 · 96.52 |
+| scorecard `git3_known` | 523.4 · 21.98 | 299.8 · 89.94 |
+| scorecard `git3_held` | 526.7 · 22.12 | 302.6 · 90.78 |
+| scorecard `guard_held` | 475.9 · 19.99 | 299.1 · 89.73 |
+| scorecard `worlds` | 443.4 · 18.62 | 248.7 · 74.60 |
+| scorecard `intent` | 1256.4 · 52.77 | 1084.7 · 325.40 |
+
+**Where Jev is strong.** It makes very few confident errors: wrong at confidence ≥ 0.9, 0.00 to
+0.75 per 100 answers on the scorecard suites, against 1.25 to 14.50 for the Ekbasis
+builds. That comes from probabilities compressed toward the middle (mean confidence on git v3
+0.852 and 0.839,
+against 0.989
+or more for the Ekbasis builds), which also costs it accuracy and separation: on the guard, at 0.2, it flags
+860 of 863 work-losing commands and 733 of 863 safe ones
+(known types). It is cheaper per check
+(the table above) and needs no training for the task. Ekbasis is more accurate on every set here, except `intent` (where Jev ties or leads); on the guard it separates work-losing from safe commands better (AUROC).
 
 ## Overlap with the training data
 

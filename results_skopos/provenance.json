@@ -1,4 +1,28 @@
 {
+ "a7/a7_analyze.py": {
+  "sha256": "3126b9f117556dc57384036970a0a24d32215be62c119affc390a406b935d21d",
+  "source": "the release workspace prelaunch/A7/a7_analyze.py"
+ },
+ "a7/a7_int4.log": {
+  "sha256": "423f08229e02975267b3c05fba150336ccf8636f67e800064dc397819274dbe3",
+  "source": "the release workspace addendum/a7/a7_int4.log"
+ },
+ "a7/ce_a7.json": {
+  "sha256": "f8fe06fd4ae7f592039fb953e7b35fcb35f289ed08e2b6fd995a01fc6d2bde6c",
+  "source": "the release workspace results/ce_a7.json"
+ },
+ "a7/ce_a7_ekbasis_int4.jsonl": {
+  "sha256": "f3d49aa72f75b6fa795c8ccb469fe12aaa5e3e3967404456ef712313f5caf726",
+  "source": "the release workspace addendum/a7/ce_a7_ekbasis_int4.jsonl"
+ },
+ "a7/ce_a7_skopos_int4.jsonl": {
+  "sha256": "b512aac7714a6d09ee79d303471bc396643bc4ea961a0d300cc7c59e3d182edd",
+  "source": "the release workspace addendum/a7/ce_a7_skopos_int4.jsonl"
+ },
+ "a7/ce_probs.py": {
+  "sha256": "9c6f858f08654c7888a8969d36313a174db342c73dab1795de6503aa365e7214",
+  "source": "the release workspace scripts_main/ce_probs.py"
+ },
  "builds.json": {
   "sha256": "363aa1c6e536677782c3874a2b39e4c46ee4b3e3971b7e00fa97d706b2dba01d",
   "source": "the model repositories' file sizes (tools/build_sizes.py)"
@@ -339,6 +363,102 @@
   "as_run_copy": "rtx/v50p/image_compare.json",
   "sha256": "06b7a2ddea7ffb5f9c6a12f8f5da0c2faacef93462bc3bb616a50fc54cb9bdfa",
   "source": "release workspace results/image_compare.json"
+ },
+ "jev_comparison/METHOD.md": {
+  "sha256": "29ded2e54376143ab55865dc16351ef94f6ebd17e530261562f3a4f328b96ed4",
+  "source": "the release workspace results/jev_comparison/METHOD.md"
+ },
+ "jev_comparison/RESULTS.md": {
+  "sha256": "e1363f6dd4d7c027a83af9faa4b9440a37ac7f25592506fe9f6d15575dc1cc09",
+  "source": "the release workspace results/jev_comparison/RESULTS.md"
+ },
+ "jev_comparison/SHA256SUMS": {
+  "sha256": "7e77937401e53e03e93891b2754e992e1517ba1e55f52b48011f55913c4cf77d",
+  "source": "the release workspace results/jev_comparison/SHA256SUMS"
+ },
+ "jev_comparison/ekbasis_tokens_estimate.json": {
+  "sha256": "5bbdca04babc5bea9a17ce8fe0f1ca40aa504f748a4ff83c3abbe5dc77da534f",
+  "source": "the release workspace results/jev_comparison/ekbasis_tokens_estimate.json"
+ },
+ "jev_comparison/items.jsonl": {
+  "sha256": "9d05a2569101af1c268d841e4092a52efd18aad0dc1f755feec7481bbb52c4ad",
+  "source": "the release workspace results/jev_comparison/items.jsonl"
+ },
+ "jev_comparison/preds/jev_A.jsonl": {
+  "sha256": "820a4b6803ebc8dd9d47e21b25b71343d899cc334a593f96f24fc8da795c4131",
+  "source": "the release workspace results/jev_comparison/preds/jev_A.jsonl"
+ },
+ "jev_comparison/preds/jev_B.jsonl": {
+  "sha256": "7e5f40effd167277107ca3f0e32891c3fa299a8132e7d8ef350040cba4e76818",
+  "source": "the release workspace results/jev_comparison/preds/jev_B.jsonl"
+ },
+ "jev_comparison/results.json": {
+  "sha256": "00299b4ad6ce2f94a0e3d1a55f78940378e8ddba84da4755996ff1bee87bfb24",
+  "source": "the release workspace results/jev_comparison/results.json"
+ },
+ "jev_comparison/sanity.json": {
+  "sha256": "d0af03b33e0a6d94de769c46ec154fb587452790b10e64055f307f464a43362e",
+  "source": "the release workspace results/jev_comparison/sanity.json"
+ },
+ "jev_comparison/sanity/order_test.jsonl": {
+  "sha256": "c74685b19f1e9130d5ccc552420e6e43f417f53c1ab31ac7f7416082dd4e7f5d",
+  "source": "the release workspace results/jev_comparison/sanity/order_test.jsonl"
+ },
+ "jev_comparison/sanity/sanity10.jsonl": {
+  "sha256": "13af32b9b6d3af92d5450edf6eeb01f0534f6ba436559630592cb4a4860b0b84",
+  "source": "the release workspace results/jev_comparison/sanity/sanity10.jsonl"
+ },
+ "jev_comparison/sanity/state_test.jsonl": {
+  "sha256": "3a1bbf52f68a8da7fd19e434f832767fdd2e22d7dacf0735417da085eed59a7f",
+  "source": "the release workspace results/jev_comparison/sanity/state_test.jsonl"
+ },
+ "jev_comparison/scripts/add_release_flags.py": {
+  "sha256": "b2c8078656616b7b9dab3b6f0bd68d86939c373fe37a6209e1530bf98ee7744c",
+  "source": "the release workspace results/jev_comparison/scripts/add_release_flags.py"
+ },
+ "jev_comparison/scripts/analyze_full.py": {
+  "sha256": "3b56b31d6b598c2a3b524b671f624daa0bdf390a9e27f572d8e655d203e7d941",
+  "source": "the release workspace results/jev_comparison/scripts/analyze_full.py"
+ },
+ "jev_comparison/scripts/ekbasis_tokens_full.py": {
+  "sha256": "e842f71d29284f55d639d175ce1724e974c1b9ecdf7b68adbe503166fa3478bf",
+  "source": "the release workspace results/jev_comparison/scripts/ekbasis_tokens_full.py"
+ },
+ "jev_comparison/scripts/package-lock.json": {
+  "sha256": "9171ee48080c52a7908a1e41864454b4eb3fe56ac4bbb867df38e8856929f304",
+  "source": "the release workspace results/jev_comparison/scripts/package-lock.json"
+ },
+ "jev_comparison/scripts/package.json": {
+  "sha256": "d158d105bfd56808846dfa5053f504726c062c7791888a913eff20b26bca5c6c",
+  "source": "the release workspace results/jev_comparison/scripts/package.json"
+ },
+ "jev_comparison/scripts/prep.py": {
+  "sha256": "d35fb00c8cc237bb0fcbdfdd38e8114aaacb630ccb8cd25a50afa53521d9ea0c",
+  "source": "the release workspace results/jev_comparison/scripts/prep.py"
+ },
+ "jev_comparison/scripts/prep_adapted.py": {
+  "sha256": "78d75bf92e78b03964f35376b908dcf34e728400021b06fde74727ec2f4fba53",
+  "source": "the release workspace results/jev_comparison/scripts/prep_adapted.py"
+ },
+ "jev_comparison/scripts/prep_full.py": {
+  "sha256": "698b0b82fe11acbaea781136c87833a2dde56e1ce689ebd3f9e7a5c25d410d40",
+  "source": "the release workspace results/jev_comparison/scripts/prep_full.py"
+ },
+ "jev_comparison/scripts/recompute.py": {
+  "sha256": "04443e5ab6432852922a5cbbc3bede5963990d126a00f9f51f7615419d458514",
+  "source": "the release workspace results/jev_comparison/scripts/recompute.py"
+ },
+ "jev_comparison/scripts/run_jev.mjs": {
+  "sha256": "ff974e28001967549b74e47a52144f449829ae3c3fbc91547f316412ebffbf6a",
+  "source": "the release workspace results/jev_comparison/scripts/run_jev.mjs"
+ },
+ "jev_comparison/scripts/sanity.py": {
+  "sha256": "55166cde56dd7f6eb92a1d5243f744b867caa031b4d2196280834693022e8795",
+  "source": "the release workspace results/jev_comparison/scripts/sanity.py"
+ },
+ "jev_comparison/sets.json": {
+  "sha256": "ced5c6f6a20db0fe2f58b4ba0a0d761732b2e911234af045abebf51ac0b84f30",
+  "source": "the release workspace results/jev_comparison/sets.json"
  },
  "latency_ekbasis_int4.json": {
   "sha256": "79df6c4d2f7a3a261dd3e71517a70c3caec9fcd39feb6da880a86d475d94057d",
