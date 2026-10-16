@@ -385,13 +385,15 @@ class TestSurfaces(unittest.TestCase):
         self.assertEqual(r["permissionDecision"], "ask")
         self.assertIn("could not foresee", r["permissionDecisionReason"])
         self.assertNotIn("Safer", r["permissionDecisionReason"])
-        # the original is answered, the search runs out of time: the warning goes out without a route
+        # the original is answered, the search runs out of time: the warning goes out without a route. The deadline
+        # leaves the original check (which runs git) a few seconds: with 1 s it ran out under CPU load, and the hook
+        # then rightly said it could not foresee; every search request outlasts the deadline.
         slow = Fake(lost=lambda c: 0.99 if c == ["git reset --hard"] else 0.01)
         orig_ask = slow.ask
-        slow.ask = lambda state, q, **k: (time.sleep(2) if commands_of(state) != ["git reset --hard"] else None) or \
+        slow.ask = lambda state, q, **k: (time.sleep(30) if commands_of(state) != ["git reset --hard"] else None) or \
             orig_ask(state, q, **k)
         self.fake = slow
-        r = self.run_hook("git reset --hard", env={"EKBASIS_HOOK_DEADLINE": "1"})
+        r = self.run_hook("git reset --hard", env={"EKBASIS_HOOK_DEADLINE": "5"})
         self.assertEqual(r["permissionDecision"], "ask")
         self.assertIn("may permanently lose uncommitted work", r["permissionDecisionReason"])
         self.assertNotIn("Safer", r["permissionDecisionReason"])
