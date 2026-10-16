@@ -5,7 +5,7 @@ pointed at your copy of the dataset in a temporary copy of the script), and comp
     python3 verify_summaries.py <dir with the dataset's raw/ files> [--awb <awb_neutral.jsonl rebuilt>]
 The raw files read: git3_test_known, git3_test_held, multi_test_testfam, multi_test_trainfam, ftest_family,
 gold0_ftest_family, guard_known, guard_held, ftest_fresh (ekbasis-skopos-data, raw/). The neutral suite's analysis
-clusters by trajectory, and 10 of its 455 rows are withheld from runs/neutral_items.jsonl (as in the dataset): it is
+clusters by trajectory, and the rows the dataset withholds are withheld from runs/neutral_items.jsonl too: it is
 recomputed only with the full suite, rebuilt from Qwen/AgentWorldBench by generators/v50/build_awb_neutral.py (--awb);
 the other analyses read only each row's label, which the per-item predictions carry."""
 import json
@@ -75,7 +75,9 @@ if AWB:
                                              f"r4={W}/neutral_r4/preds_awb_neutral_floor.jsonl"]))
     checks.append(("neutral.json (without AgentWorld)", W / "neutral.out.json"))
 else:
-    print("skipped  neutral.json: needs the full suite (--awb), 10 of its rows are withheld here")
+    n_pub = sum(1 for _ in open(W / "neutral_items.jsonl"))
+    n_all = sum(1 for _ in open(W / "neutral_base" / "preds_awb_neutral_floor.jsonl"))
+    print(f"skipped  neutral.json: needs the full suite (--awb); {n_all - n_pub} of its {n_all} rows are withheld here")
 cmp = with_fac("compare_release.py")
 for b, f in (("release_r4", "release_read_bf16.json"), ("release_r4_int4", "release_read_int4.json"),
              ("release_r4_fp8", "release_read_fp8.json")):
