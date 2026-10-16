@@ -102,7 +102,8 @@ multi-token-prediction layer stay in bf16. INT4 is calibrated on 256 items of R4
 - **The first Skopos** was built on the training machine with `wise_lora.py` (as the V49 runner built every λ = 0.5
   candidate: `wise_lora.py <w4a5> <v49f/ckpt_900> 0.5 <out>`) and merged with `merge_lora_v45.py`, the merge tool its
   hand-off names; the merge log was not kept. R4 started from the merged weights as uploaded then (revision
-  `1e48ae09a3`), an unreleased intermediate checkpoint, archived privately and reproducible with this folder.
+  `1e48ae09a3`), an unreleased intermediate checkpoint, archived privately, which this folder retrains approximately
+  (see [What will differ in a rerun](#what-will-differ-in-a-rerun)).
 
 **Deviations.**
 - **v49f's memory restart.** v49f was registered to run `train_conseq_v47.py` at batch 8. It ran out of GPU memory at
